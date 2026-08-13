@@ -1,4 +1,4 @@
-import { RIM } from './topology.js';
+import { RIM } from "@/engine/topology"
 
 /**
  * The ten opening positions, drawn rather than listed.
@@ -16,14 +16,20 @@ import { RIM } from './topology.js';
  * picture rather than as a number that looks like every other number.
  */
 
-const BLACK = 'b';
-const WHITE = 'w';
+/** An opening, as the two sides' axial coordinates. */
+export type BoardSetup = {
+  black: [number, number][]
+  white: [number, number][]
+}
 
-const ROWS = 2 * RIM + 1;
+const BLACK = "b"
+const WHITE = "w"
+
+const ROWS = 2 * RIM + 1
 
 /** The lowest q on row `r`; the row then runs for `rowWidth(r)` squares. */
-const rowStart = (r) => Math.max(-RIM, -RIM - r);
-const rowWidth = (r) => ROWS - Math.abs(r);
+const rowStart = (r: number) => Math.max(-RIM, -RIM - r)
+const rowWidth = (r: number) => ROWS - Math.abs(r)
 
 /**
  * Turns a drawing into the two sides' squares, row by row and left to right.
@@ -32,31 +38,35 @@ const rowWidth = (r) => ROWS - Math.abs(r);
  * silently shifts every marble after it along its row, which is exactly the
  * kind of mistake that would otherwise reach the board looking plausible.
  */
-function read(art) {
-  const lines = art.trim().split('\n');
+function read(art: string): BoardSetup {
+  const lines = art.trim().split("\n")
   if (lines.length !== ROWS) {
-    throw new Error(`a board is ${ROWS} rows, not ${lines.length}`);
+    throw new Error(`a board is ${ROWS} rows, not ${lines.length}`)
   }
 
-  const black = [];
-  const white = [];
+  const black: [number, number][] = []
+  const white: [number, number][] = []
 
   lines.forEach((line, i) => {
-    const r = i - RIM;
-    const glyphs = line.trim().split(/\s+/);
+    const r = i - RIM
+    const glyphs = line.trim().split(/\s+/)
     if (glyphs.length !== rowWidth(r)) {
-      throw new Error(`row ${r} holds ${rowWidth(r)} squares, not ${glyphs.length}`);
+      throw new Error(
+        `row ${r} holds ${rowWidth(r)} squares, not ${glyphs.length}`,
+      )
     }
     glyphs.forEach((glyph, step) => {
-      if (glyph === BLACK) black.push([r, rowStart(r) + step]);
-      else if (glyph === WHITE) white.push([r, rowStart(r) + step]);
-    });
-  });
+      if (glyph === BLACK) black.push([r, rowStart(r) + step])
+      else if (glyph === WHITE) white.push([r, rowStart(r) + step])
+    })
+  })
 
   if (black.length !== white.length) {
-    throw new Error(`lopsided opening: ${black.length} black against ${white.length} white`);
+    throw new Error(
+      `lopsided opening: ${black.length} black against ${white.length} white`,
+    )
   }
-  return { black, white };
+  return { black, white }
 }
 
 export const BOARD_SETUPS = {
@@ -179,6 +189,9 @@ export const BOARD_SETUPS = {
    . . . . . .
     . . . . .
   `),
-};
+}
 
-export const DEFAULT_SETUP = 'standard';
+/** The key of an opening, which is what a preference stores. */
+export type SetupKey = keyof typeof BOARD_SETUPS
+
+export const DEFAULT_SETUP: SetupKey = "standard"
