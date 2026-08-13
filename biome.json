@@ -64,11 +64,10 @@
       "!!**/*.tgz",
       "!!**/.cursor",
       "!!.claude",
-      "!!src",
-      "!!assets",
-      "!!public",
-      "!!index.html",
-      "!!vite.config.js"
+      "!!apps/game/src",
+      "!!apps/game/assets",
+      "!!apps/game/public",
+      "!!apps/game/index.html"
     ],
     "ignoreUnknown": true
   },
