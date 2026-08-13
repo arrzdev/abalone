@@ -1,0 +1,64 @@
+{
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome",
+    "editor.formatOnSave": true
+  },
+  "typescript.format.enable": false,
+  "javascript.format.enable": false,
+  "prettier.enable": false,
+  "biome.enabled": true,
+  "css.lint.unknownAtRules": "ignore",
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.turbo": true,
+    "**/.tanstack": true,
+    "**/.wrangler": true,
+    "**/.vite": true,
+    "**/.tsbuild": true,
+    "**/*.tsbuildinfo": true,
+    "**/*.gen.ts": true,
+    "**/*.gen.tsx": true,
+    "**/*.gen.js": true,
+    "**/*.gen.jsx": true,
+    "**/*.gen.mjs": true,
+    "**/*.gen.cjs": true,
+    "**/*.generated.ts": true,
+    "**/*.generated.tsx": true,
+    "**/*.generated.js": true,
+    "**/*.generated.jsx": true,
+    "**/__generated__": true
+  },
+  "search.exclude": {
+    "**/.vite": true,
+    "**/.tsbuild": true,
+    "**/*.tsbuildinfo": true,
+    "**/*.gen.ts": true,
+    "**/*.gen.tsx": true,
+    "**/*.gen.js": true,
+    "**/*.gen.jsx": true,
+    "**/*.gen.mjs": true,
+    "**/*.gen.cjs": true,
+    "**/*.generated.ts": true,
+    "**/*.generated.tsx": true,
+    "**/*.generated.js": true,
+    "**/*.generated.jsx": true,
+    "**/__generated__": true
+  }
+}
