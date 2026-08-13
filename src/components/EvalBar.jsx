@@ -25,12 +25,20 @@ import { cn } from '../lib/cn.js';
  */
 
 /**
- * The strip the bar takes, without the bar — pregame's stand-in for it, the same
- * trick `PlayerCardSlot` plays for the cards.
+ * The strip the bar takes, without the bar — what stands in for it everywhere
+ * the bar is not shown, the same trick `PlayerCardSlot` plays for the cards.
  *
- * The board is bound by height on a desktop, so a bar appearing under it is a
- * board getting smaller. Holding the space through pregame is what keeps the
- * preview the size of the game it previews.
+ * The board is letterboxed into the height its column has left, and on a desktop
+ * that height is what bounds it: a strip appearing under the board is a board
+ * getting smaller and sliding up to meet it. There is nowhere else for the strip
+ * to come from — the slack a letterboxed board leaves is at its sides, not under
+ * it, and the band inside the bottom rim is where the coordinates are written.
+ *
+ * So the space is held whether or not there is a bar in it, and the board is one
+ * size through pregame, in a hot-seat game, and across the settings toggle.
+ *
+ * Beside the board, that is. The caller hides this below `lg`, where the board
+ * is sized from its own width and the bar comes out of the panel instead.
  */
 export function EvalBarSlot({ className }) {
   return <div aria-hidden="true" className={cn('h-5 w-full shrink-0', className)} />;

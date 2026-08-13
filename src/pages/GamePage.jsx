@@ -333,11 +333,31 @@ export function GamePage({ onExit }) {
             />
           </div>
 
-          {/* Under the board, as wide as the board. Not in pregame — that board
-              is a viewer for the starting position, and an evaluation of a game
-              nobody has played is a number about nothing — but its space is held
-              there, or the board would shrink the moment you pressed play. */}
-          {showEvalBar && !isLocal && (isPregame ? <EvalBarSlot /> : <EvalBar score={evalScore} />)}
+          {/* Under the board, as wide as the board — and the strip is here
+              whether or not there is a bar in it.
+
+              A strip that comes and goes is a board that resizes and slides, and
+              it can arrive three ways: pressing play, picking a hot-seat game,
+              or turning the bar on in the settings. None of those is a reason
+              for the board to move, so the column always ends in the strip and
+              the bar is painted into it or it is not. See `EvalBarSlot`.
+
+              Empty in pregame, because that board is a viewer for the starting
+              position and an evaluation of a game nobody has played is a number
+              about nothing. Empty in a hot-seat game, where there is no engine
+              for it to be the opinion of. Empty when the setting is off.
+
+              The empty strip is beside the board only. Below `lg` the board is
+              sized from its own width and the column is stacked, so the bar
+              arriving costs the panel its last row rather than the board any of
+              itself — there is no shift there to hold the space against, and
+              holding it anyway would be a row taken off the move list for a bar
+              that is not being shown. */}
+          {isPregame || isLocal || !showEvalBar ? (
+            <EvalBarSlot className="max-lg:hidden" />
+          ) : (
+            <EvalBar score={evalScore} />
+          )}
         </div>
       </section>
 
