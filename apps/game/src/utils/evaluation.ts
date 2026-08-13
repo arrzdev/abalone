@@ -1,6 +1,8 @@
-import { WINNING_SCORE } from '../engine/config.js';
-import { BLACK, positionFromNames, sideFromName } from '../engine/position.js';
-import { scorePosition } from '../ai/evaluate.js';
+import type { ScoringWeights } from "@/ai/evaluate"
+import { scorePosition } from "@/ai/evaluate"
+import { WINNING_SCORE } from "@/engine/config"
+import type { GameState } from "@/engine/game-state"
+import { positionFromNames, sideFromName } from "@/engine/position"
 
 /**
  * What the evaluation bar reads, from black's point of view: positive favours
@@ -23,7 +25,7 @@ import { scorePosition } from '../ai/evaluate.js';
  * who is winning. These are the strongest profile's priorities, frozen here so
  * that retuning a bot never moves the bar under you.
  */
-const BAR_WEIGHTS = Object.freeze({
+const BAR_WEIGHTS: ScoringWeights = Object.freeze({
   capture: 1,
   centre: 2,
   cohesion: 0.3,
@@ -33,17 +35,17 @@ const BAR_WEIGHTS = Object.freeze({
   charge: 0,
   recklessness: 0,
   loner: 0,
-});
+})
 
 /** Past this, the position is not an advantage but a result. */
-export const DECIDED = WINNING_SCORE;
+export const DECIDED = WINNING_SCORE
 
 /**
  * How many marbles of advantage it takes to fill half the remaining bar. Low
  * enough that the sub-marble margins of the opening are visible, high enough
  * that a real lead still has somewhere to grow.
  */
-const SOFTNESS = 3;
+const SOFTNESS = 3
 
 /**
  * Scores the position a game state is standing in.
@@ -52,19 +54,19 @@ const SOFTNESS = 3;
  * resigned may still have been ahead on the board, and the bar should not argue
  * with the scoreboard.
  *
- * @param {{black: Set<string>, white: Set<string>, currentTurn: string,
- *          gameOver: boolean, winner: string|null}} state
- * @returns {number} black's advantage, in marbles
+ * @returns black's advantage, in marbles
  */
-export function evaluateBoard(state) {
-  if (!state) return 0;
-  if (state.gameOver && state.winner) return state.winner === 'black' ? DECIDED : -DECIDED;
+export function evaluateBoard(state: GameState | null): number {
+  if (!state) return 0
+  if (state.gameOver && state.winner) {
+    return state.winner === "black" ? DECIDED : -DECIDED
+  }
 
   return scorePosition(
     positionFromNames(state.black, state.white),
     sideFromName(state.currentTurn),
     BAR_WEIGHTS,
-  );
+  )
 }
 
 /**
@@ -81,7 +83,10 @@ export function evaluateBoard(state) {
  * Divided through by `tanh(DECIDED/SOFTNESS)` so the ends are exact: a decided
  * game fills the bar rather than stopping two percent short of it.
  */
-export function barFraction(score) {
-  const capped = Math.max(-DECIDED, Math.min(DECIDED, score));
-  return 0.5 + 0.5 * (Math.tanh(capped / SOFTNESS) / Math.tanh(DECIDED / SOFTNESS));
+export function barFraction(score: number): number {
+  const capped = Math.max(-DECIDED, Math.min(DECIDED, score))
+  return (
+    0.5 +
+    0.5 * (Math.tanh(capped / SOFTNESS) / Math.tanh(DECIDED / SOFTNESS))
+  )
 }
