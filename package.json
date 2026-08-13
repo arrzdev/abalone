@@ -14,7 +14,7 @@
     "biome:fix": "biome check . --write --unsafe",
     "biome:check": "biome check .",
     "lint": "pnpm run biome:check",
-    "typecheck": "pnpm exec tsc --build tsconfig.json && pnpm exec tsc --noEmit -p apps/frontend/tsconfig.json && pnpm exec tsc --noEmit -p packages/nativ/tsconfig.json",
+    "typecheck": "pnpm exec tsc --build tsconfig.json && pnpm exec tsc --noEmit -p apps/frontend/tsconfig.json && pnpm exec tsc --noEmit -p apps/game/tsconfig.json && pnpm exec tsc --noEmit -p packages/nativ/tsconfig.json",
     "tail": "turbo run tail --ui=tui",
     "migrate:local": "turbo run migrate:local",
     "test": "turbo run test",
