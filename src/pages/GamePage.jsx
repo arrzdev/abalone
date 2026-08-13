@@ -2,7 +2,6 @@ import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GameCanvas } from '../components/GameCanvas.jsx';
 import { EvalBar, EvalBarSlot } from '../components/EvalBar.jsx';
-import { PlayerCard, PlayerCardSlot } from '../components/PlayerCard.jsx';
 import { PregameControls } from '../components/PregameControls.jsx';
 import { IngameControls } from '../components/IngameControls.jsx';
 import { PostgameControls } from '../components/PostgameControls.jsx';
@@ -12,10 +11,9 @@ import { BoardSettingsModal } from '../components/BoardSettingsModal.jsx';
 import { BotChatter } from '../components/BotChatter.jsx';
 import { SeatBar } from '../components/SeatBar.jsx';
 import { BackIcon, SettingsIcon } from '../components/Icons.jsx';
+import { avatarSrc as botAvatarSrc, getBot, titleKey } from '../i18n/bots.js';
 import { useAbaloneGame } from '../hooks/useAbaloneGame.js';
 import { useBotChatter } from '../hooks/useBotChatter.js';
-import { avatarSrc, titleKey } from '../i18n/bots.js';
-import { getOpponentName } from '../i18n/gameText.js';
 import { TapButton } from '../components/ui/TapButton.jsx';
 import { cn } from '../lib/cn.js';
 
@@ -76,11 +74,10 @@ export function GamePage({ onExit }) {
   /**
    * Black on the left, white on the right, and never the other way round.
    *
-   * The cards used to sit one above the other and swap ends with the board, so
-   * that yours was always the one nearest you. Side by side above the board
-   * there is no near end to be at, and a pair that changed places every half
-   * turn would only be something to keep re-reading. This order is the one the
-   * move list already uses.
+   * The seats used to swap ends with the board so that yours was always the one
+   * nearest you. Side by side on one strip there is no near end to be at, and a
+   * pair that changed places every half turn would only be something to keep
+   * re-reading. This order is the one the move list already uses.
    */
   const seatColors = ['black', 'white'];
 
@@ -93,38 +90,30 @@ export function GamePage({ onExit }) {
     state.currentTurn === aiColor;
 
   /**
-   * Card props for the player of a given colour, in either game mode. The cards
-   * are where the turn indicator lives, so each one is told whether it is this
-   * player's move and whether the wait is on the engine.
+   * Who is sitting at one end of the scoreboard, in either mode.
+   *
+   * A bot brings a name and a face of its own. Everyone else gets the anonymous
+   * head: a hot-seat player is whoever typed a name into the setup panel, and
+   * the person playing the bot is "You" until there are accounts to call them
+   * anything else — which is also where their own picture will come from.
    */
-  const cardFor = (color) => {
-    const isTurn = state.currentTurn === color && !state.gameOver && phase !== 'pregame';
+  const seatFor = (color) => {
     const isBot = !isLocal && color === aiColor;
-    const thinking = isBot && isTurn && !viewingHistory;
+    const bot = getBot(difficulty);
 
-    const common = {
+    return {
       color,
-      marbleDesign,
-      // The card shows what this player has taken off the other, which is their
+      // The seat shows what this player has taken off the other, which is their
       // own score — black's score is the white marbles black has pushed off.
       takenCount: color === 'black' ? state.blackScore : state.whiteScore,
-      active: isTurn,
-      thinking,
+      active: state.currentTurn === color && !state.gameOver && phase !== 'pregame',
+      name: isLocal ? localName(color) : isBot ? bot.name : t('game:players.you'),
+      avatarSrc: isBot ? botAvatarSrc(difficulty) : undefined,
+      title: isBot ? `${bot.name} — ${t(titleKey(difficulty))}` : undefined,
+      // Only ever the bot's: it is the only player whose turn the game spends
+      // waiting on something rather than on somebody.
+      thinking: isBot && botThinking,
     };
-
-    if (isBot) {
-      // No level on the card: you chose it, the panel says it, and a number
-      // pinned to your opponent's name is a scoreline for the game you are
-      // still playing. The title under the pointer keeps it for anyone who
-      // wants it.
-      return {
-        ...common,
-        name: getOpponentName(difficulty),
-        avatarSrc: avatarSrc(difficulty),
-        avatarTitle: `${getOpponentName(difficulty)} — ${t(titleKey(difficulty))}`,
-      };
-    }
-    return { ...common, name: isLocal ? localName(color) : t('game:players.you') };
   };
 
   const resultKind =
@@ -249,17 +238,19 @@ export function GamePage({ onExit }) {
     <div className="flex h-dvh flex-col overflow-hidden select-none lg:h-full lg:flex-row lg:gap-4 lg:p-4">
       {header('lg:hidden')}
 
-      {/* Board column. In pregame this whole column steps aside on a phone: the
-          setup preview belongs under the picker that drives it, so it is
-          rendered inside the panel as a bare board with no cards around it.
-          Beside the board it stays, but as the same bare board — a score of
-          0/6, a turn indicator and an evaluation all describe a game that has
-          not been played yet.
+      {/* Board column: the board, and nothing about the game around it.
+          Everything that used to frame it — who is playing, whose move it is,
+          what either side has taken — is in the panel now, at every width. A
+          column that holds only the board is a column that can give all of
+          itself to the board, and the panel is a fixed 380px that was already
+          carrying this on a phone.
 
-          It keeps their space, though. The board is bound by height here, so
-          dropping the cards would hand their rows to the board and make the
-          preview larger than the game it previews — the board would shrink the
-          moment you pressed play. */}
+          In pregame the whole column steps aside on a phone: the setup preview
+          belongs under the picker that drives it, so it is rendered inside the
+          panel instead. Beside the board it stays, and it is the same board it
+          will be a moment later — the evaluation bar below is the one thing
+          pregame leaves out, and it holds its space rather than handing it over
+          for a preview larger than the game it previews. */}
       <section
         className={cn(
           // Below `lg` it takes the height its content asks for and gives the
@@ -276,8 +267,8 @@ export function GamePage({ onExit }) {
         )}
         aria-label={t('game:board.label')}
       >
-        {/* Cards, board, evaluation bar: one column, everything in it as wide as
-            the board and no wider. The board is letterboxed into whatever this
+        {/* Board and evaluation bar: one column, everything in it as wide as the
+            board and no wider. The board is letterboxed into whatever this
             column has left over, so nothing out here can work its size out from
             the layout — `--board-w` and `--board-h` are how the canvas tells it,
             and everything that has to line up with the board reads them. */}
@@ -288,30 +279,9 @@ export function GamePage({ onExit }) {
             '--board-h': board.height ? `${board.height}px` : '100%',
           }}
         >
-          {/* Both seats, above the board — and only where there is a row to
-              spare for them, which below `lg` there is not.
-
-              On a phone they are gone and the panel says it instead: the bot's
-              own strip carries its name, its spinner and the marbles taken, and
-              a hot-seat game gets `SeatBar`, which is this row flattened onto
-              one line. Either way the board keeps the row, and everything that
-              was in these cards is still on the screen. */}
-          {isPregame ? (
-            <PlayerCardSlot />
-          ) : (
-            <div className="flex w-(--board-w) shrink-0 justify-between gap-2 max-lg:hidden">
-              {seatColors.map((color, i) => (
-                <PlayerCard key={color} {...cardFor(color)} align={i === 0 ? 'left' : 'right'} />
-              ))}
-            </div>
-          )}
-
           {/* The canvas measures this box. Below `lg` it is sized from its own
               width (the canvas is 8:7) rather than from leftover height, and
-              shrinks past that only when the viewport is too short. It used to
-              break out of the column's padding for the last 16px on a phone;
-              the cards frame the board now, and they would have had to break
-              out with it and sit against the bezel to keep doing that. */}
+              shrinks past that only when the viewport is too short. */}
           <div className="flex min-h-0 w-full flex-1 items-center justify-center max-lg:aspect-[8/7] max-lg:max-h-[48vh] max-lg:flex-initial">
             <GameCanvas
               ref={boardRef}
@@ -333,11 +303,31 @@ export function GamePage({ onExit }) {
             />
           </div>
 
-          {/* Under the board, as wide as the board. Not in pregame — that board
-              is a viewer for the starting position, and an evaluation of a game
-              nobody has played is a number about nothing — but its space is held
-              there, or the board would shrink the moment you pressed play. */}
-          {showEvalBar && !isLocal && (isPregame ? <EvalBarSlot /> : <EvalBar score={evalScore} />)}
+          {/* Under the board, as wide as the board — and the strip is here
+              whether or not there is a bar in it.
+
+              A strip that comes and goes is a board that resizes and slides, and
+              it can arrive three ways: pressing play, picking a hot-seat game,
+              or turning the bar on in the settings. None of those is a reason
+              for the board to move, so the column always ends in the strip and
+              the bar is painted into it or it is not. See `EvalBarSlot`.
+
+              Empty in pregame, because that board is a viewer for the starting
+              position and an evaluation of a game nobody has played is a number
+              about nothing. Empty in a hot-seat game, where there is no engine
+              for it to be the opinion of. Empty when the setting is off.
+
+              The empty strip is beside the board only. Below `lg` the board is
+              sized from its own width and the column is stacked, so the bar
+              arriving costs the panel its last row rather than the board any of
+              itself — there is no shift there to hold the space against, and
+              holding it anyway would be a row taken off the move list for a bar
+              that is not being shown. */}
+          {isPregame || isLocal || !showEvalBar ? (
+            <EvalBarSlot className="max-lg:hidden" />
+          ) : (
+            <EvalBar score={evalScore} />
+          )}
         </div>
       </section>
 
@@ -358,24 +348,16 @@ export function GamePage({ onExit }) {
             play and after the result — and so `useCompactPanel` measures what is
             actually left for the move list, which is what decides whether the
             list can stay a list. */}
+        {!isPregame && <SeatBar seats={seatColors.map(seatFor)} marbleDesign={marbleDesign} />}
+
+        {/* Only a bot has anything to say, and it says it under its own end of
+            the card above. */}
         {!isLocal && !isPregame && (
           <BotChatter
             level={difficulty}
             line={chatter.line}
-            // Below `lg` this strip is standing in for the player cards, so it
-            // is told everything they were showing.
-            blackTaken={state.blackScore}
-            whiteTaken={state.whiteScore}
-            marbleDesign={marbleDesign}
-            thinking={botThinking}
+            side={aiColor === seatColors[0] ? 'left' : 'right'}
           />
-        )}
-
-        {/* The same job in a hot-seat game, where there is no bot strip to hand
-            it to. Only below `lg`: above it the cards are back beside the board
-            and this would be the second place saying one thing. */}
-        {isLocal && !isPregame && (
-          <SeatBar seats={seatColors.map(cardFor)} marbleDesign={marbleDesign} className="lg:hidden" />
         )}
 
         {isPregame && (

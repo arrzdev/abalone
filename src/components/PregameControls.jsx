@@ -171,7 +171,7 @@ export function PregameControls({
           </Section>
 
           <Section title={t('game:controls.play_as')}>
-            <ColorChoice value={colorChoice} onChange={onColorChange} />
+            <ColorChoice value={colorChoice} onChange={onColorChange} marbleDesign={marbleDesign} />
           </Section>
         </>
       )}
