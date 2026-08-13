@@ -1,0 +1,14 @@
+// Deploy manifest — the source of truth for WHAT deploys and how it's grouped.
+//
+// An app deploys ONLY if it's listed here (and it must have apps/<name>/wrangler.toml).
+// A "unit" is a group that deploys together, in order, fail-stop (if one fails the
+// rest of the unit skip). A standalone app is just a unit with a single app. Units
+// run in parallel; within a push only *changed* apps in a unit deploy.
+//
+//   Add an app   ->  add a single-app unit, or add it to an existing unit.
+//   Couple apps  ->  list them in one unit, in deploy order (e.g. api before web).
+[
+  { "name": "public", "apps": ["apps/backend", "apps/frontend"] }
+  // e.g. a standalone marketing site:
+  // { "name": "marketing", "apps": ["apps/marketing"] }
+]

@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    # PR CI is decoupled from production config: no `environment:` binding, and
+    # the build no longer runs check:env — so a PR that adds a required env var
+    # passes here without provisioning prod, and forks / any branch run cleanly.
+    # Env PRESENCE is enforced at DEPLOY (.github/scripts/deploy/app.sh runs
+    # check:env with the real secrets+vars → a missing var fails the deploy, not
+    # the PR). The build still bakes a few values (e.g. the frontend's
+    # VITE_BACKEND_URL at prerender), so seed those from the committed
+    # .env.example placeholders — never from prod secrets/vars.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Seed build env from committed examples (placeholders, not prod config)
+        run: |
+          for app in apps/*/; do
+            [ -f "${app}env/.env.example" ] && cp "${app}env/.env.example" "${app}env/.env"
+          done
+
+      - name: Lint
+        run: pnpm lint
+
+      # Build runs before typecheck: it generates the routeTree the frontend typecheck imports.
+      - name: Build
+        run: pnpm exec turbo run build
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm exec turbo run test
+
+  # Agent harness integrity. Python-only, no install, seconds to run.
+  # Both scripts fail on conditions that are otherwise SILENT: a skill whose
+  # frontmatter name doesn't match its directory is never discovered, and a
+  # mistyped routing glob makes the PreToolUse hook quietly stop covering an
+  # area (it fails soft by design). See .claude/skills/README.md.
+  #
+  # DELIBERATELY PR-ONLY — not mirrored into deploy.yml's verify gate, unlike
+  # migration-safety. The usual rule (core-ci-cd: keep the PR gate and the
+  # deploy gate in sync) exists so a direct push to a deploy branch can't ship
+  # a broken artifact. Nothing here ships: `.claude/` is excluded from the
+  # build and from Biome. A broken skill degrades future agent sessions, it
+  # does not degrade production, so blocking a deploy on it would be strictly
+  # worse. Don't "fix" this by adding it to deploy.yml.
+  skills-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Validate skills (frontmatter, cross-refs, routing, tier hygiene)
+        run: python3 .claude/scripts/check-skills.py
+
+      - name: Test hooks (drives the real PreToolUse + Stop hooks)
+        run: python3 .claude/scripts/test-hooks.py
+
+  # Schema/compat safety on PRs. Node-only (no install): the scripts use git +
+  # node builtins. See stack-database-migrations.
+  compat-guard:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # need the merge-base to diff new migrations
+
+      - name: Migration safety (block destructive DDL without an acknowledgment)
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.sha }}
+        run: node .github/scripts/checks/migration-safety.mjs
+
+      - name: Backward-compat cleanup reminder (non-blocking)
+        run: node .github/scripts/checks/compat-markers.mjs
