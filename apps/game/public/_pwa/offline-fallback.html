@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,minimum-scale=1,maximum-scale=1"
+    />
+    <meta name="theme-color" content="#444444" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>Offline — Abalone</title>
+    <link rel="shortcut icon" href="/favicons/favicon.ico" type="image/x-icon" />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+        overflow: hidden;
+        overscroll-behavior: none;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        padding: max(1.5rem, env(safe-area-inset-top)) 1.5rem
+          max(1.5rem, env(safe-area-inset-bottom));
+        background: #444444;
+        color: #ffffff;
+        font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+
+      p {
+        max-width: 22rem;
+        color: #a9b0b7;
+        font-size: 0.875rem;
+        line-height: 1.6;
+      }
+
+      button {
+        appearance: none;
+        border: 0;
+        border-radius: 10px;
+        background: #4c82b6;
+        color: #ffffff;
+        font: inherit;
+        font-weight: 600;
+        padding: 0.75rem 2rem;
+        cursor: pointer;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="/favicons/android-chrome-192.png" alt="" width="72" height="72" />
+    <h1>No connection</h1>
+    <!-- The game itself needs none — this page only shows when the install has
+         not cached a screen yet. Once it has, the board plays offline. -->
+    <p>This screen has not been saved for offline play yet. Reconnect once and it will be.</p>
+    <button type="button" onclick="location.reload()">Try again</button>
+  </body>
+</html>

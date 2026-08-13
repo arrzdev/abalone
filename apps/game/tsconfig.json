@@ -1,30 +1,30 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": [
-    "env/**/*.ts",
-    "scripts/**/*.ts",
-    "ports.ts",
-    "vite.config.ts"
-  ],
+  "include": ["**/*.ts", "**/*.tsx", "src/**/*.css"],
   "references": [
     {
       "path": "../../packages/dev/tsconfig.build.json"
     },
     {
       "path": "../../packages/env-validation/tsconfig.build.json"
+    },
+    {
+      "path": "../../packages/nativ/tsconfig.build.json"
     }
   ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/env/*": ["./env/*"],
-      "@/ports": ["./ports.ts"]
+      "@/ports": ["./ports.ts"],
+      "@/*": ["./src/*"]
     },
     "target": "ES2022",
+    "jsx": "react-jsx",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["vite/client", "@types/node"],
+    "types": ["vite/client", "@cloudflare/workers-types"],
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": false,
     "noEmit": true,

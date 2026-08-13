@@ -1,20 +1,32 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@import "tailwindcss-safe-area";
+@import "@repo/nativ/styles.css";
+@import "./animations.css";
 
 /*
- * Design tokens, exposed as CSS variables and now
- * expressed as Tailwind theme values so they are usable as utilities
- * (bg-surface-2, text-brand, …).
+ * The game is dark, and only dark. nativ's pre-paint script stamps `.light` or
+ * `.dark` on <html> from the saved preference, so every token is declared on
+ * `:root` and neither class overrides it — whichever way the shell resolves, the
+ * board is the same board.
+ *
+ * Two families live here. The game's own names (--brand, --board, --surface-2,
+ * --marble-white …) are what the components have always painted with. The
+ * semantic names below them (--background, --foreground, --primary …) are what
+ * @repo/nativ's primitives paint with, and they are aliases onto the first set —
+ * so a nativ Button or Drawer arrives already wearing the game's colours.
  */
-@theme {
-  --color-ink: #111;
-  --color-surface: #2a2a2a;
-  --color-surface-2: #222;
-  --color-surface-3: #2f2f2f;
-  --color-surface-4: #333;
-  --color-surface-5: #3a3a3a;
-  --color-elevated: #444;
-  --color-elevated-2: #555;
-  --color-elevated-3: #666;
+:root {
+  color-scheme: dark;
+
+  --ink: #111111;
+  --surface: #2a2a2a;
+  --surface-2: #222222;
+  --surface-3: #2f2f2f;
+  --surface-4: #333333;
+  --surface-5: #3a3a3a;
+  --elevated: #444444;
+  --elevated-2: #555555;
+  --elevated-3: #666666;
 
   /*
    * The accent family. Each of these is the green it replaced, rotated onto the
@@ -22,64 +34,109 @@
    * everything built against the old palette keeps the contrast it was drawn
    * with.
    */
-  --color-brand: #4c82b6;
-  --color-brand-hover: #3e70a2;
-  --color-brand-light: #60a4d1;
-  --color-brand-lighter: #7ec2e1;
-  --color-brand-deep: #567696;
+  --brand: #4c82b6;
+  --brand-hover: #3e70a2;
+  --brand-light: #60a4d1;
+  --brand-lighter: #7ec2e1;
+  --brand-deep: #567696;
 
   /* The quiet member of the family: far less saturated than the accent, which
      is what lets 61 marbles sit on it without the board competing. */
-  --color-board: #627384;
+  --board: #627384;
 
-  --color-marble-black: #333;
-  --color-marble-white: #fff;
+  --marble-black: #333333;
+  --marble-white: #ffffff;
 
-  /*
-   * There were two more here: a card darker than anything else on the screen and
-   * one lighter than anything else, one per player, so a pair of cards read as
-   * black-and-white from across a room. The scoreboard tells you the same thing
-   * with a marble badge on each face and stays one flat grey, so both are gone —
-   * and with them the ink that only ever wrote on the light one.
-   */
-  --color-loss: #fa412d;
-  --color-win: #4c82b6;
+  --loss: #fa412d;
+  --win: #4c82b6;
 
-  --font-sans: 'Segoe UI', Tahoma, Verdana, sans-serif;
+  /*---- semantic aliases — what @repo/nativ paints with -------------------*/
+  --background: var(--elevated);
+  --surface-raised: var(--surface-2);
+  --foreground: #ffffff;
+  --muted: #a9b0b7;
+  --subtle: #cbd1d6;
+  --secondary: var(--surface-4);
+  --secondary-foreground: #ffffff;
+  --primary: var(--brand);
+  --primary-foreground: #ffffff;
+  --border: var(--elevated-2);
+  --border-subtle: var(--surface-5);
+  --border-strong: var(--elevated-3);
+  --overlay: rgb(0 0 0 / 0.6);
+  --ring: var(--brand);
+  --error: var(--loss);
+  --success: #4caf7d;
+  --warning: #d9a441;
 
-  --radius-panel: 10px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  --font-sans: "Segoe UI", Tahoma, Verdana, sans-serif;
+}
+
+@theme inline {
+  --color-ink: var(--ink);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-4: var(--surface-4);
+  --color-surface-5: var(--surface-5);
+  --color-elevated: var(--elevated);
+  --color-elevated-2: var(--elevated-2);
+  --color-elevated-3: var(--elevated-3);
+
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-light: var(--brand-light);
+  --color-brand-lighter: var(--brand-lighter);
+  --color-brand-deep: var(--brand-deep);
+
+  --color-board: var(--board);
+  --color-marble-black: var(--marble-black);
+  --color-marble-white: var(--marble-white);
+  --color-loss: var(--loss);
+  --color-win: var(--win);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-overlay: var(--overlay);
+  --color-ring: var(--ring);
+  --color-error: var(--error);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+  --radius-panel: var(--radius-md);
+
+  --font-sans: var(--font-sans);
 }
 
 @layer base {
   /*
-   * The app is a fixed shell exactly one viewport tall: the document itself
-   * never scrolls, so there is nothing to rubber-band against and no mobile
-   * browser chrome sliding in and out as you drag. Anything longer than the
-   * screen — the rules, the setup panel, the move list — scrolls inside its own
-   * box, and `overscroll-behavior` stops each of those handing the leftover
-   * gesture up to whatever sits behind it.
-   *
-   * `dvh` so this agrees with the `h-dvh` game shell; the `%` above it is the
-   * fallback for engines that don't know the unit.
+   * The shell owns the viewport: nativ pins the document, kills the rubber-band
+   * and hands each pane its own scroll box. What used to be an html/body/#root
+   * height-and-overflow block here is that contract, and writing it twice is how
+   * the two disagree.
    */
-  html,
-  body,
-  #root {
-    height: 100%;
-    height: 100dvh;
-  }
-
-  html,
   body {
-    overflow: hidden;
-    overscroll-behavior: none;
-  }
-
-  body {
-    margin: 0;
-    background: var(--color-elevated);
-    color: white;
-    font-family: var(--font-sans);
+    @apply bg-background font-sans text-foreground;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -121,10 +178,10 @@
    * should say that too.
    */
   button:not(:disabled),
-  [role='option'],
-  [role='radio'],
-  [role='switch'],
-  [role='tab'],
+  [role="option"],
+  [role="radio"],
+  [role="switch"],
+  [role="tab"],
   label[for],
   summary {
     cursor: pointer;
@@ -151,7 +208,7 @@
 
 @layer components {
   /*
-   * #game-container centres its children, which would make the canvas wrapper
+   * The board column centres its children, which would make the canvas wrapper
    * size to the canvas and the canvas size to the wrapper. Stretching breaks
    * that cycle — the canvas measures this box via ResizeObserver.
    */
@@ -194,8 +251,8 @@
     border-radius: 999px;
     background: linear-gradient(
       to right,
-      var(--color-brand) var(--fill),
-      var(--color-elevated-2) var(--fill)
+      var(--brand) var(--fill),
+      var(--elevated-2) var(--fill)
     );
   }
 
@@ -204,8 +261,8 @@
     border-radius: 999px;
     background: linear-gradient(
       to right,
-      var(--color-brand) var(--fill),
-      var(--color-elevated-2) var(--fill)
+      var(--brand) var(--fill),
+      var(--elevated-2) var(--fill)
     );
   }
 
@@ -231,7 +288,7 @@
   }
 
   .volume-range:focus-visible {
-    outline: 2px solid var(--color-brand);
+    outline: 2px solid var(--brand);
     outline-offset: 1px;
     border-radius: 999px;
   }
