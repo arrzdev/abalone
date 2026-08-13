@@ -1,66 +1,188 @@
 import { useTranslation } from 'react-i18next';
-import { CaptureTrack } from './PlayerCard.jsx';
+import { WINNING_SCORE } from '../engine/config.js';
+import { MarbleGlyph } from './MarbleGlyph.jsx';
+import { PersonIcon } from './Icons.jsx';
 import { cn } from '../lib/cn.js';
 
 /**
- * Both seats, on one line at the top of the panel — the player cards after the
- * board has taken their row back.
+ * Both players, at the top of the panel: one card with a face and a name at
+ * either end and the score between them.
  *
- * Below `lg` nothing sits above the board any more. Against a bot the chatter
- * strip was already down here and only had to be told the rest; across a table
- * there is no such strip, so this is it: the same two fills, the same names, the
- * same marbles taken and the same blue edge on whoever is to move, laid out end
- * to end instead of stacked in a card. It is about two thirds the height of the
- * row it replaces, and the board is what gets the difference.
+ * A scoreboard, because that is what anyone looking at a game in progress is
+ * looking for. The pair used to be two cards, each spelling out its own colour
+ * and its own count in words — which is a form, and read as one. Here the two
+ * figures sit a thumb apart in the middle and are read against each other
+ * without a word on either, the way a score is read anywhere else.
  *
- * No avatar. A hot-seat player has no picture — the card's stand-in was a
- * generic head, which is 36px saying nothing — and the name is what they typed
- * in the setup panel, which is the part they'll recognise.
+ * It is the same card in both modes. Against a bot the opponent's end carries
+ * that bot's portrait and its name, and the near end is "You" until accounts
+ * make it something better — the bot used to keep its own strip with the score
+ * tucked into the corner of it, which meant a game against a bot and a game
+ * across a table were read two different ways for no reason anyone could see.
  *
- * Whose move it is matters more here than anywhere else in the app: two people
- * are sharing one screen and the board alone doesn't say who should pick it up.
+ * Which marbles are whose is a badge hung off the corner of each face, so no
+ * line of the card has to say it. The two sides mirror about the middle, so each
+ * player's own face is at their own end.
+ *
+ * Whose move it is is the one thing left to draw, and it is drawn twice: a blue
+ * ring around that player's face, and their name in white against the other's
+ * grey. Asked for in that shape — a whole card going blue reads as a control
+ * that has been switched on, but a ring on the one face you are looking for does
+ * not, and it is the one thing on this card that has to carry across a table.
+ *
+ * The card itself stays one flat grey, both ends alike. Lighting the player's
+ * end as well was a third way of saying the same thing, and it broke the card in
+ * half to say it.
  */
 
-const SEATS = {
-  black: { fill: 'bg-card-black', ink: 'text-white' },
-  white: { fill: 'bg-card-white', ink: 'text-card-ink' },
-};
+/** Portrait size, in px. */
+const PORTRAIT = 34;
 
-export function SeatBar({ seats, marbleDesign = 'default', className }) {
+/** The marble badge on the portrait, in px. */
+const BADGE = 13;
+
+/**
+ * Where a face's centre falls, in px from the near edge of the strip: the card's
+ * own padding, then the side's, then half a portrait.
+ *
+ * Exported because the bot's speech bubble hangs its tail on this number. The
+ * bubble sits under this card and points up at the face that is speaking, and
+ * the two only line up while they are reading the same measurement.
+ */
+export const FACE_CENTER = 8 + 4 + PORTRAIT / 2;
+
+/**
+ * One end of the card.
+ *
+ * `avatarSrc` is what a face is when there is one — a bot's portrait now, and
+ * the seam accounts will come through later. Everyone else falls back to the
+ * same anonymous head, a placeholder rather than nothing, so the card is the
+ * same shape either way and a picture appearing later doesn't move the name
+ * beside it.
+ */
+function Side({
+  color,
+  name,
+  avatarSrc,
+  title,
+  takenCount = 0,
+  active,
+  thinking,
+  marbleDesign,
+  flip,
+}) {
   const { t } = useTranslation();
+  const taken = Math.min(Math.max(takenCount, 0), WINNING_SCORE);
 
   return (
-    <div className={cn('flex shrink-0 items-center gap-2 px-4 pt-3 pb-1', className)}>
-      {seats.map(({ color, name, takenCount = 0, active }, i) => {
-        // The pair mirrors about the middle, as the cards do: each player's own
-        // seat opens towards their own side of the screen.
-        const flip = i > 0;
-        const seat = SEATS[color] ?? SEATS.black;
-        return (
-          <div
-            key={color}
-            className={cn(
-              'flex h-9 min-w-0 flex-1 items-center gap-2 rounded-lg px-2.5 transition-colors',
-              seat.fill,
-              'outline-2 -outline-offset-2',
-              active ? 'outline-brand-light' : 'outline-transparent',
-              flip && 'flex-row-reverse',
-            )}
-          >
-            <span className={cn('truncate text-sm font-bold', seat.ink)}>{name}</span>
-            {/* Pushed to the far end, so the two rows of marbles grow towards
-                the middle and can be compared against each other. */}
-            <CaptureTrack
-              takenCount={takenCount}
-              takenColor={color === 'black' ? 'white' : 'black'}
-              marbleDesign={marbleDesign}
-              flip={flip}
-              className={flip ? 'mr-auto' : 'ml-auto'}
-            />
-            {active && <span className="sr-only">{t('game:game_state.your_turn')}</span>}
-          </div>
-        );
-      })}
+    <div
+      className={cn(
+        'flex min-w-0 flex-1 items-center gap-2.5 px-1 py-1.5',
+        flip && 'flex-row-reverse',
+      )}
+    >
+      <div className="relative shrink-0">
+        {/* The well the bot's portrait always sat in, now under every face, so
+            one is framed the same way whoever it belongs to.
+
+            The turn is an `outline` and not a `ring` so `transition-colors` can
+            carry it, and it costs no layout either way — a face that grew by two
+            pixels on its own turn would push the name beside it. */}
+        <div
+          className={cn(
+            'relative flex items-center justify-center overflow-hidden rounded-lg',
+            'bg-black/25 text-white/35 outline-2 transition-colors',
+            active ? 'outline-brand-light' : 'outline-transparent',
+          )}
+          style={{ width: PORTRAIT, height: PORTRAIT }}
+          title={title}
+        >
+          {avatarSrc ? (
+            <img src={avatarSrc} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <PersonIcon size={22} />
+          )}
+
+          {/* Over the face rather than beside it: it is this player the game is
+              waiting for, and their own portrait is where you are already
+              looking. The ring is on at the same time and says something else —
+              that it is their move; this says the move is being worked out. */}
+          {thinking && (
+            <span className="absolute inset-0 flex items-center justify-center bg-black/45">
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/25 border-t-white motion-reduce:animate-none" />
+              <span className="sr-only">{t('game:game_state.thinking')}</span>
+            </span>
+          )}
+        </div>
+
+        {/* Which marbles are theirs, hung off the face like a status dot, on the
+            inward corner — it lands in the gap before the name, which is empty,
+            rather than in the card's own edge padding, which is thinner. The rim
+            is the card's fill, and that is what lifts the marble off both the
+            portrait and the blue behind it. */}
+        <span
+          className={cn(
+            'absolute -bottom-1 flex rounded-full bg-surface-4 p-[3px]',
+            flip ? '-left-1' : '-right-1',
+          )}
+        >
+          <MarbleGlyph
+            color={color}
+            design={marbleDesign}
+            size={BADGE}
+            title={t(`game:colors.${color}`)}
+          />
+        </span>
+      </div>
+
+      {/* The other half of the same answer: whoever is to move is the one you
+          can read at full strength. */}
+      <span
+        className={cn(
+          'min-w-0 flex-1 truncate text-sm font-bold transition-colors',
+          flip && 'text-right',
+          active ? 'text-white' : 'text-white/55',
+        )}
+      >
+        {name}
+      </span>
+
+      {/* The figures in the middle are a score to look at, which is nothing to
+          read out. This is this player's half of it, in words, next to the name
+          it belongs to. */}
+      <span className="sr-only">
+        {t('game:controls.marbles_taken', { taken, total: WINNING_SCORE })}
+        {active ? ` — ${t('game:game_state.your_turn')}` : ''}
+      </span>
+    </div>
+  );
+}
+
+export function SeatBar({ seats, marbleDesign = 'default', className }) {
+  const [left, right] = seats;
+  const score = (seat) => Math.min(Math.max(seat.takenCount ?? 0, 0), WINNING_SCORE);
+
+  return (
+    // No bottom padding: whatever comes next owns the gap to this card, so the
+    // spacing down the panel is one number kept in one place.
+    <div className={cn('shrink-0 px-4 pt-3', className)}>
+      <div className="flex items-center rounded-xl bg-surface-4 p-2">
+        <Side {...left} marbleDesign={marbleDesign} />
+
+        {/* Dead centre, and the same width whatever the score, so neither name
+            shifts as the game runs. The dash is drawn back out of the way: it is
+            punctuation between two numbers, not a third thing to read. */}
+        <div
+          aria-hidden="true"
+          className="flex shrink-0 items-baseline gap-1.5 px-2 text-lg leading-none font-bold tabular-nums text-white"
+        >
+          <span>{score(left)}</span>
+          <span className="text-sm font-normal text-white/25">–</span>
+          <span>{score(right)}</span>
+        </div>
+
+        <Side {...right} marbleDesign={marbleDesign} flip />
+      </div>
     </div>
   );
 }
