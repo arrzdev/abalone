@@ -52,9 +52,13 @@ export function PostgameControls({
   const list = <MoveHistory {...history} className="min-h-0 flex-1 rounded-xl bg-surface-4 p-1" />;
 
   return (
+    // The top padding is this column's own gap — see `IngameControls`.
     <div
       ref={panelRef}
-      className={cn('flex min-h-0 flex-1 flex-col px-4', compact ? 'gap-2 py-2' : 'gap-3 py-4')}
+      className={cn(
+        'flex min-h-0 flex-1 flex-col px-4',
+        compact ? 'gap-2 pt-2 pb-2' : 'gap-3 pt-3 pb-4',
+      )}
     >
       {compact ? (
         // One line, and its own height rather than a share of the panel's: this

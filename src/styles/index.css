@@ -36,22 +36,12 @@
   --color-marble-white: #fff;
 
   /*
-   * The two player cards, which are the colour of the side sitting in them.
-   * That is the whole of how a player is told which marbles are theirs, so the
-   * pair has to read as black-and-white at a glance and from across a room —
-   * hence a card darker than anything else on the screen and one lighter than
-   * anything else, rather than two shades of the same grey.
-   *
-   * Neither changes on its turn. Whose move it is is drawn on top of the card in
-   * `--color-brand-light` — the one thing on a card that is allowed to say
-   * something other than which colour is sitting in it.
+   * There were two more here: a card darker than anything else on the screen and
+   * one lighter than anything else, one per player, so a pair of cards read as
+   * black-and-white from across a room. The scoreboard tells you the same thing
+   * with a marble badge on each face and stays one flat grey, so both are gone —
+   * and with them the ink that only ever wrote on the light one.
    */
-  --color-card-black: #1b1e24;
-  --color-card-white: #e9ebef;
-  /* Ink for the light card. Not pure black: it sits on a near-white card, and
-     the pair is quieter at this distance without giving up any legibility. */
-  --color-card-ink: #161a20;
-
   --color-loss: #fa412d;
   --color-win: #4c82b6;
 

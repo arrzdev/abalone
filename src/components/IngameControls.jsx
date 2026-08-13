@@ -38,7 +38,7 @@ function Action({ icon, label, onClick, disabled, busy, title }) {
 
 /**
  * Move history, step-through navigation and the in-game actions. Whose turn it
- * is lives on the player cards next to the board, not here.
+ * is lives on the seats at the top of this panel, not here.
  *
  * Three layouts, and the panel's height picks between them. Given the room, the
  * history is a list with the step buttons under it. Short of that the step
@@ -80,7 +80,13 @@ export function IngameControls({
   const list = <MoveHistory {...history} className="min-h-0 flex-1 rounded-xl bg-surface-4 p-1" />;
 
   return (
-    <div ref={panelRef} className={cn('flex min-h-0 flex-1 flex-col gap-2 px-4', compact ? 'py-2' : 'py-4')}>
+    // The top padding is this column's own gap, not a margin of its own: the
+    // strip of seats above it ends at its cards, and the space between them
+    // should be the space between everything else stacked in here.
+    <div
+      ref={panelRef}
+      className={cn('flex min-h-0 flex-1 flex-col gap-2 px-4 pt-2', compact ? 'pb-2' : 'pb-4')}
+    >
       {/* Nothing here says you are reviewing an earlier position. That notice
           lives on the board, which changes colour and captions itself — a
           banner in this column appeared and vanished on every step through the
