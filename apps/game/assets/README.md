@@ -26,7 +26,10 @@ it by hand.
 | `public/favicon.ico` | at the root, alone, because it is the one icon a browser asks for without being told |
 | `public/site.webmanifest` | name, colours and icons for an installed copy |
 
-Paths in `index.html` and the manifest are relative on purpose: `vite.config.js`
+Both folders are this app's own — `apps/game/assets/` and `apps/game/public/`,
+not the monorepo root's.
+
+Paths in `index.html` and the manifest are relative on purpose: `vite.config.ts`
 sets `base: './'` so the build works under a subpath, and a leading `/` anywhere
 in here would quietly undo that.
 
