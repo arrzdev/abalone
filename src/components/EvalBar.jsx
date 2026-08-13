@@ -14,9 +14,9 @@ import { cn } from '../lib/cn.js';
  * beside it. Standing on end it had to be as tall as the board and take a column
  * of its own, which on a phone is width the board cannot spare and on a desktop
  * is width taken off a board bound by height. Lying down it costs a strip either
- * way, and it lines up with the board and the cards above it.
+ * way, and it lines up with the board it belongs to.
  *
- * Black on the left is the order the cards use and the order the move list uses.
+ * Black on the left is the order the seats use and the order the move list uses.
  *
  * The number is an advantage in marbles, which is what the score already means
  * — a captured marble is worth 1 and every positional term is a fraction of
@@ -26,7 +26,7 @@ import { cn } from '../lib/cn.js';
 
 /**
  * The strip the bar takes, without the bar — what stands in for it everywhere
- * the bar is not shown, the same trick `PlayerCardSlot` plays for the cards.
+ * the bar is not shown.
  *
  * The board is letterboxed into the height its column has left, and on a desktop
  * that height is what bounds it: a strip appearing under the board is a board
