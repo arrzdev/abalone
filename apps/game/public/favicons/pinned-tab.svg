@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Safari mask icon: one colour, no strokes. The hexagon cannot survive as a
+     silhouette (filled, it is a blob), so the mark keeps only the part that
+     still reads at 16px — the five marbles mid-push, in a line. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="397 396 284 284">
+  <g fill="#000">
+    <circle cx="429.669" cy="606.893" r="27" />
+    <circle cx="484.335" cy="573.093" r="27" />
+    <circle cx="537.827" cy="539.456" r="27" />
+    <circle cx="593.666" cy="505.493" r="27" />
+    <circle cx="648.331" cy="471.693" r="27" />
+  </g>
+</svg>
