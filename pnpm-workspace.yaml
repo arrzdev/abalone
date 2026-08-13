@@ -1,3 +1,7 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
 # Vite bundles with esbuild, whose postinstall script picks the native binary
 # for this platform. pnpm blocks install scripts until they are named here.
 allowBuilds:
