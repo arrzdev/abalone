@@ -1,0 +1,94 @@
+{
+  "name": "@repo/nativ",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run --passWithNoTests"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "imports": {
+    "#nativ/*": "./src/*"
+  },
+  "exports": {
+    "./shell": {
+      "types": "./.tsbuild/interface/shell.index.d.ts",
+      "default": "./src/interface/shell.index.ts"
+    },
+    "./config": {
+      "types": "./.tsbuild/interface/config.index.d.ts",
+      "default": "./src/interface/config.index.ts"
+    },
+    "./components": {
+      "types": "./.tsbuild/interface/components.index.d.ts",
+      "default": "./src/interface/components.index.ts"
+    },
+    "./hooks": {
+      "types": "./.tsbuild/interface/hooks.index.d.ts",
+      "default": "./src/interface/hooks.index.ts"
+    },
+    "./routes": {
+      "types": "./.tsbuild/interface/routes.index.d.ts",
+      "default": "./src/interface/routes.index.ts"
+    },
+    "./utils": {
+      "types": "./.tsbuild/interface/utils.index.d.ts",
+      "default": "./src/interface/utils.index.ts"
+    },
+    "./sw": {
+      "types": "./.tsbuild/interface/sw.index.d.ts",
+      "default": "./src/interface/sw.index.ts"
+    },
+    "./vite": {
+      "types": "./.tsbuild/interface/vite.index.d.ts",
+      "default": "./src/interface/vite.index.ts"
+    },
+    "./styles.css": "./src/styles/index.css"
+  },
+  "peerDependencies": {
+    "@repo/shared": "workspace:*",
+    "@tanstack/react-router": "1.168.8",
+    "clsx": "2.1.1",
+    "motion": "12.35.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "tailwind-merge": "3.4.0",
+    "tailwindcss": "4.2.4",
+    "tailwindcss-safe-area": "1.3.0",
+    "vite": "8.0.11"
+  },
+  "dependencies": {
+    "@repo/shared": "workspace:*",
+    "@tanstack/react-start": "1.167.13",
+    "@tanstack/virtual-file-routes": "1.161.7",
+    "@vitejs/plugin-react": "5.2.0",
+    "esbuild": "0.28.0",
+    "workbox-build": "7.4.1",
+    "workbox-core": "7.4.1",
+    "workbox-expiration": "7.4.1",
+    "workbox-precaching": "7.4.1",
+    "workbox-routing": "7.4.1",
+    "workbox-strategies": "7.4.1"
+  },
+  "devDependencies": {
+    "@repo/shared": "workspace:*",
+    "@tanstack/react-router": "1.168.8",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/react": "16.3.2",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "clsx": "2.1.1",
+    "happy-dom": "20.10.6",
+    "motion": "12.35.0",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "tailwind-merge": "3.4.0",
+    "tailwindcss": "4.2.4",
+    "tailwindcss-safe-area": "1.3.0",
+    "typescript": "5.9.3",
+    "vite": "8.0.11",
+    "vitest": "4.1.2"
+  }
+}
