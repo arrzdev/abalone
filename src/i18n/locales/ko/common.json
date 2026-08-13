@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "play": "플레이",
+    "rules": "게임 규칙",
+    "strategy": "전략 가이드",
+    "faq": "FAQ",
+    "about": "소개",
+    "history": "게임 기록",
+    "profile": "프로필",
+    "back_to_game": "컴퓨터와 대전",
+    "back_to_game_from_page": "게임 플레이"
+  },
+  "buttons": {
+    "play_now": "지금 플레이",
+    "get_started": "시작하기",
+    "try_setups": "다른 배치 사용",
+    "learn_strategy": "전략 배우기",
+    "start_playing": "플레이 시작",
+    "more_about": "아발론 (Abalone) 더 알아보기",
+    "read_rules": "전체 규칙 보기"
+  },
+  "language": {
+    "select": "언어 선택",
+    "english": "영어",
+    "german": "독일어",
+    "french": "프랑스어",
+    "spanish": "스페인어",
+    "italian": "이탈리아어",
+    "portuguese": "포르투갈어",
+    "change": "언어 변경"
+  },
+  "home": {
+    "tagline": "상대 구슬 6개를 보드 밖으로 밀어내면 승리합니다.",
+    "game_code": "게임 코드",
+    "code_hint": "6자 — 영문자와 숫자",
+    "play_online": "온라인 플레이",
+    "join_game": "게임 참가",
+    "play_offline": "오프라인 플레이",
+    "rules_link": "게임 방법 배우기",
+    "soon_title": "온라인 플레이는 곧 제공됩니다",
+    "soon_body": "아직 매치메이킹 서버가 없어 코드를 만들거나 참가할 수 없습니다.",
+    "code_not_sent": "코드 {{code}}는 어디에도 전송되지 않았습니다."
+  },
+  "actions": {
+    "close": "닫기",
+    "cancel": "취소"
+  }
+}

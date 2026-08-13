@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "title": "Abalone gegen KI spielen - Fordere Computer-Gegner online heraus | Kostenloses Spiel",
+    "description": "Spiele Abalone online gegen KI-Gegner - wähle aus 8 Schwierigkeitsstufen und mehreren Brettaufstellungen. Kostenloses browserbasiertes Abalone-Spiel mit Zughistorie, Bewertungsleiste und sofortigem Spielstart. Kein Download erforderlich.",
+    "keywords": "abalone gegen computer spielen, abalone vs KI, abalone spiel online, abalone schwierigkeitsgrade, abalone jetzt spielen, abalone browserspiel, abalone minimax KI, kostenloses abalone spiel, abalone online spielen",
+    "og_title": "Abalone gegen Computer-KI spielen - Online-Brettspiel",
+    "og_description": "Fordere KI-Gegner in Abalone mit 8 Schwierigkeitsstufen heraus. Übe Strategie und verbessere deine Fähigkeiten in diesem klassischen Brettspiel für zwei Spieler.",
+    "twitter_title": "Abalone gegen Computer-KI spielen",
+    "twitter_description": "Fordere KI-Gegner mit 8 Schwierigkeitsstufen heraus. Wähle deine Brettaufstellung und spiele als Schwarz oder Weiß in diesem strategischen Kugelschubspiel.",
+    "structured_data": {
+      "name": "Abalone gegen Computer-KI spielen",
+      "description": "Spiele Abalone gegen Computer-Gegner mit 8 Schwierigkeitsstufen (Anfänger, Neuling, Lernender, Gelegenheitsspieler, Fortgeschritten, Erfahren, Experte, Meister). Wähle aus 3 Brettaufstellungen (Standard, Belgische Gänseblümchen, Deutsche Gänseblümchen) und spiele als Schwarz oder Weiß. Kostenloses Online-Spiel mit Zughistorie und Bewertungsleiste.",
+      "audience": "Brettspieler, Strategiespiel-Enthusiasten, KI-Herausforderungs-Suchende"
+    }
+  },
+  "players": {
+    "you": "Du",
+    "computer": "Computer"
+  },
+  "controls": {
+    "page_title": "Bots Spielen",
+    "marble_design": "Murmel-Design:",
+    "marble_design_classic": "Minimalistisch",
+    "marble_design_3d": "Realistisch",
+    "play_as": "Ich spiele als:",
+    "play_button": "Spielen",
+    "show_coordinates": "Koordinaten anzeigen",
+    "show_eval_bar": "Bewertungsleiste anzeigen",
+    "resign": "Aufgeben",
+    "move_back": "Zug zurück",
+    "move_forward": "Zug vor",
+    "hint": "Tipp",
+    "undo": "Zurücknehmen",
+    "rematch": "Revanche",
+    "new_bot": "Neuer Bot",
+    "difficulty_note_slow": "(Langsam)",
+    "move_back_aria": "Zum vorherigen Zug gehen",
+    "move_forward_aria": "Zum nächsten Zug gehen",
+    "hint_aria": "Einen Zugvorschlag anzeigen",
+    "undo_aria": "Deinen letzten Zug zurücknehmen",
+    "jump_to_latest": "Zum aktuellen Zug",
+    "jump_to_latest_aria": "Zur aktuellen Stellung springen",
+    "resign_aria": "Aktuelles Spiel aufgeben",
+    "rematch_aria": "Revanche starten",
+    "new_bot_aria": "Neues Spiel mit anderem Bot starten",
+    "back_to_home": "Zurück zum Start",
+    "settings": "Einstellungen",
+    "new_game": "Neues Spiel",
+    "opponent": "Gegner",
+    "board_setup": "Brettaufstellung",
+    "level": "Stufe {{level}}",
+    "prev_setup": "Vorherige Aufstellung",
+    "next_setup": "Nächste Aufstellung",
+    "game_mode": "Spielmodus",
+    "mode_ai": "gegen Computer",
+    "mode_local": "Zwei Spieler",
+    "sound": "Ton",
+    "sound_hint": "Kugeln, die landen, und Kugeln, die vom Brett fallen",
+    "mute": "Stummschalten",
+    "unmute": "Ton einschalten",
+    "move_animations": "Zuganimationen",
+    "move_animations_hint": "Kugeln auf ihr neues Feld gleiten lassen",
+    "rotate_board": "Brett bei jedem Zug drehen",
+    "rotate_board_hint": "Das Brett so drehen, dass die ziehende Seite immer unten ist",
+    "show_coordinates_hint": "Die Axialkoordinate in jedem Feld anzeigen",
+    "show_eval_bar_hint": "Wie die Engine die Stellung bewertet – nur gegen Bots",
+    "side_group": "Zu spielende Seite",
+    "side_white": "Weiß spielen",
+    "side_black": "Schwarz spielen",
+    "side_random": "Zufällige Seite",
+    "marbles_taken": "{{taken}} von {{total}} gegnerischen Kugeln hinausgeschoben"
+  },
+  "game_state": {
+    "your_turn": "Du bist am Zug",
+    "opponent_turn": "Gegner am Zug",
+    "thinking": "Denkt nach...",
+    "game_over": "Spiel beendet"
+  },
+  "modal": {
+    "you_win": "Du gewinnst!",
+    "opponent_won": "{{opponent}} hat gewonnen!",
+    "draw": "Unentschieden!",
+    "victory_message": "Glückwunsch! Du hast den {{difficulty}} Bot besiegt.",
+    "defeat_message": "Der {{difficulty}} Bot hat dieses Spiel gewonnen.",
+    "draw_message": "Das Spiel endete unentschieden.",
+    "rematch_button": "Revanche",
+    "new_bot_button": "Neuer Bot",
+    "by_resignation": "durch Aufgabe",
+    "by_repetition": "durch dreifache Wiederholung",
+    "resign_title": "Partie aufgeben?",
+    "resign_body": "Die Partie endet sofort und dein Gegner gewinnt. Das lässt sich nicht rückgängig machen."
+  },
+  "rules": {
+    "title": "So wird gespielt",
+    "intro": "Abalone ist ein Spiel für zwei Personen auf einem sechseckigen Brett mit 61 Feldern. Jede Seite startet mit 14 Kugeln und zieht einmal pro Zug.",
+    "goal": {
+      "title": "Das Ziel",
+      "body": "Schiebe sechs Kugeln deines Gegners vom Brett. Mehr ist es nicht — sonst wird nichts gezählt."
+    },
+    "directions": {
+      "title": "Sechs Richtungen",
+      "body": "Jedes Feld grenzt an sechs andere, also kann eine Kugel in sechs Richtungen ziehen. Es gibt keine Diagonalen und keine Sprünge — eine Kugel zieht immer auf ein direkt benachbartes Feld.",
+      "caption": "Die sechs Richtungen einer einzelnen Kugel."
+    },
+    "move": {
+      "title": "Kugeln bewegen",
+      "body": "In deinem Zug bewegst du eine, zwei oder drei eigene Kugeln. Zwei oder drei müssen in gerader Linie nebeneinanderliegen und ziehen alle ein Feld in dieselbe Richtung.",
+      "inline_caption": "In Linie: die Reihe zieht in die Richtung, in die sie ohnehin zeigt.",
+      "broadside_caption": "Seitwärts: die Reihe rückt zur Seite, und jedes Zielfeld muss frei sein."
+    },
+    "push": {
+      "title": "Schieben",
+      "body": "Nur ein Zug in Linie kann schieben. Du brauchst in dieser Linie mehr Kugeln als dein Gegner: zwei gegen eine, drei gegen eine oder drei gegen zwei. Das Feld hinter den gegnerischen Kugeln muss frei sein.",
+      "ok_caption": "Drei gegen zwei — die ganze Linie rückt ein Feld vor.",
+      "blocked_caption": "Drei gegen drei bewegt sich nie, und eigene Kugeln darfst du nie schieben."
+    },
+    "capture": {
+      "title": "Kugeln herausschieben",
+      "body": "Eine über den Rand geschobene Kugel ist aus dem Spiel. Wer zuerst sechs gegnerische Kugeln herausschiebt, gewinnt.",
+      "caption": "Zwei gegen eine am Rand — die schwarze Kugel ist draußen."
+    },
+    "cta": "Jetzt spielen"
+  },
+  "messages": {
+    "select_marble": "Wähle eine Kugel zum Bewegen",
+    "select_destination": "Wähle das Ziel",
+    "invalid_move": "Ungültiger Zug",
+    "game_started": "Spiel gestartet!",
+    "resigned": "Du hast aufgegeben. {{winner}} gewinnt!",
+    "connection_error": "Verbindungsfehler. Bitte versuche es erneut."
+  },
+  "result": {
+    "black_wins": "Schwarz gewinnt",
+    "white_wins": "Weiß gewinnt",
+    "draw": "Unentschieden"
+  },
+  "local": {
+    "title": "Zwei Spieler, ein Gerät",
+    "description": "Schwarz beginnt, danach wechselt der Zug. Aktiviere das Drehen des Bretts in den Einstellungen, damit es sich zur ziehenden Seite dreht.",
+    "black": "Schwarz",
+    "white": "Weiß",
+    "names": "Spielernamen",
+    "player_wins": "{{name}} gewinnt"
+  },
+  "colors": {
+    "white": "Weiß",
+    "random": "Zufällig",
+    "black": "Schwarz"
+  },
+  "history": {
+    "empty": "Noch keine Züge",
+    "start": "Start",
+    "position": "Zug {{index}} von {{total}}",
+    "move": "Zug",
+    "marbles_moved": "Bewegte Kugeln: {{n}}",
+    "pushed": "Gegnerische Kugeln geschoben",
+    "captured": "Kugel erobert"
+  },
+  "board": {
+    "label": "Spielbrett",
+    "thinking": "denkt nach"
+  }
+}

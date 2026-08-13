@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "play": "Play",
+    "rules": "Game Rules",
+    "strategy": "Strategy Guide",
+    "faq": "FAQ",
+    "about": "About",
+    "history": "Game History",
+    "profile": "Profile",
+    "back_to_game": "Play vs Computer",
+    "back_to_game_from_page": "Play Game"
+  },
+  "buttons": {
+    "play_now": "Play Now",
+    "get_started": "Get Started",
+    "try_setups": "Try Different Setups",
+    "learn_strategy": "Learn Strategy",
+    "start_playing": "Start Playing",
+    "more_about": "More About Abalone",
+    "read_rules": "Read Full Rules"
+  },
+  "language": {
+    "select": "Select Language",
+    "english": "English",
+    "german": "Deutsch",
+    "french": "Français",
+    "spanish": "Español",
+    "italian": "Italiano",
+    "portuguese": "Português",
+    "change": "Change language"
+  },
+  "home": {
+    "tagline": "Push six of your opponent's marbles off the board to win.",
+    "game_code": "Game code",
+    "code_hint": "6 characters — letters and numbers",
+    "play_online": "Play Online",
+    "join_game": "Join Game",
+    "play_offline": "Play Offline",
+    "rules_link": "Learn how to play",
+    "soon_title": "Online play is coming soon",
+    "soon_body": "There is no matchmaking server yet, so codes cannot be created or joined.",
+    "code_not_sent": "The code {{code}} was not sent anywhere."
+  },
+  "actions": {
+    "close": "Close",
+    "cancel": "Cancel"
+  }
+}

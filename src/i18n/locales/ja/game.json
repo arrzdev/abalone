@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "title": "AIとアバロン対戦 - オンラインでコンピューターに挑戦 | 無料ゲーム",
+    "description": "オンラインでAI相手にアバロンをプレイ。8段階の難易度と複数の初期配置を選べます。棋譜、評価バー、即プレイ対応の無料ブラウザ版。ダウンロード不要。",
+    "keywords": "アバロン AI対戦, アバロン オンライン, アバロン (Abalone) vs AI, アバロン 難易度, ブラウザ ボードゲーム, minimax AI, 無料 アバロン, play アバロン (Abalone) online",
+    "og_title": "AIとアバロン対戦 - オンラインボードゲーム",
+    "og_description": "8段階の難易度を備えたAI相手にアバロンで腕試し。定番の二人用戦略ボードゲームで戦略を磨こう。",
+    "twitter_title": "AIとアバロン対戦",
+    "twitter_description": "8段階の難易度のAIに挑戦。初期配置を選び、黒または白でこの押し出し戦略ゲームをプレイ。",
+    "structured_data": {
+      "name": "AIとアバロン対戦",
+      "description": "8段階の難易度（Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master）のコンピューター相手にアバロンをプレイ。3つの初期配置（Standard, Belgian Daisy, German Daisy）を選び、黒または白で開始できます。棋譜と評価バー付きの無料オンラインゲーム。",
+      "audience": "ボードゲーム好き, 戦略ゲーム愛好家, AIに挑戦したい人"
+    }
+  },
+  "players": {
+    "you": "あなた",
+    "computer": "コンピューター"
+  },
+  "controls": {
+    "page_title": "ボット対戦",
+    "marble_design": "駒デザイン：",
+    "marble_design_classic": "ミニマル",
+    "marble_design_3d": "リアル",
+    "play_as": "自分の色：",
+    "play_button": "プレイ",
+    "show_coordinates": "座標を表示",
+    "show_eval_bar": "評価バーを表示",
+    "resign": "投了",
+    "move_back": "一手戻る",
+    "move_forward": "一手進む",
+    "hint": "ヒント",
+    "undo": "待った",
+    "rematch": "再戦",
+    "new_bot": "ボット変更",
+    "difficulty_note_slow": "（遅い）",
+    "move_back_aria": "前の手へ移動",
+    "move_forward_aria": "次の手へ移動",
+    "hint_aria": "おすすめの手を表示",
+    "undo_aria": "自分の最後の手を取り消す",
+    "jump_to_latest": "最新手へ",
+    "jump_to_latest_aria": "最新の局面に移動",
+    "resign_aria": "現在の対局を投了",
+    "rematch_aria": "再戦を開始",
+    "new_bot_aria": "別のボットで新しい対局を開始",
+    "back_to_home": "ホームに戻る",
+    "settings": "設定",
+    "new_game": "新しいゲーム",
+    "opponent": "対戦相手",
+    "board_setup": "初期配置",
+    "level": "レベル {{level}}",
+    "prev_setup": "前の配置",
+    "next_setup": "次の配置",
+    "game_mode": "ゲームモード",
+    "mode_ai": "コンピュータ対戦",
+    "mode_local": "2人対戦",
+    "sound": "サウンド",
+    "sound_hint": "ボールが着地する音と、盤外へ落ちる音",
+    "mute": "ミュート",
+    "unmute": "ミュート解除",
+    "move_animations": "移動アニメーション",
+    "move_animations_hint": "ボールを新しいマスへ滑らせる",
+    "rotate_board": "手番ごとに盤を回転",
+    "rotate_board_hint": "手番の側がつねに手前になるように盤を反転します",
+    "show_coordinates_hint": "各マスに軸座標を表示します",
+    "show_eval_bar_hint": "エンジンによる形勢評価 — ボット対戦のみ",
+    "side_group": "使用する側",
+    "side_white": "白でプレイ",
+    "side_black": "黒でプレイ",
+    "side_random": "ランダム",
+    "marbles_taken": "相手のボールを {{total}} 個中 {{taken}} 個 押し出した"
+  },
+  "game_state": {
+    "your_turn": "あなたの手番",
+    "opponent_turn": "相手の手番",
+    "thinking": "思考中...",
+    "game_over": "対局終了"
+  },
+  "modal": {
+    "you_win": "勝ちました！",
+    "opponent_won": "{{opponent}} の勝ち！",
+    "draw": "引き分け！",
+    "victory_message": "おめでとう！{{difficulty}} ボットに勝利しました。",
+    "defeat_message": "{{difficulty}} ボットがこの対局に勝利しました。",
+    "draw_message": "対局は引き分けに終わりました。",
+    "rematch_button": "再戦",
+    "new_bot_button": "ボット変更",
+    "by_resignation": "投了による",
+    "by_repetition": "3回同形反復による",
+    "resign_title": "投了しますか？",
+    "resign_body": "対局はただちに終了し、相手の勝ちとなります。取り消せません。"
+  },
+  "rules": {
+    "title": "遊び方",
+    "intro": "アバロンは61マスの六角形ボードで遊ぶ2人用ゲームです。各プレイヤーは14個のボールで始め、1手番に1回動かします。",
+    "goal": {
+      "title": "目的",
+      "body": "相手のボールを6個、盤外へ押し出します。数えるのはそれだけです。"
+    },
+    "directions": {
+      "title": "6つの方向",
+      "body": "どのマスも6つのマスと接しているので、ボールは6方向に動けます。斜めも飛び越えもなく、必ず隣のマスへ動きます。",
+      "caption": "1個のボールが動ける6方向。"
+    },
+    "move": {
+      "title": "ボールを動かす",
+      "body": "自分の手番では、自分のボールを1〜3個動かします。2個または3個の場合は一直線に隣り合っていなければならず、全部が同じ方向へ1マス進みます。",
+      "inline_caption": "直線移動：列が向いている方向へそのまま進みます。",
+      "broadside_caption": "横移動：列が横にずれます。移動先のマスはすべて空でなければなりません。"
+    },
+    "push": {
+      "title": "押し出す",
+      "body": "押せるのは直線移動だけです。その線上で相手より多くのボールが必要です（2対1、3対1、3対2）。相手のボールの先のマスは空でなければなりません。",
+      "ok_caption": "3対2 — 列全体が1マス進みます。",
+      "blocked_caption": "3対3は動きません。自分のボールを押すこともできません。"
+    },
+    "capture": {
+      "title": "盤外へ押し出す",
+      "body": "縁を越えて押されたボールはゲームから外れます。相手のボールを先に6個落としたプレイヤーの勝ちです。",
+      "caption": "縁で2対1 — 黒のボールが盤外へ。"
+    },
+    "cta": "今すぐプレイ"
+  },
+  "messages": {
+    "select_marble": "動かす駒を選択してください",
+    "select_destination": "移動先を選択してください",
+    "invalid_move": "不正な手です",
+    "game_started": "対局開始！",
+    "resigned": "投了しました。{{winner}} の勝ち！",
+    "connection_error": "接続エラーです。もう一度お試しください。"
+  },
+  "result": {
+    "black_wins": "黒の勝ち",
+    "white_wins": "白の勝ち",
+    "draw": "引き分け"
+  },
+  "local": {
+    "title": "1台で2人対戦",
+    "description": "黒が先手で、その後は交互に手番が移ります。設定で盤の回転を有効にすると、手番の側に合わせて盤が反転します。",
+    "black": "黒",
+    "white": "白",
+    "names": "プレイヤー名",
+    "player_wins": "{{name}}の勝ち"
+  },
+  "colors": {
+    "white": "白",
+    "random": "ランダム",
+    "black": "黒"
+  },
+  "history": {
+    "empty": "まだ手がありません",
+    "start": "開始",
+    "position": "{{total}}手中 {{index}}手目",
+    "move": "手",
+    "marbles_moved": "動かしたボール: {{n}}",
+    "pushed": "相手のボールを押した",
+    "captured": "ボールを落とした"
+  },
+  "board": {
+    "label": "ゲーム盤",
+    "thinking": "思考中"
+  }
+}

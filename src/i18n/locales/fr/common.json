@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "play": "Jouer",
+    "rules": "Règles du jeu",
+    "strategy": "Guide stratégique",
+    "faq": "FAQ",
+    "about": "À propos",
+    "history": "Historique des Parties",
+    "profile": "Profil",
+    "back_to_game": "Jouer contre l'ordinateur",
+    "back_to_game_from_page": "Jouer au jeu"
+  },
+  "buttons": {
+    "play_now": "Jouer maintenant",
+    "get_started": "Commencer",
+    "try_setups": "Essayer différentes configurations",
+    "learn_strategy": "Apprendre la stratégie",
+    "start_playing": "Commencer à jouer",
+    "more_about": "En savoir plus sur Abalone",
+    "read_rules": "Lire les règles complètes"
+  },
+  "language": {
+    "select": "Sélectionner la langue",
+    "english": "English",
+    "german": "Deutsch",
+    "french": "Français",
+    "spanish": "Español",
+    "italian": "Italiano",
+    "portuguese": "Português",
+    "change": "Changer de langue"
+  },
+  "home": {
+    "tagline": "Poussez six billes adverses hors du plateau pour gagner.",
+    "game_code": "Code de partie",
+    "code_hint": "6 caractères — lettres et chiffres",
+    "play_online": "Jouer en ligne",
+    "join_game": "Rejoindre la partie",
+    "play_offline": "Jouer hors ligne",
+    "rules_link": "Apprendre à jouer",
+    "soon_title": "Le jeu en ligne arrive bientôt",
+    "soon_body": "Il n'y a pas encore de serveur d'appariement, les codes ne peuvent donc pas être créés ni rejoints.",
+    "code_not_sent": "Le code {{code}} n'a été envoyé nulle part."
+  },
+  "actions": {
+    "close": "Fermer",
+    "cancel": "Annuler"
+  }
+}
