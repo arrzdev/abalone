@@ -1,15 +1,16 @@
 # Abalone monorepo
 
-A pnpm + Turborepo monorepo with a React PWA frontend and a Hono backend, both
-running on Cloudflare Workers, wired to deploy from GitHub Actions. It ships as
-a working boilerplate: sign-in, an offline-first synced collection, a D1
-database with migrations, per-environment secrets, and a deploy pipeline that
-grows by one line per new app.
+The Abalone game, plus the boilerplate it is being rebuilt on: a pnpm +
+Turborepo monorepo of Cloudflare Workers, wired to deploy from GitHub Actions.
+The boilerplate half is a working app in its own right — sign-in, an
+offline-first synced collection, a D1 database with migrations, per-environment
+secrets, and a deploy pipeline that grows by one line per new app.
 
 ## Layout
 
 | | |
 | --- | --- |
+| `apps/game` | the Abalone game — React 19 + Vite, a static bundle on an assets-only Worker |
 | `apps/frontend` | React 19 + Vite + TanStack Start, served by a Worker. PWA shell, service worker, offline-first data |
 | `apps/backend` | Hono on a Worker. D1 + Drizzle, better-auth, the generic sync endpoints |
 | `packages/nativ` | the PWA shell framework: app config, generated router, native-feeling components, hooks, service worker |
@@ -22,6 +23,14 @@ grows by one line per new app.
 
 Apps consume packages through workspace exports (`@repo/nativ`, `@repo/synq`, …)
 and never reach past a package's public entry points.
+
+`apps/game` is the exception to nearly all of that. It came over whole from its
+own repository and is still plain JS with its own conventions, so its `src/`,
+`assets/` and `public/` are excluded from Biome and from `pnpm typecheck`; it
+uses no package and talks to no backend. Only its shell — `package.json`,
+`wrangler.toml`, `env/`, `ports.ts`, `scripts/`, `vite.config.ts` — is written
+to the monorepo's rules. Folding it inward is the next piece of work, not a
+loose end.
 
 ## Requirements
 
@@ -40,12 +49,11 @@ contract, and `check:env` fails the dev server and the deploy if a required
 value is missing:
 
 ```bash
-cp apps/backend/env/.env.example apps/backend/env/.env
-cp apps/frontend/env/.env.example apps/frontend/env/.env
+for app in apps/*/; do cp "$app/env/.env.example" "$app/env/.env"; done
 ```
 
 Fill in `BETTER_AUTH_SECRET` (`openssl rand -hex 32`). The rest of the defaults
-already point at the local ports.
+already point at the local ports, and the game declares nothing.
 
 Create the local database and apply migrations:
 
@@ -59,15 +67,15 @@ pnpm migrate:local
 pnpm dev
 ```
 
-Frontend on `http://localhost:7171`, backend on `http://localhost:8181`. Both
-bind `0.0.0.0`, so another device on the same network can reach them — point
-`VITE_BACKEND_URL` and `BETTER_AUTH_URL` at your machine's LAN IP to test the
-PWA on a phone.
+Frontend on `http://localhost:7171`, backend on `http://localhost:8181`, game on
+`http://localhost:6161`. All three bind `0.0.0.0`, so another device on the same
+network can reach them — point `VITE_BACKEND_URL` and `BETTER_AUTH_URL` at your
+machine's LAN IP to test the PWA on a phone.
 
 | | |
 | --- | --- |
 | `pnpm build` | build every app |
-| `pnpm typecheck` | project references + the two standalone projects |
+| `pnpm typecheck` | project references + the three standalone projects |
 | `pnpm biome:check` / `pnpm biome:fix` | lint and format |
 | `pnpm test` | Vitest across the workspace (backend runs on a real local D1) |
 | `pnpm test:e2e` | Playwright smoke test against a running frontend |
@@ -96,8 +104,9 @@ it is listed there and has a `wrangler.toml`; apps inside one unit deploy in
 order and stop on the first failure, and units run in parallel. Only apps
 changed in the push actually deploy.
 
-Adding a third app is a `wrangler.toml` plus one line in that manifest — no
-workflow edits.
+Adding an app is a `wrangler.toml` plus one line in that manifest — no workflow
+edits. `apps/game` is its own unit, so it ships independently of the backend and
+frontend.
 
 **Branches:** `main` → production, `staging` → staging, `deployment-test` →
 force-redeploys everything.
@@ -132,11 +141,12 @@ DRY_RUN=1 bash .github/scripts/deploy/app.sh apps/backend production
 
 ## Renaming it
 
-The project name appears in `package.json`, both `wrangler.toml` files (worker
-and D1 names), `apps/frontend/nativ.config.ts`, the bearer-token key in
+The project name appears in `package.json`, all three `wrangler.toml` files
+(worker and D1 names), `apps/frontend/nativ.config.ts`, the bearer-token key in
 `src/data/auth/token.ts`, and `SYNQ_DB_NAME` in `src/data/store.ts`. The icons
 under `apps/frontend/public/favicons/` are placeholders — replace them along
-with the name.
+with the name. The game's own icons under `apps/game/public/` are the real
+thing and are named for the game, not the project.
 
 ## Licence
 
