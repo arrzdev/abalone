@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "play": "开始游戏",
+    "rules": "游戏规则",
+    "strategy": "策略指南",
+    "faq": "常见问题",
+    "about": "关于",
+    "history": "对局记录",
+    "profile": "个人资料",
+    "back_to_game": "与电脑对战",
+    "back_to_game_from_page": "开始游戏"
+  },
+  "buttons": {
+    "play_now": "立即开始",
+    "get_started": "开始",
+    "try_setups": "试试不同布局",
+    "learn_strategy": "学习策略",
+    "start_playing": "开始游玩",
+    "more_about": "了解更多 角力棋 (Abalone)",
+    "read_rules": "阅读完整规则"
+  },
+  "language": {
+    "select": "选择语言",
+    "english": "英语",
+    "german": "德语",
+    "french": "法语",
+    "spanish": "西班牙语",
+    "italian": "意大利语",
+    "portuguese": "葡萄牙语",
+    "change": "更改语言"
+  },
+  "home": {
+    "tagline": "把对手的六枚棋子推出棋盘即可获胜。",
+    "game_code": "对局代码",
+    "code_hint": "6 个字符 — 字母和数字",
+    "play_online": "在线对战",
+    "join_game": "加入对局",
+    "play_offline": "离线对战",
+    "rules_link": "了解玩法",
+    "soon_title": "在线对战即将推出",
+    "soon_body": "目前还没有匹配服务器，因此无法创建或加入代码。",
+    "code_not_sent": "代码 {{code}} 没有被发送到任何地方。"
+  },
+  "actions": {
+    "close": "关闭",
+    "cancel": "取消"
+  }
+}

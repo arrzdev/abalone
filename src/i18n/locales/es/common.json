@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "play": "Jugar",
+    "rules": "Reglas del juego",
+    "strategy": "Guía de estrategia",
+    "faq": "FAQ",
+    "about": "Acerca de",
+    "history": "Historial de Partidas",
+    "profile": "Perfil",
+    "back_to_game": "Jugar contra la computadora",
+    "back_to_game_from_page": "Jugar al juego"
+  },
+  "buttons": {
+    "play_now": "Jugar ahora",
+    "get_started": "Comenzar",
+    "try_setups": "Probar diferentes configuraciones",
+    "learn_strategy": "Aprender estrategia",
+    "start_playing": "Comenzar a jugar",
+    "more_about": "Más sobre Abalone",
+    "read_rules": "Leer reglas completas"
+  },
+  "language": {
+    "select": "Seleccionar idioma",
+    "english": "English",
+    "german": "Deutsch",
+    "french": "Français",
+    "spanish": "Español",
+    "italian": "Italiano",
+    "portuguese": "Português",
+    "change": "Cambiar idioma"
+  },
+  "home": {
+    "tagline": "Empuja seis bolas del rival fuera del tablero para ganar.",
+    "game_code": "Código de partida",
+    "code_hint": "6 caracteres — letras y números",
+    "play_online": "Jugar en línea",
+    "join_game": "Unirse a la partida",
+    "play_offline": "Jugar sin conexión",
+    "rules_link": "Aprende a jugar",
+    "soon_title": "El juego en línea llegará pronto",
+    "soon_body": "Todavía no hay servidor de emparejamiento, así que no se pueden crear ni usar códigos.",
+    "code_not_sent": "El código {{code}} no se envió a ninguna parte."
+  },
+  "actions": {
+    "close": "Cerrar",
+    "cancel": "Cancelar"
+  }
+}

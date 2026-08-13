@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "play": "プレイ",
+    "rules": "ゲームルール",
+    "strategy": "戦略ガイド",
+    "faq": "FAQ",
+    "about": "このサイトについて",
+    "history": "対局履歴",
+    "profile": "プロフィール",
+    "back_to_game": "コンピューターと対戦",
+    "back_to_game_from_page": "ゲームをプレイ"
+  },
+  "buttons": {
+    "play_now": "今すぐプレイ",
+    "get_started": "始める",
+    "try_setups": "別の配置を試す",
+    "learn_strategy": "戦略を学ぶ",
+    "start_playing": "プレイ開始",
+    "more_about": "アバロンについてもっと知る",
+    "read_rules": "ルールを読む"
+  },
+  "language": {
+    "select": "言語を選択",
+    "english": "英語",
+    "german": "ドイツ語",
+    "french": "フランス語",
+    "spanish": "スペイン語",
+    "italian": "イタリア語",
+    "portuguese": "ポルトガル語",
+    "change": "言語を変更"
+  },
+  "home": {
+    "tagline": "相手のボールを6個盤外に押し出せば勝ちです。",
+    "game_code": "ゲームコード",
+    "code_hint": "6文字 — 英字と数字",
+    "play_online": "オンラインで対戦",
+    "join_game": "ゲームに参加",
+    "play_offline": "オフラインで対戦",
+    "rules_link": "遊び方を見る",
+    "soon_title": "オンライン対戦は近日公開",
+    "soon_body": "マッチメイキングサーバーがまだないため、コードの作成も参加もできません。",
+    "code_not_sent": "コード {{code}} はどこにも送信されていません。"
+  },
+  "actions": {
+    "close": "閉じる",
+    "cancel": "キャンセル"
+  }
+}

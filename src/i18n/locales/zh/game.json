@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "title": "与 AI 对战 角力棋 (Abalone) - 在线挑战电脑对手 | 免费游戏",
+    "description": "在线与 AI 对手玩 角力棋 (Abalone)——可选择 8 个难度等级和多种棋盘布局。免费浏览器版 角力棋 (Abalone)，支持走子记录、评估条与即开即玩，无需下载。",
+    "keywords": "角力棋 (Abalone) 对电脑, 角力棋 (Abalone) vs AI, 在线 角力棋 (Abalone), 角力棋 (Abalone) 难度, 角力棋 (Abalone) 立即开始, 浏览器棋盘游戏, 角力棋 (Abalone) minimax AI, 免费 角力棋 (Abalone) 游戏, play 角力棋 (Abalone) online, 角力棋 (Abalone) online spielen",
+    "og_title": "与电脑 AI 对战 角力棋 (Abalone) - 在线棋盘游戏",
+    "og_description": "在 角力棋 (Abalone) 中挑战 8 个难度等级的 AI 对手。练习策略，提升你的经典双人棋盘游戏技巧。",
+    "twitter_title": "与电脑 AI 对战 角力棋 (Abalone)",
+    "twitter_description": "挑战 8 个难度等级的 AI 对手。选择棋盘布局，并以黑方或白方开始这款策略推子游戏。",
+    "structured_data": {
+      "name": "与电脑 AI 对战 角力棋 (Abalone)",
+      "description": "与电脑对手对战 角力棋 (Abalone)，提供 8 个难度等级（Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master）。可选择 3 种棋盘布局（Standard, Belgian Daisy, German Daisy），并以黑方或白方开局。免费在线游戏，包含走子记录与评估条。",
+      "audience": "棋盘游戏玩家, 策略游戏爱好者, AI 挑战者"
+    }
+  },
+  "players": {
+    "you": "你",
+    "computer": "电脑"
+  },
+  "controls": {
+    "page_title": "对战机器人",
+    "marble_design": "棋子风格：",
+    "marble_design_classic": "极简",
+    "marble_design_3d": "写实",
+    "play_as": "我执：",
+    "play_button": "开始",
+    "show_coordinates": "显示坐标",
+    "show_eval_bar": "显示评估条",
+    "resign": "认输",
+    "move_back": "悔棋",
+    "move_forward": "前进",
+    "hint": "提示",
+    "undo": "悔棋",
+    "rematch": "再来一局",
+    "new_bot": "更换机器人",
+    "difficulty_note_slow": "（较慢）",
+    "move_back_aria": "回到上一步",
+    "move_forward_aria": "前往下一步",
+    "hint_aria": "显示推荐走法",
+    "undo_aria": "撤回你的上一步",
+    "jump_to_latest": "跳到最新一步",
+    "jump_to_latest_aria": "跳到最新局面",
+    "resign_aria": "认输当前对局",
+    "rematch_aria": "开始再战一局",
+    "new_bot_aria": "与不同机器人开始新对局",
+    "back_to_home": "返回首页",
+    "settings": "设置",
+    "new_game": "新对局",
+    "opponent": "对手",
+    "board_setup": "棋盘布局",
+    "level": "等级 {{level}}",
+    "prev_setup": "上一个布局",
+    "next_setup": "下一个布局",
+    "game_mode": "游戏模式",
+    "mode_ai": "对战电脑",
+    "mode_local": "双人对战",
+    "sound": "音效",
+    "sound_hint": "棋子落位的声音，以及棋子被推出棋盘的声音",
+    "mute": "静音",
+    "unmute": "取消静音",
+    "move_animations": "走子动画",
+    "move_animations_hint": "让棋子滑向新的位置",
+    "rotate_board": "每回合旋转棋盘",
+    "rotate_board_hint": "翻转棋盘，让走子的一方始终位于下方",
+    "show_coordinates_hint": "在每个格子内显示轴坐标",
+    "show_eval_bar_hint": "引擎对局面的评估 — 仅限人机对局",
+    "side_group": "执子颜色",
+    "side_white": "执白",
+    "side_black": "执黑",
+    "side_random": "随机",
+    "marbles_taken": "已将对手 {{total}} 颗棋子中的 {{taken}} 颗推出棋盘"
+  },
+  "game_state": {
+    "your_turn": "轮到你",
+    "opponent_turn": "轮到对手",
+    "thinking": "思考中...",
+    "game_over": "对局结束"
+  },
+  "modal": {
+    "you_win": "你赢了！",
+    "opponent_won": "{{opponent}} 获胜！",
+    "draw": "平局！",
+    "victory_message": "恭喜！你击败了 {{difficulty}} 难度的机器人。",
+    "defeat_message": "{{difficulty}} 难度的机器人赢得了本局。",
+    "draw_message": "本局以平局结束。",
+    "rematch_button": "再来一局",
+    "new_bot_button": "更换机器人",
+    "by_resignation": "认输",
+    "by_repetition": "三次重复局面",
+    "resign_title": "要认输吗？",
+    "resign_body": "对局将立即结束，胜利归对手所有。此操作无法撤销。"
+  },
+  "rules": {
+    "title": "游戏玩法",
+    "intro": "阿巴隆是两人对弈的游戏，棋盘为 61 格的六边形。双方各有 14 颗棋子，每回合走一步。",
+    "goal": {
+      "title": "目标",
+      "body": "把对手的六颗棋子推出棋盘。整个游戏就是这样，没有别的要计算。"
+    },
+    "directions": {
+      "title": "六个方向",
+      "body": "每一格都与另外六格相邻，所以棋子可以朝六个方向移动。没有斜走，也不能跳过：棋子只能走到紧邻的一格。",
+      "caption": "单颗棋子可走的六个方向。"
+    },
+    "move": {
+      "title": "移动棋子",
+      "body": "轮到你时，可以移动自己的一颗、两颗或三颗棋子。两颗或三颗必须在一条直线上相邻，并且一起朝同一方向走一格。",
+      "inline_caption": "直线推进：整排沿着它本来的方向前进。",
+      "broadside_caption": "横向平移：整排向侧面移动，落点各格都必须是空的。"
+    },
+    "push": {
+      "title": "推挤",
+      "body": "只有直线移动才能推挤。你在那条线上的棋子必须多于对手：二对一、三对一或三对二。对手棋子后面的一格必须是空的。",
+      "ok_caption": "三对二 —— 整条线前进一格。",
+      "blocked_caption": "三对三永远推不动，也绝不能推自己的棋子。"
+    },
+    "capture": {
+      "title": "把棋子推出棋盘",
+      "body": "被推出边界的棋子就此离场。先把对手六颗棋子推出棋盘的一方获胜。",
+      "caption": "边缘上的二对一 —— 黑子出局。"
+    },
+    "cta": "立即游戏"
+  },
+  "messages": {
+    "select_marble": "请选择要移动的棋子",
+    "select_destination": "请选择移动目标",
+    "invalid_move": "无效走法",
+    "game_started": "对局开始！",
+    "resigned": "你已认输。{{winner}} 获胜！",
+    "connection_error": "连接错误，请重试。"
+  },
+  "result": {
+    "black_wins": "黑方获胜",
+    "white_wins": "白方获胜",
+    "draw": "平局"
+  },
+  "local": {
+    "title": "两人共用一台设备",
+    "description": "黑方先行，之后轮流走子。在设置中开启棋盘旋转，棋盘就会转向当前走子的一方。",
+    "black": "黑方",
+    "white": "白方",
+    "names": "玩家名称",
+    "player_wins": "{{name}}获胜"
+  },
+  "colors": {
+    "white": "白方",
+    "random": "随机",
+    "black": "黑方"
+  },
+  "history": {
+    "empty": "暂无棋步",
+    "start": "开局",
+    "position": "第 {{index}} 步 / 共 {{total}} 步",
+    "move": "棋步",
+    "marbles_moved": "移动棋子：{{n}}",
+    "pushed": "推动了对手棋子",
+    "captured": "吃掉一枚棋子"
+  },
+  "board": {
+    "label": "游戏棋盘",
+    "thinking": "思考中"
+  }
+}

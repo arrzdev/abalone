@@ -1,0 +1,36 @@
+# Dependencies. Reinstalled from pnpm-lock.yaml — never committed.
+node_modules/
+.pnpm-store/
+
+# Build output. `pnpm run build` regenerates all of it.
+dist/
+*.local
+
+# This is a pnpm project. A second lockfile is a second, different install.
+package-lock.json
+yarn.lock
+
+# Secrets. Nothing here reads one today, and this is how it stays that way.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs and caches
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.vite/
+.cache/
+
+# Local editor and agent settings, as opposed to the shared ones
+.claude/settings.local.json
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+
+# macOS
+.DS_Store
+._*

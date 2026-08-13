@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "title": "Graj w Abalone przeciwko AI - Zmierz się z Komputerowymi Przeciwnikami Online | Darmowa Gra",
+    "description": "Graj w Abalone przeciwko przeciwnikom AI online - wybierz spośród 8 poziomów trudności i wielu układów planszy. Darmowa przeglądarkowa gra Abalone z historią ruchów, paskiem oceny i natychmiastową grą. Nie wymaga pobierania.",
+    "keywords": "graj w abalone przeciwko komputerowi, abalone vs AI, gra abalone online, poziomy trudności abalone, graj w abalone teraz, gra przeglądarkowa abalone, abalone minimax AI, darmowa gra abalone, graj w abalone online",
+    "og_title": "Graj w Abalone przeciwko Komputerowi AI - Gra Planszowa Online",
+    "og_description": "Zmierz się z przeciwnikami AI w Abalone z 8 poziomami trudności. Ćwicz strategię i popraw swoje umiejętności w tej klasycznej grze planszowej dla dwóch graczy.",
+    "twitter_title": "Graj w Abalone przeciwko Komputerowi AI",
+    "twitter_description": "Zmierz się z przeciwnikami AI z 8 poziomami trudności. Wybierz układ planszy i graj jako czarny lub biały w tej strategicznej grze w pchanie kulek.",
+    "structured_data": {
+      "name": "Graj w Abalone przeciwko Komputerowi AI",
+      "description": "Graj w Abalone przeciwko komputerowym przeciwnikom na 8 poziomach trudności (Początkujący, Nowicjusz, Uczeń, Casualowy, Średniozaawansowany, Zaawansowany, Ekspert, Mistrz). Wybierz spośród 3 ustawień planszy (Standardowe, Belgijska Stokrotka, Niemiecka Stokrotka) i graj jako czarny lub biały. Darmowa gra online z historią ruchów i paskiem oceny.",
+      "audience": "Gracze planszowi, entuzjaści gier strategicznych, poszukiwacze wyzwań AI"
+    }
+  },
+  "players": {
+    "you": "Ty",
+    "computer": "Komputer"
+  },
+  "controls": {
+    "page_title": "Graj Boty",
+    "marble_design": "Projekt Kulek:",
+    "marble_design_classic": "Minimalistyczny",
+    "marble_design_3d": "Realistyczny",
+    "play_as": "Gram jako:",
+    "play_button": "Graj",
+    "show_coordinates": "Pokaż współrzędne",
+    "show_eval_bar": "Pokaż pasek oceny",
+    "resign": "Poddaj się",
+    "move_back": "Ruch Wstecz",
+    "move_forward": "Ruch Naprzód",
+    "hint": "Podpowiedź",
+    "undo": "Cofnij",
+    "rematch": "Rewanż",
+    "new_bot": "Nowy Bot",
+    "difficulty_note_slow": "(Wolny)",
+    "move_back_aria": "Przejdź do poprzedniego ruchu",
+    "move_forward_aria": "Przejdź do następnego ruchu",
+    "hint_aria": "Pokaż sugerowany ruch",
+    "undo_aria": "Cofnij swój ostatni ruch",
+    "jump_to_latest": "Do bieżącego ruchu",
+    "jump_to_latest_aria": "Przejdź do najnowszej pozycji",
+    "resign_aria": "Poddaj się w bieżącej grze",
+    "rematch_aria": "Rozpocznij rewanż",
+    "new_bot_aria": "Rozpocznij nową grę z innym botem",
+    "back_to_home": "Powrót do strony głównej",
+    "settings": "Ustawienia",
+    "new_game": "Nowa gra",
+    "opponent": "Przeciwnik",
+    "board_setup": "Ustawienie planszy",
+    "level": "Poziom {{level}}",
+    "prev_setup": "Poprzednie ustawienie",
+    "next_setup": "Następne ustawienie",
+    "game_mode": "Tryb gry",
+    "mode_ai": "vs Komputer",
+    "mode_local": "Dwóch graczy",
+    "sound": "Dźwięk",
+    "sound_hint": "Kule lądujące na planszy i te, które z niej spadają",
+    "mute": "Wycisz",
+    "unmute": "Włącz dźwięk",
+    "move_animations": "Animacje ruchów",
+    "move_animations_hint": "Przesuwaj kule na nowe pole",
+    "rotate_board": "Obracaj planszę co turę",
+    "rotate_board_hint": "Obróć planszę tak, aby gracz na ruchu był zawsze na dole",
+    "show_coordinates_hint": "Pokaż współrzędną osiową w każdym polu",
+    "show_eval_bar_hint": "Jak silnik ocenia pozycję — tylko w grach z botami",
+    "side_group": "Strona do gry",
+    "side_white": "Graj białymi",
+    "side_black": "Graj czarnymi",
+    "side_random": "Losowa strona",
+    "marbles_taken": "Wypchnięto {{taken}} z {{total}} kul przeciwnika"
+  },
+  "game_state": {
+    "your_turn": "Twoja kolej",
+    "opponent_turn": "Kolej przeciwnika",
+    "thinking": "Myślę...",
+    "game_over": "Koniec Gry"
+  },
+  "modal": {
+    "you_win": "Wygrałeś!",
+    "opponent_won": "{{opponent}} Wygrał!",
+    "draw": "Remis!",
+    "victory_message": "Gratulacje! Pokonałeś bota {{difficulty}}.",
+    "defeat_message": "Bot {{difficulty}} wygrał tę grę.",
+    "draw_message": "Gra zakończyła się remisem.",
+    "rematch_button": "Rewanż",
+    "new_bot_button": "Nowy Bot",
+    "by_resignation": "przez poddanie",
+    "by_repetition": "przez trzykrotne powtórzenie",
+    "resign_title": "Poddać partię?",
+    "resign_body": "Partia kończy się natychmiast, a zwycięstwo przypada przeciwnikowi. Tego nie można cofnąć."
+  },
+  "rules": {
+    "title": "Jak grać",
+    "intro": "Abalone to gra dla dwóch osób na sześciokątnej planszy z 61 polami. Każda strona zaczyna z 14 kulami i wykonuje jeden ruch na turę.",
+    "goal": {
+      "title": "Cel gry",
+      "body": "Wypchnij sześć kul przeciwnika poza planszę. To cała gra — nie liczy się nic więcej."
+    },
+    "directions": {
+      "title": "Sześć kierunków",
+      "body": "Każde pole sąsiaduje z sześcioma innymi, więc kula może ruszyć się w sześciu kierunkach. Nie ma przekątnych ani przeskoków — kula zawsze przechodzi na sąsiednie pole.",
+      "caption": "Sześć kierunków dostępnych dla jednej kuli."
+    },
+    "move": {
+      "title": "Ruch kul",
+      "body": "W swojej turze ruszasz jedną, dwiema lub trzema własnymi kulami. Dwie lub trzy muszą stać obok siebie w linii prostej i wszystkie przesuwają się o jedno pole w tym samym kierunku.",
+      "inline_caption": "W linii: rząd przesuwa się w kierunku, w którym już jest ustawiony.",
+      "broadside_caption": "Bokiem: rząd przesuwa się w bok, a każde pole docelowe musi być puste."
+    },
+    "push": {
+      "title": "Wypychanie",
+      "body": "Wypychać można tylko ruchem w linii. Musisz mieć na tej linii więcej kul niż przeciwnik: dwie na jedną, trzy na jedną albo trzy na dwie. Pole za kulami przeciwnika musi być puste.",
+      "ok_caption": "Trzy na dwie — cała linia przesuwa się o jedno pole.",
+      "blocked_caption": "Trzy na trzy nigdy się nie ruszy, a własnych kul nie wolno wypychać."
+    },
+    "capture": {
+      "title": "Wypychanie poza planszę",
+      "body": "Kula wypchnięta poza krawędź odpada z gry. Wygrywa ten, kto pierwszy wypchnie sześć kul przeciwnika.",
+      "caption": "Dwie na jedną przy krawędzi — czarna kula wypada."
+    },
+    "cta": "Zagraj teraz"
+  },
+  "messages": {
+    "select_marble": "Wybierz kulkę do przesunięcia",
+    "select_destination": "Wybierz, gdzie przesunąć",
+    "invalid_move": "Nieprawidłowy ruch",
+    "game_started": "Gra rozpoczęta!",
+    "resigned": "Poddałeś się. {{winner}} wygrywa!",
+    "connection_error": "Błąd połączenia. Spróbuj ponownie."
+  },
+  "result": {
+    "black_wins": "Czarne wygrywają",
+    "white_wins": "Białe wygrywają",
+    "draw": "Remis"
+  },
+  "local": {
+    "title": "Dwóch graczy, jedno urządzenie",
+    "description": "Czarne zaczynają, potem ruch przechodzi na drugiego gracza. Włącz obracanie planszy w ustawieniach, aby obracała się do gracza na ruchu.",
+    "black": "Czarne",
+    "white": "Białe",
+    "names": "Nazwy graczy",
+    "player_wins": "{{name}} wygrywa"
+  },
+  "colors": {
+    "white": "Białe",
+    "random": "Losowo",
+    "black": "Czarne"
+  },
+  "history": {
+    "empty": "Brak ruchów",
+    "start": "Początek",
+    "position": "Ruch {{index}} z {{total}}",
+    "move": "Ruch",
+    "marbles_moved": "Przesunięte kule: {{n}}",
+    "pushed": "Wypchnięte kule przeciwnika",
+    "captured": "Kula zdobyta"
+  },
+  "board": {
+    "label": "Plansza do gry",
+    "thinking": "myśli"
+  }
+}

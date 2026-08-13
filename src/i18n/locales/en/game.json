@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "title": "Play Abalone vs AI - Challenge Computer Opponents Online | Free Game",
+    "description": "Play Abalone against AI opponents online - choose from 8 difficulty levels and multiple board setups. Free browser-based Abalone game with move history, evaluation bar, and instant gameplay. No download required.",
+    "keywords": "play abalone against computer, abalone vs AI, abalone game online, abalone difficulty levels, play abalone now, abalone browser game, abalone minimax AI, free abalone game, abalone online spielen",
+    "og_title": "Play Abalone vs Computer AI - Online Board Game",
+    "og_description": "Challenge AI opponents in Abalone with 8 difficulty levels. Practice strategy and improve your skills in this classic two-player board game.",
+    "twitter_title": "Play Abalone vs Computer AI",
+    "twitter_description": "Challenge AI opponents with 8 difficulty levels. Choose your board setup and play as black or white in this strategic marble-pushing game.",
+    "structured_data": {
+      "name": "Play Abalone vs Computer AI",
+      "description": "Play Abalone against computer opponents with 8 difficulty levels (Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master). Choose from 3 board setups (Standard, Belgian Daisy, German Daisy) and play as black or white. Free online game with move history and evaluation bar.",
+      "audience": "Board game players, strategy game enthusiasts, AI challenge seekers"
+    }
+  },
+  "players": {
+    "you": "You",
+    "computer": "Computer"
+  },
+  "controls": {
+    "page_title": "Play Bots",
+    "marble_design": "Marble Design:",
+    "marble_design_classic": "Minimalist",
+    "marble_design_3d": "Realist",
+    "play_as": "I play as:",
+    "play_button": "Play",
+    "show_coordinates": "Show coordinates",
+    "show_eval_bar": "Show eval bar",
+    "resign": "Resign",
+    "move_back": "Move Back",
+    "move_forward": "Move Forward",
+    "hint": "Hint",
+    "undo": "Undo",
+    "rematch": "Rematch",
+    "new_bot": "New Bot",
+    "difficulty_note_slow": "(Slow)",
+    "move_back_aria": "Go to previous move",
+    "move_forward_aria": "Go to next move",
+    "hint_aria": "Show a suggested move",
+    "undo_aria": "Take back your last move",
+    "jump_to_latest": "Jump to Latest",
+    "jump_to_latest_aria": "Jump to the latest position",
+    "resign_aria": "Resign current game",
+    "rematch_aria": "Start a rematch",
+    "new_bot_aria": "Start new game with different bot",
+    "back_to_home": "Back to home",
+    "settings": "Settings",
+    "new_game": "New Game",
+    "opponent": "Opponent",
+    "board_setup": "Board setup",
+    "level": "Level {{level}}",
+    "prev_setup": "Previous board setup",
+    "next_setup": "Next board setup",
+    "game_mode": "Game mode",
+    "mode_ai": "vs Computer",
+    "mode_local": "Pass & Play",
+    "sound": "Sound",
+    "sound_hint": "Marbles landing, and marbles going off the board",
+    "mute": "Mute",
+    "unmute": "Unmute",
+    "move_animations": "Move animations",
+    "move_animations_hint": "Slide marbles to their new square",
+    "rotate_board": "Rotate board each turn",
+    "rotate_board_hint": "Flip the board so the side to move is always at the bottom",
+    "show_coordinates_hint": "Print the axial coordinate inside every cell",
+    "show_eval_bar_hint": "How the engine rates the position — bot games only",
+    "side_group": "Side to play",
+    "side_white": "Play as white",
+    "side_black": "Play as black",
+    "side_random": "Random side",
+    "marbles_taken": "{{taken}} of {{total}} opponent marbles pushed off"
+  },
+  "game_state": {
+    "your_turn": "Your turn",
+    "opponent_turn": "Opponent's turn",
+    "thinking": "Thinking...",
+    "game_over": "Game Over"
+  },
+  "modal": {
+    "you_win": "You Win!",
+    "opponent_won": "{{opponent}} Won!",
+    "draw": "Draw!",
+    "victory_message": "Congratulations! You defeated the {{difficulty}} bot.",
+    "defeat_message": "The {{difficulty}} bot won this game.",
+    "draw_message": "The game ended in a draw.",
+    "rematch_button": "Rematch",
+    "new_bot_button": "New Bot",
+    "by_resignation": "by resignation",
+    "by_repetition": "by threefold repetition",
+    "resign_title": "Resign the game?",
+    "resign_body": "The game ends right away and the win goes to your opponent. This cannot be undone."
+  },
+  "rules": {
+    "title": "How to play",
+    "intro": "Abalone is a game for two players on a hexagonal board of 61 spaces. Each side starts with 14 marbles and moves once per turn.",
+    "goal": {
+      "title": "The goal",
+      "body": "Push six of your opponent's marbles off the board. That is the whole game — there is nothing else to count."
+    },
+    "directions": {
+      "title": "Six directions",
+      "body": "Every space touches six others, so a marble can move in any of six directions. There are no diagonals and no jumps — a marble always moves to a space right beside it.",
+      "caption": "The six directions open to a single marble."
+    },
+    "move": {
+      "title": "Moving marbles",
+      "body": "On your turn you move one, two or three of your own marbles. Two or three must sit next to each other in a straight line, and they all move one space in the same direction.",
+      "inline_caption": "In line: the row advances along the direction it already points in.",
+      "broadside_caption": "Broadside: the row steps sideways, and every space it lands on must be empty."
+    },
+    "push": {
+      "title": "Pushing",
+      "body": "Only a move in line can push. You need more marbles in that line than your opponent: two against one, three against one, or three against two. The space behind your opponent’s marbles must be empty.",
+      "ok_caption": "Three against two — the whole line shifts one space.",
+      "blocked_caption": "Three against three never moves, and you can never push your own marbles."
+    },
+    "capture": {
+      "title": "Pushing marbles off",
+      "body": "A marble pushed past the edge is out for the rest of the game. The first player to knock six of the opponent's marbles off the board wins.",
+      "caption": "Two against one at the edge — the black marble is out."
+    },
+    "cta": "Play now"
+  },
+  "messages": {
+    "select_marble": "Select a marble to move",
+    "select_destination": "Select where to move",
+    "invalid_move": "Invalid move",
+    "game_started": "Game started!",
+    "resigned": "You resigned. {{winner}} wins!",
+    "connection_error": "Connection error. Please try again."
+  },
+  "result": {
+    "black_wins": "Black wins",
+    "white_wins": "White wins",
+    "draw": "Draw"
+  },
+  "local": {
+    "title": "Two players, one device",
+    "description": "Black moves first, then the turn passes. Turn on board rotation in settings to flip the board for whoever is to move.",
+    "black": "Black",
+    "white": "White",
+    "names": "Player names",
+    "player_wins": "{{name}} wins"
+  },
+  "colors": {
+    "white": "White",
+    "random": "Random",
+    "black": "Black"
+  },
+  "history": {
+    "empty": "No moves yet",
+    "start": "Start",
+    "position": "Move {{index}} of {{total}}",
+    "move": "Move",
+    "marbles_moved": "Marbles moved: {{n}}",
+    "pushed": "Opponent marbles pushed",
+    "captured": "Marble captured"
+  },
+  "board": {
+    "label": "Game board",
+    "thinking": "thinking"
+  }
+}

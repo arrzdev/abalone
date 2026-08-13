@@ -1,0 +1,277 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens, exposed as CSS variables and now
+ * expressed as Tailwind theme values so they are usable as utilities
+ * (bg-surface-2, text-brand, …).
+ */
+@theme {
+  --color-ink: #111;
+  --color-surface: #2a2a2a;
+  --color-surface-2: #222;
+  --color-surface-3: #2f2f2f;
+  --color-surface-4: #333;
+  --color-surface-5: #3a3a3a;
+  --color-elevated: #444;
+  --color-elevated-2: #555;
+  --color-elevated-3: #666;
+
+  /*
+   * The accent family. Each of these is the green it replaced, rotated onto the
+   * board's hue and otherwise untouched — same saturation, same lightness — so
+   * everything built against the old palette keeps the contrast it was drawn
+   * with.
+   */
+  --color-brand: #4c82b6;
+  --color-brand-hover: #3e70a2;
+  --color-brand-light: #60a4d1;
+  --color-brand-lighter: #7ec2e1;
+  --color-brand-deep: #567696;
+
+  /* The quiet member of the family: far less saturated than the accent, which
+     is what lets 61 marbles sit on it without the board competing. */
+  --color-board: #627384;
+
+  --color-marble-black: #333;
+  --color-marble-white: #fff;
+
+  /*
+   * The two player cards, which are the colour of the side sitting in them.
+   * That is the whole of how a player is told which marbles are theirs, so the
+   * pair has to read as black-and-white at a glance and from across a room —
+   * hence a card darker than anything else on the screen and one lighter than
+   * anything else, rather than two shades of the same grey.
+   *
+   * Neither changes on its turn. Whose move it is is drawn on top of the card in
+   * `--color-brand-light` — the one thing on a card that is allowed to say
+   * something other than which colour is sitting in it.
+   */
+  --color-card-black: #1b1e24;
+  --color-card-white: #e9ebef;
+  /* Ink for the light card. Not pure black: it sits on a near-white card, and
+     the pair is quieter at this distance without giving up any legibility. */
+  --color-card-ink: #161a20;
+
+  --color-loss: #fa412d;
+  --color-win: #4c82b6;
+
+  --font-sans: 'Segoe UI', Tahoma, Verdana, sans-serif;
+
+  --radius-panel: 10px;
+}
+
+@layer base {
+  /*
+   * The app is a fixed shell exactly one viewport tall: the document itself
+   * never scrolls, so there is nothing to rubber-band against and no mobile
+   * browser chrome sliding in and out as you drag. Anything longer than the
+   * screen — the rules, the setup panel, the move list — scrolls inside its own
+   * box, and `overscroll-behavior` stops each of those handing the leftover
+   * gesture up to whatever sits behind it.
+   *
+   * `dvh` so this agrees with the `h-dvh` game shell; the `%` above it is the
+   * fallback for engines that don't know the unit.
+   */
+  html,
+  body,
+  #root {
+    height: 100%;
+    height: 100dvh;
+  }
+
+  html,
+  body {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-elevated);
+    color: white;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Board coordinates and marbles are painted, not selectable. */
+  canvas {
+    display: block;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+
+  /*
+   * A press held on the board is a marble being picked up, not a page being
+   * copied. iOS answers a long press over a canvas or an image with its own
+   * menu — "Copy", "Save Image" — and answers a drag by starting a selection in
+   * whatever text is nearest, which on the board is the header above it.
+   *
+   * `user-select` alone doesn't stop the callout, and the callout is the half
+   * you notice: it takes over the screen mid-gesture.
+   */
+  canvas,
+  img {
+    -webkit-touch-callout: none;
+  }
+
+  /*
+   * The game shell switches selection off wholesale, and this is the one thing
+   * in it you are meant to be able to select: what you typed. A field you can't
+   * put the caret back into is a field you can only clear and retype.
+   */
+  input,
+  textarea {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
+  /*
+   * Tailwind's reset gives buttons `cursor: default`. Anything that behaves
+   * like a control should say so under the pointer, and anything switched off
+   * should say that too.
+   */
+  button:not(:disabled),
+  [role='option'],
+  [role='radio'],
+  [role='switch'],
+  [role='tab'],
+  label[for],
+  summary {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  /*
+   * Repeated clicks on steppers and move lists shouldn't select their labels.
+   *
+   * `touch-action: manipulation` opts every control out of double-tap-to-zoom,
+   * which is what makes a phone hold each tap back to see whether a second one
+   * is coming. On a stepper that delay reads as a dead press, so you tap again
+   * and both land at once — one press, two steps.
+   */
+  button {
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  /*
+   * #game-container centres its children, which would make the canvas wrapper
+   * size to the canvas and the canvas size to the wrapper. Stretching breaks
+   * that cycle — the canvas measures this box via ResizeObserver.
+   */
+  .game-canvas-wrapper {
+    flex: 1 1 auto;
+    align-self: stretch;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /*
+   * The volume slider.
+   *
+   * `accent-color` alone would have done, except that it only paints the part
+   * of the track behind the thumb — the rest stays the browser's near-white,
+   * which on this panel is the brightest thing in it and the least important.
+   * So the track is a two-stop gradient instead, cut at `--fill`, which the
+   * component sets from the value it is already rendering.
+   *
+   * The thumb is the same white knob the switches use, for the same reason:
+   * it is the part you take hold of.
+   */
+  .volume-range {
+    appearance: none;
+    background: transparent;
+    /* The box you can grab, not the line you can see: a 6px-tall input is a
+       6px-tall hit target, which is a miss on a phone and nearly one with a
+       mouse. The track below is what has the height of a track. */
+    height: 24px;
+  }
+
+  /* Written out twice on purpose: a selector list is dropped whole by any engine
+     that does not recognise one of its parts, so these two can never share a
+     rule — WebKit would throw away Firefox's half along with its own. */
+  .volume-range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(
+      to right,
+      var(--color-brand) var(--fill),
+      var(--color-elevated-2) var(--fill)
+    );
+  }
+
+  .volume-range::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(
+      to right,
+      var(--color-brand) var(--fill),
+      var(--color-elevated-2) var(--fill)
+    );
+  }
+
+  .volume-range::-webkit-slider-thumb {
+    appearance: none;
+    height: 16px;
+    width: 16px;
+    /* WebKit hangs the thumb off the top of the track; half the difference
+       between the two puts it back on the line. Firefox centres its own. */
+    margin-top: -5px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.45);
+  }
+
+  .volume-range::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    border: none;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.45);
+  }
+
+  .volume-range:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 1px;
+    border-radius: 999px;
+  }
+}
+
+/*
+ * Thin scrollbars inside panels and dropdowns.
+ *
+ * Only the standard properties are worth writing: once `scrollbar-width` is
+ * set, Chrome takes the standard path and ignores `::-webkit-scrollbar-*`
+ * entirely. What it gives back is an overlay bar with no gutter, painted over
+ * the corners of the very box it scrolls — so anything rounded keeps its radius
+ * on a parent that clips, and only the inside scrolls.
+ */
+.panel-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #111 transparent;
+  overscroll-behavior: contain;
+}
+
+/*
+ * The move strip is a single line of chips that only appears when the panel is
+ * already out of height, so it cannot spare any for a scrollbar. It doesn't need
+ * one either: a chip cut off at the edge is the affordance.
+ */
+.strip-scroll {
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.strip-scroll::-webkit-scrollbar {
+  display: none;
+}

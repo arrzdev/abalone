@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "play": "Oyna",
+    "rules": "Oyun Kuralları",
+    "strategy": "Strateji Rehberi",
+    "faq": "SSS",
+    "about": "Hakkında",
+    "history": "Oyun Geçmişi",
+    "profile": "Profil",
+    "back_to_game": "Bilgisayara Karşı Oyna",
+    "back_to_game_from_page": "Oyunu Oyna"
+  },
+  "buttons": {
+    "play_now": "Şimdi Oyna",
+    "get_started": "Başla",
+    "try_setups": "Farklı Dizilişleri Dene",
+    "learn_strategy": "Stratejiyi Öğren",
+    "start_playing": "Oynamaya Başla",
+    "more_about": "Abalone Hakkında Daha Fazla",
+    "read_rules": "Kuralların Tamamını Oku"
+  },
+  "language": {
+    "select": "Dil Seç",
+    "english": "İngilizce",
+    "german": "Almanca",
+    "french": "Fransızca",
+    "spanish": "İspanyolca",
+    "italian": "İtalyanca",
+    "portuguese": "Portekizce",
+    "change": "Dili değiştir"
+  },
+  "home": {
+    "tagline": "Kazanmak için rakibinin altı bilyesini tahtadan dışarı it.",
+    "game_code": "Oyun kodu",
+    "code_hint": "6 karakter — harf ve rakam",
+    "play_online": "Çevrimiçi oyna",
+    "join_game": "Oyuna katıl",
+    "play_offline": "Çevrimdışı oyna",
+    "rules_link": "Oynamayı öğren",
+    "soon_title": "Çevrimiçi oyun çok yakında",
+    "soon_body": "Henüz eşleştirme sunucusu yok, bu yüzden kod oluşturulamaz veya kodla katılınamaz.",
+    "code_not_sent": "{{code}} kodu hiçbir yere gönderilmedi."
+  },
+  "actions": {
+    "close": "Kapat",
+    "cancel": "Vazgeç"
+  }
+}

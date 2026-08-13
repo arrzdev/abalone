@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "title": "AI'ya Karşı Abalone Oyna - Online Bilgisayar Rakiplerine Meydan Oku | Ücretsiz Oyun",
+    "description": "Online olarak AI rakiplerine karşı Abalone oyna—8 zorluk seviyesi ve birden fazla tahta dizilişi seç. Hamle geçmişi, değerlendirme çubuğu ve anında oynanış sunan ücretsiz tarayıcı oyunu. İndirme gerekmez.",
+    "keywords": "abalone bilgisayara karşı, abalone vs ai, abalone online oyun, abalone zorluk seviyeleri, abalone şimdi oyna, tarayıcı abalone, abalone minimax ai, ücretsiz abalone oyunu, play abalone online",
+    "og_title": "Bilgisayar AI'ya Karşı Abalone - Online Tahta Oyunu",
+    "og_description": "Abalone'da 8 zorluk seviyesine sahip AI rakiplerine meydan oku. Stratejini geliştir ve bu klasik iki kişilik tahta oyununda becerilerini artır.",
+    "twitter_title": "Bilgisayar AI'ya Karşı Abalone",
+    "twitter_description": "8 zorluk seviyesindeki AI rakiplere meydan oku. Tahta dizilişini seç ve bu stratejik bilye itme oyununda siyah veya beyaz olarak oyna.",
+    "structured_data": {
+      "name": "Bilgisayar AI'ya Karşı Abalone",
+      "description": "8 zorluk seviyesiyle (Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master) bilgisayara karşı Abalone oyna. 3 tahta dizilişinden (Standard, Belgian Daisy, German Daisy) birini seç ve siyah veya beyaz olarak oyna. Hamle geçmişi ve değerlendirme çubuğu içeren ücretsiz online oyun.",
+      "audience": "Tahta oyunu oyuncuları, strateji oyunu meraklıları, AI meydan okuması arayanlar"
+    }
+  },
+  "players": {
+    "you": "Sen",
+    "computer": "Bilgisayar"
+  },
+  "controls": {
+    "page_title": "Botlara Karşı Oyna",
+    "marble_design": "Bilye Tasarımı:",
+    "marble_design_classic": "Minimalist",
+    "marble_design_3d": "Gerçekçi",
+    "play_as": "Ben şunu oynarım:",
+    "play_button": "Oyna",
+    "show_coordinates": "Koordinatları göster",
+    "show_eval_bar": "Değerlendirme çubuğunu göster",
+    "resign": "Pes Et",
+    "move_back": "Geri Al",
+    "move_forward": "İleri",
+    "hint": "İpucu",
+    "undo": "Geri al",
+    "rematch": "Rövanş",
+    "new_bot": "Yeni Bot",
+    "difficulty_note_slow": "(Yavaş)",
+    "move_back_aria": "Önceki hamleye git",
+    "move_forward_aria": "Sonraki hamleye git",
+    "hint_aria": "Önerilen bir hamleyi göster",
+    "undo_aria": "Son hamleni geri al",
+    "jump_to_latest": "Son hamleye git",
+    "jump_to_latest_aria": "En son konuma git",
+    "resign_aria": "Mevcut oyundan çekil",
+    "rematch_aria": "Rövanşı başlat",
+    "new_bot_aria": "Farklı botla yeni oyun başlat",
+    "back_to_home": "Ana sayfaya dön",
+    "settings": "Ayarlar",
+    "new_game": "Yeni oyun",
+    "opponent": "Rakip",
+    "board_setup": "Tahta dizilimi",
+    "level": "Seviye {{level}}",
+    "prev_setup": "Önceki dizilim",
+    "next_setup": "Sonraki dizilim",
+    "game_mode": "Oyun modu",
+    "mode_ai": "Bilgisayara karşı",
+    "mode_local": "İki oyuncu",
+    "sound": "Ses",
+    "sound_hint": "Bilyelerin yerine oturması ve tahtadan düşmesi",
+    "mute": "Sesi kapat",
+    "unmute": "Sesi aç",
+    "move_animations": "Hamle animasyonları",
+    "move_animations_hint": "Bilyeleri yeni karesine kaydır",
+    "rotate_board": "Her turda tahtayı döndür",
+    "rotate_board_hint": "Tahtayı, hamle sırası kimdeyse o taraf altta kalacak şekilde çevir",
+    "show_coordinates_hint": "Her karenin içinde eksenel koordinatı göster",
+    "show_eval_bar_hint": "Motorun konumu nasıl değerlendirdiği — yalnızca botlara karşı",
+    "side_group": "Oynanacak taraf",
+    "side_white": "Beyazlarla oyna",
+    "side_black": "Siyahlarla oyna",
+    "side_random": "Rastgele taraf",
+    "marbles_taken": "Rakibin {{total}} bilyesinden {{taken}} tanesi tahtadan çıkarıldı"
+  },
+  "game_state": {
+    "your_turn": "Senin sıran",
+    "opponent_turn": "Rakibin sırası",
+    "thinking": "Düşünüyor...",
+    "game_over": "Oyun Bitti"
+  },
+  "modal": {
+    "you_win": "Kazandın!",
+    "opponent_won": "{{opponent}} Kazandı!",
+    "draw": "Berabere!",
+    "victory_message": "Tebrikler! {{difficulty}} botunu yendin.",
+    "defeat_message": "{{difficulty}} botu bu oyunu kazandı.",
+    "draw_message": "Oyun berabere bitti.",
+    "rematch_button": "Rövanş",
+    "new_bot_button": "Yeni Bot",
+    "by_resignation": "çekilme ile",
+    "by_repetition": "üçlü tekrar ile",
+    "resign_title": "Oyundan çekilinsin mi?",
+    "resign_body": "Oyun hemen biter ve galibiyet rakibine gider. Bu geri alınamaz."
+  },
+  "rules": {
+    "title": "Nasıl oynanır",
+    "intro": "Abalone, 61 haneli altıgen bir tahtada iki kişiyle oynanır. Her taraf 14 bilyeyle başlar ve sırası geldiğinde bir hamle yapar.",
+    "goal": {
+      "title": "Amaç",
+      "body": "Rakibinin altı bilyesini tahtadan dışarı it. Oyunun tamamı bu — sayılacak başka bir şey yok."
+    },
+    "directions": {
+      "title": "Altı yön",
+      "body": "Her hane altı haneye komşudur, yani bir bilye altı yöne gidebilir. Çapraz yok, atlama yok: bilye her zaman hemen yanındaki haneye gider.",
+      "caption": "Tek bir bilyenin gidebileceği altı yön."
+    },
+    "move": {
+      "title": "Bilyeleri oynatmak",
+      "body": "Sırandayken kendi bilyelerinden bir, iki ya da üç tanesini oynatırsın. İki ya da üç bilye düz bir çizgide yan yana olmalı ve hepsi aynı yöne bir hane ilerler.",
+      "inline_caption": "Çizgi boyunca: sıra, zaten baktığı yöne ilerler.",
+      "broadside_caption": "Yana: sıra yana kayar ve gideceği hanelerin hepsi boş olmalıdır."
+    },
+    "push": {
+      "title": "İtmek",
+      "body": "Yalnızca çizgi boyunca yapılan hamle itebilir. O çizgide rakibinden daha çok bilyen olmalı: ikiye bir, üçe bir ya da üçe iki. Rakibin bilyelerinin arkasındaki hane boş olmalıdır.",
+      "ok_caption": "Üçe iki — bütün sıra bir hane ilerler.",
+      "blocked_caption": "Üçe üç asla ilerlemez ve kendi bilyelerini asla itemezsin."
+    },
+    "capture": {
+      "title": "Bilyeleri dışarı itmek",
+      "body": "Kenarın dışına itilen bilye oyundan çıkar. Rakibinin altı bilyesini ilk düşüren kazanır.",
+      "caption": "Kenarda ikiye bir — siyah bilye dışarı çıkar."
+    },
+    "cta": "Şimdi oyna"
+  },
+  "messages": {
+    "select_marble": "Hareket ettirmek için bir bilye seç",
+    "select_destination": "Nereye gideceğini seç",
+    "invalid_move": "Geçersiz hamle",
+    "game_started": "Oyun başladı!",
+    "resigned": "Oyundan çekildin. {{winner}} kazandı!",
+    "connection_error": "Bağlantı hatası. Lütfen tekrar deneyin."
+  },
+  "result": {
+    "black_wins": "Siyah kazanır",
+    "white_wins": "Beyaz kazanır",
+    "draw": "Berabere"
+  },
+  "local": {
+    "title": "İki oyuncu, tek cihaz",
+    "description": "Siyah önce oynar, sonra sıra karşıya geçer. Tahtanın hamle sırası olan tarafa dönmesi için ayarlardan tahta döndürmeyi aç.",
+    "black": "Siyah",
+    "white": "Beyaz",
+    "names": "Oyuncu adları",
+    "player_wins": "{{name}} kazanır"
+  },
+  "colors": {
+    "white": "Beyaz",
+    "random": "Rastgele",
+    "black": "Siyah"
+  },
+  "history": {
+    "empty": "Henüz hamle yok",
+    "start": "Başlangıç",
+    "position": "{{total}} hamleden {{index}}.",
+    "move": "Hamle",
+    "marbles_moved": "Hareket eden bilye: {{n}}",
+    "pushed": "Rakip bilyeler itildi",
+    "captured": "Bilye düşürüldü"
+  },
+  "board": {
+    "label": "Oyun tahtası",
+    "thinking": "düşünüyor"
+  }
+}

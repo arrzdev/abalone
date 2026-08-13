@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "play": "Spelen",
+    "rules": "Spelregels",
+    "strategy": "Strategiegids",
+    "faq": "FAQ",
+    "about": "Over",
+    "history": "Spelgeschiedenis",
+    "profile": "Profiel",
+    "back_to_game": "Speel tegen Computer",
+    "back_to_game_from_page": "Speel Spel"
+  },
+  "buttons": {
+    "play_now": "Speel Nu",
+    "get_started": "Begin",
+    "try_setups": "Probeer Verschillende Opstellingen",
+    "learn_strategy": "Leer Strategie",
+    "start_playing": "Begin met Spelen",
+    "more_about": "Meer Over Abalone",
+    "read_rules": "Lees Volledige Regels"
+  },
+  "language": {
+    "select": "Selecteer Taal",
+    "english": "English",
+    "german": "Deutsch",
+    "french": "Français",
+    "spanish": "Español",
+    "italian": "Italiano",
+    "portuguese": "Português",
+    "change": "Taal wijzigen"
+  },
+  "home": {
+    "tagline": "Duw zes ballen van je tegenstander van het bord om te winnen.",
+    "game_code": "Spelcode",
+    "code_hint": "6 tekens — letters en cijfers",
+    "play_online": "Online spelen",
+    "join_game": "Deelnemen aan spel",
+    "play_offline": "Offline spelen",
+    "rules_link": "Leer spelen",
+    "soon_title": "Online spelen komt eraan",
+    "soon_body": "Er is nog geen matchmakingserver, dus codes kunnen niet worden aangemaakt of gebruikt.",
+    "code_not_sent": "De code {{code}} is nergens naartoe gestuurd."
+  },
+  "actions": {
+    "close": "Sluiten",
+    "cancel": "Annuleren"
+  }
+}

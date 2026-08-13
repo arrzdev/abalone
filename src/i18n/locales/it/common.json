@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "play": "Gioca",
+    "rules": "Regole del gioco",
+    "strategy": "Guida strategica",
+    "faq": "FAQ",
+    "about": "Informazioni",
+    "history": "Cronologia Partite",
+    "profile": "Profilo",
+    "back_to_game": "Gioca contro il computer",
+    "back_to_game_from_page": "Gioca al gioco"
+  },
+  "buttons": {
+    "play_now": "Gioca ora",
+    "get_started": "Inizia",
+    "try_setups": "Prova diverse configurazioni",
+    "learn_strategy": "Impara la strategia",
+    "start_playing": "Inizia a giocare",
+    "more_about": "Maggiori informazioni su Abalone",
+    "read_rules": "Leggi le regole complete"
+  },
+  "language": {
+    "select": "Seleziona lingua",
+    "english": "English",
+    "german": "Deutsch",
+    "french": "Français",
+    "spanish": "Español",
+    "italian": "Italiano",
+    "portuguese": "Português",
+    "change": "Cambia lingua"
+  },
+  "home": {
+    "tagline": "Spingi sei biglie avversarie fuori dal tabellone per vincere.",
+    "game_code": "Codice partita",
+    "code_hint": "6 caratteri — lettere e numeri",
+    "play_online": "Gioca online",
+    "join_game": "Entra nella partita",
+    "play_offline": "Gioca offline",
+    "rules_link": "Impara a giocare",
+    "soon_title": "Il gioco online sta arrivando",
+    "soon_body": "Non c'è ancora un server di matchmaking, quindi i codici non possono essere creati né usati.",
+    "code_not_sent": "Il codice {{code}} non è stato inviato da nessuna parte."
+  },
+  "actions": {
+    "close": "Chiudi",
+    "cancel": "Annulla"
+  }
+}
