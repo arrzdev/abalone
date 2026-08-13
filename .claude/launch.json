@@ -12,6 +12,12 @@
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["--filter", "@repo/backend", "dev"],
       "port": 8181
+    },
+    {
+      "name": "game",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@repo/game", "dev"],
+      "port": 6161
     }
   ]
 }

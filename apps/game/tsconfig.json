@@ -1,0 +1,38 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "include": [
+    "env/**/*.ts",
+    "scripts/**/*.ts",
+    "ports.ts",
+    "vite.config.ts"
+  ],
+  "references": [
+    {
+      "path": "../../packages/dev/tsconfig.build.json"
+    },
+    {
+      "path": "../../packages/env-validation/tsconfig.build.json"
+    }
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/env/*": ["./env/*"],
+      "@/ports": ["./ports.ts"]
+    },
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client", "@types/node"],
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  }
+}
