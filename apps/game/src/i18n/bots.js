@@ -95,7 +95,7 @@ export const titleKey = (level) => `bots:${getBot(level).id}.title`;
  * one file for all three places a bot is shown, since the largest of them is
  * 48px and a retina screen wants twice that.
  *
- * The vector originals are kept in `assets/avatars/` at the project root,
+ * The vector originals are kept in `assets/avatars/` at the root of this app,
  * outside `public/`, so the full-size art is not shipped to draw a thumbnail.
  */
 export const avatarSrc = (level) =>
