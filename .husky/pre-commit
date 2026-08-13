@@ -1,0 +1,11 @@
+# Husky runs this with sh -e; we don't want to fail the commit on lint, so opt out
+set +e
+# Re-stage only files that were already staged (so biome fixes are included in commit)
+STAGED=$(git diff --cached --name-only)
+# Run check to format and apply fixes; do not fail the commit on remaining lint
+pnpm run biome:fix
+# Re-stage; don't fail the hook if add fails (e.g. deleted file)
+echo "$STAGED" | while read -r f; do
+  [ -n "$f" ] && [ -e "$f" ] && git add "$f"
+done
+exit 0

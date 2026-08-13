@@ -1,24 +1,42 @@
 {
-  "name": "abalone-react",
+  "name": "abalone",
   "private": true,
-  "version": "1.0.0",
-  "type": "module",
-  "description": "Abalone vs AI — React port of the vanilla-JS PlayAbalone client",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+  "overrides": {
+    "esbuild": "0.27.3"
   },
-  "dependencies": {
-    "i18next": "^23.16.8",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
-    "react-i18next": "^15.7.4"
+  "scripts": {
+    "prepare": "husky",
+    "dev": "turbo run dev --ui=tui",
+    "dev:clean": "rm -rf node_modules && pnpm install && turbo run dev --ui=tui",
+    "start": "turbo run start --ui=tui",
+    "logs": "tsx packages/dev/src/log-sink.ts",
+    "build": "turbo run build",
+    "biome:fix": "biome check . --write --unsafe",
+    "biome:check": "biome check .",
+    "lint": "pnpm run biome:check",
+    "typecheck": "pnpm exec tsc --build tsconfig.json && pnpm exec tsc --noEmit -p apps/frontend/tsconfig.json && pnpm exec tsc --noEmit -p packages/nativ/tsconfig.json",
+    "tail": "turbo run tail --ui=tui",
+    "migrate:local": "turbo run migrate:local",
+    "test": "turbo run test",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "4.3.3",
-    "@vitejs/plugin-react": "^5.1.0",
-    "tailwindcss": "4.3.3",
-    "vite": "^7.1.14"
-  }
+    "@biomejs/biome": "2.3.11",
+    "@playwright/test": "1.61.1",
+    "@tanstack/intent": "0.0.41",
+    "husky": "9.1.7",
+    "tsx": "4.19.3",
+    "turbo": "2.9.14",
+    "typescript": "5.9.3"
+  },
+  "optionalDependencies": {
+    "@biomejs/cli-linux-x64": "^2.3.11",
+    "@rollup/rollup-linux-x64-gnu": "^4.28.1",
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.0.0",
+    "lightningcss-linux-x64-gnu": "^1.28.2"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@9.15.4"
 }
