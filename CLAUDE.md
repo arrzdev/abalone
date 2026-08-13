@@ -32,6 +32,7 @@ Run from repo root. Fix failures and re-run the failing step until green.
 |---|---|
 | `apps/frontend/` | `pnpm exec turbo run build --filter=@repo/frontend...` |
 | `apps/backend/` | `pnpm exec turbo run build --filter=@repo/backend...` |
+| `apps/game/` | `pnpm exec turbo run build --filter=@repo/game...` |
 | `packages/nativ/` | `pnpm exec turbo run build --filter=@repo/nativ...` |
 | `packages/shared/` | `pnpm exec turbo run build --filter=@repo/shared...` |
 | Multiple or unsure | `pnpm build` |
@@ -52,6 +53,7 @@ Non-trivial task: state your interpretation in one sentence. If two readings wou
 ## Boundaries (always)
 
 - **`packages/*`:** do not edit unless the human **explicitly scoped** that package in this thread. Missing export → stop, report, ask — do not patch the library from app work.
+- **`apps/game/{src,assets,public}`:** the Abalone game, migrated in whole from its own repo. Plain JS/JSX with its own conventions — semicolons, single quotes, relative imports, hand-wrapped comments — and **excluded from Biome and from `pnpm typecheck` on purpose**. Work inside it in *its* style; do not reformat it to the monorepo's, and do not "fix" its imports. Everything else under `apps/game/` (the `package.json`, `wrangler.toml`, `env/`, `ports.ts`, `scripts/`, `vite.config.ts`) is ordinary monorepo code and follows the normal rules.
 - **No dev servers** (`pnpm dev`, `turbo dev`, `wrangler dev`, …) unless the human asked.
 - **Checks fail outside scope:** stop, report evidence, offer choices — do not expand into sibling apps/libs to green CI.
 
