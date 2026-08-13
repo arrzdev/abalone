@@ -1,3 +1,5 @@
+import type { Point } from "@/engine/types"
+
 /**
  * How the board moves: the few timings the game animates to, and the easing
  * that carries a marble from one square to the next.
@@ -25,7 +27,13 @@ export const TIMING = {
   BOT_REPLY: 200,
   /** Beat between a move landing and a hot-seat board turning around. */
   BOARD_FLIP: 500,
-};
+}
+
+/** Where the board stood when it was last drawn, and where it stands now. */
+export type DrawnAt = {
+  index: number
+  moves: number
+}
 
 /**
  * Whether the board got to this position by a move being played, which is the
@@ -39,29 +47,32 @@ export const TIMING = {
  * on its new last move — which also covers playing on from a rewound position,
  * where the list is truncated and re-grown in one step.
  *
- * @param {{index: number|null, moves: number}} before what was last drawn
- * @param {{index: number, moves: number}} after where the board is now
+ * @param before what was last drawn
+ * @param after where the board is now
  */
-export const arrivedByPlaying = (before, after) =>
-  after.index === before.index + 1 &&
+export const arrivedByPlaying = (
+  before: { index: number | null; moves: number },
+  after: DrawnAt,
+) =>
+  after.index === (before.index ?? 0) + 1 &&
   after.index === after.moves - 1 &&
-  after.moves !== before.moves;
+  after.moves !== before.moves
 
 /** Whether animation is on before anyone has said otherwise. */
-export const ANIMATE_BY_DEFAULT = true;
+export const ANIMATE_BY_DEFAULT = true
 
 /**
  * Slow to leave, quick through the middle, slow to arrive. Marbles are heavy,
  * and easing them at both ends is what sells that.
  */
-export const easeInOutCubic = (t) =>
-  t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
+export const easeInOutCubic = (t: number) =>
+  t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2
 
 /** Point `t` of the way from one screen position to another. */
-export const interpolate = (from, to, t) => ({
+export const interpolate = (from: Point, to: Point, t: number): Point => ({
   x: from.x + (to.x - from.x) * t,
   y: from.y + (to.y - from.y) * t,
-});
+})
 
 /**
  * Honoured on the way in only. Someone who has asked their system for less
@@ -69,6 +80,6 @@ export const interpolate = (from, to, t) => ({
  * a stated preference beats an inferred one.
  */
 export const prefersReducedMotion = () =>
-  typeof window !== 'undefined' &&
-  typeof window.matchMedia === 'function' &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  typeof window !== "undefined" &&
+  typeof window.matchMedia === "function" &&
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches

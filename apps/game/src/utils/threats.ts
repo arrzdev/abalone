@@ -1,6 +1,12 @@
-import { linesFor, commitMove, destinationsFor, resolveMove } from '../engine/moves.js';
-import { NOWHERE, nameOf } from '../engine/topology.js';
-import { positionFromNames, rival, sideFromName } from '../engine/position.js';
+import {
+  commitMove,
+  destinationsFor,
+  linesFor,
+  resolveMove,
+} from "@/engine/moves"
+import { positionFromNames, rival, sideFromName } from "@/engine/position"
+import { NOWHERE, nameOf } from "@/engine/topology"
+import type { Board, CellName, Player } from "@/engine/types"
 
 /**
  * Which of a side's marbles the other side could knock off the board right now.
@@ -21,28 +27,36 @@ import { positionFromNames, rival, sideFromName } from '../engine/position.js';
  * Cost is one full move generation, which is the same work the board already
  * does every time a marble is picked up. It runs once per move played.
  *
- * @param {{black: Set<string>, white: Set<string>}} board
- * @param {'black'|'white'} victim  the side whose marbles might be lost
- * @returns {Set<string>} the squares those marbles stand on
+ * @param victim the side whose marbles might be lost
+ * @returns the squares those marbles stand on
  */
-export function marblesAtRisk(board, victim) {
-  const attacker = rival(sideFromName(victim));
-  const position = positionFromNames(board.black, board.white);
-  const doomed = new Set();
+export function marblesAtRisk(
+  board: Board,
+  victim: Player,
+): Set<CellName> {
+  const attacker = rival(sideFromName(victim))
+  const position = positionFromNames(board.black, board.white)
+  const doomed = new Set<CellName>()
 
   for (const line of linesFor(position, attacker)) {
     for (const target of destinationsFor(position, line, attacker)) {
-      const plan = resolveMove(position, line, target, attacker);
+      const plan = resolveMove(position, line, target, attacker)
       // Only a shove can send anything over the rim, so everything else is
       // settled without building a position for it.
-      if (!plan?.shoved.length) continue;
-      const outcome = commitMove(position, line, plan.heading, plan.shoved, attacker);
-      if (!outcome?.captured) continue;
+      if (!plan?.shoved.length) continue
+      const outcome = commitMove(
+        position,
+        line,
+        plan.heading,
+        plan.shoved,
+        attacker,
+      )
+      if (!outcome?.captured) continue
       plan.shoved.forEach((cell, i) => {
-        if (outcome.shovedTo[i] === NOWHERE) doomed.add(nameOf(cell));
-      });
+        if (outcome.shovedTo[i] === NOWHERE) doomed.add(nameOf(cell))
+      })
     }
   }
 
-  return doomed;
+  return doomed
 }
