@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "title": "Gioca ad Abalone contro l'IA - Sfida avversari informatici online | Gioco gratuito",
+    "description": "Gioca ad Abalone contro avversari IA online - scegli tra 8 livelli di difficoltà e più configurazioni del tabellone. Gioco Abalone gratuito basato su browser con cronologia delle mosse, barra di valutazione e gioco istantaneo. Nessun download richiesto.",
+    "keywords": "giocare ad abalone contro computer, abalone vs IA, gioco abalone online, livelli di difficoltà abalone, giocare ad abalone ora, gioco browser abalone, IA minimax abalone, gioco abalone gratuito",
+    "og_title": "Gioca ad Abalone contro l'IA - Gioco da tavolo online",
+    "og_description": "Sfida avversari IA in Abalone con 8 livelli di difficoltà. Pratica la strategia e migliora le tue abilità in questo classico gioco da tavolo per due giocatori.",
+    "twitter_title": "Gioca ad Abalone contro l'IA",
+    "twitter_description": "Sfida avversari IA con 8 livelli di difficoltà. Scegli la tua configurazione del tabellone e gioca come nero o bianco in questo gioco strategico di spinta delle biglie.",
+    "structured_data": {
+      "name": "Gioca ad Abalone contro l'IA",
+      "description": "Gioca ad Abalone contro avversari informatici con 8 livelli di difficoltà (Principiante, Novizio, Studente, Casuale, Intermedio, Avanzato, Esperto, Maestro). Scegli tra 3 configurazioni del tabellone (Standard, Margherita belga, Margherita tedesca) e gioca come nero o bianco. Gioco online gratuito con cronologia delle mosse e barra di valutazione.",
+      "audience": "Giocatori di giochi da tavolo, appassionati di giochi di strategia, cercatori di sfide IA"
+    }
+  },
+  "players": {
+    "you": "Tu",
+    "computer": "Computer"
+  },
+  "controls": {
+    "page_title": "Gioca Bot",
+    "marble_design": "Design delle biglie:",
+    "marble_design_classic": "Minimalista",
+    "marble_design_3d": "Realistico",
+    "play_as": "Io gioco come:",
+    "play_button": "Gioca",
+    "show_coordinates": "Mostra coordinate",
+    "show_eval_bar": "Mostra barra di valutazione",
+    "resign": "Abbandona",
+    "move_back": "Mossa precedente",
+    "move_forward": "Mossa successiva",
+    "hint": "Consiglio",
+    "undo": "Annulla",
+    "rematch": "Rivincita",
+    "new_bot": "Nuovo bot",
+    "difficulty_note_slow": "(Lento)",
+    "move_back_aria": "Vai alla mossa precedente",
+    "move_forward_aria": "Vai alla mossa successiva",
+    "hint_aria": "Mostra una mossa suggerita",
+    "undo_aria": "Ritira la tua ultima mossa",
+    "jump_to_latest": "Vai alla mossa attuale",
+    "jump_to_latest_aria": "Vai alla posizione più recente",
+    "resign_aria": "Abbandona la partita attuale",
+    "rematch_aria": "Inizia una rivincita",
+    "new_bot_aria": "Inizia nuova partita con bot diverso",
+    "back_to_home": "Torna alla home",
+    "settings": "Impostazioni",
+    "new_game": "Nuova partita",
+    "opponent": "Avversario",
+    "board_setup": "Disposizione del tabellone",
+    "level": "Livello {{level}}",
+    "prev_setup": "Disposizione precedente",
+    "next_setup": "Disposizione successiva",
+    "game_mode": "Modalità di gioco",
+    "mode_ai": "vs Computer",
+    "mode_local": "Due giocatori",
+    "sound": "Suono",
+    "sound_hint": "Le biglie che si posano, e quelle che escono dal tabellone",
+    "mute": "Disattiva l'audio",
+    "unmute": "Riattiva l'audio",
+    "move_animations": "Animazioni delle mosse",
+    "move_animations_hint": "Far scorrere le biglie sulla nuova casella",
+    "rotate_board": "Ruota il tabellone a ogni turno",
+    "rotate_board_hint": "Gira il tabellone così chi muove è sempre in basso",
+    "show_coordinates_hint": "Mostra la coordinata assiale in ogni casella",
+    "show_eval_bar_hint": "Come il motore valuta la posizione — solo contro i bot",
+    "side_group": "Lato con cui giocare",
+    "side_white": "Gioca con il bianco",
+    "side_black": "Gioca con il nero",
+    "side_random": "Lato casuale",
+    "marbles_taken": "{{taken}} biglie avversarie su {{total}} spinte fuori"
+  },
+  "game_state": {
+    "your_turn": "Il tuo turno",
+    "opponent_turn": "Turno dell'avversario",
+    "thinking": "Pensando...",
+    "game_over": "Partita terminata"
+  },
+  "modal": {
+    "you_win": "Hai vinto!",
+    "opponent_won": "{{opponent}} ha vinto!",
+    "draw": "Pareggio!",
+    "victory_message": "Congratulazioni! Hai sconfitto il bot {{difficulty}}.",
+    "defeat_message": "Il bot {{difficulty}} ha vinto questa partita.",
+    "draw_message": "La partita è finita in pareggio.",
+    "rematch_button": "Rivincita",
+    "new_bot_button": "Nuovo bot",
+    "by_resignation": "per abbandono",
+    "by_repetition": "per tripla ripetizione",
+    "resign_title": "Abbandonare la partita?",
+    "resign_body": "La partita finisce subito e la vittoria va al tuo avversario. Non è reversibile."
+  },
+  "rules": {
+    "title": "Come si gioca",
+    "intro": "Abalone è un gioco per due su un tabellone esagonale di 61 caselle. Ogni giocatore parte con 14 biglie e muove una volta per turno.",
+    "goal": {
+      "title": "L'obiettivo",
+      "body": "Spingi sei biglie avversarie fuori dal tabellone. È tutto qui — non c'è altro da contare."
+    },
+    "directions": {
+      "title": "Sei direzioni",
+      "body": "Ogni casella ne tocca altre sei, quindi una biglia può muoversi in sei direzioni. Niente diagonali e niente salti: una biglia va sempre su una casella adiacente.",
+      "caption": "Le sei direzioni possibili per una biglia."
+    },
+    "move": {
+      "title": "Muovere le biglie",
+      "body": "Nel tuo turno muovi una, due o tre biglie tue. Due o tre devono essere affiancate in linea retta e si spostano tutte di una casella nella stessa direzione.",
+      "inline_caption": "In linea: la fila avanza nella direzione in cui già punta.",
+      "broadside_caption": "Di fianco: la fila si sposta lateralmente e tutte le caselle d'arrivo devono essere libere."
+    },
+    "push": {
+      "title": "Spingere",
+      "body": "Solo una mossa in linea può spingere. Ti servono più biglie dell’avversario su quella linea: due contro una, tre contro una o tre contro due. La casella dietro le biglie avversarie deve essere libera.",
+      "ok_caption": "Tre contro due: tutta la fila avanza di una casella.",
+      "blocked_caption": "Tre contro tre non si muove mai, e non puoi mai spingere le tue stesse biglie."
+    },
+    "capture": {
+      "title": "Spingere fuori le biglie",
+      "body": "Una biglia spinta oltre il bordo è fuori dal gioco. Vince chi per primo fa uscire sei biglie avversarie.",
+      "caption": "Due contro una sul bordo: la biglia nera esce."
+    },
+    "cta": "Gioca ora"
+  },
+  "messages": {
+    "select_marble": "Seleziona una biglia da muovere",
+    "select_destination": "Seleziona la destinazione",
+    "invalid_move": "Mossa non valida",
+    "game_started": "Partita iniziata!",
+    "resigned": "Ti sei arreso. {{winner}} vince!",
+    "connection_error": "Errore di connessione. Riprova."
+  },
+  "result": {
+    "black_wins": "Vince il nero",
+    "white_wins": "Vince il bianco",
+    "draw": "Pareggio"
+  },
+  "local": {
+    "title": "Due giocatori, un dispositivo",
+    "description": "Il nero muove per primo, poi il turno passa. Attiva la rotazione del tabellone nelle impostazioni per girarlo verso chi deve muovere.",
+    "black": "Nero",
+    "white": "Bianco",
+    "names": "Nomi dei giocatori",
+    "player_wins": "Vince {{name}}"
+  },
+  "colors": {
+    "white": "Bianco",
+    "random": "Casuale",
+    "black": "Nero"
+  },
+  "history": {
+    "empty": "Ancora nessuna mossa",
+    "start": "Inizio",
+    "position": "Mossa {{index}} di {{total}}",
+    "move": "Mossa",
+    "marbles_moved": "Biglie mosse: {{n}}",
+    "pushed": "Biglie avversarie spinte",
+    "captured": "Biglia catturata"
+  },
+  "board": {
+    "label": "Tabellone di gioco",
+    "thinking": "sta pensando"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "nav": {
+    "play": "Graj",
+    "rules": "Zasady Gry",
+    "strategy": "Przewodnik Strategiczny",
+    "faq": "FAQ",
+    "about": "O grze",
+    "history": "Historia Gier",
+    "profile": "Profil",
+    "back_to_game": "Graj przeciwko Komputerowi",
+    "back_to_game_from_page": "Graj w Grę"
+  },
+  "buttons": {
+    "play_now": "Graj Teraz",
+    "get_started": "Rozpocznij",
+    "try_setups": "Wypróbuj Różne Ustawienia",
+    "learn_strategy": "Naucz się Strategii",
+    "start_playing": "Zacznij Grać",
+    "more_about": "Więcej o Abalone",
+    "read_rules": "Przeczytaj Pełne Zasady"
+  },
+  "language": {
+    "select": "Wybierz Język",
+    "english": "English",
+    "german": "Deutsch",
+    "french": "Français",
+    "spanish": "Español",
+    "italian": "Italiano",
+    "portuguese": "Português",
+    "change": "Zmień język"
+  },
+  "home": {
+    "tagline": "Wypchnij sześć kul przeciwnika poza planszę, aby wygrać.",
+    "game_code": "Kod gry",
+    "code_hint": "6 znaków — litery i cyfry",
+    "play_online": "Graj online",
+    "join_game": "Dołącz do gry",
+    "play_offline": "Graj offline",
+    "rules_link": "Naucz się grać",
+    "soon_title": "Gra online już wkrótce",
+    "soon_body": "Nie ma jeszcze serwera parowania, więc nie można tworzyć kodów ani do nich dołączać.",
+    "code_not_sent": "Kod {{code}} nie został nigdzie wysłany."
+  },
+  "actions": {
+    "close": "Zamknij",
+    "cancel": "Anuluj"
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "title": "Jouer à Abalone contre l'IA - Défiez des adversaires informatiques en ligne | Jeu gratuit",
+    "description": "Jouez à Abalone contre des adversaires IA en ligne - choisissez parmi 8 niveaux de difficulté et plusieurs configurations de plateau. Jeu Abalone gratuit basé sur navigateur avec historique des coups, barre d'évaluation et jeu instantané. Aucun téléchargement requis.",
+    "keywords": "jouer à abalone contre ordinateur, abalone vs IA, jeu abalone en ligne, niveaux de difficulté abalone, jouer à abalone maintenant, jeu navigateur abalone, IA minimax abalone, jeu abalone gratuit",
+    "og_title": "Jouer à Abalone contre l'IA - Jeu de société en ligne",
+    "og_description": "Défiez des adversaires IA dans Abalone avec 8 niveaux de difficulté. Pratiquez la stratégie et améliorez vos compétences dans ce jeu de société classique pour deux joueurs.",
+    "twitter_title": "Jouer à Abalone contre l'IA",
+    "twitter_description": "Défiez des adversaires IA avec 8 niveaux de difficulté. Choisissez votre configuration de plateau et jouez en noir ou blanc dans ce jeu stratégique de poussée de billes.",
+    "structured_data": {
+      "name": "Jouer à Abalone contre l'IA",
+      "description": "Jouez à Abalone contre des adversaires informatiques avec 8 niveaux de difficulté (Débutant, Novice, Apprenant, Occasionnel, Intermédiaire, Avancé, Expert, Maître). Choisissez parmi 3 configurations de plateau (Standard, Marguerite belge, Marguerite allemande) et jouez en noir ou blanc. Jeu en ligne gratuit avec historique des coups et barre d'évaluation.",
+      "audience": "Joueurs de jeux de société, passionnés de jeux de stratégie, chercheurs de défis IA"
+    }
+  },
+  "players": {
+    "you": "Vous",
+    "computer": "Ordinateur"
+  },
+  "controls": {
+    "page_title": "Jouer Bots",
+    "marble_design": "Design des billes :",
+    "marble_design_classic": "Minimaliste",
+    "marble_design_3d": "Réaliste",
+    "play_as": "Je joue en tant que :",
+    "play_button": "Jouer",
+    "show_coordinates": "Afficher les coordonnées",
+    "show_eval_bar": "Afficher la barre d'évaluation",
+    "resign": "Abandonner",
+    "move_back": "Coup précédent",
+    "move_forward": "Coup suivant",
+    "hint": "Indice",
+    "undo": "Annuler",
+    "rematch": "Revanche",
+    "new_bot": "Nouveau bot",
+    "difficulty_note_slow": "(Lent)",
+    "move_back_aria": "Aller au coup précédent",
+    "move_forward_aria": "Aller au coup suivant",
+    "hint_aria": "Afficher un coup suggéré",
+    "undo_aria": "Reprendre votre dernier coup",
+    "jump_to_latest": "Aller au coup actuel",
+    "jump_to_latest_aria": "Aller à la position la plus récente",
+    "resign_aria": "Abandonner la partie actuelle",
+    "rematch_aria": "Commencer une revanche",
+    "new_bot_aria": "Commencer une nouvelle partie avec un autre bot",
+    "back_to_home": "Retour à l'accueil",
+    "settings": "Paramètres",
+    "new_game": "Nouvelle partie",
+    "opponent": "Adversaire",
+    "board_setup": "Disposition du plateau",
+    "level": "Niveau {{level}}",
+    "prev_setup": "Disposition précédente",
+    "next_setup": "Disposition suivante",
+    "game_mode": "Mode de jeu",
+    "mode_ai": "vs Ordinateur",
+    "mode_local": "Deux joueurs",
+    "sound": "Son",
+    "sound_hint": "Les billes qui se posent, et celles qui tombent du plateau",
+    "mute": "Couper le son",
+    "unmute": "Rétablir le son",
+    "move_animations": "Animations des coups",
+    "move_animations_hint": "Faire glisser les billes vers leur nouvelle case",
+    "rotate_board": "Pivoter le plateau à chaque tour",
+    "rotate_board_hint": "Retourner le plateau pour que le joueur au trait soit toujours en bas",
+    "show_coordinates_hint": "Afficher la coordonnée axiale dans chaque case",
+    "show_eval_bar_hint": "Comment le moteur évalue la position — parties contre bots uniquement",
+    "side_group": "Camp à jouer",
+    "side_white": "Jouer les blancs",
+    "side_black": "Jouer les noirs",
+    "side_random": "Camp aléatoire",
+    "marbles_taken": "{{taken}} billes adverses sur {{total}} poussées hors du plateau"
+  },
+  "game_state": {
+    "your_turn": "Votre tour",
+    "opponent_turn": "Tour de l'adversaire",
+    "thinking": "Réflexion...",
+    "game_over": "Partie terminée"
+  },
+  "modal": {
+    "you_win": "Vous gagnez !",
+    "opponent_won": "{{opponent}} a gagné !",
+    "draw": "Match nul !",
+    "victory_message": "Félicitations ! Vous avez vaincu le bot {{difficulty}}.",
+    "defeat_message": "Le bot {{difficulty}} a gagné cette partie.",
+    "draw_message": "La partie s'est terminée par un match nul.",
+    "rematch_button": "Revanche",
+    "new_bot_button": "Nouveau bot",
+    "by_resignation": "par abandon",
+    "by_repetition": "par triple répétition",
+    "resign_title": "Abandonner la partie ?",
+    "resign_body": "La partie se termine immédiatement et la victoire revient à votre adversaire. C’est irréversible."
+  },
+  "rules": {
+    "title": "Comment jouer",
+    "intro": "Abalone se joue à deux sur un plateau hexagonal de 61 cases. Chaque camp commence avec 14 billes et joue un coup par tour.",
+    "goal": {
+      "title": "L'objectif",
+      "body": "Pousser six billes adverses hors du plateau. C'est tout le jeu — il n'y a rien d'autre à compter."
+    },
+    "directions": {
+      "title": "Six directions",
+      "body": "Chaque case en touche six autres, donc une bille peut se déplacer dans six directions. Ni diagonales ni sauts : une bille va toujours sur une case voisine.",
+      "caption": "Les six directions offertes à une bille."
+    },
+    "move": {
+      "title": "Déplacer les billes",
+      "body": "À ton tour, tu déplaces une, deux ou trois de tes billes. Deux ou trois doivent être côte à côte en ligne droite, et elles avancent toutes d'une case dans la même direction.",
+      "inline_caption": "En ligne : la rangée avance dans la direction qu'elle indique déjà.",
+      "broadside_caption": "En flanc : la rangée se décale sur le côté, et toutes les cases d'arrivée doivent être vides."
+    },
+    "push": {
+      "title": "Pousser",
+      "body": "Seul un coup en ligne peut pousser. Il te faut plus de billes que l'adversaire sur cette ligne : deux contre une, trois contre une ou trois contre deux. La case derrière les billes adverses doit être libre.",
+      "ok_caption": "Trois contre deux : toute la ligne avance d'une case.",
+      "blocked_caption": "Trois contre trois ne bouge jamais, et tu ne peux jamais pousser tes propres billes."
+    },
+    "capture": {
+      "title": "Sortir des billes",
+      "body": "Une bille poussée au-delà du bord est éliminée. Le premier à sortir six billes adverses gagne la partie.",
+      "caption": "Deux contre une au bord : la bille noire sort."
+    },
+    "cta": "Jouer maintenant"
+  },
+  "messages": {
+    "select_marble": "Sélectionnez une bille à déplacer",
+    "select_destination": "Sélectionnez la destination",
+    "invalid_move": "Coup invalide",
+    "game_started": "Partie commencée !",
+    "resigned": "Vous avez abandonné. {{winner}} gagne !",
+    "connection_error": "Erreur de connexion. Veuillez réessayer."
+  },
+  "result": {
+    "black_wins": "Les noirs gagnent",
+    "white_wins": "Les blancs gagnent",
+    "draw": "Match nul"
+  },
+  "local": {
+    "title": "Deux joueurs, un appareil",
+    "description": "Les noirs commencent, puis le tour passe. Activez la rotation du plateau dans les paramètres pour le retourner vers le joueur au trait.",
+    "black": "Noirs",
+    "white": "Blancs",
+    "names": "Noms des joueurs",
+    "player_wins": "{{name}} gagne"
+  },
+  "colors": {
+    "white": "Blancs",
+    "random": "Aléatoire",
+    "black": "Noirs"
+  },
+  "history": {
+    "empty": "Aucun coup pour l'instant",
+    "start": "Début",
+    "position": "Coup {{index}} sur {{total}}",
+    "move": "Coup",
+    "marbles_moved": "Billes déplacées : {{n}}",
+    "pushed": "Billes adverses poussées",
+    "captured": "Bille capturée"
+  },
+  "board": {
+    "label": "Plateau de jeu",
+    "thinking": "réflexion"
+  }
+}

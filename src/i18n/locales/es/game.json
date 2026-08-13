@@ -1,0 +1,163 @@
+{
+  "meta": {
+    "title": "Jugar Abalone contra IA - Desafía oponentes informáticos en línea | Juego gratuito",
+    "description": "Juega Abalone contra oponentes IA en línea - elige entre 8 niveles de dificultad y múltiples configuraciones de tablero. Juego Abalone gratuito basado en navegador con historial de movimientos, barra de evaluación y juego instantáneo. No requiere descarga.",
+    "keywords": "jugar abalone contra computadora, abalone vs IA, juego abalone en línea, niveles de dificultad abalone, jugar abalone ahora, juego navegador abalone, IA minimax abalone, juego abalone gratis",
+    "og_title": "Jugar Abalone contra IA - Juego de mesa en línea",
+    "og_description": "Desafía oponentes IA en Abalone con 8 niveles de dificultad. Practica estrategia y mejora tus habilidades en este juego de mesa clásico para dos jugadores.",
+    "twitter_title": "Jugar Abalone contra IA",
+    "twitter_description": "Desafía oponentes IA con 8 niveles de dificultad. Elige tu configuración de tablero y juega como negro o blanco en este juego estratégico de empuje de canicas.",
+    "structured_data": {
+      "name": "Jugar Abalone contra IA",
+      "description": "Juega Abalone contra oponentes informáticos con 8 niveles de dificultad (Principiante, Novato, Aprendiz, Casual, Intermedio, Avanzado, Experto, Maestro). Elige entre 3 configuraciones de tablero (Estándar, Margarita belga, Margarita alemana) y juega como negro o blanco. Juego en línea gratuito con historial de movimientos y barra de evaluación.",
+      "audience": "Jugadores de juegos de mesa, entusiastas de juegos de estrategia, buscadores de desafíos de IA"
+    }
+  },
+  "players": {
+    "you": "Tú",
+    "computer": "Computadora"
+  },
+  "controls": {
+    "page_title": "Jugar Bots",
+    "marble_design": "Diseño de canicas:",
+    "marble_design_classic": "Minimalista",
+    "marble_design_3d": "Realista",
+    "play_as": "Yo juego como:",
+    "play_button": "Jugar",
+    "show_coordinates": "Mostrar coordenadas",
+    "show_eval_bar": "Mostrar barra de evaluación",
+    "resign": "Rendirse",
+    "move_back": "Movimiento anterior",
+    "move_forward": "Movimiento siguiente",
+    "hint": "Pista",
+    "undo": "Deshacer",
+    "rematch": "Revancha",
+    "new_bot": "Nuevo bot",
+    "difficulty_note_slow": "(Lento)",
+    "move_back_aria": "Ir al movimiento anterior",
+    "move_forward_aria": "Ir al siguiente movimiento",
+    "hint_aria": "Mostrar una jugada sugerida",
+    "undo_aria": "Retirar tu última jugada",
+    "jump_to_latest": "Ir a la jugada actual",
+    "jump_to_latest_aria": "Ir a la posición más reciente",
+    "resign_aria": "Rendirse en el juego actual",
+    "rematch_aria": "Comenzar una revancha",
+    "new_bot_aria": "Comenzar nuevo juego con diferente bot",
+    "back_to_home": "Volver al inicio",
+    "settings": "Ajustes",
+    "new_game": "Nueva partida",
+    "opponent": "Rival",
+    "board_setup": "Disposición del tablero",
+    "level": "Nivel {{level}}",
+    "prev_setup": "Disposición anterior",
+    "next_setup": "Disposición siguiente",
+    "game_mode": "Modo de juego",
+    "mode_ai": "vs Ordenador",
+    "mode_local": "Dos jugadores",
+    "sound": "Sonido",
+    "sound_hint": "Las bolas al posarse, y las que salen del tablero",
+    "mute": "Silenciar",
+    "unmute": "Activar el sonido",
+    "move_animations": "Animaciones de movimiento",
+    "move_animations_hint": "Deslizar las bolas hasta su nueva casilla",
+    "rotate_board": "Girar el tablero cada turno",
+    "rotate_board_hint": "Voltear el tablero para que quien mueve esté siempre abajo",
+    "show_coordinates_hint": "Mostrar la coordenada axial dentro de cada casilla",
+    "show_eval_bar_hint": "Cómo el motor valora la posición — solo contra bots",
+    "side_group": "Lado con el que jugar",
+    "side_white": "Jugar con blancas",
+    "side_black": "Jugar con negras",
+    "side_random": "Lado aleatorio",
+    "marbles_taken": "{{taken}} de {{total}} bolas del rival expulsadas"
+  },
+  "game_state": {
+    "your_turn": "Tu turno",
+    "opponent_turn": "Turno del oponente",
+    "thinking": "Pensando...",
+    "game_over": "Juego terminado"
+  },
+  "modal": {
+    "you_win": "¡Ganaste!",
+    "opponent_won": "¡{{opponent}} ganó!",
+    "draw": "¡Empate!",
+    "victory_message": "¡Felicidades! Derrotaste al bot {{difficulty}}.",
+    "defeat_message": "El bot {{difficulty}} ganó este juego.",
+    "draw_message": "El juego terminó en empate.",
+    "rematch_button": "Revancha",
+    "new_bot_button": "Nuevo bot",
+    "by_resignation": "por abandono",
+    "by_repetition": "por triple repetición",
+    "resign_title": "¿Rendirse en la partida?",
+    "resign_body": "La partida termina de inmediato y la victoria es para tu rival. No se puede deshacer."
+  },
+  "rules": {
+    "title": "Cómo jugar",
+    "intro": "Abalone es un juego para dos jugadores en un tablero hexagonal de 61 casillas. Cada bando empieza con 14 bolas y mueve una vez por turno.",
+    "goal": {
+      "title": "El objetivo",
+      "body": "Empuja seis bolas del rival fuera del tablero. Ese es todo el juego: no hay nada más que contar."
+    },
+    "directions": {
+      "title": "Seis direcciones",
+      "body": "Cada casilla toca otras seis, así que una bola puede moverse en seis direcciones. No hay diagonales ni saltos: una bola siempre va a una casilla contigua.",
+      "caption": "Las seis direcciones posibles para una bola."
+    },
+    "move": {
+      "title": "Mover las bolas",
+      "body": "En tu turno mueves una, dos o tres bolas propias. Dos o tres deben estar juntas en línea recta, y todas avanzan una casilla en la misma dirección.",
+      "inline_caption": "En línea: la fila avanza en la dirección a la que ya apunta.",
+      "broadside_caption": "De lado: la fila se desplaza lateralmente y todas las casillas de destino deben estar vacías."
+    },
+    "push": {
+      "title": "Empujar",
+      "body": "Solo un movimiento en línea puede empujar. Necesitas más bolas en esa línea que el rival: dos contra una, tres contra una o tres contra dos. La casilla detrás de las bolas del rival debe estar vacía.",
+      "ok_caption": "Tres contra dos: toda la línea avanza una casilla.",
+      "blocked_caption": "Tres contra tres nunca se mueve, y nunca puedes empujar tus propias bolas."
+    },
+    "capture": {
+      "title": "Sacar bolas del tablero",
+      "body": "Una bola empujada más allá del borde queda fuera del juego. Gana quien primero saque seis bolas del rival.",
+      "caption": "Dos contra una en el borde: la bola negra sale."
+    },
+    "cta": "Jugar ahora"
+  },
+  "messages": {
+    "select_marble": "Selecciona una canica para mover",
+    "select_destination": "Selecciona el destino",
+    "invalid_move": "Movimiento inválido",
+    "game_started": "¡Juego iniciado!",
+    "resigned": "Te rendiste. ¡{{winner}} gana!",
+    "connection_error": "Error de conexión. Por favor, inténtalo de nuevo."
+  },
+  "result": {
+    "black_wins": "Ganan las negras",
+    "white_wins": "Ganan las blancas",
+    "draw": "Empate"
+  },
+  "local": {
+    "title": "Dos jugadores, un dispositivo",
+    "description": "Las negras mueven primero y luego pasa el turno. Activa la rotación del tablero en los ajustes para voltearlo hacia quien mueve.",
+    "black": "Negras",
+    "white": "Blancas",
+    "names": "Nombres de jugadores",
+    "player_wins": "Gana {{name}}"
+  },
+  "colors": {
+    "white": "Blancas",
+    "random": "Aleatorio",
+    "black": "Negras"
+  },
+  "history": {
+    "empty": "Aún no hay movimientos",
+    "start": "Inicio",
+    "position": "Jugada {{index}} de {{total}}",
+    "move": "Movimiento",
+    "marbles_moved": "Bolas movidas: {{n}}",
+    "pushed": "Bolas del rival empujadas",
+    "captured": "Bola capturada"
+  },
+  "board": {
+    "label": "Tablero de juego",
+    "thinking": "pensando"
+  }
+}
