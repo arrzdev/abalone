@@ -1,0 +1,210 @@
+{
+  "$comment": [
+    "Mechanical path -> skills routing, consumed by .claude/hooks/route-skills.py",
+    "(PreToolUse on Edit/Write/MultiEdit). This is the machine-readable half of the",
+    "routing table in CLAUDE.md: that table matches on TRIGGER WORDS in a request,",
+    "this file matches on the FILE ABOUT TO BE EDITED. Keep them in sync — a new",
+    "skill needs a row in both, or it only fires for one of the two paths.",
+    "",
+    "Rules are evaluated in order; every rule whose glob matches contributes its",
+    "skills. Order is preserved and duplicates are dropped, so `baseline` first",
+    "gives the same read order the CLAUDE.md table prescribes."
+  ],
+  "baseline": {
+    "globs": [
+      "apps/**/*.ts",
+      "apps/**/*.tsx",
+      "packages/**/*.ts",
+      "packages/**/*.tsx"
+    ],
+    "skills": [
+      "core-code-style",
+      "core-repository-layout",
+      "core-imports"
+    ]
+  },
+  "rules": [
+    {
+      "name": "backend — services and facades",
+      "globs": [
+        "apps/backend/src/services/**",
+        "apps/backend/src/facades/**",
+        "apps/backend/src/modules/**"
+      ],
+      "skills": [
+        "core-backend-architecture",
+        "core-try-catch",
+        "core-custom-errors",
+        "stack-database"
+      ]
+    },
+    {
+      "name": "auth",
+      "globs": [
+        "apps/backend/src/services/auth.service.ts",
+        "apps/backend/src/http/middlewares/auth.ts",
+        "apps/backend/src/http/routes/auth.routes.ts",
+        "apps/backend/src/http/network-policy.ts",
+        "apps/backend/src/utils/is-private-origin.ts",
+        "apps/backend/src/database/auth.schema.ts",
+        "apps/frontend/src/data/auth/**",
+        "apps/frontend/src/components/auth/**",
+        "apps/frontend/src/providers/auth-provider.tsx"
+      ],
+      "skills": [
+        "stack-auth"
+      ]
+    },
+    {
+      "name": "backend — HTTP routes and middleware",
+      "globs": [
+        "apps/backend/src/http/**"
+      ],
+      "skills": [
+        "stack-api-routes",
+        "core-backend-architecture",
+        "core-custom-errors",
+        "core-copywriting"
+      ]
+    },
+    {
+      "name": "database — schema and migrations",
+      "globs": [
+        "apps/backend/src/database/schema.ts",
+        "apps/backend/src/database/*.schema.ts",
+        "apps/backend/src/database/migrations/**",
+        "apps/backend/src/database/drizzle.config.ts"
+      ],
+      "skills": [
+        "stack-database-migrations",
+        "stack-database"
+      ]
+    },
+    {
+      "name": "database — client and queries",
+      "globs": [
+        "apps/backend/src/database/**"
+      ],
+      "skills": [
+        "stack-database",
+        "core-try-catch"
+      ]
+    },
+    {
+      "name": "offline sync engine",
+      "globs": [
+        "packages/synq/**",
+        "apps/frontend/src/data/sync/**",
+        "apps/frontend/src/data/collections/**",
+        "apps/frontend/src/data/store.ts",
+        "apps/backend/src/services/sync.service.ts",
+        "apps/backend/src/http/routes/sync.routes.ts"
+      ],
+      "skills": [
+        "stack-sync-engine",
+        "stack-frontend-data"
+      ]
+    },
+    {
+      "name": "frontend — data layer",
+      "globs": [
+        "apps/frontend/src/data/**"
+      ],
+      "skills": [
+        "stack-frontend-data",
+        "core-try-catch"
+      ]
+    },
+    {
+      "name": "frontend — UI components",
+      "globs": [
+        "apps/frontend/src/components/**",
+        "apps/frontend/src/routing/**",
+        "apps/frontend/src/hooks/**"
+      ],
+      "skills": [
+        "core-react-components",
+        "core-motion",
+        "core-input-handling"
+      ]
+    },
+    {
+      "name": "frontend — shell, layout, PWA",
+      "globs": [
+        "apps/frontend/src/components/ui/**",
+        "apps/frontend/nativ.config.ts",
+        "apps/frontend/src/styles/**",
+        "apps/frontend/src/sw.ts",
+        "packages/nativ/**"
+      ],
+      "skills": [
+        "stack-ui-shell",
+        "core-react-components",
+        "platform-ios-webkit",
+        "stack-gotchas"
+      ]
+    },
+    {
+      "name": "environment and config",
+      "globs": [
+        "apps/*/env/**",
+        "apps/*/wrangler.toml",
+        ".github/scripts/write-env-from-schema.ts"
+      ],
+      "skills": [
+        "stack-env-config",
+        "stack-deploy-environments"
+      ]
+    },
+    {
+      "name": "tests",
+      "globs": [
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/test-support/**",
+        "e2e/**",
+        "**/vitest.config.ts",
+        "playwright.config.ts"
+      ],
+      "skills": [
+        "core-testing",
+        "stack-testing-setup"
+      ]
+    },
+    {
+      "name": "CI/CD and deploy",
+      "globs": [
+        ".github/workflows/**",
+        ".github/scripts/**",
+        ".github/deploy-units.jsonc"
+      ],
+      "skills": [
+        "core-ci-cd",
+        "stack-deploy-environments"
+      ]
+    },
+    {
+      "name": "dev tooling",
+      "globs": [
+        "packages/dev/**",
+        "apps/*/scripts/**",
+        "apps/*/ports.ts"
+      ],
+      "skills": [
+        "stack-debugging",
+        "stack-gotchas"
+      ]
+    },
+    {
+      "name": "authoring a skill",
+      "globs": [
+        ".claude/skills/**"
+      ],
+      "skills": [
+        "core-skill-authoring",
+        "core-copywriting"
+      ],
+      "note": "Skills are long-lived doctrine carried between projects — never delete one because this repo lacks that tech."
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+---
+description: Entry point — how to proceed, boundaries, and skill routing (read matching skills before editing)
+alwaysApply: true
+---
+
+You are a senior fullstack engineer. The human owns structure and tradeoffs; you implement inside that space. **Bias autonomy** — proceed on clear work; **ask** when uncertain or before aggressive actions.
+
+## Communication — optimize response tokens
+
+**Default:** ship work, not essays. Prefer **tool calls** (edit, write, delete, run commands) over narrating what you will do.
+
+| Mode | Rule |
+|------|------|
+| **User-facing replies** | Minimal prose. 0–3 sentences when done unless the human asked for explanation. No recap of every file touched. No sign-off fluff. |
+| **Two modes** | **Terse by default** — ship + one-line handoff. Switch to **teach mode** (reasoning, tradeoffs, where I'd challenge you) when the human asks a why/how/review/teach question, says "explain"/"teach", or we're in a design/learning session. |
+| **Thinking** | Deeper reasoning is fine — but **structure it** (steps, checks, open questions). No repeated restating of the same point. |
+| **Plans / specs** | Straight-to-the-point implementation spec: short sections, bullets, clear order. Easy to scan. No filler, no motivational text, no repeating the prompt. |
+
+**Handoff after implementation:** what changed + how to verify — not a tutorial.
+
+**Verify gate:** after any source edit, run typecheck + Biome + build from **`verify-after-changes`** before stopping. A task is not done with failing checks.
+
+## Before editing code
+
+1. **Match** the task to the routing table (keywords, files, layers). Multiple rows can apply — union their skills, dedupe, keep order.
+2. **Read** every listed skill under `.cursor/skills/<tier>/<name>/SKILL.md` (the routing table gives the full `<tier>/<name>`) in full before changing files.
+3. **Discover** this repo — `package.json`, workspace members, similar existing files. Skills are portable rules; names and paths come from the repo.
+
+Non-trivial task: state your interpretation in one sentence. If two readings would produce different work — ask and wait.
+
+## Boundaries (always)
+
+- **`packages/*`:** do not edit unless the human **explicitly scoped** that package in this thread. Missing export → stop, report, ask — do not patch the library from app work.
+- **No dev servers** (`pnpm dev`, `turbo dev`, `wrangler dev`, …) unless the human asked.
+- **Checks fail outside scope:** stop, report evidence, offer choices — do not expand into sibling apps/libs to green CI.
+
+**Aggressive — ask first:** commits/push/deploy; destructive git or DDL; deleting large code; new deps/exports; editing `packages/*`; ambiguous requirements.
+
+Full autonomy, handoff, verification: read **`core/agent-behavior`** skill.
+
+## Skill routing
+
+Read skills **in table order** (top to bottom within a row). When several rows match, concatenate lists without duplicating.
+
+Skills are organized in two tiers:
+
+- **`core/`** — portable doctrine (style, process, architecture taste, error/test patterns). Survives a copy into a new project.
+- **`stack/`** — this repo's specific tech (Cloudflare/Hono/Drizzle/D1, TanStack, the `@repo/nativ` shell, the dev log sink). Re-derive when porting.
+
+Skills live at `.cursor/skills/<tier>/<name>/SKILL.md` — the `Skill` column gives the full `<tier>/<name>`.
+
+### Baseline — any `.ts` / `.tsx` implementation or review
+
+**Triggers:** implement, fix, refactor, add, review code, any change under `apps/` or `packages/`.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/code-style` |
+| 2 | `core/repository-layout` |
+| 3 | `core/imports` |
+
+### Fallible I/O and error translation
+
+**Triggers:** `tryCatch`, `try/catch`, throw, catch, handle error, fallible, async failure, parse, network, database query execution, envelope, `CustomError`, `error_code`.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/try-catch` |
+| 2 | `core/custom-errors` |
+| 3 | `core/copywriting` |
+
+### User-facing copy
+
+**Triggers:** copywriting, user-facing text, error message, copy, microcopy, label, button text, toast, empty state, placeholder, notification, wording, `ERROR_CODES` message.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/copywriting` |
+
+### Backend — services and facades
+
+**Triggers:** `.service.ts`, `.facade.ts`, business logic, domain class, `AppContext`, orchestrat, multi-service, `db.transaction`, cross-domain.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/backend-architecture` |
+| 2 | `core/try-catch` |
+| 3 | `core/custom-errors` |
+| 4 | `stack/database` |
+
+### Backend — HTTP routes
+
+**Triggers:** `.routes.ts`, route, endpoint, Hono, handler, REST, `ok(`, validation middleware, auth middleware, API.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `stack/api-routes` |
+| 2 | `core/backend-architecture` |
+| 3 | `core/custom-errors` |
+
+### Database — schema and migrations
+
+**Triggers:** migration, DDL, `drizzle-kit`, schema change, `ALTER`, `CREATE TABLE`, deploy pipeline + DB, D1.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `stack/database-migrations` |
+| 2 | `stack/database` |
+
+### Database — queries only (no migration)
+
+**Triggers:** Drizzle, D1, `db.batch`, `db.transaction`, select/insert/update/delete, atomic writes.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `stack/database` |
+| 2 | `core/try-catch` |
+
+### Frontend — data layer
+
+**Triggers:** `src/data/`, TanStack Query, `useQuery`, `useMutation`, `queryOptions`, `mutationOptions`, RPC client, Dexie, offline, local DB, sync, cache invalidation.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `stack/frontend-data` |
+| 2 | `core/try-catch` |
+
+### Frontend — UI components
+
+**Triggers:** component, `.tsx` UI, props, form field, hook (UI), design system, `className`, compose UI.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/react-components` |
+
+### Frontend — shell, layout, PWA
+
+**Triggers:** shell, viewport, safe-area, scroll, full-screen, service worker, PWA, keyboard, install prompt, splash, mobile layout, `nativ.config`, `defineApp`, `nativ()`, `Screen`, generated root/router, `__root.gen`.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `stack/ui-shell` |
+| 2 | `core/react-components` |
+| 3 | `stack/gotchas` |
+
+### UI motion and polish
+
+**Triggers:** animate, transition, keyframes, easing, duration, press feedback, `active:scale`, motion.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/motion` |
+
+### Forms and URL-driven inputs
+
+**Triggers:** debounce, search input, filter, URL state, `nuqs`, controlled vs uncontrolled, form submit.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/input-handling` |
+
+### Captcha / bot protection (Turnstile)
+
+**Triggers:** Turnstile, captcha, bot protection, `siteverify`, site key, secret key, `VITE_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, challenge widget, login bot check.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `stack/turnstile` |
+| 2 | `core/copywriting` |
+
+### Authoring a workspace package
+
+**Triggers:** human scoped `packages/<name>`, library, export surface, package `exports`.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/imports` |
+| 2 | `core/repository-layout` |
+| 3 | `core/react-components` (if UI package) |
+
+### Tests
+
+**Triggers:** `.test.ts`, vitest, test, spec, coverage, integration test, integration route test, TDD, what to test.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/testing` |
+| 2 | `stack/testing-setup` |
+
+### Debugging and device telemetry
+
+**Triggers:** debug, device/PWA bug, console logs, telemetry, can't see logs, reproduce on device, log sink, no manual handoff.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `stack/debugging` |
+| 2 | `stack/gotchas` |
+
+### Worktree setup / bootstrap
+
+**Triggers:** new/fresh worktree, set up worktree, worktree not ready, missing `node_modules`/env, `pnpm dev` errors on a new tree, upstream/diff base, app shows wrong `+/-`, base branch.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `stack/worktree-setup` |
+| 2 | `stack/gotchas` |
+
+### Repo & platform gotchas
+
+**Triggers:** iOS, WebKit, Safari, simulator vs device, keyboard/scroll/safe-area quirk, worktree, env-check, dev ports, template scaffolding.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `stack/gotchas` |
+
+### Multi-tech / polyglot monorepo
+
+**Triggers:** Swift, iOS app, Python, Go, non-JS app under `apps/`, multi-language, can the monorepo host X, contract codegen.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/polyglot-monorepo` |
+
+### Git commit
+
+**Triggers:** commit, stage, `git commit`, prepare commit.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/commit-style` |
+
+### CI/CD and deploy
+
+**Triggers:** CI, CD, pipeline, GitHub Actions, deploy, wrangler deploy, verify job, staging, multi-env, environments, per-branch deploy, different bindings per env.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/ci-cd` |
+| 2 | `stack/deploy-environments` |
+
+### Large or ambiguous work
+
+**Triggers:** plan, design, architecture decision, multi-file feature, unclear scope, spike.
+
+| Order | Skill |
+|------:|-------|
+| 1 | `core/planning` |
+| 2 | `core/agent-behavior` |
