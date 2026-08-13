@@ -1,0 +1,2 @@
+#cursor env backup — keep in git, exclude from indexing
+!CURSOR_ENV_BACKUP/

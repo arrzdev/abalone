@@ -2,10 +2,16 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "abalone-react",
+      "name": "frontend",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 5173
+      "runtimeArgs": ["--filter", "@repo/frontend", "dev"],
+      "port": 7171
+    },
+    {
+      "name": "backend",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@repo/backend", "dev"],
+      "port": 8181
     }
   ]
 }

@@ -1,0 +1,43 @@
+---
+description: Mandatory typecheck, Biome, and build after any code change — do not hand off broken code
+alwaysApply: true
+---
+
+# Verify after changes
+
+**Any task that edits source files is not done until typecheck, Biome, and build all pass.**
+
+## When to run
+
+After the last edit in a task (before handoff), unless the human asked a question-only reply with zero file changes.
+
+## What to run (in order)
+
+Run from repo root. Fix failures and re-run the failing step until green.
+
+| Step | Command | Catches |
+|------|---------|---------|
+| 1. TypeScript | `pnpm typecheck` | Type errors, bad imports, project references |
+| 2. Biome | `pnpm biome:check` | Formatting and lint (Biome) |
+| 3. Build | see scoped table below | Compile, bundler, env-check failures |
+
+**Scoped build** (step 3 — prefer over full build when area is clear):
+
+| Touched area | Command |
+|---|---|
+| `apps/frontend/` | `pnpm exec turbo run build --filter=@repo/frontend...` |
+| `apps/backend/` | `pnpm exec turbo run build --filter=@repo/backend...` |
+| `packages/nativ/` | `pnpm exec turbo run build --filter=@repo/nativ...` |
+| `packages/shared/` | `pnpm exec turbo run build --filter=@repo/shared...` |
+| Multiple members or unsure | `pnpm build` |
+
+**If any step fails:** fix errors you introduced and re-run from that step. Do not hand off broken code.
+
+## Not a substitute for dev
+
+- **Do not** start dev servers (`pnpm dev`, `wrangler dev`, …) unless the human asked.
+- **Do** run typecheck + Biome + build — that is the gate before the human runs the app.
+
+## Handoff
+
+Report all three in one line (pass, or what failed and how you fixed it).
