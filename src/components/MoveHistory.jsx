@@ -4,6 +4,7 @@ import { formatMoveAlgebraic } from '../engine/notation.js';
 import { MarbleGlyph } from './MarbleGlyph.jsx';
 import { TapButton } from './ui/TapButton.jsx';
 import { useScrollEdges } from '../hooks/useScrollEdges.js';
+import { useStickyEnd } from '../hooks/useStickyEnd.js';
 import { cn } from '../lib/cn.js';
 
 /** Marble-count dots + notation + push/capture markers for a single move. */
@@ -78,6 +79,59 @@ function StripContent({ details, marbleDesign }) {
 }
 
 /**
+ * Where the record should be looking, after whatever has just changed. Shared
+ * by both of its renderings — the list runs down and the strip runs across, and
+ * that is the whole of the difference between them here.
+ *
+ * Three things move it, and they are not the same kind of thing:
+ *
+ * A move is played. The record grows at its end, and it follows — but only for
+ * a reader who was standing at that end. Someone who has gone back to look at
+ * the opening is reading, and a game against a bot would otherwise drag them
+ * out of it twice a minute. That is `useStickyEnd`, and it is the same bargain
+ * a chat window makes.
+ *
+ * The game ends. The result is written under the last move, and it is the one
+ * line worth interrupting a reader for, so this one goes to the foot from
+ * wherever they were. It is also the reason a scroll to the *move* is not
+ * enough on its own: `nearest` is done the moment the row it was handed is on
+ * screen, which is one line short of the line that says how the game ended.
+ * Hence the third case below — coming back to the final position of a finished
+ * game means the result, not the move before it.
+ *
+ * Somewhere is asked for: a row tapped, a step back, a jump to the latest.
+ * Nothing was added and nobody was interrupted; the reader asked to be
+ * somewhere, and all this has to do is put it on screen.
+ */
+function useRecordScroll(ref, { entries, current, ended, axis = 'y' }) {
+  const { follow, followIfPinned } = useStickyEnd(ref, entries, axis);
+  // What the last run of this saw, so that a change can be told from a redraw.
+  // It starts at nothing, which makes a fresh box a box that has just been
+  // filled — and a record opened at its end is the right way round to open one.
+  const seenRef = useRef({ entries: 0, ended: false });
+
+  useEffect(() => {
+    const box = ref.current;
+    if (!box) return;
+
+    const seen = seenRef.current;
+    seenRef.current = { entries, ended };
+
+    if (ended && !seen.ended) {
+      follow();
+    } else if (entries !== seen.entries) {
+      followIfPinned();
+    } else if (ended && current === entries - 1) {
+      follow();
+    } else {
+      box
+        .querySelector('[data-current="true"]')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: axis === 'x' ? 'center' : 'nearest' });
+    }
+  }, [axis, current, ended, entries, follow, followIfPinned, ref]);
+}
+
+/**
  * The whole history on one scrolling line, for a panel too short to show a list
  * worth reading — which on a phone is every panel, once the browser's own
  * chrome has taken its share of the screen.
@@ -96,11 +150,12 @@ export function MoveStrip({ moveHistory, currentMoveIndex, onGoTo, marbleDesign,
     [moveHistory],
   );
 
-  useEffect(() => {
-    stripRef.current
-      ?.querySelector('[data-current="true"]')
-      ?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-  }, [currentMoveIndex, moves.length]);
+  useRecordScroll(stripRef, {
+    entries: moveHistory.length,
+    current: currentMoveIndex,
+    ended: Boolean(result),
+    axis: 'x',
+  });
 
   // A game can end before anyone has moved — resign on move one — and then the
   // result is the only thing the record has to say. It still has to say it.
@@ -276,9 +331,11 @@ export function MoveHistory({ moveHistory, currentMoveIndex, onGoTo, marbleDesig
     return rows;
   }, [moveHistory]);
 
-  useEffect(() => {
-    listRef.current?.querySelector('[data-current="true"]')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, [currentMoveIndex, pairs.length]);
+  useRecordScroll(listRef, {
+    entries: moveHistory.length,
+    current: currentMoveIndex,
+    ended: Boolean(result),
+  });
 
   const edges = useScrollEdges(listRef, pairs.length);
 
