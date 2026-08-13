@@ -1,11 +1,6 @@
-# Assets-only Worker: the game is a client-side bundle with no server half, so
-# there is no `main` and Cloudflare serves `dist/` directly. Deploy is the plain
-# one-shot path in .github/scripts/deploy/app.sh (no generated config, no D1).
+# CI deploy after build: wrangler deploy --config dist/server/wrangler.json
 name = "abalone-game"
+main = "@tanstack/react-start/server-entry"
 compatibility_date = "2026-03-17"
-
-[assets]
-directory = "./dist"
-# Every screen is state, not a URL — only "/" is ever linked. The fallback is
-# here so a typed-in path still lands on the game rather than a bare 404.
-not_found_handling = "single-page-application"
+compatibility_flags = ["nodejs_compat"]
+upload_source_maps = false

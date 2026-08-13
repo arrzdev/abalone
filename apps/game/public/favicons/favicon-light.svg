@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The Abalone mark. The paths carry their own fills, so one file serves the
+     light and the dark browser chrome alike. -->
+<svg
+      viewBox="397 396 284 284"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <g transform="matrix(1 0 0 1 538.4733 538)">
+        <path
+          transform="translate(-589.558 -318.9905)"
+          d="M 585.083 203.004 L 691.127 257.763 L 695.543 372.21 L 594.033 434.977 L 487.989 380.218 L 483.573 265.771 Z"
+          fill="#fff"
+          fill-rule="evenodd"
+          stroke="#000"
+          stroke-width="4"
+          stroke-linejoin="round"
+          stroke-miterlimit="10"
+        />
+      </g>
+      <g transform="matrix(1 0 0 1 429.669 606.8928)">
+        <path
+          transform="translate(-479.7537 -386.8833)"
+          d="M 457.251 400.797 C 449.567 388.369 453.412 372.065 465.84 364.381 C 478.268 356.696 494.572 360.542 502.256 372.97 C 509.941 385.398 506.095 401.702 493.667 409.386 C 481.239 417.07 464.935 413.225 457.251 400.797 Z"
+          fill="#000"
+          fill-rule="evenodd"
+          stroke="#000"
+          stroke-width="4"
+          stroke-miterlimit="8"
+        />
+      </g>
+      <g transform="matrix(1 0 0 1 484.3346 573.0925)">
+        <path
+          transform="translate(-534.4193 -353.083)"
+          d="M 511.917 366.997 C 504.232 354.569 508.078 338.265 520.506 330.58 C 532.934 322.896 549.238 326.742 556.922 339.169 C 564.606 351.597 560.761 367.901 548.333 375.586 C 535.905 383.27 519.601 379.424 511.917 366.997 Z"
+          fill="#000"
+          fill-rule="evenodd"
+          stroke="#000"
+          stroke-width="4"
+          stroke-miterlimit="8"
+        />
+      </g>
+      <g transform="matrix(1.0057 0 0 1.0057 537.8272 539.4558)">
+        <path
+          transform="translate(-589.0847 -319.2831)"
+          d="M 566.582 333.197 C 558.898 320.769 562.743 304.465 575.171 296.78 C 587.599 289.096 603.903 292.942 611.587 305.37 C 619.272 317.797 615.426 334.102 602.998 341.786 C 590.57 349.47 574.266 345.625 566.582 333.197 Z"
+          fill="#000"
+          fill-rule="evenodd"
+          stroke="#000"
+          stroke-width="4"
+          stroke-miterlimit="8"
+        />
+      </g>
+      <g transform="matrix(1 0 0 1 593.6656 505.4926)">
+        <path
+          transform="translate(-643.7503 -285.4831)"
+          d="M 621.248 299.397 C 613.563 286.969 617.409 270.665 629.837 262.98 C 642.265 255.296 658.569 259.142 666.253 271.57 C 673.937 283.997 670.092 300.302 657.664 307.986 C 645.236 315.67 628.932 311.825 621.248 299.397 Z"
+          fill="#fff"
+          fill-rule="evenodd"
+          stroke="#000"
+          stroke-width="4"
+          stroke-miterlimit="8"
+        />
+      </g>
+      <g transform="matrix(1 0 0 1 648.331 471.6928)">
+        <path
+          transform="translate(-698.4157 -251.6833)"
+          d="M 675.913 265.597 C 668.229 253.169 672.074 236.865 684.502 229.181 C 696.93 221.496 713.234 225.342 720.918 237.77 C 728.603 250.198 724.757 266.502 712.329 274.186 C 699.901 281.87 683.597 278.025 675.913 265.597 Z"
+          fill="#fff"
+          fill-rule="evenodd"
+          stroke="#000"
+          stroke-width="4"
+          stroke-miterlimit="8"
+        />
+      </g>
+    </svg>

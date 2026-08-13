@@ -64,10 +64,8 @@
       "!!**/*.tgz",
       "!!**/.cursor",
       "!!.claude",
-      "!!apps/game/src",
-      "!!apps/game/assets",
-      "!!apps/game/public",
-      "!!apps/game/index.html"
+      "!apps/game/src/**/*.js",
+      "!apps/game/src/**/*.jsx"
     ],
     "ignoreUnknown": true
   },
