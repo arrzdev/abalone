@@ -1,15 +1,10 @@
 import { useTranslation } from 'react-i18next';
+import { MarbleGlyph } from './MarbleGlyph.jsx';
 import { TapButton } from './ui/TapButton.jsx';
 import { cn } from '../lib/cn.js';
 
-/**
- * Marble faces get the same inset shading the board renderer gives them, so a
- * flat div reads as a sphere without dragging a canvas into the picker.
- */
-const MARBLE_SHADING = {
-  white: 'bg-marble-white shadow-[inset_-3px_-4px_7px_rgba(0,0,0,0.32),inset_3px_4px_7px_rgba(255,255,255,0.9)]',
-  black: 'bg-marble-black shadow-[inset_-3px_-4px_7px_rgba(0,0,0,0.55),inset_3px_4px_7px_rgba(255,255,255,0.22)]',
-};
+/** How big a marble sits on a tile. Matches the "?" the random tile shows. */
+const MARBLE_SIZE = 40;
 
 const OPTIONS = [
   { value: 'white', labelKey: 'game:controls.side_white', nameKey: 'game:colors.white' },
@@ -26,7 +21,7 @@ const OPTIONS = [
  * not say which side it is until you have picked it once, so each tile is
  * named.
  */
-export function ColorChoice({ value, onChange }) {
+export function ColorChoice({ value, onChange, marbleDesign = 'default' }) {
   const { t } = useTranslation();
 
   return (
@@ -57,12 +52,14 @@ export function ColorChoice({ value, onChange }) {
               ?
             </span>
           ) : (
-            <span
-              className={cn(
-                'h-10 w-10 rounded-full transition',
-                MARBLE_SHADING[option.value],
-                value !== option.value && 'opacity-70 group-hover:opacity-100',
-              )}
+            // The marble the player is about to play with, drawn by the board's
+            // own renderer: picking a side should show the ball that will be on
+            // the board, in whichever design is set, not a lookalike.
+            <MarbleGlyph
+              color={option.value}
+              design={marbleDesign}
+              size={MARBLE_SIZE}
+              className={cn('transition', value !== option.value && 'opacity-70 group-hover:opacity-100')}
             />
           )}
           <span
