@@ -1,6 +1,7 @@
 import { cn } from "@repo/nativ/utils"
 import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
+import { BotAvatar } from "@/components/bot-avatar"
 import type { ColorChoiceValue } from "@/components/color-choice"
 import { ColorChoice } from "@/components/color-choice"
 import { GroupIcon, RobotIcon } from "@/components/icons"
@@ -12,7 +13,7 @@ import { TapButton } from "@/components/ui/tap-button"
 import type { SetupKey } from "@/engine/board-setups"
 import type { GameMode } from "@/engine/game-state"
 import type { Player } from "@/engine/types"
-import { avatarSrc, blurbKey, titleKey } from "@/i18n/bots"
+import { blurbKey, titleKey } from "@/i18n/bots"
 import { BOT_LEVELS, getBotName } from "@/i18n/game-text"
 
 /** Black first, because black moves first. */
@@ -194,15 +195,20 @@ export function PregameControls({
                         : "bg-surface-4 hover:bg-surface-5",
                     )}
                   >
+                    {/* Square whether or not there is anything in it yet. The
+                        tile's height used to come from the portrait's own
+                        height, so the grid settled downward as the eight
+                        landed — which the inline faces make moot, but the
+                        reserved box is what makes that true rather than
+                        lucky. */}
                     <span
                       className={cn(
-                        "relative block overflow-hidden rounded-lg transition",
+                        "relative block aspect-square overflow-hidden rounded-lg transition",
                         !selected && "opacity-70 group-hover:opacity-100",
                       )}
                     >
-                      <img
-                        src={avatarSrc(level)}
-                        alt=""
+                      <BotAvatar
+                        level={level}
                         className="block h-full w-full"
                       />
                       {/* The level is a rank, so it belongs on the portrait
