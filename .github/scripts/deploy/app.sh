@@ -3,6 +3,7 @@
 # variations are *derived*, never configured:
 #   - build emits dist/server/wrangler.json (TanStack)  -> deploy --config that
 #   - wrangler.toml has a D1 binding                     -> versioned: upload -> migrate -> promote
+#     ...and that Worker does not exist yet              -> migrate -> one-shot deploy (creates it)
 #   - otherwise                                          -> plain one-shot deploy
 # This project deploys ONE target: production off `main`. Apps whose config IS
 # their wrangler.toml select it through an `[env.production]` block, because
@@ -81,6 +82,40 @@ elif grep -q 'd1_databases' wrangler.toml; then
   # [vars] in wrangler.toml, no dashboard.
   secrets_file=""
   [ -s env/.env ] && secrets_file="--secrets-file env/.env"
+
+  # THE FIRST DEPLOY OF A WORKER IS THE ONE CASE THIS PATH CANNOT SERVE. `versions
+  # upload` only works against a script that already exists — the API has no
+  # create-by-version path, and against a name it has never seen it fails with
+  # "This Worker does not exist on your account" (code 10007). Everything below
+  # assumes the script is there, which is true of every deploy except the first.
+  #
+  # So bring it into existence here and then fall through: `wrangler deploy` is
+  # what creates a script, and the normal path below runs afterwards exactly as it
+  # always does. Migrations go first because a brand-new Worker has no previous
+  # version left serving traffic — schema before code is the only ordering with no
+  # window in it. One redundant deploy, once in a Worker's life, and the versioned
+  # path stays untouched.
+  #
+  # The probe matches 10007 specifically, not any non-zero exit: a network blip is
+  # a different answer from "no such Worker", and reading one as the other would
+  # ship unversioned. DRY_RUN skips it — the probe needs credentials and a local
+  # rehearsal is not meant to.
+  if [ "${DRY_RUN:-}" != "1" ]; then
+    set +e
+    probe="$(pnpm exec wrangler versions list "${env_flag[@]}" --json 2>&1)"
+    set -e
+    if printf '%s' "$probe" | grep -q 'code: 10007'; then
+      echo "::notice::${app_path}: no Worker on the account yet — creating it"
+      for db_name in "${db_names[@]}"; do
+        wr d1 migrations apply "$db_name" --remote "${env_flag[@]}"
+      done
+      # No --name: `[env.production]` carries it, and `deploy` applies triggers
+      # itself — the note further down about the versioned path not doing so is
+      # exactly why this one needs nothing after it.
+      wr deploy "${env_flag[@]}" $secrets_file
+    fi
+  fi
+
   if [ "${DRY_RUN:-}" = "1" ]; then
     wr versions upload "${env_flag[@]}" $secrets_file
     vid="<version-id>"
