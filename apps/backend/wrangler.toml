@@ -59,10 +59,12 @@ workers_dev = false
 binding = "DB"
 # The deploy reads this through wrangler's own config parser
 # (.github/scripts/deploy/d1-databases.ts, which loads the `production` env) and
-# migrates it — it is not derived from the worker name. Create it once with
-# `wrangler d1 create abalone-backend-db`, then paste its id below.
+# migrates it — it is not derived from the worker name. Created once with
+# `wrangler d1 create abalone-backend-db`; the id is not a secret (it names a
+# database that only a bound Worker can reach) and lives here so the deploy has
+# no lookup step.
 database_name = "abalone-backend-db"
-database_id = "REPLACE_WITH_PRODUCTION_D1_DATABASE_ID"
+database_id = "8eff88f0-fa50-4d63-9dce-c0dfdafc1129"
 migrations_dir = "src/database/migrations"
 
 [[env.production.r2_buckets]]
