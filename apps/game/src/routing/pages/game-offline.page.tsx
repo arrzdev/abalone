@@ -1,16 +1,16 @@
 import { cn } from "@repo/nativ/utils"
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 import type { CSSProperties } from "react"
 import { useCallback, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { BoardSettingsModal } from "@/components/board-settings-modal"
+import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import { BotChatter } from "@/components/bot-chatter"
 import { EvalBar, EvalBarSlot } from "@/components/eval-bar"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import { GameCanvas } from "@/components/game-canvas"
 import type { ResultKind } from "@/components/game-over-modal"
 import { GameOverModal } from "@/components/game-over-modal"
-import { BackIcon, SettingsIcon } from "@/components/icons"
+import { SettingsIcon } from "@/components/icons"
 import { IngameControls } from "@/components/ingame-controls"
 import type { GameResult } from "@/components/move-history"
 import { PostgameControls } from "@/components/postgame-controls"
@@ -18,27 +18,49 @@ import { PregameControls } from "@/components/pregame-controls"
 import { ResignModal } from "@/components/resign-modal"
 import type { Seat } from "@/components/seat-bar"
 import { SeatBar } from "@/components/seat-bar"
+import {
+  SUBPAGE_HEADER_BUTTON,
+  SubpageHeader,
+} from "@/components/ui/subpage-header"
 import { TapButton } from "@/components/ui/tap-button"
+import { useProfile } from "@/data/profile/queries"
+import type { GameMode } from "@/engine/game-state"
 import type { CellName, Player } from "@/engine/types"
 import { useAbaloneGame } from "@/hooks/use-abalone-game"
 import { useBotChatter } from "@/hooks/use-bot-chatter"
 import { avatarSrc as botAvatarSrc, getBot, titleKey } from "@/i18n/bots"
+import { useAuth } from "@/providers/auth-provider"
 
-export const Route = createFileRoute("/game")({
-  component: GamePage,
+export type GameOfflineSearch = {
+  /** Which of the two offline games the setup panel opens on. */
+  mode?: GameMode
+}
+
+/**
+ * `?mode=` is a starting position, not a setting: it seeds the panel and is not
+ * read again, so switching modes on the screen never argues with the URL and
+ * never rewrites it. Anything unrecognised is dropped and the panel opens on its
+ * own default, which is what a hand-typed URL should get.
+ */
+export const Route = createFileRoute("/_subpage/game/offline")({
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): GameOfflineSearch => ({
+    mode:
+      search.mode === "ai" || search.mode === "local"
+        ? search.mode
+        : undefined,
+  }),
+  component: GameOfflinePage,
 })
 
 /** Stable identity so the preview board never repaints for a new empty array. */
 const EMPTY_MOVES: CellName[] = []
 
-/** Every control in the panel header is the same 36px square. */
-const HEADER_BUTTON =
-  "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white/60 transition " +
-  "hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-
-function GamePage() {
+function GameOfflinePage() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
+  const { user } = useAuth()
+  const { data: profile } = useProfile()
   const boardRef = useRef<GameCanvasHandle>(null)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [resignOpen, setResignOpen] = useState(false)
@@ -59,7 +81,8 @@ function GamePage() {
     [],
   )
 
-  const game = useAbaloneGame(boardRef)
+  const { mode: initialMode } = Route.useSearch()
+  const game = useAbaloneGame(boardRef, initialMode)
   const {
     state,
     phase,
@@ -81,11 +104,7 @@ function GamePage() {
     marbleDesign,
     showCoordinates,
     showEvalBar,
-    animationsEnabled,
-    autoRotate,
     localNames,
-    soundVolume,
-    soundMuted,
   } = game
 
   const isPregame = phase === "pregame"
@@ -130,12 +149,19 @@ function GamePage() {
     state.currentTurn === aiColor
 
   /**
+   * The account at this device, when there is one and the game has room for it.
+   *
+   * Hot seat stays anonymous on both ends deliberately: two people sharing one
+   * device are not two accounts, and putting one of their names and pictures on
+   * one of the seats would be a claim about which of them it is.
+   */
+  const account = isLocal ? null : user
+
+  /**
    * Who is sitting at one end of the scoreboard, in either mode.
    *
-   * A bot brings a name and a face of its own. Everyone else gets the anonymous
-   * head: a hot-seat player is whoever typed a name into the setup panel, and
-   * the person playing the bot is "You" until there are accounts to call them
-   * anything else — which is also where their own picture will come from.
+   * A bot brings a name and a face of its own. A signed-in player brings theirs.
+   * Everyone else gets the anonymous head and the colour or name they typed.
    */
   const seatFor = (color: Player): Seat => {
     const isBot = !isLocal && color === aiColor
@@ -144,7 +170,11 @@ function GamePage() {
     let name: string
     if (isLocal) name = localName(color)
     else if (isBot) name = bot.name
-    else name = t("game:players.you")
+    else name = account?.displayUsername ?? t("game:players.you")
+
+    let avatarSrc: string | undefined
+    if (isBot) avatarSrc = botAvatarSrc(difficulty)
+    else if (account) avatarSrc = profile?.avatarUrl ?? undefined
 
     return {
       color,
@@ -156,7 +186,7 @@ function GamePage() {
         !state.gameOver &&
         phase !== "pregame",
       name,
-      avatarSrc: isBot ? botAvatarSrc(difficulty) : undefined,
+      avatarSrc,
       title: isBot
         ? `${bot.name} — ${t(titleKey(difficulty))}`
         : undefined,
@@ -226,78 +256,38 @@ function GamePage() {
   else if (isLocal) headerTitle = t("game:controls.mode_local")
   else headerTitle = t("game:controls.page_title")
 
-  // Beside the board it is the panel's header; stacked on a phone the panel is
-  // the page, so it moves to the top and becomes the page header. Only one of
-  // the two is ever rendered — the other is display:none, and so out of the
-  // accessibility tree too.
-  const header = (className: string) => (
-    <header
-      className={cn(
-        "flex h-14 shrink-0 items-center gap-1 bg-surface-2 px-2",
-        className,
-      )}
+  /**
+   * The gear, on a phone only.
+   *
+   * Above `lg` the app header is on this screen and carries the settings for
+   * every screen, which is why the panel's own header lost its copy. Below `lg`
+   * there is no app header and no tab bar, so this is the whole of the way to
+   * them — and the board is the one screen where you want them mid-use.
+   */
+  const settingsButton = (
+    <TapButton
+      onClick={() => setSettingsOpen(true)}
+      aria-label={t("game:controls.settings")}
+      title={t("game:controls.settings")}
+      className={SUBPAGE_HEADER_BUTTON}
     >
-      <TapButton
-        onClick={() => navigate({ to: "/" })}
-        aria-label={t("game:controls.back_to_home")}
-        title={t("game:controls.back_to_home")}
-        className={HEADER_BUTTON}
-      >
-        <BackIcon size={18} />
-      </TapButton>
-
-      {/* Back and settings are the same square, so the title is centred on the
-          header itself and not just on the space left over. */}
-      <h1 className="flex-1 truncate px-1 text-center text-lg font-bold text-white">
-        {headerTitle}
-      </h1>
-
-      <TapButton
-        onClick={() => setSettingsOpen(true)}
-        aria-label={t("game:controls.settings")}
-        title={t("game:controls.settings")}
-        className={HEADER_BUTTON}
-      >
-        <SettingsIcon size={18} />
-      </TapButton>
-    </header>
-  )
-
-  const settingsModal = (
-    <BoardSettingsModal
-      open={settingsOpen}
-      onClose={() => setSettingsOpen(false)}
-      marbleDesign={marbleDesign}
-      onMarbleDesignChange={game.setMarbleDesign}
-      animationsEnabled={animationsEnabled}
-      onAnimationsChange={game.setAnimationsEnabled}
-      showCoordinates={showCoordinates}
-      onShowCoordinatesChange={game.setShowCoordinates}
-      showEvalBar={showEvalBar}
-      onShowEvalBarChange={game.setShowEvalBar}
-      autoRotate={autoRotate}
-      onAutoRotateChange={game.setAutoRotate}
-      showAutoRotate={isLocal}
-      soundVolume={soundVolume}
-      onSoundVolumeChange={game.setSoundVolume}
-      soundMuted={soundMuted}
-      onSoundMutedChange={game.setSoundMuted}
-    />
+      <SettingsIcon size={20} />
+    </TapButton>
   )
 
   return (
-    // The page is exactly one viewport tall and never scrolls — anything that
+    // The page fills what the layout gives it and never scrolls — anything that
     // grows (the move list) scrolls inside its own box instead of pushing the
-    // board around. Below `lg` the panel runs edge to edge, so the page carries
-    // no horizontal padding there; the board column pads itself.
+    // board around. Below `lg` that is the whole screen and the panel runs edge
+    // to edge, so the page carries no horizontal padding there; the board column
+    // pads itself.
     //
     // Nothing on it is text to be taken away either: every gesture here is aimed
     // at the board or at a control, and a drag that starts on the board was
     // dragging a line of marbles, not sweeping a selection through the title
     // above it. The name fields are excepted in the stylesheet.
-    <div className="flex h-dvh flex-col overflow-hidden select-none lg:h-full lg:flex-row lg:gap-4 lg:p-4">
-      {header("lg:hidden")}
-
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden select-none lg:flex-row lg:gap-4 lg:p-4">
+      <SubpageHeader title={headerTitle} action={settingsButton} />
       {/* Board column: the board, and nothing about the game around it.
           Everything that used to frame it — who is playing, whose move it is,
           what either side has taken — is in the panel now, at every width. A
@@ -392,7 +382,6 @@ function GamePage() {
           )}
         </div>
       </section>
-
       {/* Side panel */}
       <aside
         className={cn(
@@ -404,8 +393,12 @@ function GamePage() {
           "lg:min-h-0 lg:w-[380px] lg:shrink-0 lg:rounded-2xl",
         )}
       >
-        {header("max-lg:hidden")}
-
+        {/* No header on the panel beside the board. It carried the way home and
+            the settings, which are both in the app header now, and then the
+            title alone — which named the panel to someone already looking at
+            it. The first row of the panel is the mode switch, and that says
+            what this is better than a word above it did. A phone still gets
+            one, because there it is the page's own bar. */}
         {/* Above the controls rather than inside them, so it is the same strip in
             play and after the result — and so `useCompactPanel` measures what is
             actually left for the move list, which is what decides whether the
@@ -491,7 +484,6 @@ function GamePage() {
           />
         )}
       </aside>
-
       <ResignModal
         open={resignOpen}
         onClose={() => setResignOpen(false)}
@@ -500,7 +492,6 @@ function GamePage() {
           game.handleResign()
         }}
       />
-
       <GameOverModal
         open={gameOverModalOpen}
         state={state}
@@ -512,8 +503,10 @@ function GamePage() {
         onRematch={game.handleRematch}
         onNewBot={game.handleNewBot}
       />
-
-      {settingsModal}
+      <AppSettingsSheet
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+      />
     </div>
   )
 }

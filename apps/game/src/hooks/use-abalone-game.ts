@@ -30,25 +30,19 @@ import {
   selectRun,
 } from "@/engine/rules"
 import type { CellName, Player } from "@/engine/types"
+import {
+  useAnimationsEnabled,
+  useAutoRotateBoard,
+  useShowCoordinates,
+  useShowEvalBar,
+} from "@/hooks/use-app-preferences"
 import type { GamePhase } from "@/hooks/use-bot-chatter"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { usePersistentState } from "@/hooks/use-persistent-state"
-import { hasDesign } from "@/render/marble-renderer"
-import {
-  ANIMATE_BY_DEFAULT,
-  prefersReducedMotion,
-  TIMING,
-} from "@/render/motion"
+import { TIMING } from "@/render/motion"
 import { evaluateBoard } from "@/utils/evaluation"
 import { PREF_PREFIX, parseStored, serialize } from "@/utils/preferences"
-import {
-  DEFAULT_VOLUME,
-  playFallSound,
-  playMoveSound,
-  primeSounds,
-  setSoundMuted,
-  setSoundVolume,
-} from "@/utils/sound"
+import { playFallSound, playMoveSound, primeSounds } from "@/utils/sound"
 
 /** Hot-seat names, one per side. */
 export type LocalNames = Record<Player, string>
@@ -91,12 +85,16 @@ export type NewGameOptions = {
  *
  * @param boardRef ref to the GameCanvas, which owns canvas geometry and the
  *        rAF loop.
+ * @param initialMode which game the setup panel opens on, for callers that
+ *        already know — the Play sheet offers the two separately. Read once:
+ *        after that the panel's own switch owns it.
  */
 export function useAbaloneGame(
   boardRef: RefObject<GameCanvasHandle | null>,
+  initialMode: GameMode = "ai",
 ) {
   //'ai' = vs computer, 'local' = pass & play
-  const [mode, setModeState] = useState<GameMode>("ai")
+  const [mode, setModeState] = useState<GameMode>(initialMode)
   const [difficulty, setDifficulty] = useState(1)
   const [setupType, setSetupType] = useState<SetupKey>(DEFAULT_SETUP)
   // What the player picked ('random' included) vs. the colour they end up with.
@@ -105,7 +103,7 @@ export function useAbaloneGame(
 
   const [phase, setPhase] = useState<GamePhase>("pregame")
   const [state, setState] = useState<GameState>(() =>
-    createGameState(DEFAULT_SETUP, "black", "ai"),
+    createGameState(DEFAULT_SETUP, "black", initialMode),
   )
   const [aiThinking, setAiThinking] = useState(false)
   const [hintThinking, setHintThinking] = useState(false)
@@ -116,45 +114,13 @@ export function useAbaloneGame(
   // history moves the board, so the bar follows it back.
   const evalScore = useMemo(() => evaluateBoard(state), [state])
 
-  const [marbleDesign, setMarbleDesignState] = useMarbleDesign()
-  const [showCoordinates, setShowCoordinates] = useState(false)
-  const [showEvalBar, setShowEvalBar] = useState(false)
-  const [animationsEnabled, setAnimationsEnabled] =
-    usePersistentState<boolean>(
-      "abalone-animations-enabled",
-      prefersReducedMotion() ? false : ANIMATE_BY_DEFAULT,
-      (raw) => {
-        if (raw === "true") return true
-        if (raw === "false") return false
-        return null
-      },
-      String,
-    )
-  const [autoRotate, setAutoRotate] = usePersistentState<boolean>(
-    `${PREF_PREFIX}autoRotateBoard`,
-    true,
-    (raw) => {
-      const saved = parseStored(raw)
-      return typeof saved === "boolean" ? saved : null
-    },
-    serialize,
-  )
-  const [soundVolume, setSoundVolumeState] = usePersistentState<number>(
-    `${PREF_PREFIX}soundVolume`,
-    DEFAULT_VOLUME,
-    (raw) => {
-      const saved = parseStored(raw)
-      if (typeof saved !== "number" || !Number.isFinite(saved)) return null
-      return Math.min(Math.max(saved, 0), 1)
-    },
-    serialize,
-  )
-  const [soundMuted, setSoundMutedState] = usePersistentState<boolean>(
-    `${PREF_PREFIX}soundMuted`,
-    false,
-    (raw) => parseStored(raw) === true,
-    serialize,
-  )
+  // Read, never written: the settings sheet in the app header is the one place
+  // any of these is changed, and a write from here would be a second one.
+  const [marbleDesign] = useMarbleDesign()
+  const [showCoordinates] = useShowCoordinates()
+  const [showEvalBar] = useShowEvalBar()
+  const [animationsEnabled] = useAnimationsEnabled()
+  const [autoRotate] = useAutoRotateBoard()
   const [localNames, setLocalNames] = usePersistentState<LocalNames>(
     `${PREF_PREFIX}localPlayerNames`,
     NO_LOCAL_NAMES,
@@ -692,52 +658,6 @@ export function useAbaloneGame(
     [colorChoice, previewSetup, setupType],
   )
 
-  /* ---------------------------------------------------------------- *
-   * Persisted display preferences
-   * ---------------------------------------------------------------- */
-
-  // The sound module keeps its own copy of these so a move can be played from
-  // anywhere without threading them through; this is what puts the saved values
-  // there on load, and keeps them in step after.
-  useEffect(() => setSoundVolume(soundVolume), [soundVolume])
-  useEffect(() => setSoundMuted(soundMuted), [soundMuted])
-
-  const setMarbleDesign = useCallback(
-    (design: string) => {
-      if (!hasDesign(design)) return
-      setMarbleDesignState(design)
-    },
-    [setMarbleDesignState],
-  )
-
-  /**
-   * Touching the slider takes the sound off mute. Reaching for the volume is
-   * already the whole of "I want to hear this" — making someone say it twice,
-   * once on the slider and once on the button, is the kind of thing that gets
-   * called a bug.
-   */
-  const setVolume = useCallback(
-    (next: number) => {
-      setSoundVolumeState(next)
-      setSoundMutedState(false)
-    },
-    [setSoundMutedState, setSoundVolumeState],
-  )
-
-  const setMuted = useCallback(
-    (next: boolean) => {
-      setSoundMutedState(next)
-      // Coming off mute is worth hearing. The module is told before the preview
-      // rather than waiting on the effect below, which would arrive one render
-      // too late and swallow the very sound it is announcing.
-      if (!next) {
-        setSoundMuted(false)
-        playMoveSound(1)
-      }
-    },
-    [setSoundMutedState],
-  )
-
   /**
    * Kept between games rather than reset with each one: two people sharing a
    * device are the same two people next game, and retyping their names every
@@ -797,14 +717,12 @@ export function useAbaloneGame(
     difficulty,
     gameOverModalOpen,
 
-    // display preferences
+    // display preferences, read-only — the settings sheet owns the writes
     marbleDesign,
     showCoordinates,
     showEvalBar,
     animationsEnabled,
     autoRotate,
-    soundVolume,
-    soundMuted,
 
     // actions
     startNewGame,
@@ -824,15 +742,8 @@ export function useAbaloneGame(
     chooseColor,
     chooseMode,
     setDifficulty,
-    setMarbleDesign,
     localNames,
     setLocalName,
-    setShowCoordinates,
-    setShowEvalBar,
-    setAnimationsEnabled,
-    setAutoRotate,
-    setSoundVolume: setVolume,
-    setSoundMuted: setMuted,
     closeGameOverModal: () => setGameOverModalOpen(false),
     gameDurationSeconds,
   }

@@ -9,6 +9,8 @@ export type ModalProps = {
   open: boolean
   onClose: () => void
   title?: ReactNode
+  /** What to call the dialog when there is no visible title to name it. */
+  ariaLabel?: string
   children?: ReactNode
   footer?: ReactNode
   className?: string
@@ -19,6 +21,7 @@ export function Modal({
   open,
   onClose,
   title,
+  ariaLabel,
   children,
   footer,
   className,
@@ -50,7 +53,9 @@ export function Modal({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label={typeof title === "string" ? title : undefined}
+        aria-label={
+          ariaLabel ?? (typeof title === "string" ? title : undefined)
+        }
         className={cn(
           // Never taller than the screen it sits on. A dialog with more to say
           // than fits scrolls its own body, so the title, the close button and
