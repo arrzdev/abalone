@@ -15,7 +15,9 @@ export default defineApp({
   styles: "./src/styles/main.css",
   sw: "./src/sw.ts",
 
-  splashScreen: () => import("@/components/splash-screen"),
+  //no splash screen: there is nothing to wait for — no session to restore, no
+  //database to open — so an overlay on top of the boot would only be something
+  //standing between a tap on the icon and the menu.
   notFoundScreen: () => import("@/components/not-found-screen"),
   providers: () => import("@/providers/app-providers"),
 
