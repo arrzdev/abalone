@@ -25,7 +25,7 @@ Run from repo root. Fix failures and re-run the failing step until green.
 
 | Touched area | Command |
 |---|---|
-| `apps/frontend/` | `pnpm exec turbo run build --filter=@repo/frontend...` |
+| `apps/game/` | `pnpm exec turbo run build --filter=@repo/game...` |
 | `apps/backend/` | `pnpm exec turbo run build --filter=@repo/backend...` |
 | `packages/nativ/` | `pnpm exec turbo run build --filter=@repo/nativ...` |
 | `packages/shared/` | `pnpm exec turbo run build --filter=@repo/shared...` |

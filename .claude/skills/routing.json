@@ -47,9 +47,9 @@
         "apps/backend/src/http/network-policy.ts",
         "apps/backend/src/utils/is-private-origin.ts",
         "apps/backend/src/database/auth.schema.ts",
-        "apps/frontend/src/data/auth/**",
-        "apps/frontend/src/components/auth/**",
-        "apps/frontend/src/providers/auth-provider.tsx"
+        "apps/*/src/data/auth/**",
+        "apps/*/src/components/auth/**",
+        "apps/*/src/providers/auth-provider.tsx"
       ],
       "skills": [
         "stack-auth"
@@ -93,10 +93,9 @@
     {
       "name": "offline sync engine",
       "globs": [
-        "packages/synq/**",
-        "apps/frontend/src/data/sync/**",
-        "apps/frontend/src/data/collections/**",
-        "apps/frontend/src/data/store.ts",
+        "apps/*/src/data/sync/**",
+        "apps/*/src/data/collections/**",
+        "apps/*/src/data/store.ts",
         "apps/backend/src/services/sync.service.ts",
         "apps/backend/src/http/routes/sync.routes.ts"
       ],
@@ -106,9 +105,9 @@
       ]
     },
     {
-      "name": "frontend — data layer",
+      "name": "app — data layer",
       "globs": [
-        "apps/frontend/src/data/**"
+        "apps/*/src/data/**"
       ],
       "skills": [
         "stack-frontend-data",
@@ -116,11 +115,11 @@
       ]
     },
     {
-      "name": "frontend — UI components",
+      "name": "app — UI components",
       "globs": [
-        "apps/frontend/src/components/**",
-        "apps/frontend/src/routing/**",
-        "apps/frontend/src/hooks/**"
+        "apps/*/src/components/**",
+        "apps/*/src/routing/**",
+        "apps/*/src/hooks/**"
       ],
       "skills": [
         "core-react-components",
@@ -129,12 +128,12 @@
       ]
     },
     {
-      "name": "frontend — shell, layout, PWA",
+      "name": "app — shell, layout, PWA",
       "globs": [
-        "apps/frontend/src/components/ui/**",
-        "apps/frontend/nativ.config.ts",
-        "apps/frontend/src/styles/**",
-        "apps/frontend/src/sw.ts",
+        "apps/*/src/components/ui/**",
+        "apps/*/nativ.config.ts",
+        "apps/*/src/styles/**",
+        "apps/*/src/sw.ts",
         "packages/nativ/**"
       ],
       "skills": [
@@ -143,6 +142,21 @@
         "platform-ios-webkit",
         "stack-gotchas"
       ]
+    },
+    {
+      "name": "game — canvas rendering and animation",
+      "globs": [
+        "apps/game/src/render/**",
+        "apps/game/src/components/game-canvas.tsx",
+        "apps/game/src/components/rule-diagram.tsx",
+        "apps/game/src/components/eval-bar.tsx"
+      ],
+      "skills": [
+        "core-animation-performance",
+        "core-motion",
+        "platform-ios-webkit"
+      ],
+      "note": "The board is a canvas driven by rAF, not a DOM tree — the compositor rules in core-animation-performance apply to what wraps it, not to what it paints."
     },
     {
       "name": "environment and config",

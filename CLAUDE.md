@@ -30,7 +30,6 @@ Run from repo root. Fix failures and re-run the failing step until green.
 
 | Touched area | Command |
 |---|---|
-| `apps/frontend/` | `pnpm exec turbo run build --filter=@repo/frontend...` |
 | `apps/backend/` | `pnpm exec turbo run build --filter=@repo/backend...` |
 | `apps/game/` | `pnpm exec turbo run build --filter=@repo/game...` |
 | `packages/nativ/` | `pnpm exec turbo run build --filter=@repo/nativ...` |
@@ -53,7 +52,6 @@ Non-trivial task: state your interpretation in one sentence. If two readings wou
 ## Boundaries (always)
 
 - **`packages/*`:** do not edit unless the human **explicitly scoped** that package in this thread. Missing export → stop, report, ask — do not patch the library from app work.
-- **`apps/game/{src,assets,public}`:** the Abalone game, migrated in whole from its own repo. Plain JS/JSX with its own conventions — semicolons, single quotes, relative imports, hand-wrapped comments — and **excluded from Biome and from `pnpm typecheck` on purpose**. Work inside it in *its* style; do not reformat it to the monorepo's, and do not "fix" its imports. Everything else under `apps/game/` (the `package.json`, `wrangler.toml`, `env/`, `ports.ts`, `scripts/`, `vite.config.ts`) is ordinary monorepo code and follows the normal rules.
 - **No dev servers** (`pnpm dev`, `turbo dev`, `wrangler dev`, …) unless the human asked.
 - **Checks fail outside scope:** stop, report evidence, offer choices — do not expand into sibling apps/libs to green CI.
 
@@ -80,11 +78,11 @@ Tiers, by what outlives what: **`core-*`** portable doctrine (survives any proje
 | **Authentication and sessions**<br>auth, sign in, sign up, sign out, session, bearer token, `requireAuth`, better-auth, OAuth, social provider, `trustedOrigins`, CORS, password hash, scrypt, guest. | `stack-auth` → `stack-api-routes` → `core-custom-errors` |
 | **Database — schema and migrations**<br>migration, DDL, `drizzle-kit`, schema change, `ALTER`, `CREATE TABLE`, deploy pipeline + DB, D1. | `stack-database-migrations` → `stack-database` |
 | **Database — queries only (no migration)**<br>Drizzle, D1, `db.batch`, `db.transaction`, select/insert/update/delete, atomic writes. | `stack-database` → `core-try-catch` |
-| **Frontend — data layer**<br>`src/data/`, TanStack Query, `useQuery`, `useMutation`, `queryOptions`, `mutationOptions`, RPC client, `backend-client`, `useDataMutation`, offline, local store, cache invalidation. | `stack-frontend-data` → `core-try-catch` |
+| **App — data layer**<br>`src/data/`, TanStack Query, `useQuery`, `useMutation`, `queryOptions`, `mutationOptions`, RPC client, `backend-client`, `useDataMutation`, offline, local store, cache invalidation. | `stack-frontend-data` → `core-try-catch` |
 | **Offline sync engine (`@repo/synq`)**<br>synq, sync, offline-first, collection, `useCollection`, `useSingleton`, `store.`, `*.collection.ts`, outbox, HLC, merge, conflict, CRDT, `$id` / `$meta`, `data/sync/`, `sync.service.ts`, sync routes, cursor, pull/push. | `stack-sync-engine` → `stack-frontend-data` → `core-repository-layout` |
 | **Environment variables and config**<br>env var, `.env`, `env/schema.ts`, `env/registry.ts`, `check:env`, `VITE_`, `import.meta.env`, secret, binding, `envRegistry`, `setEnv`, `.env.example`, missing config. | `stack-env-config` → `stack-deploy-environments` |
-| **Frontend — UI components**<br>component, `.tsx` UI, props, form field, hook (UI), design system, `className`, compose UI. | `core-react-components` |
-| **Frontend — shell, layout, PWA**<br>shell, viewport, safe-area, scroll, full-screen, service worker, PWA, keyboard, install prompt, splash, mobile layout, `nativ.config`, `defineApp`, `nativ()`, `Screen`, generated root/router, `__root.gen`. | `stack-ui-shell` → `core-react-components` → `platform-ios-webkit` → `stack-gotchas` |
+| **App — UI components**<br>component, `.tsx` UI, props, form field, hook (UI), design system, `className`, compose UI. | `core-react-components` |
+| **App — shell, layout, PWA**<br>shell, viewport, safe-area, scroll, full-screen, service worker, PWA, keyboard, install prompt, splash, mobile layout, `nativ.config`, `defineApp`, `nativ()`, `Screen`, generated root/router, `__root.gen`. | `stack-ui-shell` → `core-react-components` → `platform-ios-webkit` → `stack-gotchas` |
 | **UI motion and polish**<br>animate, transition, keyframes, easing, duration, press feedback, `active:scale`, motion. | `core-motion` |
 | **Animation performance and jank**<br>jank, lag, stutter, jitter, flicker, "not smooth", dropped frames, 60fps/120fps, compositor, GPU layer, `will-change`, `transform`/`opacity`, FLIP, layout animation, animate height/expand/collapse, drawer/sheet/accordion/picker animation, scroll-driven animation, parallax, View Transitions, `prefers-reduced-motion`. | `core-animation-performance` → `core-motion` → `platform-ios-webkit` |
 | **Forms and URL-driven inputs**<br>debounce, search input, filter, URL state, `nuqs`, controlled vs uncontrolled, form submit. | `core-input-handling` |
@@ -97,7 +95,7 @@ Tiers, by what outlives what: **`core-*`** portable doctrine (survives any proje
 | **Repo gotchas (dev wiring)**<br>worktree, env-check, dev ports, port collision, template scaffolding, generated route files, `nativ.config`, typecheck fails on missing modules, build ordering. | `stack-gotchas` |
 | **Multi-tech / polyglot monorepo**<br>Swift, iOS app, Python, Go, non-JS app under `apps/`, multi-language, can the monorepo host X, contract codegen. | `core-polyglot-monorepo` |
 | **Git commit / creating or merging a PR**<br>commit, stage, `git commit`, prepare commit, create PR, open PR, `gh pr create`, pull request, base branch, merge PR, merge pull request, `gh pr merge`, squash merge, land a branch. | `core-commit-style` |
-| **CI/CD and deploy**<br>CI, CD, pipeline, GitHub Actions, deploy, wrangler deploy, verify job, staging, multi-env, environments, per-branch deploy, different bindings per env. | `core-ci-cd` → `stack-deploy-environments` |
+| **CI/CD and deploy**<br>CI, CD, pipeline, GitHub Actions, deploy, wrangler deploy, verify job, deploy units, deploy manifest, environments, adding an environment, bindings per env. | `core-ci-cd` → `stack-deploy-environments` |
 | **Authoring or editing a skill**<br>skill, `.claude/skills`, doctrine, routing table, tier, `SKILL.md`, add a skill, is this skill stale. | `core-skill-authoring` |
 | **Large or ambiguous work**<br>plan, design, architecture decision, multi-file feature, unclear scope, spike. | `core-planning` → `core-agent-behavior` |
 

@@ -34,8 +34,8 @@ XREF = re.compile(r"`((?:" + "|".join(TIERS) + r")-[a-z0-9-]+)`")
 
 # paths that only mean something inside THIS checkout — banned from core/
 LOOKUP = re.compile(
-    r"\bapps/(backend|frontend)/|@repo/(nativ|synq|shared|dev|backend|frontend|env-validation)\b"
-    r"|\.claude/hooks/|biome\.json|\b(7171|8181|9220|9218)\b"
+    r"\bapps/(backend|game)/|@repo/(nativ|shared|dev|backend|game|env-validation)\b"
+    r"|\.claude/hooks/|biome\.json|\b(6161|8181|9221|9218)\b"
 )
 # Deliberate hybrids. commit-style's rule IS this repo's git workflow;
 # skill-authoring documents the harness (hooks, routing.json) that ships

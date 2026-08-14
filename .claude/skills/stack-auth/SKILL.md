@@ -9,6 +9,8 @@ Auth is **better-auth** wrapped in a thin `AuthService`. better-auth owns the wh
 
 Read before touching sign-in, sessions, tokens, OAuth, `requireAuth`, or trusted origins. Route mechanics: `stack-api-routes`. Env vars: `stack-env-config`.
 
+**Not wired right now** — the backend was stripped to boilerplate and the auth files below were deleted with it. The paths are still where auth goes when it comes back: keep them, and the rest of this skill is the wiring to reproduce rather than re-derive.
+
 ## Where it lives
 
 | Piece | Path |
@@ -18,7 +20,7 @@ Read before touching sign-in, sessions, tokens, OAuth, `requireAuth`, or trusted
 | Mounted handler + provider discovery | `apps/backend/src/http/routes/auth.routes.ts` |
 | Dev-vs-prod network policy | `apps/backend/src/http/network-policy.ts`, `utils/is-private-origin.ts` |
 | better-auth tables | `apps/backend/src/database/auth.schema.ts` (separate from app schema) |
-| Client SDK + token store | `apps/frontend/src/data/auth/` |
+| Client SDK + token store | `apps/<app>/src/data/auth/` |
 
 ## Sessions are bearer tokens, not cookies
 

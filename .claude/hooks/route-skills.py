@@ -84,7 +84,7 @@ def matches(rel: str, glob: str) -> bool:
     behaves like `a/*/b/**`. That is the whole trick here. Do NOT "optimise"
     a trailing /** into a startswith() prefix test: it looks equivalent and
     silently breaks any glob with an earlier wildcard (`apps/*/env/**` never
-    matched `apps/frontend/env/schema.ts`). Covered by test-hooks.py.
+    matched `apps/game/env/schema.ts`). Covered by test-hooks.py.
     """
     if glob.endswith("/**"):
         prefix = glob[:-3]
