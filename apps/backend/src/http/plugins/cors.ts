@@ -12,7 +12,10 @@ const PREFLIGHT_MAX_AGE_SECONDS = 86_400 // 24h — browser skips OPTIONS until 
 export function corsPlugin() {
   return cors({
     origin: (origin) => {
-      const allowed = new URL(env.FRONTEND_URL).origin
+      //with no FRONTEND_URL there is no allowlist, so nothing is reflected
+      const allowed = env.FRONTEND_URL
+        ? new URL(env.FRONTEND_URL).origin
+        : null
       if (!origin) return allowed
       if (origin === allowed) return origin
       if (allowsPrivateOrigins() && isPrivateOrigin(origin)) return origin
