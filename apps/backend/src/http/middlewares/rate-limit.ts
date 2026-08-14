@@ -5,11 +5,12 @@ import { CustomError } from "@/http/errors"
 
 const RATE_LIMIT_WINDOW_MS = 60_000
 
+//one preset per traffic shape, not per route: a chatty sync surface and a
+//sign-in form want different ceilings, two read endpoints don't. add a key
+//when a domain's shape genuinely differs from `api`.
 const RATE_LIMITS: Record<string, { max: number }> = {
-  //sync fires on a heartbeat + every mutation burst, so allow more headroom
-  sync: { max: 600 },
-  //auth endpoints (sign-in/up, oauth) — tighter to blunt credential stuffing
-  auth: { max: 60 },
+  //ordinary request/response endpoints
+  api: { max: 120 },
 }
 
 //best-effort limiter: per-isolate on cloudflare workers, not shared across

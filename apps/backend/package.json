@@ -16,7 +16,7 @@
     "check:env": "tsx env/check-env.ts",
     "dev": "tsx scripts/dev.ts",
     "build": "wrangler deploy --dry-run",
-    "start": "wrangler dev",
+    "start": "wrangler dev --env-file env/.env",
     "biome:fix": "biome check --write --unsafe .",
     "biome:check": "biome check .",
     "tail": "wrangler tail --format pretty",
@@ -30,8 +30,6 @@
     "@repo/dev": "workspace:*",
     "@repo/env-validation": "workspace:*",
     "@repo/shared": "workspace:*",
-    "@repo/synq": "workspace:*",
-    "better-auth": "1.6.22",
     "drizzle-orm": "0.45.2",
     "hono": "4.11.8",
     "zod": "4.3.6"
