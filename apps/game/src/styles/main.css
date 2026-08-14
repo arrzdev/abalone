@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tailwindcss-safe-area";
 @import "@repo/nativ/styles.css";
-@import "./animations.css";
 
 /*
  * The game is dark, and only dark. nativ's pre-paint script stamps `.light` or
@@ -69,12 +68,6 @@
   --success: #4caf7d;
   --warning: #d9a441;
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-full: 9999px;
-
   --font-sans: "Segoe UI", Tahoma, Verdana, sans-serif;
 }
 
@@ -118,12 +111,11 @@
   --color-success: var(--success);
   --color-warning: var(--warning);
 
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
-  --radius-xl: var(--radius-xl);
-  --radius-full: var(--radius-full);
-  --radius-panel: var(--radius-md);
+  /* The corner scale is Tailwind's own, untouched: `rounded-lg` on this panel
+     has to be the 8px it has always been. A second scale layered over it — the
+     boilerplate ships one for its own primitives — rounds every box in the game
+     off by twice what it was drawn with. */
+  --radius-panel: 10px;
 
   --font-sans: var(--font-sans);
 }
@@ -302,9 +294,14 @@
  * entirely. What it gives back is an overlay bar with no gutter, painted over
  * the corners of the very box it scrolls — so anything rounded keeps its radius
  * on a parent that clips, and only the inside scrolls.
+ *
+ * `!important` because the shell hides every scrollbar in the app with one — a
+ * fair default for a screen that is one full-bleed pane, and the wrong one for a
+ * dropdown or a move list, which are boxes with more in them than they show and
+ * no other way of saying so.
  */
 .panel-scroll {
-  scrollbar-width: thin;
+  scrollbar-width: thin !important;
   scrollbar-color: #111 transparent;
   overscroll-behavior: contain;
 }
