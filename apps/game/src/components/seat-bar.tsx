@@ -1,4 +1,5 @@
 import { cn } from "@repo/nativ/utils"
+import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { PersonIcon } from "@/components/icons"
 import { MarbleGlyph } from "@/components/marble-glyph"
@@ -56,7 +57,7 @@ export const FACE_CENTER = 8 + 4 + PORTRAIT / 2
 export type Seat = {
   color: Player
   name: string
-  avatarSrc?: string
+  avatar?: ReactNode
   title?: string
   takenCount?: number
   active: boolean
@@ -66,16 +67,21 @@ export type Seat = {
 /**
  * One end of the card.
  *
- * `avatarSrc` is what a face is when there is one — a bot's portrait now, and
- * the seam accounts will come through later. Everyone else falls back to the
- * same anonymous head, a placeholder rather than nothing, so the card is the
- * same shape either way and a picture appearing later doesn't move the name
- * beside it.
+ * `avatar` is what a face is when there is one — a bot's portrait now, and the
+ * seam accounts will come through later. It is a node rather than a URL because
+ * those two are not the same kind of thing: a bot's face is drawn from a
+ * component that is already in the bundle, and an account's will be a picture
+ * fetched from somewhere. The caller knows which it is holding; this card only
+ * needs to know whether there is one.
+ *
+ * Everyone else falls back to the same anonymous head, a placeholder rather
+ * than nothing, so the card is the same shape either way and a picture
+ * appearing later doesn't move the name beside it.
  */
 function Side({
   color,
   name,
-  avatarSrc,
+  avatar,
   title,
   takenCount = 0,
   active,
@@ -109,15 +115,8 @@ function Side({
           style={{ width: PORTRAIT, height: PORTRAIT }}
           title={title}
         >
-          {avatarSrc ? (
-            <img
-              src={avatarSrc}
-              alt=""
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <PersonIcon size={22} />
-          )}
+          {avatar}
+          {!avatar && <PersonIcon size={22} />}
 
           {/* Over the face rather than beside it: it is this player the game is
               waiting for, and their own portrait is where you are already
