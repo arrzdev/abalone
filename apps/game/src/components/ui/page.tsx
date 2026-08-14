@@ -7,7 +7,7 @@ import type { ReactNode } from "react"
  * the title of one page lands where the title of the last one did.
  */
 const PAGE_COLUMN_CLASS =
-  "mx-auto flex w-full max-w-2xl flex-col gap-y-6 px-4 pt-6 pb-10"
+  "mx-auto flex w-full max-w-2xl flex-col gap-y-6 px-4 pt-6 pb-safe-offset-10"
 
 export type PageProps = {
   children: ReactNode

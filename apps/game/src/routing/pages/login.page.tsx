@@ -67,7 +67,7 @@ function LoginPage() {
         <div className="hex-texture hex-texture-from-right pointer-events-none absolute inset-0 opacity-[0.07] [--hex-size:76px]" />
 
         <ScrollView className="relative px-safe" directionalLockEnabled>
-          <div className="mx-auto flex min-h-full w-full max-w-md flex-col justify-center gap-y-8 px-6 py-10 lg:px-12">
+          <div className="mx-auto flex min-h-full w-full max-w-md flex-col justify-center gap-y-8 px-6 pt-10 pb-safe-offset-10 lg:px-12">
             {/* No "Sign in" over the top of a switch whose left half already says
               it. The only heading worth the room is the one that answers a
               question the form raises — why it is asking at all, on the width

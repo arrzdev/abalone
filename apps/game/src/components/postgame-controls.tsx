@@ -90,7 +90,9 @@ export function PostgameControls({
       ref={panelRef}
       className={cn(
         "flex min-h-0 flex-1 flex-col px-4",
-        compact ? "gap-2 pt-2 pb-2" : "gap-3 pt-3 pb-4",
+        compact
+          ? "gap-2 pt-2 pb-safe-offset-2"
+          : "gap-3 pt-3 pb-safe-offset-4",
       )}
     >
       {compact ? (
