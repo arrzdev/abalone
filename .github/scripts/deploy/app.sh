@@ -162,11 +162,17 @@ elif grep -q 'd1_databases' wrangler.toml; then
   # queues the way it does R2 buckets.
   wr triggers deploy "${env_flag[@]}"
 else
-  # plain worker: one-shot deploy. No app takes this branch today; the first one
-  # that does needs an `[env.production]` block and this line needs "${env_flag[@]}"
-  # — left off rather than guessed at, because `--name` and `--env` together is not
-  # a combination anything here has exercised.
-  wr deploy --name "$worker"
+  # plain worker: one-shot deploy, which is also what creates the script, so this
+  # branch needs no first-deploy handling of its own. No app takes it today; the
+  # first one that does needs an `[env.production]` block.
+  #
+  # The env flag is not optional, even though `--name` already carries the name:
+  # without it wrangler reads the TOP-LEVEL block, so the app would ship under the
+  # production name with the dev bindings, and succeed while doing it. `--name`
+  # together with `--env` was once left un-guessed here; it is exercised now
+  # (`wrangler deploy --dry-run --name … --env production` resolves the production
+  # bindings), so the pair is what this passes.
+  wr deploy --name "$worker" "${env_flag[@]}"
 fi
 
 [ -z "${GITHUB_STEP_SUMMARY:-}" ] ||
