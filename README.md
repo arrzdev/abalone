@@ -102,42 +102,43 @@ order and stop on the first failure, and units run in parallel. Only apps
 changed in the push actually deploy.
 
 Adding an app is a `wrangler.toml` plus one line in that manifest — no workflow
-edits. The game is its own unit, so it ships independently of the backend.
+edits.
 
-**Deploys are currently off.** The pipeline is wired and rehearsed, but the
-`push:` trigger in `.github/workflows/deploy.yml` is commented out, so nothing
-ships automatically. Finish the first-time setup below, then uncomment it.
+**Only the game ships today.** It is the sole entry in the manifest, so a merge
+to `main` deploys the Worker `abalone-game` and nothing else. `apps/backend` is
+held back on purpose: its `wrangler.toml` still carries a `REPLACE_WITH_…`
+`database_id`, so it would fail at the migrate step. CI warns on every run that
+it has a `wrangler.toml` and isn't listed — that warning is the reminder.
 
 **One environment.** `main` → production, and that is the whole story — no
 staging branch, no `[env.*]` blocks, no per-env worker names. Run a manual
 workflow dispatch to force-redeploy every unit (useful after rotating secrets,
 which change no files, so `--affected` finds nothing).
 
-**First-time setup:**
+**Setup, for the game:** add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`
+to the repo's `production` GitHub environment. That is the whole list — the game
+declares no env of its own (`apps/game/env/schema.ts` is empty), so there is
+nothing else to provision. The worker is served on `*.workers.dev` until a route
+or custom domain says otherwise.
 
-1. Create the D1 database and paste its id into `apps/backend/wrangler.toml`
-   (`database_id` starts as a `REPLACE_WITH_…` placeholder):
-
-   ```bash
-   pnpm exec wrangler d1 create abalone-backend-db
-   ```
-
-2. Add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` to the repo's
-   `production` GitHub environment.
-
-3. Add each app's env vars as secrets or variables in that environment. The
-   deploy writes `env/.env` from `env/schema.ts` — the schema is the allowlist,
-   so only declared keys are ever written — then uploads it onto the Worker as
-   secrets. Nothing is configured in the Cloudflare dashboard.
-
-A database-backed Worker deploys as upload → migrate → promote, so the schema is
-in place before the new code goes live. Destructive DDL is blocked on PRs unless
-it carries an explicit acknowledgment.
-
-Rehearse the whole thing without touching Cloudflare:
+**Adding the backend later:** create the D1, paste its id, restore the unit in
+the manifest, then add the backend's own env vars to the same environment:
 
 ```bash
-DRY_RUN=1 bash .github/scripts/deploy/app.sh apps/backend
+pnpm exec wrangler d1 create abalone-backend-db
+```
+
+The deploy writes `env/.env` from `env/schema.ts` — the schema is the allowlist,
+so only declared keys are ever written — then uploads it onto the Worker as
+secrets. Nothing is configured in the Cloudflare dashboard. A database-backed
+Worker deploys as upload → migrate → promote, so the schema is in place before
+the new code goes live. Destructive DDL is blocked on PRs unless it carries an
+explicit acknowledgment.
+
+Rehearse any app's deploy without touching Cloudflare:
+
+```bash
+DRY_RUN=1 bash .github/scripts/deploy/app.sh apps/game
 ```
 
 ## Renaming it
