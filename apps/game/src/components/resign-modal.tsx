@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { FlagIcon } from "@/components/icons"
 import { Button } from "@/components/ui/button"
-import { Modal } from "@/components/ui/modal"
+import { Sheet } from "@/components/ui/sheet"
 
 export type ResignModalProps = {
   open: boolean
@@ -27,7 +27,7 @@ export function ResignModal({
   const { t } = useTranslation()
 
   return (
-    <Modal
+    <Sheet
       open={open}
       onClose={onClose}
       title={t("game:modal.resign_title")}
@@ -45,6 +45,6 @@ export function ResignModal({
           {t("game:controls.resign")}
         </Button>
       </div>
-    </Modal>
+    </Sheet>
   )
 }

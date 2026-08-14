@@ -26,12 +26,22 @@ export default defineConfig({
       )
 
       return {
+        //the top-level (dev) block: local D1 and a local R2 bucket, so the suite
+        //needs no network and no Cloudflare account
         wrangler: { configPath: path.join(rootDir, "wrangler.toml") },
         miniflare: {
           bindings: {
             TEST_MIGRATIONS: migrations,
             RATE_LIMIT_ALLOW_TEST_BYPASS: "true",
-            FRONTEND_URL: "http://example.com",
+            //public origins on purpose: neither is private, so
+            //allowsPrivateOrigins() is false and the tests exercise the
+            //production network policy rather than the dev one. two of them
+            //because production serves the game on more than one domain, and a
+            //single-entry list would never exercise the split.
+            FRONTEND_URLS: "http://example.com,http://second.example.com",
+            BETTER_AUTH_SECRET: "test-secret-at-least-16-characters",
+            BETTER_AUTH_URL: "http://example.com",
+            AVATAR_PUBLIC_URL: "https://cdn.example.com",
           },
         },
       }

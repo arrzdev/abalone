@@ -11,6 +11,13 @@ const RATE_LIMIT_WINDOW_MS = 60_000
 const RATE_LIMITS: Record<string, { max: number }> = {
   //ordinary request/response endpoints
   api: { max: 120 },
+  //sign-in/up/out and get-session. tighter than `api` because a password guess
+  //is the one request worth making a million of, and this surface is the whole
+  //better-auth handler behind one wildcard.
+  auth: { max: 60 },
+  //avatar uploads. each one is a hash plus an R2 write of up to half a megabyte,
+  //and a player changes their picture a handful of times ever.
+  upload: { max: 10 },
 }
 
 //best-effort limiter: per-isolate on cloudflare workers, not shared across

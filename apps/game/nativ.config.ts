@@ -6,8 +6,11 @@ export default defineApp({
     "Play Abalone — the two-player strategy game where you push your opponent's marbles off the board.",
   lang: "en",
   //one colour for both appearances: the game is dark, and always has been. the
-  //value is the shell grey the board sits on (--color-elevated).
-  themeColor: { dark: "#444444" },
+  //value is the chrome's own grey (--color-surface-2), not the shell's: the
+  //browser paints this behind the status bar and under the home indicator,
+  //which is exactly where the header and the tab bar end — so the app runs edge
+  //to edge instead of ending in a lighter band at each end.
+  themeColor: { dark: "#222222" },
   defaultThemePreference: "dark",
   //no orientation lock — the board is square-ish and the panel moves beside it
   //above `lg` and under it below, so both ways round are real layouts.

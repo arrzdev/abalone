@@ -118,6 +118,21 @@
   --radius-panel: 10px;
 
   --font-sans: var(--font-sans);
+
+  /* A popover grows out of the control that opened it, so it scales from its
+     own top edge rather than fading in where it happens to land. */
+  --animate-menu-in: menu-in 150ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @layer base {
@@ -195,6 +210,55 @@
     user-select: none;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  /*
+   * The honeycomb, for anything that would otherwise be a flat panel.
+   *
+   * A tiling hexagon grid drawn once as an inline SVG and repeated by the
+   * browser: one tile is the lattice's period (three half-widths across, one
+   * row down), so the strokes meet exactly across every seam at any size. The
+   * board this game is played on is a hexagon of hexagons, so the texture is
+   * the game's own geometry rather than decoration borrowed from nowhere.
+   *
+   * The radial mask is what keeps it from reading as wallpaper: it is dense in
+   * the middle of the panel and gone by the edges, so the pattern never ends on
+   * a hard line against the chrome. Because the mask applies to the whole
+   * element, put this on its own absolutely-positioned layer — on a container
+   * it would fade the container's contents out with it.
+   *
+   * `--hex-size` is the tile width; the height follows from it (√3 / 3). Tune
+   * the strength with `opacity-*` at the call site — the default is deliberately
+   * near the floor, since the point is texture you feel rather than a pattern
+   * you read.
+   */
+  .hex-texture {
+    --hex-size: 64px;
+    background-image: url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='30'%20height='17.321'%20viewBox='0%200%2030%2017.321'%20fill='none'%20stroke='%23fff'%20stroke-width='.7'><path%20d='M10,0L5,8.66L-5,8.66L-10,0L-5,-8.66L5,-8.66z'/><path%20d='M10,17.321L5,25.981L-5,25.981L-10,17.321L-5,8.66L5,8.66z'/><path%20d='M25,-8.66L20,0L10,0L5,-8.66L10,-17.321L20,-17.321z'/><path%20d='M25,8.66L20,17.321L10,17.321L5,8.66L10,0L20,0z'/><path%20d='M25,25.981L20,34.641L10,34.641L5,25.981L10,17.321L20,17.321z'/><path%20d='M40,0L35,8.66L25,8.66L20,0L25,-8.66L35,-8.66z'/><path%20d='M40,17.321L35,25.981L25,25.981L20,17.321L25,8.66L35,8.66z'/></svg>");
+    background-size: var(--hex-size) calc(var(--hex-size) * 0.5774);
+    --hex-fade: radial-gradient(
+      ellipse 85% 75% at 50% 45%,
+      #000 25%,
+      transparent 75%
+    );
+    opacity: 0.045;
+    -webkit-mask-image: var(--hex-fade);
+    mask-image: var(--hex-fade);
+  }
+
+  /*
+   * The same texture, fading sideways instead of from the middle: dense at the
+   * right edge and thinning out to nothing well before the left one.
+   *
+   * This is the split-screen variant, and it runs the full width of the screen
+   * rather than sitting inside one half of it — the gradient is the seam, so
+   * there is no second panel colour and nothing to line the two halves up
+   * against.
+   */
+  .hex-texture-from-right {
+    --hex-fade: linear-gradient(to left, #000 5%, transparent 65%);
   }
 }
 

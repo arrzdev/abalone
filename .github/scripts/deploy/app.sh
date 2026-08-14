@@ -4,12 +4,12 @@
 #   - build emits dist/server/wrangler.json (TanStack)  -> deploy --config that
 #   - wrangler.toml has a D1 binding                     -> versioned: upload -> migrate -> promote
 #   - otherwise                                          -> plain one-shot deploy
-# This project deploys ONE environment: production off `main`. So there is no
-# `--env` and no worker-name suffix — the wrangler `name` IS the worker. D1
-# database name(s) are read from the app's wrangler.toml via wrangler's own config
+# This project deploys ONE target: production off `main`. Apps whose config IS
+# their wrangler.toml select it through an `[env.production]` block, because
+# bindings differ between the values `wrangler dev` should use and the ones that
+# ship. D1 database name(s) are read from that same env via wrangler's own config
 # reader (see d1-databases.ts), never derived from the worker name, and every
-# configured database is migrated. Adding a second environment means restoring the
-# `--env` flag and the per-env name here; `stack-deploy-environments` keeps that shape.
+# configured database is migrated. `stack-deploy-environments` keeps this shape.
 # DRY_RUN=1 prints the wrangler commands without running anything (still reads the config).
 set -euo pipefail
 
@@ -28,7 +28,27 @@ fi
 
 cd "$app_path"
 
-worker="$(grep -m1 '^name = ' wrangler.toml | sed 's/.*"\(.*\)".*/\1/')"
+# The name that ships. With an `[env.production]` block that block's `name` is it
+# — a named env otherwise deploys as `<top-level-name>-production`, which is why
+# the block sets it explicitly. Top level is the fallback, for the apps that have
+# no environments at all.
+#
+# THIS IS A LABEL, NOT A TARGET. The versioned path passes no `--name` (neither
+# `versions upload` nor `versions deploy` takes one); `$worker` only reaches the
+# two non-versioned branches and the step summary. Do not "fix" it into a selector.
+worker="$(awk -F'"' '
+  /^\[env\.production\]/ { inenv = 1; next }
+  inenv && /^\[/ { exit }
+  inenv && /^name = / { print $2; exit }
+' wrangler.toml)"
+[ -n "$worker" ] ||
+  worker="$(grep -m1 '^name = ' wrangler.toml | sed 's/.*"\(.*\)".*/\1/')"
+
+# Every wrangler call that reads THIS app's wrangler.toml targets `[env.production]`.
+# The generated-config branch below is the exception and takes no flag: TanStack
+# emits dist/server/wrangler.json from the Vite build, and that file has no
+# environments to select.
+env_flag=(--env production)
 
 wr() {
   echo "+ wrangler $*"
@@ -62,16 +82,16 @@ elif grep -q 'd1_databases' wrangler.toml; then
   secrets_file=""
   [ -s env/.env ] && secrets_file="--secrets-file env/.env"
   if [ "${DRY_RUN:-}" = "1" ]; then
-    wr versions upload $secrets_file
+    wr versions upload "${env_flag[@]}" $secrets_file
     vid="<version-id>"
   else
-    echo "+ wrangler versions upload $secrets_file"
+    echo "+ wrangler versions upload ${env_flag[*]} $secrets_file"
     # Capture output, but do NOT let `set -e` abort the assignment on a non-zero
     # exit before we can print it — otherwise a failed upload leaves a blank log
     # (this is exactly how a missing binding once failed silently). Surface the
     # wrangler output, check the exit code explicitly, then parse the version id.
     set +e
-    upload="$(pnpm exec wrangler versions upload $secrets_file 2>&1)"
+    upload="$(pnpm exec wrangler versions upload "${env_flag[@]}" $secrets_file 2>&1)"
     rc=$?
     set -e
     printf '%s\n' "$upload"
@@ -88,11 +108,13 @@ elif grep -q 'd1_databases' wrangler.toml; then
     }
   fi
   # Migrate every database BEFORE promoting the new version, so the schema is ready
-  # the moment the new code goes live.
+  # the moment the new code goes live. The env flag is not optional here: the name
+  # is positional, but wrangler still looks it up in the config to find the id and
+  # the migrations_dir, and the top-level block declares a different database.
   for db_name in "${db_names[@]}"; do
-    wr d1 migrations apply "$db_name" --remote
+    wr d1 migrations apply "$db_name" --remote "${env_flag[@]}"
   done
-  wr versions deploy "${vid}@100%" -y
+  wr versions deploy "${vid}@100%" -y "${env_flag[@]}"
   # THE VERSIONED PATH DOES NOT APPLY TRIGGERS. `versions upload` + `versions deploy` push
   # only what lives inside a version: code, bindings, secrets. Queue consumers, cron
   # schedules and routes are script-level and are written solely by wrangler's internal
@@ -102,11 +124,13 @@ elif grep -q 'd1_databases' wrangler.toml; then
   # crons keep whatever schedule they last had.
   # The two non-versioned branches below call `wrangler deploy`, which already does this.
   # Also fails loud when a declared queue is missing — wrangler does not auto-create
-  # queues the way it does R2 buckets. The explicit empty `--env=` selects the top-level
-  # config, which is the only environment this project has.
-  wr triggers deploy --env=
+  # queues the way it does R2 buckets.
+  wr triggers deploy "${env_flag[@]}"
 else
-  # plain worker: one-shot deploy
+  # plain worker: one-shot deploy. No app takes this branch today; the first one
+  # that does needs an `[env.production]` block and this line needs "${env_flag[@]}"
+  # — left off rather than guessed at, because `--name` and `--env` together is not
+  # a combination anything here has exercised.
   wr deploy --name "$worker"
 fi
 

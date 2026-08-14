@@ -1,5 +1,7 @@
 {
   "nav": {
+    "primary": "Navegação principal",
+    "back": "Voltar",
     "play": "Jogar",
     "rules": "Regras do jogo",
     "strategy": "Guia de estratégia",
@@ -8,7 +10,8 @@
     "history": "Histórico de Jogos",
     "profile": "Perfil",
     "back_to_game": "Jogar contra o computador",
-    "back_to_game_from_page": "Jogar o jogo"
+    "back_to_game_from_page": "Jogar o jogo",
+    "home": "Início"
   },
   "buttons": {
     "play_now": "Jogar agora",
@@ -30,19 +33,54 @@
     "change": "Mudar de idioma"
   },
   "home": {
+    "eyebrow": "Dois jogadores. Um tabuleiro hexagonal.",
     "tagline": "Empurra seis bolas do adversário para fora do tabuleiro para ganhar.",
-    "game_code": "Código do jogo",
-    "code_hint": "6 caracteres — letras e números",
     "play_online": "Jogar online",
-    "join_game": "Entrar no jogo",
     "play_offline": "Jogar offline",
-    "rules_link": "Aprender a jogar",
-    "soon_title": "O jogo online está a caminho",
-    "soon_body": "Ainda não existe servidor de emparelhamento, por isso não é possível criar nem entrar com códigos.",
-    "code_not_sent": "O código {{code}} não foi enviado para lado nenhum."
+    "rules_link": "Aprender a jogar"
+  },
+  "auth": {
+    "sign_in": "Entrar",
+    "sign_out": "Terminar sessão",
+    "create_account": "Criar conta",
+    "username": "Nome de utilizador",
+    "username_placeholder": "Escolhe um nome",
+    "password": "Palavra-passe",
+    "password_placeholder": "Pelo menos {{count}} caracteres",
+    "show_password": "Mostrar palavra-passe",
+    "hide_password": "Ocultar palavra-passe",
+    "prompt_title": "Entra para jogar online",
+    "prompt_body": "Os jogos online precisam de um nome. Jogar offline nunca pede um.",
+    "errors": {
+      "username_taken": "Esse nome já está ocupado. Escolhe outro.",
+      "username_invalid": "Os nomes têm 3 a 20 caracteres, com letras, números, pontos e underscores.",
+      "password_too_short": "As palavras-passe precisam de pelo menos 8 caracteres.",
+      "invalid_credentials": "Esse nome e essa palavra-passe não coincidem. Confere os dois e tenta de novo.",
+      "unknown": "Algo correu mal. Verifica a ligação e tenta de novo."
+    },
+    "credentials_warning": "Nome e palavra-passe não se recuperam — perdê-los é perder a conta."
+  },
+  "profile": {
+    "username_permanent": "O teu nome é permanente",
+    "change_picture": "Mudar imagem",
+    "uploading": "A enviar",
+    "picture_hint": "PNG, JPEG ou WebP. A imagem é cortada num quadrado.",
+    "upload_failed": "Essa imagem não foi enviada. Tenta de novo."
+  },
+  "online": {
+    "title": "Online",
+    "body": "Os jogos online ainda não estão a funcionar. Este ecrã está aqui para que a entrada esteja pronta quando estiverem.",
+    "signed_in_as": "Sessão iniciada como {{username}}"
   },
   "actions": {
     "close": "Fechar",
     "cancel": "Cancelar"
+  },
+  "play": {
+    "title": "Jogar",
+    "online_hint": "Contra outro jogador, com o teu nome.",
+    "offline_hint": "Contra um bot, ou dois de vocês neste dispositivo.",
+    "bot_hint": "Contra um bot, na força que escolheres.",
+    "local_hint": "Dois de vocês, à vez, neste dispositivo."
   }
 }

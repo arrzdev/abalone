@@ -7,4 +7,9 @@
 //
 //   Add an app   ->  add a single-app unit, or add it to an existing unit.
 //   Couple apps  ->  list them in one unit, in deploy order (e.g. api before web).
-[{ "name": "game", "apps": ["apps/game"] }]
+[
+  // Two units, not one: the game is a static PWA that talks to the backend at
+  // runtime only, so neither has to land before the other.
+  { "name": "backend", "apps": ["apps/backend"] },
+  { "name": "game", "apps": ["apps/game"] }
+]
