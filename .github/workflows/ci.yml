@@ -47,6 +47,14 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      # Mirrors deploy.yml's verify gate. Drift between the schema and the
+      # migrations is a merge-time problem, not a deploy-time one — the deploy
+      # applies migrations against the real database, so finding this after the
+      # merge means finding it with the deploy half done.
+      - name: Backend schema drift check
+        working-directory: apps/backend
+        run: pnpm run db:check
+
       - name: Test
         run: pnpm exec turbo run test
 

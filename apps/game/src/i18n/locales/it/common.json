@@ -1,5 +1,7 @@
 {
   "nav": {
+    "primary": "Navigazione principale",
+    "back": "Indietro",
     "play": "Gioca",
     "rules": "Regole del gioco",
     "strategy": "Guida strategica",
@@ -8,7 +10,8 @@
     "history": "Cronologia Partite",
     "profile": "Profilo",
     "back_to_game": "Gioca contro il computer",
-    "back_to_game_from_page": "Gioca al gioco"
+    "back_to_game_from_page": "Gioca al gioco",
+    "home": "Home"
   },
   "buttons": {
     "play_now": "Gioca ora",
@@ -30,19 +33,54 @@
     "change": "Cambia lingua"
   },
   "home": {
+    "eyebrow": "Due giocatori. Un tabellone esagonale.",
     "tagline": "Spingi sei biglie avversarie fuori dal tabellone per vincere.",
-    "game_code": "Codice partita",
-    "code_hint": "6 caratteri — lettere e numeri",
     "play_online": "Gioca online",
-    "join_game": "Entra nella partita",
     "play_offline": "Gioca offline",
-    "rules_link": "Impara a giocare",
-    "soon_title": "Il gioco online sta arrivando",
-    "soon_body": "Non c'è ancora un server di matchmaking, quindi i codici non possono essere creati né usati.",
-    "code_not_sent": "Il codice {{code}} non è stato inviato da nessuna parte."
+    "rules_link": "Impara a giocare"
+  },
+  "auth": {
+    "sign_in": "Accedi",
+    "sign_out": "Esci",
+    "create_account": "Crea un account",
+    "username": "Nome utente",
+    "username_placeholder": "Scegli un nome",
+    "password": "Password",
+    "password_placeholder": "Almeno {{count}} caratteri",
+    "show_password": "Mostra password",
+    "hide_password": "Nascondi password",
+    "prompt_title": "Accedi per giocare online",
+    "prompt_body": "Le partite online hanno bisogno di un nome. Il gioco offline non lo chiede mai.",
+    "errors": {
+      "username_taken": "Questo nome è già occupato. Provane un altro.",
+      "username_invalid": "I nomi vanno da 3 a 20 caratteri, con lettere, numeri, punti e trattini bassi.",
+      "password_too_short": "Le password devono avere almeno 8 caratteri.",
+      "invalid_credentials": "Nome e password non corrispondono. Controlla entrambi e riprova.",
+      "unknown": "Qualcosa è andato storto. Controlla la connessione e riprova."
+    },
+    "credentials_warning": "Nome e password non si recuperano: perderli è perdere l'account."
+  },
+  "profile": {
+    "username_permanent": "Il tuo nome è permanente",
+    "change_picture": "Cambia immagine",
+    "uploading": "Caricamento",
+    "picture_hint": "PNG, JPEG o WebP. L'immagine viene ritagliata in un quadrato.",
+    "upload_failed": "L'immagine non è stata caricata. Riprova."
+  },
+  "online": {
+    "title": "Online",
+    "body": "Le partite online non sono ancora attive. Questa schermata è qui perché l'ingresso sia pronto quando lo saranno.",
+    "signed_in_as": "Hai effettuato l'accesso come {{username}}"
   },
   "actions": {
     "close": "Chiudi",
     "cancel": "Annulla"
+  },
+  "play": {
+    "title": "Gioca",
+    "online_hint": "Contro un altro giocatore, con il tuo nome.",
+    "offline_hint": "Contro un bot, o in due su questo dispositivo.",
+    "bot_hint": "Contro un bot, alla difficoltà che scegli.",
+    "local_hint": "In due, a turno, su questo dispositivo."
   }
 }

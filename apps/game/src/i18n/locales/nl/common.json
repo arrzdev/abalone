@@ -1,5 +1,7 @@
 {
   "nav": {
+    "primary": "Hoofdnavigatie",
+    "back": "Terug",
     "play": "Spelen",
     "rules": "Spelregels",
     "strategy": "Strategiegids",
@@ -8,7 +10,8 @@
     "history": "Spelgeschiedenis",
     "profile": "Profiel",
     "back_to_game": "Speel tegen Computer",
-    "back_to_game_from_page": "Speel Spel"
+    "back_to_game_from_page": "Speel Spel",
+    "home": "Start"
   },
   "buttons": {
     "play_now": "Speel Nu",
@@ -30,19 +33,54 @@
     "change": "Taal wijzigen"
   },
   "home": {
+    "eyebrow": "Twee spelers. Eén zeshoekig bord.",
     "tagline": "Duw zes ballen van je tegenstander van het bord om te winnen.",
-    "game_code": "Spelcode",
-    "code_hint": "6 tekens — letters en cijfers",
     "play_online": "Online spelen",
-    "join_game": "Deelnemen aan spel",
     "play_offline": "Offline spelen",
-    "rules_link": "Leer spelen",
-    "soon_title": "Online spelen komt eraan",
-    "soon_body": "Er is nog geen matchmakingserver, dus codes kunnen niet worden aangemaakt of gebruikt.",
-    "code_not_sent": "De code {{code}} is nergens naartoe gestuurd."
+    "rules_link": "Leer spelen"
+  },
+  "auth": {
+    "sign_in": "Inloggen",
+    "sign_out": "Uitloggen",
+    "create_account": "Account aanmaken",
+    "username": "Gebruikersnaam",
+    "username_placeholder": "Kies een naam",
+    "password": "Wachtwoord",
+    "password_placeholder": "Minstens {{count}} tekens",
+    "show_password": "Wachtwoord tonen",
+    "hide_password": "Wachtwoord verbergen",
+    "prompt_title": "Log in om online te spelen",
+    "prompt_body": "Online partijen hebben een naam nodig. Offline spelen vraagt er nooit om.",
+    "errors": {
+      "username_taken": "Die naam is al bezet. Probeer een andere.",
+      "username_invalid": "Namen zijn 3 tot 20 tekens, met letters, cijfers, punten en liggende streepjes.",
+      "password_too_short": "Wachtwoorden hebben minstens 8 tekens nodig.",
+      "invalid_credentials": "Die naam en dat wachtwoord horen niet bij elkaar. Controleer beide en probeer het opnieuw.",
+      "unknown": "Er ging iets mis. Controleer je verbinding en probeer het opnieuw."
+    },
+    "credentials_warning": "Naam en wachtwoord zijn niet te herstellen — kwijt is account kwijt."
+  },
+  "profile": {
+    "username_permanent": "Je naam ligt vast",
+    "change_picture": "Foto wijzigen",
+    "uploading": "Uploaden",
+    "picture_hint": "PNG, JPEG of WebP. De afbeelding wordt vierkant bijgesneden.",
+    "upload_failed": "Die foto is niet geüpload. Probeer het opnieuw."
+  },
+  "online": {
+    "title": "Online",
+    "body": "Online partijen draaien nog niet. Dit scherm staat klaar zodat de ingang er is zodra ze er zijn.",
+    "signed_in_as": "Ingelogd als {{username}}"
   },
   "actions": {
     "close": "Sluiten",
     "cancel": "Annuleren"
+  },
+  "play": {
+    "title": "Spelen",
+    "online_hint": "Tegen een andere speler, onder jouw naam.",
+    "offline_hint": "Tegen een bot, of met z'n tweeën op dit apparaat.",
+    "bot_hint": "Tegen een bot, op het niveau dat je kiest.",
+    "local_hint": "Met z'n tweeën, om de beurt op dit apparaat."
   }
 }

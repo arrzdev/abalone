@@ -8,10 +8,21 @@ export type SegmentedOption<T extends string> = {
   icon?: ReactNode
 }
 
+/**
+ * Both are the same control at two heights. `lg` exists so a switch that sits
+ * at the top of a form can be the height of the fields under it — the track's
+ * own padding is untouched, so the sliding indicator still lines up.
+ */
+const SIZES = {
+  md: "px-2 py-2 text-sm",
+  lg: "px-3 py-3 text-base",
+}
+
 export type SegmentedControlProps<T extends string> = {
   value: T
   onChange: (value: T) => void
   options: SegmentedOption<T>[]
+  size?: keyof typeof SIZES
   className?: string
   ariaLabel?: string
 }
@@ -28,6 +39,7 @@ export function SegmentedControl<T extends string>({
   value,
   onChange,
   options,
+  size = "md",
   className,
   ariaLabel,
 }: SegmentedControlProps<T>) {
@@ -64,7 +76,8 @@ export function SegmentedControl<T extends string>({
             onClick={() => onChange(option.value)}
             title={option.label}
             className={cn(
-              "relative z-10 flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-sm font-semibold",
+              "relative z-10 flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg font-semibold",
+              SIZES[size],
               "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
               // Only the label brightens on hover — a background change here
               // reads as a second selected segment.

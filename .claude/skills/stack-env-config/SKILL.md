@@ -37,11 +37,12 @@ import { env } from "@/env/registry"
 const url = env.VITE_BACKEND_URL
 ```
 
-`createEnvRegistry` (`@repo/env-validation/registry-factory`) returns a **Proxy** over the validated values, so:
+`createEnvRegistry` (`@repo/env-validation/registry-factory`) returns a **Proxy** over the raw values, so:
 
 - **It throws if read before initialization.** The backend calls `envRegistry.setEnv(env)` in the Worker `fetch` entrypoint before touching anything else — a Worker gets its bindings per request, not at module load. Keep that call first.
 - **A client app auto-hydrates from `import.meta.env`** at module scope (only keys declared in the schema), so there's no `setEnv` on the client.
-- **Cloudflare bindings ride along on the same type.** The backend registry is generic over `CloudflareBindings` (`DB: D1Database`), so `env.DB` and `env.FRONTEND_URL` come from one typed object.
+- **Cloudflare bindings ride along on the same type.** The backend registry is generic over `CloudflareBindings` (`DB: D1Database`), so `env.DB` and `env.FRONTEND_URLS` come from one typed object.
+- **Values come back exactly as they were set — the schema does not run at runtime.** `setEnv` does `Object.assign(store, raw)` and the proxy returns `store[prop]` verbatim; the schema is for TypeScript inference and `check:env` only. So a `z.transform()` (or `z.coerce`) in the schema is a **silent type lie** — it promises a parsed value that never arrives. Declare the var as the string it actually is, and parse it in one named function beside the consumer (`frontendOrigins()` in `src/http/network-policy.ts` is the pattern).
 - **`env.internals.DEV`** is a deliberate escape hatch, not a general flag. The backend pins it `false` — a Worker cannot reliably detect prod at module load, and the old `process.env.CI !== "true"` check evaluated to `true` in production. Anything that needs dev-vs-prod on the backend derives it from validated config instead (`src/http/network-policy.ts`), which fails closed.
 
 Never read `process.env` or `import.meta.env` directly in app code. The one sanctioned exception is `registry.ts` itself.

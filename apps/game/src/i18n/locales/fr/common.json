@@ -1,5 +1,7 @@
 {
   "nav": {
+    "primary": "Navigation principale",
+    "back": "Retour",
     "play": "Jouer",
     "rules": "Règles du jeu",
     "strategy": "Guide stratégique",
@@ -8,7 +10,8 @@
     "history": "Historique des Parties",
     "profile": "Profil",
     "back_to_game": "Jouer contre l'ordinateur",
-    "back_to_game_from_page": "Jouer au jeu"
+    "back_to_game_from_page": "Jouer au jeu",
+    "home": "Accueil"
   },
   "buttons": {
     "play_now": "Jouer maintenant",
@@ -30,19 +33,54 @@
     "change": "Changer de langue"
   },
   "home": {
+    "eyebrow": "Deux joueurs. Un plateau hexagonal.",
     "tagline": "Poussez six billes adverses hors du plateau pour gagner.",
-    "game_code": "Code de partie",
-    "code_hint": "6 caractères — lettres et chiffres",
     "play_online": "Jouer en ligne",
-    "join_game": "Rejoindre la partie",
     "play_offline": "Jouer hors ligne",
-    "rules_link": "Apprendre à jouer",
-    "soon_title": "Le jeu en ligne arrive bientôt",
-    "soon_body": "Il n'y a pas encore de serveur d'appariement, les codes ne peuvent donc pas être créés ni rejoints.",
-    "code_not_sent": "Le code {{code}} n'a été envoyé nulle part."
+    "rules_link": "Apprendre à jouer"
+  },
+  "auth": {
+    "sign_in": "Se connecter",
+    "sign_out": "Se déconnecter",
+    "create_account": "Créer un compte",
+    "username": "Nom d'utilisateur",
+    "username_placeholder": "Choisis un nom",
+    "password": "Mot de passe",
+    "password_placeholder": "Au moins {{count}} caractères",
+    "show_password": "Afficher le mot de passe",
+    "hide_password": "Masquer le mot de passe",
+    "prompt_title": "Connecte-toi pour jouer en ligne",
+    "prompt_body": "Les parties en ligne demandent un nom. Le jeu hors ligne n'en demande jamais.",
+    "errors": {
+      "username_taken": "Ce nom est déjà pris. Essaie-en un autre.",
+      "username_invalid": "Les noms font de 3 à 20 caractères, avec des lettres, des chiffres, des points et des tirets bas.",
+      "password_too_short": "Les mots de passe font au moins 8 caractères.",
+      "invalid_credentials": "Ce nom et ce mot de passe ne correspondent pas. Vérifie les deux et réessaie.",
+      "unknown": "Quelque chose s'est mal passé. Vérifie ta connexion et réessaie."
+    },
+    "credentials_warning": "Nom et mot de passe irrécupérables — les perdre, c'est perdre le compte."
+  },
+  "profile": {
+    "username_permanent": "Ton nom est définitif",
+    "change_picture": "Changer la photo",
+    "uploading": "Envoi en cours",
+    "picture_hint": "PNG, JPEG ou WebP. L'image est recadrée en carré.",
+    "upload_failed": "Cette photo n'a pas été envoyée. Réessaie."
+  },
+  "online": {
+    "title": "En ligne",
+    "body": "Les parties en ligne ne tournent pas encore. Cet écran est là pour que l'entrée soit prête quand elles arriveront.",
+    "signed_in_as": "Connecté en tant que {{username}}"
   },
   "actions": {
     "close": "Fermer",
     "cancel": "Annuler"
+  },
+  "play": {
+    "title": "Jouer",
+    "online_hint": "Contre un autre joueur, sous ton nom.",
+    "offline_hint": "Contre un bot, ou à deux sur cet appareil.",
+    "bot_hint": "Contre un bot, au niveau que tu choisis.",
+    "local_hint": "À deux, chacun son tour, sur cet appareil."
   }
 }

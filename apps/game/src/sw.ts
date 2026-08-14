@@ -21,8 +21,9 @@ const NETWORK_TIMEOUT_SECONDS = 3
 
 setupPrecache(self.__WB_MANIFEST)
 
-//every navigation — the game talks to no service of ours, so once the three
-//routes are cached it plays with the network off
+//every navigation — offline play talks to no service of ours, so once the
+//routes are cached the game runs with the network off. only the account screens
+//need the backend, and those degrade to whatever the last session said.
 registerIncrementalNavigationRoute({
   buildTag: BUILD_TAG,
   cacheBucket: "pages",
@@ -35,7 +36,7 @@ registerStaticAssetsRoute({ buildTag: BUILD_TAG })
 registerInstallRouteWarmer({
   buildTag: BUILD_TAG,
   cacheBucket: "pages",
-  routes: ["/", "/rules", "/game"],
+  routes: ["/", "/rules", "/login", "/game/offline", "/game/online"],
 })
 
 registerServiceWorkerLifecycle({

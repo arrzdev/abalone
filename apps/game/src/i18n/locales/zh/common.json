@@ -1,5 +1,7 @@
 {
   "nav": {
+    "primary": "主导航",
+    "back": "返回",
     "play": "开始游戏",
     "rules": "游戏规则",
     "strategy": "策略指南",
@@ -8,7 +10,8 @@
     "history": "对局记录",
     "profile": "个人资料",
     "back_to_game": "与电脑对战",
-    "back_to_game_from_page": "开始游戏"
+    "back_to_game_from_page": "开始游戏",
+    "home": "首页"
   },
   "buttons": {
     "play_now": "立即开始",
@@ -30,19 +33,54 @@
     "change": "更改语言"
   },
   "home": {
+    "eyebrow": "两名玩家，一块六边形棋盘。",
     "tagline": "把对手的六枚棋子推出棋盘即可获胜。",
-    "game_code": "对局代码",
-    "code_hint": "6 个字符 — 字母和数字",
     "play_online": "在线对战",
-    "join_game": "加入对局",
     "play_offline": "离线对战",
-    "rules_link": "了解玩法",
-    "soon_title": "在线对战即将推出",
-    "soon_body": "目前还没有匹配服务器，因此无法创建或加入代码。",
-    "code_not_sent": "代码 {{code}} 没有被发送到任何地方。"
+    "rules_link": "了解玩法"
+  },
+  "auth": {
+    "sign_in": "登录",
+    "sign_out": "退出登录",
+    "create_account": "创建账号",
+    "username": "用户名",
+    "username_placeholder": "取一个名字",
+    "password": "密码",
+    "password_placeholder": "至少 {{count}} 个字符",
+    "show_password": "显示密码",
+    "hide_password": "隐藏密码",
+    "prompt_title": "登录后即可在线对战",
+    "prompt_body": "在线对战需要一个名字。离线游戏从不需要。",
+    "errors": {
+      "username_taken": "这个名字已被使用。请换一个。",
+      "username_invalid": "名字为 3 到 20 个字符，可使用字母、数字、点和下划线。",
+      "password_too_short": "密码至少需要 8 个字符。",
+      "invalid_credentials": "名字和密码不匹配。请检查后重试。",
+      "unknown": "出了点问题。请检查网络后重试。"
+    },
+    "credentials_warning": "用户名和密码无法找回，丢了账号也就没了。"
+  },
+  "profile": {
+    "username_permanent": "你的名字不可更改",
+    "change_picture": "更换头像",
+    "uploading": "上传中",
+    "picture_hint": "支持 PNG、JPEG 或 WebP。图片会裁剪为正方形。",
+    "upload_failed": "头像未能上传。请重试。"
+  },
+  "online": {
+    "title": "在线",
+    "body": "在线对战尚未开放。这个页面已经准备好，等对战上线就能直接进入。",
+    "signed_in_as": "已登录为 {{username}}"
   },
   "actions": {
     "close": "关闭",
     "cancel": "取消"
+  },
+  "play": {
+    "title": "开始对战",
+    "online_hint": "以你的名字与其他玩家对战。",
+    "offline_hint": "与机器人对战，或两人共用这台设备。",
+    "bot_hint": "与机器人对战，强度自己选。",
+    "local_hint": "两人共用这台设备，轮流落子。"
   }
 }

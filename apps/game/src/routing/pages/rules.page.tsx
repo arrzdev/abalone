@@ -1,18 +1,17 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
-import { BackIcon } from "@/components/icons"
-import { LanguageSwitcher } from "@/components/language-switcher"
 import { MarbleGlyph } from "@/components/marble-glyph"
 import { RuleDiagram } from "@/components/rule-diagram"
 import { Button } from "@/components/ui/button"
-import { TapButton } from "@/components/ui/tap-button"
+import { Card, Page, PageTitle } from "@/components/ui/page"
+import { SubpageHeader } from "@/components/ui/subpage-header"
 import { WINNING_SCORE } from "@/engine/config"
 import { HEADING_STEPS } from "@/engine/topology"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import type { Diagram } from "@/render/draw-diagram"
 
-export const Route = createFileRoute("/rules")({
+export const Route = createFileRoute("/_subpage/rules")({
   component: RulesPage,
 })
 
@@ -118,7 +117,7 @@ const COMPASS: Diagram = {
   })),
 }
 
-function Section({
+function Rule({
   title,
   children,
 }: {
@@ -126,10 +125,10 @@ function Section({
   children: ReactNode
 }) {
   return (
-    <section className="rounded-2xl bg-surface-2 p-5 shadow-xl shadow-black/20">
+    <Card>
       <h2 className="text-lg font-bold text-brand-light">{title}</h2>
       {children}
-    </section>
+    </Card>
   )
 }
 
@@ -167,122 +166,97 @@ function RulesPage() {
   const [marbleDesign] = useMarbleDesign()
 
   return (
-    <div className="relative h-full overflow-hidden bg-elevated">
-      {/* Same ambient wash as the home screen this page opens from. Outside the
-          scroller, so it stays where it is while the rules move past it. */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-40 -left-32 h-96 w-96 rounded-full bg-brand/10 blur-3xl" />
-        <div className="absolute -right-32 -bottom-40 h-96 w-96 rounded-full bg-board/10 blur-3xl" />
-      </div>
+    <>
+      <SubpageHeader title={t("game:rules.title")} />
 
-      {/* This is the only page long enough to need scrolling, and it does it
-          here rather than in the document — so the end of the rules is the end
-          of the gesture, with nothing left over to bounce. */}
-      <div className="relative h-full overflow-y-auto overscroll-contain">
-        <div className="mx-auto w-full max-w-2xl px-4 py-6">
-          <header className="mb-6 flex items-center gap-2">
-            <TapButton
-              onClick={() => navigate({ to: "/" })}
-              aria-label={t("game:controls.back_to_home")}
-              title={t("game:controls.back_to_home")}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white/60 transition hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-            >
-              <BackIcon size={18} />
-            </TapButton>
-            <h1 className="flex-1 truncate text-2xl font-extrabold tracking-tight text-white">
-              {t("game:rules.title")}
-            </h1>
-            <LanguageSwitcher variant="solid" />
-          </header>
+      <Page>
+        <PageTitle description={t("game:rules.intro")}>
+          {t("game:rules.title")}
+        </PageTitle>
 
-          <p className="mb-6 text-sm leading-relaxed text-white/60">
-            {t("game:rules.intro")}
-          </p>
+        <div className="flex flex-col gap-y-4">
+          <Rule title={t("game:rules.goal.title")}>
+            <p className="mt-2 text-sm leading-relaxed text-white/70">
+              {t("game:rules.goal.body")}
+            </p>
+            {/* The win condition at a glance: this is how many have to go. */}
+            <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-black/20 py-4">
+              {Array.from({ length: WINNING_SCORE }, (_, i) => (
+                <MarbleGlyph
+                  // biome-ignore lint/suspicious/noArrayIndexKey: six identical marbles standing for a count, not a list of things.
+                  key={i}
+                  color="black"
+                  design={marbleDesign}
+                  size={24}
+                />
+              ))}
+            </div>
+          </Rule>
 
-          <div className="space-y-4">
-            <Section title={t("game:rules.goal.title")}>
-              <p className="mt-2 text-sm leading-relaxed text-white/70">
-                {t("game:rules.goal.body")}
-              </p>
-              {/* The win condition at a glance: this is how many have to go. */}
-              <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-black/20 py-4">
-                {Array.from({ length: WINNING_SCORE }, (_, i) => (
-                  <MarbleGlyph
-                    // biome-ignore lint/suspicious/noArrayIndexKey: six identical marbles standing for a count, not a list of things.
-                    key={i}
-                    color="black"
-                    design={marbleDesign}
-                    size={24}
-                  />
-                ))}
-              </div>
-            </Section>
+          <Rule title={t("game:rules.directions.title")}>
+            <p className="mt-2 text-sm leading-relaxed text-white/70">
+              {t("game:rules.directions.body")}
+            </p>
+            <Figure
+              diagram={COMPASS}
+              caption={t("game:rules.directions.caption")}
+              marbleDesign={marbleDesign}
+            />
+          </Rule>
 
-            <Section title={t("game:rules.directions.title")}>
-              <p className="mt-2 text-sm leading-relaxed text-white/70">
-                {t("game:rules.directions.body")}
-              </p>
-              <Figure
-                diagram={COMPASS}
-                caption={t("game:rules.directions.caption")}
-                marbleDesign={marbleDesign}
-              />
-            </Section>
+          <Rule title={t("game:rules.move.title")}>
+            <p className="mt-2 text-sm leading-relaxed text-white/70">
+              {t("game:rules.move.body")}
+            </p>
+            <Figure
+              diagram={INLINE}
+              caption={t("game:rules.move.inline_caption")}
+              marbleDesign={marbleDesign}
+            />
+            <Figure
+              diagram={BROADSIDE}
+              caption={t("game:rules.move.broadside_caption")}
+              marbleDesign={marbleDesign}
+            />
+          </Rule>
 
-            <Section title={t("game:rules.move.title")}>
-              <p className="mt-2 text-sm leading-relaxed text-white/70">
-                {t("game:rules.move.body")}
-              </p>
-              <Figure
-                diagram={INLINE}
-                caption={t("game:rules.move.inline_caption")}
-                marbleDesign={marbleDesign}
-              />
-              <Figure
-                diagram={BROADSIDE}
-                caption={t("game:rules.move.broadside_caption")}
-                marbleDesign={marbleDesign}
-              />
-            </Section>
+          <Rule title={t("game:rules.push.title")}>
+            <p className="mt-2 text-sm leading-relaxed text-white/70">
+              {t("game:rules.push.body")}
+            </p>
+            <Figure
+              diagram={PUSH}
+              caption={t("game:rules.push.ok_caption")}
+              marbleDesign={marbleDesign}
+            />
+            <Figure
+              diagram={BLOCKED}
+              caption={t("game:rules.push.blocked_caption")}
+              marbleDesign={marbleDesign}
+            />
+          </Rule>
 
-            <Section title={t("game:rules.push.title")}>
-              <p className="mt-2 text-sm leading-relaxed text-white/70">
-                {t("game:rules.push.body")}
-              </p>
-              <Figure
-                diagram={PUSH}
-                caption={t("game:rules.push.ok_caption")}
-                marbleDesign={marbleDesign}
-              />
-              <Figure
-                diagram={BLOCKED}
-                caption={t("game:rules.push.blocked_caption")}
-                marbleDesign={marbleDesign}
-              />
-            </Section>
-
-            <Section title={t("game:rules.capture.title")}>
-              <p className="mt-2 text-sm leading-relaxed text-white/70">
-                {t("game:rules.capture.body")}
-              </p>
-              <Figure
-                diagram={CAPTURE}
-                caption={t("game:rules.capture.caption")}
-                marbleDesign={marbleDesign}
-              />
-            </Section>
-          </div>
-
-          <Button
-            variant="primary"
-            size="lg"
-            className="mt-6 w-full"
-            onClick={() => navigate({ to: "/game" })}
-          >
-            {t("game:rules.cta")}
-          </Button>
+          <Rule title={t("game:rules.capture.title")}>
+            <p className="mt-2 text-sm leading-relaxed text-white/70">
+              {t("game:rules.capture.body")}
+            </p>
+            <Figure
+              diagram={CAPTURE}
+              caption={t("game:rules.capture.caption")}
+              marbleDesign={marbleDesign}
+            />
+          </Rule>
         </div>
-      </div>
-    </div>
+
+        <Button
+          variant="primary"
+          size="lg"
+          className="w-full"
+          onClick={() => navigate({ to: "/game/offline" })}
+        >
+          {t("game:rules.cta")}
+        </Button>
+      </Page>
+    </>
   )
 }

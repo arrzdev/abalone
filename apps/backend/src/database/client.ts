@@ -1,7 +1,11 @@
 import { drizzle } from "drizzle-orm/d1"
+import * as authSchema from "@/database/auth.schema"
 import * as appSchema from "@/database/schema"
 
-const schema = { ...appSchema }
+//both halves in one client: better-auth's drizzle adapter resolves its tables
+//through this handle, so its schema has to be registered alongside ours even
+//though the two files stay separate (see auth.schema.ts).
+const schema = { ...appSchema, ...authSchema }
 
 export type Db = ReturnType<typeof createDb>
 

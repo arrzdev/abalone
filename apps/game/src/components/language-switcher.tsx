@@ -1,8 +1,6 @@
 import { cn } from "@repo/nativ/utils"
 import { useCallback, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
-import type { SelectOption } from "@/components/ui/select"
-import { Select } from "@/components/ui/select"
 import { TapButton } from "@/components/ui/tap-button"
 import { useClickOutside } from "@/hooks/use-click-outside"
 import type { Language } from "@/i18n"
@@ -31,45 +29,17 @@ export type LanguageSwitcherVariant = keyof typeof TRIGGER_VARIANTS
  * track font-size cleanly, so letting them size the layout makes the trigger
  * drift out of alignment as the page zooms.
  */
-function Flag({ code }: { code: string }) {
+function Flag({ code, className }: { code: string; className?: string }) {
   return (
     <span
-      className="flex h-5 w-5 shrink-0 items-center justify-center text-base leading-none"
+      className={cn(
+        "flex h-5 w-5 shrink-0 items-center justify-center text-base leading-none",
+        className,
+      )}
       aria-hidden="true"
     >
       {LANGUAGE_FLAGS[code as Language]}
     </span>
-  )
-}
-
-/** Every language as a Select option, with its flag alongside the native name. */
-const LANGUAGE_OPTIONS: SelectOption<Language>[] = SUPPORTED_LANGUAGES.map(
-  (lng) => ({
-    value: lng,
-    label: LANGUAGE_NAMES[lng],
-    icon: <Flag code={lng} />,
-  }),
-)
-
-/**
- * The same choice as {@link LanguageSwitcher}, as a labelled full-width
- * dropdown. This is the form used inside the settings dialog, where a bare flag
- * button would read as decoration rather than as a setting.
- */
-export function LanguageSelect({ className }: { className?: string }) {
-  const { i18n, t } = useTranslation()
-  const current = (i18n.resolvedLanguage ||
-    i18n.language ||
-    "en") as Language
-
-  return (
-    <Select
-      label={t("common:language.select")}
-      value={current}
-      onChange={changeLanguage}
-      options={LANGUAGE_OPTIONS}
-      className={className}
-    />
   )
 }
 
@@ -104,14 +74,16 @@ export function LanguageSwitcher({
         title={t("common:language.change")}
         onClick={() => setOpen((value) => !value)}
         className={cn(
-          "flex h-9 items-center gap-2 rounded-lg px-2.5 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+          "flex h-9 w-9 items-center justify-center rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
           TRIGGER_VARIANTS[variant],
         )}
       >
-        <Flag code={current} />
-        <span className="text-sm leading-none font-semibold tracking-wide">
-          {current.toUpperCase()}
-        </span>
+        {/* The flag alone. The code beside it said the same thing twice, and a
+            row of chrome icons is a row of squares — a two-letter label made
+            this one the odd width in it. It is drawn at the size the icons
+            beside it are: an emoji is inset inside its own glyph box, so
+            matching font-size to icon size leaves it visibly the smaller. */}
+        <Flag code={current} className="h-6 w-6 text-2xl" />
       </TapButton>
 
       {open && (
