@@ -5,7 +5,9 @@ description: The @repo/synq offline-first engine: HLC clock, field-level last-wr
 
 # Sync engine (`@repo/synq`)
 
-The app is **offline-first**: every read and write hits a local store instantly, and reconciliation with the backend happens in the background. `@repo/synq` is the engine that makes that safe. Read this before touching anything under `apps/frontend/src/data/collections/`, `apps/frontend/src/data/sync/`, `apps/backend/src/services/sync.service.ts`, or `packages/synq/`.
+An app on this engine is **offline-first**: every read and write hits a local store instantly, and reconciliation with the backend happens in the background. `@repo/synq` is the engine that makes that safe. Read this before touching anything under `apps/<app>/src/data/collections/`, `apps/<app>/src/data/sync/`, `apps/backend/src/services/sync.service.ts`, or `packages/synq/`.
+
+**Not in this repo any more.** `packages/synq` was deleted — this project has no offline-first app and does not want one. Every path below, package and app alike, describes where the pieces go if the engine is brought back, not where they are. The design is the part worth keeping: HLC stamps, field-level LWW, the outbox contract and the ack/retry/discard rules are what took the time to get right, and they are reproducible from this file. The package's own source is recoverable from git history.
 
 Consuming the data layer from a page? → `stack-frontend-data` (that's the *usage* skill; this one is the *engine*).
 
@@ -17,9 +19,9 @@ Consuming the data layer from a page? → `stack-frontend-data` (that's the *usa
 | **Clock** | hybrid logical clock — causal order that survives wrong device clocks | `packages/synq/src/core/hlc.ts` |
 | **Engine** | pull → merge → apply → push, per collection, with an outbox | `packages/synq/src/core/sync-engine.ts` |
 | **Storage** | pluggable adapter (IndexedDB in the browser, memory for SSR/tests) | `packages/synq/src/adapters/` |
-| **Store** | the app's typed register of collections | `apps/frontend/src/data/store.ts` |
-| **Transport** | the pull/push pair that talks to the backend | `apps/frontend/src/data/sync/transport.ts` |
-| **Controller** | decides *when* to sync and owns the status the UI shows | `apps/frontend/src/data/sync/controller.ts` |
+| **Store** | the app's typed register of collections | `apps/<app>/src/data/store.ts` |
+| **Transport** | the pull/push pair that talks to the backend | `apps/<app>/src/data/sync/transport.ts` |
+| **Controller** | decides *when* to sync and owns the status the UI shows | `apps/<app>/src/data/sync/controller.ts` |
 | **Server half** | the same merge, running over D1 | `apps/backend/src/services/sync.service.ts` |
 
 The client and the server run the **same merge code**. That is the design: convergence doesn't depend on who reconciles first.

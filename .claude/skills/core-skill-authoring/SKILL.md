@@ -61,7 +61,7 @@ Both matter because **the hook fails soft on purpose**: a mistyped glob produces
 |---|---|---|
 | **`core-*`** | style, process, architecture, repo layout, error/test patterns | survives a copy into **any** project |
 | **`platform-*`** | how the target runtime behaves — iOS/WebKit/standalone PWA | survives a copy into any project on the **same target** |
-| **`stack-*`** | this repo's wiring — Cloudflare/Hono/Drizzle/D1, TanStack, `@repo/nativ`, `@repo/synq`, env, deploy, the dev log sink | must be **re-derived** when porting |
+| **`stack-*`** | this repo's wiring — Cloudflare/Hono/Drizzle/D1, TanStack, `@repo/nativ`, env, deploy, the dev log sink | must be **re-derived** when porting |
 
 The `platform-` tier exists because runtime findings are long-lived but not stack-bound. "iOS edge swipe-back can't be `preventDefault`ed" and "WebKit's focus reveal beats a warm-keyboard smooth scroll" stay true no matter what you build the next app with — they cost days to measure and would be silently lost if filed under the tier labelled *re-derive when porting*.
 
@@ -93,10 +93,9 @@ When a portable rule genuinely needs this repo's wiring, cross-reference instead
 
 | Member | What |
 |---|---|
-| `apps/backend` | Hono API on Cloudflare Workers + D1 (Drizzle), better-auth, the sync server |
-| `apps/frontend` | TanStack Start PWA over `@repo/nativ`, offline-first via `@repo/synq` |
+| `apps/backend` | Hono API on Cloudflare Workers + D1 (Drizzle) — health check and one worked example route |
+| `apps/game` | the Abalone game: TanStack Start PWA over `@repo/nativ`, canvas board, no server state |
 | `packages/nativ` | the PWA shell framework — config-driven, generates root/router/manifest/SW |
-| `packages/synq` | the offline-first sync engine — HLC + field-level LWW merge, client **and** server halves |
 | `packages/shared` | `tryCatch`, `Logger`, the Hono `newEndpoint` / envelope factory |
 | `packages/env-validation` | schema-first env registry + `check:env` CLI |
 | `packages/dev` | dev-only infra — run-dev, ports, LAN IP, the log sink |

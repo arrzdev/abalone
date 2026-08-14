@@ -29,11 +29,10 @@ from pathlib import Path
 
 # workspace dir -> turbo filter, mirroring the scoped-build table in CLAUDE.md
 FILTERS = {
-    "apps/frontend": "@repo/frontend",
+    "apps/game": "@repo/game",
     "apps/backend": "@repo/backend",
     "packages/nativ": "@repo/nativ",
     "packages/shared": "@repo/shared",
-    "packages/synq": "@repo/synq",
     "packages/dev": "@repo/dev",
     "packages/env-validation": "@repo/env-validation",
 }
