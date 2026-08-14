@@ -1,10 +1,10 @@
 import { defineConfig, devices } from "@playwright/test"
 
-// E2E / self-test harness. Drives a locally running frontend headlessly.
-// Default target is the committed frontend dev port; override with E2E_BASE_URL
+// E2E / self-test harness. Drives a locally running app headlessly.
+// Default target is the game's committed dev port; override with E2E_BASE_URL
 // (e.g. when the agent remaps ports.ts for an isolated autonomous run — see the
 // "self-test-prefer-headless-automation" / "autonomous-test-isolate-ports" notes).
-const baseURL = process.env.E2E_BASE_URL ?? "http://127.0.0.1:7171"
+const baseURL = process.env.E2E_BASE_URL ?? "http://127.0.0.1:6161"
 
 export default defineConfig({
   testDir: "./e2e",
@@ -22,9 +22,9 @@ export default defineConfig({
     // device — escalate device-only quirks to the iOS Simulator).
     { name: "webkit", use: { ...devices["iPhone 13"] } },
   ],
-  // Reuse a dev server if one is already up; otherwise boot the frontend.
+  // Reuse a dev server if one is already up; otherwise boot the game.
   webServer: {
-    command: "pnpm --filter @repo/frontend dev",
+    command: "pnpm --filter @repo/game dev",
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

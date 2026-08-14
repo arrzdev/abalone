@@ -11,11 +11,6 @@
       "outputs": [],
       "inputs": ["$TURBO_DEFAULT$", "env/.env", "env/schema.ts"]
     },
-    "@repo/frontend#build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"],
-      "inputs": ["$TURBO_DEFAULT$", "env/.env", "env/schema.ts"]
-    },
     "dev": {
       "cache": false,
       "persistent": true

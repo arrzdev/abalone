@@ -63,9 +63,7 @@
       "!!**/*.lcov",
       "!!**/*.tgz",
       "!!**/.cursor",
-      "!!.claude",
-      "!apps/game/src/**/*.js",
-      "!apps/game/src/**/*.jsx"
+      "!!.claude"
     ],
     "ignoreUnknown": true
   },
