@@ -2,7 +2,7 @@ import { cn } from "@repo/nativ/utils"
 import { useTranslation } from "react-i18next"
 import { PlusIcon, RematchIcon } from "@/components/icons"
 import { Button } from "@/components/ui/button"
-import { Modal } from "@/components/ui/modal"
+import { Sheet } from "@/components/ui/sheet"
 import type { GameState } from "@/engine/game-state"
 import { getGameOverMessage } from "@/i18n/game-text"
 
@@ -70,7 +70,7 @@ export function GameOverModal({
   }
 
   return (
-    <Modal open={open} onClose={onClose} className="text-center">
+    <Sheet open={open} onClose={onClose} className="text-center">
       <p className={cn("text-3xl font-extrabold", ACCENTS[resultKind])}>
         {heading}
       </p>
@@ -88,6 +88,6 @@ export function GameOverModal({
           {newGameLabel}
         </Button>
       </div>
-    </Modal>
+    </Sheet>
   )
 }

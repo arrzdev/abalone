@@ -46,7 +46,7 @@ Both are CPU-budget failures that look like random 500s on cold sign-in, not lik
 
 ## Trusted origins come from config, never from an env flag
 
-`allowsPrivateOrigins()` decides whether CORS reflects and better-auth trusts localhost/LAN origins. It is derived from **whether the configured `FRONTEND_URL` is itself a private origin** — not from `NODE_ENV` or `CI`.
+`allowsPrivateOrigins()` decides whether CORS reflects and better-auth trusts localhost/LAN origins. It is derived from **whether every configured `FRONTEND_URLS` origin is itself private** — not from `NODE_ENV` or `CI`. `every`, not `some`: one stray localhost entry in a production list must not switch dev mode on.
 
 This is a fixed security bug, not a style choice: a deployed Worker cannot reliably read a build/process flag at module load (secrets arrive per-request, and `process.env.CI` is simply *absent* in production), so the old `process.env.CI !== "true"` evaluated to **true in production** — dev mode, live. A production `https` frontend now yields `false`, so private origins are never reflected or trusted in prod.
 

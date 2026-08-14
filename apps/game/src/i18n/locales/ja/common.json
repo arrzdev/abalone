@@ -1,5 +1,7 @@
 {
   "nav": {
+    "primary": "メインナビゲーション",
+    "back": "戻る",
     "play": "プレイ",
     "rules": "ゲームルール",
     "strategy": "戦略ガイド",
@@ -8,7 +10,8 @@
     "history": "対局履歴",
     "profile": "プロフィール",
     "back_to_game": "コンピューターと対戦",
-    "back_to_game_from_page": "ゲームをプレイ"
+    "back_to_game_from_page": "ゲームをプレイ",
+    "home": "ホーム"
   },
   "buttons": {
     "play_now": "今すぐプレイ",
@@ -30,19 +33,54 @@
     "change": "言語を変更"
   },
   "home": {
+    "eyebrow": "2人のプレイヤー、1つの六角形ボード。",
     "tagline": "相手のボールを6個盤外に押し出せば勝ちです。",
-    "game_code": "ゲームコード",
-    "code_hint": "6文字 — 英字と数字",
     "play_online": "オンラインで対戦",
-    "join_game": "ゲームに参加",
     "play_offline": "オフラインで対戦",
-    "rules_link": "遊び方を見る",
-    "soon_title": "オンライン対戦は近日公開",
-    "soon_body": "マッチメイキングサーバーがまだないため、コードの作成も参加もできません。",
-    "code_not_sent": "コード {{code}} はどこにも送信されていません。"
+    "rules_link": "遊び方を見る"
+  },
+  "auth": {
+    "sign_in": "ログイン",
+    "sign_out": "ログアウト",
+    "create_account": "アカウントを作成",
+    "username": "ユーザー名",
+    "username_placeholder": "名前を決めてください",
+    "password": "パスワード",
+    "password_placeholder": "{{count}}文字以上",
+    "show_password": "パスワードを表示",
+    "hide_password": "パスワードを非表示",
+    "prompt_title": "ログインしてオンラインで対戦",
+    "prompt_body": "オンライン対戦には名前が必要です。オフライン対戦では聞かれません。",
+    "errors": {
+      "username_taken": "その名前はすでに使われています。別の名前をお試しください。",
+      "username_invalid": "名前は3文字から20文字までで、英数字、ピリオド、アンダースコアが使えます。",
+      "password_too_short": "パスワードは8文字以上必要です。",
+      "invalid_credentials": "名前とパスワードが一致しません。両方を確認してもう一度お試しください。",
+      "unknown": "問題が発生しました。接続を確認してもう一度お試しください。"
+    },
+    "credentials_warning": "名前とパスワードは再設定できません。忘れるとアカウントも失います。"
+  },
+  "profile": {
+    "username_permanent": "名前は変更できません",
+    "change_picture": "画像を変更",
+    "uploading": "アップロード中",
+    "picture_hint": "PNG、JPEG、WebPに対応しています。正方形に切り抜かれます。",
+    "upload_failed": "画像をアップロードできませんでした。もう一度お試しください。"
+  },
+  "online": {
+    "title": "オンライン",
+    "body": "オンライン対戦はまだ動いていません。始まったときにすぐ入れるよう、この画面を用意しています。",
+    "signed_in_as": "{{username}} としてログイン中"
   },
   "actions": {
     "close": "閉じる",
     "cancel": "キャンセル"
+  },
+  "play": {
+    "title": "対戦",
+    "online_hint": "自分の名前で、ほかのプレイヤーと対戦します。",
+    "offline_hint": "ボットと、または1台の端末で2人で対戦します。",
+    "bot_hint": "ボットと対戦。強さは選べます。",
+    "local_hint": "1台の端末で、2人が交代で対戦します。"
   }
 }

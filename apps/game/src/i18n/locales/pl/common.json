@@ -1,5 +1,7 @@
 {
   "nav": {
+    "primary": "Nawigacja główna",
+    "back": "Wstecz",
     "play": "Graj",
     "rules": "Zasady Gry",
     "strategy": "Przewodnik Strategiczny",
@@ -8,7 +10,8 @@
     "history": "Historia Gier",
     "profile": "Profil",
     "back_to_game": "Graj przeciwko Komputerowi",
-    "back_to_game_from_page": "Graj w Grę"
+    "back_to_game_from_page": "Graj w Grę",
+    "home": "Start"
   },
   "buttons": {
     "play_now": "Graj Teraz",
@@ -30,19 +33,54 @@
     "change": "Zmień język"
   },
   "home": {
+    "eyebrow": "Dwóch graczy. Jedna sześciokątna plansza.",
     "tagline": "Wypchnij sześć kul przeciwnika poza planszę, aby wygrać.",
-    "game_code": "Kod gry",
-    "code_hint": "6 znaków — litery i cyfry",
     "play_online": "Graj online",
-    "join_game": "Dołącz do gry",
     "play_offline": "Graj offline",
-    "rules_link": "Naucz się grać",
-    "soon_title": "Gra online już wkrótce",
-    "soon_body": "Nie ma jeszcze serwera parowania, więc nie można tworzyć kodów ani do nich dołączać.",
-    "code_not_sent": "Kod {{code}} nie został nigdzie wysłany."
+    "rules_link": "Naucz się grać"
+  },
+  "auth": {
+    "sign_in": "Zaloguj się",
+    "sign_out": "Wyloguj się",
+    "create_account": "Załóż konto",
+    "username": "Nazwa użytkownika",
+    "username_placeholder": "Wybierz nazwę",
+    "password": "Hasło",
+    "password_placeholder": "Co najmniej {{count}} znaków",
+    "show_password": "Pokaż hasło",
+    "hide_password": "Ukryj hasło",
+    "prompt_title": "Zaloguj się, aby grać online",
+    "prompt_body": "Gry online potrzebują nazwy. Gra offline nigdy o nią nie prosi.",
+    "errors": {
+      "username_taken": "Ta nazwa jest już zajęta. Wybierz inną.",
+      "username_invalid": "Nazwy mają od 3 do 20 znaków i składają się z liter, cyfr, kropek i podkreśleń.",
+      "password_too_short": "Hasło musi mieć co najmniej 8 znaków.",
+      "invalid_credentials": "Ta nazwa i hasło do siebie nie pasują. Sprawdź oba i spróbuj ponownie.",
+      "unknown": "Coś poszło nie tak. Sprawdź połączenie i spróbuj ponownie."
+    },
+    "credentials_warning": "Nazwy i hasła nie da się odzyskać — stracisz je, stracisz konto."
+  },
+  "profile": {
+    "username_permanent": "Twoja nazwa jest stała",
+    "change_picture": "Zmień zdjęcie",
+    "uploading": "Wysyłanie",
+    "picture_hint": "PNG, JPEG lub WebP. Obraz zostanie przycięty do kwadratu.",
+    "upload_failed": "To zdjęcie nie zostało wysłane. Spróbuj ponownie."
+  },
+  "online": {
+    "title": "Online",
+    "body": "Gry online jeszcze nie działają. Ten ekran czeka, żeby wejście było gotowe, gdy ruszą.",
+    "signed_in_as": "Zalogowano jako {{username}}"
   },
   "actions": {
     "close": "Zamknij",
     "cancel": "Anuluj"
+  },
+  "play": {
+    "title": "Graj",
+    "online_hint": "Przeciwko innemu graczowi, pod twoją nazwą.",
+    "offline_hint": "Przeciwko botowi albo we dwoje na tym urządzeniu.",
+    "bot_hint": "Przeciwko botowi, na wybranym poziomie.",
+    "local_hint": "We dwoje, na zmianę, na tym urządzeniu."
   }
 }

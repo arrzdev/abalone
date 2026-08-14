@@ -1,5 +1,7 @@
 {
   "nav": {
+    "primary": "기본 탐색",
+    "back": "뒤로",
     "play": "플레이",
     "rules": "게임 규칙",
     "strategy": "전략 가이드",
@@ -8,7 +10,8 @@
     "history": "게임 기록",
     "profile": "프로필",
     "back_to_game": "컴퓨터와 대전",
-    "back_to_game_from_page": "게임 플레이"
+    "back_to_game_from_page": "게임 플레이",
+    "home": "홈"
   },
   "buttons": {
     "play_now": "지금 플레이",
@@ -30,19 +33,54 @@
     "change": "언어 변경"
   },
   "home": {
+    "eyebrow": "두 명의 플레이어, 하나의 육각 보드.",
     "tagline": "상대 구슬 6개를 보드 밖으로 밀어내면 승리합니다.",
-    "game_code": "게임 코드",
-    "code_hint": "6자 — 영문자와 숫자",
     "play_online": "온라인 플레이",
-    "join_game": "게임 참가",
     "play_offline": "오프라인 플레이",
-    "rules_link": "게임 방법 배우기",
-    "soon_title": "온라인 플레이는 곧 제공됩니다",
-    "soon_body": "아직 매치메이킹 서버가 없어 코드를 만들거나 참가할 수 없습니다.",
-    "code_not_sent": "코드 {{code}}는 어디에도 전송되지 않았습니다."
+    "rules_link": "게임 방법 배우기"
+  },
+  "auth": {
+    "sign_in": "로그인",
+    "sign_out": "로그아웃",
+    "create_account": "계정 만들기",
+    "username": "사용자 이름",
+    "username_placeholder": "이름을 정하세요",
+    "password": "비밀번호",
+    "password_placeholder": "{{count}}자 이상",
+    "show_password": "비밀번호 표시",
+    "hide_password": "비밀번호 숨기기",
+    "prompt_title": "온라인 대전을 하려면 로그인하세요",
+    "prompt_body": "온라인 대전에는 이름이 필요합니다. 오프라인 대전은 이름을 묻지 않습니다.",
+    "errors": {
+      "username_taken": "이미 사용 중인 이름입니다. 다른 이름을 사용해 보세요.",
+      "username_invalid": "이름은 3자에서 20자까지이며 영문, 숫자, 마침표, 밑줄을 쓸 수 있습니다.",
+      "password_too_short": "비밀번호는 8자 이상이어야 합니다.",
+      "invalid_credentials": "이름과 비밀번호가 일치하지 않습니다. 둘 다 확인하고 다시 시도하세요.",
+      "unknown": "문제가 발생했습니다. 연결을 확인하고 다시 시도하세요."
+    },
+    "credentials_warning": "이름과 비밀번호는 재설정할 수 없어요. 잊으면 계정도 사라집니다."
+  },
+  "profile": {
+    "username_permanent": "이름은 바꿀 수 없습니다",
+    "change_picture": "사진 변경",
+    "uploading": "업로드 중",
+    "picture_hint": "PNG, JPEG 또는 WebP. 정사각형으로 잘립니다.",
+    "upload_failed": "사진을 업로드하지 못했습니다. 다시 시도하세요."
+  },
+  "online": {
+    "title": "온라인",
+    "body": "온라인 대전은 아직 열리지 않았습니다. 시작되면 바로 들어올 수 있도록 이 화면을 준비해 두었습니다.",
+    "signed_in_as": "{{username}} 님으로 로그인"
   },
   "actions": {
     "close": "닫기",
     "cancel": "취소"
+  },
+  "play": {
+    "title": "플레이",
+    "online_hint": "내 이름으로 다른 플레이어와 대전합니다.",
+    "offline_hint": "봇과 대전하거나, 한 기기에서 둘이 번갈아 둡니다.",
+    "bot_hint": "봇과 대전하고, 난이도는 직접 고릅니다.",
+    "local_hint": "한 기기에서 둘이 번갈아 둡니다."
   }
 }

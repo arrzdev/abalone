@@ -1,5 +1,7 @@
 {
   "nav": {
+    "primary": "Ana gezinme",
+    "back": "Geri",
     "play": "Oyna",
     "rules": "Oyun Kuralları",
     "strategy": "Strateji Rehberi",
@@ -8,7 +10,8 @@
     "history": "Oyun Geçmişi",
     "profile": "Profil",
     "back_to_game": "Bilgisayara Karşı Oyna",
-    "back_to_game_from_page": "Oyunu Oyna"
+    "back_to_game_from_page": "Oyunu Oyna",
+    "home": "Ana sayfa"
   },
   "buttons": {
     "play_now": "Şimdi Oyna",
@@ -30,19 +33,54 @@
     "change": "Dili değiştir"
   },
   "home": {
+    "eyebrow": "İki oyuncu. Tek altıgen tahta.",
     "tagline": "Kazanmak için rakibinin altı bilyesini tahtadan dışarı it.",
-    "game_code": "Oyun kodu",
-    "code_hint": "6 karakter — harf ve rakam",
     "play_online": "Çevrimiçi oyna",
-    "join_game": "Oyuna katıl",
     "play_offline": "Çevrimdışı oyna",
-    "rules_link": "Oynamayı öğren",
-    "soon_title": "Çevrimiçi oyun çok yakında",
-    "soon_body": "Henüz eşleştirme sunucusu yok, bu yüzden kod oluşturulamaz veya kodla katılınamaz.",
-    "code_not_sent": "{{code}} kodu hiçbir yere gönderilmedi."
+    "rules_link": "Oynamayı öğren"
+  },
+  "auth": {
+    "sign_in": "Giriş yap",
+    "sign_out": "Çıkış yap",
+    "create_account": "Hesap oluştur",
+    "username": "Kullanıcı adı",
+    "username_placeholder": "Bir ad seç",
+    "password": "Parola",
+    "password_placeholder": "En az {{count}} karakter",
+    "show_password": "Parolayı göster",
+    "hide_password": "Parolayı gizle",
+    "prompt_title": "Çevrimiçi oynamak için giriş yap",
+    "prompt_body": "Çevrimiçi oyunlar bir ad ister. Çevrimdışı oyun hiçbir zaman istemez.",
+    "errors": {
+      "username_taken": "Bu ad zaten alınmış. Başka bir ad dene.",
+      "username_invalid": "Adlar 3 ile 20 karakter arasındadır; harf, rakam, nokta ve alt çizgi kullanabilirsin.",
+      "password_too_short": "Parolalar en az 8 karakter olmalı.",
+      "invalid_credentials": "Bu ad ve parola eşleşmiyor. İkisini de kontrol edip tekrar dene.",
+      "unknown": "Bir şeyler ters gitti. Bağlantını kontrol edip tekrar dene."
+    },
+    "credentials_warning": "Ad ve parola sıfırlanamaz — kaybedersen hesap da gider."
+  },
+  "profile": {
+    "username_permanent": "Adın kalıcıdır",
+    "change_picture": "Resmi değiştir",
+    "uploading": "Yükleniyor",
+    "picture_hint": "PNG, JPEG veya WebP. Görsel kare olacak şekilde kırpılır.",
+    "upload_failed": "Bu resim yüklenemedi. Tekrar dene."
+  },
+  "online": {
+    "title": "Çevrimiçi",
+    "body": "Çevrimiçi oyunlar henüz çalışmıyor. Bu ekran, oyunlar geldiğinde giriş hazır olsun diye burada.",
+    "signed_in_as": "{{username}} olarak giriş yapıldı"
   },
   "actions": {
     "close": "Kapat",
     "cancel": "Vazgeç"
+  },
+  "play": {
+    "title": "Oyna",
+    "online_hint": "Kendi adınla, başka bir oyuncuya karşı.",
+    "offline_hint": "Bir bota karşı ya da bu cihazda iki kişi.",
+    "bot_hint": "Bir bota karşı, seçtiğin güçte.",
+    "local_hint": "İki kişi, sırayla, bu cihazda."
   }
 }
