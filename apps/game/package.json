@@ -9,6 +9,7 @@
   },
   "scripts": {
     "check:env": "tsx env/check-env.ts",
+    "avatars": "pnpm dlx svgo -f assets/avatars -o node_modules/.avatars --config scripts/avatars/svgo.config.mjs && node scripts/avatars/generate.mjs node_modules/.avatars src/components/avatars scripts/avatars/crop.json",
     "dev": "tsx scripts/dev.ts",
     "build": "vite build",
     "biome:fix": "biome check --write .",

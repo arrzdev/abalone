@@ -91,20 +91,9 @@ export function getBot(level: number): Bot {
 export const blurbKey = (level: number) => `bots:${getBot(level).id}.blurb`
 export const titleKey = (level: number) => `bots:${getBot(level).id}.title`
 
-/**
- * Where a bot's portrait is.
- *
- * Named after the character rather than the level, because that is what the
- * picture is of: reordering the ladder should move a face up it, not repaint
- * someone else's. Every portrait is a square 256px crop framed on the face —
- * one file for all three places a bot is shown, since the largest of them is
- * 48px and a retina screen wants twice that.
- *
- * The vector originals are kept in `assets/avatars/` at the root of this app,
- * outside `public/`, so the full-size art is not shipped to draw a thumbnail.
- */
-export const avatarSrc = (level: number) =>
-  `${import.meta.env.BASE_URL}images/avatars/${getBot(level).id}.webp`
+//a bot's portrait is no longer a url. the faces are svg components generated
+//from `assets/avatars/`, picked by id in `components/bot-avatar.tsx`, so
+//nothing here has to know where a picture lives
 
 //the locale json is a fixed shape to a translator and a bag of pools to this
 //file, which reads it with an id and an event it only knows at runtime. the

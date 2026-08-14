@@ -1,9 +1,10 @@
 import { cn } from "@repo/nativ/utils"
 import { createFileRoute } from "@tanstack/react-router"
-import type { CSSProperties } from "react"
+import type { CSSProperties, ReactNode } from "react"
 import { useCallback, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
+import { BotAvatar } from "@/components/bot-avatar"
 import { BotChatter } from "@/components/bot-chatter"
 import { EvalBar, EvalBarSlot } from "@/components/eval-bar"
 import type { GameCanvasHandle } from "@/components/game-canvas"
@@ -28,7 +29,7 @@ import type { GameMode } from "@/engine/game-state"
 import type { CellName, Player } from "@/engine/types"
 import { useAbaloneGame } from "@/hooks/use-abalone-game"
 import { useBotChatter } from "@/hooks/use-bot-chatter"
-import { avatarSrc as botAvatarSrc, getBot, titleKey } from "@/i18n/bots"
+import { getBot, titleKey } from "@/i18n/bots"
 import { useAuth } from "@/providers/auth-provider"
 
 export type GameOfflineSearch = {
@@ -172,9 +173,21 @@ function GameOfflinePage() {
     else if (isBot) name = bot.name
     else name = account?.displayUsername ?? t("game:players.you")
 
-    let avatarSrc: string | undefined
-    if (isBot) avatarSrc = botAvatarSrc(difficulty)
-    else if (account) avatarSrc = profile?.avatarUrl ?? undefined
+    //a node, not a url: the bot's face is a component already in the bundle and
+    //the player's is a picture off the cdn, and the card only needs to be handed
+    //whichever one there is
+    let avatar: ReactNode
+    if (isBot) {
+      avatar = <BotAvatar level={difficulty} className="h-full w-full" />
+    } else if (account && profile?.avatarUrl) {
+      avatar = (
+        <img
+          src={profile.avatarUrl}
+          alt=""
+          className="h-full w-full object-cover"
+        />
+      )
+    }
 
     return {
       color,
@@ -186,7 +199,7 @@ function GameOfflinePage() {
         !state.gameOver &&
         phase !== "pregame",
       name,
-      avatarSrc,
+      avatar,
       title: isBot
         ? `${bot.name} — ${t(titleKey(difficulty))}`
         : undefined,

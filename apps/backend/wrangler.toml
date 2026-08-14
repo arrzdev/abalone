@@ -8,6 +8,7 @@ compatibility_date = "2026-03-17"
 compatibility_flags = ["nodejs_compat"]
 minify = true
 upload_source_maps = false
+workers_dev = false
 
 # Runtime env (FRONTEND_URLS, BETTER_AUTH_*, AVATAR_PUBLIC_URL) is deliberately
 # NOT declared here. The deploy uploads it onto the Worker as secrets from the
