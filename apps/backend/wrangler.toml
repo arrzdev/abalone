@@ -9,7 +9,7 @@ compatibility_flags = ["nodejs_compat"]
 minify = true
 upload_source_maps = false
 
-# Runtime env (FRONTEND_URL, BETTER_AUTH_*, AVATAR_PUBLIC_URL) is deliberately
+# Runtime env (FRONTEND_URLS, BETTER_AUTH_*, AVATAR_PUBLIC_URL) is deliberately
 # NOT declared here. The deploy uploads it onto the Worker as secrets from the
 # GH-action-written env/.env — `wrangler versions upload --secrets-file env/.env`,
 # see .github/scripts/deploy/app.sh — so env is driven entirely by the GitHub

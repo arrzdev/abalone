@@ -33,10 +33,12 @@ export default defineConfig({
           bindings: {
             TEST_MIGRATIONS: migrations,
             RATE_LIMIT_ALLOW_TEST_BYPASS: "true",
-            //an https-style public origin on purpose: `example.com` is not a
-            //private origin, so allowsPrivateOrigins() is false and the tests
-            //exercise the production network policy rather than the dev one.
-            FRONTEND_URL: "http://example.com",
+            //public origins on purpose: neither is private, so
+            //allowsPrivateOrigins() is false and the tests exercise the
+            //production network policy rather than the dev one. two of them
+            //because production serves the game on more than one domain, and a
+            //single-entry list would never exercise the split.
+            FRONTEND_URLS: "http://example.com,http://second.example.com",
             BETTER_AUTH_SECRET: "test-secret-at-least-16-characters",
             BETTER_AUTH_URL: "http://example.com",
             AVATAR_PUBLIC_URL: "https://cdn.example.com",

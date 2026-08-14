@@ -7,7 +7,10 @@ import { authSchema } from "@/database/auth.schema"
 import type { Db } from "@/database/client"
 import { profiles } from "@/database/schema"
 import { env } from "@/env/registry"
-import { allowsPrivateOrigins } from "@/http/network-policy"
+import {
+  allowsPrivateOrigins,
+  frontendOrigins,
+} from "@/http/network-policy"
 import { isPrivateOrigin } from "@/utils/is-private-origin"
 
 /** What a signed-in player is, everywhere downstream of `requireAuth`. */
@@ -104,10 +107,6 @@ async function verifyPasswordForWorkers(input: {
 
 const authCache = new Map<Db, ReturnType<typeof createAuth>>()
 
-function trustedOrigin(): string {
-  return new URL(env.FRONTEND_URL).origin
-}
-
 function createAuth(db: Db) {
   return betterAuth({
     appName: "abalone",
@@ -119,6 +118,8 @@ function createAuth(db: Db) {
       provider: "sqlite",
       schema: authSchema,
     }),
+    //every configured frontend origin, because the game answers on more than
+    //one domain. in dev the request's own private origin is added to them.
     trustedOrigins: allowsPrivateOrigins()
       ? async (request) => {
           //createAuthContext probes getTrustedOrigins() with no request at
@@ -126,9 +127,9 @@ function createAuth(db: Db) {
           if (request === undefined) return []
           const origin = request.headers.get("origin")
           if (origin && isPrivateOrigin(origin)) return [origin]
-          return [trustedOrigin()]
+          return frontendOrigins()
         }
-      : [trustedOrigin()],
+      : frontendOrigins(),
     emailAndPassword: {
       //this is the credential flow the username plugin sits on top of — the
       //player never sees an email field, but the password half is this one

@@ -115,8 +115,8 @@ the spot, so `pnpm dev` needs no network and no Cloudflare account — but wrang
 emulates the binding, not public-bucket HTTP access, so that bucket has no address
 an `<img>` can reach. `GET /api/v1/avatars/*` stands in for the custom domain and
 serves the headers the object itself carries, so the caching behaviour under test
-is the one that ships. It is gated on the same config-derived signal as CORS, a
-localhost `FRONTEND_URL`, so against an https frontend it answers 404 and the
+is the one that ships. It is gated on the same config-derived signal as CORS, an
+all-localhost `FRONTEND_URLS`, so against an https frontend it answers 404 and the
 production read path is the only one there is.
 
 ## Deploying
@@ -152,12 +152,13 @@ after rotating secrets, which change no files, so `--affected` finds nothing.
 | --- | --- |
 | `BETTER_AUTH_SECRET` | 16 characters or more, from `openssl rand -hex 32` |
 | `BETTER_AUTH_URL` | `https://api.abalone.tudu.dev` |
-| `FRONTEND_URL` | `https://abalone.tudu.dev` |
+| `FRONTEND_URLS` | `https://abalone.tudu.dev,https://babaluje.tudu.dev` — every origin the game answers on, comma-separated |
 | `AVATAR_PUBLIC_URL` | `https://cdn.abalone.tudu.dev` |
 | `VITE_BACKEND_URL` | `https://api.abalone.tudu.dev`, baked into the game's build |
 
-Then create the database and the bucket, and paste the database's id over the
-`REPLACE_WITH_…` placeholder in `apps/backend/wrangler.toml`:
+Then create the database and the bucket. Both already exist on this account and
+`apps/backend/wrangler.toml` carries the database's id; on a fresh account,
+paste the new id over it:
 
 ```bash
 pnpm exec wrangler d1 create abalone-backend-db
@@ -167,10 +168,12 @@ pnpm exec wrangler d1 create abalone-backend-db
 pnpm exec wrangler r2 bucket create abalone-avatars
 ```
 
-Two steps are the dashboard's. Attach `api.abalone.tudu.dev` to the
-`abalone-backend` Worker, and `cdn.abalone.tudu.dev` to the `abalone-avatars`
-bucket under Settings, Public access, Custom domain. There is no wrangler
-equivalent for the second one.
+The domains are the dashboard's. Attach `abalone.tudu.dev` and
+`babaluje.tudu.dev` to the `abalone-game` Worker — the game answers on both,
+which is why `FRONTEND_URLS` is a list — `api.abalone.tudu.dev` to
+`abalone-backend`, and `cdn.abalone.tudu.dev` to the `abalone-avatars` bucket
+under Settings, Public access, Custom domain. There is no wrangler equivalent
+for the bucket one.
 
 Do all of that before merging. A missing environment value is invisible on the
 PR, because CI seeds `.env` from `.env.example` and deliberately does not run

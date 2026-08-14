@@ -180,7 +180,7 @@ describe("profile routes", () => {
       }),
     )
 
-    //FRONTEND_URL is a public origin here, so allowsPrivateOrigins() is false
+    //FRONTEND_URLS is all public origins here, so allowsPrivateOrigins() is false
     //and the passthrough answers as if it did not exist
     expect(response.status).toBe(404)
   })
