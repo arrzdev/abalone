@@ -21,9 +21,9 @@ jobs:
     # passes here without provisioning prod, and forks / any branch run cleanly.
     # Env PRESENCE is enforced at DEPLOY (.github/scripts/deploy/app.sh runs
     # check:env with the real secrets+vars → a missing var fails the deploy, not
-    # the PR). The build still bakes a few values (e.g. the frontend's
-    # VITE_BACKEND_URL at prerender), so seed those from the committed
-    # .env.example placeholders — never from prod secrets/vars.
+    # the PR). A client app still bakes its VITE_* values in at build time, so
+    # seed those from the committed .env.example placeholders — never from prod
+    # secrets/vars.
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -40,7 +40,7 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      # Build runs before typecheck: it generates the routeTree the frontend typecheck imports.
+      # Build runs before typecheck: it generates the routeTree the game's typecheck imports.
       - name: Build
         run: pnpm exec turbo run build
 
