@@ -31,10 +31,6 @@ export default defineConfig({
           bindings: {
             TEST_MIGRATIONS: migrations,
             RATE_LIMIT_ALLOW_TEST_BYPASS: "true",
-            //auth env so the better-auth instance boots in the test worker;
-            //sync tests sign up through the real handler to get a bearer token
-            BETTER_AUTH_SECRET: "test-secret-at-least-32-chars-long-xx",
-            BETTER_AUTH_URL: "http://example.com",
             FRONTEND_URL: "http://example.com",
           },
         },

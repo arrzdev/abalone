@@ -1,11 +1,6 @@
 import { newEndpoint } from "@repo/shared/http"
-import {
-  authHandlerRoutes,
-  socialProviderRoutes,
-} from "@/http/routes/auth.routes"
-import { syncRoutes } from "@/http/routes/sync.routes"
+import { helloRoutes } from "@/http/routes/hello.routes"
 
-export const v1Routes = newEndpoint()
-  .route("/sync", syncRoutes)
-  .route("/auth", authHandlerRoutes)
-  .route("/social-providers", socialProviderRoutes)
+//composition root, not a barrel: it mounts domains under the version prefix
+//rather than re-exporting them. one `.route()` line per domain.
+export const v1Routes = newEndpoint().route("/hello", helloRoutes)

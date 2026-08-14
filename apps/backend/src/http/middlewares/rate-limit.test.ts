@@ -8,10 +8,9 @@ import {
 } from "@/http/middlewares/rate-limit"
 
 //exercise the limiter on a throwaway app (no DB) and, crucially, WITHOUT the
-//x-test-bypass header so hits actually count. the "auth" preset (60/min) is the
-//smallest window, so 60 pass and the 61st is shed. regression guard for the bug
-//where the empty-bucket branch skipped recording the hit, making the limit
-//unreachable.
+//x-test-bypass header so hits actually count. the "api" preset is 120/min, so
+//120 pass and the 121st is shed. regression guard for the bug where the
+//empty-bucket branch skipped recording the hit, making the limit unreachable.
 describe("rate limit middleware", () => {
   beforeAll(() => {
     //the middleware reads RATE_LIMIT_ALLOW_TEST_BYPASS off the env registry;
@@ -25,10 +24,10 @@ describe("rate limit middleware", () => {
 
   it("allows requests up to the limit then returns 429", async () => {
     const app = new Hono()
-      .use("*", rateLimit("auth"))
+      .use("*", rateLimit("api"))
       .get("/", (c) => c.json({ ok: true }))
 
-    for (let index = 0; index < 60; index++) {
+    for (let index = 0; index < 120; index++) {
       const response = await app.request("http://example.com/")
       expect(response.status).toBe(200)
     }

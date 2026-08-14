@@ -5,11 +5,14 @@ compatibility_flags = ["nodejs_compat"]
 minify = true
 upload_source_maps = false
 
-# Runtime env (BETTER_AUTH_SECRET, BETTER_AUTH_URL, FRONTEND_URL, oauth creds) is
-# deliberately NOT declared here. The deploy uploads it onto the Worker as
-# secrets from the GH-action-written env/.env — `wrangler versions upload
-# --secrets-file env/.env`, see .github/scripts/deploy/app.sh — so env is driven
-# entirely by the per-environment GitHub secrets/vars, never the CF dashboard.
+# One environment: production, deployed off `main`. No [env.*] blocks, so nothing
+# here is subject to Cloudflare's named-environment inheritance rules.
+
+# Runtime env (FRONTEND_URL today) is deliberately NOT declared here. The deploy
+# uploads it onto the Worker as secrets from the GH-action-written env/.env —
+# `wrangler versions upload --secrets-file env/.env`, see
+# .github/scripts/deploy/app.sh — so env is driven entirely by the GitHub
+# environment's secrets/vars, never the CF dashboard.
 
 [dev]
 ip = "0.0.0.0"
@@ -22,35 +25,10 @@ head_sampling_rate = 1
 
 [[d1_databases]]
 binding = "DB"
-# NOTE: the deploy derives the migration target as `<worker-name>-db` (app.sh), so this
-# label must track the worker name. The real database is bound by `database_id` below.
-# Create it once: `wrangler d1 create abalone-backend-db`, then paste its id here.
+# The deploy reads this name through wrangler's own config parser
+# (.github/scripts/deploy/d1-databases.ts) and migrates it — it is not derived from
+# the worker name. Create it once: `wrangler d1 create abalone-backend-db`, then
+# paste its id below.
 database_name = "abalone-backend-db"
 database_id = "REPLACE_WITH_PRODUCTION_D1_DATABASE_ID"
-migrations_dir = "src/database/migrations"
-
-# Staging environment — deployed via `wrangler ... --env staging` (see the
-# Deploy workflow + deploy-backend-worker.sh). Named envs do NOT inherit
-# bindings, so DB + observability are repeated here; shared keys (main,
-# compatibility_*, minify) ARE inherited from the top level.
-[env.staging]
-name = "abalone-backend-staging"
-
-# crons ARE an inherited key: the day a top-level [triggers] cron is added, staging would
-# silently pick it up. An explicit empty list means "none", and the deploy's `wrangler
-# triggers deploy` applies that emptiness rather than leaving it to inheritance. Backend
-# declares no queues and no crons today, so this is pure future-proofing.
-[env.staging.triggers]
-crons = []
-
-[env.staging.observability]
-enabled = true
-head_sampling_rate = 1
-
-# A SEPARATE staging database — never point this at the production database_id.
-# Create it once: `wrangler d1 create abalone-backend-staging-db`, then paste its id.
-[[env.staging.d1_databases]]
-binding = "DB"
-database_name = "abalone-backend-staging-db"
-database_id = "REPLACE_WITH_STAGING_D1_DATABASE_ID"
 migrations_dir = "src/database/migrations"

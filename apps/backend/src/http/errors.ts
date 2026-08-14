@@ -7,12 +7,10 @@ type ErrorCodeEntry = readonly [
   status: ContentfulStatusCode,
 ]
 
-//maps backend error_code strings to [user-facing message, HTTP status]
+//maps backend error_code strings to [user-facing message, HTTP status].
+//adding a code is an api contract change — read the map before inventing one,
+//and reuse an existing code where it already says what happened.
 export const ERROR_CODES = {
-  invalid_request: [
-    "The request could not be processed. Check the data and try again.",
-    400,
-  ],
   invalid_input: ["Invalid input. Check the data and try again.", 400],
   internal_server_error: [
     "An unexpected error occurred. Please try again.",
@@ -20,7 +18,6 @@ export const ERROR_CODES = {
   ],
   endpoint_not_found: ["The requested endpoint does not exist.", 404],
   rate_limit_exceeded: ["Too many requests. Please try again later.", 429],
-  unauthorized: ["You must be signed in to do that.", 401],
   not_found: ["That resource was not found.", 404],
 } as const satisfies Record<string, ErrorCodeEntry>
 
