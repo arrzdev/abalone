@@ -30,7 +30,7 @@ A standalone HTTP server collects logs from every app in the monorepo — fronte
 | Sink server | `@repo/dev/log-sink` (`startLogSink()`); run with `pnpm logs` |
 | Shared contract | `@repo/dev/log-sink-port` (`LOG_SINK_PORT`, `LOG_PATH`) |
 | LAN IP helper | `@repo/dev/lan-ip` (`getLanIp()`) |
-| Browser producer | `apps/frontend/src/dev/debug-telemetry.ts` (`installDebugTelemetry()`) — auto-installed in dev from `entrypoint/client.tsx` |
+| Browser producer | **none right now** — it lived in the deleted frontend. Re-add as `apps/<app>/src/dev/debug-telemetry.ts` (`installDebugTelemetry()`), auto-installed in dev from the client entrypoint, and follow the POST contract below |
 | Output | sink **stdout** + appended `.dev-logs/sink.log` (gitignored) |
 
 ### Contract — POST `/__log`

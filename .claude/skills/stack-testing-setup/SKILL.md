@@ -12,11 +12,10 @@ Concrete runners and config. The portable *what/how* doctrine is in `core-testin
 | Member | Runner / env | Notes |
 |---|---|---|
 | `@repo/backend` | Vitest + `@cloudflare/vitest-pool-workers` | real local D1 inside a Workers runtime |
-| `@repo/synq` | Vitest, `environment: "node"` + `fake-indexeddb` | the densest suite in the repo — merge, HLC, adapters, engine |
 | `@repo/nativ` | Vitest + **happy-dom** + Testing Library | hooks, gesture engine, vite-plugin units |
 | `@repo/env-validation` | Vitest (node) | schema/registry/parser |
 | `@repo/dev` | Vitest (node) | |
-| `@repo/frontend` | **none** — `test` is a stub | see below |
+| `@repo/game` | **none** — `test` is a stub | see below |
 | `@repo/shared` | no `test` script | |
 
 Every vitest config **aliases the package's own `#<slug>` self-import** to `src/` so tests use the same specifier the source does — never relative paths (`core-imports`). Copy that pattern when adding a runner to a package.
@@ -24,21 +23,15 @@ Every vitest config **aliases the package's own `#<slug>` self-import** to `src/
 ## Backend — Vitest + real local D1
 
 - Runner: `apps/backend/vitest.config.ts`. Tests run inside a Workers runtime against **real local D1** — never a mocked DB.
-- Helpers: `apps/backend/src/test-support/` — `apply-migrations`, `worker-request`, `read-json`, and per-domain clears (`clear-sync`). **Read it before writing a route/service test** and reuse those helpers rather than rolling a request builder.
+- Helpers: `apps/backend/src/test-support/` — `apply-migrations` runs the real migrations into the test D1. It is the only helper left; the request builder and the per-domain clears went with the domains they served. Put a shared helper back there the moment a second test file needs it, not before.
 - Isolation: each test self-contained — seed and clear what it needs in `beforeEach`. Do not depend on order between tests.
-- Examples to copy: `src/http/routes/sync.routes.test.ts`, `src/http/middlewares/rate-limit.test.ts`.
+- Examples to copy: `src/http/routes/hello.routes.test.ts`, `src/http/middlewares/rate-limit.test.ts`.
 - Run: `pnpm --filter @repo/backend test`.
 
-## Sync engine — `@repo/synq`
-
-- Pure-TypeScript core, so `environment: "node"` is enough; the IndexedDB adapter brings `fake-indexeddb` itself.
-- **Any change to merge or clock semantics needs a test here** — convergence bugs surface days later on a different device, so the suite is the only fast feedback. See `stack-sync-engine`.
-- Run: `pnpm --filter @repo/synq test`.
-
-## Frontend logic / hooks — happy-dom
+## App logic / hooks — happy-dom
 
 - The pattern is proven in `@repo/nativ`: Vitest + happy-dom + `@testing-library/react` (`packages/nativ/src/hooks/*.test.ts`, `packages/nativ/src/components/avoid-keyboard/*.test.ts`).
-- `apps/frontend` has **no runner yet** (`test` is `echo "No tests configured"`). To add hook/logic tests, mirror the `@repo/nativ` vitest config rather than inventing a new setup — and say so in the handoff, because it's new tooling.
+- `apps/game` has **no runner yet** (`test` is `echo "No tests configured"`). To add hook/logic tests, mirror the `@repo/nativ` vitest config rather than inventing a new setup — and say so in the handoff, because it's new tooling.
 - Do not unit-test pixel layout — that is E2E's job.
 
 ## End-to-end / self-test — Playwright
@@ -65,6 +58,5 @@ Turbo declares a `test:coverage` task, but **no member defines the script yet**.
 | All tests | `pnpm test` (turbo) |
 | One member | `pnpm --filter @repo/<member> test` |
 | Backend only | `pnpm exec turbo run test --filter=@repo/backend...` |
-| Sync engine | `pnpm --filter @repo/synq test` |
 | E2E | `pnpm test:e2e` |
 | Coverage (once scripted) | `pnpm exec turbo run test:coverage --filter=<member>...` |

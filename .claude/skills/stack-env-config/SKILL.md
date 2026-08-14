@@ -24,7 +24,7 @@ Every app's environment is **schema-first**: one Zod schema per app is the singl
 1. Add it to `env/schema.ts` with a **real Zod type** (`z.url()`, `z.string().min(16)`) and a `//comment` saying what it is. Optional vars use `.optional()` — and mean it, because `check:env` fails the app otherwise.
 2. Add it to `env/.env.example` with a placeholder and a comment.
 3. Add it to your local `env/.env`.
-4. **Deploy-time:** the var must exist in the GitHub Environment (secret or var) for **every** environment that deploys — production *and* staging. `write-env-from-schema.ts` reads the schema as an allowlist and writes only declared keys, so an undeclared secret is silently dropped and a declared-but-missing one fails `check:env` **at deploy**, not on the PR.
+4. **Deploy-time:** the var must exist in the GitHub Environment (secret or var) for **every** environment that deploys — here that is `production`, the only one. `write-env-from-schema.ts` reads the schema as an allowlist and writes only declared keys, so an undeclared secret is silently dropped and a declared-but-missing one fails `check:env` **at deploy**, not on the PR.
 5. **Frontend only:** a client-readable var **must** be prefixed `VITE_` and is baked at build time. See the Vite section below.
 
 Adding a var is a config change with a deploy-time failure mode — say so in the handoff, and list the GitHub Environment keys the human has to create. That part is **human-only** (`stack-deploy-environments`).
@@ -40,8 +40,8 @@ const url = env.VITE_BACKEND_URL
 `createEnvRegistry` (`@repo/env-validation/registry-factory`) returns a **Proxy** over the validated values, so:
 
 - **It throws if read before initialization.** The backend calls `envRegistry.setEnv(env)` in the Worker `fetch` entrypoint before touching anything else — a Worker gets its bindings per request, not at module load. Keep that call first.
-- **The frontend auto-hydrates from `import.meta.env`** at module scope (only keys declared in the schema), so there's no `setEnv` on the client.
-- **Cloudflare bindings ride along on the same type.** The backend registry is generic over `CloudflareBindings` (`DB: D1Database`), so `env.DB` and `env.BETTER_AUTH_SECRET` come from one typed object.
+- **A client app auto-hydrates from `import.meta.env`** at module scope (only keys declared in the schema), so there's no `setEnv` on the client.
+- **Cloudflare bindings ride along on the same type.** The backend registry is generic over `CloudflareBindings` (`DB: D1Database`), so `env.DB` and `env.FRONTEND_URL` come from one typed object.
 - **`env.internals.DEV`** is a deliberate escape hatch, not a general flag. The backend pins it `false` — a Worker cannot reliably detect prod at module load, and the old `process.env.CI !== "true"` check evaluated to `true` in production. Anything that needs dev-vs-prod on the backend derives it from validated config instead (`src/http/network-policy.ts`), which fails closed.
 
 Never read `process.env` or `import.meta.env` directly in app code. The one sanctioned exception is `registry.ts` itself.
@@ -55,7 +55,7 @@ Never read `process.env` or `import.meta.env` directly in app code. The one sanc
 | Deploy verify | **no** | same reason — it's a pure code/schema gate |
 | Deploy (`deploy/app.sh`) | **yes**, with the real secrets + vars | this is where env *presence* is enforced |
 
-Both CI and deploy-verify instead **seed `env/.env` from the committed `.env.example`** so the build has placeholder values (the frontend bakes `VITE_BACKEND_URL` at prerender). That's why the example file is load-bearing rather than decorative.
+Both CI and deploy-verify instead **seed `env/.env` from the committed `.env.example`** so the build has placeholder values — a client app bakes its `VITE_*` values in at build time, so an absent file is a broken bundle, not a late error. That's why the example file is load-bearing rather than decorative.
 
 The practical consequence: **a missing env var is invisible on the PR and fails the deploy.** If you add one, say so explicitly in the handoff.
 
@@ -63,16 +63,16 @@ The practical consequence: **a missing env var is invisible on the PR and fails 
 
 Vite string-replaces the **literal** `import.meta.env` at build — with the value for `import.meta.env.VITE_FOO`, or with the whole client env object for `key in import.meta.env` / `import.meta.env[key]`. Alias it first (`const e = import.meta.env; e[key]`) and the replacement never fires: the alias stays a runtime reference, the `VITE_*` registry ships **empty**, and every read is `undefined`.
 
-Keep `import.meta.env` inline as a single token everywhere. `apps/frontend/env/registry.ts` indexes `import.meta.env[key]` directly for exactly this reason — don't "clean it up" into a local variable. (Also in `stack-gotchas`.)
+Keep `import.meta.env` inline as a single token everywhere. A client app's `env/registry.ts` indexes `import.meta.env[key]` directly for exactly this reason — don't "clean it up" into a local variable. (Also in `stack-gotchas`.)
 
 ## Runtime wiring per platform
 
 | App | How `.env` reaches the process |
 |---|---|
 | **Backend (Worker)** | `wrangler dev --env-file env/.env` locally; deploy uploads the same file as **Worker secrets** |
-| **Frontend (Vite)** | `envDir: "env"` in `vite.config.ts`; only `VITE_*` reaches the client bundle |
+| **Client app (Vite)** | `envDir: "env"` in `vite.config.ts`; only `VITE_*` reaches the client bundle |
 
-A non-`VITE_` var in the frontend schema will validate and then be `undefined` in the browser. If a value must be public, prefix it — and remember public means **shipped in the client JS**, so it can never be a secret (`stack-turnstile` has the canonical site-key/secret-key split).
+A non-`VITE_` var in a client app's schema will validate and then be `undefined` in the browser. If a value must be public, prefix it — and remember public means **shipped in the client JS**, so it can never be a secret (`stack-turnstile` has the canonical site-key/secret-key split).
 
 ## Fresh worktrees
 

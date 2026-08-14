@@ -7,7 +7,7 @@ description: Cloudflare Turnstile end to end: the callback state machine, single
 
 How Turnstile actually behaves, the edge cases that bite, and the gold-standard way to wire it so a user is **never** blocked without a visible reason. Read before touching the login widget, the token verification, or the captcha env.
 
-Aspirational — Turnstile is **not yet wired** in this repo. This is the target pattern to follow when you add it: the client widget + `useTurnstile` hook belong under `apps/frontend/src/` (e.g. `components/turnstile.tsx`) with the UX in the frontend's login page, and the server verify (`verifyTurnstile`) belongs under `apps/backend/src/` (a service that calls Cloudflare `siteverify`, gated on a route/middleware).
+Aspirational — Turnstile is **not yet wired** in this repo. This is the target pattern to follow when you add it: the client widget + `useTurnstile` hook belong under `apps/<app>/src/` (e.g. `components/turnstile.tsx`) with the UX in that app's login page, and the server verify (`verifyTurnstile`) belongs under `apps/backend/src/` (a service that calls Cloudflare `siteverify`, gated on a route/middleware).
 
 ## What Turnstile is
 
@@ -64,7 +64,7 @@ const turnstileBlocksSubmit =
 
 Cloudflare publishes dummy keys that force a fixed outcome, so you can drive every branch above without a real challenge. The site key (client) and secret key (server) are a **matched pair**: a test secret only accepts the dummy token `XXXX.DUMMY.TOKEN.XXXX` and rejects real ones; a production secret rejects the dummy token. Never mix a test site key with a production secret, or vice versa.
 
-Set the site key in `apps/frontend/env/.env` (`VITE_TURNSTILE_SITE_KEY`) and the secret in `apps/backend/env/.env` (`TURNSTILE_SECRET_KEY`).
+Set the site key in the client app's `env/.env` (`VITE_TURNSTILE_SITE_KEY`) and the secret in `apps/backend/env/.env` (`TURNSTILE_SECRET_KEY`).
 
 ### Site keys — which client callback fires
 
