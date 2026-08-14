@@ -1,25 +1,32 @@
 name: Deploy
 
+# DEPLOYS ARE OFF. Nothing here fires on its own — the `push:` trigger is commented
+# out below, so merging to main builds and tests (ci.yml) and stops there. Cloudflare
+# is not yet provisioned for this project: apps/backend/wrangler.toml still carries a
+# REPLACE_WITH_… database_id, and the production GitHub Environment has no secrets, so
+# an automatic deploy would only fail loudly on every push.
+#
+# To turn deploys on: create the D1, paste its id, fill the environment (README,
+# "Deploying"), then uncomment the `push:` block. Nothing else here needs to change.
 on:
-  # Manual full redeploy — use after rotating GitHub secrets/vars (which change no
-  # files, so turbo --affected finds nothing). The branch you dispatch from picks the
-  # environment: main -> production, staging -> staging.
+  # Manual run. With `push:` off this is the only way in — and it deploys for real,
+  # so it is not a dry run. `force_all` ignores turbo --affected, which is what you
+  # want after rotating secrets/vars, since those change no files.
   workflow_dispatch:
     inputs:
       force_all:
         description: "Redeploy every unit, ignoring turbo --affected (use after rotating secrets/vars)"
         type: boolean
         default: true
-  push:
-    branches:
-      - main
-      - staging
-      - deployment-test
-    paths-ignore:
-      - "**/*.md"
-      - ".cursor/**"
-      - ".vscode/**"
-      - ".husky/**"
+  # One deploy branch, one environment: main -> production. There is no staging.
+  # push:
+  #   branches:
+  #     - main
+  #   paths-ignore:
+  #     - "**/*.md"
+  #     - ".cursor/**"
+  #     - ".vscode/**"
+  #     - ".husky/**"
 
 permissions:
   contents: read
@@ -85,24 +92,24 @@ jobs:
       - name: Discover deploy units
         id: d
         env:
-          FORCE_ALL: ${{ github.ref == 'refs/heads/deployment-test' || (github.event_name == 'workflow_dispatch' && inputs.force_all) }}
+          FORCE_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.force_all }}
           TURBO_SCM_BASE: ${{ github.event.before }}
           TURBO_SCM_HEAD: ${{ github.sha }}
         run: node .github/scripts/deploy/discover.mjs
 
   # The deploy gate: the FULL check set. The deploy job runs only if this succeeds,
-  # so a direct push to main OR staging (no PR) can't ship a failure. Keep in sync
-  # with ci.yml's checks.
+  # so a direct push to main (no PR) can't ship a failure. Keep in sync with ci.yml's
+  # checks.
   verify:
     needs: discover
     if: needs.discover.outputs.any == 'true'
     runs-on: ubuntu-latest
     # No `environment:` binding on purpose: verify runs pure code/schema checks and
     # seeds build env from committed .env.example placeholders — it uses no environment
-    # secrets. Binding it to `production` would (a) grant unused access and (b) couple
-    # every deploy, INCLUDING staging, to the production environment's protection rules
-    # (required reviewers / wait timers) if any are ever added. The `deploy` job below is
-    # where the environment (and its secrets/protection) correctly applies, per branch.
+    # secrets. Binding it to `production` would grant unused access and would couple the
+    # gate to that environment's protection rules (required reviewers / wait timers) if
+    # any are ever added. The `deploy` job below is where the environment, and its
+    # secrets and protection, correctly applies.
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -114,9 +121,9 @@ jobs:
 
       # Mirrors ci.yml: the build no longer runs check:env, so this gate validates
       # code + schema/migration safety only — env PRESENCE is enforced in the
-      # deploy job (app.sh runs check:env with the real secrets+vars). The build
-      # still bakes a few values (frontend VITE_BACKEND_URL at prerender), so seed
-      # them from the committed .env.example placeholders, not prod config.
+      # deploy job (app.sh runs check:env with the real secrets+vars). A client app
+      # still bakes its VITE_* values in at build time, so seed them from the
+      # committed .env.example placeholders, not prod config.
       - name: Seed build env from committed examples (placeholders, not prod config)
         run: |
           for app in apps/*/; do
@@ -126,7 +133,7 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      # Build before typecheck: it generates the routeTree the frontend typecheck imports.
+      # Build before typecheck: it generates the routeTree the game's typecheck imports.
       - name: Build
         run: pnpm exec turbo run build
 
@@ -152,13 +159,14 @@ jobs:
     needs: [discover, verify]
     if: needs.verify.result == 'success'
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/staging' && 'staging' || 'production' }}
+    # The only environment. It is what supplies the deploy's secrets and vars, and
+    # what any protection rule (required reviewers, wait timer) would attach to.
+    environment: production
     strategy:
       fail-fast: false
       matrix:
         unit: ${{ fromJSON(needs.discover.outputs.units) }}
     env:
-      TARGET: ${{ github.ref == 'refs/heads/staging' && 'staging' || 'production' }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || vars.CLOUDFLARE_API_TOKEN }}
       CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
     steps:
