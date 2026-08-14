@@ -1,7 +1,7 @@
 import { cn } from "@repo/nativ/utils"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { FormEvent } from "react"
-import { useState } from "react"
+import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { SegmentedControl } from "@/components/ui/segmented-control"
@@ -55,6 +55,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
   const [mode, setMode] = useState<AuthMode>("sign_in")
   const [errorCode, setErrorCode] = useState<AuthErrorCode | null>(null)
+  const errorId = useId()
 
   const isSignUp = mode === "sign_up"
 
@@ -121,10 +122,9 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     //button. 36px between blocks and 20px inside the pair, so the two fields
     //read as one thing you fill in rather than as two more rows in a stack.
     //
-    //Every field already ends in a 20px line reserved for its own error, which
-    //is why the pair carries no gap of its own and why the button's margin is
-    //16 rather than 36 — that line is the rest of it. Measure from the boxes,
-    //not from the elements.
+    //The pair is 20px apart and the form's one error line is the gap between it
+    //and the button, so the button carries no margin of its own. Measure from
+    //the boxes, not from the elements.
     <form
       onSubmit={handleSubmit}
       className={cn("flex flex-col", className)}
@@ -141,7 +141,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
         ]}
       />
 
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-y-5">
         <TextField
           name="username"
           label={t("common:auth.username")}
@@ -152,7 +152,8 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           spellCheck={false}
           maxLength={MAX_USERNAME_LENGTH}
           disabled={mutation.isPending}
-          error={errorField === "username" ? errorText : undefined}
+          invalid={errorField === "username"}
+          describedBy={errorCode ? errorId : undefined}
         />
 
         <TextField
@@ -164,20 +165,27 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           })}
           autoComplete={isSignUp ? "new-password" : "current-password"}
           disabled={mutation.isPending}
-          error={errorField === "password" ? errorText : undefined}
+          invalid={errorField === "password"}
+          describedBy={errorCode ? errorId : undefined}
         />
-
-        {errorField === "form" && (
-          <p
-            role="alert"
-            className="rounded-lg bg-loss/10 px-3 py-2 text-sm text-loss"
-          >
-            {errorText}
-          </p>
-        )}
       </div>
 
-      <div className="mt-4 flex flex-col gap-y-3">
+      {/* One line for the whole form, always in the layout.
+          `fieldFor` sorts every failure into exactly one bucket, so at most one
+          message exists at a time — a reserved slot under each field as well
+          would be two thirds dead air on a form that is doing nothing wrong.
+          The offending box turns red; this says what happened.
+          Red text and nothing behind it: a tinted panel makes the one thing
+          that went wrong the brightest block on the screen. */}
+      <p
+        id={errorId}
+        role="alert"
+        className="min-h-14 py-2 text-sm leading-5 text-loss"
+      >
+        {errorText}
+      </p>
+
+      <div className="flex flex-col gap-y-3">
         {/* `lg` because the fields are 56px too: a button taller or shorter
             than the two boxes above it reads as two controls that were drawn on
             different days. */}

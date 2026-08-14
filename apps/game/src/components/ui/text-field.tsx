@@ -11,11 +11,13 @@ export type TextFieldProps = Omit<
 > & {
   label: string
   /**
-   * What is wrong with what was typed. The slot below the field is always in the
-   * layout, so an error arriving does not shove the submit button down the page
-   * under someone's thumb.
+   * Marks this field as the one at fault: red ring and `aria-invalid`. The
+   * message itself is not the field's — a form says one thing at a time, so it
+   * belongs to the form's own error line rather than to a slot under each box.
    */
-  error?: string
+  invalid?: boolean
+  /** Id of the element carrying that message, for `aria-describedby`. */
+  describedBy?: string
 }
 
 /**
@@ -30,7 +32,8 @@ export type TextFieldProps = Omit<
  */
 export function TextField({
   label,
-  error,
+  invalid = false,
+  describedBy,
   id,
   className,
   type,
@@ -41,12 +44,11 @@ export function TextField({
   const [isRevealed, setIsRevealed] = useState(false)
 
   const fieldId = id ?? generatedId
-  const errorId = `${fieldId}-error`
   const isPassword = type === "password"
 
   return (
-    //no `gap`: the label sits closer to its own field than the error line does,
-    //and the error line is what a caller stacking these is spacing against
+    //no `gap`: the label belongs to the box under it and nothing else, so the
+    //spacing between one field and the next is the caller's to set
     <div className="flex flex-col">
       <label
         htmlFor={fieldId}
@@ -59,8 +61,8 @@ export function TextField({
         <Input
           id={fieldId}
           type={isPassword && isRevealed ? "text" : type}
-          aria-invalid={Boolean(error)}
-          aria-describedby={error ? errorId : undefined}
+          aria-invalid={invalid}
+          aria-describedby={describedBy}
           className={cn(
             //text-base rather than text-sm: iOS zooms the page when a field
             //smaller than 16px takes focus, and the app is not zoomable back out.
@@ -68,7 +70,7 @@ export function TextField({
             "transition placeholder:text-faint",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
             //a ring rather than a border, so turning red does not resize the field
-            error && "ring-2 ring-loss",
+            invalid && "ring-2 ring-loss",
             //room for the eye, so a long password runs under the label and not
             //under the button
             isPassword && "pe-14",
@@ -96,17 +98,6 @@ export function TextField({
           </button>
         )}
       </div>
-
-      {/* Empty but present, and 20px of the field either way — a form stacking
-          these gets its spacing from the box, not from whether it is currently
-          complaining. `role="alert"` announces whatever lands in it. */}
-      <p
-        id={errorId}
-        role="alert"
-        className="mt-1 min-h-4 text-xs leading-4 text-loss"
-      >
-        {error}
-      </p>
     </div>
   )
 }
