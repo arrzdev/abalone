@@ -26,7 +26,12 @@ export default defineConfig({
   plugins: [
     cloudflare({
       viteEnvironment: { name: "ssr" },
-      inspectorPort: supervisorPort,
+      //the workerd inspector is a devtools channel only a dev run wants. a build
+      //ends by prerendering through a preview server, which binds the port too —
+      //so `pnpm build` dies with EADDRINUSE whenever this app's dev server is up,
+      //which is most of the time. `scripts/dev.ts` sets the flag; nothing else does
+      inspectorPort:
+        process.env.DEV_INSPECTOR === "1" ? supervisorPort : false,
     }),
     //nativ owns route tree, entries, router, the web manifest, and
     //the service worker — all driven by nativ.config.ts, the single source of truth
