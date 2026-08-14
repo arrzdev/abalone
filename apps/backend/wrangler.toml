@@ -4,6 +4,7 @@ compatibility_date = "2026-03-17"
 compatibility_flags = ["nodejs_compat"]
 minify = true
 upload_source_maps = false
+workers_dev = false
 
 # One environment: production, deployed off `main`. No [env.*] blocks, so nothing
 # here is subject to Cloudflare's named-environment inheritance rules.
