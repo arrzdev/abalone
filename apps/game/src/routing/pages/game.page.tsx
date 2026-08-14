@@ -4,6 +4,7 @@ import type { CSSProperties } from "react"
 import { useCallback, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { BoardSettingsModal } from "@/components/board-settings-modal"
+import { BotAvatar } from "@/components/bot-avatar"
 import { BotChatter } from "@/components/bot-chatter"
 import { EvalBar, EvalBarSlot } from "@/components/eval-bar"
 import type { GameCanvasHandle } from "@/components/game-canvas"
@@ -22,7 +23,7 @@ import { TapButton } from "@/components/ui/tap-button"
 import type { CellName, Player } from "@/engine/types"
 import { useAbaloneGame } from "@/hooks/use-abalone-game"
 import { useBotChatter } from "@/hooks/use-bot-chatter"
-import { avatarSrc as botAvatarSrc, getBot, titleKey } from "@/i18n/bots"
+import { getBot, titleKey } from "@/i18n/bots"
 
 export const Route = createFileRoute("/game")({
   component: GamePage,
@@ -156,7 +157,9 @@ function GamePage() {
         !state.gameOver &&
         phase !== "pregame",
       name,
-      avatarSrc: isBot ? botAvatarSrc(difficulty) : undefined,
+      avatar: isBot && (
+        <BotAvatar level={difficulty} className="h-full w-full" />
+      ),
       title: isBot
         ? `${bot.name} — ${t(titleKey(difficulty))}`
         : undefined,
