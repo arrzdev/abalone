@@ -7,9 +7,4 @@
 //
 //   Add an app   ->  add a single-app unit, or add it to an existing unit.
 //   Couple apps  ->  list them in one unit, in deploy order (e.g. api before web).
-[
-  { "name": "public", "apps": ["apps/backend"] },
-  // The game talks to nothing of ours, so it is its own unit and deploys on its
-  // own schedule — a backend failure must not hold it back, and vice versa.
-  { "name": "game", "apps": ["apps/game"] }
-]
+[{ "name": "game", "apps": ["apps/game"] }]

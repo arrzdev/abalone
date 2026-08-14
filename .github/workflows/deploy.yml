@@ -1,17 +1,11 @@
 name: Deploy
 
-# DEPLOYS ARE OFF. Nothing here fires on its own — the `push:` trigger is commented
-# out below, so merging to main builds and tests (ci.yml) and stops there. Cloudflare
-# is not yet provisioned for this project: apps/backend/wrangler.toml still carries a
-# REPLACE_WITH_… database_id, and the production GitHub Environment has no secrets, so
-# an automatic deploy would only fail loudly on every push.
-#
-# To turn deploys on: create the D1, paste its id, fill the environment (README,
-# "Deploying"), then uncomment the `push:` block. Nothing else here needs to change.
+# Merging to main deploys, for real. What ships is .github/deploy-units.jsonc;
+# the gate below checks the whole repo regardless.
 on:
-  # Manual run. With `push:` off this is the only way in — and it deploys for real,
-  # so it is not a dry run. `force_all` ignores turbo --affected, which is what you
-  # want after rotating secrets/vars, since those change no files.
+  # Manual run — it deploys for real, it is not a dry run. `force_all` ignores turbo
+  # --affected, which is what you want after rotating secrets/vars or changing only
+  # `.github/**`: neither moves a file inside a package, so --affected finds nothing.
   workflow_dispatch:
     inputs:
       force_all:
@@ -19,14 +13,14 @@ on:
         type: boolean
         default: true
   # One deploy branch, one environment: main -> production. There is no staging.
-  # push:
-  #   branches:
-  #     - main
-  #   paths-ignore:
-  #     - "**/*.md"
-  #     - ".cursor/**"
-  #     - ".vscode/**"
-  #     - ".husky/**"
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**/*.md"
+      - ".cursor/**"
+      - ".vscode/**"
+      - ".husky/**"
 
 permissions:
   contents: read
