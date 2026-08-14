@@ -86,7 +86,7 @@ function LoginPage() {
                 <h1 className="text-3xl font-extrabold tracking-tight text-white">
                   {t("common:auth.prompt_title")}
                 </h1>
-                <p className="leading-relaxed text-white/50">
+                <p className="leading-relaxed text-muted">
                   {t("common:auth.prompt_body")}
                 </p>
               </div>
@@ -108,7 +108,7 @@ function LoginPage() {
         <aside className="relative hidden min-h-0 flex-1 flex-col justify-center gap-y-10 p-10 lg:flex">
           <Showcase />
 
-          <p className="max-w-md text-xl leading-snug font-bold text-balance text-white/80">
+          <p className="max-w-md text-xl leading-snug font-bold text-balance text-subtle">
             {t("common:home.tagline")}
           </p>
         </aside>
@@ -136,7 +136,7 @@ const SHOT_BASE = `${import.meta.env.BASE_URL}images/showcase`
 function Showcase() {
   return (
     <div className="relative mx-auto w-full max-w-xl pb-10 ps-10">
-      <div className="overflow-hidden rounded-xl bg-surface-4 shadow-2xl shadow-black/50 ring-1 ring-white/10">
+      <div className="overflow-hidden rounded-xl bg-surface-4 shadow-2xl shadow-black/50 ring-1 ring-border">
         <div className="flex h-7 items-center gap-1.5 bg-surface-3 px-3">
           <span className="h-2 w-2 rounded-full bg-white/20" />
           <span className="h-2 w-2 rounded-full bg-white/15" />
@@ -149,7 +149,7 @@ function Showcase() {
         />
       </div>
 
-      <div className="absolute bottom-0 left-0 w-[26%] rounded-[1.4rem] bg-black p-1 shadow-2xl shadow-black/60 ring-1 ring-white/15">
+      <div className="absolute bottom-0 left-0 w-[26%] rounded-[1.4rem] bg-black p-1 shadow-2xl shadow-black/60 ring-1 ring-border">
         <img
           src={`${SHOT_BASE}/mobile.webp`}
           alt=""

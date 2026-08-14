@@ -25,7 +25,7 @@ import { useSignOut } from "@/hooks/use-sign-out"
 import { useAuth } from "@/providers/auth-provider"
 
 const ICON_BUTTON_CLASS =
-  "flex size-9 items-center justify-center rounded-lg text-white/60 transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:size-11 lg:rounded-xl"
+  "flex size-10 items-center justify-center rounded-lg text-muted transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:size-11 lg:rounded-xl"
 
 //the desktop step has to be a class: Lucide's `size` lands as width/height
 //presentation attributes, which any CSS rule outranks
@@ -60,7 +60,7 @@ export function AppHeader({ className }: { className?: string }) {
   return (
     <header
       className={cn(
-        "relative shrink-0 border-b border-white/5 bg-surface-2 px-safe pt-safe",
+        "relative shrink-0 border-b border-border-subtle bg-surface-2 px-safe pt-safe",
         className,
       )}
     >

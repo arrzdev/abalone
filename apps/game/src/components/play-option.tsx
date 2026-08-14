@@ -6,16 +6,16 @@ import { TapButton } from "@/components/ui/tap-button"
 
 const TONES = {
   brand: {
-    row: "bg-brand hover:bg-brand-light active:bg-brand-hover shadow-lg shadow-brand/25",
+    row: "bg-brand hover:bg-brand-light",
     tile: "bg-white/15 text-white",
-    hint: "text-white/70",
-    chevron: "text-white/60",
+    hint: "text-subtle",
+    chevron: "text-muted",
   },
   neutral: {
     row: "bg-surface-4 hover:bg-surface-5",
     tile: "bg-elevated-2 text-white",
-    hint: "text-white/50",
-    chevron: "text-white/30",
+    hint: "text-muted",
+    chevron: "text-faint",
   },
 }
 

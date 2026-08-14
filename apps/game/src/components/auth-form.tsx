@@ -205,7 +205,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
         <p
           aria-hidden={!isSignUp}
           className={cn(
-            "text-center text-xs leading-relaxed text-white/30",
+            "text-center text-xs leading-relaxed text-faint",
             !isSignUp && "invisible",
           )}
         >

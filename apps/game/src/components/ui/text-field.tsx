@@ -50,7 +50,7 @@ export function TextField({
     <div className="flex flex-col">
       <label
         htmlFor={fieldId}
-        className="mb-2 text-sm font-semibold text-white/70"
+        className="mb-2 text-sm font-semibold text-subtle"
       >
         {label}
       </label>
@@ -65,7 +65,7 @@ export function TextField({
             //text-base rather than text-sm: iOS zooms the page when a field
             //smaller than 16px takes focus, and the app is not zoomable back out.
             "h-14 w-full rounded-xl bg-surface-4 px-4 text-base text-white",
-            "transition placeholder:text-white/35",
+            "transition placeholder:text-faint",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
             //a ring rather than a border, so turning red does not resize the field
             error && "ring-2 ring-loss",
@@ -88,7 +88,7 @@ export function TextField({
                 : t("common:auth.show_password")
             }
             aria-pressed={isRevealed}
-            className="absolute inset-y-0 end-0 flex w-14 items-center justify-center rounded-e-xl text-white/40 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            className="absolute inset-y-0 end-0 flex w-14 items-center justify-center rounded-e-xl text-faint transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             onClick={() => setIsRevealed(!isRevealed)}
           >
             {isRevealed && <EyeOffIcon size={20} />}

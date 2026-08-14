@@ -81,7 +81,7 @@ export function SegmentedControl<T extends string>({
               "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
               // Only the label brightens on hover — a background change here
               // reads as a second selected segment.
-              active ? "text-white" : "text-white/60 hover:text-white",
+              active ? "text-white" : "text-muted hover:text-white",
             )}
           >
             {option.icon && (

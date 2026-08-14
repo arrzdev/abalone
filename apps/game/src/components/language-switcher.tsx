@@ -18,7 +18,7 @@ import {
  * sits on rather than an outlined pane of frosted glass.
  */
 const TRIGGER_VARIANTS = {
-  ghost: "text-white/60 hover:bg-white/10 hover:text-white",
+  ghost: "text-muted hover:bg-white/10 hover:text-white",
   solid: "bg-surface-4 text-white hover:bg-surface-5",
 }
 
@@ -98,7 +98,7 @@ export function LanguageSwitcher({
         // the same object as far as anyone using them is concerned, and this
         // one floats over the page rather than a dialog, which is the case a
         // fill on its own can't cover.
-        <div className="absolute right-0 z-50 mt-2 w-44 overflow-hidden rounded-xl bg-surface-3 shadow-2xl shadow-black/60 ring-1 ring-white/10">
+        <div className="absolute right-0 z-50 mt-2 w-44 overflow-hidden rounded-xl bg-surface-3 shadow-2xl shadow-black/60 ring-1 ring-border">
           <ul
             // biome-ignore lint/a11y/noNoninteractiveElementToInteractiveRole: a listbox of rows is a list; the rows themselves are the buttons.
             role="listbox"
@@ -118,7 +118,7 @@ export function LanguageSwitcher({
                     "flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition",
                     lng === current
                       ? "bg-brand font-semibold text-white"
-                      : "text-white/70 hover:bg-surface-5 hover:text-white",
+                      : "text-subtle hover:bg-surface-5 hover:text-white",
                   )}
                 >
                   <Flag code={lng} />

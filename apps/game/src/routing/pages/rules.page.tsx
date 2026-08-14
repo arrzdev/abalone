@@ -144,14 +144,14 @@ function Figure({
 }) {
   return (
     <figure className="mt-4">
-      <div className="overflow-hidden rounded-xl bg-black/20 p-2">
+      <div className="overflow-hidden rounded-xl bg-well p-2">
         <RuleDiagram
           diagram={diagram}
           marbleDesign={marbleDesign}
           label={caption}
         />
       </div>
-      <figcaption className="mt-2 text-center text-xs text-white/45">
+      <figcaption className="mt-2 text-center text-xs text-faint">
         {caption}
       </figcaption>
     </figure>
@@ -176,11 +176,11 @@ function RulesPage() {
 
         <div className="flex flex-col gap-y-4">
           <Rule title={t("game:rules.goal.title")}>
-            <p className="mt-2 text-sm leading-relaxed text-white/70">
+            <p className="mt-2 text-sm leading-relaxed text-subtle">
               {t("game:rules.goal.body")}
             </p>
             {/* The win condition at a glance: this is how many have to go. */}
-            <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-black/20 py-4">
+            <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-well py-4">
               {Array.from({ length: WINNING_SCORE }, (_, i) => (
                 <MarbleGlyph
                   // biome-ignore lint/suspicious/noArrayIndexKey: six identical marbles standing for a count, not a list of things.
@@ -194,7 +194,7 @@ function RulesPage() {
           </Rule>
 
           <Rule title={t("game:rules.directions.title")}>
-            <p className="mt-2 text-sm leading-relaxed text-white/70">
+            <p className="mt-2 text-sm leading-relaxed text-subtle">
               {t("game:rules.directions.body")}
             </p>
             <Figure
@@ -205,7 +205,7 @@ function RulesPage() {
           </Rule>
 
           <Rule title={t("game:rules.move.title")}>
-            <p className="mt-2 text-sm leading-relaxed text-white/70">
+            <p className="mt-2 text-sm leading-relaxed text-subtle">
               {t("game:rules.move.body")}
             </p>
             <Figure
@@ -221,7 +221,7 @@ function RulesPage() {
           </Rule>
 
           <Rule title={t("game:rules.push.title")}>
-            <p className="mt-2 text-sm leading-relaxed text-white/70">
+            <p className="mt-2 text-sm leading-relaxed text-subtle">
               {t("game:rules.push.body")}
             </p>
             <Figure
@@ -237,7 +237,7 @@ function RulesPage() {
           </Rule>
 
           <Rule title={t("game:rules.capture.title")}>
-            <p className="mt-2 text-sm leading-relaxed text-white/70">
+            <p className="mt-2 text-sm leading-relaxed text-subtle">
               {t("game:rules.capture.body")}
             </p>
             <Figure

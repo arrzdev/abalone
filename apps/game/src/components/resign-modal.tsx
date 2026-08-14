@@ -32,7 +32,7 @@ export function ResignModal({
       onClose={onClose}
       title={t("game:modal.resign_title")}
     >
-      <p className="text-sm leading-relaxed text-white/60">
+      <p className="text-sm leading-relaxed text-muted">
         {t("game:modal.resign_body")}
       </p>
 

@@ -60,7 +60,7 @@ function HomePage() {
           {/* And the rule that makes the board beside it legible: what winning
               is. It is the only sentence on the screen, so it is the one that
               has to earn the two rows under it. */}
-          <p className="mt-4 max-w-lg text-lg leading-relaxed text-white/60 lg:text-xl">
+          <p className="mt-4 max-w-lg text-lg leading-relaxed text-muted lg:text-xl">
             {t("common:home.tagline")}
           </p>
 

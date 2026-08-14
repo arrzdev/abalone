@@ -45,7 +45,7 @@ export function Modal({
     // biome-ignore lint/a11y/noStaticElementInteractions: the backdrop's press is a courtesy on top of Escape and the close button, not the only way out.
     // biome-ignore lint/a11y/useKeyWithClickEvents: Escape already closes this — see the listener above.
     <div
-      className="fixed inset-0 z-1000 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
+      className="fixed inset-0 z-1000 flex items-center justify-center bg-overlay p-4 backdrop-blur-sm"
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose()
       }}
@@ -67,7 +67,7 @@ export function Modal({
         <TapButton
           onClick={onClose}
           aria-label={t("common:actions.close")}
-          className="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-lg text-white/50 transition hover:bg-white/10 hover:text-white"
+          className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-lg text-muted transition hover:bg-white/10 hover:text-white"
         >
           <CloseIcon size={20} />
         </TapButton>

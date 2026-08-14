@@ -73,7 +73,7 @@ export function AppSettingsSheet({
           />
         </div>
 
-        <div className="border-t border-white/10 pt-5">
+        <div className="border-t border-border pt-5">
           <VolumeSlider
             label={t("game:controls.sound")}
             description={t("game:controls.sound_hint")}
@@ -87,7 +87,7 @@ export function AppSettingsSheet({
           />
         </div>
 
-        <div className="flex flex-col gap-y-4 border-t border-white/10 pt-5">
+        <div className="flex flex-col gap-y-4 border-t border-border pt-5">
           <Toggle
             label={t("game:controls.show_coordinates")}
             description={t("game:controls.show_coordinates_hint")}

@@ -48,7 +48,7 @@ export function ProfileSheet({ open, onClose }: ProfileSheetProps) {
             <p className="truncate text-lg font-bold text-white">
               {user?.displayUsername}
             </p>
-            <p className="mt-0.5 text-xs text-white/45">
+            <p className="mt-0.5 text-xs text-faint">
               {t("common:profile.username_permanent")}
             </p>
           </div>
@@ -78,7 +78,7 @@ export function ProfileSheet({ open, onClose }: ProfileSheetProps) {
             {!picker.isUploading && t("common:profile.change_picture")}
           </Button>
 
-          <p className="text-center text-xs text-white/40">
+          <p className="text-center text-xs text-faint">
             {t("common:profile.picture_hint")}
           </p>
 

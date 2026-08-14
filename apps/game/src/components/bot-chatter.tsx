@@ -71,7 +71,7 @@ export function BotChatter({
           aria-live="polite"
           className={cn(
             "line-clamp-2 text-sm leading-snug",
-            resting ? "text-white/45 italic" : "text-white",
+            resting ? "text-faint italic" : "text-white",
           )}
         >
           {t(line ?? blurbKey(level))}
