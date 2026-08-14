@@ -11,7 +11,6 @@ import {
   PersonIcon,
   SettingsIcon,
 } from "@/components/icons"
-import { LanguageSwitcher } from "@/components/language-switcher"
 import { Logo } from "@/components/logo"
 import { Avatar } from "@/components/ui/avatar"
 import { Menu, MenuItem, MenuSeparator } from "@/components/ui/menu"
@@ -36,8 +35,8 @@ const ICON_GLYPH_CLASS = "lg:size-6"
  *
  * The mark on one side and a row of square icons on the other, at every width.
  * There are no words in it: the destinations live in the tab bar below `lg`, and
- * everything up here is the same kind of thing, so rules, settings, language and
- * the account all get the same square. A phone keeps the row for the same
+ * everything up here is the same kind of thing, so rules, settings and the
+ * account all get the same square. A phone keeps the row for the same
  * reason it exists at all, since the tab bar has no room for any of them.
  *
  * The safe padding is on the outer box and the height on the one inside it: with
@@ -101,8 +100,6 @@ export function AppHeader({ className }: { className?: string }) {
           >
             <SettingsIcon size={20} className={ICON_GLYPH_CLASS} />
           </button>
-
-          <LanguageSwitcher />
 
           <AccountControl />
         </div>

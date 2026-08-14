@@ -1,6 +1,8 @@
 import { cn } from "@repo/nativ/utils"
 import { useCallback, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
+import type { SelectOption } from "@/components/ui/select"
+import { Select } from "@/components/ui/select"
 import { TapButton } from "@/components/ui/tap-button"
 import { useClickOutside } from "@/hooks/use-click-outside"
 import type { Language } from "@/i18n"
@@ -40,6 +42,37 @@ function Flag({ code, className }: { code: string; className?: string }) {
     >
       {LANGUAGE_FLAGS[code as Language]}
     </span>
+  )
+}
+
+/** Every language as a Select option, with its flag alongside the native name. */
+const LANGUAGE_OPTIONS: SelectOption<Language>[] = SUPPORTED_LANGUAGES.map(
+  (lng) => ({
+    value: lng,
+    label: LANGUAGE_NAMES[lng],
+    icon: <Flag code={lng} />,
+  }),
+)
+
+/**
+ * The same choice as {@link LanguageSwitcher}, as a labelled full-width
+ * dropdown. This is the form used inside the settings sheet, where a bare flag
+ * button would read as decoration rather than as a setting.
+ */
+export function LanguageSelect({ className }: { className?: string }) {
+  const { i18n, t } = useTranslation()
+  const current = (i18n.resolvedLanguage ||
+    i18n.language ||
+    "en") as Language
+
+  return (
+    <Select
+      label={t("common:language.select")}
+      value={current}
+      onChange={changeLanguage}
+      options={LANGUAGE_OPTIONS}
+      className={className}
+    />
   )
 }
 
