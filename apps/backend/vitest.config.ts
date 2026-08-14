@@ -26,12 +26,20 @@ export default defineConfig({
       )
 
       return {
+        //the top-level (dev) block: local D1 and a local R2 bucket, so the suite
+        //needs no network and no Cloudflare account
         wrangler: { configPath: path.join(rootDir, "wrangler.toml") },
         miniflare: {
           bindings: {
             TEST_MIGRATIONS: migrations,
             RATE_LIMIT_ALLOW_TEST_BYPASS: "true",
+            //an https-style public origin on purpose: `example.com` is not a
+            //private origin, so allowsPrivateOrigins() is false and the tests
+            //exercise the production network policy rather than the dev one.
             FRONTEND_URL: "http://example.com",
+            BETTER_AUTH_SECRET: "test-secret-at-least-16-characters",
+            BETTER_AUTH_URL: "http://example.com",
+            AVATAR_PUBLIC_URL: "https://cdn.example.com",
           },
         },
       }

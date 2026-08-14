@@ -1,17 +1,18 @@
-name = "abalone-backend"
+# The top-level block is DEV. `wrangler dev` reads it, and the placeholder ids
+# below never reach Cloudflare because local mode never calls the API. Production
+# lives in [env.production] at the bottom and the deploy passes `--env production`
+# (.github/scripts/deploy/app.sh) — without that flag it would ship this block.
+name = "abalone-backend-dev"
 main = "entrypoint/worker.ts"
 compatibility_date = "2026-03-17"
 compatibility_flags = ["nodejs_compat"]
 minify = true
 upload_source_maps = false
 
-# One environment: production, deployed off `main`. No [env.*] blocks, so nothing
-# here is subject to Cloudflare's named-environment inheritance rules.
-
-# Runtime env (FRONTEND_URL today) is deliberately NOT declared here. The deploy
-# uploads it onto the Worker as secrets from the GH-action-written env/.env —
-# `wrangler versions upload --secrets-file env/.env`, see
-# .github/scripts/deploy/app.sh — so env is driven entirely by the GitHub
+# Runtime env (FRONTEND_URL, BETTER_AUTH_*, AVATAR_PUBLIC_URL) is deliberately
+# NOT declared here. The deploy uploads it onto the Worker as secrets from the
+# GH-action-written env/.env — `wrangler versions upload --secrets-file env/.env`,
+# see .github/scripts/deploy/app.sh — so env is driven entirely by the GitHub
 # environment's secrets/vars, never the CF dashboard.
 
 [dev]
@@ -25,10 +26,48 @@ head_sampling_rate = 1
 
 [[d1_databases]]
 binding = "DB"
-# The deploy reads this name through wrangler's own config parser
-# (.github/scripts/deploy/d1-databases.ts) and migrates it — it is not derived from
-# the worker name. Create it once: `wrangler d1 create abalone-backend-db`, then
-# paste its id below.
+database_name = "abalone-backend-db-dev"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "src/database/migrations"
+
+[[r2_buckets]]
+binding = "AVATARS"
+# Local, and never created anywhere: with no `remote`, miniflare makes it on the
+# spot under .wrangler/state. That keeps `pnpm dev` working with no network and
+# no Cloudflare account — the whole point of local mode. What wrangler does not
+# emulate is public-bucket HTTP access (workers-sdk#3687), so a local bucket has
+# no address an <img> can reach; src/http/routes/avatars.routes.ts is the dev-only
+# read path that stands in for cdn.abalone.tudu.dev, and it is gated on the same
+# config-derived dev signal as CORS rather than on a build flag.
+bucket_name = "abalone-avatars-dev"
+
+# ---- production ----------------------------------------------------
+# Bindings are NON-inheritable in wrangler, so this block redeclares the full set
+# rather than patching the one above. `name` is set explicitly too: a named env
+# otherwise deploys as `<top-level-name>-production`.
+
+[env.production]
+name = "abalone-backend"
+# Pinned off, and pinned rather than left out: with the key absent wrangler turns
+# workers.dev ON for a worker that declares no routes, and `triggers deploy`
+# rewrites it every deploy. This api is reached at api.abalone.tudu.dev, attached
+# in the dashboard, and a second public hostname in front of the auth handler is
+# not something to publish by omission.
+workers_dev = false
+
+[[env.production.d1_databases]]
+binding = "DB"
+# The deploy reads this through wrangler's own config parser
+# (.github/scripts/deploy/d1-databases.ts, which loads the `production` env) and
+# migrates it — it is not derived from the worker name. Create it once with
+# `wrangler d1 create abalone-backend-db`, then paste its id below.
 database_name = "abalone-backend-db"
 database_id = "REPLACE_WITH_PRODUCTION_D1_DATABASE_ID"
 migrations_dir = "src/database/migrations"
+
+[[env.production.r2_buckets]]
+binding = "AVATARS"
+# `wrangler r2 bucket create abalone-avatars`, then attach cdn.abalone.tudu.dev
+# to it in the dashboard (R2 → bucket → Settings → Public access → Custom domain).
+# There is no wrangler equivalent for that step.
+bucket_name = "abalone-avatars"

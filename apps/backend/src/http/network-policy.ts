@@ -11,7 +11,5 @@ import { isPrivateOrigin } from "@/utils/is-private-origin"
 //production https frontend yields false, so private origins are never reflected
 //or trusted in prod.
 export function allowsPrivateOrigins(): boolean {
-  //no frontend configured is not a dev signal — fail closed
-  if (!env.FRONTEND_URL) return false
   return isPrivateOrigin(env.FRONTEND_URL)
 }

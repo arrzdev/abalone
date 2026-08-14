@@ -15,19 +15,20 @@
   "scripts": {
     "check:env": "tsx env/check-env.ts",
     "dev": "tsx scripts/dev.ts",
-    "build": "wrangler deploy --dry-run",
+    "build": "wrangler deploy --dry-run --env production",
     "start": "wrangler dev --env-file env/.env",
     "biome:fix": "biome check --write --unsafe .",
     "biome:check": "biome check .",
     "tail": "wrangler tail --format pretty",
     "db:check": "drizzle-kit check --config ./src/database/drizzle.config.ts",
     "db:generate": "drizzle-kit generate --config ./src/database/drizzle.config.ts",
-    "migrate:local": "pnpm run db:generate && wrangler d1 migrations apply abalone-backend-db --local",
+    "migrate:local": "pnpm run db:generate && wrangler d1 migrations apply abalone-backend-db-dev --local",
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
     "@hono/zod-validator": "0.8.0",
     "@repo/dev": "workspace:*",
+    "better-auth": "1.6.28",
     "@repo/env-validation": "workspace:*",
     "@repo/shared": "workspace:*",
     "drizzle-orm": "0.45.2",

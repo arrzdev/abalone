@@ -1,17 +1,16 @@
 # Abalone monorepo
 
-The Abalone game, plus the boilerplate it is built on: a pnpm + Turborepo
-monorepo of Cloudflare Workers, wired to deploy from GitHub Actions. The
-boilerplate half is deliberately thin — a Hono API with a health check and one
-worked example endpoint, a D1 database with migrations, per-environment secrets,
-and a deploy pipeline that grows by one line per new app.
+The Abalone game and the accounts behind it: a pnpm + Turborepo monorepo of
+Cloudflare Workers, wired to deploy from GitHub Actions. The API half is a Hono
+worker on D1 with username and password sign-in, profile pictures on R2, and a
+deploy pipeline that grows by one line per new app.
 
 ## Layout
 
 | | |
 | --- | --- |
 | `apps/game` | the Abalone game — React 19 on the `@repo/nativ` PWA shell, TanStack Start routing, served by a Worker |
-| `apps/backend` | Hono on a Worker. D1 + Drizzle, the layered http/services structure, health + an example route |
+| `apps/backend` | Hono on a Worker. D1 + Drizzle, the layered http/services structure, better-auth sessions, R2 avatars |
 | `packages/nativ` | the PWA shell framework: app config, generated router, native-feeling components, hooks, service worker |
 | `packages/shared` | the kernel the apps import — `tryCatch`, logging, the Hono endpoint factory |
 | `packages/env-validation` | schema-checked env with one registry per app |
@@ -23,9 +22,12 @@ Apps consume packages through workspace exports (`@repo/nativ`, `@repo/shared`,
 …) and never reach past a package's public entry points. Every package here has
 a consumer; nothing is kept on spec.
 
-The game talks to nothing of ours: it holds no server state and signs nobody in,
-so it never calls the backend. The two are in one repo for the toolchain and the
-pipeline, not for a shared runtime.
+The game calls the backend for one thing: who you are. Sign-in, sign-out and the
+profile picture go over the API; everything about actually playing runs on the
+device, so offline play works signed out and with the network off. The one thing
+that crosses the two workspaces at build time is a type, the RPC routes
+interface, which is why `apps/game` depends on `@repo/backend` and imports
+nothing from it at runtime.
 
 ## Requirements
 
@@ -47,7 +49,8 @@ value is missing:
 for app in apps/*/; do cp "$app/env/.env.example" "$app/env/.env"; done
 ```
 
-The defaults already point at the local ports, and the game declares nothing.
+The defaults already point at the local ports, so nothing needs editing to run
+the two apps side by side.
 
 Create the local database and apply migrations:
 
@@ -80,19 +83,41 @@ pass; that gate is also what CI runs.
 
 ## Adding an endpoint
 
-`apps/backend/src/http/routes/hello.routes.ts` is the worked example, and it is
-short on purpose — it shows the whole contract in one file: rate limit on the
-chain, `valid()` in the same tuple as the handler, a service doing the work,
-`ok()` on the way out, and no try/catch, because a service throw is the global
-catcher's job. `hello.service.ts` is its domain half, and
-`hello.routes.test.ts` drives the real worker end to end.
+`apps/backend/src/http/routes/profile.routes.ts` is the shape every route
+follows, and it shows the whole contract in one file: rate limit first on the
+chain, then `requireAuth()`, then handlers that only describe the success path,
+with a service doing the work and `ok()` on the way out. There is no try/catch,
+because a service throw is the global catcher's job.
+`src/services/profile.service.ts` is its domain half, and
+`profile.routes.test.ts` drives the real worker against a real local D1.
 
 To add a domain, copy those three, then mount it with one `.route()` line in
 `src/http/routes/index.ts`.
 
-`src/database/schema.ts` holds a single example table so the drizzle → migration
-→ deploy path stays wired. No route reads it; replace it with a real domain, or
-delete `src/database/` outright if the API stays stateless.
+## Accounts
+
+Sign-in is a username and a password. No email, no OAuth, no verification.
+better-auth's `username` plugin owns the handle, and the email column it insists
+on is derived server-side from that handle and never shown. Sessions are bearer
+tokens in `localStorage` rather than cookies, because the app and the API are
+different origins and a cross-origin cookie is a fight with Safari that an
+installed PWA keeps losing.
+
+Profile pictures live in R2 under a content-addressed key, `avatars/<sha256>.webp`,
+so a picture's URL never changes and its `Cache-Control` can say `immutable`. The
+object carries that header itself, which keeps the read path off the Worker
+entirely: browsers and the Cloudflare edge answer it, and R2 is only touched on a
+cold miss. Uploads are resized to a 256px square in the browser before they are
+sent, so no image library ships to the Worker.
+
+Dev stays entirely local. The R2 binding points at a bucket miniflare invents on
+the spot, so `pnpm dev` needs no network and no Cloudflare account — but wrangler
+emulates the binding, not public-bucket HTTP access, so that bucket has no address
+an `<img>` can reach. `GET /api/v1/avatars/*` stands in for the custom domain and
+serves the headers the object itself carries, so the caching behaviour under test
+is the one that ships. It is gated on the same config-derived signal as CORS, a
+localhost `FRONTEND_URL`, so against an https frontend it answers 404 and the
+production read path is the only one there is.
 
 ## Deploying
 
@@ -104,36 +129,59 @@ changed in the push actually deploy.
 Adding an app is a `wrangler.toml` plus one line in that manifest — no workflow
 edits.
 
-**Only the game ships today.** It is the sole entry in the manifest, so a merge
-to `main` deploys the Worker `abalone-game` and nothing else. `apps/backend` is
-held back on purpose: its `wrangler.toml` still carries a `REPLACE_WITH_…`
-`database_id`, so it would fail at the migrate step. CI warns on every run that
-it has a `wrangler.toml` and isn't listed — that warning is the reminder.
+**Two units, both shipping.** `backend` and `game` are separate entries, because
+the game is a static PWA that only reaches the API at runtime, so neither has to
+land before the other.
 
-**One environment.** `main` → production, and that is the whole story — no
-staging branch, no `[env.*]` blocks, no per-env worker names. Run a manual
-workflow dispatch to force-redeploy every unit (useful after rotating secrets,
-which change no files, so `--affected` finds nothing).
+**One target, selected explicitly.** `main` goes to production and there is no
+staging branch. The backend still carries an `[env.production]` block, because
+`wrangler dev` and the deploy need different bindings: the top level names the
+local database and bucket, and the deploy passes `--env production` to every
+wrangler call that reads the file. Bindings do not inherit across a named
+environment, so that block repeats the full set rather than patching the one
+above. The game has no environments at all, since its config comes from the Vite
+build rather than from `wrangler.toml`.
 
-**Setup, for the game:** add `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`
-to the repo's `production` GitHub environment. That is the whole list — the game
-declares no env of its own (`apps/game/env/schema.ts` is empty), so there is
-nothing else to provision. The worker is served on `*.workers.dev` until a route
-or custom domain says otherwise.
+Run a manual workflow dispatch to force-redeploy every unit. That is what to do
+after rotating secrets, which change no files, so `--affected` finds nothing.
 
-**Adding the backend later:** create the D1, paste its id, restore the unit in
-the manifest, then add the backend's own env vars to the same environment:
+**Setup.** `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` go in the repo's
+`production` GitHub environment, along with the values both apps declare:
+
+| Key | Value |
+| --- | --- |
+| `BETTER_AUTH_SECRET` | 16 characters or more, from `openssl rand -hex 32` |
+| `BETTER_AUTH_URL` | `https://api.abalone.tudu.dev` |
+| `FRONTEND_URL` | `https://abalone.tudu.dev` |
+| `AVATAR_PUBLIC_URL` | `https://cdn.abalone.tudu.dev` |
+| `VITE_BACKEND_URL` | `https://api.abalone.tudu.dev`, baked into the game's build |
+
+Then create the database and the bucket, and paste the database's id over the
+`REPLACE_WITH_…` placeholder in `apps/backend/wrangler.toml`:
 
 ```bash
 pnpm exec wrangler d1 create abalone-backend-db
 ```
 
-The deploy writes `env/.env` from `env/schema.ts` — the schema is the allowlist,
-so only declared keys are ever written — then uploads it onto the Worker as
-secrets. Nothing is configured in the Cloudflare dashboard. A database-backed
-Worker deploys as upload → migrate → promote, so the schema is in place before
-the new code goes live. Destructive DDL is blocked on PRs unless it carries an
-explicit acknowledgment.
+```bash
+pnpm exec wrangler r2 bucket create abalone-avatars
+```
+
+Two steps are the dashboard's. Attach `api.abalone.tudu.dev` to the
+`abalone-backend` Worker, and `cdn.abalone.tudu.dev` to the `abalone-avatars`
+bucket under Settings, Public access, Custom domain. There is no wrangler
+equivalent for the second one.
+
+Do all of that before merging. A missing environment value is invisible on the
+PR, because CI seeds `.env` from `.env.example` and deliberately does not run
+`check:env`; it fails at deploy instead.
+
+The deploy writes `env/.env` from `env/schema.ts`, which is the allowlist, so
+only declared keys are ever written, and then uploads it onto the Worker as
+secrets. Nothing is configured in the Cloudflare dashboard except the two
+domains. A database-backed Worker deploys as upload, then migrate, then promote,
+so the schema is in place before the new code goes live. Destructive DDL is
+blocked on PRs unless it carries an explicit acknowledgment.
 
 Rehearse any app's deploy without touching Cloudflare:
 
