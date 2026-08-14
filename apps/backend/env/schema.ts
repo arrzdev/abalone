@@ -11,5 +11,5 @@ export const envSchema = z.object({
   //the web app's origin — the CORS allowlist, and the one signal the network
   //policy reads to decide whether this is a dev environment (see
   //src/http/network-policy.ts).
-  FRONTEND_URL: z.url(),
+  FRONTEND_URL: z.url().optional(),
 })
