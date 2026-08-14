@@ -2,12 +2,6 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "frontend",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["--filter", "@repo/frontend", "dev"],
-      "port": 7171
-    },
-    {
       "name": "backend",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": ["--filter", "@repo/backend", "dev"],
