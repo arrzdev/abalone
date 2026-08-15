@@ -44,6 +44,7 @@ import {
 import { useApiError } from "@/hooks/use-api-error"
 import { useAnimationsEnabled } from "@/hooks/use-app-preferences"
 import { useAuth } from "@/providers/auth-provider"
+import { useRealtime } from "@/providers/realtime-provider"
 import { TIMING } from "@/render/motion"
 import { playFallSound, playMoveSound, primeSounds } from "@/utils/sound"
 
@@ -171,6 +172,7 @@ export function useOnlineGame(
   boardRef: RefObject<GameCanvasHandle | null>,
 ): OnlineGame {
   const { user } = useAuth()
+  const { isConnected } = useRealtime()
   const queryClient = useQueryClient()
   const translateError = useApiError()
   const [animationsEnabled] = useAnimationsEnabled()
@@ -185,7 +187,12 @@ export function useOnlineGame(
     //copy is not merely painted first, it is believed.
     staleTime: ({ state }) =>
       state.data?.status === "finished" ? Number.POSITIVE_INFINITY : 0,
+    //while the channel is up the server says when the row moved, so the timer
+    //stands down. it is not deleted: a blocked websocket, a sleeping phone or a
+    //network that hates upgrades all land here as `false`, and the board goes
+    //back to the three seconds it always had.
     refetchInterval: ({ state }) => {
+      if (isConnected) return false
       const row = state.data
       if (!row || row.status !== "active") return false
       return seatOf(row, myUserId) === row.currentTurn

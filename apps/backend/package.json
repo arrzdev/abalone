@@ -10,7 +10,8 @@
   },
   "exports": {
     "./http/interface": "./src/http/interface.ts",
-    "./http/errors": "./src/http/errors.ts"
+    "./http/errors": "./src/http/errors.ts",
+    "./realtime/events": "./src/modules/realtime/events.ts"
   },
   "scripts": {
     "check:env": "tsx env/check-env.ts",

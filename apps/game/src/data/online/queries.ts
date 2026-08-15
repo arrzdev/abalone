@@ -39,10 +39,15 @@ export const onlineKeys = {
   moves: (gameId: string) => ["online", "game", gameId, "moves"] as const,
 }
 
-//an invite arrives while nobody is looking at anything, so the list checks for
-//itself. slow enough not to be a heartbeat, quick enough that accepting a game
-//somebody just offered does not need a reload.
-const INVITE_POLL_MS = 15_000
+/**
+ * How often a list checks for itself when nothing is pushing to it.
+ *
+ * An invite arrives while nobody is looking at anything. Slow enough not to be
+ * a heartbeat, quick enough that accepting a game somebody just offered does
+ * not need a reload. Exported because the screen turns it off while the
+ * realtime channel is up, and back on the moment it drops.
+ */
+export const INVITE_POLL_MS = 15_000
 
 //---- reads ----------------
 

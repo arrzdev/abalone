@@ -31,6 +31,22 @@ database_name = "abalone-backend-db-dev"
 database_id = "00000000-0000-0000-0000-000000000000"
 migrations_dir = "src/database/migrations"
 
+[[durable_objects.bindings]]
+# `name`, not `binding` — durable objects are the one binding type that spells
+# it differently, and wrangler rejects unknown keys rather than ignoring them.
+name = "PUBSUB"
+class_name = "PubSub"
+
+# `migrations` IS inheritable, unlike bindings, so this block is written once and
+# [env.production] picks it up — do not copy it down there.
+#
+# `new_sqlite_classes`, never `new_classes`: the sqlite backend is what the
+# hibernation api is documented against and what the free plan requires, and a
+# class's storage backend cannot be changed after it has been deployed once.
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["PubSub"]
+
 [[r2_buckets]]
 binding = "AVATARS"
 # Local, and never created anywhere: with no `remote`, miniflare makes it on the
@@ -67,6 +83,10 @@ binding = "DB"
 database_name = "abalone-backend-db"
 database_id = "8eff88f0-fa50-4d63-9dce-c0dfdafc1129"
 migrations_dir = "src/database/migrations"
+
+[[env.production.durable_objects.bindings]]
+name = "PUBSUB"
+class_name = "PubSub"
 
 [[env.production.r2_buckets]]
 binding = "AVATARS"
