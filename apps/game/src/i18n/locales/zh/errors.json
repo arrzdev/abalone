@@ -1,0 +1,19 @@
+{
+  "api_invalid_input": "输入好像有问题。请检查后重试。",
+  "api_internal_server_error": "我们这边出了点问题。请重试。",
+  "api_endpoint_not_found": "该页面不存在。",
+  "api_rate_limit_exceeded": "请求过于频繁。请稍候再试。",
+  "api_not_found": "没有找到。可能已被删除。",
+  "api_unauthorized": "需要登录后才能操作。请登录后重试。",
+  "api_file_too_large": "文件太大了。请选择更小的图片。",
+  "api_unsupported_media_type": "不支持这种文件格式。请使用 PNG、JPEG 或 WebP 图片。",
+  "api_player_not_found": "没有玩家使用这个名字。请检查拼写后重试。",
+  "api_invite_self": "不能邀请自己。请选择其他玩家。",
+  "api_invite_exists": "你已经向这位玩家发出过邀请。取消后才能重新发送。",
+  "api_game_not_active": "这局棋已经结束了。",
+  "api_not_your_turn": "还没轮到你。请等对手落子。",
+  "api_illegal_move": "这步棋不合规则。棋盘已恢复原样。",
+  "api_move_conflict": "你落子的时候棋局已经推进了。棋盘已刷新。",
+  "network_unreachable": "无法连接服务器。请检查网络后重试。",
+  "unknown": "出了点问题。请重试。"
+}

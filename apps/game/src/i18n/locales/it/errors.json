@@ -1,0 +1,19 @@
+{
+  "api_invalid_input": "Qualcosa non torna. Controlla quello che hai inserito e riprova.",
+  "api_internal_server_error": "Qualcosa è andato storto da parte nostra. Riprova.",
+  "api_endpoint_not_found": "Questa pagina non esiste.",
+  "api_rate_limit_exceeded": "Troppe richieste insieme. Aspetta un momento e riprova.",
+  "api_not_found": "Non l'abbiamo trovato. Potrebbe essere stato rimosso.",
+  "api_unauthorized": "Devi accedere per farlo. Accedi e riprova.",
+  "api_file_too_large": "Questo file è troppo grande. Scegli un'immagine più piccola.",
+  "api_unsupported_media_type": "Questo tipo di file non è supportato. Usa un'immagine PNG, JPEG o WebP.",
+  "api_player_not_found": "Nessuno gioca con questo nome. Controlla come si scrive e riprova.",
+  "api_invite_self": "Non puoi invitare te stesso. Scegli un altro giocatore.",
+  "api_invite_exists": "Hai già un invito in sospeso con quel giocatore. Annullalo per inviarne uno nuovo.",
+  "api_game_not_active": "Questa partita è già finita.",
+  "api_not_your_turn": "Non è ancora il tuo turno. Aspetta la mossa dell'avversario.",
+  "api_illegal_move": "Questa mossa non è valida. La scacchiera è stata rimessa a posto.",
+  "api_move_conflict": "La partita è andata avanti mentre giocavi. La scacchiera è stata aggiornata.",
+  "network_unreachable": "Non siamo riusciti a raggiungere il server. Controlla la connessione e riprova.",
+  "unknown": "Qualcosa è andato storto. Riprova."
+}
