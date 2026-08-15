@@ -46,7 +46,20 @@ export async function publishToUsers(
   await Promise.all(
     channels.map(async (channel) => {
       const stub = namespace.get(namespace.idFromName(channel))
-      const [, publishError] = await tryCatch(() => stub.publish(payload))
+      //`async () =>`, and it is load-bearing. a durable object rpc call hands
+      //back a callable proxy rather than a plain promise, because rpc supports
+      //pipelining (`stub.a().b()`) — so `typeof` it is "function", and a helper
+      //that decides what to await by looking for an object with a `then` walks
+      //straight past it. wrapping the call turns it back into a real promise.
+      //
+      //unawaited, this fails only in production and only silently: the fan-out
+      //resolves before the call has gone anywhere, `waitUntil` sees finished
+      //work, and the request context is torn down with the rpc still in flight.
+      //locally the isolate lingers long enough that it lands anyway, which is
+      //exactly why every test and every dev run said this worked.
+      const [, publishError] = await tryCatch(async () => {
+        await stub.publish(payload)
+      })
       if (publishError) {
         log.error("realtime_publish_failed", publishError, {
           channel,
