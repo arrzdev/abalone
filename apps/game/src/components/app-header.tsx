@@ -1,5 +1,5 @@
 import { cn } from "@repo/nativ/utils"
-import { Link } from "@tanstack/react-router"
+import { Link, useMatchRoute } from "@tanstack/react-router"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
@@ -131,6 +131,11 @@ function AccountControl() {
   const { data: profile } = useProfile()
   const picker = useAvatarPicker()
   const signOut = useSignOut()
+  const matchRoute = useMatchRoute()
+
+  //nothing to offer on the login screen: signed out this is a way to the page
+  //already open, and signed in the route sends you home before it renders
+  if (matchRoute({ to: "/login" })) return null
 
   //the same square as the rest of the bar, not a labelled button: signing in is
   //one of the things this row offers rather than the thing it is for, and a
