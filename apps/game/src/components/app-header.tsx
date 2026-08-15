@@ -25,7 +25,11 @@ import { useSignOut } from "@/hooks/use-sign-out"
 import { useAuth } from "@/providers/auth-provider"
 
 const ICON_BUTTON_CLASS =
-  "flex h-9 w-9 items-center justify-center rounded-lg text-white/60 transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+  "flex size-9 items-center justify-center rounded-lg text-white/60 transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:size-11 lg:rounded-xl"
+
+//the desktop step has to be a class: Lucide's `size` lands as width/height
+//presentation attributes, which any CSS rule outranks
+const ICON_GLYPH_CLASS = "lg:size-6"
 
 /**
  * The bar across the top of every screen inside the shell.
@@ -39,6 +43,12 @@ const ICON_BUTTON_CLASS =
  * The safe padding is on the outer box and the height on the one inside it: with
  * `box-border` a single box would let `h-14` swallow the inset instead of
  * clearing it.
+ *
+ * The row runs the full width rather than sitting in the page's centred column.
+ * A bar is chrome, not content: what it holds are the two far corners of the
+ * window, and a max-width would pull them into a huddle in the middle of a wide
+ * monitor. Everything in it steps up a size above `lg`, where the bar stops
+ * competing with the screen for room.
  *
  * `className` is for the layout that mounts it, and in practice for one thing:
  * the board screens hide it below `lg`.
@@ -54,18 +64,18 @@ export function AppHeader({ className }: { className?: string }) {
         className,
       )}
     >
-      <div className="mx-auto flex h-14 w-full max-w-5xl items-center gap-2 px-4 lg:gap-6">
+      <div className="flex h-14 w-full items-center gap-2 px-4 lg:h-18 lg:gap-6 lg:px-8">
         <Link
           to="/"
-          className="flex shrink-0 items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+          className="flex shrink-0 items-center gap-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:gap-3"
         >
-          <Logo className="h-7 w-7" />
-          <span className="text-lg font-extrabold tracking-tight text-white">
+          <Logo className="size-7 lg:size-9" />
+          <span className="text-lg font-extrabold tracking-tight text-white lg:text-2xl">
             Abalone
           </span>
         </Link>
 
-        <div className="ms-auto flex items-center gap-1 lg:gap-2">
+        <div className="ms-auto flex items-center gap-1 lg:gap-1.5">
           {/* The rules, as a question mark rather than a labelled destination.
               It is the one thing on this bar somebody looks for by not knowing
               something, which is what that mark means everywhere else. */}
@@ -79,7 +89,7 @@ export function AppHeader({ className }: { className?: string }) {
             //control that is switched on rather than a page you are on
             activeClassName="text-white"
           >
-            <HelpIcon size={20} />
+            <HelpIcon size={20} className={ICON_GLYPH_CLASS} />
           </NavLink>
 
           <button
@@ -89,7 +99,7 @@ export function AppHeader({ className }: { className?: string }) {
             className={ICON_BUTTON_CLASS}
             onClick={() => setSettingsOpen(true)}
           >
-            <SettingsIcon size={20} />
+            <SettingsIcon size={20} className={ICON_GLYPH_CLASS} />
           </button>
 
           <LanguageSwitcher />
@@ -134,7 +144,7 @@ function AccountControl() {
         title={t("common:auth.sign_in")}
         className={cn(ICON_BUTTON_CLASS, "hidden lg:flex")}
       >
-        <PersonIcon size={20} />
+        <PersonIcon size={20} className={ICON_GLYPH_CLASS} />
       </Link>
     )
   }
@@ -153,18 +163,18 @@ function AccountControl() {
         className="hidden lg:block"
         align="end"
         ariaLabel={t("common:nav.profile")}
-        triggerClassName={cn("gap-2 ps-1.5 pe-2")}
+        triggerClassName={cn("h-11 gap-2 rounded-xl ps-2 pe-3 text-base")}
         label={
           <>
             <Avatar
               src={profile?.avatarUrl}
-              size={26}
+              size={30}
               className="rounded-md"
             />
-            <span className="max-w-32 truncate">
+            <span className="max-w-40 truncate">
               {user.displayUsername}
             </span>
-            <ChevronDownIcon size={16} className="opacity-60" />
+            <ChevronDownIcon size={18} className="opacity-60" />
           </>
         }
       >
