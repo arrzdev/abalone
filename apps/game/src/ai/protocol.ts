@@ -1,4 +1,4 @@
-import type { CellName, SearchBoard } from "@/engine/types"
+import type { CellName, SearchBoard } from "@repo/abalone-engine/types"
 
 /**
  * What crosses the wire between the board and the bot.

@@ -1,11 +1,6 @@
-import type { RefObject } from "react"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { BotClient } from "@/ai/bot-client"
-import type { ColorChoiceValue } from "@/components/color-choice"
-import type { GameCanvasHandle } from "@/components/game-canvas"
-import type { SetupKey } from "@/engine/board-setups"
-import { DEFAULT_SETUP } from "@/engine/board-setups"
-import type { GameMode, GameState } from "@/engine/game-state"
+import type { SetupKey } from "@repo/abalone-engine/board-setups"
+import { DEFAULT_SETUP } from "@repo/abalone-engine/board-setups"
+import type { GameMode, GameState } from "@repo/abalone-engine/game-state"
 import {
   canNextMove,
   canPrevMove,
@@ -22,14 +17,19 @@ import {
   toSearchState,
   truncateToMove,
   undoTargetIndex,
-} from "@/engine/game-state"
+} from "@repo/abalone-engine/game-state"
 import {
   deselectMarble,
   getPossibleMoves,
   selectMarble,
   selectRun,
-} from "@/engine/rules"
-import type { CellName, Player } from "@/engine/types"
+} from "@repo/abalone-engine/rules"
+import type { CellName, Player } from "@repo/abalone-engine/types"
+import type { RefObject } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { BotClient } from "@/ai/bot-client"
+import type { ColorChoiceValue } from "@/components/color-choice"
+import type { GameCanvasHandle } from "@/components/game-canvas"
 import {
   useAnimationsEnabled,
   useAutoRotateBoard,

@@ -1,12 +1,15 @@
+import type {
+  HistoryEntry,
+  MoveDetails,
+} from "@repo/abalone-engine/game-state"
+import { formatMoveAlgebraic } from "@repo/abalone-engine/notation"
+import type { Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
 import type { ReactNode, RefObject } from "react"
 import { Fragment, useEffect, useMemo, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { MarbleGlyph } from "@/components/marble-glyph"
 import { TapButton } from "@/components/ui/tap-button"
-import type { HistoryEntry, MoveDetails } from "@/engine/game-state"
-import { formatMoveAlgebraic } from "@/engine/notation"
-import type { Player } from "@/engine/types"
 import { useScrollEdges } from "@/hooks/use-scroll-edges"
 import type { ScrollAxis } from "@/hooks/use-sticky-end"
 import { useStickyEnd } from "@/hooks/use-sticky-end"

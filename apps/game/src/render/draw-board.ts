@@ -1,10 +1,14 @@
-import { MAX_LINE } from "@/engine/config"
-import type { GameState } from "@/engine/game-state"
-import { isValidSelection } from "@/engine/game-state"
-import type { MovingMarble } from "@/engine/rules"
-import { directionBetween } from "@/engine/rules"
-import { cellNamed, NOWHERE } from "@/engine/topology"
-import type { AxialStep, CellName, Point } from "@/engine/types"
+import { MAX_LINE } from "@repo/abalone-engine/config"
+import type { GameState } from "@repo/abalone-engine/game-state"
+import { isValidSelection } from "@repo/abalone-engine/game-state"
+import type { MovingMarble } from "@repo/abalone-engine/rules"
+import { directionBetween } from "@repo/abalone-engine/rules"
+import { cellNamed, NOWHERE } from "@repo/abalone-engine/topology"
+import type {
+  AxialStep,
+  CellName,
+  Point,
+} from "@repo/abalone-engine/types"
 import { cellFromPoint, hexCenter, STEP } from "@/render/hex-grid"
 import { renderMarble, renderMarbleShadow } from "@/render/marble-renderer"
 

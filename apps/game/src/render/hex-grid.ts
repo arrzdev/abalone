@@ -1,5 +1,5 @@
-import { cellAt, NOWHERE, RIM } from "@/engine/topology"
-import type { AxialStep, Point } from "@/engine/types"
+import { cellAt, NOWHERE, RIM } from "@repo/abalone-engine/topology"
+import type { AxialStep, Point } from "@repo/abalone-engine/types"
 
 /**
  * Where the board's squares land on a canvas, and which square a pointer is over.

@@ -1,9 +1,9 @@
+import { DEMO_GAME } from "@repo/abalone-engine/demo-game"
+import type { GameState } from "@repo/abalone-engine/game-state"
+import { createGameState, makeMove } from "@repo/abalone-engine/game-state"
 import { useEffect, useRef, useState } from "react"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import { GameCanvas } from "@/components/game-canvas"
-import { DEMO_GAME } from "@/engine/demo-game"
-import type { GameState } from "@/engine/game-state"
-import { createGameState, makeMove } from "@/engine/game-state"
 import type { MarbleDesign } from "@/render/marble-renderer"
 
 /** Between the marbles landing and the next line setting off. */

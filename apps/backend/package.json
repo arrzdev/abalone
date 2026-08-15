@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@hono/zod-validator": "0.8.0",
+    "@repo/abalone-engine": "workspace:*",
     "@repo/dev": "workspace:*",
     "better-auth": "1.6.28",
     "@repo/env-validation": "workspace:*",

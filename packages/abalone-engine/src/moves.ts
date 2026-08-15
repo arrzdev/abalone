@@ -1,5 +1,5 @@
-import { MAX_LINE } from "@/engine/config"
-import { rival, VACANT } from "@/engine/position"
+import { MAX_LINE } from "#abalone-engine/config"
+import { rival, VACANT } from "#abalone-engine/position"
 import {
   CANONICAL_HEADING,
   HEADINGS,
@@ -8,14 +8,14 @@ import {
   neighbour,
   reverse,
   veer,
-} from "@/engine/topology"
+} from "#abalone-engine/topology"
 import type {
   CellId,
   Heading,
   Position,
   Roster,
   Side,
-} from "@/engine/types"
+} from "#abalone-engine/types"
 
 /**
  * The rules of Abalone, expressed over cell ids.

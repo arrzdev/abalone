@@ -1,8 +1,8 @@
+import type { SearchBoard } from "@repo/abalone-engine/types"
 import { WEAKEST } from "@/ai/profiles"
 import type { BotMove, BotRequest, BotResponse } from "@/ai/protocol"
 import type { Bot } from "@/ai/search"
 import { createBot } from "@/ai/search"
-import type { SearchBoard } from "@/engine/types"
 
 type Pending = {
   resolve: (move: BotMove | undefined) => void

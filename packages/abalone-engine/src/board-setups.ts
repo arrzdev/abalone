@@ -1,4 +1,4 @@
-import { RIM } from "@/engine/topology"
+import { RIM } from "#abalone-engine/topology"
 
 /**
  * The ten opening positions, drawn rather than listed.
@@ -82,7 +82,7 @@ export const BOARD_SETUPS = {
     b b b b b
   `),
 
-  belgianDaisy: read(`
+  belgian_daisy: read(`
     w w . b b
    w w w b b b
   . w w . b b .
@@ -94,7 +94,7 @@ export const BOARD_SETUPS = {
     b b . w w
   `),
 
-  germanDaisy: read(`
+  german_daisy: read(`
     . . . . .
    w w . . b b
   w w w . b b b
@@ -106,7 +106,7 @@ export const BOARD_SETUPS = {
     . . . . .
   `),
 
-  dutchDaisy: read(`
+  dutch_daisy: read(`
     w w . b b
    w b w b w b
   . w w . b b .
@@ -118,7 +118,7 @@ export const BOARD_SETUPS = {
     b b . w w
   `),
 
-  swissDaisy: read(`
+  swiss_daisy: read(`
     . . . . .
    w w . . b b
   w b w . b w b
@@ -166,7 +166,7 @@ export const BOARD_SETUPS = {
     . w b w .
   `),
 
-  theWall: read(`
+  the_wall: read(`
     . . w . .
    . . . . . .
   . w w w w w .

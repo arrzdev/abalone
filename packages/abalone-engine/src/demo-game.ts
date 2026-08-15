@@ -1,4 +1,4 @@
-import type { CellName } from "@/engine/types"
+import type { CellName } from "#abalone-engine/types"
 
 /** One played move: the line that was picked up, and the square it moved onto. */
 export type DemoMove = {

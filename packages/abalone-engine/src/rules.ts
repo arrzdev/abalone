@@ -1,17 +1,17 @@
-import { MAX_LINE } from "@/engine/config"
+import { MAX_LINE } from "#abalone-engine/config"
 import {
   commitMove,
   destinationsFor,
   isUnbrokenLine,
   orderLine,
   resolveMove,
-} from "@/engine/moves"
+} from "#abalone-engine/moves"
 import {
   BLACK,
   namesOf,
   positionFromNames,
   WHITE,
-} from "@/engine/position"
+} from "#abalone-engine/position"
 import {
   cellNamed,
   HEADING_STEPS,
@@ -21,7 +21,7 @@ import {
   nameBeyond,
   nameOf,
   neighbour,
-} from "@/engine/topology"
+} from "#abalone-engine/topology"
 import type {
   AxialStep,
   Board,
@@ -29,7 +29,7 @@ import type {
   CellName,
   Player,
   Side,
-} from "@/engine/types"
+} from "#abalone-engine/types"
 
 /**
  * The seam between the board people play on and the engine that reasons about it.

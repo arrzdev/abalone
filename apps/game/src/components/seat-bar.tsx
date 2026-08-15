@@ -1,10 +1,10 @@
+import { WINNING_SCORE } from "@repo/abalone-engine/config"
+import type { Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
 import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { PersonIcon } from "@/components/icons"
 import { MarbleGlyph } from "@/components/marble-glyph"
-import { WINNING_SCORE } from "@/engine/config"
-import type { Player } from "@/engine/types"
 
 /**
  * Both players, at the top of the panel: one card with a face and a name at

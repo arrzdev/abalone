@@ -1,5 +1,8 @@
-import { MARBLES_PER_SIDE, SURVIVORS_AT_DEFEAT } from "@/engine/config"
-import { BLACK, WHITE } from "@/engine/position"
+import {
+  MARBLES_PER_SIDE,
+  SURVIVORS_AT_DEFEAT,
+} from "@repo/abalone-engine/config"
+import { BLACK, WHITE } from "@repo/abalone-engine/position"
 import {
   CELL_COUNT,
   cellRimHeading,
@@ -9,8 +12,8 @@ import {
   neighbour,
   reverse,
   separation,
-} from "@/engine/topology"
-import type { CellId, Position, Side } from "@/engine/types"
+} from "@repo/abalone-engine/topology"
+import type { CellId, Position, Side } from "@repo/abalone-engine/types"
 
 /**
  * How good a position is, as a single number from black's point of view:

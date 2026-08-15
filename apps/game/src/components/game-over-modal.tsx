@@ -1,9 +1,9 @@
+import type { GameState } from "@repo/abalone-engine/game-state"
 import { cn } from "@repo/nativ/utils"
 import { useTranslation } from "react-i18next"
 import { PlusIcon, RematchIcon } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { Sheet } from "@/components/ui/sheet"
-import type { GameState } from "@/engine/game-state"
 import { getGameOverMessage } from "@/i18n/game-text"
 
 const ACCENTS = {
@@ -63,7 +63,7 @@ export function GameOverModal({
   let subtext: string
   if (gameOverReason === "resignation") {
     subtext = t("game:modal.by_resignation")
-  } else if (gameOverReason === "threefold repetition") {
+  } else if (gameOverReason === "threefold_repetition") {
     subtext = t("game:modal.by_repetition")
   } else {
     subtext = `${blackScore} – ${whiteScore}`

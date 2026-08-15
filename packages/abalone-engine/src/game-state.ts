@@ -1,20 +1,20 @@
-import type { SetupKey } from "@/engine/board-setups"
-import { BOARD_SETUPS, DEFAULT_SETUP } from "@/engine/board-setups"
-import { WINNING_SCORE } from "@/engine/config"
-import { signatureOfNames } from "@/engine/position"
-import type { MoveOutcome } from "@/engine/rules"
+import type { SetupKey } from "#abalone-engine/board-setups"
+import { BOARD_SETUPS, DEFAULT_SETUP } from "#abalone-engine/board-setups"
+import { WINNING_SCORE } from "#abalone-engine/config"
+import { signatureOfNames } from "#abalone-engine/position"
+import type { MoveOutcome } from "#abalone-engine/rules"
 import {
   applyMove,
   directionBetween,
   marbleAt,
   shiftNames,
-} from "@/engine/rules"
+} from "#abalone-engine/rules"
 import type {
   AxialStep,
   CellName,
   Player,
   SearchBoard,
-} from "@/engine/types"
+} from "#abalone-engine/types"
 
 /**
  * The game as a value.
@@ -28,12 +28,14 @@ import type {
  * reads and what the move list is built from. `rules.ts` translates.
  */
 
-/** Hot-seat play, or a bot on the other side. */
-export type GameMode = "ai" | "local"
+/** A bot on the other side, one device between two people, or the network. */
+export type GameMode = "ai" | "local" | "online"
 
+//codes, not sentences: an ending is written into a database column and read back
+//by a client that maps it to whatever language that player is reading in.
 export type GameOverReason =
   | "score"
-  | "threefold repetition"
+  | "threefold_repetition"
   | "resignation"
 
 /** How a position was reached, kept so the move list can describe it. */
@@ -216,7 +218,7 @@ export function evaluateGameOver(state: GameState): GameOutcome {
   if (repeatedThrice(state.moveHistory)) {
     return {
       gameOver: true,
-      gameOverReason: "threefold repetition",
+      gameOverReason: "threefold_repetition",
       winner: null,
     }
   }

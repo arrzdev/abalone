@@ -1,0 +1,24 @@
+{
+  "name": "@repo/abalone-engine",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#abalone-engine/*": "./src/*"
+  },
+  "exports": {
+    "./board-setups": "./src/board-setups.ts",
+    "./config": "./src/config.ts",
+    "./demo-game": "./src/demo-game.ts",
+    "./game-state": "./src/game-state.ts",
+    "./moves": "./src/moves.ts",
+    "./notation": "./src/notation.ts",
+    "./position": "./src/position.ts",
+    "./rules": "./src/rules.ts",
+    "./topology": "./src/topology.ts",
+    "./types": "./src/types.ts"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}
