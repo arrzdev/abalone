@@ -18,6 +18,12 @@ export type TextFieldProps = Omit<
   invalid?: boolean
   /** Id of the element carrying that message, for `aria-describedby`. */
   describedBy?: string
+  /**
+   * A fixed character the value is always written after — the `@` on a
+   * username. Decoration, not content: it is never in the value, so nothing
+   * downstream has to strip it back off.
+   */
+  prefix?: string
 }
 
 /**
@@ -36,6 +42,7 @@ export function TextField({
   label,
   invalid = false,
   describedBy,
+  prefix,
   id,
   className,
   type,
@@ -52,14 +59,20 @@ export function TextField({
     //no `gap`: the label belongs to the box under it and nothing else, so the
     //spacing between one field and the next is the caller's to set
     <div className="flex flex-col">
-      <label
-        htmlFor={fieldId}
-        className="mb-2 text-sm font-semibold text-subtle"
-      >
+      <label htmlFor={fieldId} className="field-label mb-2">
         {label}
       </label>
 
       <div className="relative">
+        {prefix && (
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-y-0 start-4 flex items-center text-base text-faint"
+          >
+            {prefix}
+          </span>
+        )}
+
         <Input
           id={fieldId}
           type={isPassword && isRevealed ? "text" : type}
@@ -68,11 +81,13 @@ export function TextField({
           className={cn(
             //text-base rather than text-sm: iOS zooms the page when a field
             //smaller than 16px takes focus, and the app is not zoomable back out.
-            "h-14 w-full rounded-xl bg-surface-4 px-4 text-base text-white",
+            "h-[54px] w-full rounded-xl bg-surface-2 px-4 text-base text-white",
             "transition placeholder:text-faint",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
             //a ring rather than a border, so turning red does not resize the field
             invalid && "ring-2 ring-loss",
+            //room for the character in front of the value
+            prefix && "ps-8",
             //room for the eye, so a long password runs under the label and not
             //under the button
             isPassword && "pe-14",
