@@ -116,6 +116,10 @@ elif grep -q 'd1_databases' wrangler.toml; then
     fi
   fi
 
+  # Set when the fallback below has already shipped this deploy outright, so the
+  # versioned promote further down knows there is nothing left to promote.
+  promoted=""
+
   if [ "${DRY_RUN:-}" = "1" ]; then
     wr versions upload "${env_flag[@]}" $secrets_file
     vid="<version-id>"
@@ -130,26 +134,51 @@ elif grep -q 'd1_databases' wrangler.toml; then
     rc=$?
     set -e
     printf '%s\n' "$upload"
-    [ "$rc" -eq 0 ] || {
-      echo "::error::${app_path}: wrangler versions upload failed (exit ${rc})"
-      exit 1
-    }
-    # vid is scraped from wrangler's "Worker Version ID:" line; if wrangler ever
-    # changes that wording this parse yields empty and the guard below fires.
-    vid="$(printf '%s\n' "$upload" | grep 'Worker Version ID:' | sed 's/.*Worker Version ID: //' | tr -d '[:space:]')"
-    [ -n "$vid" ] || {
-      echo "::error::${app_path}: no Worker Version ID from upload"
-      exit 1
-    }
+
+    # A VERSION CANNOT CARRY A DURABLE OBJECT MIGRATION. Lifecycle changes — a new
+    # class, a rename, a delete — are script-level, written only by `wrangler
+    # deploy`; `versions upload` refuses the config outright rather than uploading
+    # a version that would be missing the namespace. This fires ONCE in a class's
+    # life: afterwards the migration tag is unchanged, the upload carries nothing,
+    # and the versioned path resumes forever.
+    #
+    # Same shape and same reasoning as the 10007 first-deploy branch above —
+    # migrate first, one-shot deploy, then back to normal. Migrations lead because
+    # a one-shot deploy has no previous version left serving traffic, so schema
+    # before code is the only ordering without a window in it.
+    if [ "$rc" -ne 0 ] && printf '%s' "$upload" | grep -qi 'migration'; then
+      echo "::notice::${app_path}: version upload cannot carry a Durable Object migration — deploying directly"
+      for db_name in "${db_names[@]}"; do
+        wr d1 migrations apply "$db_name" --remote "${env_flag[@]}"
+      done
+      wr deploy "${env_flag[@]}" $secrets_file
+      promoted=1
+    else
+      [ "$rc" -eq 0 ] || {
+        echo "::error::${app_path}: wrangler versions upload failed (exit ${rc})"
+        exit 1
+      }
+      # vid is scraped from wrangler's "Worker Version ID:" line; if wrangler ever
+      # changes that wording this parse yields empty and the guard below fires.
+      vid="$(printf '%s\n' "$upload" | grep 'Worker Version ID:' | sed 's/.*Worker Version ID: //' | tr -d '[:space:]')"
+      [ -n "$vid" ] || {
+        echo "::error::${app_path}: no Worker Version ID from upload"
+        exit 1
+      }
+    fi
   fi
   # Migrate every database BEFORE promoting the new version, so the schema is ready
   # the moment the new code goes live. The env flag is not optional here: the name
   # is positional, but wrangler still looks it up in the config to find the id and
   # the migrations_dir, and the top-level block declares a different database.
-  for db_name in "${db_names[@]}"; do
-    wr d1 migrations apply "$db_name" --remote "${env_flag[@]}"
-  done
-  wr versions deploy "${vid}@100%" -y "${env_flag[@]}"
+  # Skipped when the fallback above already shipped: that path migrated and
+  # deployed on its own, and there is no version waiting to be promoted.
+  if [ -z "$promoted" ]; then
+    for db_name in "${db_names[@]}"; do
+      wr d1 migrations apply "$db_name" --remote "${env_flag[@]}"
+    done
+    wr versions deploy "${vid}@100%" -y "${env_flag[@]}"
+  fi
   # THE VERSIONED PATH DOES NOT APPLY TRIGGERS. `versions upload` + `versions deploy` push
   # only what lives inside a version: code, bindings, secrets. Queue consumers, cron
   # schedules and routes are script-level and are written solely by wrangler's internal
