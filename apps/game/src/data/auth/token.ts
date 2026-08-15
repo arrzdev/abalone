@@ -25,3 +25,11 @@ export function writeToken(token: string | null): void {
   if (token) localStorage.setItem(TOKEN_KEY, token)
   else localStorage.removeItem(TOKEN_KEY)
 }
+
+//value-checked rather than cleared outright: a sign-in that lands while an older
+//request is still in flight has already written a good token, and only the
+//refused one should go
+export function discardToken(refused: string): void {
+  if (readToken() !== refused) return
+  writeToken(null)
+}
