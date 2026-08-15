@@ -67,11 +67,6 @@
     "picture_hint": "PNG, JPEG ou WebP. A imagem é cortada num quadrado.",
     "upload_failed": "Essa imagem não foi enviada. Tenta de novo."
   },
-  "online": {
-    "title": "Online",
-    "body": "Os jogos online ainda não estão a funcionar. Este ecrã está aqui para que a entrada esteja pronta quando estiverem.",
-    "signed_in_as": "Sessão iniciada como {{username}}"
-  },
   "actions": {
     "close": "Fechar",
     "cancel": "Cancelar"

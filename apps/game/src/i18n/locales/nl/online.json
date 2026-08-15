@@ -1,0 +1,63 @@
+{
+  "title": "Online",
+  "subtitle": "Speel in je eigen tempo. Partijen wachten op je, dus één zet per dag is een prima partij.",
+  "games": {
+    "heading": "Jouw partijen",
+    "empty": "Nog geen partijen. Nodig iemand uit.",
+    "your_turn": "Jij bent aan zet",
+    "their_turn": "Tegenstander is aan zet"
+  },
+  "invites": {
+    "received": "Uitnodigingen voor jou",
+    "received_empty": "Niemand heeft je nog uitgenodigd.",
+    "sent": "Verstuurde uitnodigingen",
+    "sent_empty": "Je hebt nog niemand uitgenodigd.",
+    "terms": "{{setup}}, jij speelt {{side}}",
+    "declined": "Afgewezen",
+    "accept": "Accepteren",
+    "decline": "Afwijzen",
+    "cancel": "Intrekken",
+    "dismiss": "Verbergen"
+  },
+  "history": {
+    "heading": "Afgelopen partijen",
+    "empty": "Hier staat nog niets. Afgelopen partijen komen hier."
+  },
+  "sides": {
+    "black": "zwart",
+    "white": "wit",
+    "random": "een van beide"
+  },
+  "results": {
+    "won": "Gewonnen door {{reason}}",
+    "lost": "Verloren door {{reason}}",
+    "draw": "Remise door {{reason}}"
+  },
+  "reasons": {
+    "score": "score",
+    "resignation": "opgave",
+    "threefold_repetition": "zetherhaling"
+  },
+  "compose": {
+    "title": "Nieuwe uitnodiging",
+    "body": "Nodig iemand uit met zijn naam. Die ziet het zodra de app weer opengaat.",
+    "username": "Zijn naam",
+    "username_placeholder": "Tegen wie speel je?",
+    "setup": "Opstelling",
+    "side": "Jouw kant",
+    "send": "Uitnodiging sturen",
+    "sending": "Versturen"
+  },
+  "board": {
+    "against": "tegen {{name}}",
+    "loading": "Partij wordt geladen",
+    "your_move": "Jij bent aan zet",
+    "waiting": "Wachten op je tegenstander",
+    "finished": "Deze partij is afgelopen",
+    "result_win": "Gewonnen",
+    "result_loss": "Verloren",
+    "result_draw": "Remise",
+    "review": "Partij bekijken",
+    "back_to_games": "Terug naar partijen"
+  }
+}

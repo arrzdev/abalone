@@ -67,11 +67,6 @@
     "picture_hint": "PNG, JPEG 또는 WebP. 정사각형으로 잘립니다.",
     "upload_failed": "사진을 업로드하지 못했습니다. 다시 시도하세요."
   },
-  "online": {
-    "title": "온라인",
-    "body": "온라인 대전은 아직 열리지 않았습니다. 시작되면 바로 들어올 수 있도록 이 화면을 준비해 두었습니다.",
-    "signed_in_as": "{{username}} 님으로 로그인"
-  },
   "actions": {
     "close": "닫기",
     "cancel": "취소"

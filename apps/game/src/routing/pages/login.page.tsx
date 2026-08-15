@@ -10,7 +10,11 @@ import { SubpageHeader } from "@/components/ui/subpage-header"
 import { hasLiveSession } from "@/data/auth/client"
 import { getBearerToken } from "@/data/auth/token"
 import type { ReturnTo } from "@/routing/return-to"
-import { DEFAULT_RETURN_TO, parseReturnTo } from "@/routing/return-to"
+import {
+  DEFAULT_RETURN_TO,
+  parseReturnTo,
+  returnToOptions,
+} from "@/routing/return-to"
 
 export type LoginSearch = {
   /** Where to go once signed in. Anything unrecognised is dropped. */
@@ -38,7 +42,7 @@ export const Route = createFileRoute("/_subpage/login")({
     if (!getBearerToken()) return
     if (!(await hasLiveSession())) return
     throw redirect({
-      to: search.redirect ?? DEFAULT_RETURN_TO,
+      ...returnToOptions(search.redirect ?? DEFAULT_RETURN_TO),
       replace: true,
     })
   },
@@ -91,7 +95,7 @@ function LoginPage() {
             <AuthForm
               onAuthenticated={() =>
                 navigate({
-                  to: returnTo ?? DEFAULT_RETURN_TO,
+                  ...returnToOptions(returnTo ?? DEFAULT_RETURN_TO),
                   replace: true,
                 })
               }
