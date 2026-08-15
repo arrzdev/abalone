@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "AI'ya Karşı Abalone Oyna - Online Bilgisayar Rakiplerine Meydan Oku | Ücretsiz Oyun",
-    "description": "Online olarak AI rakiplerine karşı Abalone oyna—8 zorluk seviyesi ve birden fazla tahta dizilişi seç. Hamle geçmişi, değerlendirme çubuğu ve anında oynanış sunan ücretsiz tarayıcı oyunu. İndirme gerekmez.",
-    "keywords": "abalone bilgisayara karşı, abalone vs ai, abalone online oyun, abalone zorluk seviyeleri, abalone şimdi oyna, tarayıcı abalone, abalone minimax ai, ücretsiz abalone oyunu, play abalone online",
-    "og_title": "Bilgisayar AI'ya Karşı Abalone - Online Tahta Oyunu",
-    "og_description": "Abalone'da 8 zorluk seviyesine sahip AI rakiplerine meydan oku. Stratejini geliştir ve bu klasik iki kişilik tahta oyununda becerilerini artır.",
-    "twitter_title": "Bilgisayar AI'ya Karşı Abalone",
-    "twitter_description": "8 zorluk seviyesindeki AI rakiplere meydan oku. Tahta dizilişini seç ve bu stratejik bilye itme oyununda siyah veya beyaz olarak oyna.",
+    "title": "Abalone'u online, bota karşı veya iki kişilik oyna | Ücretsiz",
+    "description": "Abalone'u tarayıcında ücretsiz oyna. Sekiz güç seviyesinde bir bota karşı çık, aynı cihazda sırayla iki kişi oynayın ya da birini online bir partiye davet et. Dokuz tahta dizilişi, eksiksiz hamle geçmişi ve değerlendirme çubuğu. İndirme yok.",
+    "keywords": "abalone oyna, abalone online, abalone tarayıcı oyunu, abalone bilgisayara karşı, abalone bot, iki kişilik abalone, ücretsiz abalone, abalone tahta dizilişleri, abalone kuralları",
+    "og_title": "Tarayıcıda Abalone oyna",
+    "og_description": "Sekiz güç seviyesinde bir bota karşı çık, aynı cihazda iki kişi oynayın ya da birini online bir partiye davet et. Dokuz tahta dizilişi, eksiksiz hamle geçmişi ve değerlendirme çubuğu. Ücretsiz, indirme yok.",
+    "twitter_title": "Tarayıcıda Abalone oyna",
+    "twitter_description": "Sekiz güç seviyesinde bir bot, aynı cihazda iki kişilik oyun ya da kendi hızınızda bir online parti. Dokuz tahta dizilişi ve eksiksiz hamle geçmişi. Ücretsiz, indirme yok.",
     "structured_data": {
-      "name": "Bilgisayar AI'ya Karşı Abalone",
-      "description": "8 zorluk seviyesiyle (Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master) bilgisayara karşı Abalone oyna. 3 tahta dizilişinden (Standard, Belgian Daisy, German Daisy) birini seç ve siyah veya beyaz olarak oyna. Hamle geçmişi ve değerlendirme çubuğu içeren ücretsiz online oyun.",
-      "audience": "Tahta oyunu oyuncuları, strateji oyunu meraklıları, AI meydan okuması arayanlar"
+      "name": "Abalone",
+      "description": "Abalone'u sekiz güç seviyesinde bir bota karşı, aynı cihazda sırayla iki kişi ya da birini davet ederek online oynayın. Dokuz tahta dizilişi (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), eksiksiz hamle geçmişi ve değerlendirme çubuğu. Tarayıcıda ücretsiz, indirme yok.",
+      "audience": "Kutu oyunu oyuncuları ve strateji oyunu meraklıları"
     }
   },
   "players": {
@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Botlara Karşı Oyna",
-    "marble_design": "Bilye Tasarımı:",
+    "marble_design": "Bilye Tasarımı",
     "marble_design_classic": "Minimalist",
     "marble_design_3d": "Gerçekçi",
-    "play_as": "Ben şunu oynarım:",
+    "play_as": "Ben şunu oynarım",
     "play_button": "Oyna",
     "show_coordinates": "Koordinatları göster",
     "show_eval_bar": "Değerlendirme çubuğunu göster",
@@ -63,7 +63,7 @@
     "rotate_board": "Her turda tahtayı döndür",
     "rotate_board_hint": "Tahtayı, hamle sırası kimdeyse o taraf altta kalacak şekilde çevir",
     "show_coordinates_hint": "Her karenin içinde eksenel koordinatı göster",
-    "show_eval_bar_hint": "Motorun konumu nasıl değerlendirdiği — yalnızca botlara karşı",
+    "show_eval_bar_hint": "Motorun konumu nasıl değerlendirdiği (yalnızca botlara karşı)",
     "side_group": "Oynanacak taraf",
     "side_white": "Beyazlarla oyna",
     "side_black": "Siyahlarla oyna",
@@ -95,7 +95,7 @@
     "intro": "Abalone, 61 haneli altıgen bir tahtada iki kişiyle oynanır. Her taraf 14 bilyeyle başlar ve sırası geldiğinde bir hamle yapar.",
     "goal": {
       "title": "Amaç",
-      "body": "Rakibinin altı bilyesini tahtadan dışarı it. Oyunun tamamı bu — sayılacak başka bir şey yok."
+      "body": "Rakibinin altı bilyesini tahtadan dışarı it. Oyunun tamamı bu. Sayılacak başka bir şey yok."
     },
     "directions": {
       "title": "Altı yön",
@@ -111,13 +111,13 @@
     "push": {
       "title": "İtmek",
       "body": "Yalnızca çizgi boyunca yapılan hamle itebilir. O çizgide rakibinden daha çok bilyen olmalı: ikiye bir, üçe bir ya da üçe iki. Rakibin bilyelerinin arkasındaki hane boş olmalıdır.",
-      "ok_caption": "Üçe iki — bütün sıra bir hane ilerler.",
+      "ok_caption": "Üçe iki: bütün sıra bir hane ilerler.",
       "blocked_caption": "Üçe üç asla ilerlemez ve kendi bilyelerini asla itemezsin."
     },
     "capture": {
       "title": "Bilyeleri dışarı itmek",
       "body": "Kenarın dışına itilen bilye oyundan çıkar. Rakibinin altı bilyesini ilk düşüren kazanır.",
-      "caption": "Kenarda ikiye bir — siyah bilye dışarı çıkar."
+      "caption": "Kenarda ikiye bir: siyah bilye dışarı çıkar."
     },
     "cta": "Şimdi oyna"
   },

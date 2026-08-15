@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "Jogar Abalone contra IA - Desafie oponentes de computador online | Jogo gratuito",
-    "description": "Jogue Abalone contra oponentes IA online - escolha entre 8 níveis de dificuldade e várias configurações de tabuleiro. Jogo Abalone gratuito baseado em navegador com histórico de movimentos, barra de avaliação e jogo instantâneo. Nenhum download necessário.",
-    "keywords": "jogar abalone contra computador, abalone vs IA, jogo abalone online, níveis de dificuldade abalone, jogar abalone agora, jogo navegador abalone, IA minimax abalone, jogo abalone grátis",
-    "og_title": "Jogar Abalone contra IA - Jogo de tabuleiro online",
-    "og_description": "Desafie oponentes IA em Abalone com 8 níveis de dificuldade. Pratique estratégia e melhore suas habilidades neste jogo de tabuleiro clássico para dois jogadores.",
-    "twitter_title": "Jogar Abalone contra IA",
-    "twitter_description": "Desafie oponentes IA com 8 níveis de dificuldade. Escolha sua configuração de tabuleiro e jogue como preto ou branco neste jogo estratégico de empurrar bolas.",
+    "title": "Jogar Abalone online, contra bots ou a dois | Grátis",
+    "description": "Joga Abalone grátis no navegador. Enfrenta um bot com oito níveis de força, joguem a dois à vez no mesmo dispositivo, ou convida alguém para uma partida online. Nove configurações de tabuleiro, histórico completo de jogadas e barra de avaliação. Sem descarregar nada.",
+    "keywords": "jogar abalone, abalone online, abalone navegador, abalone contra computador, abalone bot, abalone a dois, abalone grátis, configurações abalone, regras abalone",
+    "og_title": "Jogar Abalone no navegador",
+    "og_description": "Enfrenta um bot com oito níveis de força, joguem a dois no mesmo dispositivo, ou convida alguém para uma partida online. Nove configurações de tabuleiro, histórico completo de jogadas e barra de avaliação. Grátis, sem descarregar nada.",
+    "twitter_title": "Jogar Abalone no navegador",
+    "twitter_description": "Um bot com oito níveis, a dois no mesmo dispositivo, ou uma partida online ao vosso ritmo. Nove configurações de tabuleiro e histórico completo de jogadas. Grátis, sem descarregar nada.",
     "structured_data": {
-      "name": "Jogar Abalone contra IA",
-      "description": "Jogue Abalone contra oponentes de computador com 8 níveis de dificuldade (Iniciante, Novato, Aprendiz, Casual, Intermediário, Avançado, Especialista, Mestre). Escolha entre 3 configurações de tabuleiro (Padrão, Margarida belga, Margarida alemã) e jogue como preto ou branco. Jogo online gratuito com histórico de movimentos e barra de avaliação.",
-      "audience": "Jogadores de jogos de tabuleiro, entusiastas de jogos de estratégia, buscadores de desafios de IA"
+      "name": "Abalone",
+      "description": "Joga Abalone contra um bot com oito níveis de força, a dois à vez no mesmo dispositivo, ou convida alguém para uma partida online. Nove configurações de tabuleiro (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), histórico completo de jogadas e barra de avaliação. Grátis no navegador, sem descarregar nada.",
+      "audience": "Jogadores de jogos de tabuleiro e entusiastas de jogos de estratégia"
     }
   },
   "players": {
@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Jogar Bots",
-    "marble_design": "Design das bolas:",
+    "marble_design": "Design das bolas",
     "marble_design_classic": "Minimalista",
     "marble_design_3d": "Realista",
-    "play_as": "Eu jogo como:",
+    "play_as": "Eu jogo como",
     "play_button": "Jogar",
     "show_coordinates": "Mostrar coordenadas",
     "show_eval_bar": "Mostrar barra de avaliação",
@@ -63,7 +63,7 @@
     "rotate_board": "Rodar o tabuleiro a cada turno",
     "rotate_board_hint": "Virar o tabuleiro para quem joga ficar sempre em baixo",
     "show_coordinates_hint": "Mostrar a coordenada axial dentro de cada casa",
-    "show_eval_bar_hint": "Como o motor avalia a posição — só em jogos contra bots",
+    "show_eval_bar_hint": "Como o motor avalia a posição (só em jogos contra bots)",
     "side_group": "Lado a jogar",
     "side_white": "Jogar com as brancas",
     "side_black": "Jogar com as pretas",
@@ -95,11 +95,11 @@
     "intro": "O Abalone é um jogo para dois jogadores num tabuleiro hexagonal de 61 casas. Cada lado começa com 14 bolas e joga uma vez por turno.",
     "goal": {
       "title": "O objetivo",
-      "body": "Empurra seis bolas do adversário para fora do tabuleiro. É esse o jogo todo — não há mais nada para contar."
+      "body": "Empurra seis bolas do adversário para fora do tabuleiro. É esse o jogo todo. Não há mais nada para contar."
     },
     "directions": {
       "title": "Seis direções",
-      "body": "Cada casa toca noutras seis, por isso uma bola pode mover-se em seis direções. Não há diagonais nem saltos — uma bola move-se sempre para uma casa mesmo ao lado.",
+      "body": "Cada casa toca noutras seis, por isso uma bola pode mover-se em seis direções. Não há diagonais nem saltos. Uma bola move-se sempre para uma casa mesmo ao lado.",
       "caption": "As seis direções possíveis para uma bola."
     },
     "move": {
@@ -111,13 +111,13 @@
     "push": {
       "title": "Empurrar",
       "body": "Só um movimento em linha pode empurrar. Precisas de mais bolas nessa linha do que o adversário: duas contra uma, três contra uma ou três contra duas. A casa atrás das bolas do adversário tem de estar vazia.",
-      "ok_caption": "Três contra duas — a linha inteira avança uma casa.",
+      "ok_caption": "Três contra duas: a linha inteira avança uma casa.",
       "blocked_caption": "Três contra três nunca se mexe, e nunca podes empurrar as tuas próprias bolas."
     },
     "capture": {
       "title": "Empurrar para fora",
       "body": "Uma bola empurrada para lá da borda fica fora do jogo. Ganha quem primeiro empurrar seis bolas do adversário para fora do tabuleiro.",
-      "caption": "Duas contra uma na borda — a bola preta sai."
+      "caption": "Duas contra uma na borda: a bola preta sai."
     },
     "cta": "Jogar agora"
   },

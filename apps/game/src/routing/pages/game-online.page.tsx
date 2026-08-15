@@ -13,7 +13,10 @@ import { InviteComposer } from "@/components/online/invite-composer"
 import { InviteRow } from "@/components/online/invite-row"
 import { Button } from "@/components/ui/button"
 import { Card, Page, PageTitle } from "@/components/ui/page"
-import { SubpageHeader } from "@/components/ui/subpage-header"
+import {
+  SUBPAGE_HEADER_BUTTON,
+  SubpageHeader,
+} from "@/components/ui/subpage-header"
 import { getBearerToken } from "@/data/auth/token"
 import { useOnlineHome } from "@/hooks/use-online-home"
 import { useAuth } from "@/providers/auth-provider"
@@ -64,14 +67,14 @@ function GameOnlinePage() {
       <SubpageHeader
         title={t("online:title")}
         action={
-          <Button
-            size="icon-sm"
-            variant="ghost"
+          <button
+            type="button"
+            className={SUBPAGE_HEADER_BUTTON}
             aria-label={t("online:compose.title")}
             onClick={() => setIsComposing(true)}
           >
             <PlusIcon size={20} />
-          </Button>
+          </button>
         }
       />
 
@@ -92,11 +95,10 @@ function GameOnlinePage() {
           {t("online:compose.title")}
         </Button>
 
+        {/* Red text and nothing behind it: a tinted panel makes the one thing
+            that went wrong the brightest block on the screen. */}
         {online.error && (
-          <p
-            role="alert"
-            className="rounded-xl bg-loss/10 px-4 py-3 text-sm text-loss"
-          >
+          <p role="alert" className="text-sm leading-5 text-loss">
             {online.error}
           </p>
         )}
@@ -181,12 +183,12 @@ type SectionProps = {
 function Section({ title, empty, isEmpty, children }: SectionProps) {
   return (
     <Card className="flex flex-col gap-y-3">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-white/45">
+      <h2 className="text-sm font-bold uppercase tracking-wide text-faint">
         {title}
       </h2>
 
       {isEmpty ? (
-        <p className="text-sm leading-relaxed text-white/40">{empty}</p>
+        <p className="text-sm leading-relaxed text-faint">{empty}</p>
       ) : (
         <div className="flex flex-col gap-y-2">{children}</div>
       )}

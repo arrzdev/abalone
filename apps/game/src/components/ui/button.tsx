@@ -8,13 +8,13 @@ const BASE =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 " +
   "focus-visible:ring-offset-surface-2 disabled:cursor-not-allowed disabled:opacity-45"
 
+//a fill and a hover, and nothing under either: a brand-tinted shadow behind a
+//brand-coloured button is the button's own colour blurred onto the page
 const VARIANTS = {
-  primary:
-    "bg-brand text-white shadow-lg shadow-brand/25 hover:bg-brand-light hover:shadow-brand/40 active:bg-brand-hover",
-  secondary:
-    "bg-elevated-2 text-white hover:bg-elevated-3 active:bg-elevated",
+  primary: "bg-brand text-white hover:bg-brand-light",
+  secondary: "bg-elevated-2 text-white hover:bg-elevated-3",
   outline: "bg-surface-4 text-white hover:bg-surface-5",
-  ghost: "text-white/70 hover:bg-white/10 hover:text-white",
+  ghost: "text-subtle hover:bg-white/10 hover:text-white",
   danger: "bg-loss text-white hover:brightness-110",
 }
 

@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next"
+import { LanguageSelect } from "@/components/language-select"
 import type { SelectOption } from "@/components/ui/select"
 import { Select } from "@/components/ui/select"
 import { Sheet } from "@/components/ui/sheet"
@@ -29,8 +30,9 @@ export type AppSettingsSheetProps = {
  * go looking for, and all of these are now saved preferences rather than
  * something a board holds, so there is nothing left to divide them.
  *
- * Language is the one thing not here: it is one press away in the header on
- * every screen, and a setting you can already see is not worth burying.
+ * Language leads it. It is set once and then forgotten, which is what a setting
+ * is — and as a flag button in the header it cost a square of chrome on every
+ * screen to say something you only ever say once.
  *
  * It owns its own state rather than taking it as props: every one of these is a
  * saved preference, so the only thing a caller has to say is whether the sheet
@@ -63,6 +65,13 @@ export function AppSettingsSheet({
       <div className="flex flex-col gap-y-5">
         <div>
           <span className="mb-2 block text-sm font-medium text-white">
+            {t("common:language.select")}
+          </span>
+          <LanguageSelect />
+        </div>
+
+        <div>
+          <span className="mb-2 block text-sm font-medium text-white">
             {t("game:controls.marble_design")}
           </span>
           <Select
@@ -73,7 +82,7 @@ export function AppSettingsSheet({
           />
         </div>
 
-        <div className="border-t border-white/10 pt-5">
+        <div className="border-t border-border pt-5">
           <VolumeSlider
             label={t("game:controls.sound")}
             description={t("game:controls.sound_hint")}
@@ -87,7 +96,7 @@ export function AppSettingsSheet({
           />
         </div>
 
-        <div className="flex flex-col gap-y-4 border-t border-white/10 pt-5">
+        <div className="flex flex-col gap-y-4 border-t border-border pt-5">
           <Toggle
             label={t("game:controls.show_coordinates")}
             description={t("game:controls.show_coordinates_hint")}
