@@ -1,0 +1,19 @@
+{
+  "api_invalid_input": "Something in that didn't look right. Check what you entered and try again.",
+  "api_internal_server_error": "Something went wrong on our end. Please try again.",
+  "api_endpoint_not_found": "That page doesn't exist.",
+  "api_rate_limit_exceeded": "Too many requests at once. Wait a moment, then try again.",
+  "api_not_found": "We couldn't find that. It may have been removed.",
+  "api_unauthorized": "You need to be signed in to do that. Sign in and try again.",
+  "api_file_too_large": "That file is too large. Pick a smaller image.",
+  "api_unsupported_media_type": "That file type isn't supported. Use a PNG, JPEG, or WebP image.",
+  "api_player_not_found": "No player goes by that name. Check the spelling and try again.",
+  "api_invite_self": "You can't invite yourself. Pick another player.",
+  "api_invite_exists": "You already have an invite out to that player. Cancel it to send a new one.",
+  "api_game_not_active": "That game has already finished.",
+  "api_not_your_turn": "It isn't your turn yet. Wait for your opponent to move.",
+  "api_illegal_move": "That move isn't legal. The board has been put back.",
+  "api_move_conflict": "The game moved on while you were playing. The board has been refreshed.",
+  "network_unreachable": "We couldn't reach the server. Check your connection and try again.",
+  "unknown": "Something went wrong. Please try again."
+}

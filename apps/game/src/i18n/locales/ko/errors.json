@@ -1,0 +1,19 @@
+{
+  "api_invalid_input": "입력에 문제가 있는 것 같아요. 내용을 확인하고 다시 시도해 주세요.",
+  "api_internal_server_error": "서버 쪽에서 문제가 생겼어요. 다시 시도해 주세요.",
+  "api_endpoint_not_found": "그런 페이지는 없어요.",
+  "api_rate_limit_exceeded": "요청이 너무 많아요. 잠시 후 다시 시도해 주세요.",
+  "api_not_found": "찾을 수 없어요. 삭제되었을 수 있어요.",
+  "api_unauthorized": "로그인이 필요한 작업이에요. 로그인하고 다시 시도해 주세요.",
+  "api_file_too_large": "파일이 너무 커요. 더 작은 이미지를 선택해 주세요.",
+  "api_unsupported_media_type": "지원하지 않는 파일 형식이에요. PNG, JPEG, WebP 이미지를 사용해 주세요.",
+  "api_player_not_found": "그 이름을 쓰는 플레이어가 없어요. 철자를 확인하고 다시 시도해 주세요.",
+  "api_invite_self": "자신을 초대할 수는 없어요. 다른 플레이어를 골라 주세요.",
+  "api_invite_exists": "그 플레이어에게 보낸 초대가 아직 남아 있어요. 취소해야 다시 보낼 수 있어요.",
+  "api_game_not_active": "이미 끝난 대국이에요.",
+  "api_not_your_turn": "아직 차례가 아니에요. 상대가 둘 때까지 기다려 주세요.",
+  "api_illegal_move": "둘 수 없는 수예요. 판을 원래대로 되돌렸어요.",
+  "api_move_conflict": "두는 사이에 대국이 진행됐어요. 판을 새로 불러왔어요.",
+  "network_unreachable": "서버에 연결하지 못했어요. 연결 상태를 확인하고 다시 시도해 주세요.",
+  "unknown": "문제가 생겼어요. 다시 시도해 주세요."
+}
