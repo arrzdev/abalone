@@ -8,10 +8,13 @@ import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import { BotAvatar } from "@/components/bot-avatar"
 import { BotChatter } from "@/components/bot-chatter"
-import { EvalBar, EvalBarSlot } from "@/components/eval-bar"
+import { EvalBar, EvalRail } from "@/components/eval-bar"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import { GameCanvas } from "@/components/game-canvas"
-import type { ResultKind } from "@/components/game-over-modal"
+import type {
+  GameOverSummary,
+  ResultKind,
+} from "@/components/game-over-modal"
 import { GameOverModal } from "@/components/game-over-modal"
 import { SettingsIcon } from "@/components/icons"
 import { IngameControls } from "@/components/ingame-controls"
@@ -30,7 +33,9 @@ import { useProfile } from "@/data/profile/queries"
 import { useAbaloneGame } from "@/hooks/use-abalone-game"
 import { useBotChatter } from "@/hooks/use-bot-chatter"
 import { getBot, titleKey } from "@/i18n/bots"
+import { getSetupName } from "@/i18n/game-text"
 import { useAuth } from "@/providers/auth-provider"
+import { DECIDED } from "@/utils/evaluation"
 
 export type GameOfflineSearch = {
   /** Which of the two offline games the setup panel opens on. */
@@ -141,6 +146,32 @@ function GameOfflinePage() {
    */
   const seatColors: Player[] = ["black", "white"]
 
+  /**
+   * Whether there is an evaluation worth drawing at all.
+   *
+   * Three conditions and all of them are about whether the number means
+   * anything: a starting position nobody has played, a hot-seat game with no
+   * engine behind it, or a player who turned the bar off.
+   */
+  const showEval = showEvalBar && !isPregame && !isLocal
+
+  /**
+   * The reading in words, for the column that has nowhere to write it.
+   *
+   * `barFraction` answers for black, so a non-negative score is black's
+   * advantage and anything else is white's — except where there is no advantage
+   * to name. The figure is rounded to a tenth, and once it rounds to nothing the
+   * position is level: "ahead by 0.0" is a lead nobody has.
+   */
+  const evalShown = Math.min(Math.abs(evalScore), DECIDED)
+  const evalLabel =
+    evalShown < 0.05
+      ? t("game:controls.eval_level")
+      : t("game:controls.eval_advantage", {
+          color: t(`game:colors.${evalScore >= 0 ? "black" : "white"}`),
+          score: evalShown.toFixed(1),
+        })
+
   /** Whether the game is waiting on the engine right now. */
   const botThinking =
     !isLocal &&
@@ -224,6 +255,28 @@ function GameOfflinePage() {
       name: localNames[state.winner].trim(),
     })
   else resultTitle = t(`game:result.${state.winner}_wins`)
+
+  /**
+   * The game in one row, under the result.
+   *
+   * Nothing for a hot-seat game. The row names an opponent and shows their
+   * face, and two people at one device are not an opponent — the card would
+   * have to pick one of them to be the other one.
+   */
+  const resultSummary: GameOverSummary | undefined = isLocal
+    ? undefined
+    : {
+        avatar: <BotAvatar level={difficulty} className="h-full w-full" />,
+        name: getBot(difficulty).name,
+        detail: [
+          t("game:controls.level", { level: difficulty }),
+          getSetupName(setupType),
+        ].join(" · "),
+        yourScore:
+          playerColor === "black" ? state.blackScore : state.whiteScore,
+        theirScore:
+          playerColor === "black" ? state.whiteScore : state.blackScore,
+      }
 
   /**
    * How the game ended, for the foot of the move history.
@@ -357,6 +410,7 @@ function GameOfflinePage() {
               // position, and the settings that belong to a game in progress
               // leave it alone. Same rule as the evaluation bar below.
               showCoordinates={showCoordinates && !isPregame}
+              showLabels={!isPregame}
               notice={viewingHistory ? historyNotice : null}
               noticeAction={t("game:controls.jump_to_latest")}
               onReturnToLatest={game.goToLatestMove}
@@ -368,135 +422,137 @@ function GameOfflinePage() {
             />
           </div>
 
-          {/* Under the board, as wide as the board — and the strip is here
-              whether or not there is a bar in it.
+          {/* Under the board and as wide as it, on a phone only.
+              Beside the board the bar stands up against the panel instead —
+              lying down there it had to end the board's column, and a strip
+              that comes and goes is a board that resizes and slides. On end
+              against a fixed-width panel it costs the board nothing, because up
+              there the board is bound by height rather than width.
 
-              A strip that comes and goes is a board that resizes and slides, and
-              it can arrive three ways: pressing play, picking a hot-seat game,
-              or turning the bar on in the settings. None of those is a reason
-              for the board to move, so the column always ends in the strip and
-              the bar is painted into it or it is not. See `EvalBarSlot`.
-
-              Empty in pregame, because that board is a viewer for the starting
-              position and an evaluation of a game nobody has played is a number
-              about nothing. Empty in a hot-seat game, where there is no engine
-              for it to be the opinion of. Empty when the setting is off.
-
-              The empty strip is beside the board only. Below `lg` the board is
-              sized from its own width and the column is stacked, so the bar
-              arriving costs the panel its last row rather than the board any of
-              itself — there is no shift there to hold the space against, and
-              holding it anyway would be a row taken off the move list for a bar
-              that is not being shown. */}
-          {isPregame || isLocal || !showEvalBar ? (
-            <EvalBarSlot className="max-lg:hidden" />
-          ) : (
-            <EvalBar score={evalScore} />
-          )}
+              Nothing to show in pregame, where the board is a viewer for a
+              starting position and an evaluation of a game nobody has played is
+              a number about nothing; nothing in a hot-seat game, where there is
+              no engine for it to be the opinion of. */}
+          {showEval && <EvalBar score={evalScore} className="lg:hidden" />}
         </div>
       </section>
-      {/* Side panel */}
-      <aside
-        className={cn(
-          "flex w-full flex-col overflow-hidden bg-surface",
-          // A floating card only makes sense beside the board. Stacked on a
-          // phone it is the whole screen, so it drops its corners and side
-          // borders and runs to the bottom edge.
-          "max-lg:min-h-0 max-lg:flex-1 max-lg:rounded-none max-lg:border-0",
-          "lg:min-h-0 lg:w-[380px] lg:shrink-0 lg:rounded-2xl",
-        )}
-      >
-        {/* No header on the panel beside the board. It carried the way home and
+
+      {/* The panel, and the bar fused to its leading edge. One box, so no gap
+          opens between them and the panel's corners round on the outside only.
+          The rail is in the row whether or not it has a bar in it, so the board
+          beside it is the same size in every game. */}
+      <div className="flex w-full min-h-0 max-lg:flex-1 lg:w-auto lg:shrink-0">
+        <EvalRail
+          score={showEval ? evalScore : undefined}
+          label={showEval ? evalLabel : undefined}
+        />
+
+        <aside
+          className={cn(
+            "flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-surface",
+            // A floating card only makes sense beside the board. Stacked on a
+            // phone it is the whole screen, so it drops its corners and side
+            // borders and runs to the bottom edge.
+            "max-lg:rounded-none max-lg:border-0",
+            "lg:w-[380px] lg:flex-none lg:rounded-2xl",
+            //the bar squares off the edge it is attached to
+            showEval && "lg:rounded-s-none",
+          )}
+        >
+          {/* No header on the panel beside the board. It carried the way home and
             the settings, which are both in the app header now, and then the
             title alone — which named the panel to someone already looking at
             it. The first row of the panel is the mode switch, and that says
             what this is better than a word above it did. A phone still gets
             one, because there it is the page's own bar. */}
-        {/* Above the controls rather than inside them, so it is the same strip in
+          {/* Above the controls rather than inside them, so it is the same strip in
             play and after the result — and so `useCompactPanel` measures what is
             actually left for the move list, which is what decides whether the
             list can stay a list. */}
-        {!isPregame && (
-          <SeatBar
-            seats={seatColors.map(seatFor)}
-            marbleDesign={marbleDesign}
-          />
-        )}
+          {!isPregame && (
+            <SeatBar
+              seats={seatColors.map(seatFor)}
+              marbleDesign={marbleDesign}
+            />
+          )}
 
-        {/* Only a bot has anything to say, and it says it under its own end of
+          {/* Only a bot has anything to say, and it says it under its own end of
             the card above. */}
-        {!isLocal && !isPregame && (
-          <BotChatter
-            level={difficulty}
-            line={chatter.line}
-            side={aiColor === seatColors[0] ? "left" : "right"}
-          />
-        )}
+          {!isLocal && !isPregame && (
+            <BotChatter
+              level={difficulty}
+              line={chatter.line}
+              side={aiColor === seatColors[0] ? "left" : "right"}
+            />
+          )}
 
-        {isPregame && (
-          <PregameControls
-            mode={mode}
-            onModeChange={game.chooseMode}
-            difficulty={difficulty}
-            onDifficultyChange={game.setDifficulty}
-            setupType={setupType}
-            onSetupChange={game.chooseSetup}
-            colorChoice={game.colorChoice}
-            onColorChange={game.chooseColor}
-            names={localNames}
-            onNameChange={game.setLocalName}
-            marbleDesign={marbleDesign}
-            onPlay={() => game.startNewGame()}
-            preview={
-              <GameCanvas
-                state={state}
-                possibleMoves={EMPTY_MOVES}
-                marbleDesign={marbleDesign}
-                showCoordinates={false}
-                interactive={false}
-              />
-            }
-          />
-        )}
+          {isPregame && (
+            <PregameControls
+              mode={mode}
+              onModeChange={game.chooseMode}
+              difficulty={difficulty}
+              onDifficultyChange={game.setDifficulty}
+              setupType={setupType}
+              onSetupChange={game.chooseSetup}
+              colorChoice={game.colorChoice}
+              onColorChange={game.chooseColor}
+              names={localNames}
+              onNameChange={game.setLocalName}
+              marbleDesign={marbleDesign}
+              onPlay={() => game.startNewGame()}
+              preview={
+                <GameCanvas
+                  state={state}
+                  possibleMoves={EMPTY_MOVES}
+                  marbleDesign={marbleDesign}
+                  showCoordinates={false}
+                  showLabels={false}
+                  interactive={false}
+                />
+              }
+            />
+          )}
 
-        {phase === "ingame" && (
-          <IngameControls
-            state={state}
-            canPrev={canPrev}
-            canNext={canNext}
-            canSkipToLatest={canSkipToLatest}
-            canHint={canHint}
-            canUndo={canUndo}
-            hintThinking={hintThinking}
-            marbleDesign={marbleDesign}
-            onPrev={game.goPrevMove}
-            onNext={game.goNextMove}
-            onSkipToLatest={game.goToLatestMove}
-            onGoTo={game.goToMoveIndex}
-            onHint={game.requestHint}
-            onUndo={game.undoMove}
-            onResign={() => setResignOpen(true)}
-          />
-        )}
+          {phase === "ingame" && (
+            <IngameControls
+              state={state}
+              canPrev={canPrev}
+              canNext={canNext}
+              canSkipToLatest={canSkipToLatest}
+              canHint={canHint}
+              canUndo={canUndo}
+              hintThinking={hintThinking}
+              marbleDesign={marbleDesign}
+              onPrev={game.goPrevMove}
+              onNext={game.goNextMove}
+              onSkipToLatest={game.goToLatestMove}
+              onGoTo={game.goToMoveIndex}
+              onHint={game.requestHint}
+              onUndo={game.undoMove}
+              onResign={() => setResignOpen(true)}
+            />
+          )}
 
-        {isPostgame && (
-          <PostgameControls
-            state={state}
-            result={gameResult}
-            canPrev={canPrev}
-            canNext={canNext}
-            canSkipToLatest={canSkipToLatest}
-            marbleDesign={marbleDesign}
-            onPrev={game.goPrevMove}
-            onNext={game.goNextMove}
-            onSkipToLatest={game.goToLatestMove}
-            onGoTo={game.goToMoveIndex}
-            onRematch={game.handleRematch}
-            onNewBot={game.handleNewBot}
-            newGameLabel={newGameLabel}
-          />
-        )}
-      </aside>
+          {isPostgame && (
+            <PostgameControls
+              state={state}
+              result={gameResult}
+              canPrev={canPrev}
+              canNext={canNext}
+              canSkipToLatest={canSkipToLatest}
+              marbleDesign={marbleDesign}
+              onPrev={game.goPrevMove}
+              onNext={game.goNextMove}
+              onSkipToLatest={game.goToLatestMove}
+              onGoTo={game.goToMoveIndex}
+              onRematch={game.handleRematch}
+              onNewBot={game.handleNewBot}
+              newGameLabel={newGameLabel}
+            />
+          )}
+        </aside>
+      </div>
+
       <ResignModal
         open={resignOpen}
         onClose={() => setResignOpen(false)}
@@ -511,6 +567,7 @@ function GameOfflinePage() {
         difficulty={difficulty}
         resultKind={resultKind}
         title={resultTitle}
+        summary={resultSummary}
         newGameLabel={newGameLabel}
         onClose={game.closeGameOverModal}
         onRematch={game.handleRematch}

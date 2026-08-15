@@ -577,7 +577,7 @@ export function MoveHistory({
  * It takes no layout — the list is the same size with it and without it — and no
  * taps: it lies over rows that are still there to be pressed.
  *
- * `from-surface-4` is the box's own fill, which is what makes this read as the
+ * `from-surface-2` is the box's own fill, which is what makes this read as the
  * content running under an edge rather than as a band drawn across it.
  */
 function EdgeFade({
@@ -591,7 +591,7 @@ function EdgeFade({
     <div
       aria-hidden="true"
       className={cn(
-        "pointer-events-none absolute inset-x-0 from-surface-4 to-transparent",
+        "pointer-events-none absolute inset-x-0 from-surface-2 to-transparent",
         "h-[clamp(0.875rem,12%,1.75rem)]",
         "transition-opacity duration-200",
         visible ? "opacity-100" : "opacity-0",

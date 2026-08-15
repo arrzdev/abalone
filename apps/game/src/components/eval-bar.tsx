@@ -25,38 +25,112 @@ import { barFraction, DECIDED } from "@/utils/evaluation"
  */
 
 /**
- * The strip the bar takes, without the bar — what stands in for it everywhere
- * the bar is not shown.
+ * The same reading stood on end, fused to the panel's leading edge.
  *
- * The board is letterboxed into the height its column has left, and on a desktop
- * that height is what bounds it: a strip appearing under the board is a board
- * getting smaller and sliding up to meet it. There is nowhere else for the strip
- * to come from — the slack a letterboxed board leaves is at its sides, not under
- * it, and the band inside the bottom rim is where the coordinates are written.
+ * Beside the board it had to be as wide as the board and it ended the board's
+ * column, which is why it was laid down in the first place. Against the panel
+ * it costs neither: the panel is a fixed width, the board beside it is bound by
+ * height, and a bar that runs the panel's full height is a bar you can read
+ * from across the room. Black at the top, because the panel reads downward and
+ * black is first everywhere else in this app.
  *
- * So the space is held whether or not there is a bar in it, and the board is one
- * size through pregame, in a hot-seat game, and across the settings toggle.
- *
- * Beside the board, that is. The caller hides this below `lg`, where the board
- * is sized from its own width and the bar comes out of the panel instead.
+ * No number on it. Eighteen pixels is a bar, not a label — the figure is on the
+ * element itself, for a pointer and for a screen reader.
  */
-export function EvalBarSlot({ className }: { className?: string }) {
+export function EvalColumn({
+  score,
+  label,
+  className,
+}: {
+  score: number
+  /** The advantage in words. The column has nowhere to write it. */
+  label: string
+  className?: string
+}) {
+  const value = Number.isFinite(score) ? score : 0
+  const black = barFraction(value) * 100
+
   return (
     <div
-      aria-hidden="true"
-      className={cn("h-5 w-full shrink-0", className)}
-    />
+      //a picture with a caption: the bar is the whole reading, and `label` is
+      //that reading in words for anyone the picture is no use to
+      role="img"
+      title={label}
+      aria-label={label}
+      className={cn(
+        "relative w-[18px] shrink-0 overflow-hidden rounded-s-[9px] bg-surface-2",
+        className,
+      )}
+    >
+      {/* Both shares are drawn, and neither is the box's own fill. A layer
+          squashed from the top with `scaleY` is a transform, and a transform is
+          composited — which takes the rounded clip off the paint pass and onto
+          the compositor, where it lands as a hard-edged mask and leaves a
+          hairline down the capped side. Two heights meeting in the middle is
+          the same picture with nothing promoted, and it is what the horizontal
+          bar below already does.
+
+          The track behind them is only ever a sub-pixel of itself, where the
+          two are mid-transition and have not quite met. */}
+      <div
+        className="absolute inset-x-0 top-0 bg-marble-black transition-[height] duration-300 ease-out"
+        style={{ height: `${black}%` }}
+      />
+      <div
+        className="absolute inset-x-0 bottom-0 bg-marble-white transition-[height] duration-300 ease-out"
+        style={{ height: `${100 - black}%` }}
+      />
+    </div>
   )
 }
 
-export function EvalBar({ score }: { score: number }) {
+/**
+ * The column's slot, held open whether or not there is a bar in it.
+ *
+ * The board sizes itself to whatever is left of the row, so a rail that came and
+ * went would resize the board with it — leaving pregame for a bot game, or
+ * turning the setting off mid-game, would move every marble on the screen. The
+ * eighteen pixels are cheap and the board staying still is not.
+ *
+ * Desktop only. Below `lg` the panel is the whole screen and the reading lies
+ * down under the board instead.
+ */
+export function EvalRail({
+  score,
+  label,
+}: {
+  /** No score means an empty rail: the slot stays, the bar is not drawn. */
+  score?: number
+  label?: string
+}) {
+  return (
+    <div className="w-[18px] shrink-0 max-lg:hidden">
+      {score !== undefined && label !== undefined && (
+        <EvalColumn score={score} label={label} className="h-full" />
+      )}
+    </div>
+  )
+}
+
+export function EvalBar({
+  score,
+  className,
+}: {
+  score: number
+  className?: string
+}) {
   const value = Number.isFinite(score) ? score : 0
   const white = (1 - barFraction(value)) * 100
   const favoursBlack = value >= 0
   const shown = Math.min(Math.abs(value), DECIDED)
 
   return (
-    <div className="relative h-5 w-(--board-w) shrink-0 overflow-hidden rounded-md bg-marble-black">
+    <div
+      className={cn(
+        "relative h-5 w-(--board-w) shrink-0 overflow-hidden rounded-md bg-marble-black",
+        className,
+      )}
+    >
       <div
         className="absolute inset-y-0 right-0 bg-marble-white transition-[width] duration-300 ease-out"
         style={{ width: `${white}%` }}

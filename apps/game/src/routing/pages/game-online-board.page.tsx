@@ -11,7 +11,10 @@ import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import { GameCanvas } from "@/components/game-canvas"
-import type { ResultKind } from "@/components/game-over-modal"
+import type {
+  GameOverSummary,
+  ResultKind,
+} from "@/components/game-over-modal"
 import { GameOverModal } from "@/components/game-over-modal"
 import { SettingsIcon } from "@/components/icons"
 import { IngameControls } from "@/components/ingame-controls"
@@ -27,8 +30,10 @@ import {
 } from "@/components/ui/subpage-header"
 import { TapButton } from "@/components/ui/tap-button"
 import { useShowCoordinates } from "@/hooks/use-app-preferences"
+import { useHeadToHead } from "@/hooks/use-head-to-head"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { useOnlineGame } from "@/hooks/use-online-game"
+import { getSetupName } from "@/i18n/game-text"
 import { needsSignIn } from "@/routing/auth-guard"
 import { SignedInOnly } from "@/routing/signed-in-only"
 
@@ -81,7 +86,7 @@ function GameOnlineBoardPage() {
   const online = useOnlineGame(gameId, boardRef)
   const { game, state, mySeat } = online
 
-  const backToList = () => navigate({ to: "/game/online" })
+  const backToList = () => navigate({ to: "/" })
 
   const opponent = game
     ? mySeat === "black"
@@ -94,7 +99,12 @@ function GameOnlineBoardPage() {
   const seatFor = (color: Player): Seat => {
     const player = color === "black" ? game?.black : game?.white
     const avatar: ReactNode = player?.avatarUrl ? (
-      <Avatar src={player.avatarUrl} size={34} className="rounded-none" />
+      <Avatar
+        src={player.avatarUrl}
+        name={player.displayUsername ?? player.username}
+        size={34}
+        className="rounded-none"
+      />
     ) : undefined
 
     return {
@@ -113,12 +123,44 @@ function GameOnlineBoardPage() {
     }
   }
 
+  const headToHead = useHeadToHead(game)
+
   const isOver = state.gameOver
 
   let resultKind: ResultKind = "draw"
   if (state.winner) resultKind = state.winner === mySeat ? "win" : "loss"
 
   const resultTitle = t(`online:board.result_${resultKind}`)
+
+  /**
+   * The game in one row, under the result: who, what, and how it finished.
+   *
+   * The move count is the history less its first entry — that one is the
+   * opening position, which nobody played.
+   */
+  const resultSummary: GameOverSummary | undefined = game
+    ? {
+        avatar: opponent?.avatarUrl ? (
+          <Avatar
+            src={opponent.avatarUrl}
+            name={opponentName}
+            size={44}
+            className="rounded-none"
+          />
+        ) : undefined,
+        name: opponentName,
+        detail: [
+          getSetupName(game.setupType),
+          t("game:modal.moves", {
+            count: Math.max(state.moveHistory.length - 1, 0),
+          }),
+        ].join(" · "),
+        yourScore:
+          mySeat === "black" ? state.blackScore : state.whiteScore,
+        theirScore:
+          mySeat === "black" ? state.whiteScore : state.blackScore,
+      }
+    : undefined
 
   const gameResult: GameResult | null = isOver
     ? {
@@ -168,7 +210,7 @@ function GameOnlineBoardPage() {
             ? t("online:board.against", { name: opponentName })
             : t("online:title")
         }
-        backTo="/game/online"
+        backTo="/"
         action={settingsButton}
       />
 
@@ -214,6 +256,7 @@ function GameOnlineBoardPage() {
       >
         <SeatBar
           seats={(["black", "white"] as Player[]).map(seatFor)}
+          record={headToHead}
           marbleDesign={marbleDesign}
         />
 
@@ -288,6 +331,7 @@ function GameOnlineBoardPage() {
         state={state}
         resultKind={resultKind}
         title={resultTitle}
+        summary={resultSummary}
         rematchLabel={t("online:board.review")}
         newGameLabel={t("online:board.back_to_games")}
         onClose={() => setResultDismissed(true)}
