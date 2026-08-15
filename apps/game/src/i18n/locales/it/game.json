@@ -63,7 +63,7 @@
     "rotate_board": "Ruota il tabellone a ogni turno",
     "rotate_board_hint": "Gira il tabellone così chi muove è sempre in basso",
     "show_coordinates_hint": "Mostra la coordinata assiale in ogni casella",
-    "show_eval_bar_hint": "Come il motore valuta la posizione — solo contro i bot",
+    "show_eval_bar_hint": "Come il motore valuta la posizione (solo contro i bot)",
     "side_group": "Lato con cui giocare",
     "side_white": "Gioca con il bianco",
     "side_black": "Gioca con il nero",
@@ -95,7 +95,7 @@
     "intro": "Abalone è un gioco per due su un tabellone esagonale di 61 caselle. Ogni giocatore parte con 14 biglie e muove una volta per turno.",
     "goal": {
       "title": "L'obiettivo",
-      "body": "Spingi sei biglie avversarie fuori dal tabellone. È tutto qui — non c'è altro da contare."
+      "body": "Spingi sei biglie avversarie fuori dal tabellone. È tutto qui. Non c'è altro da contare."
     },
     "directions": {
       "title": "Sei direzioni",

@@ -63,7 +63,7 @@
     "rotate_board": "Brett bei jedem Zug drehen",
     "rotate_board_hint": "Das Brett so drehen, dass die ziehende Seite immer unten ist",
     "show_coordinates_hint": "Die Axialkoordinate in jedem Feld anzeigen",
-    "show_eval_bar_hint": "Wie die Engine die Stellung bewertet – nur gegen Bots",
+    "show_eval_bar_hint": "Wie die Engine die Stellung bewertet (nur gegen Bots)",
     "side_group": "Zu spielende Seite",
     "side_white": "Weiß spielen",
     "side_black": "Schwarz spielen",
@@ -95,11 +95,11 @@
     "intro": "Abalone ist ein Spiel für zwei Personen auf einem sechseckigen Brett mit 61 Feldern. Jede Seite startet mit 14 Kugeln und zieht einmal pro Zug.",
     "goal": {
       "title": "Das Ziel",
-      "body": "Schiebe sechs Kugeln deines Gegners vom Brett. Mehr ist es nicht — sonst wird nichts gezählt."
+      "body": "Schiebe sechs Kugeln deines Gegners vom Brett. Mehr ist es nicht. Sonst wird nichts gezählt."
     },
     "directions": {
       "title": "Sechs Richtungen",
-      "body": "Jedes Feld grenzt an sechs andere, also kann eine Kugel in sechs Richtungen ziehen. Es gibt keine Diagonalen und keine Sprünge — eine Kugel zieht immer auf ein direkt benachbartes Feld.",
+      "body": "Jedes Feld grenzt an sechs andere, also kann eine Kugel in sechs Richtungen ziehen. Es gibt keine Diagonalen und keine Sprünge. Eine Kugel zieht immer auf ein direkt benachbartes Feld.",
       "caption": "Die sechs Richtungen einer einzelnen Kugel."
     },
     "move": {
@@ -111,13 +111,13 @@
     "push": {
       "title": "Schieben",
       "body": "Nur ein Zug in Linie kann schieben. Du brauchst in dieser Linie mehr Kugeln als dein Gegner: zwei gegen eine, drei gegen eine oder drei gegen zwei. Das Feld hinter den gegnerischen Kugeln muss frei sein.",
-      "ok_caption": "Drei gegen zwei — die ganze Linie rückt ein Feld vor.",
+      "ok_caption": "Drei gegen zwei: die ganze Linie rückt ein Feld vor.",
       "blocked_caption": "Drei gegen drei bewegt sich nie, und eigene Kugeln darfst du nie schieben."
     },
     "capture": {
       "title": "Kugeln herausschieben",
       "body": "Eine über den Rand geschobene Kugel ist aus dem Spiel. Wer zuerst sechs gegnerische Kugeln herausschiebt, gewinnt.",
-      "caption": "Zwei gegen eine am Rand — die schwarze Kugel ist draußen."
+      "caption": "Zwei gegen eine am Rand: die schwarze Kugel ist draußen."
     },
     "cta": "Jetzt spielen"
   },

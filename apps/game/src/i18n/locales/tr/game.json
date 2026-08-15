@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "AI'ya Karşı Abalone Oyna - Online Bilgisayar Rakiplerine Meydan Oku | Ücretsiz Oyun",
-    "description": "Online olarak AI rakiplerine karşı Abalone oyna—8 zorluk seviyesi ve birden fazla tahta dizilişi seç. Hamle geçmişi, değerlendirme çubuğu ve anında oynanış sunan ücretsiz tarayıcı oyunu. İndirme gerekmez.",
+    "description": "Online olarak AI rakiplerine karşı Abalone oyna. 8 zorluk seviyesi ve birden fazla tahta dizilişi seç. Hamle geçmişi, değerlendirme çubuğu ve anında oynanış sunan ücretsiz tarayıcı oyunu. İndirme gerekmez.",
     "keywords": "abalone bilgisayara karşı, abalone vs ai, abalone online oyun, abalone zorluk seviyeleri, abalone şimdi oyna, tarayıcı abalone, abalone minimax ai, ücretsiz abalone oyunu, play abalone online",
     "og_title": "Bilgisayar AI'ya Karşı Abalone - Online Tahta Oyunu",
     "og_description": "Abalone'da 8 zorluk seviyesine sahip AI rakiplerine meydan oku. Stratejini geliştir ve bu klasik iki kişilik tahta oyununda becerilerini artır.",
@@ -63,7 +63,7 @@
     "rotate_board": "Her turda tahtayı döndür",
     "rotate_board_hint": "Tahtayı, hamle sırası kimdeyse o taraf altta kalacak şekilde çevir",
     "show_coordinates_hint": "Her karenin içinde eksenel koordinatı göster",
-    "show_eval_bar_hint": "Motorun konumu nasıl değerlendirdiği — yalnızca botlara karşı",
+    "show_eval_bar_hint": "Motorun konumu nasıl değerlendirdiği (yalnızca botlara karşı)",
     "side_group": "Oynanacak taraf",
     "side_white": "Beyazlarla oyna",
     "side_black": "Siyahlarla oyna",
@@ -95,7 +95,7 @@
     "intro": "Abalone, 61 haneli altıgen bir tahtada iki kişiyle oynanır. Her taraf 14 bilyeyle başlar ve sırası geldiğinde bir hamle yapar.",
     "goal": {
       "title": "Amaç",
-      "body": "Rakibinin altı bilyesini tahtadan dışarı it. Oyunun tamamı bu — sayılacak başka bir şey yok."
+      "body": "Rakibinin altı bilyesini tahtadan dışarı it. Oyunun tamamı bu. Sayılacak başka bir şey yok."
     },
     "directions": {
       "title": "Altı yön",
@@ -111,13 +111,13 @@
     "push": {
       "title": "İtmek",
       "body": "Yalnızca çizgi boyunca yapılan hamle itebilir. O çizgide rakibinden daha çok bilyen olmalı: ikiye bir, üçe bir ya da üçe iki. Rakibin bilyelerinin arkasındaki hane boş olmalıdır.",
-      "ok_caption": "Üçe iki — bütün sıra bir hane ilerler.",
+      "ok_caption": "Üçe iki: bütün sıra bir hane ilerler.",
       "blocked_caption": "Üçe üç asla ilerlemez ve kendi bilyelerini asla itemezsin."
     },
     "capture": {
       "title": "Bilyeleri dışarı itmek",
       "body": "Kenarın dışına itilen bilye oyundan çıkar. Rakibinin altı bilyesini ilk düşüren kazanır.",
-      "caption": "Kenarda ikiye bir — siyah bilye dışarı çıkar."
+      "caption": "Kenarda ikiye bir: siyah bilye dışarı çıkar."
     },
     "cta": "Şimdi oyna"
   },

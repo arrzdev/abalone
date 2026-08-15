@@ -65,7 +65,7 @@
     ],
     "self_at_risk": [
       "Uh oh. That one's in trouble.",
-      "Wait — is that one in danger?",
+      "Wait, is that one in danger?",
       "Hmm. I don't love that.",
       "Okay. Don't panic. Don't panic.",
       "That marble needs some help!",
@@ -164,7 +164,7 @@
       "That could become a problem.",
       "I'll worry about that in a second.",
       "Okay, that one's on thin ice.",
-      "Fair enough — you found something.",
+      "Fair enough, you found something.",
       "I should probably deal with that.",
       "Well spotted."
     ],
@@ -254,7 +254,7 @@
       "Interesting place to leave it."
     ],
     "self_at_risk": [
-      "Ah — that one has a weakness.",
+      "Ah, that one has a weakness.",
       "Interesting. That's a problem for me.",
       "I should examine that side.",
       "You've found something there.",
@@ -445,7 +445,7 @@
     ],
     "self_at_risk": [
       "That one's exposed. I see it.",
-      "Alright — you found a weakness.",
+      "Alright, you found a weakness.",
       "I need to answer that.",
       "That's uncomfortable.",
       "Fine. That has my attention.",

@@ -63,7 +63,7 @@
     "rotate_board": "Bord elke beurt draaien",
     "rotate_board_hint": "Draai het bord zodat de speler aan zet altijd onderaan staat",
     "show_coordinates_hint": "Toon de axiale coördinaat in elk vak",
-    "show_eval_bar_hint": "Hoe de engine de stelling beoordeelt — alleen tegen bots",
+    "show_eval_bar_hint": "Hoe de engine de stelling beoordeelt (alleen tegen bots)",
     "side_group": "Te spelen kleur",
     "side_white": "Speel met wit",
     "side_black": "Speel met zwart",
@@ -95,7 +95,7 @@
     "intro": "Abalone is een spel voor twee spelers op een zeshoekig bord met 61 velden. Elke speler begint met 14 ballen en doet één zet per beurt.",
     "goal": {
       "title": "Het doel",
-      "body": "Duw zes ballen van je tegenstander van het bord. Meer is het niet — er valt verder niets te tellen."
+      "body": "Duw zes ballen van je tegenstander van het bord. Meer is het niet. Er valt verder niets te tellen."
     },
     "directions": {
       "title": "Zes richtingen",
@@ -111,13 +111,13 @@
     "push": {
       "title": "Duwen",
       "body": "Alleen een zet in lijn kan duwen. Je hebt op die lijn meer ballen nodig dan je tegenstander: twee tegen één, drie tegen één of drie tegen twee. Het veld achter de ballen van je tegenstander moet leeg zijn.",
-      "ok_caption": "Drie tegen twee — de hele rij schuift één veld op.",
+      "ok_caption": "Drie tegen twee: de hele rij schuift één veld op.",
       "blocked_caption": "Drie tegen drie beweegt nooit, en je eigen ballen mag je nooit duwen."
     },
     "capture": {
       "title": "Ballen van het bord duwen",
       "body": "Een bal die over de rand wordt geduwd, is uit het spel. Wie als eerste zes ballen van de tegenstander eraf duwt, wint.",
-      "caption": "Twee tegen één aan de rand — de zwarte bal is eraf."
+      "caption": "Twee tegen één aan de rand: de zwarte bal is eraf."
     },
     "cta": "Nu spelen"
   },

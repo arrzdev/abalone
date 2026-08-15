@@ -63,7 +63,7 @@
     "rotate_board": "Girar el tablero cada turno",
     "rotate_board_hint": "Voltear el tablero para que quien mueve esté siempre abajo",
     "show_coordinates_hint": "Mostrar la coordenada axial dentro de cada casilla",
-    "show_eval_bar_hint": "Cómo el motor valora la posición — solo contra bots",
+    "show_eval_bar_hint": "Cómo el motor valora la posición (solo contra bots)",
     "side_group": "Lado con el que jugar",
     "side_white": "Jugar con blancas",
     "side_black": "Jugar con negras",

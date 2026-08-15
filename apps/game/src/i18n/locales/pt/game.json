@@ -63,7 +63,7 @@
     "rotate_board": "Rodar o tabuleiro a cada turno",
     "rotate_board_hint": "Virar o tabuleiro para quem joga ficar sempre em baixo",
     "show_coordinates_hint": "Mostrar a coordenada axial dentro de cada casa",
-    "show_eval_bar_hint": "Como o motor avalia a posição — só em jogos contra bots",
+    "show_eval_bar_hint": "Como o motor avalia a posição (só em jogos contra bots)",
     "side_group": "Lado a jogar",
     "side_white": "Jogar com as brancas",
     "side_black": "Jogar com as pretas",
@@ -95,11 +95,11 @@
     "intro": "O Abalone é um jogo para dois jogadores num tabuleiro hexagonal de 61 casas. Cada lado começa com 14 bolas e joga uma vez por turno.",
     "goal": {
       "title": "O objetivo",
-      "body": "Empurra seis bolas do adversário para fora do tabuleiro. É esse o jogo todo — não há mais nada para contar."
+      "body": "Empurra seis bolas do adversário para fora do tabuleiro. É esse o jogo todo. Não há mais nada para contar."
     },
     "directions": {
       "title": "Seis direções",
-      "body": "Cada casa toca noutras seis, por isso uma bola pode mover-se em seis direções. Não há diagonais nem saltos — uma bola move-se sempre para uma casa mesmo ao lado.",
+      "body": "Cada casa toca noutras seis, por isso uma bola pode mover-se em seis direções. Não há diagonais nem saltos. Uma bola move-se sempre para uma casa mesmo ao lado.",
       "caption": "As seis direções possíveis para uma bola."
     },
     "move": {
@@ -111,13 +111,13 @@
     "push": {
       "title": "Empurrar",
       "body": "Só um movimento em linha pode empurrar. Precisas de mais bolas nessa linha do que o adversário: duas contra uma, três contra uma ou três contra duas. A casa atrás das bolas do adversário tem de estar vazia.",
-      "ok_caption": "Três contra duas — a linha inteira avança uma casa.",
+      "ok_caption": "Três contra duas: a linha inteira avança uma casa.",
       "blocked_caption": "Três contra três nunca se mexe, e nunca podes empurrar as tuas próprias bolas."
     },
     "capture": {
       "title": "Empurrar para fora",
       "body": "Uma bola empurrada para lá da borda fica fora do jogo. Ganha quem primeiro empurrar seis bolas do adversário para fora do tabuleiro.",
-      "caption": "Duas contra uma na borda — a bola preta sai."
+      "caption": "Duas contra uma na borda: a bola preta sai."
     },
     "cta": "Jogar agora"
   },

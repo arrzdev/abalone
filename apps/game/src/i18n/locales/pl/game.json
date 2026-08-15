@@ -63,7 +63,7 @@
     "rotate_board": "Obracaj planszę co turę",
     "rotate_board_hint": "Obróć planszę tak, aby gracz na ruchu był zawsze na dole",
     "show_coordinates_hint": "Pokaż współrzędną osiową w każdym polu",
-    "show_eval_bar_hint": "Jak silnik ocenia pozycję — tylko w grach z botami",
+    "show_eval_bar_hint": "Jak silnik ocenia pozycję (tylko w grach z botami)",
     "side_group": "Strona do gry",
     "side_white": "Graj białymi",
     "side_black": "Graj czarnymi",
@@ -95,11 +95,11 @@
     "intro": "Abalone to gra dla dwóch osób na sześciokątnej planszy z 61 polami. Każda strona zaczyna z 14 kulami i wykonuje jeden ruch na turę.",
     "goal": {
       "title": "Cel gry",
-      "body": "Wypchnij sześć kul przeciwnika poza planszę. To cała gra — nie liczy się nic więcej."
+      "body": "Wypchnij sześć kul przeciwnika poza planszę. To cała gra. Nie liczy się nic więcej."
     },
     "directions": {
       "title": "Sześć kierunków",
-      "body": "Każde pole sąsiaduje z sześcioma innymi, więc kula może ruszyć się w sześciu kierunkach. Nie ma przekątnych ani przeskoków — kula zawsze przechodzi na sąsiednie pole.",
+      "body": "Każde pole sąsiaduje z sześcioma innymi, więc kula może ruszyć się w sześciu kierunkach. Nie ma przekątnych ani przeskoków. Kula zawsze przechodzi na sąsiednie pole.",
       "caption": "Sześć kierunków dostępnych dla jednej kuli."
     },
     "move": {
@@ -111,13 +111,13 @@
     "push": {
       "title": "Wypychanie",
       "body": "Wypychać można tylko ruchem w linii. Musisz mieć na tej linii więcej kul niż przeciwnik: dwie na jedną, trzy na jedną albo trzy na dwie. Pole za kulami przeciwnika musi być puste.",
-      "ok_caption": "Trzy na dwie — cała linia przesuwa się o jedno pole.",
+      "ok_caption": "Trzy na dwie: cała linia przesuwa się o jedno pole.",
       "blocked_caption": "Trzy na trzy nigdy się nie ruszy, a własnych kul nie wolno wypychać."
     },
     "capture": {
       "title": "Wypychanie poza planszę",
       "body": "Kula wypchnięta poza krawędź odpada z gry. Wygrywa ten, kto pierwszy wypchnie sześć kul przeciwnika.",
-      "caption": "Dwie na jedną przy krawędzi — czarna kula wypada."
+      "caption": "Dwie na jedną przy krawędzi: czarna kula wypada."
     },
     "cta": "Zagraj teraz"
   },

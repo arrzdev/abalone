@@ -58,7 +58,7 @@
       "invalid_credentials": "Esse nome e essa palavra-passe não coincidem. Confere os dois e tenta de novo.",
       "unknown": "Algo correu mal. Verifica a ligação e tenta de novo."
     },
-    "credentials_warning": "Nome e palavra-passe não se recuperam — perdê-los é perder a conta."
+    "credentials_warning": "Nome e palavra-passe não se recuperam. Perdê-los é perder a conta."
   },
   "profile": {
     "username_permanent": "O teu nome é permanente",

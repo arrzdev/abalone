@@ -58,7 +58,7 @@
       "invalid_credentials": "Ta nazwa i hasło do siebie nie pasują. Sprawdź oba i spróbuj ponownie.",
       "unknown": "Coś poszło nie tak. Sprawdź połączenie i spróbuj ponownie."
     },
-    "credentials_warning": "Nazwy i hasła nie da się odzyskać — stracisz je, stracisz konto."
+    "credentials_warning": "Nazwy i hasła nie da się odzyskać. Stracisz je, stracisz konto."
   },
   "profile": {
     "username_permanent": "Twoja nazwa jest stała",

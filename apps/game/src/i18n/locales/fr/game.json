@@ -63,7 +63,7 @@
     "rotate_board": "Pivoter le plateau à chaque tour",
     "rotate_board_hint": "Retourner le plateau pour que le joueur au trait soit toujours en bas",
     "show_coordinates_hint": "Afficher la coordonnée axiale dans chaque case",
-    "show_eval_bar_hint": "Comment le moteur évalue la position — parties contre bots uniquement",
+    "show_eval_bar_hint": "Comment le moteur évalue la position (parties contre bots uniquement)",
     "side_group": "Camp à jouer",
     "side_white": "Jouer les blancs",
     "side_black": "Jouer les noirs",
@@ -95,7 +95,7 @@
     "intro": "Abalone se joue à deux sur un plateau hexagonal de 61 cases. Chaque camp commence avec 14 billes et joue un coup par tour.",
     "goal": {
       "title": "L'objectif",
-      "body": "Pousser six billes adverses hors du plateau. C'est tout le jeu — il n'y a rien d'autre à compter."
+      "body": "Pousser six billes adverses hors du plateau. C'est tout le jeu. Il n'y a rien d'autre à compter."
     },
     "directions": {
       "title": "Six directions",

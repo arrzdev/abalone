@@ -63,7 +63,7 @@
     "rotate_board": "Rotate board each turn",
     "rotate_board_hint": "Flip the board so the side to move is always at the bottom",
     "show_coordinates_hint": "Print the axial coordinate inside every cell",
-    "show_eval_bar_hint": "How the engine rates the position — bot games only",
+    "show_eval_bar_hint": "How the engine rates the position (bot games only)",
     "side_group": "Side to play",
     "side_white": "Play as white",
     "side_black": "Play as black",
@@ -95,11 +95,11 @@
     "intro": "Abalone is a game for two players on a hexagonal board of 61 spaces. Each side starts with 14 marbles and moves once per turn.",
     "goal": {
       "title": "The goal",
-      "body": "Push six of your opponent's marbles off the board. That is the whole game — there is nothing else to count."
+      "body": "Push six of your opponent's marbles off the board. That is the whole game. There is nothing else to count."
     },
     "directions": {
       "title": "Six directions",
-      "body": "Every space touches six others, so a marble can move in any of six directions. There are no diagonals and no jumps — a marble always moves to a space right beside it.",
+      "body": "Every space touches six others, so a marble can move in any of six directions. There are no diagonals and no jumps. A marble always moves to a space right beside it.",
       "caption": "The six directions open to a single marble."
     },
     "move": {
@@ -111,13 +111,13 @@
     "push": {
       "title": "Pushing",
       "body": "Only a move in line can push. You need more marbles in that line than your opponent: two against one, three against one, or three against two. The space behind your opponent’s marbles must be empty.",
-      "ok_caption": "Three against two — the whole line shifts one space.",
+      "ok_caption": "Three against two: the whole line shifts one space.",
       "blocked_caption": "Three against three never moves, and you can never push your own marbles."
     },
     "capture": {
       "title": "Pushing marbles off",
       "body": "A marble pushed past the edge is out for the rest of the game. The first player to knock six of the opponent's marbles off the board wins.",
-      "caption": "Two against one at the edge — the black marble is out."
+      "caption": "Two against one at the edge: the black marble is out."
     },
     "cta": "Play now"
   },
