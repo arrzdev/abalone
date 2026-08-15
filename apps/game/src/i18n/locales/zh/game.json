@@ -1,15 +1,15 @@
 {
   "meta": {
-    "title": "浏览器玩角力棋 (Abalone)：8 级机器人或双人对战 | 免费",
-    "description": "在浏览器中免费玩角力棋 (Abalone)。可与 8 种强度的机器人对战，也可在同一台设备上两人轮流对弈。九种棋盘布局、完整走子记录与评估条。无需下载。",
-    "keywords": "角力棋, Abalone, 角力棋 浏览器, 角力棋 机器人, 角力棋 双人, 免费 角力棋, 角力棋 棋盘布局, 角力棋 规则",
-    "og_title": "浏览器玩角力棋 (Abalone)",
-    "og_description": "8 种强度的机器人，或在同一台设备上两人轮流对弈。九种棋盘布局、完整走子记录与评估条。免费，无需下载。",
-    "twitter_title": "浏览器玩角力棋 (Abalone)",
-    "twitter_description": "8 种强度的机器人，或同一台设备上的双人对战。九种棋盘布局与完整走子记录。免费，无需下载。",
+    "title": "在线玩角力棋 (Abalone)：机器人对战或双人对战 | 免费",
+    "description": "在浏览器中免费玩角力棋 (Abalone)。可与 8 种强度的机器人对战，可在同一台设备上两人轮流对弈，也可邀请好友在线对战。九种棋盘布局、完整走子记录与评估条。无需下载。",
+    "keywords": "角力棋, Abalone, 角力棋 在线, 角力棋 浏览器, 角力棋 机器人, 角力棋 双人, 免费 角力棋, 角力棋 棋盘布局, 角力棋 规则",
+    "og_title": "在浏览器中玩角力棋 (Abalone)",
+    "og_description": "可与 8 种强度的机器人对战，可在同一台设备上两人对弈，也可邀请好友在线对战。九种棋盘布局、完整走子记录与评估条。免费，无需下载。",
+    "twitter_title": "在浏览器中玩角力棋 (Abalone)",
+    "twitter_description": "8 种强度的机器人、同一台设备上的双人对弈，或按自己节奏进行的在线对战。九种棋盘布局与完整走子记录。免费，无需下载。",
     "structured_data": {
-      "name": "角力棋 (Abalone)",
-      "description": "与 8 种强度的机器人对战，或在同一台设备上两人轮流对弈角力棋 (Abalone)。九种棋盘布局（Standard、Belgian Daisy、German Daisy、Dutch Daisy、Swiss Daisy、Alien、Domination、Infiltration、The Wall）、完整走子记录与评估条。浏览器中免费游玩，无需下载。",
+      "name": "Abalone",
+      "description": "与 8 种强度的机器人对战，在同一台设备上两人轮流对弈，或邀请好友在线对战角力棋 (Abalone)。九种棋盘布局（Standard、Belgian Daisy、German Daisy、Dutch Daisy、Swiss Daisy、Alien、Domination、Infiltration、The Wall）、完整走子记录与评估条。浏览器中免费游玩，无需下载。",
       "audience": "桌游玩家与策略游戏爱好者"
     }
   },
