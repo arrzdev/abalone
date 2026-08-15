@@ -74,7 +74,7 @@ export function LanguageSwitcher({
         title={t("common:language.change")}
         onClick={() => setOpen((value) => !value)}
         className={cn(
-          "flex h-9 w-9 items-center justify-center rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+          "flex size-9 items-center justify-center rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:size-11 lg:rounded-xl",
           TRIGGER_VARIANTS[variant],
         )}
       >
@@ -83,7 +83,10 @@ export function LanguageSwitcher({
             this one the odd width in it. It is drawn at the size the icons
             beside it are: an emoji is inset inside its own glyph box, so
             matching font-size to icon size leaves it visibly the smaller. */}
-        <Flag code={current} className="h-6 w-6 text-2xl" />
+        <Flag
+          code={current}
+          className="size-6 text-2xl lg:size-7 lg:text-[1.75rem]"
+        />
       </TapButton>
 
       {open && (
