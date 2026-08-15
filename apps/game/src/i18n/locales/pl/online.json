@@ -5,7 +5,8 @@
     "heading": "Twoje partie",
     "empty": "Jeszcze żadnych partii. Zaproś kogoś.",
     "your_turn": "Twój ruch",
-    "their_turn": "Ruch przeciwnika"
+    "their_turn": "Ruch przeciwnika",
+    "new_invite": "Nowe zaproszenie"
   },
   "invites": {
     "received": "Zaproszenia dla ciebie",
@@ -17,11 +18,25 @@
     "accept": "Przyjmij",
     "decline": "Odrzuć",
     "cancel": "Anuluj",
-    "dismiss": "Ukryj"
+    "dismiss": "Ukryj",
+    "heading": "Zaproszenia",
+    "sent_heading": "Wysłane",
+    "just_sent": "Właśnie wysłane · czeka na odpowiedź"
   },
   "history": {
     "heading": "Zakończone partie",
-    "empty": "Jeszcze nic tu nie ma. Zakończone partie trafiają tutaj."
+    "empty": "Jeszcze nic tu nie ma. Zakończone partie trafiają tutaj.",
+    "heading_short": "Zakończone",
+    "see_all": "Zobacz wszystkie ({{count}})",
+    "title": "Zakończone gry",
+    "played": "Rozegrane",
+    "won": "Wygrane",
+    "range": "{{from}}–{{to}} z {{total}}",
+    "period_week": "W tym tygodniu",
+    "period_month": "W tym miesiącu",
+    "period_earlier": "Wcześniej",
+    "previous_page": "Poprzednia strona",
+    "next_page": "Następna strona"
   },
   "sides": {
     "black": "czarnymi",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "Nowe zaproszenie",
-    "body": "Zaproś kogoś po nazwie. Zobaczy je, gdy następnym razem otworzy aplikację.",
-    "username": "Jego nazwa",
-    "username_placeholder": "Z kim grasz?",
+    "body": "Zobaczy je, gdy następnym razem otworzy aplikację. Nie musicie być tu w tym samym czasie.",
+    "username": "Z kim grasz?",
+    "username_placeholder": "Jego nazwa",
     "setup": "Ustawienie",
     "side": "Twoja strona",
     "send": "Wyślij zaproszenie",
@@ -58,6 +73,16 @@
     "result_loss": "Przegrana",
     "result_draw": "Remis",
     "review": "Obejrzyj partię",
-    "back_to_games": "Wróć do partii"
+    "back_to_games": "Wróć do partii",
+    "head_to_head": "{{left}}–{{right}} wcześniej"
+  },
+  "offline": {
+    "heading": "Graj offline",
+    "note": "Gra offline żyje w karcie, w której ją zacząłeś. Zamknij ją, a zniknie — i nic z niej nie trafi na twoje konto."
+  },
+  "empty": {
+    "title": "Jeszcze nic tu nie ma",
+    "body": "Zaproś kogoś po imieniu, a gra pojawi się tutaj. Gry na ciebie czekają, więc jeden ruch dziennie to całkiem dobra gra.",
+    "play_bot": "Zagraj z botem, czekając"
   }
 }

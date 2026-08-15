@@ -68,7 +68,9 @@
     "side_white": "Jouer les blancs",
     "side_black": "Jouer les noirs",
     "side_random": "Camp aléatoire",
-    "marbles_taken": "{{taken}} billes adverses sur {{total}} poussées hors du plateau"
+    "marbles_taken": "{{taken}} billes adverses sur {{total}} poussées hors du plateau",
+    "eval_advantage": "{{color}} devant de {{score}}",
+    "eval_level": "À égalité"
   },
   "game_state": {
     "your_turn": "Votre tour",
@@ -88,7 +90,9 @@
     "by_resignation": "par abandon",
     "by_repetition": "par triple répétition",
     "resign_title": "Abandonner la partie ?",
-    "resign_body": "La partie se termine immédiatement et la victoire revient à votre adversaire. C’est irréversible."
+    "resign_body": "La partie se termine immédiatement et la victoire revient à votre adversaire. C’est irréversible.",
+    "game_over": "Partie terminée",
+    "moves": "{{count}} coups"
   },
   "rules": {
     "title": "Comment jouer",
