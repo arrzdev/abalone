@@ -136,8 +136,10 @@ const SHOT_BASE = `${import.meta.env.BASE_URL}images/showcase`
  * Reshooting the phone means forcing the insets first. A desktop browser reports
  * `env(safe-area-inset-*)` as zero whatever size the window is, so a shot taken
  * straight off one has its header against the bezel and the frame's corner
- * eating the gear. Override `--twsa-safe-area-inset-top`/`-bottom` (47px/34px
- * for the 390×844 shot) before capturing.
+ * eating the gear. Override `--twsa-safe-area-inset-top`/`-bottom` before
+ * capturing: 32px and 24px, not the 47/34 a real iPhone reports. The shot has no
+ * clock or battery in that strip, so at a device's own numbers it reads as a
+ * black void rather than as a status bar.
  *
  * The frames are drawn in CSS rather than baked into the images: a bezel is two
  * rounded boxes, and baking it in would mean re-editing artwork every time the
