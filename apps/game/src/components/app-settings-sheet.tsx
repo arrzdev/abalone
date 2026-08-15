@@ -60,18 +60,18 @@ export function AppSettingsSheet({
       open={open}
       onClose={onClose}
       title={t("game:controls.settings")}
-      className="lg:max-w-lg"
+      className="lg:max-w-[476px]"
     >
       <div className="flex flex-col gap-y-5">
         <div>
-          <span className="mb-2 block text-sm font-medium text-white">
+          <span className="mb-2 block text-sm font-semibold text-white">
             {t("common:language.select")}
           </span>
           <LanguageSelect />
         </div>
 
         <div>
-          <span className="mb-2 block text-sm font-medium text-white">
+          <span className="mb-2 block text-sm font-semibold text-white">
             {t("game:controls.marble_design")}
           </span>
           <Select

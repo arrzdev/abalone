@@ -8,17 +8,21 @@ import { TapButton } from "@/components/ui/tap-button"
 import { useAuthPrompt } from "@/providers/auth-prompt-provider"
 
 /**
- * One tab: grey, and whiter when it is the one you are on.
+ * One tab: grey, and white when it is the one you are on, with the same bar
+ * across its top edge that the header draws over a destination.
  *
  * Nothing here is filled or tinted. A tab bar is read at a glance and there are
- * only three of them, so brightness carries it — a coloured pill under one icon
- * reads as a button someone dropped into the row.
+ * only three of them, so brightness and that one bar carry it — a coloured pill
+ * under an icon reads as a button someone dropped into the row.
  *
  * `aria-expanded` covers the two that open a sheet: they are never "active" in
  * the router's sense, but while their sheet is up they are what you pressed.
  */
 const TAB_CLASS =
-  "flex min-w-0 flex-1 flex-col items-center gap-1.5 rounded-lg py-2 text-faint transition-colors duration-200 ease-out data-[status=active]:text-white aria-expanded:text-white"
+  "relative flex min-w-0 flex-1 flex-col items-center gap-1.5 pt-[11px] pb-2.5 text-faint transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand data-[status=active]:text-white aria-expanded:text-white"
+
+/** The bar is revealed from the tab, for the reason given in `app-header`. */
+const TAB_ACTIVE_CLASS = "[&_[data-active-bar]]:opacity-100"
 
 /**
  * `leading-4`, never `leading-none`: `truncate` brings `overflow: hidden` with
@@ -26,7 +30,7 @@ const TAB_CLASS =
  * it. "Jogar" loses the tail of its g.
  */
 const LABEL_CLASS =
-  "max-w-full truncate text-[11px] leading-4 font-semibold"
+  "max-w-full truncate font-display text-[11px] leading-4 font-semibold"
 
 /**
  * The mobile chrome, and above `lg` the header's job instead.
@@ -51,10 +55,16 @@ export function AppTabBar() {
   return (
     <nav
       aria-label={t("common:nav.primary")}
-      className="relative shrink-0 border-t border-border-subtle bg-surface-2 px-safe pb-safe-or-2 lg:hidden"
+      className="relative shrink-0 border-t border-border-subtle bg-chrome px-safe pb-safe-or-2 lg:hidden"
     >
-      <div className="flex items-stretch justify-around gap-1 px-2 pt-1.5">
-        <NavLink to="/" exact className={TAB_CLASS}>
+      <div className="flex items-stretch justify-around gap-1 px-2">
+        <NavLink
+          to="/"
+          exact
+          className={TAB_CLASS}
+          activeClassName={TAB_ACTIVE_CLASS}
+        >
+          <ActiveBar />
           <HomeIcon size={22} />
           <span className={LABEL_CLASS}>{t("common:nav.home")}</span>
         </NavLink>
@@ -90,5 +100,20 @@ export function AppTabBar() {
         onClose={() => setProfileOpen(false)}
       />
     </nav>
+  )
+}
+
+/**
+ * The same mark the header uses, hanging off the bar's own top edge. Inset from
+ * the tab's sides so it reads as belonging to this tab rather than as a rule
+ * running the width of the row.
+ */
+function ActiveBar() {
+  return (
+    <span
+      aria-hidden="true"
+      data-active-bar
+      className="pointer-events-none absolute inset-x-5 top-0 h-0.5 rounded-b-sm bg-brand opacity-0 transition-opacity duration-200 ease-out"
+    />
   )
 }
