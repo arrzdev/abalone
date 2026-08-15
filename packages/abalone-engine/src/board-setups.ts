@@ -194,4 +194,31 @@ export const BOARD_SETUPS = {
 /** The key of an opening, which is what a preference stores. */
 export type SetupKey = keyof typeof BOARD_SETUPS
 
-export const DEFAULT_SETUP: SetupKey = "standard"
+export const DEFAULT_SETUP = "standard" as const
+
+/**
+ * The openings a game may be started on, in the order they are offered.
+ *
+ * `custom` is deliberately not among them: it is a lopsided position kept for
+ * trying things out, not one to hand somebody as a game. The picker reads this
+ * list, and so does the server that has to decide whether an invite named a real
+ * opening, which is why it is here rather than beside either of them.
+ */
+export const PLAYABLE_SETUPS = [
+  "standard",
+  "belgian_daisy",
+  "german_daisy",
+  "dutch_daisy",
+  "swiss_daisy",
+  "alien",
+  "domination",
+  "infiltration",
+  "the_wall",
+] as const satisfies readonly SetupKey[]
+
+export type PlayableSetup = (typeof PLAYABLE_SETUPS)[number]
+
+/** Whether a key names an opening a game may actually be started on. */
+export function isPlayableSetup(key: string): key is PlayableSetup {
+  return (PLAYABLE_SETUPS as readonly string[]).includes(key)
+}
