@@ -15,6 +15,13 @@
       "when": 1786727338789,
       "tag": "0001_auth_and_profiles",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1786752948620,
+      "tag": "0002_online_games",
+      "breakpoints": true
     }
   ]
 }

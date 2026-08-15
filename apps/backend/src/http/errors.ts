@@ -28,6 +28,33 @@ export const ERROR_CODES = {
     "That file type is not supported. Use a PNG, JPEG, or WebP image.",
     415,
   ],
+
+  //---- online play ----------------
+  //there is deliberately no `forbidden` here. a game or an invite you are not
+  //party to answers `not_found`, the same as one that never existed — a 403
+  //would confirm the row is real to somebody with no business knowing it.
+  player_not_found: [
+    "No player with that username. Check the spelling and try again.",
+    404,
+  ],
+  invite_self: ["You cannot invite yourself. Pick another player.", 400],
+  invite_exists: [
+    "You already have an invite out to that player. Cancel it to send a new one.",
+    409,
+  ],
+  game_not_active: ["That game has already finished.", 409],
+  not_your_turn: [
+    "It is not your turn yet. Wait for your opponent to move.",
+    409,
+  ],
+  illegal_move: [
+    "That move is not legal. The board has been put back.",
+    400,
+  ],
+  move_conflict: [
+    "The game moved on while you were playing. The board has been refreshed.",
+    409,
+  ],
 } as const satisfies Record<string, ErrorCodeEntry>
 
 export type ErrorCode = keyof typeof ERROR_CODES
