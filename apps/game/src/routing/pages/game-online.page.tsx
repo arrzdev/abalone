@@ -39,7 +39,7 @@ function GameOnlinePage() {
       <SubpageHeader title={t("common:online.title")} />
 
       <ScrollView className="px-safe" directionalLockEnabled>
-        <div className="mx-auto flex w-full max-w-md flex-col items-center px-4 py-10 text-center">
+        <div className="mx-auto flex w-full max-w-md flex-col items-center px-4 pt-10 pb-safe-offset-10 text-center">
           <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-4 text-white/60">
             <WifiIcon size={30} />
           </span>

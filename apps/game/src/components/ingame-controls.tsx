@@ -135,7 +135,7 @@ export function IngameControls({
       ref={panelRef}
       className={cn(
         "flex min-h-0 flex-1 flex-col gap-2 px-4 pt-2",
-        compact ? "pb-2" : "pb-4",
+        compact ? "pb-safe-offset-2" : "pb-safe-offset-4",
       )}
     >
       {/* Nothing here says you are reviewing an earlier position. That notice
