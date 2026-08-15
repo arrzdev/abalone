@@ -30,6 +30,7 @@ import { useShowCoordinates } from "@/hooks/use-app-preferences"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { useOnlineGame } from "@/hooks/use-online-game"
 import { needsSignIn } from "@/routing/auth-guard"
+import { SignedInOnly } from "@/routing/signed-in-only"
 
 export const Route = createFileRoute("/_subpage/game/online/$gameId")({
   beforeLoad: ({ params }) => {
@@ -40,8 +41,17 @@ export const Route = createFileRoute("/_subpage/game/online/$gameId")({
       replace: true,
     })
   },
-  component: GameOnlineBoardPage,
+  component: GuardedGameOnlineBoardPage,
 })
+
+function GuardedGameOnlineBoardPage() {
+  const { gameId } = Route.useParams()
+  return (
+    <SignedInOnly returnTo={`/game/online/${gameId}`}>
+      <GameOnlineBoardPage />
+    </SignedInOnly>
+  )
+}
 
 function GameOnlineBoardPage() {
   const { t } = useTranslation()

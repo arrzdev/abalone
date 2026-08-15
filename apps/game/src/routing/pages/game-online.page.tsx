@@ -20,6 +20,7 @@ import {
 import { useOnlineHome } from "@/hooks/use-online-home"
 import { useAuth } from "@/providers/auth-provider"
 import { needsSignIn } from "@/routing/auth-guard"
+import { SignedInOnly } from "@/routing/signed-in-only"
 
 /** The one route a guest cannot open. */
 export const Route = createFileRoute("/_subpage/game/online/")({
@@ -31,8 +32,16 @@ export const Route = createFileRoute("/_subpage/game/online/")({
       replace: true,
     })
   },
-  component: GameOnlinePage,
+  component: GuardedGameOnlinePage,
 })
+
+function GuardedGameOnlinePage() {
+  return (
+    <SignedInOnly returnTo="/game/online">
+      <GameOnlinePage />
+    </SignedInOnly>
+  )
+}
 
 function GameOnlinePage() {
   const { t } = useTranslation()
