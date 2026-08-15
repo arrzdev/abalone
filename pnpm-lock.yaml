@@ -99,7 +99,7 @@ importers:
     dependencies:
       '@cloudflare/vite-plugin':
         specifier: 1.30.2
-        version: 1.30.2(vite@8.0.11(@types/node@22.19.17)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.19.3)(yaml@2.8.3))(workerd@1.20260601.1)(wrangler@4.78.0(@cloudflare/workers-types@4.20260317.1))
+        version: 1.30.2(vite@8.0.11(@types/node@22.19.17)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.19.3)(yaml@2.8.3))(workerd@1.20260317.1)(wrangler@4.78.0(@cloudflare/workers-types@4.20260317.1))
       '@repo/abalone-engine':
         specifier: workspace:*
         version: link:../../packages/abalone-engine
@@ -124,6 +124,9 @@ importers:
       '@tanstack/react-query':
         specifier: 5.101.4
         version: 5.101.4(react@19.2.3)
+      '@tanstack/react-query-persist-client':
+        specifier: 5.101.4
+        version: 5.101.4(@tanstack/react-query@5.101.4(react@19.2.3))(react@19.2.3)
       '@tanstack/react-router':
         specifier: 1.168.8
         version: 1.168.8(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -139,6 +142,9 @@ importers:
       i18next:
         specifier: 23.16.8
         version: 23.16.8
+      idb-keyval:
+        specifier: 6.2.2
+        version: 6.2.2
       lucide-react:
         specifier: 1.31.0
         version: 1.31.0(react@19.2.3)
@@ -2351,6 +2357,15 @@ packages:
   '@tanstack/query-core@5.101.4':
     resolution: {integrity: sha512-gNwcvOJcRbLWPOLG/2OBm+zM+Yv+MKsXKEOWC57USuZDEsI71hEErQsiEGx5wX9rzWWkfwM0fVSPoiIFSsxfiw==}
 
+  '@tanstack/query-persist-client-core@5.101.4':
+    resolution: {integrity: sha512-Bmu+RfWhwYEyYZEwSeKC0gX4+KTkiEB3yO8oz9BfAY/Jfe3ndz9EnYVhihIZPmWIr8NXayF7JuraNQcrXQQCCg==}
+
+  '@tanstack/react-query-persist-client@5.101.4':
+    resolution: {integrity: sha512-CY5i7PPKS/5B8OR2zAs9nCbLpgqI4jN8eBhtAxKRMNHyGcQhmyOy4PkkJrAAXT+ecGj++fBJTgQw6OpyCt/2SQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.101.4
+      react: ^18 || ^19
+
   '@tanstack/react-query@5.101.4':
     resolution: {integrity: sha512-yRg2pfOCxIs4ZJW3XYYHU/WgtD04FHSnfHlpRT7h7pR77hwkdRG4wxbKe4aq6P0RvXUTBSQpQeadS1SUYUe+KA==}
     peerDependencies:
@@ -3330,6 +3345,9 @@ packages:
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
+
+  idb-keyval@6.2.2:
+    resolution: {integrity: sha512-yjD9nARJ/jb1g+CvD0tlhUHOrJ9Sy0P8T9MF3YaLlHnSRpwPfpTX0XIvpmw3gAJUmEu3FiICLBDPXVwyEvrleg==}
 
   idb@7.1.1:
     resolution: {integrity: sha512-gchesWBzyvGHRO9W8tzUWFDycow5gwjvFKfyV9FF32Y7F50yZMp7mP+T2mJIWFx49zicqyC4uefHM17o6xKIVQ==}
@@ -5282,21 +5300,15 @@ snapshots:
     optionalDependencies:
       workerd: 1.20260317.1
 
-  '@cloudflare/unenv-preset@2.16.0(unenv@2.0.0-rc.24)(workerd@1.20260601.1)':
-    dependencies:
-      unenv: 2.0.0-rc.24
-    optionalDependencies:
-      workerd: 1.20260601.1
-
   '@cloudflare/unenv-preset@2.16.1(unenv@2.0.0-rc.24)(workerd@1.20260601.1)':
     dependencies:
       unenv: 2.0.0-rc.24
     optionalDependencies:
       workerd: 1.20260601.1
 
-  '@cloudflare/vite-plugin@1.30.2(vite@8.0.11(@types/node@22.19.17)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.19.3)(yaml@2.8.3))(workerd@1.20260601.1)(wrangler@4.78.0(@cloudflare/workers-types@4.20260317.1))':
+  '@cloudflare/vite-plugin@1.30.2(vite@8.0.11(@types/node@22.19.17)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.19.3)(yaml@2.8.3))(workerd@1.20260317.1)(wrangler@4.78.0(@cloudflare/workers-types@4.20260317.1))':
     dependencies:
-      '@cloudflare/unenv-preset': 2.16.0(unenv@2.0.0-rc.24)(workerd@1.20260601.1)
+      '@cloudflare/unenv-preset': 2.16.0(unenv@2.0.0-rc.24)(workerd@1.20260317.1)
       miniflare: 4.20260317.3
       unenv: 2.0.0-rc.24
       vite: 8.0.11(@types/node@22.19.17)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.19.3)(yaml@2.8.3)
@@ -6130,6 +6142,16 @@ snapshots:
       yaml: 2.8.3
 
   '@tanstack/query-core@5.101.4': {}
+
+  '@tanstack/query-persist-client-core@5.101.4':
+    dependencies:
+      '@tanstack/query-core': 5.101.4
+
+  '@tanstack/react-query-persist-client@5.101.4(@tanstack/react-query@5.101.4(react@19.2.3))(react@19.2.3)':
+    dependencies:
+      '@tanstack/query-persist-client-core': 5.101.4
+      '@tanstack/react-query': 5.101.4(react@19.2.3)
+      react: 19.2.3
 
   '@tanstack/react-query@5.101.4(react@19.2.3)':
     dependencies:
@@ -7363,6 +7385,8 @@ snapshots:
   iconv-lite@0.6.3:
     dependencies:
       safer-buffer: 2.1.2
+
+  idb-keyval@6.2.2: {}
 
   idb@7.1.1: {}
 

@@ -16,7 +16,6 @@ import {
   signUp,
   USERNAME_PATTERN,
 } from "@/data/auth/mutations"
-import { profileQueryKey } from "@/data/profile/queries"
 
 type AuthMode = "sign_in" | "sign_up"
 
@@ -63,9 +62,11 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     mutationFn: (credentials: Credentials) =>
       isSignUp ? signUp(credentials) : signIn(credentials),
     onSuccess: () => {
-      //the last player's profile must not be handed to this one — dropping it
-      //rather than invalidating means there is nothing stale to paint from
-      queryClient.removeQueries({ queryKey: profileQueryKey })
+      //nothing the last player left behind may be handed to this one — not the
+      //profile, not their games, not their invites. clearing rather than
+      //invalidating means there is no stale answer to paint from in the
+      //meantime, and it covers whatever gets cached next without being edited
+      queryClient.clear()
       onAuthenticated?.()
     },
     onError: (error) => {
