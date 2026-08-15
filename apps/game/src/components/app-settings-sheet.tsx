@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { LanguageSelect } from "@/components/language-switcher"
+import { LanguageSelect } from "@/components/language-select"
 import type { SelectOption } from "@/components/ui/select"
 import { Select } from "@/components/ui/select"
 import { Sheet } from "@/components/ui/sheet"

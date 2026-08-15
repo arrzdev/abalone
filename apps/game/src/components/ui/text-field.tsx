@@ -22,7 +22,9 @@ export type TextFieldProps = Omit<
 
 /**
  * A labelled single-line field. Tier 2 over nativ's `Input`: the label, the
- * brand surface, the reserved error line — and, on a password, the eye.
+ * brand surface, the red ring when this is the field at fault, and, on a
+ * password, the eye. The message that goes with that ring belongs to the form,
+ * not here.
  *
  * The reveal is the field's own rather than a prop, because a masked field
  * always wants it: this app has no password manager to fall back on and no
