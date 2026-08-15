@@ -1,0 +1,63 @@
+{
+  "title": "Online",
+  "subtitle": "Joga ao teu ritmo. Os jogos esperam por ti, por isso uma jogada por dia dá um jogo perfeitamente bom.",
+  "games": {
+    "heading": "Os teus jogos",
+    "empty": "Ainda não há jogos. Convida alguém.",
+    "your_turn": "É a tua vez",
+    "their_turn": "É a vez do adversário"
+  },
+  "invites": {
+    "received": "Convites para ti",
+    "received_empty": "Ainda ninguém te convidou.",
+    "sent": "Convites que enviaste",
+    "sent_empty": "Ainda não convidaste ninguém.",
+    "terms": "{{setup}}, jogas com as {{side}}",
+    "declined": "Recusado",
+    "accept": "Aceitar",
+    "decline": "Recusar",
+    "cancel": "Cancelar",
+    "dismiss": "Dispensar"
+  },
+  "history": {
+    "heading": "Jogos terminados",
+    "empty": "Ainda não há nada aqui. Os teus jogos terminados aparecem aqui."
+  },
+  "sides": {
+    "black": "pretas",
+    "white": "brancas",
+    "random": "qualquer lado"
+  },
+  "results": {
+    "won": "Ganhaste por {{reason}}",
+    "lost": "Perdeste por {{reason}}",
+    "draw": "Empate por {{reason}}"
+  },
+  "reasons": {
+    "score": "pontuação",
+    "resignation": "desistência",
+    "threefold_repetition": "repetição"
+  },
+  "compose": {
+    "title": "Novo convite",
+    "body": "Convida alguém pelo nome. Recebe-o assim que abrir a app.",
+    "username": "O nome dele",
+    "username_placeholder": "Contra quem vais jogar?",
+    "setup": "Abertura",
+    "side": "O teu lado",
+    "send": "Enviar convite",
+    "sending": "A enviar"
+  },
+  "board": {
+    "against": "contra {{name}}",
+    "loading": "A carregar o jogo",
+    "your_move": "É a tua vez",
+    "waiting": "À espera do adversário",
+    "finished": "Este jogo terminou",
+    "result_win": "Ganhaste",
+    "result_loss": "Perdeste",
+    "result_draw": "Empate",
+    "review": "Rever jogo",
+    "back_to_games": "Voltar aos jogos"
+  }
+}

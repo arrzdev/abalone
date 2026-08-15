@@ -20,7 +20,10 @@ export const routes = rootRoute([
     route("/game", [
       index("pages/game-redirect.page.tsx"),
       route("/offline", "pages/game-offline.page.tsx"),
-      route("/online", "pages/game-online.page.tsx"),
+      route("/online", [
+        index("pages/game-online.page.tsx"),
+        route("/$gameId", "pages/game-online-board.page.tsx"),
+      ]),
     ]),
   ]),
 ])

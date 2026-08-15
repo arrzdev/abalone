@@ -1,0 +1,63 @@
+{
+  "title": "在线",
+  "subtitle": "按你的节奏下。棋局会等你，一天走一步也是一局好棋。",
+  "games": {
+    "heading": "进行中的对局",
+    "empty": "还没有对局。邀请一个人开始吧。",
+    "your_turn": "轮到你",
+    "their_turn": "轮到对手"
+  },
+  "invites": {
+    "received": "收到的邀请",
+    "received_empty": "还没有人邀请你。",
+    "sent": "发出的邀请",
+    "sent_empty": "你还没有邀请过任何人。",
+    "terms": "{{setup}}，你执{{side}}",
+    "declined": "已拒绝",
+    "accept": "接受",
+    "decline": "拒绝",
+    "cancel": "取消",
+    "dismiss": "清除"
+  },
+  "history": {
+    "heading": "已结束的对局",
+    "empty": "这里还是空的。结束的对局会出现在这里。"
+  },
+  "sides": {
+    "black": "黑",
+    "white": "白",
+    "random": "随机一方"
+  },
+  "results": {
+    "won": "你以{{reason}}获胜",
+    "lost": "你因{{reason}}落败",
+    "draw": "以{{reason}}和棋"
+  },
+  "reasons": {
+    "score": "得分",
+    "resignation": "认输",
+    "threefold_repetition": "重复局面"
+  },
+  "compose": {
+    "title": "新邀请",
+    "body": "输入对方的名字来邀请。对方下次打开应用就会看到。",
+    "username": "对方的名字",
+    "username_placeholder": "和谁下？",
+    "setup": "开局",
+    "side": "你执哪方",
+    "send": "发送邀请",
+    "sending": "发送中"
+  },
+  "board": {
+    "against": "对阵 {{name}}",
+    "loading": "正在加载棋局",
+    "your_move": "轮到你了",
+    "waiting": "等待对手落子",
+    "finished": "这局棋已经结束",
+    "result_win": "你赢了",
+    "result_loss": "你输了",
+    "result_draw": "和棋",
+    "review": "复盘",
+    "back_to_games": "返回对局列表"
+  }
+}

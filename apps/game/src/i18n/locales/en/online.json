@@ -1,0 +1,63 @@
+{
+  "title": "Online",
+  "subtitle": "Play at your own pace. Games wait for you, so a move a day is a perfectly good game.",
+  "games": {
+    "heading": "Your games",
+    "empty": "No games yet. Invite someone to start one.",
+    "your_turn": "Your turn",
+    "their_turn": "Their turn"
+  },
+  "invites": {
+    "received": "Invites for you",
+    "received_empty": "Nobody has invited you yet.",
+    "sent": "Invites you sent",
+    "sent_empty": "You haven't invited anyone yet.",
+    "terms": "{{setup}}, you play {{side}}",
+    "declined": "Turned down",
+    "accept": "Accept",
+    "decline": "Decline",
+    "cancel": "Cancel",
+    "dismiss": "Dismiss"
+  },
+  "history": {
+    "heading": "Finished games",
+    "empty": "Nothing here yet. Your finished games land here."
+  },
+  "sides": {
+    "black": "black",
+    "white": "white",
+    "random": "either side"
+  },
+  "results": {
+    "won": "You won by {{reason}}",
+    "lost": "You lost by {{reason}}",
+    "draw": "Drawn by {{reason}}"
+  },
+  "reasons": {
+    "score": "score",
+    "resignation": "resignation",
+    "threefold_repetition": "repetition"
+  },
+  "compose": {
+    "title": "New invite",
+    "body": "Invite someone by their name. They pick it up whenever they next open the app.",
+    "username": "Their name",
+    "username_placeholder": "Who are you playing?",
+    "setup": "Opening",
+    "side": "Your side",
+    "send": "Send invite",
+    "sending": "Sending"
+  },
+  "board": {
+    "against": "vs {{name}}",
+    "loading": "Loading the game",
+    "your_move": "Your move",
+    "waiting": "Waiting on your opponent",
+    "finished": "This game is over",
+    "result_win": "You won",
+    "result_loss": "You lost",
+    "result_draw": "Draw",
+    "review": "Review game",
+    "back_to_games": "Back to games"
+  }
+}

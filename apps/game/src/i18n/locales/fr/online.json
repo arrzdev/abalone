@@ -1,0 +1,63 @@
+{
+  "title": "En ligne",
+  "subtitle": "Joue à ton rythme. Les parties t'attendent, un coup par jour fait très bien l'affaire.",
+  "games": {
+    "heading": "Tes parties",
+    "empty": "Aucune partie pour l'instant. Invite quelqu'un.",
+    "your_turn": "À toi de jouer",
+    "their_turn": "À ton adversaire"
+  },
+  "invites": {
+    "received": "Invitations reçues",
+    "received_empty": "Personne ne t'a encore invité.",
+    "sent": "Invitations envoyées",
+    "sent_empty": "Tu n'as encore invité personne.",
+    "terms": "{{setup}}, tu joues {{side}}",
+    "declined": "Refusée",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "cancel": "Annuler",
+    "dismiss": "Masquer"
+  },
+  "history": {
+    "heading": "Parties terminées",
+    "empty": "Rien ici pour l'instant. Tes parties terminées arrivent ici."
+  },
+  "sides": {
+    "black": "noir",
+    "white": "blanc",
+    "random": "l'un ou l'autre"
+  },
+  "results": {
+    "won": "Gagnée par {{reason}}",
+    "lost": "Perdue par {{reason}}",
+    "draw": "Nulle par {{reason}}"
+  },
+  "reasons": {
+    "score": "score",
+    "resignation": "abandon",
+    "threefold_repetition": "répétition"
+  },
+  "compose": {
+    "title": "Nouvelle invitation",
+    "body": "Invite quelqu'un par son nom. Il la verra à sa prochaine ouverture de l'app.",
+    "username": "Son nom",
+    "username_placeholder": "Contre qui joues-tu ?",
+    "setup": "Ouverture",
+    "side": "Ton camp",
+    "send": "Envoyer l'invitation",
+    "sending": "Envoi en cours"
+  },
+  "board": {
+    "against": "contre {{name}}",
+    "loading": "Chargement de la partie",
+    "your_move": "À toi de jouer",
+    "waiting": "En attente de ton adversaire",
+    "finished": "Cette partie est terminée",
+    "result_win": "Tu as gagné",
+    "result_loss": "Tu as perdu",
+    "result_draw": "Nulle",
+    "review": "Revoir la partie",
+    "back_to_games": "Retour aux parties"
+  }
+}

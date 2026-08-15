@@ -67,11 +67,6 @@
     "picture_hint": "支持 PNG、JPEG 或 WebP。图片会裁剪为正方形。",
     "upload_failed": "头像未能上传。请重试。"
   },
-  "online": {
-    "title": "在线",
-    "body": "在线对战尚未开放。这个页面已经准备好，等对战上线就能直接进入。",
-    "signed_in_as": "已登录为 {{username}}"
-  },
   "actions": {
     "close": "关闭",
     "cancel": "取消"

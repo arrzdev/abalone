@@ -67,11 +67,6 @@
     "picture_hint": "PNG, JPEG of WebP. De afbeelding wordt vierkant bijgesneden.",
     "upload_failed": "Die foto is niet geüpload. Probeer het opnieuw."
   },
-  "online": {
-    "title": "Online",
-    "body": "Online partijen draaien nog niet. Dit scherm staat klaar zodat de ingang er is zodra ze er zijn.",
-    "signed_in_as": "Ingelogd als {{username}}"
-  },
   "actions": {
     "close": "Sluiten",
     "cancel": "Annuleren"

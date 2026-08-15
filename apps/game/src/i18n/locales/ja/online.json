@@ -1,0 +1,63 @@
+{
+  "title": "オンライン",
+  "subtitle": "自分のペースで指せます。対局は待ってくれるので、一日一手でも立派な一局です。",
+  "games": {
+    "heading": "対局中",
+    "empty": "まだ対局がありません。誰かを誘ってみましょう。",
+    "your_turn": "あなたの番",
+    "their_turn": "相手の番"
+  },
+  "invites": {
+    "received": "届いた招待",
+    "received_empty": "まだ誰からも招待されていません。",
+    "sent": "送った招待",
+    "sent_empty": "まだ誰も招待していません。",
+    "terms": "{{setup}}、あなたは{{side}}",
+    "declined": "断られました",
+    "accept": "受ける",
+    "decline": "断る",
+    "cancel": "取り消す",
+    "dismiss": "消す"
+  },
+  "history": {
+    "heading": "終わった対局",
+    "empty": "まだ何もありません。終わった対局はここに並びます。"
+  },
+  "sides": {
+    "black": "黒",
+    "white": "白",
+    "random": "どちらか"
+  },
+  "results": {
+    "won": "{{reason}}で勝ち",
+    "lost": "{{reason}}で負け",
+    "draw": "{{reason}}で引き分け"
+  },
+  "reasons": {
+    "score": "点数",
+    "resignation": "投了",
+    "threefold_repetition": "千日手"
+  },
+  "compose": {
+    "title": "新しい招待",
+    "body": "名前で相手を誘えます。相手が次にアプリを開いたときに届きます。",
+    "username": "相手の名前",
+    "username_placeholder": "誰と指しますか？",
+    "setup": "初期配置",
+    "side": "あなたの手番",
+    "send": "招待を送る",
+    "sending": "送信中"
+  },
+  "board": {
+    "against": "対 {{name}}",
+    "loading": "対局を読み込んでいます",
+    "your_move": "あなたの番です",
+    "waiting": "相手の手を待っています",
+    "finished": "この対局は終了しました",
+    "result_win": "勝ち",
+    "result_loss": "負け",
+    "result_draw": "引き分け",
+    "review": "対局を見る",
+    "back_to_games": "対局一覧へ"
+  }
+}

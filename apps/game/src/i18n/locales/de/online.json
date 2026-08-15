@@ -1,0 +1,63 @@
+{
+  "title": "Online",
+  "subtitle": "Spiel in deinem Tempo. Partien warten auf dich, ein Zug pro Tag ist völlig in Ordnung.",
+  "games": {
+    "heading": "Deine Partien",
+    "empty": "Noch keine Partien. Lade jemanden ein.",
+    "your_turn": "Du bist am Zug",
+    "their_turn": "Gegner ist am Zug"
+  },
+  "invites": {
+    "received": "Einladungen für dich",
+    "received_empty": "Dich hat noch niemand eingeladen.",
+    "sent": "Deine Einladungen",
+    "sent_empty": "Du hast noch niemanden eingeladen.",
+    "terms": "{{setup}}, du spielst {{side}}",
+    "declined": "Abgelehnt",
+    "accept": "Annehmen",
+    "decline": "Ablehnen",
+    "cancel": "Zurückziehen",
+    "dismiss": "Ausblenden"
+  },
+  "history": {
+    "heading": "Beendete Partien",
+    "empty": "Noch nichts hier. Beendete Partien landen hier."
+  },
+  "sides": {
+    "black": "Schwarz",
+    "white": "Weiß",
+    "random": "eine der Seiten"
+  },
+  "results": {
+    "won": "Gewonnen durch {{reason}}",
+    "lost": "Verloren durch {{reason}}",
+    "draw": "Unentschieden durch {{reason}}"
+  },
+  "reasons": {
+    "score": "Punkte",
+    "resignation": "Aufgabe",
+    "threefold_repetition": "Stellungswiederholung"
+  },
+  "compose": {
+    "title": "Neue Einladung",
+    "body": "Lade jemanden mit seinem Namen ein. Er sieht sie, sobald er die App das nächste Mal öffnet.",
+    "username": "Sein Name",
+    "username_placeholder": "Gegen wen spielst du?",
+    "setup": "Aufstellung",
+    "side": "Deine Seite",
+    "send": "Einladung senden",
+    "sending": "Wird gesendet"
+  },
+  "board": {
+    "against": "gegen {{name}}",
+    "loading": "Partie wird geladen",
+    "your_move": "Du bist am Zug",
+    "waiting": "Warten auf den Gegner",
+    "finished": "Diese Partie ist beendet",
+    "result_win": "Gewonnen",
+    "result_loss": "Verloren",
+    "result_draw": "Unentschieden",
+    "review": "Partie ansehen",
+    "back_to_games": "Zurück zu den Partien"
+  }
+}

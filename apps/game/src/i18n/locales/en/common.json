@@ -67,11 +67,6 @@
     "picture_hint": "PNG, JPEG or WebP. It is cropped to a square.",
     "upload_failed": "That picture didn't upload. Try again."
   },
-  "online": {
-    "title": "Online",
-    "body": "Online games are not running yet. This screen is here so the way in is ready when they are.",
-    "signed_in_as": "Signed in as {{username}}"
-  },
   "actions": {
     "close": "Close",
     "cancel": "Cancel"
