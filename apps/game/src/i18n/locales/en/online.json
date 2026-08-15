@@ -5,7 +5,8 @@
     "heading": "Your games",
     "empty": "No games yet. Invite someone to start one.",
     "your_turn": "Your turn",
-    "their_turn": "Their turn"
+    "their_turn": "Their turn",
+    "new_invite": "New invite"
   },
   "invites": {
     "received": "Invites for you",
@@ -17,11 +18,25 @@
     "accept": "Accept",
     "decline": "Decline",
     "cancel": "Cancel",
-    "dismiss": "Dismiss"
+    "dismiss": "Dismiss",
+    "heading": "Invites",
+    "sent_heading": "Sent",
+    "just_sent": "Just sent · waiting for them to accept"
   },
   "history": {
     "heading": "Finished games",
-    "empty": "Nothing here yet. Your finished games land here."
+    "empty": "Nothing here yet. Your finished games land here.",
+    "heading_short": "Finished",
+    "see_all": "See all {{count}}",
+    "title": "Finished games",
+    "played": "Played",
+    "won": "Won",
+    "range": "{{from}}–{{to}} of {{total}}",
+    "period_week": "This week",
+    "period_month": "This month",
+    "period_earlier": "Earlier",
+    "previous_page": "Previous page",
+    "next_page": "Next page"
   },
   "sides": {
     "black": "black",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "New invite",
-    "body": "Invite someone by their name. They pick it up whenever they next open the app.",
-    "username": "Their name",
-    "username_placeholder": "Who are you playing?",
+    "body": "They pick it up whenever they next open the app. Neither of you has to be here at the same time.",
+    "username": "Who are you playing?",
+    "username_placeholder": "Their name",
     "setup": "Opening",
     "side": "Your side",
     "send": "Send invite",
@@ -58,6 +73,16 @@
     "result_loss": "You lost",
     "result_draw": "Draw",
     "review": "Review game",
-    "back_to_games": "Back to games"
+    "back_to_games": "Back to games",
+    "head_to_head": "{{left}}–{{right}} before"
+  },
+  "offline": {
+    "heading": "Play offline",
+    "note": "An offline game lives in the tab you started it in. Close it and it is gone, and nothing about it reaches your account."
+  },
+  "empty": {
+    "title": "Nothing here yet",
+    "body": "Invite somebody by their name and the game appears here. Games wait for you, so a move a day is a perfectly good game.",
+    "play_bot": "Play a bot while you wait"
   }
 }

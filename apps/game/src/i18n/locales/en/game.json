@@ -68,7 +68,9 @@
     "side_white": "Play as white",
     "side_black": "Play as black",
     "side_random": "Random side",
-    "marbles_taken": "{{taken}} of {{total}} opponent marbles pushed off"
+    "marbles_taken": "{{taken}} of {{total}} opponent marbles pushed off",
+    "eval_advantage": "{{color}} ahead by {{score}}",
+    "eval_level": "Level"
   },
   "game_state": {
     "your_turn": "Your turn",
@@ -88,7 +90,9 @@
     "by_resignation": "by resignation",
     "by_repetition": "by threefold repetition",
     "resign_title": "Resign the game?",
-    "resign_body": "The game ends right away and the win goes to your opponent. This cannot be undone."
+    "resign_body": "The game ends right away and the win goes to your opponent. This cannot be undone.",
+    "game_over": "Game over",
+    "moves": "{{count}} moves"
   },
   "rules": {
     "title": "How to play",

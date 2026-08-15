@@ -68,7 +68,9 @@
     "side_white": "백으로 두기",
     "side_black": "흑으로 두기",
     "side_random": "무작위",
-    "marbles_taken": "상대 구슬 {{total}}개 중 {{taken}}개를 밀어냈습니다"
+    "marbles_taken": "상대 구슬 {{total}}개 중 {{taken}}개를 밀어냈습니다",
+    "eval_advantage": "{{color}}이(가) {{score}} 앞서는 중",
+    "eval_level": "대등함"
   },
   "game_state": {
     "your_turn": "내 차례",
@@ -88,7 +90,9 @@
     "by_resignation": "기권으로",
     "by_repetition": "3회 동형 반복으로",
     "resign_title": "기권하시겠습니까?",
-    "resign_body": "대국이 즉시 끝나고 상대가 승리합니다. 되돌릴 수 없습니다."
+    "resign_body": "대국이 즉시 끝나고 상대가 승리합니다. 되돌릴 수 없습니다.",
+    "game_over": "게임 종료",
+    "moves": "{{count}}수"
   },
   "rules": {
     "title": "게임 방법",

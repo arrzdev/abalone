@@ -5,7 +5,8 @@
     "heading": "Oyunların",
     "empty": "Henüz oyun yok. Birini davet et.",
     "your_turn": "Sıra sende",
-    "their_turn": "Sıra rakipte"
+    "their_turn": "Sıra rakipte",
+    "new_invite": "Yeni davet"
   },
   "invites": {
     "received": "Sana gelen davetler",
@@ -17,11 +18,25 @@
     "accept": "Kabul et",
     "decline": "Reddet",
     "cancel": "Geri al",
-    "dismiss": "Kaldır"
+    "dismiss": "Kaldır",
+    "heading": "Davetler",
+    "sent_heading": "Gönderilen",
+    "just_sent": "Az önce gönderildi · yanıt bekleniyor"
   },
   "history": {
     "heading": "Biten oyunlar",
-    "empty": "Burada henüz bir şey yok. Biten oyunlar buraya gelir."
+    "empty": "Burada henüz bir şey yok. Biten oyunlar buraya gelir.",
+    "heading_short": "Biten",
+    "see_all": "Tümünü gör ({{count}})",
+    "title": "Biten oyunlar",
+    "played": "Oynanan",
+    "won": "Kazanılan",
+    "range": "{{total}} içinden {{from}}–{{to}}",
+    "period_week": "Bu hafta",
+    "period_month": "Bu ay",
+    "period_earlier": "Daha önce",
+    "previous_page": "Önceki sayfa",
+    "next_page": "Sonraki sayfa"
   },
   "sides": {
     "black": "siyah",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "Yeni davet",
-    "body": "Birini adıyla davet et. Uygulamayı bir dahaki açışında görecek.",
-    "username": "Adı",
-    "username_placeholder": "Kiminle oynuyorsun?",
+    "body": "Uygulamayı bir dahaki açışında görecek. İkinizin aynı anda burada olması gerekmiyor.",
+    "username": "Kiminle oynuyorsun?",
+    "username_placeholder": "Adı",
     "setup": "Açılış",
     "side": "Senin tarafın",
     "send": "Daveti gönder",
@@ -58,6 +73,16 @@
     "result_loss": "Kaybettin",
     "result_draw": "Berabere",
     "review": "Oyunu incele",
-    "back_to_games": "Oyunlara dön"
+    "back_to_games": "Oyunlara dön",
+    "head_to_head": "önceden {{left}}–{{right}}"
+  },
+  "offline": {
+    "heading": "Çevrimdışı oyna",
+    "note": "Çevrimdışı bir oyun, başlattığın sekmede yaşar. Sekmeyi kapatırsan oyun gider ve hiçbir izi hesabına ulaşmaz."
+  },
+  "empty": {
+    "title": "Burada henüz bir şey yok",
+    "body": "Birini adıyla davet et; oyun burada belirir. Oyunlar seni bekler, günde bir hamle gayet iyi bir oyundur.",
+    "play_bot": "Beklerken bota karşı oyna"
   }
 }

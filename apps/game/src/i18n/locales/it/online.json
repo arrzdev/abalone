@@ -5,7 +5,8 @@
     "heading": "Le tue partite",
     "empty": "Ancora nessuna partita. Invita qualcuno.",
     "your_turn": "Tocca a te",
-    "their_turn": "Tocca all'avversario"
+    "their_turn": "Tocca all'avversario",
+    "new_invite": "Nuovo invito"
   },
   "invites": {
     "received": "Inviti per te",
@@ -17,11 +18,25 @@
     "accept": "Accetta",
     "decline": "Rifiuta",
     "cancel": "Annulla",
-    "dismiss": "Nascondi"
+    "dismiss": "Nascondi",
+    "heading": "Inviti",
+    "sent_heading": "Inviati",
+    "just_sent": "Appena inviato · in attesa di risposta"
   },
   "history": {
     "heading": "Partite concluse",
-    "empty": "Qui non c'è ancora niente. Le partite concluse finiscono qui."
+    "empty": "Qui non c'è ancora niente. Le partite concluse finiscono qui.",
+    "heading_short": "Concluse",
+    "see_all": "Vedi tutte ({{count}})",
+    "title": "Partite concluse",
+    "played": "Giocate",
+    "won": "Vinte",
+    "range": "{{from}}–{{to}} di {{total}}",
+    "period_week": "Questa settimana",
+    "period_month": "Questo mese",
+    "period_earlier": "Prima",
+    "previous_page": "Pagina precedente",
+    "next_page": "Pagina successiva"
   },
   "sides": {
     "black": "nero",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "Nuovo invito",
-    "body": "Invita qualcuno con il suo nome. Lo vedrà alla prossima apertura dell'app.",
-    "username": "Il suo nome",
-    "username_placeholder": "Contro chi giochi?",
+    "body": "Lo vedrà alla prossima apertura dell'app. Non serve che siate qui nello stesso momento.",
+    "username": "Contro chi giochi?",
+    "username_placeholder": "Il suo nome",
     "setup": "Apertura",
     "side": "Il tuo lato",
     "send": "Invia invito",
@@ -58,6 +73,16 @@
     "result_loss": "Hai perso",
     "result_draw": "Patta",
     "review": "Rivedi la partita",
-    "back_to_games": "Torna alle partite"
+    "back_to_games": "Torna alle partite",
+    "head_to_head": "{{left}}–{{right}} finora"
+  },
+  "offline": {
+    "heading": "Gioca offline",
+    "note": "Una partita offline vive nella scheda in cui l'hai iniziata. Chiudila e sparisce, e niente di essa arriva al tuo account."
+  },
+  "empty": {
+    "title": "Qui non c'è ancora nulla",
+    "body": "Invita qualcuno per nome e la partita comparirà qui. Le partite ti aspettano, quindi una mossa al giorno è una partita perfettamente valida.",
+    "play_bot": "Gioca contro un bot mentre aspetti"
   }
 }
