@@ -238,7 +238,15 @@ export const resignGame = (
 
 //---- playing a move -------------------------------------------------
 
-/** What the board draws to show the move that has just been played. */
+/**
+ * What the board draws to show the move that has just been played.
+ *
+ * The only thing that builds a `LastMove`, and it has to stay that way.
+ * `marbles` is where the movers ENDED UP and `fromMarbles` is where they set
+ * off from — a distinction nothing about the two names forces, so a second
+ * builder rolling its own filled both fields with origins and read as a move
+ * by the other side. Anything reconstructing a move goes through here.
+ */
 function describeLastMove(
   marbles: CellName[],
   destination: CellName,
@@ -340,22 +348,19 @@ export function goToMove(state: GameState, moveIndex: number): GameState {
 
   const entry = state.moveHistory[moveIndex]
   const played = entry.moveDetails
-  let lastMove: LastMove | null = null
 
-  if (played?.marbles && played.destination) {
-    const { direction, shovedMarbles = [] } = played
-    lastMove = {
-      marbles: played.marbles,
-      fromMarbles: played.marbles,
-      destination: played.destination,
-      direction,
-      shovedMarbles,
-      shovedTo:
-        direction && shovedMarbles.length
-          ? shiftNames(shovedMarbles, direction)
-          : [],
-    }
-  }
+  //described rather than assembled here. a hand-rolled copy put the squares
+  //the movers LEFT into `marbles`, which is where they arrive, so anything
+  //reading the move's colour off the board looked at a square its owner had
+  //just walked out of and answered with the other side.
+  const lastMove =
+    played?.marbles && played.destination
+      ? describeLastMove(
+          played.marbles,
+          played.destination,
+          played.shovedMarbles ?? [],
+        )
+      : null
 
   return {
     ...state,
