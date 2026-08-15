@@ -7,6 +7,7 @@ import {
 import { useTranslation } from "react-i18next"
 import { AuthForm } from "@/components/auth-form"
 import { SubpageHeader } from "@/components/ui/subpage-header"
+import { hasLiveSession } from "@/data/auth/client"
 import { getBearerToken } from "@/data/auth/token"
 import type { ReturnTo } from "@/routing/return-to"
 import { DEFAULT_RETURN_TO, parseReturnTo } from "@/routing/return-to"
@@ -24,16 +25,18 @@ export type LoginSearch = {
  * is why the screen is built as a split: a desktop has a screenful of room, and
  * a small card marooned in the middle of it is a phone layout nobody resized.
  *
- * It reads the bearer token rather than a cached session for the same reason
- * the online game does: the token is the credential, and a stale cached user
- * would leave someone staring at a login form they no longer need.
+ * A guest is never made to wait: no token means the form, immediately. A token
+ * costs one round trip, because the string in storage is not proof — one the
+ * server no longer honours is dropped and the form renders, rather than
+ * bouncing someone home from the only screen that can sign them back in.
  */
 export const Route = createFileRoute("/_subpage/login")({
   validateSearch: (search: Record<string, unknown>): LoginSearch => ({
     redirect: parseReturnTo(search.redirect),
   }),
-  beforeLoad: ({ search }) => {
+  beforeLoad: async ({ search }) => {
     if (!getBearerToken()) return
+    if (!(await hasLiveSession())) return
     throw redirect({
       to: search.redirect ?? DEFAULT_RETURN_TO,
       replace: true,

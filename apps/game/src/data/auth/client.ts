@@ -1,14 +1,30 @@
+import tryCatch from "@repo/shared/try-catch"
 import { usernameClient } from "better-auth/client/plugins"
 import { createAuthClient } from "better-auth/react"
 import { useMemo } from "react"
-import { getBearerToken, writeToken } from "@/data/auth/token"
+import {
+  discardToken,
+  getBearerToken,
+  writeToken,
+} from "@/data/auth/token"
 import { backendBaseUrl } from "@/data/backend-client"
 
 //---- Auth client --------------------------------------------------
 //better-auth's SDK is the auth data layer: it drives sign-up, sign-in and
 //sign-out against the mounted handler and exposes a reactive session. the token
-//half is wired here once — read it on the way out, stash it on the way back —
-//so nothing downstream handles a header.
+//half is wired here once — read it on the way out, stash it on the way back,
+//drop it when the server stops honouring it — so nothing downstream handles a
+//header and nothing downstream decides what a session is.
+
+function isSessionRead(url: URL | string): boolean {
+  return String(url).includes("/get-session")
+}
+
+function sentBearerToken(headers: Headers): string {
+  const header = headers.get("authorization") ?? ""
+  if (!header.startsWith("Bearer ")) return ""
+  return header.slice("Bearer ".length)
+}
 
 export const authClient = createAuthClient({
   //full path: the handler is mounted at the api's /api/v1/auth basePath
@@ -20,10 +36,32 @@ export const authClient = createAuthClient({
     auth: { type: "Bearer", token: getBearerToken },
     onSuccess: (context) => {
       const token = context.response.headers.get("set-auth-token")
-      if (token) writeToken(token)
+      if (token) return writeToken(token)
+
+      //better-auth answers a dead token with an empty session rather than a 401,
+      //so a session read that comes back with nothing is the only notice this
+      //device gets that its token has expired or been revoked
+      if (!isSessionRead(context.request.url) || context.data) return
+      discardToken(sentBearerToken(context.request.headers))
     },
   },
 })
+
+/**
+ * Whether the token this device holds still buys a session, asked of the server.
+ *
+ * Anything short of a clean "no session" counts as live — an unreachable or
+ * failing server proves nothing about the token, and signing an offline player
+ * out is worse than letting a dead token fail on the next request.
+ */
+export async function hasLiveSession(): Promise<boolean> {
+  const [result, requestError] = await tryCatch(() =>
+    authClient.getSession(),
+  )
+  if (requestError) return true
+  if (result.error) return true
+  return Boolean(result.data)
+}
 
 /** A signed-in player, as the app reads them. */
 export type AuthSessionUser = {
