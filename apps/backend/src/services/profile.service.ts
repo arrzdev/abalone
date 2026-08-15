@@ -3,8 +3,8 @@ import { eq } from "drizzle-orm"
 import { user } from "@/database/auth.schema"
 import type { Db } from "@/database/client"
 import { profiles } from "@/database/schema"
-import { env } from "@/env/registry"
 import { CustomError } from "@/http/errors"
+import { avatarUrl } from "@/utils/avatar-url"
 
 /** A player as the app shows them: a permanent handle and a picture. */
 export type Profile = {
@@ -104,7 +104,7 @@ export class ProfileService {
     return {
       username: row.username,
       displayUsername: row.displayUsername,
-      avatarUrl: this.avatarUrl(row.avatarKey),
+      avatarUrl: avatarUrl(row.avatarKey),
     }
   }
 
@@ -165,11 +165,5 @@ export class ProfileService {
       throw new CustomError("internal_server_error", readError)
     if (!object) throw new CustomError("not_found")
     return object
-  }
-
-  //the frontend never learns where avatars are hosted — it gets a finished url
-  private avatarUrl(avatarKey: string | null): string | null {
-    if (!avatarKey) return null
-    return `${env.AVATAR_PUBLIC_URL}/${avatarKey}`
   }
 }
