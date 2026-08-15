@@ -9,7 +9,9 @@ import { useAuthPrompt } from "@/providers/auth-prompt-provider"
  *
  * Online is the one that needs an account, so signing in is a step on the way
  * there rather than a detour: `requireAuth` asks in whatever shape the screen
- * calls for and lands on `/game/online` either way.
+ * calls for and lands on the invite composer either way. There is no online
+ * lobby to send anyone to any more — home is the lobby, and what "play online"
+ * means is naming an opponent.
  *
  * Offline takes the mode as far as the URL. A caller that already knows which
  * of the two it is offering has no reason to drop the answer at the door and
@@ -27,7 +29,7 @@ export function usePlayActions() {
   )
 
   const playOnline = useCallback(
-    () => requireAuth({ redirect: "/game/online" }),
+    () => requireAuth({ redirect: "/invite" }),
     [requireAuth],
   )
 
