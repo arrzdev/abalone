@@ -49,10 +49,10 @@ export function SegmentedControl<T extends string>({
     <div
       role="tablist"
       aria-label={ariaLabel}
-      className={cn(
-        "relative flex rounded-xl bg-surface-2 p-1",
-        className,
-      )}
+      //sunken rather than raised: a track the same shade as the controls
+      //beside it reads as another one of them, and what makes a switch a switch
+      //is that the thing you picked stands out of a groove
+      className={cn("relative flex rounded-xl bg-well p-1", className)}
     >
       {activeIndex >= 0 && (
         <span

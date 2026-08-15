@@ -55,14 +55,10 @@ export function Sheet({
         onClose={onClose}
         title={hideTitle ? undefined : title}
         ariaLabel={typeof title === "string" ? title : undefined}
+        description={hideTitle ? undefined : description}
         footer={footer}
         className={className}
       >
-        {description && (
-          <p className="mb-5 text-sm leading-relaxed text-muted">
-            {description}
-          </p>
-        )}
         {children}
       </Modal>
     )
@@ -79,14 +75,14 @@ export function Sheet({
         <Drawer.Overlay className="bg-overlay backdrop-blur-sm" />
         <Drawer.Content
           className={cn(
-            "rounded-t-2xl bg-surface-2 text-white ring-1 ring-border",
+            "rounded-t-2xl bg-surface text-white ring-1 ring-border",
             className,
           )}
           //the footer, last in the scroll flow, carries the inset when there is
           //one — otherwise the scroller owes the home indicator its clearance
           scrollClassName={footer ? "pb-2" : "pb-safe-or-5"}
         >
-          <Drawer.Handle className="bg-elevated-3" />
+          <Drawer.Handle className="bg-surface-4" />
 
           <Drawer.Shell className="gap-y-4 px-safe-offset-5 pb-1">
             {/* `sr-only` is absolutely positioned, so it leaves the flex flow
@@ -99,7 +95,7 @@ export function Sheet({
             {!hideTitle && (title || description) && (
               <div className="flex flex-col gap-y-1">
                 {title && (
-                  <Drawer.Title className="text-xl font-bold text-white">
+                  <Drawer.Title className="font-display text-[22px] font-bold tracking-[-0.02em] text-white">
                     {title}
                   </Drawer.Title>
                 )}
