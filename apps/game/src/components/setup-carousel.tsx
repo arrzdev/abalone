@@ -1,4 +1,5 @@
 import type { SetupKey } from "@repo/abalone-engine/board-setups"
+import { PLAYABLE_SETUPS } from "@repo/abalone-engine/board-setups"
 import { useCallback } from "react"
 import { useTranslation } from "react-i18next"
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons"
@@ -6,17 +7,7 @@ import { TapButton } from "@/components/ui/tap-button"
 import { getSetupName } from "@/i18n/game-text"
 
 /** Order shown in the carousel; 'custom' is intentionally excluded. */
-export const SETUP_ORDER: SetupKey[] = [
-  "standard",
-  "belgian_daisy",
-  "german_daisy",
-  "dutch_daisy",
-  "swiss_daisy",
-  "alien",
-  "domination",
-  "infiltration",
-  "the_wall",
-]
+export const SETUP_ORDER: readonly SetupKey[] = PLAYABLE_SETUPS
 
 const NAV_CLASS =
   "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white/60 transition " +
