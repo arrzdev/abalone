@@ -26,14 +26,14 @@ import {
   SubpageHeader,
 } from "@/components/ui/subpage-header"
 import { TapButton } from "@/components/ui/tap-button"
-import { getBearerToken } from "@/data/auth/token"
 import { useShowCoordinates } from "@/hooks/use-app-preferences"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { useOnlineGame } from "@/hooks/use-online-game"
+import { needsSignIn } from "@/routing/auth-guard"
 
 export const Route = createFileRoute("/_subpage/game/online/$gameId")({
   beforeLoad: ({ params }) => {
-    if (getBearerToken()) return
+    if (!needsSignIn()) return
     throw redirect({
       to: "/login",
       search: { redirect: `/game/online/${params.gameId}` },

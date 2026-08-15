@@ -17,22 +17,14 @@ import {
   SUBPAGE_HEADER_BUTTON,
   SubpageHeader,
 } from "@/components/ui/subpage-header"
-import { getBearerToken } from "@/data/auth/token"
 import { useOnlineHome } from "@/hooks/use-online-home"
 import { useAuth } from "@/providers/auth-provider"
+import { needsSignIn } from "@/routing/auth-guard"
 
-/**
- * The one route a guest cannot open.
- *
- * The guard reads the bearer token rather than a cached session, because the
- * token is the credential: no token is a guest with certainty, and a stale
- * cached user would let someone through on a session the server has since
- * dropped. A token that turns out to be dead fails on the first request
- * instead, which is where a dead token should be found out.
- */
+/** The one route a guest cannot open. */
 export const Route = createFileRoute("/_subpage/game/online/")({
   beforeLoad: () => {
-    if (getBearerToken()) return
+    if (!needsSignIn()) return
     throw redirect({
       to: "/login",
       search: { redirect: "/game/online" },
