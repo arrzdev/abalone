@@ -6,6 +6,9 @@
       "path": "../backend/tsconfig.json"
     },
     {
+      "path": "../../packages/abalone-engine/tsconfig.build.json"
+    },
+    {
       "path": "../../packages/dev/tsconfig.build.json"
     },
     {

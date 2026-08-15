@@ -1,28 +1,28 @@
-import { scorePosition } from "@/ai/evaluate"
-import { profileFor } from "@/ai/profiles"
-import type { BotMove } from "@/ai/protocol"
-import type { MoveCommit } from "@/engine/moves"
+import type { MoveCommit } from "@repo/abalone-engine/moves"
 import {
   commitMove,
   destinationsFor,
   linesFor,
   resolveMove,
-} from "@/engine/moves"
+} from "@repo/abalone-engine/moves"
 import {
   BLACK,
   createPosition,
   rival,
   sideFromName,
   signature,
-} from "@/engine/position"
-import { cellNamed, NOWHERE, nameOf } from "@/engine/topology"
+} from "@repo/abalone-engine/position"
+import { cellNamed, NOWHERE, nameOf } from "@repo/abalone-engine/topology"
 import type {
   CellId,
   CellName,
   Position,
   SearchBoard,
   Side,
-} from "@/engine/types"
+} from "@repo/abalone-engine/types"
+import { scorePosition } from "@/ai/evaluate"
+import { profileFor } from "@/ai/profiles"
+import type { BotMove } from "@/ai/protocol"
 
 /**
  * Alpha-beta search over Abalone positions.

@@ -1,4 +1,9 @@
-import type { AxialStep, CellId, CellName, Heading } from "@/engine/types"
+import type {
+  AxialStep,
+  CellId,
+  CellName,
+  Heading,
+} from "#abalone-engine/types"
 
 /**
  * The board's fixed geometry, resolved once into lookup tables.

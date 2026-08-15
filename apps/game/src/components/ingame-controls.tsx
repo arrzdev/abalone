@@ -1,3 +1,4 @@
+import type { GameState } from "@repo/abalone-engine/game-state"
 import { cn } from "@repo/nativ/utils"
 import type { ReactNode } from "react"
 import { useRef } from "react"
@@ -13,7 +14,6 @@ import {
 import { MoveHistory, MoveStrip } from "@/components/move-history"
 import { Button } from "@/components/ui/button"
 import { TapButton } from "@/components/ui/tap-button"
-import type { GameState } from "@/engine/game-state"
 import {
   LIST_BELOW,
   useCompactPanel,

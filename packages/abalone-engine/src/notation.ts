@@ -5,8 +5,8 @@ import {
   cellRow,
   NOWHERE,
   separation,
-} from "@/engine/topology"
-import type { CellName } from "@/engine/types"
+} from "#abalone-engine/topology"
+import type { CellName } from "#abalone-engine/types"
 
 /**
  * Abalone's algebraic notation.

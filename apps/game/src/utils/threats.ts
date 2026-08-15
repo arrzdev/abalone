@@ -3,10 +3,14 @@ import {
   destinationsFor,
   linesFor,
   resolveMove,
-} from "@/engine/moves"
-import { positionFromNames, rival, sideFromName } from "@/engine/position"
-import { NOWHERE, nameOf } from "@/engine/topology"
-import type { Board, CellName, Player } from "@/engine/types"
+} from "@repo/abalone-engine/moves"
+import {
+  positionFromNames,
+  rival,
+  sideFromName,
+} from "@repo/abalone-engine/position"
+import { NOWHERE, nameOf } from "@repo/abalone-engine/topology"
+import type { Board, CellName, Player } from "@repo/abalone-engine/types"
 
 /**
  * Which of a side's marbles the other side could knock off the board right now.
