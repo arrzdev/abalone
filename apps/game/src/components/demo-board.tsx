@@ -4,13 +4,16 @@ import { GameCanvas } from "@/components/game-canvas"
 import { DEMO_GAME } from "@/engine/demo-game"
 import type { GameState } from "@/engine/game-state"
 import { createGameState, makeMove } from "@/engine/game-state"
-import { useMarbleDesign } from "@/hooks/use-marble-design"
+import type { MarbleDesign } from "@/render/marble-renderer"
 
 /** Between the marbles landing and the next line setting off. */
 const MOVE_GAP_MS = 900
 
 /** After the last move, before the board goes back to the opening position. */
 const REPLAY_GAP_MS = 2600
+
+/** The marbles this board is shown with, whatever the player has set. */
+const SHOWCASE_DESIGN: MarbleDesign = "3d"
 
 const newDemoState = () => createGameState("standard", "black", "local")
 
@@ -30,7 +33,6 @@ const newDemoState = () => createGameState("standard", "black", "local")
 export function DemoBoard() {
   const wrapperRef = useRef<HTMLDivElement>(null)
   const boardRef = useRef<GameCanvasHandle>(null)
-  const [marbleDesign] = useMarbleDesign()
   const [state, setState] = useState<GameState>(newDemoState)
   const [isOnScreen, setIsOnScreen] = useState(false)
 
@@ -118,7 +120,7 @@ export function DemoBoard() {
         ref={boardRef}
         state={state}
         possibleMoves={[]}
-        marbleDesign={marbleDesign}
+        marbleDesign={SHOWCASE_DESIGN}
         interactive={false}
       />
     </div>
