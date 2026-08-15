@@ -67,11 +67,6 @@
     "picture_hint": "PNG, JPEG ou WebP. L'image est recadrée en carré.",
     "upload_failed": "Cette photo n'a pas été envoyée. Réessaie."
   },
-  "online": {
-    "title": "En ligne",
-    "body": "Les parties en ligne ne tournent pas encore. Cet écran est là pour que l'entrée soit prête quand elles arriveront.",
-    "signed_in_as": "Connecté en tant que {{username}}"
-  },
   "actions": {
     "close": "Fermer",
     "cancel": "Annuler"

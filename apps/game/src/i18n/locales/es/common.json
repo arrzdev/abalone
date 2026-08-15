@@ -67,11 +67,6 @@
     "picture_hint": "PNG, JPEG o WebP. La imagen se recorta en cuadrado.",
     "upload_failed": "Esa foto no se subió. Inténtalo de nuevo."
   },
-  "online": {
-    "title": "En línea",
-    "body": "Las partidas en línea todavía no funcionan. Esta pantalla está lista para cuando lleguen.",
-    "signed_in_as": "Sesión iniciada como {{username}}"
-  },
   "actions": {
     "close": "Cerrar",
     "cancel": "Cancelar"

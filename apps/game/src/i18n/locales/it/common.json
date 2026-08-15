@@ -67,11 +67,6 @@
     "picture_hint": "PNG, JPEG o WebP. L'immagine viene ritagliata in un quadrato.",
     "upload_failed": "L'immagine non è stata caricata. Riprova."
   },
-  "online": {
-    "title": "Online",
-    "body": "Le partite online non sono ancora attive. Questa schermata è qui perché l'ingresso sia pronto quando lo saranno.",
-    "signed_in_as": "Hai effettuato l'accesso come {{username}}"
-  },
   "actions": {
     "close": "Chiudi",
     "cancel": "Annulla"

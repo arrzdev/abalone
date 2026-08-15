@@ -1,0 +1,63 @@
+{
+  "title": "Online",
+  "subtitle": "Gioca con i tuoi tempi. Le partite ti aspettano, quindi una mossa al giorno va benissimo.",
+  "games": {
+    "heading": "Le tue partite",
+    "empty": "Ancora nessuna partita. Invita qualcuno.",
+    "your_turn": "Tocca a te",
+    "their_turn": "Tocca all'avversario"
+  },
+  "invites": {
+    "received": "Inviti per te",
+    "received_empty": "Non ti ha ancora invitato nessuno.",
+    "sent": "Inviti che hai mandato",
+    "sent_empty": "Non hai ancora invitato nessuno.",
+    "terms": "{{setup}}, giochi con il {{side}}",
+    "declined": "Rifiutato",
+    "accept": "Accetta",
+    "decline": "Rifiuta",
+    "cancel": "Annulla",
+    "dismiss": "Nascondi"
+  },
+  "history": {
+    "heading": "Partite concluse",
+    "empty": "Qui non c'è ancora niente. Le partite concluse finiscono qui."
+  },
+  "sides": {
+    "black": "nero",
+    "white": "bianco",
+    "random": "un lato a caso"
+  },
+  "results": {
+    "won": "Hai vinto per {{reason}}",
+    "lost": "Hai perso per {{reason}}",
+    "draw": "Patta per {{reason}}"
+  },
+  "reasons": {
+    "score": "punteggio",
+    "resignation": "abbandono",
+    "threefold_repetition": "ripetizione"
+  },
+  "compose": {
+    "title": "Nuovo invito",
+    "body": "Invita qualcuno con il suo nome. Lo vedrà alla prossima apertura dell'app.",
+    "username": "Il suo nome",
+    "username_placeholder": "Contro chi giochi?",
+    "setup": "Apertura",
+    "side": "Il tuo lato",
+    "send": "Invia invito",
+    "sending": "Invio in corso"
+  },
+  "board": {
+    "against": "contro {{name}}",
+    "loading": "Caricamento della partita",
+    "your_move": "Tocca a te",
+    "waiting": "In attesa dell'avversario",
+    "finished": "Questa partita è finita",
+    "result_win": "Hai vinto",
+    "result_loss": "Hai perso",
+    "result_draw": "Patta",
+    "review": "Rivedi la partita",
+    "back_to_games": "Torna alle partite"
+  }
+}

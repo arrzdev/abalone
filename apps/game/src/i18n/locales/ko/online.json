@@ -1,0 +1,63 @@
+{
+  "title": "온라인",
+  "subtitle": "원하는 속도로 두세요. 대국은 기다려 주니까 하루 한 수라도 충분히 한 판입니다.",
+  "games": {
+    "heading": "진행 중인 대국",
+    "empty": "아직 대국이 없어요. 누군가를 초대해 보세요.",
+    "your_turn": "당신 차례",
+    "their_turn": "상대 차례"
+  },
+  "invites": {
+    "received": "받은 초대",
+    "received_empty": "아직 아무도 초대하지 않았어요.",
+    "sent": "보낸 초대",
+    "sent_empty": "아직 아무도 초대하지 않았어요.",
+    "terms": "{{setup}}, 당신은 {{side}}",
+    "declined": "거절됨",
+    "accept": "수락",
+    "decline": "거절",
+    "cancel": "취소",
+    "dismiss": "지우기"
+  },
+  "history": {
+    "heading": "끝난 대국",
+    "empty": "아직 아무것도 없어요. 끝난 대국이 여기에 쌓입니다."
+  },
+  "sides": {
+    "black": "흑",
+    "white": "백",
+    "random": "무작위"
+  },
+  "results": {
+    "won": "{{reason}}(으)로 승리",
+    "lost": "{{reason}}(으)로 패배",
+    "draw": "{{reason}}(으)로 무승부"
+  },
+  "reasons": {
+    "score": "점수",
+    "resignation": "기권",
+    "threefold_repetition": "동형 반복"
+  },
+  "compose": {
+    "title": "새 초대",
+    "body": "이름으로 상대를 초대하세요. 상대가 앱을 다시 열면 바로 보입니다.",
+    "username": "상대 이름",
+    "username_placeholder": "누구와 두시겠어요?",
+    "setup": "시작 배치",
+    "side": "당신의 진영",
+    "send": "초대 보내기",
+    "sending": "보내는 중"
+  },
+  "board": {
+    "against": "{{name}} 님과의 대국",
+    "loading": "대국을 불러오는 중",
+    "your_move": "당신 차례입니다",
+    "waiting": "상대를 기다리는 중",
+    "finished": "끝난 대국입니다",
+    "result_win": "승리",
+    "result_loss": "패배",
+    "result_draw": "무승부",
+    "review": "대국 복기",
+    "back_to_games": "대국 목록으로"
+  }
+}

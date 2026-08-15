@@ -67,11 +67,6 @@
     "picture_hint": "PNG, JPEG lub WebP. Obraz zostanie przycięty do kwadratu.",
     "upload_failed": "To zdjęcie nie zostało wysłane. Spróbuj ponownie."
   },
-  "online": {
-    "title": "Online",
-    "body": "Gry online jeszcze nie działają. Ten ekran czeka, żeby wejście było gotowe, gdy ruszą.",
-    "signed_in_as": "Zalogowano jako {{username}}"
-  },
   "actions": {
     "close": "Zamknij",
     "cancel": "Anuluj"

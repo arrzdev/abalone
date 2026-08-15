@@ -17,9 +17,12 @@ export type ResultKind = keyof typeof ACCENTS
 export type GameOverModalProps = {
   open: boolean
   state: GameState
-  difficulty: number
+  /** Only read for the bot-flavoured heading, which `title` replaces. */
+  difficulty?: number
   resultKind: ResultKind
   title?: string
+  /** What the first button says. The bot game's "Rematch", by default. */
+  rematchLabel?: string
   onClose: () => void
   onRematch: () => void
   onNewBot: () => void
@@ -30,9 +33,10 @@ export type GameOverModalProps = {
 export function GameOverModal({
   open,
   state,
-  difficulty,
+  difficulty = 1,
   resultKind,
   title,
+  rematchLabel,
   onClose,
   onRematch,
   onNewBot,
@@ -79,9 +83,10 @@ export function GameOverModal({
       <div className="mt-6 flex gap-3">
         <Button variant="primary" className="flex-1" onClick={onRematch}>
           <RematchIcon size={20} />
-          {mode === "local"
-            ? t("game:controls.rematch")
-            : t("game:modal.rematch_button")}
+          {rematchLabel ??
+            (mode === "local"
+              ? t("game:controls.rematch")
+              : t("game:modal.rematch_button"))}
         </Button>
         <Button variant="secondary" className="flex-1" onClick={onNewBot}>
           <PlusIcon size={20} />

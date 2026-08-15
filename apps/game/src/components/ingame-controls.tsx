@@ -207,8 +207,9 @@ export function IngameControls({
           disabled={state.gameOver}
         />
         {/* Nothing to ask in hot-seat play — both players share the screen, so
-            the engine's advice would be advice to the opponent too. */}
-        {state.mode !== "local" && (
+            the engine's advice would be advice to the opponent too. Online
+            there is no engine on this side of the board at all. */}
+        {state.mode === "ai" && (
           <Action
             icon={<LightbulbIcon size={20} />}
             label={t("game:controls.hint")}
@@ -218,13 +219,17 @@ export function IngameControls({
             busy={hintThinking}
           />
         )}
-        <Action
-          icon={<UndoIcon size={20} />}
-          label={t("game:controls.undo")}
-          title={t("game:controls.undo_aria")}
-          onClick={onUndo}
-          disabled={!canUndo}
-        />
+        {/* A move played online is a move the other player has already been
+            shown. There is nothing to take back that is still only yours. */}
+        {state.mode !== "online" && (
+          <Action
+            icon={<UndoIcon size={20} />}
+            label={t("game:controls.undo")}
+            title={t("game:controls.undo_aria")}
+            onClick={onUndo}
+            disabled={!canUndo}
+          />
+        )}
       </div>
     </div>
   )
