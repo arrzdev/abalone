@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "Abalone gegen KI spielen: Fordere Computer-Gegner online heraus | Kostenloses Spiel",
-    "description": "Spiele Abalone online gegen KI-Gegner. Wähle aus 8 Schwierigkeitsstufen und mehreren Brettaufstellungen. Kostenloses browserbasiertes Abalone-Spiel mit Zughistorie, Bewertungsleiste und sofortigem Spielstart. Kein Download erforderlich.",
-    "keywords": "abalone gegen computer spielen, abalone vs KI, abalone spiel online, abalone schwierigkeitsgrade, abalone jetzt spielen, abalone browserspiel, abalone minimax KI, kostenloses abalone spiel, abalone online spielen",
-    "og_title": "Abalone gegen Computer-KI spielen: Online-Brettspiel",
-    "og_description": "Fordere KI-Gegner in Abalone mit 8 Schwierigkeitsstufen heraus. Übe Strategie und verbessere deine Fähigkeiten in diesem klassischen Brettspiel für zwei Spieler.",
-    "twitter_title": "Abalone gegen Computer-KI spielen",
-    "twitter_description": "Fordere KI-Gegner mit 8 Schwierigkeitsstufen heraus. Wähle deine Brettaufstellung und spiele als Schwarz oder Weiß in diesem strategischen Kugelschubspiel.",
+    "title": "Abalone im Browser spielen: 8 Bot-Stufen oder zu zweit | Kostenlos",
+    "description": "Spiele Abalone kostenlos im Browser. Tritt gegen einen Bot in acht Stärken an, oder spielt zu zweit abwechselnd an einem Gerät. Neun Brettaufstellungen, vollständige Zughistorie und Bewertungsleiste. Kein Download.",
+    "keywords": "abalone spielen, abalone browserspiel, abalone gegen computer, abalone bot, abalone zu zweit, kostenloses abalone, abalone brettaufstellungen, abalone regeln",
+    "og_title": "Abalone im Browser spielen",
+    "og_description": "Gegen einen Bot in acht Stärken, oder zu zweit abwechselnd an einem Gerät. Neun Brettaufstellungen, vollständige Zughistorie und Bewertungsleiste. Kostenlos, kein Download.",
+    "twitter_title": "Abalone im Browser spielen",
+    "twitter_description": "Ein Bot in acht Stärken, oder zu zweit an einem Gerät. Neun Brettaufstellungen und vollständige Zughistorie. Kostenlos, kein Download.",
     "structured_data": {
-      "name": "Abalone gegen Computer-KI spielen",
-      "description": "Spiele Abalone gegen Computer-Gegner mit 8 Schwierigkeitsstufen (Anfänger, Neuling, Lernender, Gelegenheitsspieler, Fortgeschritten, Erfahren, Experte, Meister). Wähle aus 3 Brettaufstellungen (Standard, Belgische Gänseblümchen, Deutsche Gänseblümchen) und spiele als Schwarz oder Weiß. Kostenloses Online-Spiel mit Zughistorie und Bewertungsleiste.",
-      "audience": "Brettspieler, Strategiespiel-Enthusiasten, KI-Herausforderungs-Suchende"
+      "name": "Abalone",
+      "description": "Spiele Abalone gegen einen Bot in acht Stärken, oder zu zweit abwechselnd an einem Gerät. Neun Brettaufstellungen (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), vollständige Zughistorie und Bewertungsleiste. Kostenlos im Browser, kein Download.",
+      "audience": "Brettspieler und Fans von Strategiespielen"
     }
   },
   "players": {

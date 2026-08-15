@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "AI와 아발론 대전: 온라인 컴퓨터 상대 도전 | 무료 게임",
-    "description": "온라인에서 AI 상대와 아발론을 플레이하세요. 8단계 난이도와 여러 보드 세팅을 선택할 수 있습니다. 기보, 평가 바, 즉시 플레이를 지원하는 무료 브라우저 게임. 다운로드 불필요.",
-    "keywords": "아발론 AI 대전, 아발론 온라인, 아발론 (Abalone) vs ai, 아발론 (Abalone) 난이도, 브라우저 보드게임, minimax ai, 무료 아발론, play 아발론 (Abalone) online",
-    "og_title": "컴퓨터 AI와 아발론 대전: 온라인 보드게임",
-    "og_description": "8단계 난이도의 AI 상대에게 도전해 보세요. 클래식 2인 추상 전략 보드게임에서 전략을 연습하고 실력을 키우세요.",
-    "twitter_title": "컴퓨터 AI와 아발론 대전",
-    "twitter_description": "8단계 난이도의 AI 상대에게 도전하세요. 보드 세팅을 고르고 흑/백으로 이 전략적인 구슬 밀어내기 게임을 플레이하세요.",
+    "title": "브라우저에서 아발론: 봇 8단계 또는 2인 대국 | 무료",
+    "description": "브라우저에서 무료로 아발론을 즐기세요. 여덟 단계의 봇과 겨루거나, 같은 기기에서 두 사람이 번갈아 둘 수 있습니다. 아홉 가지 보드 세팅, 전체 기보, 평가 바를 지원합니다. 다운로드 불필요.",
+    "keywords": "아발론, 아발론 브라우저, 아발론 봇, 아발론 2인, 무료 아발론, 아발론 보드 세팅, 아발론 규칙",
+    "og_title": "브라우저에서 아발론",
+    "og_description": "여덟 단계의 봇, 또는 같은 기기에서 두 사람이 번갈아. 아홉 가지 보드 세팅, 전체 기보, 평가 바. 무료, 다운로드 불필요.",
+    "twitter_title": "브라우저에서 아발론",
+    "twitter_description": "여덟 단계의 봇, 또는 같은 기기에서 2인 대국. 아홉 가지 보드 세팅과 전체 기보. 무료, 다운로드 불필요.",
     "structured_data": {
-      "name": "컴퓨터 AI와 아발론 대전",
-      "description": "8단계 난이도(Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master)로 컴퓨터 상대와 아발론을 플레이하세요. 3가지 보드 세팅(Standard, Belgian Daisy, German Daisy)을 선택하고 흑 또는 백으로 시작할 수 있습니다. 기보와 평가 바가 포함된 무료 온라인 게임입니다.",
-      "audience": "보드게임 유저, 전략 게임 애호가, AI 도전 유저"
+      "name": "아발론",
+      "description": "여덟 단계의 봇과 겨루거나 같은 기기에서 두 사람이 번갈아 아발론을 둘 수 있습니다. 아홉 가지 보드 세팅(Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), 전체 기보, 평가 바를 지원합니다. 브라우저에서 무료, 다운로드 불필요.",
+      "audience": "보드게임 플레이어와 전략 게임 애호가"
     }
   },
   "players": {

@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "Graj w Abalone przeciwko AI: Zmierz się z Komputerowymi Przeciwnikami Online | Darmowa Gra",
-    "description": "Graj w Abalone przeciwko przeciwnikom AI online. Wybierz spośród 8 poziomów trudności i wielu układów planszy. Darmowa przeglądarkowa gra Abalone z historią ruchów, paskiem oceny i natychmiastową grą. Nie wymaga pobierania.",
-    "keywords": "graj w abalone przeciwko komputerowi, abalone vs AI, gra abalone online, poziomy trudności abalone, graj w abalone teraz, gra przeglądarkowa abalone, abalone minimax AI, darmowa gra abalone, graj w abalone online",
-    "og_title": "Graj w Abalone przeciwko Komputerowi AI: Gra Planszowa Online",
-    "og_description": "Zmierz się z przeciwnikami AI w Abalone z 8 poziomami trudności. Ćwicz strategię i popraw swoje umiejętności w tej klasycznej grze planszowej dla dwóch graczy.",
-    "twitter_title": "Graj w Abalone przeciwko Komputerowi AI",
-    "twitter_description": "Zmierz się z przeciwnikami AI z 8 poziomami trudności. Wybierz układ planszy i graj jako czarny lub biały w tej strategicznej grze w pchanie kulek.",
+    "title": "Graj w Abalone w przeglądarce: 8 poziomów bota lub we dwoje | Za darmo",
+    "description": "Graj w Abalone za darmo w przeglądarce. Zmierz się z botem w ośmiu poziomach siły albo grajcie we dwoje na przemian na jednym urządzeniu. Dziewięć układów planszy, pełna historia ruchów i pasek oceny. Bez pobierania.",
+    "keywords": "graj w abalone, abalone przeglądarka, abalone przeciwko komputerowi, abalone bot, abalone we dwoje, darmowe abalone, układy planszy abalone, zasady abalone",
+    "og_title": "Graj w Abalone w przeglądarce",
+    "og_description": "Bot w ośmiu poziomach siły albo gra we dwoje na przemian na jednym urządzeniu. Dziewięć układów planszy, pełna historia ruchów i pasek oceny. Za darmo, bez pobierania.",
+    "twitter_title": "Graj w Abalone w przeglądarce",
+    "twitter_description": "Bot w ośmiu poziomach albo gra we dwoje na jednym urządzeniu. Dziewięć układów planszy i pełna historia ruchów. Za darmo, bez pobierania.",
     "structured_data": {
-      "name": "Graj w Abalone przeciwko Komputerowi AI",
-      "description": "Graj w Abalone przeciwko komputerowym przeciwnikom na 8 poziomach trudności (Początkujący, Nowicjusz, Uczeń, Casualowy, Średniozaawansowany, Zaawansowany, Ekspert, Mistrz). Wybierz spośród 3 ustawień planszy (Standardowe, Belgijska Stokrotka, Niemiecka Stokrotka) i graj jako czarny lub biały. Darmowa gra online z historią ruchów i paskiem oceny.",
-      "audience": "Gracze planszowi, entuzjaści gier strategicznych, poszukiwacze wyzwań AI"
+      "name": "Abalone",
+      "description": "Graj w Abalone przeciwko botowi w ośmiu poziomach siły albo we dwoje na przemian na jednym urządzeniu. Dziewięć układów planszy (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), pełna historia ruchów i pasek oceny. Za darmo w przeglądarce, bez pobierania.",
+      "audience": "Gracze planszówek i miłośnicy gier strategicznych"
     }
   },
   "players": {

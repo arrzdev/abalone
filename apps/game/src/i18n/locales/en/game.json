@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "Play Abalone vs AI: Challenge Computer Opponents Online | Free Game",
-    "description": "Play Abalone against AI opponents online. Choose from 8 difficulty levels and multiple board setups. Free browser-based Abalone game with move history, evaluation bar, and instant gameplay. No download required.",
-    "keywords": "play abalone against computer, abalone vs AI, abalone game online, abalone difficulty levels, play abalone now, abalone browser game, abalone minimax AI, free abalone game, abalone online spielen",
-    "og_title": "Play Abalone vs Computer AI: Online Board Game",
-    "og_description": "Challenge AI opponents in Abalone with 8 difficulty levels. Practice strategy and improve your skills in this classic two-player board game.",
-    "twitter_title": "Play Abalone vs Computer AI",
-    "twitter_description": "Challenge AI opponents with 8 difficulty levels. Choose your board setup and play as black or white in this strategic marble-pushing game.",
+    "title": "Play Abalone in Your Browser: 8 Bot Levels or Pass and Play | Free",
+    "description": "Play Abalone free in your browser. Take on a bot at eight strengths, or pass and play with someone on the same device. Nine board setups, a full move history and an evaluation bar. No download.",
+    "keywords": "play abalone, abalone browser game, abalone vs computer, abalone bot, abalone pass and play, abalone two player, free abalone game, abalone board setups, how to play abalone",
+    "og_title": "Play Abalone in Your Browser",
+    "og_description": "Take on a bot at eight strengths, or pass and play with someone on the same device. Nine board setups, a full move history and an evaluation bar. Free, no download.",
+    "twitter_title": "Play Abalone in Your Browser",
+    "twitter_description": "A bot at eight strengths, or pass and play on one device. Nine board setups and a full move history. Free, no download.",
     "structured_data": {
-      "name": "Play Abalone vs Computer AI",
-      "description": "Play Abalone against computer opponents with 8 difficulty levels (Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master). Choose from 3 board setups (Standard, Belgian Daisy, German Daisy) and play as black or white. Free online game with move history and evaluation bar.",
-      "audience": "Board game players, strategy game enthusiasts, AI challenge seekers"
+      "name": "Abalone",
+      "description": "Play Abalone against a bot at eight strengths, or pass and play with someone on the same device. Nine board setups (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), a full move history and an evaluation bar. Free in the browser, no download.",
+      "audience": "Board game players and strategy game enthusiasts"
     }
   },
   "players": {

@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "Jouer à Abalone contre l'IA : Défiez des adversaires informatiques en ligne | Jeu gratuit",
-    "description": "Jouez à Abalone contre des adversaires IA en ligne. Choisissez parmi 8 niveaux de difficulté et plusieurs configurations de plateau. Jeu Abalone gratuit basé sur navigateur avec historique des coups, barre d'évaluation et jeu instantané. Aucun téléchargement requis.",
-    "keywords": "jouer à abalone contre ordinateur, abalone vs IA, jeu abalone en ligne, niveaux de difficulté abalone, jouer à abalone maintenant, jeu navigateur abalone, IA minimax abalone, jeu abalone gratuit",
-    "og_title": "Jouer à Abalone contre l'IA : Jeu de société en ligne",
-    "og_description": "Défiez des adversaires IA dans Abalone avec 8 niveaux de difficulté. Pratiquez la stratégie et améliorez vos compétences dans ce jeu de société classique pour deux joueurs.",
-    "twitter_title": "Jouer à Abalone contre l'IA",
-    "twitter_description": "Défiez des adversaires IA avec 8 niveaux de difficulté. Choisissez votre configuration de plateau et jouez en noir ou blanc dans ce jeu stratégique de poussée de billes.",
+    "title": "Jouer à Abalone dans le navigateur : 8 niveaux de bot ou à deux | Gratuit",
+    "description": "Jouez à Abalone gratuitement dans votre navigateur. Affrontez un bot réglé sur huit forces, ou jouez à deux chacun son tour sur le même appareil. Neuf configurations de plateau, historique complet des coups et barre d'évaluation. Aucun téléchargement.",
+    "keywords": "jouer abalone, abalone navigateur, abalone contre ordinateur, abalone bot, abalone à deux, abalone gratuit, configurations abalone, règles abalone",
+    "og_title": "Jouer à Abalone dans le navigateur",
+    "og_description": "Un bot réglé sur huit forces, ou à deux chacun son tour sur le même appareil. Neuf configurations de plateau, historique complet des coups et barre d'évaluation. Gratuit, sans téléchargement.",
+    "twitter_title": "Jouer à Abalone dans le navigateur",
+    "twitter_description": "Un bot sur huit forces, ou à deux sur le même appareil. Neuf configurations et un historique complet des coups. Gratuit, sans téléchargement.",
     "structured_data": {
-      "name": "Jouer à Abalone contre l'IA",
-      "description": "Jouez à Abalone contre des adversaires informatiques avec 8 niveaux de difficulté (Débutant, Novice, Apprenant, Occasionnel, Intermédiaire, Avancé, Expert, Maître). Choisissez parmi 3 configurations de plateau (Standard, Marguerite belge, Marguerite allemande) et jouez en noir ou blanc. Jeu en ligne gratuit avec historique des coups et barre d'évaluation.",
-      "audience": "Joueurs de jeux de société, passionnés de jeux de stratégie, chercheurs de défis IA"
+      "name": "Abalone",
+      "description": "Jouez à Abalone contre un bot réglé sur huit forces, ou à deux chacun son tour sur le même appareil. Neuf configurations de plateau (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), historique complet des coups et barre d'évaluation. Gratuit dans le navigateur, sans téléchargement.",
+      "audience": "Joueurs de jeux de société et amateurs de jeux de stratégie"
     }
   },
   "players": {

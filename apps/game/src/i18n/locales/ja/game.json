@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "AIとアバロン対戦：オンラインでコンピューターに挑戦 | 無料ゲーム",
-    "description": "オンラインでAI相手にアバロンをプレイ。8段階の難易度と複数の初期配置を選べます。棋譜、評価バー、即プレイ対応の無料ブラウザ版。ダウンロード不要。",
-    "keywords": "アバロン AI対戦, アバロン オンライン, アバロン (Abalone) vs AI, アバロン 難易度, ブラウザ ボードゲーム, minimax AI, 無料 アバロン, play アバロン (Abalone) online",
-    "og_title": "AIとアバロン対戦：オンラインボードゲーム",
-    "og_description": "8段階の難易度を備えたAI相手にアバロンで腕試し。定番の二人用戦略ボードゲームで戦略を磨こう。",
-    "twitter_title": "AIとアバロン対戦",
-    "twitter_description": "8段階の難易度のAIに挑戦。初期配置を選び、黒または白でこの押し出し戦略ゲームをプレイ。",
+    "title": "ブラウザでアバロン：8段階のボット対戦と2人対戦 | 無料",
+    "description": "ブラウザで無料のアバロン。8段階の強さのボットと対戦するか、同じ端末で2人交互に対戦できます。9種類の初期配置、完全な棋譜、評価バーを搭載。ダウンロード不要。",
+    "keywords": "アバロン, アバロン ブラウザ, アバロン ボット, アバロン 2人, アバロン 無料, アバロン 初期配置, アバロン ルール",
+    "og_title": "ブラウザでアバロン",
+    "og_description": "8段階の強さのボット、または同じ端末で2人交互に。9種類の初期配置、完全な棋譜、評価バー。無料、ダウンロード不要。",
+    "twitter_title": "ブラウザでアバロン",
+    "twitter_description": "8段階のボット、または同じ端末で2人対戦。9種類の初期配置と完全な棋譜。無料、ダウンロード不要。",
     "structured_data": {
-      "name": "AIとアバロン対戦",
-      "description": "8段階の難易度（Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master）のコンピューター相手にアバロンをプレイ。3つの初期配置（Standard, Belgian Daisy, German Daisy）を選び、黒または白で開始できます。棋譜と評価バー付きの無料オンラインゲーム。",
-      "audience": "ボードゲーム好き, 戦略ゲーム愛好家, AIに挑戦したい人"
+      "name": "アバロン",
+      "description": "8段階の強さのボットと対戦するか、同じ端末で2人交互にアバロンを対戦できます。9種類の初期配置（Standard、Belgian Daisy、German Daisy、Dutch Daisy、Swiss Daisy、Alien、Domination、Infiltration、The Wall）、完全な棋譜、評価バーを搭載。ブラウザで無料、ダウンロード不要。",
+      "audience": "ボードゲーム好き、戦略ゲーム愛好家"
     }
   },
   "players": {
