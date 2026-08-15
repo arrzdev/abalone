@@ -26,7 +26,7 @@ export type RealtimeHandlers = {
  * not match a known event is dropped rather than guessed at, which also quietly
  * handles the `pong` the runtime answers our keepalive with.
  */
-function parseEvent(data: unknown): RealtimeEvent | null {
+export function parseEvent(data: unknown): RealtimeEvent | null {
   if (typeof data !== "string") return null
 
   const [parsed, parseError] = tryCatch(

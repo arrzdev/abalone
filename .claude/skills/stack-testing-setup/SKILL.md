@@ -15,7 +15,7 @@ Concrete runners and config. The portable *what/how* doctrine is in `core-testin
 | `@repo/nativ` | Vitest + **happy-dom** + Testing Library | hooks, gesture engine, vite-plugin units |
 | `@repo/env-validation` | Vitest (node) | schema/registry/parser |
 | `@repo/dev` | Vitest (node) | |
-| `@repo/game` | **none** — `test` is a stub | see below |
+| `@repo/game` | Vitest + **happy-dom** | `apps/game/vitest.config.ts`; data-layer logic today, hooks when one needs it |
 | `@repo/shared` | no `test` script | |
 
 Every vitest config **aliases the package's own `#<slug>` self-import** to `src/` so tests use the same specifier the source does — never relative paths (`core-imports`). Copy that pattern when adding a runner to a package.
@@ -31,7 +31,9 @@ Every vitest config **aliases the package's own `#<slug>` self-import** to `src/
 ## App logic / hooks — happy-dom
 
 - The pattern is proven in `@repo/nativ`: Vitest + happy-dom + `@testing-library/react` (`packages/nativ/src/hooks/*.test.ts`, `packages/nativ/src/components/avoid-keyboard/*.test.ts`).
-- `apps/game` has **no runner yet** (`test` is `echo "No tests configured"`). To add hook/logic tests, mirror the `@repo/nativ` vitest config rather than inventing a new setup — and say so in the handoff, because it's new tooling.
+- `apps/game` now mirrors it — `apps/game/vitest.config.ts`, happy-dom, the `@/` and `@/env/` aliases from tsconfig. Examples: `src/data/realtime/invalidate.test.ts`, `src/data/realtime/channel.test.ts`.
+- **`test.env` is not optional there.** The env registry hydrates from `import.meta.env` at module scope, so anything importing `src/data/**` throws before a test runs unless the declared keys are present. They are set as literals in the config, never read from a local `.env` — a suite that only passes on a machine with env files is not a suite.
+- `@testing-library/react` is **not** installed in `apps/game` yet; add it with the first test that renders a hook, not before.
 - Do not unit-test pixel layout — that is E2E's job.
 
 ## End-to-end / self-test — Playwright
