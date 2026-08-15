@@ -33,7 +33,7 @@ function parseEvent(data: unknown): RealtimeEvent | null {
     () =>
       JSON.parse(data) as {
         event?: unknown
-        meta?: { gameId?: unknown; moveCount?: unknown }
+        meta?: { gameId?: unknown; updatedAt?: unknown }
       },
   )
   if (parseError) return null
@@ -43,11 +43,11 @@ function parseEvent(data: unknown): RealtimeEvent | null {
   if (parsed?.event !== "game-updated") return null
 
   const gameId = parsed.meta?.gameId
-  const moveCount = parsed.meta?.moveCount
-  if (typeof gameId !== "string" || typeof moveCount !== "number")
+  const updatedAt = parsed.meta?.updatedAt
+  if (typeof gameId !== "string" || typeof updatedAt !== "number")
     return null
 
-  return { event: "game-updated", meta: { gameId, moveCount } }
+  return { event: "game-updated", meta: { gameId, updatedAt } }
 }
 
 /**

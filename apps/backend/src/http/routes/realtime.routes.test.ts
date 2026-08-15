@@ -241,12 +241,12 @@ describe("realtime routes", () => {
     })
     await publishTo(`user:${player.userId}`, {
       event: "game-updated",
-      meta: { gameId: "g1", moveCount: 3 },
+      meta: { gameId: "g1", updatedAt: 3 },
     })
     await waitForFrames(frames, 1)
 
     expect(frames).toEqual([
-      { event: "game-updated", meta: { gameId: "g1", moveCount: 3 } },
+      { event: "game-updated", meta: { gameId: "g1", updatedAt: 3 } },
     ])
   })
 })

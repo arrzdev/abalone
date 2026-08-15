@@ -53,8 +53,11 @@ type GameContext = Context<{ Bindings: Env; Variables: AuthedVariables }>
  * `waitUntil`, so the fan-out never sits between a player and their answer. The
  * move is saved either way, and a beacon nobody hears costs a refetch at worst.
  *
- * The player who just moved is told too. Their own device already has the row,
- * so it is a no-op there, and it is how their other devices keep up.
+ * The player who just moved is told too, which is how their OTHER devices keep
+ * up. The device that made the move already wrote the row from the response, so
+ * it drops the beacon on the version in `meta` rather than refetching what it is
+ * holding — a channel that knows nothing about who acted stays a channel, and
+ * the client is the side that can cheaply tell an echo from news.
  */
 function announceGame(c: GameContext, game: Game): void {
   const seats = [game.black.userId, game.white.userId]
@@ -62,7 +65,7 @@ function announceGame(c: GameContext, game: Game): void {
   c.executionCtx.waitUntil(
     publishToUsers(c.env.PUBSUB, seats, {
       event: "game-updated",
-      meta: { gameId: game.id, moveCount: game.moveCount },
+      meta: { gameId: game.id, updatedAt: game.updatedAt },
     }),
   )
 
