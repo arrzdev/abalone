@@ -78,7 +78,7 @@ export function PregameControls({
   const isLocal = mode === "local"
 
   return (
-    <div className="panel-scroll flex-1 space-y-6 overflow-y-auto px-4 py-4">
+    <div className="panel-scroll flex-1 space-y-6 overflow-y-auto px-4 pt-4 pb-safe-offset-4">
       <SegmentedControl
         ariaLabel={t("game:controls.game_mode")}
         value={mode}
