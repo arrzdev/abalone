@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Graj Boty",
-    "marble_design": "Projekt Kulek:",
+    "marble_design": "Projekt Kulek",
     "marble_design_classic": "Minimalistyczny",
     "marble_design_3d": "Realistyczny",
-    "play_as": "Gram jako:",
+    "play_as": "Gram jako",
     "play_button": "Graj",
     "show_coordinates": "Pokaż współrzędne",
     "show_eval_bar": "Pokaż pasek oceny",

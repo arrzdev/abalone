@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Jouer Bots",
-    "marble_design": "Design des billes :",
+    "marble_design": "Design des billes",
     "marble_design_classic": "Minimaliste",
     "marble_design_3d": "Réaliste",
-    "play_as": "Je joue en tant que :",
+    "play_as": "Je joue en tant que",
     "play_button": "Jouer",
     "show_coordinates": "Afficher les coordonnées",
     "show_eval_bar": "Afficher la barre d'évaluation",

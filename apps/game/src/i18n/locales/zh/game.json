@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "对战机器人",
-    "marble_design": "棋子风格：",
+    "marble_design": "棋子风格",
     "marble_design_classic": "极简",
     "marble_design_3d": "写实",
-    "play_as": "我执：",
+    "play_as": "我执",
     "play_button": "开始",
     "show_coordinates": "显示坐标",
     "show_eval_bar": "显示评估条",

@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "봇 대전",
-    "marble_design": "구슬 디자인:",
+    "marble_design": "구슬 디자인",
     "marble_design_classic": "미니멀",
     "marble_design_3d": "리얼",
-    "play_as": "내 색상:",
+    "play_as": "내 색상",
     "play_button": "시작",
     "show_coordinates": "좌표 표시",
     "show_eval_bar": "평가 바 표시",

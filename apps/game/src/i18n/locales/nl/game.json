@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Speel Bots",
-    "marble_design": "Knikker Ontwerp:",
+    "marble_design": "Knikker Ontwerp",
     "marble_design_classic": "Minimalistisch",
     "marble_design_3d": "Realistisch",
-    "play_as": "Ik speel als:",
+    "play_as": "Ik speel als",
     "play_button": "Spelen",
     "show_coordinates": "Toon coördinaten",
     "show_eval_bar": "Toon evaluatiebalk",

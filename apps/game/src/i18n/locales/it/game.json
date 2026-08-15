@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Gioca Bot",
-    "marble_design": "Design delle biglie:",
+    "marble_design": "Design delle biglie",
     "marble_design_classic": "Minimalista",
     "marble_design_3d": "Realistico",
-    "play_as": "Io gioco come:",
+    "play_as": "Io gioco come",
     "play_button": "Gioca",
     "show_coordinates": "Mostra coordinate",
     "show_eval_bar": "Mostra barra di valutazione",

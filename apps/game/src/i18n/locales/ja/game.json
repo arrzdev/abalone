@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "ボット対戦",
-    "marble_design": "駒デザイン：",
+    "marble_design": "駒デザイン",
     "marble_design_classic": "ミニマル",
     "marble_design_3d": "リアル",
-    "play_as": "自分の色：",
+    "play_as": "自分の色",
     "play_button": "プレイ",
     "show_coordinates": "座標を表示",
     "show_eval_bar": "評価バーを表示",

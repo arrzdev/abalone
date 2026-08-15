@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Jugar Bots",
-    "marble_design": "Diseño de canicas:",
+    "marble_design": "Diseño de canicas",
     "marble_design_classic": "Minimalista",
     "marble_design_3d": "Realista",
-    "play_as": "Yo juego como:",
+    "play_as": "Yo juego como",
     "play_button": "Jugar",
     "show_coordinates": "Mostrar coordenadas",
     "show_eval_bar": "Mostrar barra de evaluación",

@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Bots Spielen",
-    "marble_design": "Murmel-Design:",
+    "marble_design": "Murmel-Design",
     "marble_design_classic": "Minimalistisch",
     "marble_design_3d": "Realistisch",
-    "play_as": "Ich spiele als:",
+    "play_as": "Ich spiele als",
     "play_button": "Spielen",
     "show_coordinates": "Koordinaten anzeigen",
     "show_eval_bar": "Bewertungsleiste anzeigen",

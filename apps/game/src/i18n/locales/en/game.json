@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Play Bots",
-    "marble_design": "Marble Design:",
+    "marble_design": "Marble Design",
     "marble_design_classic": "Minimalist",
     "marble_design_3d": "Realist",
-    "play_as": "I play as:",
+    "play_as": "I play as",
     "play_button": "Play",
     "show_coordinates": "Show coordinates",
     "show_eval_bar": "Show eval bar",

@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Jogar Bots",
-    "marble_design": "Design das bolas:",
+    "marble_design": "Design das bolas",
     "marble_design_classic": "Minimalista",
     "marble_design_3d": "Realista",
-    "play_as": "Eu jogo como:",
+    "play_as": "Eu jogo como",
     "play_button": "Jogar",
     "show_coordinates": "Mostrar coordenadas",
     "show_eval_bar": "Mostrar barra de avaliação",
