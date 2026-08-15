@@ -4,8 +4,12 @@ import type { CellName, Player } from "@repo/abalone-engine/types"
 import { beforeAll, describe, expect, it } from "vitest"
 import worker from "@/entrypoint"
 import { envRegistry } from "@/env/registry"
+import { userChannel } from "@/modules/realtime/channel"
+import type { RealtimeEvent } from "@/modules/realtime/events"
+import { mintTicket } from "@/modules/realtime/ticket"
 import type { Game, GameMove } from "@/services/game.service"
 import type { Invite } from "@/services/invite.service"
+import { newExecutionContext } from "@/test-support/execution-context"
 
 type Envelope<Data> = {
   status: string
@@ -23,7 +27,7 @@ describe("game routes", () => {
   //---- talking to the worker ----------------
 
   function fetchWorker(request: Request) {
-    return worker.fetch(request, env as never, {} as ExecutionContext)
+    return worker.fetch(request, env as never, newExecutionContext())
   }
 
   async function call<Data>(
@@ -912,5 +916,76 @@ describe("game routes", () => {
     })
 
     expect(response.status).toBe(400)
+  })
+
+  //---- what the other player is told ----------------
+  //only one of the two people in a game is holding the phone when it opens. the
+  //other one finds out because they were told, so these watch the socket of the
+  //player who did NOT press the button.
+
+  /** Opens the given player's channel and collects what arrives on it. */
+  async function watch(userId: string) {
+    const { ticket } = await mintTicket(
+      env.BETTER_AUTH_SECRET,
+      userId,
+      userChannel(userId),
+    )
+    const response = await fetchWorker(
+      new Request(`http://example.com/api/v1/realtime?ticket=${ticket}`, {
+        headers: {
+          upgrade: "websocket",
+          origin: "http://example.com",
+          "x-test-bypass": "true",
+        },
+      }),
+    )
+    const socket = response.webSocket
+    if (!socket) throw new Error("could not open a channel to watch")
+
+    const frames: RealtimeEvent[] = []
+    socket.accept()
+    socket.addEventListener("message", (message) => {
+      frames.push(JSON.parse(String(message.data)) as RealtimeEvent)
+    })
+    return frames
+  }
+
+  /** Waits for the beacons a request fired off to land. */
+  async function settle(frames: RealtimeEvent[], count: number) {
+    for (
+      let attempt = 0;
+      attempt < 100 && frames.length < count;
+      attempt++
+    ) {
+      await scheduler.wait(10)
+    }
+    return frames.map((frame) => frame.event)
+  }
+
+  it("tells the sender their games list moved when it is accepted", async () => {
+    const sender = await signUp("waiting")
+    const recipient = await signUp("accepting")
+    const sent = await invite(sender.token, recipient.username)
+
+    const frames = await watch(sent.from.userId)
+    await accept(recipient.token, sent.id)
+
+    //the list is the whole point: the sender has no board open on a game that
+    //did not exist a second ago, so "a game changed" would tell them nothing
+    expect(await settle(frames, 2)).toEqual(
+      expect.arrayContaining(["games-changed", "invites-changed"]),
+    )
+  })
+
+  it("tells the loser their games list moved when a game is resigned", async () => {
+    const { recipient, game } = await openGame()
+    //the invite named black for its sender, so black is the one not resigning
+    const frames = await watch(game.black.userId)
+
+    await call("POST", `/games/${game.id}/resignation`, recipient.token)
+
+    expect(await settle(frames, 2)).toEqual(
+      expect.arrayContaining(["game-updated", "games-changed"]),
+    )
   })
 })

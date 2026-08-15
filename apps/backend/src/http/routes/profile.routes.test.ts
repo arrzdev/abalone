@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it } from "vitest"
 import worker from "@/entrypoint"
 import { envRegistry } from "@/env/registry"
 import { MAX_AVATAR_BYTES } from "@/services/profile.service"
+import { newExecutionContext } from "@/test-support/execution-context"
 
 type ProfileEnvelope = {
   status: string
@@ -38,7 +39,7 @@ describe("profile routes", () => {
   })
 
   function fetchWorker(request: Request) {
-    return worker.fetch(request, env as never, {} as ExecutionContext)
+    return worker.fetch(request, env as never, newExecutionContext())
   }
 
   //sign a fresh player up and keep the bearer token the client would keep

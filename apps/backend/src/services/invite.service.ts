@@ -207,20 +207,26 @@ export class InviteService {
    * One request for two things a sender does: taking an invite back before it is
    * answered, and clearing a decline once they have read it. Both are the same
    * row leaving, so both are the same delete.
+   *
+   * It hands back the player it was addressed to, because the row is gone by
+   * the time anyone could ask: their list just changed and the caller is the
+   * only one left who can say whose.
    */
-  async removeOwn(inviteId: string, userId: string): Promise<void> {
+  async removeOwn(inviteId: string, userId: string): Promise<string> {
     const [removed, deleteError] = await tryCatch(() =>
       this.db
         .delete(invites)
         .where(
           and(eq(invites.id, inviteId), eq(invites.fromUserId, userId)),
         )
-        .returning({ id: invites.id })
+        .returning({ toUserId: invites.toUserId })
         .get(),
     )
     if (deleteError)
       throw new CustomError("internal_server_error", deleteError)
     if (!removed) throw new CustomError("not_found")
+
+    return removed.toUserId
   }
 
   /**

@@ -6,6 +6,7 @@ import { getDb } from "@/database/client"
 import { profiles } from "@/database/schema"
 import worker from "@/entrypoint"
 import { envRegistry } from "@/env/registry"
+import { newExecutionContext } from "@/test-support/execution-context"
 
 //drive the mounted better-auth handler end to end against the real local D1.
 //we do not re-test better-auth itself — what these cover is the wiring only this
@@ -35,7 +36,7 @@ describe("auth routes", () => {
         body: JSON.stringify(body),
       }),
       env as never,
-      {} as ExecutionContext,
+      newExecutionContext(),
     )
     return {
       response,
@@ -123,7 +124,7 @@ describe("auth routes", () => {
         },
       }),
       env as never,
-      {} as ExecutionContext,
+      newExecutionContext(),
     )
 
     expect(session.status).toBe(200)

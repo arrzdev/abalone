@@ -5,6 +5,7 @@ import { AuthPromptProvider } from "@/providers/auth-prompt-provider"
 import { AuthProvider } from "@/providers/auth-provider"
 import { queryClient } from "@/providers/query-client"
 import { persistOptions } from "@/providers/query-persister"
+import { RealtimeProvider } from "@/providers/realtime-provider"
 //side-effect: initialises i18next before any component asks for a string
 import "@/i18n"
 
@@ -41,7 +42,9 @@ export default function AppProviders({
       persistOptions={persistOptions}
     >
       <AuthProvider>
-        <AuthPromptProvider>{children}</AuthPromptProvider>
+        <RealtimeProvider>
+          <AuthPromptProvider>{children}</AuthPromptProvider>
+        </RealtimeProvider>
       </AuthProvider>
     </PersistQueryClientProvider>
   )

@@ -11,11 +11,13 @@ import {
 import type { Game, Invite } from "@/data/online/queries"
 import {
   gamesQueryOptions,
+  INVITE_POLL_MS,
   invitesQueryOptions,
   onlineKeys,
 } from "@/data/online/queries"
 import { useApiError } from "@/hooks/use-api-error"
 import { useAuth } from "@/providers/auth-provider"
+import { useRealtime } from "@/providers/realtime-provider"
 
 export type OnlineHome = {
   activeGames: Game[]
@@ -50,8 +52,22 @@ export function useOnlineHome(queryClient: QueryClient): OnlineHome {
   const { user } = useAuth()
   const translateError = useApiError()
 
-  const invites = useQuery(invitesQueryOptions)
-  const activeGames = useQuery(gamesQueryOptions("active"))
+  //the timer is the fallback now, not the mechanism: while the channel is up
+  //the server says when a list moved, and asking every fifteen seconds on top
+  //of that is asking a question already answered. it comes straight back if the
+  //socket drops, which is why the interval is turned off rather than removed.
+  const { isConnected } = useRealtime()
+  const pollInterval = isConnected ? (false as const) : INVITE_POLL_MS
+
+  const invites = useQuery({
+    ...invitesQueryOptions,
+    refetchInterval: pollInterval,
+  })
+  const activeGames = useQuery({
+    ...gamesQueryOptions("active"),
+    refetchInterval: pollInterval,
+  })
+  //history is already never polled, so a channel changes nothing for it
   const finishedGames = useQuery(gamesQueryOptions("finished"))
 
   const refreshInvites = () =>

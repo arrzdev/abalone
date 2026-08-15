@@ -2,6 +2,7 @@ import { env } from "cloudflare:workers"
 import { beforeAll, describe, expect, it } from "vitest"
 import worker from "@/entrypoint"
 import { envRegistry } from "@/env/registry"
+import { newExecutionContext } from "@/test-support/execution-context"
 
 //the allowlist is a list, so what these cover is that every configured origin
 //gets through and nothing else does. the suite runs with two public origins
@@ -23,7 +24,7 @@ describe("cors allowlist", () => {
         },
       }),
       env as never,
-      {} as ExecutionContext,
+      newExecutionContext(),
     )
   }
 
@@ -54,6 +55,28 @@ describe("cors allowlist", () => {
   it("refuses a private origin against a public frontend", async () => {
     const response = await preflight("http://localhost:6161")
 
+    expect(response.headers.get("access-control-allow-origin")).toBeNull()
+  })
+
+  //a 101 from a durable object has immutable headers and carries the socket on
+  //a property, so anything written onto it afterwards either throws or loses
+  //the socket. the plugin has to stand aside, and this is what says it does.
+  it("leaves a websocket upgrade alone", async () => {
+    const response = await worker.fetch(
+      new Request("http://example.com/api/v1/realtime", {
+        headers: {
+          upgrade: "websocket",
+          origin: "http://example.com",
+          "x-test-bypass": "true",
+        },
+      }),
+      env as never,
+      newExecutionContext(),
+    )
+
+    //no ticket, so the route turns it down — but it is the route turning it
+    //down, and no cors header was written on the way back out
+    expect(response.status).toBe(401)
     expect(response.headers.get("access-control-allow-origin")).toBeNull()
   })
 })
