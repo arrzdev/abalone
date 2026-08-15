@@ -44,9 +44,9 @@ function Action({
       title={title ?? label}
       className={cn(
         "flex min-w-0 flex-1 flex-col items-center justify-center gap-1 rounded-lg py-1.5",
-        "text-[0.6875rem] font-semibold text-white/60 transition",
+        "text-[0.6875rem] font-semibold text-muted transition",
         "hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
-        "disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:text-white/60",
+        "disabled:opacity-35 disabled:hover:bg-transparent disabled:hover:text-muted",
         busy && "animate-pulse text-brand-light",
       )}
     >

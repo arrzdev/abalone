@@ -29,7 +29,7 @@ export function Toggle({
           {label}
         </span>
         {description && (
-          <span className="mt-0.5 block text-xs text-white/50">
+          <span className="mt-0.5 block text-xs text-muted">
             {description}
           </span>
         )}

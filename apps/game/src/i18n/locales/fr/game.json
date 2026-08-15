@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "Jouer à Abalone contre l'IA - Défiez des adversaires informatiques en ligne | Jeu gratuit",
-    "description": "Jouez à Abalone contre des adversaires IA en ligne - choisissez parmi 8 niveaux de difficulté et plusieurs configurations de plateau. Jeu Abalone gratuit basé sur navigateur avec historique des coups, barre d'évaluation et jeu instantané. Aucun téléchargement requis.",
-    "keywords": "jouer à abalone contre ordinateur, abalone vs IA, jeu abalone en ligne, niveaux de difficulté abalone, jouer à abalone maintenant, jeu navigateur abalone, IA minimax abalone, jeu abalone gratuit",
-    "og_title": "Jouer à Abalone contre l'IA - Jeu de société en ligne",
-    "og_description": "Défiez des adversaires IA dans Abalone avec 8 niveaux de difficulté. Pratiquez la stratégie et améliorez vos compétences dans ce jeu de société classique pour deux joueurs.",
-    "twitter_title": "Jouer à Abalone contre l'IA",
-    "twitter_description": "Défiez des adversaires IA avec 8 niveaux de difficulté. Choisissez votre configuration de plateau et jouez en noir ou blanc dans ce jeu stratégique de poussée de billes.",
+    "title": "Jouer à Abalone en ligne, contre des bots ou à deux | Gratuit",
+    "description": "Jouez à Abalone gratuitement dans votre navigateur. Affrontez un bot réglé sur huit forces, jouez à deux chacun son tour sur le même appareil, ou invitez quelqu'un à une partie en ligne. Neuf configurations de plateau, historique complet des coups et barre d'évaluation. Aucun téléchargement.",
+    "keywords": "jouer abalone, abalone en ligne, abalone navigateur, abalone contre ordinateur, abalone bot, abalone à deux, abalone gratuit, configurations abalone, règles abalone",
+    "og_title": "Jouer à Abalone dans le navigateur",
+    "og_description": "Affrontez un bot réglé sur huit forces, jouez à deux sur le même appareil, ou invitez quelqu'un à une partie en ligne. Neuf configurations de plateau, historique complet des coups et barre d'évaluation. Gratuit, sans téléchargement.",
+    "twitter_title": "Jouer à Abalone dans le navigateur",
+    "twitter_description": "Un bot réglé sur huit forces, à deux sur le même appareil, ou une partie en ligne à votre rythme. Neuf configurations de plateau et historique complet des coups. Gratuit, sans téléchargement.",
     "structured_data": {
-      "name": "Jouer à Abalone contre l'IA",
-      "description": "Jouez à Abalone contre des adversaires informatiques avec 8 niveaux de difficulté (Débutant, Novice, Apprenant, Occasionnel, Intermédiaire, Avancé, Expert, Maître). Choisissez parmi 3 configurations de plateau (Standard, Marguerite belge, Marguerite allemande) et jouez en noir ou blanc. Jeu en ligne gratuit avec historique des coups et barre d'évaluation.",
-      "audience": "Joueurs de jeux de société, passionnés de jeux de stratégie, chercheurs de défis IA"
+      "name": "Abalone",
+      "description": "Jouez à Abalone contre un bot réglé sur huit forces, à deux chacun son tour sur le même appareil, ou invitez quelqu'un à une partie en ligne. Neuf configurations de plateau (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), historique complet des coups et barre d'évaluation. Gratuit dans le navigateur, sans téléchargement.",
+      "audience": "Joueurs de jeux de société et amateurs de jeux de stratégie"
     }
   },
   "players": {
@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Jouer Bots",
-    "marble_design": "Design des billes :",
+    "marble_design": "Design des billes",
     "marble_design_classic": "Minimaliste",
     "marble_design_3d": "Réaliste",
-    "play_as": "Je joue en tant que :",
+    "play_as": "Je joue en tant que",
     "play_button": "Jouer",
     "show_coordinates": "Afficher les coordonnées",
     "show_eval_bar": "Afficher la barre d'évaluation",
@@ -63,7 +63,7 @@
     "rotate_board": "Pivoter le plateau à chaque tour",
     "rotate_board_hint": "Retourner le plateau pour que le joueur au trait soit toujours en bas",
     "show_coordinates_hint": "Afficher la coordonnée axiale dans chaque case",
-    "show_eval_bar_hint": "Comment le moteur évalue la position — parties contre bots uniquement",
+    "show_eval_bar_hint": "Comment le moteur évalue la position (parties contre bots uniquement)",
     "side_group": "Camp à jouer",
     "side_white": "Jouer les blancs",
     "side_black": "Jouer les noirs",
@@ -95,7 +95,7 @@
     "intro": "Abalone se joue à deux sur un plateau hexagonal de 61 cases. Chaque camp commence avec 14 billes et joue un coup par tour.",
     "goal": {
       "title": "L'objectif",
-      "body": "Pousser six billes adverses hors du plateau. C'est tout le jeu — il n'y a rien d'autre à compter."
+      "body": "Pousser six billes adverses hors du plateau. C'est tout le jeu. Il n'y a rien d'autre à compter."
     },
     "directions": {
       "title": "Six directions",

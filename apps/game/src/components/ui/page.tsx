@@ -53,9 +53,7 @@ export function PageTitle({ children, description }: PageTitleProps) {
         {children}
       </h1>
       {description && (
-        <p className="text-sm leading-relaxed text-white/50">
-          {description}
-        </p>
+        <p className="text-sm leading-relaxed text-muted">{description}</p>
       )}
     </header>
   )

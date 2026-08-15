@@ -78,7 +78,7 @@ export function GameOverModal({
       <p className={cn("text-3xl font-extrabold", ACCENTS[resultKind])}>
         {heading}
       </p>
-      <p className="mt-1 text-sm text-white/50">{subtext}</p>
+      <p className="mt-1 text-sm text-muted">{subtext}</p>
 
       <div className="mt-6 flex gap-3">
         <Button variant="primary" className="flex-1" onClick={onRematch}>

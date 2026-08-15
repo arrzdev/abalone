@@ -11,7 +11,6 @@ import {
   PersonIcon,
   SettingsIcon,
 } from "@/components/icons"
-import { LanguageSwitcher } from "@/components/language-switcher"
 import { Logo } from "@/components/logo"
 import { Avatar } from "@/components/ui/avatar"
 import { Menu, MenuItem, MenuSeparator } from "@/components/ui/menu"
@@ -25,7 +24,7 @@ import { useSignOut } from "@/hooks/use-sign-out"
 import { useAuth } from "@/providers/auth-provider"
 
 const ICON_BUTTON_CLASS =
-  "flex size-9 items-center justify-center rounded-lg text-white/60 transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:size-11 lg:rounded-xl"
+  "flex size-10 items-center justify-center rounded-lg text-muted transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:size-11 lg:rounded-xl"
 
 //the desktop step has to be a class: Lucide's `size` lands as width/height
 //presentation attributes, which any CSS rule outranks
@@ -36,8 +35,8 @@ const ICON_GLYPH_CLASS = "lg:size-6"
  *
  * The mark on one side and a row of square icons on the other, at every width.
  * There are no words in it: the destinations live in the tab bar below `lg`, and
- * everything up here is the same kind of thing, so rules, settings, language and
- * the account all get the same square. A phone keeps the row for the same
+ * everything up here is the same kind of thing, so rules, settings and the
+ * account all get the same square. A phone keeps the row for the same
  * reason it exists at all, since the tab bar has no room for any of them.
  *
  * The safe padding is on the outer box and the height on the one inside it: with
@@ -60,7 +59,7 @@ export function AppHeader({ className }: { className?: string }) {
   return (
     <header
       className={cn(
-        "relative shrink-0 border-b border-white/5 bg-surface-2 px-safe pt-safe",
+        "relative shrink-0 border-b border-border-subtle bg-surface-2 px-safe pt-safe",
         className,
       )}
     >
@@ -101,8 +100,6 @@ export function AppHeader({ className }: { className?: string }) {
           >
             <SettingsIcon size={20} className={ICON_GLYPH_CLASS} />
           </button>
-
-          <LanguageSwitcher />
 
           <AccountControl />
         </div>

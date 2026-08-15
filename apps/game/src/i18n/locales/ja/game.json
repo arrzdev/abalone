@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "AIとアバロン対戦 - オンラインでコンピューターに挑戦 | 無料ゲーム",
-    "description": "オンラインでAI相手にアバロンをプレイ。8段階の難易度と複数の初期配置を選べます。棋譜、評価バー、即プレイ対応の無料ブラウザ版。ダウンロード不要。",
-    "keywords": "アバロン AI対戦, アバロン オンライン, アバロン (Abalone) vs AI, アバロン 難易度, ブラウザ ボードゲーム, minimax AI, 無料 アバロン, play アバロン (Abalone) online",
-    "og_title": "AIとアバロン対戦 - オンラインボードゲーム",
-    "og_description": "8段階の難易度を備えたAI相手にアバロンで腕試し。定番の二人用戦略ボードゲームで戦略を磨こう。",
-    "twitter_title": "AIとアバロン対戦",
-    "twitter_description": "8段階の難易度のAIに挑戦。初期配置を選び、黒または白でこの押し出し戦略ゲームをプレイ。",
+    "title": "アバロンをオンラインで対戦：ボットや2人対戦も | 無料",
+    "description": "ブラウザで無料のアバロン。8段階の強さのボットと対戦、同じ端末で2人交互に対戦、または誰かを招待してオンライン対戦ができます。9種類の初期配置、完全な棋譜、評価バーを搭載。ダウンロード不要。",
+    "keywords": "アバロン, アバロン オンライン, アバロン ブラウザ, アバロン ボット, アバロン 2人, アバロン 無料, アバロン 初期配置, アバロン ルール",
+    "og_title": "ブラウザでアバロンを対戦",
+    "og_description": "8段階の強さのボットと対戦、同じ端末で2人対戦、または誰かを招待してオンライン対戦。9種類の初期配置、完全な棋譜、評価バーを搭載。無料、ダウンロード不要。",
+    "twitter_title": "ブラウザでアバロンを対戦",
+    "twitter_description": "8段階のボット、同じ端末で2人対戦、自分のペースで進むオンライン対戦。9種類の初期配置と完全な棋譜。無料、ダウンロード不要。",
     "structured_data": {
-      "name": "AIとアバロン対戦",
-      "description": "8段階の難易度（Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master）のコンピューター相手にアバロンをプレイ。3つの初期配置（Standard, Belgian Daisy, German Daisy）を選び、黒または白で開始できます。棋譜と評価バー付きの無料オンラインゲーム。",
-      "audience": "ボードゲーム好き, 戦略ゲーム愛好家, AIに挑戦したい人"
+      "name": "Abalone",
+      "description": "8段階の強さのボットと対戦、同じ端末で2人交互に対戦、または誰かを招待してオンラインでアバロンを対戦できます。9種類の初期配置（Standard、Belgian Daisy、German Daisy、Dutch Daisy、Swiss Daisy、Alien、Domination、Infiltration、The Wall）、完全な棋譜、評価バーを搭載。ブラウザで無料、ダウンロード不要。",
+      "audience": "ボードゲーム好き、戦略ゲーム愛好家"
     }
   },
   "players": {
@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "ボット対戦",
-    "marble_design": "駒デザイン：",
+    "marble_design": "駒デザイン",
     "marble_design_classic": "ミニマル",
     "marble_design_3d": "リアル",
-    "play_as": "自分の色：",
+    "play_as": "自分の色",
     "play_button": "プレイ",
     "show_coordinates": "座標を表示",
     "show_eval_bar": "評価バーを表示",
@@ -63,7 +63,7 @@
     "rotate_board": "手番ごとに盤を回転",
     "rotate_board_hint": "手番の側がつねに手前になるように盤を反転します",
     "show_coordinates_hint": "各マスに軸座標を表示します",
-    "show_eval_bar_hint": "エンジンによる形勢評価 — ボット対戦のみ",
+    "show_eval_bar_hint": "エンジンによる形勢評価（ボット対戦のみ）",
     "side_group": "使用する側",
     "side_white": "白でプレイ",
     "side_black": "黒でプレイ",
@@ -111,13 +111,13 @@
     "push": {
       "title": "押し出す",
       "body": "押せるのは直線移動だけです。その線上で相手より多くのボールが必要です（2対1、3対1、3対2）。相手のボールの先のマスは空でなければなりません。",
-      "ok_caption": "3対2 — 列全体が1マス進みます。",
+      "ok_caption": "3対2：列全体が1マス進みます。",
       "blocked_caption": "3対3は動きません。自分のボールを押すこともできません。"
     },
     "capture": {
       "title": "盤外へ押し出す",
       "body": "縁を越えて押されたボールはゲームから外れます。相手のボールを先に6個落としたプレイヤーの勝ちです。",
-      "caption": "縁で2対1 — 黒のボールが盤外へ。"
+      "caption": "縁で2対1：黒のボールが盤外へ。"
     },
     "cta": "今すぐプレイ"
   },

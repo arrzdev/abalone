@@ -104,7 +104,7 @@ export function Menu({
         className={cn(
           "flex h-9 items-center gap-2 rounded-lg px-3 text-sm font-semibold transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
           open && "bg-white/10 text-white",
-          !open && "text-white/60 hover:bg-white/10 hover:text-white",
+          !open && "text-muted hover:bg-white/10 hover:text-white",
           triggerClassName,
         )}
       >
@@ -126,7 +126,7 @@ export function Menu({
             {/* The rows are the buttons; this is the box they sit in. */}
             <div
               role="menu"
-              className="min-w-52 origin-top overflow-hidden rounded-xl bg-surface-3 p-1 shadow-2xl shadow-black/60 ring-1 ring-white/10 motion-safe:animate-menu-in"
+              className="min-w-52 origin-top overflow-hidden rounded-xl bg-surface-3 p-1 shadow-2xl shadow-black/60 ring-1 ring-border motion-safe:animate-menu-in"
             >
               {children}
             </div>
@@ -138,7 +138,7 @@ export function Menu({
 }
 
 const ROW_CLASS =
-  "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-white/75 transition-colors duration-200 ease-out hover:bg-surface-5 hover:text-white focus-visible:outline-none focus-visible:bg-surface-5 focus-visible:text-white"
+  "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium text-subtle transition-colors duration-200 ease-out hover:bg-surface-5 hover:text-white focus-visible:outline-none focus-visible:bg-surface-5 focus-visible:text-white"
 
 export type MenuItemProps = {
   icon?: ComponentType<IconProps>

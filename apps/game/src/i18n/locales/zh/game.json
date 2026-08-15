@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "与 AI 对战 角力棋 (Abalone) - 在线挑战电脑对手 | 免费游戏",
-    "description": "在线与 AI 对手玩 角力棋 (Abalone)——可选择 8 个难度等级和多种棋盘布局。免费浏览器版 角力棋 (Abalone)，支持走子记录、评估条与即开即玩，无需下载。",
-    "keywords": "角力棋 (Abalone) 对电脑, 角力棋 (Abalone) vs AI, 在线 角力棋 (Abalone), 角力棋 (Abalone) 难度, 角力棋 (Abalone) 立即开始, 浏览器棋盘游戏, 角力棋 (Abalone) minimax AI, 免费 角力棋 (Abalone) 游戏, play 角力棋 (Abalone) online, 角力棋 (Abalone) online spielen",
-    "og_title": "与电脑 AI 对战 角力棋 (Abalone) - 在线棋盘游戏",
-    "og_description": "在 角力棋 (Abalone) 中挑战 8 个难度等级的 AI 对手。练习策略，提升你的经典双人棋盘游戏技巧。",
-    "twitter_title": "与电脑 AI 对战 角力棋 (Abalone)",
-    "twitter_description": "挑战 8 个难度等级的 AI 对手。选择棋盘布局，并以黑方或白方开始这款策略推子游戏。",
+    "title": "在线玩角力棋 (Abalone)：机器人对战或双人对战 | 免费",
+    "description": "在浏览器中免费玩角力棋 (Abalone)。可与 8 种强度的机器人对战，可在同一台设备上两人轮流对弈，也可邀请好友在线对战。九种棋盘布局、完整走子记录与评估条。无需下载。",
+    "keywords": "角力棋, Abalone, 角力棋 在线, 角力棋 浏览器, 角力棋 机器人, 角力棋 双人, 免费 角力棋, 角力棋 棋盘布局, 角力棋 规则",
+    "og_title": "在浏览器中玩角力棋 (Abalone)",
+    "og_description": "可与 8 种强度的机器人对战，可在同一台设备上两人对弈，也可邀请好友在线对战。九种棋盘布局、完整走子记录与评估条。免费，无需下载。",
+    "twitter_title": "在浏览器中玩角力棋 (Abalone)",
+    "twitter_description": "8 种强度的机器人、同一台设备上的双人对弈，或按自己节奏进行的在线对战。九种棋盘布局与完整走子记录。免费，无需下载。",
     "structured_data": {
-      "name": "与电脑 AI 对战 角力棋 (Abalone)",
-      "description": "与电脑对手对战 角力棋 (Abalone)，提供 8 个难度等级（Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master）。可选择 3 种棋盘布局（Standard, Belgian Daisy, German Daisy），并以黑方或白方开局。免费在线游戏，包含走子记录与评估条。",
-      "audience": "棋盘游戏玩家, 策略游戏爱好者, AI 挑战者"
+      "name": "Abalone",
+      "description": "与 8 种强度的机器人对战，在同一台设备上两人轮流对弈，或邀请好友在线对战角力棋 (Abalone)。九种棋盘布局（Standard、Belgian Daisy、German Daisy、Dutch Daisy、Swiss Daisy、Alien、Domination、Infiltration、The Wall）、完整走子记录与评估条。浏览器中免费游玩，无需下载。",
+      "audience": "桌游玩家与策略游戏爱好者"
     }
   },
   "players": {
@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "对战机器人",
-    "marble_design": "棋子风格：",
+    "marble_design": "棋子风格",
     "marble_design_classic": "极简",
     "marble_design_3d": "写实",
-    "play_as": "我执：",
+    "play_as": "我执",
     "play_button": "开始",
     "show_coordinates": "显示坐标",
     "show_eval_bar": "显示评估条",
@@ -63,7 +63,7 @@
     "rotate_board": "每回合旋转棋盘",
     "rotate_board_hint": "翻转棋盘，让走子的一方始终位于下方",
     "show_coordinates_hint": "在每个格子内显示轴坐标",
-    "show_eval_bar_hint": "引擎对局面的评估 — 仅限人机对局",
+    "show_eval_bar_hint": "引擎对局面的评估（仅限人机对局）",
     "side_group": "执子颜色",
     "side_white": "执白",
     "side_black": "执黑",
@@ -111,13 +111,13 @@
     "push": {
       "title": "推挤",
       "body": "只有直线移动才能推挤。你在那条线上的棋子必须多于对手：二对一、三对一或三对二。对手棋子后面的一格必须是空的。",
-      "ok_caption": "三对二 —— 整条线前进一格。",
+      "ok_caption": "三对二：整条线前进一格。",
       "blocked_caption": "三对三永远推不动，也绝不能推自己的棋子。"
     },
     "capture": {
       "title": "把棋子推出棋盘",
       "body": "被推出边界的棋子就此离场。先把对手六颗棋子推出棋盘的一方获胜。",
-      "caption": "边缘上的二对一 —— 黑子出局。"
+      "caption": "边缘上的二对一：黑子出局。"
     },
     "cta": "立即游戏"
   },

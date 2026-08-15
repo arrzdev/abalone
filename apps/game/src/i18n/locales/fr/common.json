@@ -58,7 +58,7 @@
       "invalid_credentials": "Ce nom et ce mot de passe ne correspondent pas. Vérifie les deux et réessaie.",
       "unknown": "Quelque chose s'est mal passé. Vérifie ta connexion et réessaie."
     },
-    "credentials_warning": "Nom et mot de passe irrécupérables — les perdre, c'est perdre le compte."
+    "credentials_warning": "Nom et mot de passe irrécupérables. Les perdre, c'est perdre le compte."
   },
   "profile": {
     "username_permanent": "Ton nom est définitif",

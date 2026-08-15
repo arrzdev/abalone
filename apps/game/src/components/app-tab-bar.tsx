@@ -18,7 +18,7 @@ import { useAuthPrompt } from "@/providers/auth-prompt-provider"
  * the router's sense, but while their sheet is up they are what you pressed.
  */
 const TAB_CLASS =
-  "flex min-w-0 flex-1 flex-col items-center gap-1.5 rounded-lg py-2 text-white/45 transition-colors duration-200 ease-out data-[status=active]:text-white aria-expanded:text-white"
+  "flex min-w-0 flex-1 flex-col items-center gap-1.5 rounded-lg py-2 text-faint transition-colors duration-200 ease-out data-[status=active]:text-white aria-expanded:text-white"
 
 /**
  * `leading-4`, never `leading-none`: `truncate` brings `overflow: hidden` with
@@ -51,7 +51,7 @@ export function AppTabBar() {
   return (
     <nav
       aria-label={t("common:nav.primary")}
-      className="relative shrink-0 border-t border-white/5 bg-surface-2 px-safe pb-safe-or-2 lg:hidden"
+      className="relative shrink-0 border-t border-border-subtle bg-surface-2 px-safe pb-safe-or-2 lg:hidden"
     >
       <div className="flex items-stretch justify-around gap-1 px-2 pt-1.5">
         <NavLink to="/" exact className={TAB_CLASS}>

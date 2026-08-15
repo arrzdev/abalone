@@ -11,7 +11,7 @@ export type AvatarProps = {
 }
 
 const FALLBACK_CLASS =
-  "flex items-center justify-center bg-black/25 text-white/35"
+  "flex items-center justify-center bg-well text-faint"
 
 /**
  * A player's picture, or the anonymous head standing in for one.
@@ -25,7 +25,7 @@ export function Avatar({ src, size = 36, className }: AvatarProps) {
   return (
     <div
       className={cn(
-        "shrink-0 overflow-hidden rounded-lg bg-black/25",
+        "shrink-0 overflow-hidden rounded-lg bg-well",
         className,
       )}
       style={{ width: size, height: size }}

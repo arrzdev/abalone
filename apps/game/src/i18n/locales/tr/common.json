@@ -58,7 +58,7 @@
       "invalid_credentials": "Bu ad ve parola eşleşmiyor. İkisini de kontrol edip tekrar dene.",
       "unknown": "Bir şeyler ters gitti. Bağlantını kontrol edip tekrar dene."
     },
-    "credentials_warning": "Ad ve parola sıfırlanamaz — kaybedersen hesap da gider."
+    "credentials_warning": "Ad ve parola sıfırlanamaz. Kaybedersen hesap da gider."
   },
   "profile": {
     "username_permanent": "Adın kalıcıdır",

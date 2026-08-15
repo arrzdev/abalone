@@ -243,7 +243,7 @@ export function MoveStrip({
     return (
       <div
         className={cn(
-          "flex items-center justify-center text-sm text-white/30",
+          "flex items-center justify-center text-sm text-faint",
           className,
         )}
       >
@@ -273,7 +273,7 @@ export function MoveStrip({
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
             currentMoveIndex === 0
               ? "bg-brand text-white"
-              : "text-white/50 hover:bg-white/5 hover:text-white",
+              : "text-muted hover:bg-white/5 hover:text-white",
           )}
         >
           {t("game:history.start")}
@@ -283,7 +283,7 @@ export function MoveStrip({
           <Fragment key={index}>
             {/* Numbered once per pair, on the move that opens it. */}
             {index % 2 === 1 && (
-              <span className="shrink-0 pl-1 text-xs text-white/30 tabular-nums">
+              <span className="shrink-0 pl-1 text-xs text-faint tabular-nums">
                 {Math.floor((index + 1) / 2)}.
               </span>
             )}
@@ -296,7 +296,7 @@ export function MoveStrip({
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
                 index === currentMoveIndex
                   ? "bg-brand text-white"
-                  : "text-white/70 hover:bg-white/5 hover:text-white",
+                  : "text-subtle hover:bg-white/5 hover:text-white",
               )}
             >
               {entry.moveDetails?.marbles ? (
@@ -349,7 +349,7 @@ function ResultLine({
   return (
     <div
       className={cn(
-        "flex items-center justify-center gap-1.5 font-semibold text-white/70",
+        "flex items-center justify-center gap-1.5 font-semibold text-subtle",
         className,
       )}
     >
@@ -384,7 +384,7 @@ function StartRow({
     // Every other entry is a cell sitting inside a padded row, which is where
     // its rounding has room to show. This one is a row in its own right, so it
     // carries that row's padding itself rather than running to the edges.
-    <div className="border-b border-white/5 px-1 py-0.5">
+    <div className="border-b border-border-subtle px-1 py-0.5">
       <TapButton
         data-current={current}
         aria-current={current || undefined}
@@ -396,7 +396,7 @@ function StartRow({
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
           current
             ? "bg-brand text-white"
-            : "text-white/50 hover:bg-white/5 hover:text-white",
+            : "text-muted hover:bg-white/5 hover:text-white",
         )}
       >
         {t("game:history.start")}
@@ -431,7 +431,7 @@ function MoveCell({
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
         isCurrent
           ? "bg-brand text-white"
-          : "text-white/70 hover:bg-white/5 hover:text-white",
+          : "text-subtle hover:bg-white/5 hover:text-white",
       )}
     >
       {entry.moveDetails?.marbles ? (
@@ -489,7 +489,7 @@ export function MoveHistory({
     return (
       <div
         className={cn(
-          "flex items-center justify-center text-sm text-white/30",
+          "flex items-center justify-center text-sm text-faint",
           className,
         )}
       >
@@ -514,9 +514,9 @@ export function MoveHistory({
               pair.blackIndex === currentMoveIndex ||
               pair.whiteIndex === currentMoveIndex
             }
-            className="flex items-center gap-1 border-b border-white/5 px-1 py-0.5 last:border-b-0"
+            className="flex items-center gap-1 border-b border-border-subtle px-1 py-0.5 last:border-b-0"
           >
-            <span className="w-7 shrink-0 text-right text-xs text-white/30 tabular-nums">
+            <span className="w-7 shrink-0 text-right text-xs text-faint tabular-nums">
               {pair.moveNumber}.
             </span>
             <MoveCell

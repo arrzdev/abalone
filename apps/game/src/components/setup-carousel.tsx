@@ -10,7 +10,7 @@ import { getSetupName } from "@/i18n/game-text"
 export const SETUP_ORDER: readonly SetupKey[] = PLAYABLE_SETUPS
 
 const NAV_CLASS =
-  "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white/60 transition " +
+  "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-muted transition " +
   "hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
 
 export type SetupCarouselProps = {

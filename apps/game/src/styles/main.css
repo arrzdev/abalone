@@ -52,18 +52,42 @@
   /*---- semantic aliases — what @repo/nativ paints with -------------------*/
   --background: var(--elevated);
   --surface-raised: var(--surface-2);
-  --foreground: #ffffff;
-  --muted: #a9b0b7;
-  --subtle: #cbd1d6;
   --secondary: var(--surface-4);
   --secondary-foreground: #ffffff;
   --primary: var(--brand);
   --primary-foreground: #ffffff;
-  --border: var(--elevated-2);
-  --border-subtle: var(--surface-5);
-  --border-strong: var(--elevated-3);
-  --overlay: rgb(0 0 0 / 0.6);
   --ring: var(--brand);
+
+  /*
+   * The text ramp: four steps, and every word in the app is on one of them.
+   *
+   * White at an alpha rather than a colour of its own, because text here lands
+   * on nine different surfaces — `surface` through `elevated-3`, the brand fill,
+   * and the wells below — and one solid grey cannot read against all of them.
+   * The alpha carries whatever it is sitting on with it.
+   *
+   * Four steps is the whole scale: heading, body, caption, and the tier that is
+   * only there to be seen past — placeholders, disabled, the em dash standing in
+   * for a name nobody has typed.
+   */
+  --foreground: #ffffff;
+  --subtle: rgb(255 255 255 / 0.7);
+  --muted: rgb(255 255 255 / 0.55);
+  --faint: rgb(255 255 255 / 0.35);
+
+  /*
+   * Hairlines, not rules. On a dark app a solid grey border is a line you read
+   * before the content it separates; white at a low alpha is the same separation
+   * carried by the surface underneath.
+   */
+  --border-subtle: rgb(255 255 255 / 0.05);
+  --border: rgb(255 255 255 / 0.1);
+  --border-strong: rgb(255 255 255 / 0.25);
+
+  /* Black over the page, for the two things that sit on top of it: the scrim
+     behind an overlay, and the well a figure or an avatar is recessed into. */
+  --overlay: rgb(0 0 0 / 0.6);
+  --well: rgb(0 0 0 / 0.22);
   --error: var(--loss);
   --success: #4caf7d;
   --warning: #d9a441;
@@ -98,6 +122,8 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-subtle: var(--subtle);
+  --color-faint: var(--faint);
+  --color-well: var(--well);
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-primary: var(--primary);

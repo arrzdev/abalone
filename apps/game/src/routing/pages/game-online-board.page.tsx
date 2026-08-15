@@ -213,7 +213,7 @@ function GameOnlineBoardPage() {
         <p
           className={cn(
             "shrink-0 px-4 pt-2 text-center text-xs",
-            online.error ? "text-loss" : "text-white/45",
+            online.error ? "text-loss" : "text-faint",
           )}
           role={online.error ? "alert" : undefined}
         >

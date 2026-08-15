@@ -86,7 +86,7 @@ function LoginPage() {
                 <h1 className="text-3xl font-extrabold tracking-tight text-white">
                   {t("common:auth.prompt_title")}
                 </h1>
-                <p className="leading-relaxed text-white/50">
+                <p className="leading-relaxed text-muted">
                   {t("common:auth.prompt_body")}
                 </p>
               </div>
@@ -105,12 +105,16 @@ function LoginPage() {
 
         {/* The half of the screen the form does not need, spent on what the
           account is for: the game, on both of the things it runs on. */}
-        <aside className="relative hidden min-h-0 flex-1 flex-col justify-center gap-y-10 p-10 lg:flex">
-          <Showcase />
+        <aside className="relative hidden min-h-0 flex-1 flex-col justify-center p-10 lg:flex">
+          {/* One column for both, so the line reads as the picture's caption
+            rather than as a paragraph that happens to sit under it. */}
+          <div className="mx-auto flex w-full max-w-xl flex-col gap-y-10">
+            <Showcase />
 
-          <p className="max-w-md text-xl leading-snug font-bold text-balance text-white/80">
-            {t("common:home.tagline")}
-          </p>
+            <p className="mx-auto max-w-md text-center text-xl leading-snug font-bold text-balance text-subtle">
+              {t("common:home.tagline")}
+            </p>
+          </div>
         </aside>
       </Screen>
     </>
@@ -129,6 +133,14 @@ const SHOT_BASE = `${import.meta.env.BASE_URL}images/showcase`
  * they go stale — the frames are the part worth keeping, and swapping the two
  * files is the whole of updating this.
  *
+ * Reshooting the phone means forcing the insets first. A desktop browser reports
+ * `env(safe-area-inset-*)` as zero whatever size the window is, so a shot taken
+ * straight off one has its header against the bezel and the frame's corner
+ * eating the gear. Override `--twsa-safe-area-inset-top`/`-bottom` before
+ * capturing: 32px and 24px, not the 47/34 a real iPhone reports. The shot has no
+ * clock or battery in that strip, so at a device's own numbers it reads as a
+ * black void rather than as a status bar.
+ *
  * The frames are drawn in CSS rather than baked into the images: a bezel is two
  * rounded boxes, and baking it in would mean re-editing artwork every time the
  * screenshot changes.
@@ -136,7 +148,7 @@ const SHOT_BASE = `${import.meta.env.BASE_URL}images/showcase`
 function Showcase() {
   return (
     <div className="relative mx-auto w-full max-w-xl pb-10 ps-10">
-      <div className="overflow-hidden rounded-xl bg-surface-4 shadow-2xl shadow-black/50 ring-1 ring-white/10">
+      <div className="overflow-hidden rounded-xl bg-surface-4 shadow-2xl shadow-black/50 ring-1 ring-border">
         <div className="flex h-7 items-center gap-1.5 bg-surface-3 px-3">
           <span className="h-2 w-2 rounded-full bg-white/20" />
           <span className="h-2 w-2 rounded-full bg-white/15" />
@@ -149,7 +161,7 @@ function Showcase() {
         />
       </div>
 
-      <div className="absolute bottom-0 left-0 w-[26%] rounded-[1.4rem] bg-black p-1 shadow-2xl shadow-black/60 ring-1 ring-white/15">
+      <div className="absolute bottom-0 left-0 w-[26%] rounded-[1.4rem] bg-black p-1 shadow-2xl shadow-black/60 ring-1 ring-border">
         <img
           src={`${SHOT_BASE}/mobile.webp`}
           alt=""

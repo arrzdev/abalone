@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "Jugar Abalone contra IA - Desafía oponentes informáticos en línea | Juego gratuito",
-    "description": "Juega Abalone contra oponentes IA en línea - elige entre 8 niveles de dificultad y múltiples configuraciones de tablero. Juego Abalone gratuito basado en navegador con historial de movimientos, barra de evaluación y juego instantáneo. No requiere descarga.",
-    "keywords": "jugar abalone contra computadora, abalone vs IA, juego abalone en línea, niveles de dificultad abalone, jugar abalone ahora, juego navegador abalone, IA minimax abalone, juego abalone gratis",
-    "og_title": "Jugar Abalone contra IA - Juego de mesa en línea",
-    "og_description": "Desafía oponentes IA en Abalone con 8 niveles de dificultad. Practica estrategia y mejora tus habilidades en este juego de mesa clásico para dos jugadores.",
-    "twitter_title": "Jugar Abalone contra IA",
-    "twitter_description": "Desafía oponentes IA con 8 niveles de dificultad. Elige tu configuración de tablero y juega como negro o blanco en este juego estratégico de empuje de canicas.",
+    "title": "Jugar Abalone online, contra bots o a dos | Gratis",
+    "description": "Juega Abalone gratis en tu navegador. Enfréntate a un bot con ocho niveles de fuerza, jugad dos por turnos en el mismo dispositivo, o invita a alguien a una partida online. Nueve configuraciones de tablero, historial completo de movimientos y barra de evaluación. Sin descargas.",
+    "keywords": "jugar abalone, abalone online, abalone navegador, abalone contra ordenador, abalone bot, abalone dos jugadores, abalone gratis, configuraciones abalone, reglas abalone",
+    "og_title": "Jugar Abalone en el navegador",
+    "og_description": "Enfréntate a un bot con ocho niveles de fuerza, jugad dos por turnos en el mismo dispositivo, o invita a alguien a una partida online. Nueve configuraciones de tablero, historial completo de movimientos y barra de evaluación. Gratis, sin descargas.",
+    "twitter_title": "Jugar Abalone en el navegador",
+    "twitter_description": "Un bot con ocho niveles, dos por turnos en el mismo dispositivo, o una partida online a vuestro ritmo. Nueve configuraciones de tablero e historial completo. Gratis, sin descargas.",
     "structured_data": {
-      "name": "Jugar Abalone contra IA",
-      "description": "Juega Abalone contra oponentes informáticos con 8 niveles de dificultad (Principiante, Novato, Aprendiz, Casual, Intermedio, Avanzado, Experto, Maestro). Elige entre 3 configuraciones de tablero (Estándar, Margarita belga, Margarita alemana) y juega como negro o blanco. Juego en línea gratuito con historial de movimientos y barra de evaluación.",
-      "audience": "Jugadores de juegos de mesa, entusiastas de juegos de estrategia, buscadores de desafíos de IA"
+      "name": "Abalone",
+      "description": "Juega Abalone contra un bot con ocho niveles de fuerza, dos por turnos en el mismo dispositivo, o invita a alguien a una partida online. Nueve configuraciones de tablero (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), historial completo de movimientos y barra de evaluación. Gratis en el navegador, sin descargas.",
+      "audience": "Jugadores de juegos de mesa y aficionados a los juegos de estrategia"
     }
   },
   "players": {
@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Jugar Bots",
-    "marble_design": "Diseño de canicas:",
+    "marble_design": "Diseño de canicas",
     "marble_design_classic": "Minimalista",
     "marble_design_3d": "Realista",
-    "play_as": "Yo juego como:",
+    "play_as": "Yo juego como",
     "play_button": "Jugar",
     "show_coordinates": "Mostrar coordenadas",
     "show_eval_bar": "Mostrar barra de evaluación",
@@ -63,7 +63,7 @@
     "rotate_board": "Girar el tablero cada turno",
     "rotate_board_hint": "Voltear el tablero para que quien mueve esté siempre abajo",
     "show_coordinates_hint": "Mostrar la coordenada axial dentro de cada casilla",
-    "show_eval_bar_hint": "Cómo el motor valora la posición — solo contra bots",
+    "show_eval_bar_hint": "Cómo el motor valora la posición (solo contra bots)",
     "side_group": "Lado con el que jugar",
     "side_white": "Jugar con blancas",
     "side_black": "Jugar con negras",
