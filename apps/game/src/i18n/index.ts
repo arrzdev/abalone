@@ -105,7 +105,7 @@ function detectLanguage(): Language {
 i18next.use(initReactI18next).init({
   lng: detectLanguage(),
   fallbackLng: "en",
-  ns: ["common", "game", "bots"],
+  ns: ["common", "game", "bots", "errors"],
   defaultNS: "game",
   resources,
   interpolation: { escapeValue: false },
