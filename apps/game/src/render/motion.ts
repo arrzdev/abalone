@@ -1,4 +1,4 @@
-import type { Point } from "@/engine/types"
+import type { Point } from "@repo/abalone-engine/types"
 
 /**
  * How the board moves: the few timings the game animates to, and the easing

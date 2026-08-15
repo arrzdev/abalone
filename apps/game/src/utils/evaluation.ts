@@ -1,8 +1,11 @@
+import { WINNING_SCORE } from "@repo/abalone-engine/config"
+import type { GameState } from "@repo/abalone-engine/game-state"
+import {
+  positionFromNames,
+  sideFromName,
+} from "@repo/abalone-engine/position"
 import type { ScoringWeights } from "@/ai/evaluate"
 import { scorePosition } from "@/ai/evaluate"
-import { WINNING_SCORE } from "@/engine/config"
-import type { GameState } from "@/engine/game-state"
-import { positionFromNames, sideFromName } from "@/engine/position"
 
 /**
  * What the evaluation bar reads, from black's point of view: positive favours

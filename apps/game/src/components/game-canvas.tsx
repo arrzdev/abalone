@@ -1,3 +1,11 @@
+import { MAX_LINE } from "@repo/abalone-engine/config"
+import type { GameState } from "@repo/abalone-engine/game-state"
+import type { MovingMarble } from "@repo/abalone-engine/rules"
+import type {
+  AxialStep,
+  CellName,
+  Point,
+} from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
 import type { MouseEvent, PointerEvent } from "react"
 import {
@@ -9,10 +17,6 @@ import {
   useRef,
 } from "react"
 import { TapButton } from "@/components/ui/tap-button"
-import { MAX_LINE } from "@/engine/config"
-import type { GameState } from "@/engine/game-state"
-import type { MovingMarble } from "@/engine/rules"
-import type { AxialStep, CellName, Point } from "@/engine/types"
 import { markTapHandled, TAP_SLOP } from "@/hooks/use-click-fix"
 import type {
   BoardAnimation,

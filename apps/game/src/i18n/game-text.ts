@@ -58,14 +58,14 @@ export function getGameOverMessage(
 
 export const SETUP_NAMES: Record<string, string> = {
   standard: "Standard",
-  belgianDaisy: "Belgian Daisy",
-  germanDaisy: "German Daisy",
-  dutchDaisy: "Dutch Daisy",
-  swissDaisy: "Swiss Daisy",
+  belgian_daisy: "Belgian Daisy",
+  german_daisy: "German Daisy",
+  dutch_daisy: "Dutch Daisy",
+  swiss_daisy: "Swiss Daisy",
   alien: "Alien",
   domination: "Domination",
   infiltration: "Infiltration",
-  theWall: "The Wall",
+  the_wall: "The Wall",
 }
 
 export function getSetupName(setupKey: string): string {

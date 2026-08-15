@@ -1,6 +1,6 @@
+import type { GameState } from "@repo/abalone-engine/game-state"
+import type { CellName, Player } from "@repo/abalone-engine/types"
 import { useCallback, useEffect, useRef, useState } from "react"
-import type { GameState } from "@/engine/game-state"
-import type { CellName, Player } from "@/engine/types"
 import type { SayEvent } from "@/i18n/bots"
 import { EVENT_RANK, pickLine, SAY } from "@/i18n/bots"
 import { marblesAtRisk } from "@/utils/threats"

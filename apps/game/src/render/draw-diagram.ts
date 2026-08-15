@@ -1,4 +1,8 @@
-import type { AxialStep, CellName, Player } from "@/engine/types"
+import type {
+  AxialStep,
+  CellName,
+  Player,
+} from "@repo/abalone-engine/types"
 import { hexCenter } from "@/render/hex-grid"
 import { renderMarble } from "@/render/marble-renderer"
 

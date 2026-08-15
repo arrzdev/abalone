@@ -1,6 +1,6 @@
+import type { Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
 import { useEffect, useRef } from "react"
-import type { Player } from "@/engine/types"
 import { renderMarble } from "@/render/marble-renderer"
 
 /** The two fills the board renderers understand. */

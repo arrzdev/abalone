@@ -1,8 +1,8 @@
+import type { Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
 import { useTranslation } from "react-i18next"
 import { MarbleGlyph } from "@/components/marble-glyph"
 import { TapButton } from "@/components/ui/tap-button"
-import type { Player } from "@/engine/types"
 
 /** What a player may ask to play as; `random` is settled at kick-off. */
 export type ColorChoiceValue = Player | "random"
