@@ -8,7 +8,7 @@
  * `:root` and neither class overrides it — whichever way the shell resolves, the
  * board is the same board.
  *
- * Two families live here. The game's own names (--brand, --board, --surface-2,
+ * Two families live here. The game's own names (--brand, --board, --surface,
  * --marble-white …) are what the components have always painted with. The
  * semantic names below them (--background, --foreground, --primary …) are what
  * @repo/nativ's primitives paint with, and they are aliases onto the first set —
@@ -17,15 +17,26 @@
 :root {
   color-scheme: dark;
 
-  --ink: #111111;
-  --surface: #2a2a2a;
-  --surface-2: #222222;
-  --surface-3: #2f2f2f;
-  --surface-4: #333333;
-  --surface-5: #3a3a3a;
-  --elevated: #444444;
-  --elevated-2: #555555;
-  --elevated-3: #666666;
+  /*
+   * The greys, darkest first, and in that order for a reason: the ground is the
+   * floor and everything else stands on it.
+   *
+   * This used to run the other way — panels at #222 on a page at #444 — and what
+   * that read as was holes cut in the screen rather than cards laid on it. Light
+   * comes from above in every other interface a person uses, so the surface
+   * nearest them has to be the lighter one.
+   *
+   * Chrome is the exception, and deliberately below the ground rather than above
+   * it: a header and a tab bar are the edges of the window, not content in it,
+   * and the way they say so is by receding.
+   */
+  --ink: #0e0e0e;
+  --chrome: #141414;
+  --ground: #1a1a1a;
+  --surface: #242424;
+  --surface-2: #2c2c2c;
+  --surface-3: #333333;
+  --surface-4: #3a3a3a;
 
   /*
    * The accent family. Each of these is the green it replaced, rotated onto the
@@ -34,7 +45,10 @@
    * with.
    */
   --brand: #4c82b6;
-  --brand-hover: #3e70a2;
+  /* Up, not down. A pressed-looking accent made sense against a page that was
+     lighter than its cards; on a dark ground the lit step is the one that reads
+     as a response. */
+  --brand-hover: #60a4d1;
   --brand-light: #60a4d1;
   --brand-lighter: #7ec2e1;
   --brand-deep: #567696;
@@ -49,10 +63,15 @@
   --loss: #fa412d;
   --win: #4c82b6;
 
+  /* The fallback square behind an initial, for anyone who has not uploaded a
+     picture. Off the accent rather than out of the grey ramp, so a row of names
+     with no faces still belongs to the app. */
+  --avatar-well: #3d4f63;
+
   /*---- semantic aliases — what @repo/nativ paints with -------------------*/
-  --background: var(--elevated);
-  --surface-raised: var(--surface-2);
-  --secondary: var(--surface-4);
+  --background: var(--ground);
+  --surface-raised: var(--surface);
+  --secondary: var(--surface-2);
   --secondary-foreground: #ffffff;
   --primary: var(--brand);
   --primary-foreground: #ffffff;
@@ -62,7 +81,7 @@
    * The text ramp: four steps, and every word in the app is on one of them.
    *
    * White at an alpha rather than a colour of its own, because text here lands
-   * on nine different surfaces — `surface` through `elevated-3`, the brand fill,
+   * on seven different surfaces — `chrome` through `surface-4`, the brand fill,
    * and the wells below — and one solid grey cannot read against all of them.
    * The alpha carries whatever it is sitting on with it.
    *
@@ -80,31 +99,84 @@
    * before the content it separates; white at a low alpha is the same separation
    * carried by the surface underneath.
    */
-  --border-subtle: rgb(255 255 255 / 0.05);
+  --border-subtle: rgb(255 255 255 / 0.06);
   --border: rgb(255 255 255 / 0.1);
   --border-strong: rgb(255 255 255 / 0.25);
+  /* The one border that is drawn outside the box rather than between two of
+     them: a quiet control with nothing behind it, which fills in on hover. */
+  --border-outline: rgb(255 255 255 / 0.08);
 
   /* Black over the page, for the two things that sit on top of it: the scrim
      behind an overlay, and the well a figure or an avatar is recessed into. */
-  --overlay: rgb(0 0 0 / 0.6);
-  --well: rgb(0 0 0 / 0.22);
+  --overlay: rgb(0 0 0 / 0.66);
+  --well: rgb(0 0 0 / 0.2);
   --error: var(--loss);
   --success: #4caf7d;
   --warning: #d9a441;
 
+  /*
+   * Two faces, and the split is by job rather than by size.
+   *
+   * Sora is the display face: the wordmark, headings, section labels, nav items,
+   * button text and every number that stands for a score. It is a geometric
+   * grotesque with a tall x-height and flat terminals, which is what makes a
+   * 3–1 at 18px read as a scoreline rather than as body text that happens to be
+   * numeric.
+   *
+   * Everything a person reads a sentence of stays on the system stack, which is
+   * already tuned for the reader's own platform and costs nothing to load. So
+   * the font we ship is only ever carrying short strings, and it can be late
+   * without anything below it moving.
+   */
   --font-sans: "Segoe UI", Tahoma, Verdana, sans-serif;
+  --font-display: Sora, var(--font-sans);
+}
+
+/*
+ * Sora, self-hosted: one variable file per subset, covering 600–800 off the
+ * weight axis, which is every weight the design asks for.
+ *
+ * `swap`, not `block`: the display face carries headings and scores, and a
+ * heading nobody can read for 100ms is worse than one that changes width once.
+ * The fallback is the same system stack the body already uses, so the swap is a
+ * change of face rather than a change of layout.
+ *
+ * The two subsets are split the way Google splits them, so a Polish or Turkish
+ * name pulls the extended file and nobody else pays for it. Devanagari and CJK
+ * are not in either — Sora has no such glyphs — and those locales fall through
+ * to the system stack, which does.
+ */
+@font-face {
+  font-family: Sora;
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url("/fonts/sora-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+    U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Sora;
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url("/fonts/sora-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7,
+    U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+    U+A720-A7FF;
 }
 
 @theme inline {
   --color-ink: var(--ink);
+  --color-chrome: var(--chrome);
+  --color-ground: var(--ground);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-surface-3: var(--surface-3);
   --color-surface-4: var(--surface-4);
-  --color-surface-5: var(--surface-5);
-  --color-elevated: var(--elevated);
-  --color-elevated-2: var(--elevated-2);
-  --color-elevated-3: var(--elevated-3);
 
   --color-brand: var(--brand);
   --color-brand-hover: var(--brand-hover);
@@ -131,6 +203,8 @@
   --color-border: var(--border);
   --color-border-subtle: var(--border-subtle);
   --color-border-strong: var(--border-strong);
+  --color-border-outline: var(--border-outline);
+  --color-avatar-well: var(--avatar-well);
   --color-overlay: var(--overlay);
   --color-ring: var(--ring);
   --color-error: var(--error);
@@ -144,6 +218,7 @@
   --radius-panel: 10px;
 
   --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
 
   /* A popover grows out of the control that opened it, so it scales from its
      own top edge rather than fading in where it happens to land. */
@@ -241,6 +316,32 @@
 
 @layer components {
   /*
+   * The label over a group of rows — "Your games", "Invites", "Finished".
+   *
+   * It is a class rather than a constant in one component because the same six
+   * decisions (display face, 11px, bold, wide tracking, upper case, the faintest
+   * step on the ramp) are made on every panel in the app, and a label that
+   * disagrees with its neighbours by a pixel of tracking is the kind of drift
+   * nobody sees and everybody feels.
+   *
+   * Small, wide and faint on purpose: it is there to be found when you look for
+   * it and skipped when you don't. What it labels is the loud part.
+   */
+  .section-label {
+    @apply font-display text-[11px] font-bold tracking-[0.15em] text-faint uppercase;
+  }
+
+  /*
+   * The same idea one step down, over a single field inside an overlay: "Who are
+   * you playing?", "Opening", "Your side". Wider than body text but tighter than
+   * a section label, because it belongs to the one control under it rather than
+   * to a group.
+   */
+  .field-label {
+    @apply font-display text-xs font-semibold tracking-[0.06em] text-faint uppercase;
+  }
+
+  /*
    * The honeycomb, for anything that would otherwise be a flat panel.
    *
    * A tiling hexagon grid drawn once as an inline SVG and repeated by the
@@ -334,7 +435,7 @@
     background: linear-gradient(
       to right,
       var(--brand) var(--fill),
-      var(--elevated-2) var(--fill)
+      var(--surface-4) var(--fill)
     );
   }
 
@@ -344,7 +445,7 @@
     background: linear-gradient(
       to right,
       var(--brand) var(--fill),
-      var(--elevated-2) var(--fill)
+      var(--surface-4) var(--fill)
     );
   }
 
@@ -379,21 +480,78 @@
 /*
  * Thin scrollbars inside panels and dropdowns.
  *
- * Only the standard properties are worth writing: once `scrollbar-width` is
- * set, Chrome takes the standard path and ignores `::-webkit-scrollbar-*`
- * entirely. What it gives back is an overlay bar with no gutter, painted over
- * the corners of the very box it scrolls — so anything rounded keeps its radius
- * on a parent that clips, and only the inside scrolls.
+ * The bar is the app's blue rather than another grey. It is the one piece of
+ * chrome that appears only when there is something you have not seen yet, and a
+ * dark thumb on a dark panel says that at the same volume as the panel says
+ * nothing.
  *
- * `!important` because the shell hides every scrollbar in the app with one — a
- * fair default for a screen that is one full-bleed pane, and the wrong one for a
- * dropdown or a move list, which are boxes with more in them than they show and
- * no other way of saying so.
+ * Written twice, because the two ways of styling one are exclusive: give
+ * `scrollbar-width` any value but `auto` and the engine takes the standard path
+ * and stops reading `::-webkit-scrollbar-*` altogether. Only the legacy path can
+ * round a thumb, so the pseudo-elements are the rule and the standard properties
+ * are the fallback — not the other way around, which is what shut Safari out of
+ * the version before this one. It answers `false` to `selector(::-webkit-…)`
+ * despite being the engine the thing came from, so anything gated on that is a
+ * rule Safari never sees.
+ *
+ * `auto !important` is what buys the pseudo-elements back: `auto` is the initial
+ * value, so it reads as unset, and the `!important` is what beats the shell's
+ * own reset — it hides every scrollbar in the app with one, a fair default for a
+ * screen that is one full-bleed pane and the wrong one for a dropdown or a move
+ * list, which are boxes with more in them than they show and no other way of
+ * saying so. Same reason for the `display`s below.
  */
 .panel-scroll {
-  scrollbar-width: thin !important;
-  scrollbar-color: #111 transparent;
+  scrollbar-width: auto !important;
   overscroll-behavior: contain;
+}
+
+/* Every part of the lane, and every one of them transparent — the panel behind
+   shows through, whichever surface that panel happens to be. Naming the bar only
+   gets you the bar: every part left out keeps painting its own default, and what
+   that looks like is a band down the edge in a grey nothing else uses. There are
+   more of them than a scrollbar looks like it has — the track, the two pieces of
+   it either side of the thumb, the end steppers, and the square where a vertical
+   bar meets a horizontal one. */
+.panel-scroll::-webkit-scrollbar {
+  display: block !important;
+  width: 10px;
+  height: 10px;
+  background: transparent;
+}
+.panel-scroll::-webkit-scrollbar-track,
+.panel-scroll::-webkit-scrollbar-track-piece,
+.panel-scroll::-webkit-scrollbar-corner {
+  display: block !important;
+  background: transparent;
+}
+/* No steppers: a pair of default-painted squares at the ends of a lane that is
+   otherwise not there. */
+.panel-scroll::-webkit-scrollbar-button {
+  display: none !important;
+}
+/* The border is the inset: transparent, and clipped out of the fill, so a 4px
+   pill floats in a 10px lane — wide enough for a pointer to catch, narrow enough
+   to ignore. */
+.panel-scroll::-webkit-scrollbar-thumb {
+  display: block !important;
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background-color: var(--color-brand);
+  background-clip: content-box;
+}
+.panel-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-brand-hover);
+}
+
+/* Firefox, which has no pseudo-elements to offer and so gets what the standard
+   properties can say: thin, and the right blue. `-moz-orient` is the engine
+   test — Tailwind's own output uses it for the same job. */
+@supports (-moz-orient: inline) {
+  .panel-scroll {
+    scrollbar-width: thin !important;
+    scrollbar-color: var(--color-brand) transparent;
+  }
 }
 
 /*
