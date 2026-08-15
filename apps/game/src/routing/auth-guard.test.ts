@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest"
-import { needsSignIn } from "@/routing/auth-guard"
+import { needsSignIn, signInPrompt } from "@/routing/auth-guard"
 
 //the store is stubbed rather than borrowed from the environment: what this
 //guard is about is the two places it runs, and the interesting one is a worker
@@ -10,6 +10,9 @@ function withStore(token: string | null) {
     getItem: (key: string) => (key === "abalone.bearer" ? token : null),
   })
 }
+
+const DESKTOP = true
+const PHONE = false
 
 afterEach(() => {
   vi.unstubAllGlobals()
@@ -35,5 +38,27 @@ describe("needsSignIn", () => {
     withStore(null)
     vi.stubGlobal("window", undefined)
     expect(needsSignIn()).toBe(false)
+  })
+})
+
+describe("signInPrompt", () => {
+  it("asks a signed-in player for nothing, on either shape", () => {
+    withStore("a-live-token")
+    expect(signInPrompt(DESKTOP)).toBe("none")
+    expect(signInPrompt(PHONE)).toBe("none")
+  })
+
+  it("sends a guest on a desktop to the login screen", () => {
+    withStore(null)
+    expect(signInPrompt(DESKTOP)).toBe("login-screen")
+  })
+
+  //a phone must never LAND on the login screen. the form belongs in a drawer
+  //over the screen it was asked from, which is the split `AuthPromptProvider`
+  //already applies to every ask that starts from a tap — a guard that went
+  //straight to `/login` would be a second, contradictory answer.
+  it("gives a guest on a phone the drawer", () => {
+    withStore(null)
+    expect(signInPrompt(PHONE)).toBe("drawer")
   })
 })
