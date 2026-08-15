@@ -67,11 +67,6 @@
     "picture_hint": "PNG, JPEG veya WebP. Görsel kare olacak şekilde kırpılır.",
     "upload_failed": "Bu resim yüklenemedi. Tekrar dene."
   },
-  "online": {
-    "title": "Çevrimiçi",
-    "body": "Çevrimiçi oyunlar henüz çalışmıyor. Bu ekran, oyunlar geldiğinde giriş hazır olsun diye burada.",
-    "signed_in_as": "{{username}} olarak giriş yapıldı"
-  },
   "actions": {
     "close": "Kapat",
     "cancel": "Vazgeç"

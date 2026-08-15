@@ -1,0 +1,63 @@
+{
+  "title": "Çevrimiçi",
+  "subtitle": "Kendi hızında oyna. Oyunlar seni bekler, günde bir hamle bile gayet iyi bir oyundur.",
+  "games": {
+    "heading": "Oyunların",
+    "empty": "Henüz oyun yok. Birini davet et.",
+    "your_turn": "Sıra sende",
+    "their_turn": "Sıra rakipte"
+  },
+  "invites": {
+    "received": "Sana gelen davetler",
+    "received_empty": "Seni henüz kimse davet etmedi.",
+    "sent": "Gönderdiğin davetler",
+    "sent_empty": "Henüz kimseyi davet etmedin.",
+    "terms": "{{setup}}, sen {{side}} oynuyorsun",
+    "declined": "Reddedildi",
+    "accept": "Kabul et",
+    "decline": "Reddet",
+    "cancel": "Geri al",
+    "dismiss": "Kaldır"
+  },
+  "history": {
+    "heading": "Biten oyunlar",
+    "empty": "Burada henüz bir şey yok. Biten oyunlar buraya gelir."
+  },
+  "sides": {
+    "black": "siyah",
+    "white": "beyaz",
+    "random": "iki taraftan biri"
+  },
+  "results": {
+    "won": "{{reason}} ile kazandın",
+    "lost": "{{reason}} ile kaybettin",
+    "draw": "{{reason}} ile berabere"
+  },
+  "reasons": {
+    "score": "sayı",
+    "resignation": "terk",
+    "threefold_repetition": "tekrar"
+  },
+  "compose": {
+    "title": "Yeni davet",
+    "body": "Birini adıyla davet et. Uygulamayı bir dahaki açışında görecek.",
+    "username": "Adı",
+    "username_placeholder": "Kiminle oynuyorsun?",
+    "setup": "Açılış",
+    "side": "Senin tarafın",
+    "send": "Daveti gönder",
+    "sending": "Gönderiliyor"
+  },
+  "board": {
+    "against": "{{name}} ile",
+    "loading": "Oyun yükleniyor",
+    "your_move": "Sıra sende",
+    "waiting": "Rakip bekleniyor",
+    "finished": "Bu oyun bitti",
+    "result_win": "Kazandın",
+    "result_loss": "Kaybettin",
+    "result_draw": "Berabere",
+    "review": "Oyunu incele",
+    "back_to_games": "Oyunlara dön"
+  }
+}

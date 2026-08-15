@@ -1,0 +1,63 @@
+{
+  "title": "Online",
+  "subtitle": "Graj we własnym tempie. Partie na ciebie czekają, więc ruch dziennie to zupełnie dobra partia.",
+  "games": {
+    "heading": "Twoje partie",
+    "empty": "Jeszcze żadnych partii. Zaproś kogoś.",
+    "your_turn": "Twój ruch",
+    "their_turn": "Ruch przeciwnika"
+  },
+  "invites": {
+    "received": "Zaproszenia dla ciebie",
+    "received_empty": "Nikt cię jeszcze nie zaprosił.",
+    "sent": "Wysłane zaproszenia",
+    "sent_empty": "Nikogo jeszcze nie zaprosiłeś.",
+    "terms": "{{setup}}, grasz {{side}}",
+    "declined": "Odrzucone",
+    "accept": "Przyjmij",
+    "decline": "Odrzuć",
+    "cancel": "Anuluj",
+    "dismiss": "Ukryj"
+  },
+  "history": {
+    "heading": "Zakończone partie",
+    "empty": "Jeszcze nic tu nie ma. Zakończone partie trafiają tutaj."
+  },
+  "sides": {
+    "black": "czarnymi",
+    "white": "białymi",
+    "random": "dowolną stroną"
+  },
+  "results": {
+    "won": "Wygrana przez {{reason}}",
+    "lost": "Przegrana przez {{reason}}",
+    "draw": "Remis przez {{reason}}"
+  },
+  "reasons": {
+    "score": "punkty",
+    "resignation": "poddanie",
+    "threefold_repetition": "powtórzenie"
+  },
+  "compose": {
+    "title": "Nowe zaproszenie",
+    "body": "Zaproś kogoś po nazwie. Zobaczy je, gdy następnym razem otworzy aplikację.",
+    "username": "Jego nazwa",
+    "username_placeholder": "Z kim grasz?",
+    "setup": "Ustawienie",
+    "side": "Twoja strona",
+    "send": "Wyślij zaproszenie",
+    "sending": "Wysyłanie"
+  },
+  "board": {
+    "against": "przeciw {{name}}",
+    "loading": "Wczytywanie partii",
+    "your_move": "Twój ruch",
+    "waiting": "Czekamy na przeciwnika",
+    "finished": "Ta partia się skończyła",
+    "result_win": "Wygrana",
+    "result_loss": "Przegrana",
+    "result_draw": "Remis",
+    "review": "Obejrzyj partię",
+    "back_to_games": "Wróć do partii"
+  }
+}

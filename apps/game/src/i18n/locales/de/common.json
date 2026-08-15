@@ -67,11 +67,6 @@
     "picture_hint": "PNG, JPEG oder WebP. Das Bild wird quadratisch zugeschnitten.",
     "upload_failed": "Das Bild wurde nicht hochgeladen. Versuche es erneut."
   },
-  "online": {
-    "title": "Online",
-    "body": "Online-Partien laufen noch nicht. Dieser Bildschirm steht bereit, damit der Einstieg fertig ist, sobald es losgeht.",
-    "signed_in_as": "Angemeldet als {{username}}"
-  },
   "actions": {
     "close": "Schließen",
     "cancel": "Abbrechen"

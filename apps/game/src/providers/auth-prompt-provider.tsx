@@ -11,6 +11,7 @@ import { AuthSheet } from "@/components/auth-sheet"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
 import { useAuth } from "@/providers/auth-provider"
 import type { ReturnTo } from "@/routing/return-to"
+import { returnToOptions } from "@/routing/return-to"
 
 /** What the player was trying to do when they turned out to need an account. */
 export type AuthIntent = {
@@ -50,7 +51,7 @@ export function AuthPromptProvider({ children }: { children: ReactNode }) {
   const run = useCallback(
     (pending: AuthIntent) => {
       if (pending.onSuccess) return pending.onSuccess()
-      if (pending.redirect) navigate({ to: pending.redirect })
+      if (pending.redirect) navigate(returnToOptions(pending.redirect))
     },
     [navigate],
   )
