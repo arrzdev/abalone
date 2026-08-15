@@ -29,7 +29,7 @@ export function PlayerLine({ player, detail }: PlayerLineProps) {
         <p className="truncate text-sm font-semibold text-white">
           {player.displayUsername ?? player.username}
         </p>
-        <p className="mt-0.5 truncate text-xs text-white/45">{detail}</p>
+        <p className="mt-0.5 truncate text-xs text-faint">{detail}</p>
       </div>
     </div>
   )

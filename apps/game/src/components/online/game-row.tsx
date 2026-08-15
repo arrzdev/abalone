@@ -57,15 +57,15 @@ export function GameRow({ game, myUserId }: GameRowProps) {
       <PlayerLine player={opponent} detail={detail} />
 
       <div className="shrink-0 text-right">
-        <p className="font-mono text-sm font-semibold text-white/80 tabular-nums">
+        <p className="font-mono text-sm font-semibold text-subtle tabular-nums">
           {mine}:{theirs}
         </p>
-        <p className="mt-0.5 text-xs text-white/35">
+        <p className="mt-0.5 text-xs text-faint">
           {getSetupName(game.setupType)}
         </p>
       </div>
 
-      <ChevronRightIcon size={18} className="shrink-0 text-white/25" />
+      <ChevronRightIcon size={18} className="shrink-0 text-faint" />
     </Link>
   )
 }
