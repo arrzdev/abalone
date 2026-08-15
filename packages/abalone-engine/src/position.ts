@@ -1,11 +1,16 @@
-import { CELL_COUNT, cellNamed, NOWHERE, nameOf } from "@/engine/topology"
+import {
+  CELL_COUNT,
+  cellNamed,
+  NOWHERE,
+  nameOf,
+} from "#abalone-engine/topology"
 import type {
   CellId,
   CellName,
   Player,
   Position,
   Side,
-} from "@/engine/types"
+} from "#abalone-engine/types"
 
 /**
  * A position: who stands where, and in what order each side's marbles are held.

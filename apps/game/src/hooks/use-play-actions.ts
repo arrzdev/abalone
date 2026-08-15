@@ -1,6 +1,6 @@
+import type { GameMode } from "@repo/abalone-engine/game-state"
 import { useNavigate } from "@tanstack/react-router"
 import { useCallback } from "react"
-import type { GameMode } from "@/engine/game-state"
 import { useAuthPrompt } from "@/providers/auth-prompt-provider"
 
 /**

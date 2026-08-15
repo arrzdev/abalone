@@ -5,6 +5,9 @@
       "path": "./packages/shared/tsconfig.build.json"
     },
     {
+      "path": "./packages/abalone-engine/tsconfig.build.json"
+    },
+    {
       "path": "./packages/env-validation/tsconfig.build.json"
     },
     {
