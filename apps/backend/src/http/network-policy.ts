@@ -43,3 +43,15 @@ export function allowsPrivateOrigins(): boolean {
   const origins = frontendOrigins()
   return origins.length > 0 && origins.every(isPrivateOrigin)
 }
+
+/**
+ * Whether a browser origin is one this api answers to.
+ *
+ * The allowlist itself, separated from CORS because a WebSocket handshake is
+ * not governed by CORS and has to apply the same rule by hand. Two callers, one
+ * definition — an allowlist that drifted between them would be a hole.
+ */
+export function isAllowedFrontendOrigin(origin: string): boolean {
+  if (frontendOrigins().includes(origin)) return true
+  return allowsPrivateOrigins() && isPrivateOrigin(origin)
+}

@@ -1,5 +1,6 @@
 import { PLAYABLE_SETUPS } from "@repo/abalone-engine/board-setups"
 import { newEndpoint } from "@repo/shared/http"
+import type { Context } from "hono"
 import { z } from "zod"
 import { getDb } from "@/database/client"
 import type { Env } from "@/env/registry"
@@ -8,6 +9,7 @@ import type { AuthedVariables } from "@/http/middlewares/auth"
 import { requireAuth } from "@/http/middlewares/auth"
 import { rateLimit } from "@/http/middlewares/rate-limit"
 import { valid } from "@/http/middlewares/valid"
+import { publishToUsers } from "@/modules/realtime/channel"
 import { InviteService } from "@/services/invite.service"
 
 //---- schemas ----------------
@@ -26,6 +28,26 @@ const sendInviteSchema = z.object({
 const declineInviteSchema = z.object({
   status: z.literal("declined"),
 })
+
+//---- beacons ----------------
+
+/**
+ * Tells both parties their invite list changed.
+ *
+ * Both, not just the other one: the player who acted already refreshed on their
+ * own device, and telling them anyway is what keeps a second device honest.
+ *
+ * `waitUntil`, so the fan-out never delays the answer. The write already
+ * happened, and a missed beacon costs a refetch on focus at worst.
+ */
+function announceInvites(
+  c: Context<{ Bindings: Env; Variables: AuthedVariables }>,
+  userIds: string[],
+): void {
+  c.executionCtx.waitUntil(
+    publishToUsers(c.env.PUBSUB, userIds, { event: "invites-changed" }),
+  )
+}
 
 //---- routes ----------------
 
@@ -53,6 +75,8 @@ export const inviteRoutes = newEndpoint<Env, AuthedVariables>()
       body.setupType,
       body.side,
     )
+
+    announceInvites(c, [invite.from.userId, invite.to.userId])
     return ok(c, { invite }, 201)
   })
 
@@ -68,6 +92,8 @@ export const inviteRoutes = newEndpoint<Env, AuthedVariables>()
         c.req.valid("param").id,
         c.get("user").id,
       )
+
+      announceInvites(c, [invite.from.userId, invite.to.userId])
       return ok(c, { invite })
     },
   )
@@ -75,10 +101,14 @@ export const inviteRoutes = newEndpoint<Env, AuthedVariables>()
   //---- delete ----------------
 
   .delete("/:id", valid("param", inviteIdSchema), async (c) => {
+    const sender = c.get("user").id
     const inviteService = new InviteService(getDb(c.env.DB))
-    await inviteService.removeOwn(
+    //the row is gone, so the recipient comes back from the delete itself
+    const recipient = await inviteService.removeOwn(
       c.req.valid("param").id,
-      c.get("user").id,
+      sender,
     )
+
+    announceInvites(c, [sender, recipient])
     return ok(c)
   })

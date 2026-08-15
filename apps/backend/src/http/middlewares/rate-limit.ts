@@ -18,6 +18,11 @@ const RATE_LIMITS: Record<string, { max: number }> = {
   //avatar uploads. each one is a hash plus an R2 write of up to half a megabyte,
   //and a player changes their picture a handful of times ever.
   upload: { max: 10 },
+  //minting a realtime ticket and redeeming it. its own shape because a device
+  //on a flaky network reconnects, and every reconnect is two requests it did
+  //not choose to make. roomier than a form, tighter than `api`, because a
+  //client that needs sixty connections a minute is not connecting.
+  realtime: { max: 60 },
 }
 
 //best-effort limiter: per-isolate on cloudflare workers, not shared across

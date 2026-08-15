@@ -1,4 +1,5 @@
 import { z } from "zod"
+import type { PubSub } from "@/modules/realtime/pubsub.do"
 
 /**
  * Split a comma-separated env value into origins, dropping anything that is not
@@ -33,6 +34,10 @@ export type CloudflareBindings = {
   //avatar objects, written by the profile service and read by the public CDN
   //domain attached to this bucket (AVATAR_PUBLIC_URL)
   AVATARS: R2Bucket
+  //one object per realtime channel, holding that channel's subscribers. type
+  //only, so nothing about the class reaches this file at runtime and check:env
+  //still runs under plain node.
+  PUBSUB: DurableObjectNamespace<PubSub>
 }
 
 //runtime env: `wrangler dev` loads it from `env/.env` (--env-file); deploy
