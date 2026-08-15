@@ -151,7 +151,7 @@ export function Select<T extends string>({
         <ChevronDownIcon
           size={18}
           className={cn(
-            "shrink-0 text-white/50 transition",
+            "shrink-0 text-muted transition",
             open && "rotate-180",
           )}
         />
@@ -167,7 +167,7 @@ export function Select<T extends string>({
         // lighter than either — so no fill can sit above both, and one picked
         // to clear the page vanishes into the dialog. An edge reads against
         // whichever it lands on.
-        <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-lg bg-surface-3 shadow-2xl shadow-black/60 ring-1 ring-white/10">
+        <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-lg bg-surface-3 shadow-2xl shadow-black/60 ring-1 ring-border">
           <ul
             id={listboxId}
             ref={listRef}
@@ -194,7 +194,7 @@ export function Select<T extends string>({
                       // nobody can see.
                       index === activeIndex
                         ? "bg-elevated text-white"
-                        : "text-white/80",
+                        : "text-subtle",
                     )}
                   >
                     {option.icon}

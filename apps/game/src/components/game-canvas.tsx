@@ -658,7 +658,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
                 }}
                 className={cn(
                   "pointer-events-auto px-2 text-xs leading-tight font-medium tracking-wide",
-                  "text-white/55 transition-colors hover:text-white/85 hover:underline",
+                  "text-muted transition-colors hover:text-foreground hover:underline",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:rounded-sm",
                 )}
               >

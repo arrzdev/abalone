@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "Gioca ad Abalone contro l'IA - Sfida avversari informatici online | Gioco gratuito",
-    "description": "Gioca ad Abalone contro avversari IA online - scegli tra 8 livelli di difficoltà e più configurazioni del tabellone. Gioco Abalone gratuito basato su browser con cronologia delle mosse, barra di valutazione e gioco istantaneo. Nessun download richiesto.",
-    "keywords": "giocare ad abalone contro computer, abalone vs IA, gioco abalone online, livelli di difficoltà abalone, giocare ad abalone ora, gioco browser abalone, IA minimax abalone, gioco abalone gratuito",
-    "og_title": "Gioca ad Abalone contro l'IA - Gioco da tavolo online",
-    "og_description": "Sfida avversari IA in Abalone con 8 livelli di difficoltà. Pratica la strategia e migliora le tue abilità in questo classico gioco da tavolo per due giocatori.",
-    "twitter_title": "Gioca ad Abalone contro l'IA",
-    "twitter_description": "Sfida avversari IA con 8 livelli di difficoltà. Scegli la tua configurazione del tabellone e gioca come nero o bianco in questo gioco strategico di spinta delle biglie.",
+    "title": "Giocare ad Abalone online, contro bot o in due | Gratis",
+    "description": "Gioca ad Abalone gratis nel browser. Sfida un bot con otto livelli di forza, giocate in due a turni sullo stesso dispositivo, oppure invita qualcuno a una partita online. Nove configurazioni del tabellone, cronologia completa delle mosse e barra di valutazione. Nessun download.",
+    "keywords": "giocare abalone, abalone online, abalone browser, abalone contro computer, abalone bot, abalone in due, abalone gratis, configurazioni abalone, regole abalone",
+    "og_title": "Giocare ad Abalone nel browser",
+    "og_description": "Sfida un bot con otto livelli di forza, giocate in due sullo stesso dispositivo, oppure invita qualcuno a una partita online. Nove configurazioni del tabellone, cronologia completa delle mosse e barra di valutazione. Gratis, senza download.",
+    "twitter_title": "Giocare ad Abalone nel browser",
+    "twitter_description": "Un bot con otto livelli, in due sullo stesso dispositivo, o una partita online con i vostri tempi. Nove configurazioni del tabellone e cronologia completa. Gratis, senza download.",
     "structured_data": {
-      "name": "Gioca ad Abalone contro l'IA",
-      "description": "Gioca ad Abalone contro avversari informatici con 8 livelli di difficoltà (Principiante, Novizio, Studente, Casuale, Intermedio, Avanzato, Esperto, Maestro). Scegli tra 3 configurazioni del tabellone (Standard, Margherita belga, Margherita tedesca) e gioca come nero o bianco. Gioco online gratuito con cronologia delle mosse e barra di valutazione.",
-      "audience": "Giocatori di giochi da tavolo, appassionati di giochi di strategia, cercatori di sfide IA"
+      "name": "Abalone",
+      "description": "Gioca ad Abalone contro un bot con otto livelli di forza, in due a turni sullo stesso dispositivo, oppure invita qualcuno a una partita online. Nove configurazioni del tabellone (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), cronologia completa delle mosse e barra di valutazione. Gratis nel browser, senza download.",
+      "audience": "Giocatori di giochi da tavolo e appassionati di giochi di strategia"
     }
   },
   "players": {
@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Gioca Bot",
-    "marble_design": "Design delle biglie:",
+    "marble_design": "Design delle biglie",
     "marble_design_classic": "Minimalista",
     "marble_design_3d": "Realistico",
-    "play_as": "Io gioco come:",
+    "play_as": "Io gioco come",
     "play_button": "Gioca",
     "show_coordinates": "Mostra coordinate",
     "show_eval_bar": "Mostra barra di valutazione",
@@ -63,7 +63,7 @@
     "rotate_board": "Ruota il tabellone a ogni turno",
     "rotate_board_hint": "Gira il tabellone così chi muove è sempre in basso",
     "show_coordinates_hint": "Mostra la coordinata assiale in ogni casella",
-    "show_eval_bar_hint": "Come il motore valuta la posizione — solo contro i bot",
+    "show_eval_bar_hint": "Come il motore valuta la posizione (solo contro i bot)",
     "side_group": "Lato con cui giocare",
     "side_white": "Gioca con il bianco",
     "side_black": "Gioca con il nero",
@@ -95,7 +95,7 @@
     "intro": "Abalone è un gioco per due su un tabellone esagonale di 61 caselle. Ogni giocatore parte con 14 biglie e muove una volta per turno.",
     "goal": {
       "title": "L'obiettivo",
-      "body": "Spingi sei biglie avversarie fuori dal tabellone. È tutto qui — non c'è altro da contare."
+      "body": "Spingi sei biglie avversarie fuori dal tabellone. È tutto qui. Non c'è altro da contare."
     },
     "directions": {
       "title": "Sei direzioni",

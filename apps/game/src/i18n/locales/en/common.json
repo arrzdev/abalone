@@ -58,7 +58,7 @@
       "invalid_credentials": "That name and password don't match. Check both and try again.",
       "unknown": "Something went wrong. Check your connection and try again."
     },
-    "credentials_warning": "Name and password can't be reset — lose them and the account goes too."
+    "credentials_warning": "Name and password can't be reset. Lose them and the account goes too."
   },
   "profile": {
     "username_permanent": "Your name is permanent",

@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "Graj w Abalone przeciwko AI - Zmierz się z Komputerowymi Przeciwnikami Online | Darmowa Gra",
-    "description": "Graj w Abalone przeciwko przeciwnikom AI online - wybierz spośród 8 poziomów trudności i wielu układów planszy. Darmowa przeglądarkowa gra Abalone z historią ruchów, paskiem oceny i natychmiastową grą. Nie wymaga pobierania.",
-    "keywords": "graj w abalone przeciwko komputerowi, abalone vs AI, gra abalone online, poziomy trudności abalone, graj w abalone teraz, gra przeglądarkowa abalone, abalone minimax AI, darmowa gra abalone, graj w abalone online",
-    "og_title": "Graj w Abalone przeciwko Komputerowi AI - Gra Planszowa Online",
-    "og_description": "Zmierz się z przeciwnikami AI w Abalone z 8 poziomami trudności. Ćwicz strategię i popraw swoje umiejętności w tej klasycznej grze planszowej dla dwóch graczy.",
-    "twitter_title": "Graj w Abalone przeciwko Komputerowi AI",
-    "twitter_description": "Zmierz się z przeciwnikami AI z 8 poziomami trudności. Wybierz układ planszy i graj jako czarny lub biały w tej strategicznej grze w pchanie kulek.",
+    "title": "Graj w Abalone online, z botem lub we dwoje | Za darmo",
+    "description": "Graj w Abalone za darmo w przeglądarce. Zmierz się z botem w ośmiu poziomach siły, grajcie we dwoje na przemian na jednym urządzeniu albo zaproś kogoś do partii online. Dziewięć układów planszy, pełna historia ruchów i pasek oceny. Bez pobierania.",
+    "keywords": "graj w abalone, abalone online, abalone przeglądarka, abalone przeciwko komputerowi, abalone bot, abalone we dwoje, darmowe abalone, układy planszy abalone, zasady abalone",
+    "og_title": "Graj w Abalone w przeglądarce",
+    "og_description": "Zmierz się z botem w ośmiu poziomach siły, grajcie we dwoje na jednym urządzeniu albo zaproś kogoś do partii online. Dziewięć układów planszy, pełna historia ruchów i pasek oceny. Za darmo, bez pobierania.",
+    "twitter_title": "Graj w Abalone w przeglądarce",
+    "twitter_description": "Bot w ośmiu poziomach siły, gra we dwoje na jednym urządzeniu albo partia online we własnym tempie. Dziewięć układów planszy i pełna historia ruchów. Za darmo, bez pobierania.",
     "structured_data": {
-      "name": "Graj w Abalone przeciwko Komputerowi AI",
-      "description": "Graj w Abalone przeciwko komputerowym przeciwnikom na 8 poziomach trudności (Początkujący, Nowicjusz, Uczeń, Casualowy, Średniozaawansowany, Zaawansowany, Ekspert, Mistrz). Wybierz spośród 3 ustawień planszy (Standardowe, Belgijska Stokrotka, Niemiecka Stokrotka) i graj jako czarny lub biały. Darmowa gra online z historią ruchów i paskiem oceny.",
-      "audience": "Gracze planszowi, entuzjaści gier strategicznych, poszukiwacze wyzwań AI"
+      "name": "Abalone",
+      "description": "Graj w Abalone przeciwko botowi w ośmiu poziomach siły, we dwoje na przemian na jednym urządzeniu albo zaproś kogoś do partii online. Dziewięć układów planszy (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), pełna historia ruchów i pasek oceny. Za darmo w przeglądarce, bez pobierania.",
+      "audience": "Gracze planszówek i miłośnicy gier strategicznych"
     }
   },
   "players": {
@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Graj Boty",
-    "marble_design": "Projekt Kulek:",
+    "marble_design": "Projekt Kulek",
     "marble_design_classic": "Minimalistyczny",
     "marble_design_3d": "Realistyczny",
-    "play_as": "Gram jako:",
+    "play_as": "Gram jako",
     "play_button": "Graj",
     "show_coordinates": "Pokaż współrzędne",
     "show_eval_bar": "Pokaż pasek oceny",
@@ -63,7 +63,7 @@
     "rotate_board": "Obracaj planszę co turę",
     "rotate_board_hint": "Obróć planszę tak, aby gracz na ruchu był zawsze na dole",
     "show_coordinates_hint": "Pokaż współrzędną osiową w każdym polu",
-    "show_eval_bar_hint": "Jak silnik ocenia pozycję — tylko w grach z botami",
+    "show_eval_bar_hint": "Jak silnik ocenia pozycję (tylko w grach z botami)",
     "side_group": "Strona do gry",
     "side_white": "Graj białymi",
     "side_black": "Graj czarnymi",
@@ -95,11 +95,11 @@
     "intro": "Abalone to gra dla dwóch osób na sześciokątnej planszy z 61 polami. Każda strona zaczyna z 14 kulami i wykonuje jeden ruch na turę.",
     "goal": {
       "title": "Cel gry",
-      "body": "Wypchnij sześć kul przeciwnika poza planszę. To cała gra — nie liczy się nic więcej."
+      "body": "Wypchnij sześć kul przeciwnika poza planszę. To cała gra. Nie liczy się nic więcej."
     },
     "directions": {
       "title": "Sześć kierunków",
-      "body": "Każde pole sąsiaduje z sześcioma innymi, więc kula może ruszyć się w sześciu kierunkach. Nie ma przekątnych ani przeskoków — kula zawsze przechodzi na sąsiednie pole.",
+      "body": "Każde pole sąsiaduje z sześcioma innymi, więc kula może ruszyć się w sześciu kierunkach. Nie ma przekątnych ani przeskoków. Kula zawsze przechodzi na sąsiednie pole.",
       "caption": "Sześć kierunków dostępnych dla jednej kuli."
     },
     "move": {
@@ -111,13 +111,13 @@
     "push": {
       "title": "Wypychanie",
       "body": "Wypychać można tylko ruchem w linii. Musisz mieć na tej linii więcej kul niż przeciwnik: dwie na jedną, trzy na jedną albo trzy na dwie. Pole za kulami przeciwnika musi być puste.",
-      "ok_caption": "Trzy na dwie — cała linia przesuwa się o jedno pole.",
+      "ok_caption": "Trzy na dwie: cała linia przesuwa się o jedno pole.",
       "blocked_caption": "Trzy na trzy nigdy się nie ruszy, a własnych kul nie wolno wypychać."
     },
     "capture": {
       "title": "Wypychanie poza planszę",
       "body": "Kula wypchnięta poza krawędź odpada z gry. Wygrywa ten, kto pierwszy wypchnie sześć kul przeciwnika.",
-      "caption": "Dwie na jedną przy krawędzi — czarna kula wypada."
+      "caption": "Dwie na jedną przy krawędzi: czarna kula wypada."
     },
     "cta": "Zagraj teraz"
   },

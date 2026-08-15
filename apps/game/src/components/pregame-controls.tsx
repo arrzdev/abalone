@@ -28,7 +28,7 @@ function Section({
 }) {
   return (
     <section>
-      <h2 className="mb-2 text-xs font-semibold tracking-wider text-white/40 uppercase">
+      <h2 className="mb-2 text-xs font-semibold tracking-wider text-faint uppercase">
         {title}
       </h2>
       {children}
@@ -116,7 +116,7 @@ export function PregameControls({
             <h3 className="font-bold text-white">
               {t("game:local.title")}
             </h3>
-            <p className="mt-1 text-sm leading-relaxed text-white/60">
+            <p className="mt-1 text-sm leading-relaxed text-muted">
               {t("game:local.description")}
             </p>
           </div>
@@ -151,7 +151,7 @@ export function PregameControls({
                     spellCheck={false}
                     className={cn(
                       "min-w-0 flex-1 bg-transparent py-3 text-sm font-medium text-white",
-                      "placeholder:text-white/35 focus:outline-none",
+                      "placeholder:text-faint focus:outline-none",
                     )}
                   />
                 </div>
@@ -213,7 +213,7 @@ export function PregameControls({
                       />
                       {/* The level is a rank, so it belongs on the portrait
                           rather than competing with the name underneath. */}
-                      <span className="absolute top-0.5 left-0.5 rounded bg-black/55 px-1 text-[0.625rem] leading-4 font-bold text-white/90 tabular-nums">
+                      <span className="absolute top-0.5 left-0.5 rounded bg-black/55 px-1 text-[0.625rem] leading-4 font-bold text-foreground tabular-nums">
                         {level}
                       </span>
                     </span>
@@ -223,7 +223,7 @@ export function PregameControls({
                     <span
                       className={cn(
                         "mt-1 flex h-7 items-center justify-center text-center text-[0.625rem] leading-tight font-semibold",
-                        selected ? "text-white" : "text-white/60",
+                        selected ? "text-white" : "text-muted",
                       )}
                     >
                       {getBotName(level)}

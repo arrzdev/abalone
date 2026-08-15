@@ -109,7 +109,7 @@ function Side({
         <div
           className={cn(
             "relative flex items-center justify-center overflow-hidden rounded-lg",
-            "bg-black/25 text-white/35 outline-2 transition-colors",
+            "bg-well text-faint outline-2 transition-colors",
             active ? "outline-brand-light" : "outline-transparent",
           )}
           style={{ width: PORTRAIT, height: PORTRAIT }}
@@ -124,7 +124,7 @@ function Side({
               that it is their move; this says the move is being worked out. */}
           {thinking && (
             <span className="absolute inset-0 flex items-center justify-center bg-black/45">
-              <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/25 border-t-white motion-reduce:animate-none" />
+              <span className="h-4 w-4 animate-spin rounded-full border-2 border-border-strong border-t-white motion-reduce:animate-none" />
               <span className="sr-only">
                 {t("game:game_state.thinking")}
               </span>
@@ -158,7 +158,7 @@ function Side({
         className={cn(
           "min-w-0 flex-1 truncate text-sm font-bold transition-colors",
           flip && "text-right",
-          active ? "text-white" : "text-white/55",
+          active ? "text-white" : "text-muted",
         )}
       >
         {name}
@@ -205,7 +205,7 @@ export function SeatBar({
           className="flex shrink-0 items-baseline gap-1.5 px-2 text-lg leading-none font-bold tabular-nums text-white"
         >
           <span>{score(left)}</span>
-          <span className="text-sm font-normal text-white/25">–</span>
+          <span className="text-sm font-normal text-faint">–</span>
           <span>{score(right)}</span>
         </div>
 

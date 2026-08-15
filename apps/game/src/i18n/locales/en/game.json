@@ -1,16 +1,16 @@
 {
   "meta": {
-    "title": "Play Abalone vs AI - Challenge Computer Opponents Online | Free Game",
-    "description": "Play Abalone against AI opponents online - choose from 8 difficulty levels and multiple board setups. Free browser-based Abalone game with move history, evaluation bar, and instant gameplay. No download required.",
-    "keywords": "play abalone against computer, abalone vs AI, abalone game online, abalone difficulty levels, play abalone now, abalone browser game, abalone minimax AI, free abalone game, abalone online spielen",
-    "og_title": "Play Abalone vs Computer AI - Online Board Game",
-    "og_description": "Challenge AI opponents in Abalone with 8 difficulty levels. Practice strategy and improve your skills in this classic two-player board game.",
-    "twitter_title": "Play Abalone vs Computer AI",
-    "twitter_description": "Challenge AI opponents with 8 difficulty levels. Choose your board setup and play as black or white in this strategic marble-pushing game.",
+    "title": "Play Abalone Online, vs Bots, or Pass and Play | Free",
+    "description": "Play Abalone free in your browser. Take on a bot at eight strengths, pass and play on one device, or invite someone to a game online. Nine board setups, a full move history and an evaluation bar. No download.",
+    "keywords": "play abalone, abalone online, abalone browser game, abalone vs computer, abalone bot, abalone pass and play, abalone two player, free abalone game, abalone board setups, how to play abalone",
+    "og_title": "Play Abalone in Your Browser",
+    "og_description": "Take on a bot at eight strengths, pass and play on one device, or invite someone to a game online. Nine board setups, a full move history and an evaluation bar. Free, no download.",
+    "twitter_title": "Play Abalone in Your Browser",
+    "twitter_description": "A bot at eight strengths, pass and play on one device, or a game online at your own pace. Nine board setups and a full move history. Free, no download.",
     "structured_data": {
-      "name": "Play Abalone vs Computer AI",
-      "description": "Play Abalone against computer opponents with 8 difficulty levels (Beginner, Novice, Learner, Casual, Intermediate, Advanced, Expert, Master). Choose from 3 board setups (Standard, Belgian Daisy, German Daisy) and play as black or white. Free online game with move history and evaluation bar.",
-      "audience": "Board game players, strategy game enthusiasts, AI challenge seekers"
+      "name": "Abalone",
+      "description": "Play Abalone against a bot at eight strengths, pass and play with someone on the same device, or invite someone to a game online. Nine board setups (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), a full move history and an evaluation bar. Free in the browser, no download.",
+      "audience": "Board game players and strategy game enthusiasts"
     }
   },
   "players": {
@@ -19,10 +19,10 @@
   },
   "controls": {
     "page_title": "Play Bots",
-    "marble_design": "Marble Design:",
+    "marble_design": "Marble Design",
     "marble_design_classic": "Minimalist",
     "marble_design_3d": "Realist",
-    "play_as": "I play as:",
+    "play_as": "I play as",
     "play_button": "Play",
     "show_coordinates": "Show coordinates",
     "show_eval_bar": "Show eval bar",
@@ -63,7 +63,7 @@
     "rotate_board": "Rotate board each turn",
     "rotate_board_hint": "Flip the board so the side to move is always at the bottom",
     "show_coordinates_hint": "Print the axial coordinate inside every cell",
-    "show_eval_bar_hint": "How the engine rates the position — bot games only",
+    "show_eval_bar_hint": "How the engine rates the position (bot games only)",
     "side_group": "Side to play",
     "side_white": "Play as white",
     "side_black": "Play as black",
@@ -95,11 +95,11 @@
     "intro": "Abalone is a game for two players on a hexagonal board of 61 spaces. Each side starts with 14 marbles and moves once per turn.",
     "goal": {
       "title": "The goal",
-      "body": "Push six of your opponent's marbles off the board. That is the whole game — there is nothing else to count."
+      "body": "Push six of your opponent's marbles off the board. That is the whole game. There is nothing else to count."
     },
     "directions": {
       "title": "Six directions",
-      "body": "Every space touches six others, so a marble can move in any of six directions. There are no diagonals and no jumps — a marble always moves to a space right beside it.",
+      "body": "Every space touches six others, so a marble can move in any of six directions. There are no diagonals and no jumps. A marble always moves to a space right beside it.",
       "caption": "The six directions open to a single marble."
     },
     "move": {
@@ -111,13 +111,13 @@
     "push": {
       "title": "Pushing",
       "body": "Only a move in line can push. You need more marbles in that line than your opponent: two against one, three against one, or three against two. The space behind your opponent’s marbles must be empty.",
-      "ok_caption": "Three against two — the whole line shifts one space.",
+      "ok_caption": "Three against two: the whole line shifts one space.",
       "blocked_caption": "Three against three never moves, and you can never push your own marbles."
     },
     "capture": {
       "title": "Pushing marbles off",
       "body": "A marble pushed past the edge is out for the rest of the game. The first player to knock six of the opponent's marbles off the board wins.",
-      "caption": "Two against one at the edge — the black marble is out."
+      "caption": "Two against one at the edge: the black marble is out."
     },
     "cta": "Play now"
   },

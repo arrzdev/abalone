@@ -58,7 +58,7 @@
       "invalid_credentials": "Die naam en dat wachtwoord horen niet bij elkaar. Controleer beide en probeer het opnieuw.",
       "unknown": "Er ging iets mis. Controleer je verbinding en probeer het opnieuw."
     },
-    "credentials_warning": "Naam en wachtwoord zijn niet te herstellen — kwijt is account kwijt."
+    "credentials_warning": "Naam en wachtwoord zijn niet te herstellen. Kwijt is account kwijt."
   },
   "profile": {
     "username_permanent": "Je naam ligt vast",

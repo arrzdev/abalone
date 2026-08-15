@@ -59,7 +59,7 @@ export function Sheet({
         className={className}
       >
         {description && (
-          <p className="mb-5 text-sm leading-relaxed text-white/55">
+          <p className="mb-5 text-sm leading-relaxed text-muted">
             {description}
           </p>
         )}
@@ -76,10 +76,10 @@ export function Sheet({
       }}
     >
       <Drawer.Portal>
-        <Drawer.Overlay className="bg-black/60 backdrop-blur-sm" />
+        <Drawer.Overlay className="bg-overlay backdrop-blur-sm" />
         <Drawer.Content
           className={cn(
-            "rounded-t-2xl bg-surface-2 text-white ring-1 ring-white/10",
+            "rounded-t-2xl bg-surface-2 text-white ring-1 ring-border",
             className,
           )}
           //the footer, last in the scroll flow, carries the inset when there is
@@ -104,7 +104,7 @@ export function Sheet({
                   </Drawer.Title>
                 )}
                 {description && (
-                  <Drawer.Description className="text-sm leading-relaxed text-white/55">
+                  <Drawer.Description className="text-sm leading-relaxed text-muted">
                     {description}
                   </Drawer.Description>
                 )}

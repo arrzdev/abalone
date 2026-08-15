@@ -81,7 +81,7 @@ export function ColorChoice({
           {option.value === "random" ? (
             <span
               className={cn(
-                "flex h-10 w-10 items-center justify-center text-3xl leading-none font-black text-white/80 transition",
+                "flex h-10 w-10 items-center justify-center text-3xl leading-none font-black text-subtle transition",
                 value !== option.value &&
                   "opacity-70 group-hover:opacity-100",
               )}
@@ -106,7 +106,7 @@ export function ColorChoice({
           <span
             className={cn(
               "max-w-full truncate text-xs font-semibold",
-              value === option.value ? "text-white" : "text-white/60",
+              value === option.value ? "text-white" : "text-muted",
             )}
           >
             {t(option.nameKey)}

@@ -56,7 +56,7 @@ export function VolumeSlider({
           {label}
         </span>
         {description && (
-          <span className="mt-0.5 block text-xs text-white/50">
+          <span className="mt-0.5 block text-xs text-muted">
             {description}
           </span>
         )}
@@ -73,7 +73,7 @@ export function VolumeSlider({
             "focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2",
             muted
               ? "bg-elevated-2 text-white"
-              : "bg-surface-4 text-white/70 hover:text-white",
+              : "bg-surface-4 text-subtle hover:text-white",
           )}
         >
           {muted ? (
