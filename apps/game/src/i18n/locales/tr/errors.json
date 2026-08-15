@@ -1,0 +1,19 @@
+{
+  "api_invalid_input": "Girdiğin bir şey doğru görünmüyor. Kontrol edip tekrar dene.",
+  "api_internal_server_error": "Bizim tarafımızda bir sorun oldu. Tekrar dene.",
+  "api_endpoint_not_found": "Böyle bir sayfa yok.",
+  "api_rate_limit_exceeded": "Aynı anda çok fazla istek geldi. Biraz bekleyip tekrar dene.",
+  "api_not_found": "Bunu bulamadık. Kaldırılmış olabilir.",
+  "api_unauthorized": "Bunun için giriş yapmalısın. Giriş yapıp tekrar dene.",
+  "api_file_too_large": "Bu dosya çok büyük. Daha küçük bir görsel seç.",
+  "api_unsupported_media_type": "Bu dosya türü desteklenmiyor. PNG, JPEG veya WebP bir görsel kullan.",
+  "api_player_not_found": "Bu adla oynayan kimse yok. Yazımı kontrol edip tekrar dene.",
+  "api_invite_self": "Kendini davet edemezsin. Başka bir oyuncu seç.",
+  "api_invite_exists": "O oyuncuya gönderdiğin davet hâlâ duruyor. Yenisini göndermek için onu iptal et.",
+  "api_game_not_active": "Bu oyun çoktan bitti.",
+  "api_not_your_turn": "Sıra henüz sende değil. Rakibinin hamlesini bekle.",
+  "api_illegal_move": "Bu hamle kurallara uymuyor. Tahta eski hâline getirildi.",
+  "api_move_conflict": "Sen oynarken oyun ilerledi. Tahta yenilendi.",
+  "network_unreachable": "Sunucuya ulaşamadık. Bağlantını kontrol edip tekrar dene.",
+  "unknown": "Bir şeyler ters gitti. Tekrar dene."
+}

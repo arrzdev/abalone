@@ -1,0 +1,19 @@
+{
+  "api_invalid_input": "Quelque chose ne va pas. Vérifie ce que tu as saisi et réessaie.",
+  "api_internal_server_error": "Quelque chose s'est mal passé de notre côté. Réessaie.",
+  "api_endpoint_not_found": "Cette page n'existe pas.",
+  "api_rate_limit_exceeded": "Trop de requêtes d'un coup. Patiente un instant, puis réessaie.",
+  "api_not_found": "Introuvable. Cela a peut-être été supprimé.",
+  "api_unauthorized": "Tu dois être connecté pour faire ça. Connecte-toi et réessaie.",
+  "api_file_too_large": "Ce fichier est trop lourd. Choisis une image plus petite.",
+  "api_unsupported_media_type": "Ce type de fichier n'est pas pris en charge. Utilise une image PNG, JPEG ou WebP.",
+  "api_player_not_found": "Personne ne joue sous ce nom. Vérifie l'orthographe et réessaie.",
+  "api_invite_self": "Tu ne peux pas t'inviter toi-même. Choisis quelqu'un d'autre.",
+  "api_invite_exists": "Tu as déjà une invitation en attente chez ce joueur. Annule-la pour en envoyer une nouvelle.",
+  "api_game_not_active": "Cette partie est déjà terminée.",
+  "api_not_your_turn": "Ce n'est pas encore ton tour. Attends que ton adversaire joue.",
+  "api_illegal_move": "Ce coup n'est pas autorisé. Le plateau a été remis en place.",
+  "api_move_conflict": "La partie a avancé pendant que tu jouais. Le plateau a été actualisé.",
+  "network_unreachable": "Impossible de joindre le serveur. Vérifie ta connexion et réessaie.",
+  "unknown": "Quelque chose s'est mal passé. Réessaie."
+}
