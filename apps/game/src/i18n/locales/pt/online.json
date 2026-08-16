@@ -5,7 +5,8 @@
     "heading": "Os teus jogos",
     "empty": "Ainda não há jogos. Convida alguém.",
     "your_turn": "É a tua vez",
-    "their_turn": "É a vez do adversário"
+    "their_turn": "É a vez do adversário",
+    "new_invite": "Novo convite"
   },
   "invites": {
     "received": "Convites para ti",
@@ -17,11 +18,25 @@
     "accept": "Aceitar",
     "decline": "Recusar",
     "cancel": "Cancelar",
-    "dismiss": "Dispensar"
+    "dismiss": "Dispensar",
+    "heading": "Convites",
+    "sent_heading": "Enviados",
+    "just_sent": "Acabado de enviar · à espera de resposta"
   },
   "history": {
     "heading": "Jogos terminados",
-    "empty": "Ainda não há nada aqui. Os teus jogos terminados aparecem aqui."
+    "empty": "Ainda não há nada aqui. Os teus jogos terminados aparecem aqui.",
+    "heading_short": "Terminados",
+    "see_all": "Ver todos ({{count}})",
+    "title": "Jogos terminados",
+    "played": "Jogados",
+    "won": "Ganhos",
+    "range": "{{from}}–{{to}} de {{total}}",
+    "period_week": "Esta semana",
+    "period_month": "Este mês",
+    "period_earlier": "Antes",
+    "previous_page": "Página anterior",
+    "next_page": "Página seguinte"
   },
   "sides": {
     "black": "pretas",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "Novo convite",
-    "body": "Convida alguém pelo nome. Recebe-o assim que abrir a app.",
-    "username": "O nome dele",
-    "username_placeholder": "Contra quem vais jogar?",
+    "body": "Recebe-o assim que abrir a app. Nenhum dos dois precisa de estar aqui ao mesmo tempo.",
+    "username": "Contra quem vais jogar?",
+    "username_placeholder": "O nome dele",
     "setup": "Abertura",
     "side": "O teu lado",
     "send": "Enviar convite",
@@ -58,6 +73,16 @@
     "result_loss": "Perdeste",
     "result_draw": "Empate",
     "review": "Rever jogo",
-    "back_to_games": "Voltar aos jogos"
+    "back_to_games": "Voltar aos jogos",
+    "head_to_head": "{{left}}–{{right}} antes"
+  },
+  "offline": {
+    "heading": "Jogar offline",
+    "note": "Um jogo offline vive no separador onde o começaste. Fecha-o e desaparece, e nada dele chega à tua conta."
+  },
+  "empty": {
+    "title": "Ainda não há nada aqui",
+    "body": "Convida alguém pelo nome e o jogo aparece aqui. Os jogos esperam por ti, por isso uma jogada por dia é um jogo perfeitamente bom.",
+    "play_bot": "Joga contra um bot enquanto esperas"
   }
 }

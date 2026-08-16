@@ -48,7 +48,7 @@ export function SubpageHeader({
   return (
     <header
       className={cn(
-        "shrink-0 border-b border-border-subtle bg-surface-2 px-safe pt-safe lg:hidden",
+        "shrink-0 border-b border-border-subtle bg-chrome px-safe pt-safe lg:hidden",
         className,
       )}
     >
@@ -62,7 +62,7 @@ export function SubpageHeader({
           <BackIcon size={20} />
         </Link>
 
-        <h1 className="min-w-0 flex-1 truncate px-1 text-center text-lg font-bold text-white">
+        <h1 className="min-w-0 flex-1 truncate px-1 text-center font-display text-[17px] font-bold text-white">
           {title}
         </h1>
 

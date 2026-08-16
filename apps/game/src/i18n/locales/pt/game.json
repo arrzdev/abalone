@@ -68,7 +68,9 @@
     "side_white": "Jogar com as brancas",
     "side_black": "Jogar com as pretas",
     "side_random": "Lado aleatório",
-    "marbles_taken": "{{taken}} de {{total}} bolas do adversário empurradas para fora"
+    "marbles_taken": "{{taken}} de {{total}} bolas do adversário empurradas para fora",
+    "eval_advantage": "{{color}} à frente por {{score}}",
+    "eval_level": "Equilibrado"
   },
   "game_state": {
     "your_turn": "Sua vez",
@@ -88,7 +90,9 @@
     "by_resignation": "por desistência",
     "by_repetition": "por tripla repetição",
     "resign_title": "Desistir do jogo?",
-    "resign_body": "O jogo termina de imediato e a vitória vai para o teu adversário. Não pode ser desfeito."
+    "resign_body": "O jogo termina de imediato e a vitória vai para o teu adversário. Não pode ser desfeito.",
+    "game_over": "Fim de jogo",
+    "moves": "{{count}} jogadas"
   },
   "rules": {
     "title": "Como jogar",

@@ -6,14 +6,14 @@ import { useClickFix } from "@/hooks/use-click-fix"
 const BASE =
   "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 " +
-  "focus-visible:ring-offset-surface-2 disabled:cursor-not-allowed disabled:opacity-45"
+  "focus-visible:ring-offset-surface disabled:cursor-not-allowed disabled:opacity-45"
 
 //a fill and a hover, and nothing under either: a brand-tinted shadow behind a
 //brand-coloured button is the button's own colour blurred onto the page
 const VARIANTS = {
   primary: "bg-brand text-white hover:bg-brand-light",
-  secondary: "bg-elevated-2 text-white hover:bg-elevated-3",
-  outline: "bg-surface-4 text-white hover:bg-surface-5",
+  secondary: "bg-surface-3 text-white hover:bg-surface-4",
+  outline: "bg-surface-2 text-white hover:bg-surface-3",
   ghost: "text-subtle hover:bg-white/10 hover:text-white",
   danger: "bg-loss text-white hover:brightness-110",
 }
@@ -31,7 +31,9 @@ const VARIANTS = {
 const SIZES = {
   sm: "h-9 px-3 text-sm",
   md: "h-11 px-5 text-base",
-  lg: "h-14 px-6 text-lg",
+  //the page's one commitment, so it is the one size set in the display face:
+  //rounder, taller, and named in the type the headings are set in
+  lg: "h-[54px] rounded-xl px-6 font-display text-[17px]",
   fill: "self-stretch px-4 text-base",
   "icon-sm": "h-9 w-9 shrink-0",
   icon: "h-11 w-11 shrink-0",

@@ -54,14 +54,14 @@ export function BotChatter({
     // card above is what this points at, and the tail is what closes the last
     // few pixels of it.
     <div className="shrink-0 px-4 pt-2">
-      <div className="relative flex h-12 items-center rounded-xl bg-elevated px-3">
+      <div className="relative flex h-12 items-center rounded-xl bg-ground px-3">
         {/* What makes this read as speech rather than as one more panel row —
             the fill on its own is too close to the furniture around it. A square
             turned on its corner, tucked behind the bubble so only the half that
             sticks out shows, under whichever end of the scoreboard is the bot's. */}
         <span
           aria-hidden="true"
-          className="absolute -top-1 h-3 w-3 rotate-45 rounded-[2px] bg-elevated"
+          className="absolute -top-1 h-3 w-3 rotate-45 rounded-[2px] bg-ground"
           style={{ [side]: FACE_CENTER - TAIL } as CSSProperties}
         />
         {/* Two rows of room, always, and never a third: the longest line in the

@@ -46,8 +46,8 @@ export function Toggle({
         onClick={() => onChange(!checked)}
         className={cn(
           "relative h-6 w-11 shrink-0 rounded-full transition focus-visible:outline-none",
-          "focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2",
-          checked ? "bg-brand" : "bg-elevated-2",
+          "focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface",
+          checked ? "bg-brand" : "bg-surface-3",
         )}
       >
         <span

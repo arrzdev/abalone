@@ -53,6 +53,8 @@ export type GameCanvasProps = {
   possibleMoves: CellName[]
   marbleDesign?: string
   showCoordinates?: boolean
+  /** The rank and file down the edges. Off for a board nobody plays on. */
+  showLabels?: boolean
   notice?: string | null
   noticeAction?: string | null
   onReturnToLatest?: () => void
@@ -89,6 +91,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       possibleMoves,
       marbleDesign,
       showCoordinates,
+      showLabels,
       notice = null,
       noticeAction = null,
       onReturnToLatest,
@@ -126,6 +129,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       possibleMoves,
       marbleDesign,
       showCoordinates,
+      showLabels,
       reviewing: Boolean(notice),
     }
     const propsRef = useRef(latest)
@@ -236,6 +240,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         possibleMoves: moves,
         marbleDesign: design,
         showCoordinates: coords,
+        showLabels: labels,
         reviewing,
       } = propsRef.current
       const view = viewRef.current
@@ -253,6 +258,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         possibleMoves: moves,
         marbleDesign: design,
         showCoordinates: coords,
+        showLabels: labels,
         reviewing,
         animation,
         fading,

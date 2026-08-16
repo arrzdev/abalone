@@ -1,19 +1,29 @@
 /**
  * Where the login screen may send someone afterwards.
  *
- * A closed set of shapes rather than a validated path: `?redirect=` is a
+ * A closed set of tokens rather than a validated path: `?redirect=` is a
  * parameter a stranger can write, and this is what makes "send them where they
  * were going" impossible to turn into "send them anywhere". A game is in the set
  * because being asked to sign in and then landing somewhere other than the board
  * you followed a link to is the same as losing the link.
  *
- * The one shape that carries anything is a game, and what it carries is checked
+ * A token, not a path, because one of these destinations is not a route: the
+ * invite composer is an overlay on home, so "go there" means home plus a search
+ * parameter. Mapping tokens to navigation options here keeps that split in the
+ * one file that already knows which destinations are allowed at all.
+ *
+ * The one token that carries anything is a game, and what it carries is checked
  * to be an id rather than a path. `/game/online/../../evil` never matches.
  */
 
-const FIXED_ROUTES = ["/", "/game/online"] as const
+const FIXED_ROUTES = {
+  "/": { to: "/" },
+  /** Home, with the invite composer already open over it. */
+  "/invite": { to: "/", search: { invite: "new" } },
+  "/games": { to: "/games", search: { page: 1 } },
+} as const satisfies Record<string, { to: string; search?: object }>
 
-type FixedRoute = (typeof FIXED_ROUTES)[number]
+type FixedRoute = keyof typeof FIXED_ROUTES
 
 const GAME_PATH =
   /^\/game\/online\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i
@@ -25,8 +35,7 @@ export const DEFAULT_RETURN_TO: ReturnTo = "/"
 
 export function parseReturnTo(value: unknown): ReturnTo | undefined {
   if (typeof value !== "string") return undefined
-  const fixed = FIXED_ROUTES.find((route) => route === value)
-  if (fixed) return fixed
+  if (value in FIXED_ROUTES) return value as FixedRoute
   return GAME_PATH.test(value) ? (value as ReturnTo) : undefined
 }
 
@@ -34,8 +43,8 @@ export function parseReturnTo(value: unknown): ReturnTo | undefined {
  * A checked destination as router navigation options.
  *
  * A game is a parameterised route, so it cannot be handed to `navigate` as the
- * path it reads as. Splitting it here keeps every caller typed and keeps the
- * split in the one file that knows which paths are allowed at all.
+ * path it reads as; the composer is a search parameter rather than a path at
+ * all. Both are resolved here so every caller stays typed.
  */
 export function returnToOptions(returnTo: ReturnTo) {
   const game = returnTo.match(GAME_PATH)
@@ -45,5 +54,5 @@ export function returnToOptions(returnTo: ReturnTo) {
       params: { gameId: game[1] },
     } as const
   }
-  return { to: returnTo as FixedRoute } as const
+  return FIXED_ROUTES[returnTo as FixedRoute]
 }

@@ -5,7 +5,8 @@
     "heading": "진행 중인 대국",
     "empty": "아직 대국이 없어요. 누군가를 초대해 보세요.",
     "your_turn": "당신 차례",
-    "their_turn": "상대 차례"
+    "their_turn": "상대 차례",
+    "new_invite": "새 초대"
   },
   "invites": {
     "received": "받은 초대",
@@ -17,11 +18,25 @@
     "accept": "수락",
     "decline": "거절",
     "cancel": "취소",
-    "dismiss": "지우기"
+    "dismiss": "지우기",
+    "heading": "초대",
+    "sent_heading": "보낸 초대",
+    "just_sent": "방금 보냈습니다 · 수락 기다리는 중"
   },
   "history": {
     "heading": "끝난 대국",
-    "empty": "아직 아무것도 없어요. 끝난 대국이 여기에 쌓입니다."
+    "empty": "아직 아무것도 없어요. 끝난 대국이 여기에 쌓입니다.",
+    "heading_short": "종료",
+    "see_all": "전체 보기 ({{count}})",
+    "title": "종료된 대국",
+    "played": "대국 수",
+    "won": "승리",
+    "range": "{{total}}개 중 {{from}}–{{to}}",
+    "period_week": "이번 주",
+    "period_month": "이번 달",
+    "period_earlier": "그 이전",
+    "previous_page": "이전 페이지",
+    "next_page": "다음 페이지"
   },
   "sides": {
     "black": "흑",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "새 초대",
-    "body": "이름으로 상대를 초대하세요. 상대가 앱을 다시 열면 바로 보입니다.",
-    "username": "상대 이름",
-    "username_placeholder": "누구와 두시겠어요?",
+    "body": "상대가 앱을 다시 열면 바로 보입니다. 둘이 동시에 접속해 있을 필요는 없습니다.",
+    "username": "누구와 두시겠어요?",
+    "username_placeholder": "상대 이름",
     "setup": "시작 배치",
     "side": "당신의 진영",
     "send": "초대 보내기",
@@ -58,6 +73,16 @@
     "result_loss": "패배",
     "result_draw": "무승부",
     "review": "대국 복기",
-    "back_to_games": "대국 목록으로"
+    "back_to_games": "대국 목록으로",
+    "head_to_head": "지금까지 {{left}}–{{right}}"
+  },
+  "offline": {
+    "heading": "오프라인 플레이",
+    "note": "오프라인 대국은 시작한 탭 안에만 있습니다. 탭을 닫으면 사라지고, 계정에는 아무것도 남지 않습니다."
+  },
+  "empty": {
+    "title": "아직 아무것도 없습니다",
+    "body": "이름으로 누군가를 초대하면 그 대국이 여기 나타납니다. 대국은 당신을 기다리니, 하루 한 수도 훌륭한 한 판입니다.",
+    "play_bot": "기다리는 동안 봇과 한 판"
   }
 }

@@ -5,7 +5,8 @@
     "heading": "Tes parties",
     "empty": "Aucune partie pour l'instant. Invite quelqu'un.",
     "your_turn": "À toi de jouer",
-    "their_turn": "À ton adversaire"
+    "their_turn": "À ton adversaire",
+    "new_invite": "Nouvelle invitation"
   },
   "invites": {
     "received": "Invitations reçues",
@@ -17,11 +18,25 @@
     "accept": "Accepter",
     "decline": "Refuser",
     "cancel": "Annuler",
-    "dismiss": "Masquer"
+    "dismiss": "Masquer",
+    "heading": "Invitations",
+    "sent_heading": "Envoyées",
+    "just_sent": "Tout juste envoyée · en attente de réponse"
   },
   "history": {
     "heading": "Parties terminées",
-    "empty": "Rien ici pour l'instant. Tes parties terminées arrivent ici."
+    "empty": "Rien ici pour l'instant. Tes parties terminées arrivent ici.",
+    "heading_short": "Terminées",
+    "see_all": "Tout voir ({{count}})",
+    "title": "Parties terminées",
+    "played": "Jouées",
+    "won": "Gagnées",
+    "range": "{{from}}–{{to}} sur {{total}}",
+    "period_week": "Cette semaine",
+    "period_month": "Ce mois-ci",
+    "period_earlier": "Plus tôt",
+    "previous_page": "Page précédente",
+    "next_page": "Page suivante"
   },
   "sides": {
     "black": "noir",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "Nouvelle invitation",
-    "body": "Invite quelqu'un par son nom. Il la verra à sa prochaine ouverture de l'app.",
-    "username": "Son nom",
-    "username_placeholder": "Contre qui joues-tu ?",
+    "body": "Il la verra à sa prochaine ouverture de l'app. Aucun de vous deux n'a besoin d'être là en même temps.",
+    "username": "Contre qui joues-tu ?",
+    "username_placeholder": "Son nom",
     "setup": "Ouverture",
     "side": "Ton camp",
     "send": "Envoyer l'invitation",
@@ -58,6 +73,16 @@
     "result_loss": "Tu as perdu",
     "result_draw": "Nulle",
     "review": "Revoir la partie",
-    "back_to_games": "Retour aux parties"
+    "back_to_games": "Retour aux parties",
+    "head_to_head": "{{left}}–{{right}} avant"
+  },
+  "offline": {
+    "heading": "Jouer hors ligne",
+    "note": "Une partie hors ligne vit dans l'onglet où vous l'avez lancée. Fermez-le et elle disparaît, sans jamais toucher votre compte."
+  },
+  "empty": {
+    "title": "Rien ici pour l'instant",
+    "body": "Invitez quelqu'un par son nom et la partie apparaîtra ici. Les parties vous attendent : un coup par jour fait une très bonne partie.",
+    "play_bot": "Jouez contre un bot en attendant"
   }
 }

@@ -69,7 +69,7 @@ export function Card({ children, className }: CardProps) {
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-2xl bg-surface-2 p-5 shadow-xl shadow-black/20",
+        "overflow-hidden rounded-2xl bg-surface p-5 shadow-xl shadow-black/20",
         className,
       )}
     >

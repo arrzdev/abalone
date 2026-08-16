@@ -70,10 +70,10 @@ export function VolumeSlider({
           title={muteLabel}
           className={cn(
             "shrink-0 rounded-lg p-1.5 transition focus-visible:outline-none",
-            "focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2",
+            "focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface",
             muted
-              ? "bg-elevated-2 text-white"
-              : "bg-surface-4 text-subtle hover:text-white",
+              ? "bg-surface-3 text-white"
+              : "bg-surface-2 text-subtle hover:text-white",
           )}
         >
           {muted ? (

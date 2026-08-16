@@ -68,7 +68,9 @@
     "side_white": "白でプレイ",
     "side_black": "黒でプレイ",
     "side_random": "ランダム",
-    "marbles_taken": "相手のボールを {{total}} 個中 {{taken}} 個 押し出した"
+    "marbles_taken": "相手のボールを {{total}} 個中 {{taken}} 個 押し出した",
+    "eval_advantage": "{{color}}が{{score}}リード",
+    "eval_level": "互角"
   },
   "game_state": {
     "your_turn": "あなたの手番",
@@ -88,7 +90,9 @@
     "by_resignation": "投了による",
     "by_repetition": "3回同形反復による",
     "resign_title": "投了しますか？",
-    "resign_body": "対局はただちに終了し、相手の勝ちとなります。取り消せません。"
+    "resign_body": "対局はただちに終了し、相手の勝ちとなります。取り消せません。",
+    "game_over": "対局終了",
+    "moves": "{{count}}手"
   },
   "rules": {
     "title": "遊び方",

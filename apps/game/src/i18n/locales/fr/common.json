@@ -3,7 +3,8 @@
     "primary": "Navigation principale",
     "back": "Retour",
     "play": "Jouer",
-    "rules": "Règles du jeu",
+    "new_game": "Nouvelle partie",
+    "rules": "Règles",
     "strategy": "Guide stratégique",
     "faq": "FAQ",
     "about": "À propos",
@@ -37,7 +38,12 @@
     "tagline": "Poussez six billes adverses hors du plateau pour gagner.",
     "play_online": "Jouer en ligne",
     "play_offline": "Jouer hors ligne",
-    "rules_link": "Apprendre à jouer"
+    "rules_link": "Jamais joué ? Les règles prennent deux minutes",
+    "bot_hint_short": "Huit niveaux",
+    "bot_hint_long": "Huit bots, de Gus à Magnus.",
+    "local_hint_short": "Un appareil, vous deux",
+    "bots_caption": "Huit bots, de Gus à Magnus",
+    "account_note": "Une partie contre un bot ne demande aucun compte. Connectez-vous et toutes vos parties sont conservées, en ligne comme hors ligne."
   },
   "auth": {
     "sign_in": "Se connecter",
@@ -50,7 +56,7 @@
     "show_password": "Afficher le mot de passe",
     "hide_password": "Masquer le mot de passe",
     "prompt_title": "Connecte-toi pour jouer en ligne",
-    "prompt_body": "Les parties en ligne demandent un nom. Le jeu hors ligne n'en demande jamais.",
+    "prompt_body": "Jouez sous votre nom. Chaque victoire est conservée.",
     "errors": {
       "username_taken": "Ce nom est déjà pris. Essaie-en un autre.",
       "username_invalid": "Les noms font de 3 à 20 caractères, avec des lettres, des chiffres, des points et des tirets bas.",
@@ -58,7 +64,7 @@
       "invalid_credentials": "Ce nom et ce mot de passe ne correspondent pas. Vérifie les deux et réessaie.",
       "unknown": "Quelque chose s'est mal passé. Vérifie ta connexion et réessaie."
     },
-    "credentials_warning": "Nom et mot de passe irrécupérables. Les perdre, c'est perdre le compte."
+    "credentials_warning": "Nom et mot de passe irrécupérables.\nLes perdre, c'est perdre le compte."
   },
   "profile": {
     "username_permanent": "Ton nom est définitif",

@@ -3,7 +3,8 @@
     "primary": "Navegação principal",
     "back": "Voltar",
     "play": "Jogar",
-    "rules": "Regras do jogo",
+    "new_game": "Novo jogo",
+    "rules": "Regras",
     "strategy": "Guia de estratégia",
     "faq": "FAQ",
     "about": "Sobre",
@@ -37,7 +38,12 @@
     "tagline": "Empurra seis bolas do adversário para fora do tabuleiro para ganhar.",
     "play_online": "Jogar online",
     "play_offline": "Jogar offline",
-    "rules_link": "Aprender a jogar"
+    "rules_link": "Nunca jogaste? As regras levam dois minutos",
+    "bot_hint_short": "Oito níveis",
+    "bot_hint_long": "Oito bots, do Gus ao Magnus.",
+    "local_hint_short": "Um dispositivo, os dois",
+    "bots_caption": "Oito bots, do Gus ao Magnus",
+    "account_note": "Um jogo contra bot não precisa de conta. Entra e todos os teus jogos ficam guardados, online e offline."
   },
   "auth": {
     "sign_in": "Entrar",
@@ -50,7 +56,7 @@
     "show_password": "Mostrar palavra-passe",
     "hide_password": "Ocultar palavra-passe",
     "prompt_title": "Entra para jogar online",
-    "prompt_body": "Os jogos online precisam de um nome. Jogar offline nunca pede um.",
+    "prompt_body": "Joga com o teu nome. Todas as vitórias ficam guardadas.",
     "errors": {
       "username_taken": "Esse nome já está ocupado. Escolhe outro.",
       "username_invalid": "Os nomes têm 3 a 20 caracteres, com letras, números, pontos e underscores.",
@@ -58,7 +64,7 @@
       "invalid_credentials": "Esse nome e essa palavra-passe não coincidem. Confere os dois e tenta de novo.",
       "unknown": "Algo correu mal. Verifica a ligação e tenta de novo."
     },
-    "credentials_warning": "Nome e palavra-passe não se recuperam. Perdê-los é perder a conta."
+    "credentials_warning": "Nome e palavra-passe não se recuperam.\nPerdê-los é perder a conta."
   },
   "profile": {
     "username_permanent": "O teu nome é permanente",

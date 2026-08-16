@@ -68,7 +68,9 @@
     "side_white": "Jugar con blancas",
     "side_black": "Jugar con negras",
     "side_random": "Lado aleatorio",
-    "marbles_taken": "{{taken}} de {{total}} bolas del rival expulsadas"
+    "marbles_taken": "{{taken}} de {{total}} bolas del rival expulsadas",
+    "eval_advantage": "{{color}} por delante por {{score}}",
+    "eval_level": "Igualado"
   },
   "game_state": {
     "your_turn": "Tu turno",
@@ -88,7 +90,9 @@
     "by_resignation": "por abandono",
     "by_repetition": "por triple repetición",
     "resign_title": "¿Rendirse en la partida?",
-    "resign_body": "La partida termina de inmediato y la victoria es para tu rival. No se puede deshacer."
+    "resign_body": "La partida termina de inmediato y la victoria es para tu rival. No se puede deshacer.",
+    "game_over": "Fin de la partida",
+    "moves": "{{count}} jugadas"
   },
   "rules": {
     "title": "Cómo jugar",

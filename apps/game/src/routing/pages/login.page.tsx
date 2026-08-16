@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { AuthForm } from "@/components/auth-form"
+import { Logo } from "@/components/logo"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { hasLiveSession } from "@/data/auth/client"
 import { getBearerToken } from "@/data/auth/token"
@@ -25,9 +26,9 @@ export type LoginSearch = {
  * Sign in, or make an account, on a screen of its own.
  *
  * This is the desktop shape of the prompt — a phone gets the same form in a
- * drawer (`AuthPromptProvider`) and mostly lands here by typing the URL. Which
- * is why the screen is built as a split: a desktop has a screenful of room, and
- * a small card marooned in the middle of it is a phone layout nobody resized.
+ * drawer (`AuthPromptProvider`) and mostly lands here by typing the URL. One
+ * centred column at both sizes: the form is the only thing on the screen, and
+ * the width it wants is the same on a laptop as on a phone.
  *
  * A guest is never made to wait: no token means the form, immediately. A token
  * costs one round trip, because the string in storage is not proof — one the
@@ -54,10 +55,6 @@ function LoginPage() {
   const navigate = useNavigate()
   const { redirect: returnTo } = Route.useSearch()
 
-  //the same split the drawer makes: online play has a reason it needs a name,
-  //and anywhere else the form speaks for itself
-  const forOnlinePlay = returnTo === "/game/online"
-
   return (
     <>
       {/* The only chrome a phone gets here, and the only way back off a screen
@@ -65,34 +62,30 @@ function LoginPage() {
         form's — see the heading below, which is the desktop's. */}
       <SubpageHeader title={t("common:auth.sign_in")} />
 
-      <Screen className="relative overflow-hidden lg:flex-row">
-        {/* One surface, one pattern across the whole of it. The screen used to be
-          two panels in two greys with a seam down the middle, which made the
-          form look like a sidebar bolted onto a page. The honeycomb is what
-          separates the halves now: thick where the pictures are and gone by the
-          time it reaches the fields. */}
-        <div className="hex-texture hex-texture-from-right pointer-events-none absolute inset-0 opacity-[0.07] [--hex-size:76px]" />
+      <Screen className="relative overflow-hidden">
+        {/* Centred on the pattern rather than beside a panel of screenshots. The
+          form is 452px of controls and the argument for making an account is
+          three lines above it; a half-screen of pictures next to that made the
+          fields look like a sidebar on a marketing page. */}
+        <div className="hex-texture pointer-events-none absolute inset-0 opacity-[0.035] [--hex-size:96px]" />
 
         <ScrollView className="relative px-safe" directionalLockEnabled>
-          <div className="mx-auto flex min-h-full w-full max-w-md flex-col justify-center gap-y-8 px-6 pt-10 pb-safe-offset-10 lg:px-12">
-            {/* No "Sign in" over the top of a switch whose left half already says
-              it. The only heading worth the room is the one that answers a
-              question the form raises — why it is asking at all, on the width
-              that has room to spare. A phone gets the form and nothing else:
-              it is one screenful either way, and everything else on it is a
-              reason to scroll for the fields. */}
-            {forOnlinePlay && (
-              <div className="hidden flex-col gap-y-2 lg:flex">
-                <h1 className="text-3xl font-extrabold tracking-tight text-white">
-                  {t("common:auth.prompt_title")}
-                </h1>
-                <p className="leading-relaxed text-muted">
-                  {t("common:auth.prompt_body")}
-                </p>
-              </div>
-            )}
+          <div className="mx-auto flex min-h-full w-full max-w-[452px] flex-col justify-center px-6 pt-10 pb-safe-offset-10 lg:px-0">
+            {/* Above the card and centred on it: the mark and what the screen
+              is for. A phone has the bar's title as well, which is the one
+              repeat worth having — the bar scrolls away and this does not. */}
+            <div className="flex flex-col items-center gap-3.5 pb-7">
+              <Logo className="size-11" />
+              <h1 className="text-center font-display text-3xl font-extrabold tracking-[-0.03em] text-white">
+                {t("common:auth.prompt_title")}
+              </h1>
+            </div>
 
+            {/* A card here and not in the form itself: in the phone drawer the
+                sheet is already this surface, and a panel inside a panel is a
+                second edge around the same three controls. */}
             <AuthForm
+              className="rounded-[20px] bg-surface p-6"
               onAuthenticated={() =>
                 navigate({
                   ...returnToOptions(returnTo ?? DEFAULT_RETURN_TO),
@@ -102,72 +95,7 @@ function LoginPage() {
             />
           </div>
         </ScrollView>
-
-        {/* The half of the screen the form does not need, spent on what the
-          account is for: the game, on both of the things it runs on. */}
-        <aside className="relative hidden min-h-0 flex-1 flex-col justify-center p-10 lg:flex">
-          {/* One column for both, so the line reads as the picture's caption
-            rather than as a paragraph that happens to sit under it. */}
-          <div className="mx-auto flex w-full max-w-xl flex-col gap-y-10">
-            <Showcase />
-
-            <p className="mx-auto max-w-md text-center text-xl leading-snug font-bold text-balance text-subtle">
-              {t("common:home.tagline")}
-            </p>
-          </div>
-        </aside>
       </Screen>
     </>
-  )
-}
-
-const SHOT_BASE = `${import.meta.env.BASE_URL}images/showcase`
-
-/**
- * The game as it actually looks, on a desktop and on a phone, the phone
- * overlapping the corner of the desktop.
- *
- * Both are real screenshots rather than a drawing of one: the point of the
- * panel is "this is the thing you are signing into", and a mockup with invented
- * content says the opposite. They are captured by hand from the running app, so
- * they go stale — the frames are the part worth keeping, and swapping the two
- * files is the whole of updating this.
- *
- * Reshooting the phone means forcing the insets first. A desktop browser reports
- * `env(safe-area-inset-*)` as zero whatever size the window is, so a shot taken
- * straight off one has its header against the bezel and the frame's corner
- * eating the gear. Override `--twsa-safe-area-inset-top`/`-bottom` before
- * capturing: 32px and 24px, not the 47/34 a real iPhone reports. The shot has no
- * clock or battery in that strip, so at a device's own numbers it reads as a
- * black void rather than as a status bar.
- *
- * The frames are drawn in CSS rather than baked into the images: a bezel is two
- * rounded boxes, and baking it in would mean re-editing artwork every time the
- * screenshot changes.
- */
-function Showcase() {
-  return (
-    <div className="relative mx-auto w-full max-w-xl pb-10 ps-10">
-      <div className="overflow-hidden rounded-xl bg-surface-4 shadow-2xl shadow-black/50 ring-1 ring-border">
-        <div className="flex h-7 items-center gap-1.5 bg-surface-3 px-3">
-          <span className="h-2 w-2 rounded-full bg-white/20" />
-          <span className="h-2 w-2 rounded-full bg-white/15" />
-          <span className="h-2 w-2 rounded-full bg-white/10" />
-        </div>
-        <img
-          src={`${SHOT_BASE}/desktop.webp`}
-          alt=""
-          className="block w-full"
-        />
-      </div>
-
-      <div className="absolute bottom-0 left-0 w-[26%] rounded-[1.4rem] bg-black p-1 shadow-2xl shadow-black/60 ring-1 ring-border">
-        <img
-          src={`${SHOT_BASE}/mobile.webp`}
-          alt=""
-          className="block w-full rounded-[1.1rem]"
-        />
-      </div>
-    </div>
   )
 }

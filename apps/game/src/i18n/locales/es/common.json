@@ -3,7 +3,8 @@
     "primary": "Navegación principal",
     "back": "Atrás",
     "play": "Jugar",
-    "rules": "Reglas del juego",
+    "new_game": "Nueva partida",
+    "rules": "Reglas",
     "strategy": "Guía de estrategia",
     "faq": "FAQ",
     "about": "Acerca de",
@@ -37,7 +38,12 @@
     "tagline": "Empuja seis bolas del rival fuera del tablero para ganar.",
     "play_online": "Jugar en línea",
     "play_offline": "Jugar sin conexión",
-    "rules_link": "Aprende a jugar"
+    "rules_link": "¿Nunca has jugado? Las reglas llevan dos minutos",
+    "bot_hint_short": "Ocho niveles",
+    "bot_hint_long": "Ocho bots, de Gus a Magnus.",
+    "local_hint_short": "Un dispositivo, los dos",
+    "bots_caption": "Ocho bots, de Gus a Magnus",
+    "account_note": "Una partida contra un bot no necesita cuenta. Inicia sesión y todas tus partidas se guardan, en línea y sin conexión."
   },
   "auth": {
     "sign_in": "Iniciar sesión",
@@ -50,7 +56,7 @@
     "show_password": "Mostrar contraseña",
     "hide_password": "Ocultar contraseña",
     "prompt_title": "Inicia sesión para jugar en línea",
-    "prompt_body": "Las partidas en línea necesitan un nombre. Jugar sin conexión nunca lo pide.",
+    "prompt_body": "Juega con tu nombre. Cada victoria queda guardada.",
     "errors": {
       "username_taken": "Ese nombre ya está ocupado. Prueba con otro.",
       "username_invalid": "Los nombres tienen de 3 a 20 caracteres, con letras, números, puntos y guiones bajos.",
@@ -58,7 +64,7 @@
       "invalid_credentials": "Ese nombre y esa contraseña no coinciden. Revisa ambos e inténtalo de nuevo.",
       "unknown": "Algo salió mal. Revisa tu conexión e inténtalo de nuevo."
     },
-    "credentials_warning": "El nombre y la contraseña no se recuperan: perderlos es perder la cuenta."
+    "credentials_warning": "El nombre y la contraseña no se recuperan.\nPerderlos es perder la cuenta."
   },
   "profile": {
     "username_permanent": "Tu nombre es permanente",

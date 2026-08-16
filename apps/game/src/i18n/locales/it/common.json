@@ -3,7 +3,8 @@
     "primary": "Navigazione principale",
     "back": "Indietro",
     "play": "Gioca",
-    "rules": "Regole del gioco",
+    "new_game": "Nuova partita",
+    "rules": "Regole",
     "strategy": "Guida strategica",
     "faq": "FAQ",
     "about": "Informazioni",
@@ -37,7 +38,12 @@
     "tagline": "Spingi sei biglie avversarie fuori dal tabellone per vincere.",
     "play_online": "Gioca online",
     "play_offline": "Gioca offline",
-    "rules_link": "Impara a giocare"
+    "rules_link": "Non hai mai giocato? Le regole richiedono due minuti",
+    "bot_hint_short": "Otto livelli",
+    "bot_hint_long": "Otto bot, da Gus a Magnus.",
+    "local_hint_short": "Un dispositivo, voi due",
+    "bots_caption": "Otto bot, da Gus a Magnus",
+    "account_note": "Una partita contro un bot non richiede un account. Accedi e ogni partita viene salvata, online e offline."
   },
   "auth": {
     "sign_in": "Accedi",
@@ -50,7 +56,7 @@
     "show_password": "Mostra password",
     "hide_password": "Nascondi password",
     "prompt_title": "Accedi per giocare online",
-    "prompt_body": "Le partite online hanno bisogno di un nome. Il gioco offline non lo chiede mai.",
+    "prompt_body": "Gioca con il tuo nome. Ogni vittoria resta.",
     "errors": {
       "username_taken": "Questo nome è già occupato. Provane un altro.",
       "username_invalid": "I nomi vanno da 3 a 20 caratteri, con lettere, numeri, punti e trattini bassi.",
@@ -58,7 +64,7 @@
       "invalid_credentials": "Nome e password non corrispondono. Controlla entrambi e riprova.",
       "unknown": "Qualcosa è andato storto. Controlla la connessione e riprova."
     },
-    "credentials_warning": "Nome e password non si recuperano: perderli è perdere l'account."
+    "credentials_warning": "Nome e password non si recuperano.\nPerderli è perdere l'account."
   },
   "profile": {
     "username_permanent": "Il tuo nome è permanente",

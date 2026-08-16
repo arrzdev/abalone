@@ -30,7 +30,7 @@ export function AuthSheet({
   onAuthenticated,
 }: AuthSheetProps) {
   const { t } = useTranslation()
-  const forOnlinePlay = destination === "/game/online"
+  const forOnlinePlay = destination === "/invite"
 
   const title = forOnlinePlay
     ? t("common:auth.prompt_title")

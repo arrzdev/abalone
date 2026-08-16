@@ -5,7 +5,8 @@
     "heading": "対局中",
     "empty": "まだ対局がありません。誰かを誘ってみましょう。",
     "your_turn": "あなたの番",
-    "their_turn": "相手の番"
+    "their_turn": "相手の番",
+    "new_invite": "新しい招待"
   },
   "invites": {
     "received": "届いた招待",
@@ -17,11 +18,25 @@
     "accept": "受ける",
     "decline": "断る",
     "cancel": "取り消す",
-    "dismiss": "消す"
+    "dismiss": "消す",
+    "heading": "招待",
+    "sent_heading": "送信済み",
+    "just_sent": "送信しました · 返事待ち"
   },
   "history": {
     "heading": "終わった対局",
-    "empty": "まだ何もありません。終わった対局はここに並びます。"
+    "empty": "まだ何もありません。終わった対局はここに並びます。",
+    "heading_short": "終了",
+    "see_all": "すべて表示（{{count}}）",
+    "title": "終了した対局",
+    "played": "対局数",
+    "won": "勝利",
+    "range": "{{total}} 件中 {{from}}–{{to}}",
+    "period_week": "今週",
+    "period_month": "今月",
+    "period_earlier": "それ以前",
+    "previous_page": "前のページ",
+    "next_page": "次のページ"
   },
   "sides": {
     "black": "黒",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "新しい招待",
-    "body": "名前で相手を誘えます。相手が次にアプリを開いたときに届きます。",
-    "username": "相手の名前",
-    "username_placeholder": "誰と指しますか？",
+    "body": "相手が次にアプリを開いたときに届きます。二人が同時にいる必要はありません。",
+    "username": "誰と指しますか？",
+    "username_placeholder": "相手の名前",
     "setup": "初期配置",
     "side": "あなたの手番",
     "send": "招待を送る",
@@ -58,6 +73,16 @@
     "result_loss": "負け",
     "result_draw": "引き分け",
     "review": "対局を見る",
-    "back_to_games": "対局一覧へ"
+    "back_to_games": "対局一覧へ",
+    "head_to_head": "これまで {{left}}–{{right}}"
+  },
+  "offline": {
+    "heading": "オフラインで遊ぶ",
+    "note": "オフラインの対局は、始めたタブの中だけにあります。タブを閉じれば消え、アカウントには何も残りません。"
+  },
+  "empty": {
+    "title": "まだ何もありません",
+    "body": "名前で誰かを招待すると、その対局がここに並びます。対局はあなたを待つので、1日1手でも立派な一局です。",
+    "play_bot": "待つあいだにボットと対局"
   }
 }

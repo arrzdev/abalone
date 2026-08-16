@@ -3,7 +3,8 @@
     "primary": "主导航",
     "back": "返回",
     "play": "开始游戏",
-    "rules": "游戏规则",
+    "new_game": "新对局",
+    "rules": "规则",
     "strategy": "策略指南",
     "faq": "常见问题",
     "about": "关于",
@@ -37,7 +38,12 @@
     "tagline": "把对手的六枚棋子推出棋盘即可获胜。",
     "play_online": "在线对战",
     "play_offline": "离线对战",
-    "rules_link": "了解玩法"
+    "rules_link": "没玩过？规则两分钟就能看完",
+    "bot_hint_short": "八种强度",
+    "bot_hint_long": "八个机器人，从 Gus 到 Magnus。",
+    "local_hint_short": "一台设备，两个人",
+    "bots_caption": "八个机器人，从 Gus 到 Magnus",
+    "account_note": "和机器人对战无需账号。登录后，线上线下的每一局都会保留。"
   },
   "auth": {
     "sign_in": "登录",
@@ -50,7 +56,7 @@
     "show_password": "显示密码",
     "hide_password": "隐藏密码",
     "prompt_title": "登录后即可在线对战",
-    "prompt_body": "在线对战需要一个名字。离线游戏从不需要。",
+    "prompt_body": "以你的名字出战，每一场胜利都会留下。",
     "errors": {
       "username_taken": "这个名字已被使用。请换一个。",
       "username_invalid": "名字为 3 到 20 个字符，可使用字母、数字、点和下划线。",
@@ -58,7 +64,7 @@
       "invalid_credentials": "名字和密码不匹配。请检查后重试。",
       "unknown": "出了点问题。请检查网络后重试。"
     },
-    "credentials_warning": "用户名和密码无法找回，丢了账号也就没了。"
+    "credentials_warning": "用户名和密码无法找回。\n丢了账号也就没了。"
   },
   "profile": {
     "username_permanent": "你的名字不可更改",

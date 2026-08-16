@@ -68,7 +68,9 @@
     "side_white": "Weiß spielen",
     "side_black": "Schwarz spielen",
     "side_random": "Zufällige Seite",
-    "marbles_taken": "{{taken}} von {{total}} gegnerischen Kugeln hinausgeschoben"
+    "marbles_taken": "{{taken}} von {{total}} gegnerischen Kugeln hinausgeschoben",
+    "eval_advantage": "{{color}} liegt {{score}} vorn",
+    "eval_level": "Ausgeglichen"
   },
   "game_state": {
     "your_turn": "Du bist am Zug",
@@ -88,7 +90,9 @@
     "by_resignation": "durch Aufgabe",
     "by_repetition": "durch dreifache Wiederholung",
     "resign_title": "Partie aufgeben?",
-    "resign_body": "Die Partie endet sofort und dein Gegner gewinnt. Das lässt sich nicht rückgängig machen."
+    "resign_body": "Die Partie endet sofort und dein Gegner gewinnt. Das lässt sich nicht rückgängig machen.",
+    "game_over": "Spiel vorbei",
+    "moves": "{{count}} Züge"
   },
   "rules": {
     "title": "So wird gespielt",

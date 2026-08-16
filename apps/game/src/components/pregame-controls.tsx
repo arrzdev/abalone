@@ -28,9 +28,7 @@ function Section({
 }) {
   return (
     <section>
-      <h2 className="mb-2 text-xs font-semibold tracking-wider text-faint uppercase">
-        {title}
-      </h2>
+      <h2 className="section-label mb-2">{title}</h2>
       {children}
     </section>
   )
@@ -112,7 +110,7 @@ export function PregameControls({
 
       {isLocal ? (
         <>
-          <div className="rounded-xl bg-surface-4 p-4">
+          <div className="rounded-xl bg-surface-2 p-4">
             <h3 className="font-bold text-white">
               {t("game:local.title")}
             </h3>
@@ -131,7 +129,7 @@ export function PregameControls({
               {LOCAL_SIDES.map((color) => (
                 <div
                   key={color}
-                  className="flex items-center gap-2.5 rounded-xl bg-surface-4 px-3"
+                  className="flex items-center gap-2.5 rounded-xl bg-surface-2 px-3"
                 >
                   <MarbleGlyph
                     color={color}
@@ -192,7 +190,7 @@ export function PregameControls({
                       // portrait that steps back, not the card it sits on.
                       selected
                         ? "bg-brand"
-                        : "bg-surface-4 hover:bg-surface-5",
+                        : "bg-surface-2 hover:bg-surface-3",
                     )}
                   >
                     {/* Square whether or not there is anything in it yet. The

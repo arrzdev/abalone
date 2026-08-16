@@ -3,7 +3,8 @@
     "primary": "Ana gezinme",
     "back": "Geri",
     "play": "Oyna",
-    "rules": "Oyun Kuralları",
+    "new_game": "Yeni oyun",
+    "rules": "Kurallar",
     "strategy": "Strateji Rehberi",
     "faq": "SSS",
     "about": "Hakkında",
@@ -37,7 +38,12 @@
     "tagline": "Kazanmak için rakibinin altı bilyesini tahtadan dışarı it.",
     "play_online": "Çevrimiçi oyna",
     "play_offline": "Çevrimdışı oyna",
-    "rules_link": "Oynamayı öğren"
+    "rules_link": "Hiç oynamadın mı? Kurallar iki dakika sürer",
+    "bot_hint_short": "Sekiz seviye",
+    "bot_hint_long": "Gus'tan Magnus'a sekiz bot.",
+    "local_hint_short": "Tek cihaz, ikiniz",
+    "bots_caption": "Gus'tan Magnus'a sekiz bot",
+    "account_note": "Bota karşı oynamak için hesap gerekmez. Giriş yap, oynadığın her oyun saklansın; çevrimiçi de çevrimdışı da."
   },
   "auth": {
     "sign_in": "Giriş yap",
@@ -50,7 +56,7 @@
     "show_password": "Parolayı göster",
     "hide_password": "Parolayı gizle",
     "prompt_title": "Çevrimiçi oynamak için giriş yap",
-    "prompt_body": "Çevrimiçi oyunlar bir ad ister. Çevrimdışı oyun hiçbir zaman istemez.",
+    "prompt_body": "Kendi adınla oyna. Her galibiyet kayıtlı kalır.",
     "errors": {
       "username_taken": "Bu ad zaten alınmış. Başka bir ad dene.",
       "username_invalid": "Adlar 3 ile 20 karakter arasındadır; harf, rakam, nokta ve alt çizgi kullanabilirsin.",
@@ -58,7 +64,7 @@
       "invalid_credentials": "Bu ad ve parola eşleşmiyor. İkisini de kontrol edip tekrar dene.",
       "unknown": "Bir şeyler ters gitti. Bağlantını kontrol edip tekrar dene."
     },
-    "credentials_warning": "Ad ve parola sıfırlanamaz. Kaybedersen hesap da gider."
+    "credentials_warning": "Ad ve parola sıfırlanamaz.\nKaybedersen hesap da gider."
   },
   "profile": {
     "username_permanent": "Adın kalıcıdır",

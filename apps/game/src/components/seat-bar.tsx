@@ -139,7 +139,7 @@ function Side({
             portrait and the blue behind it. */}
         <span
           className={cn(
-            "absolute -bottom-1 flex rounded-full bg-surface-4 p-[3px]",
+            "absolute -bottom-1 flex rounded-full bg-surface-2 p-[3px]",
             flip ? "-left-1" : "-right-1",
           )}
         >
@@ -177,12 +177,19 @@ function Side({
 
 export type SeatBarProps = {
   seats: Seat[]
+  /**
+   * What these two have done to each other before now, already worded and in
+   * the same order as the seats. Only for two players who have met — a record
+   * of nothing is a line saying they are strangers.
+   */
+  record?: string
   marbleDesign?: string
   className?: string
 }
 
 export function SeatBar({
   seats,
+  record,
   marbleDesign = "default",
   className,
 }: SeatBarProps) {
@@ -194,19 +201,33 @@ export function SeatBar({
     // No bottom padding: whatever comes next owns the gap to this card, so the
     // spacing down the panel is one number kept in one place.
     <div className={cn("shrink-0 px-4 pt-3", className)}>
-      <div className="flex items-center rounded-xl bg-surface-4 p-2">
+      <div className="flex items-center rounded-xl bg-surface-2 p-2">
         <Side {...left} marbleDesign={marbleDesign} />
 
         {/* Dead centre, and the same width whatever the score, so neither name
             shifts as the game runs. The dash is drawn back out of the way: it is
             punctuation between two numbers, not a third thing to read. */}
-        <div
-          aria-hidden="true"
-          className="flex shrink-0 items-baseline gap-1.5 px-2 text-lg leading-none font-bold tabular-nums text-white"
-        >
-          <span>{score(left)}</span>
-          <span className="text-sm font-normal text-faint">–</span>
-          <span>{score(right)}</span>
+        <div className="flex shrink-0 flex-col items-center gap-[3px] px-2">
+          <span
+            aria-hidden="true"
+            className="flex items-baseline gap-1.5 font-display text-lg leading-none font-bold tabular-nums text-white"
+          >
+            <span>{score(left)}</span>
+            <span className="font-sans text-sm font-normal text-faint">
+              –
+            </span>
+            <span>{score(right)}</span>
+          </span>
+
+          {/* Under this game's score and quieter than it, because that is the
+              relationship: what is happening now, and what has happened before.
+              Read out rather than hidden — it is the one thing on this card a
+              screen reader cannot get from the seats either side. */}
+          {record && (
+            <span className="font-display text-[11px] font-semibold whitespace-nowrap text-white/30 tabular-nums">
+              {record}
+            </span>
+          )}
         </div>
 
         <Side {...right} marbleDesign={marbleDesign} flip />

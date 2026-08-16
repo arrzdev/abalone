@@ -3,7 +3,8 @@
     "primary": "Hoofdnavigatie",
     "back": "Terug",
     "play": "Spelen",
-    "rules": "Spelregels",
+    "new_game": "Nieuw spel",
+    "rules": "Regels",
     "strategy": "Strategiegids",
     "faq": "FAQ",
     "about": "Over",
@@ -37,7 +38,12 @@
     "tagline": "Duw zes ballen van je tegenstander van het bord om te winnen.",
     "play_online": "Online spelen",
     "play_offline": "Offline spelen",
-    "rules_link": "Leer spelen"
+    "rules_link": "Nooit gespeeld? De regels kosten twee minuten",
+    "bot_hint_short": "Acht niveaus",
+    "bot_hint_long": "Acht bots, van Gus tot Magnus.",
+    "local_hint_short": "Eén apparaat, jullie twee",
+    "bots_caption": "Acht bots, van Gus tot Magnus",
+    "account_note": "Een botspel heeft geen account nodig. Meld je aan en elk spel wordt bewaard, online en offline."
   },
   "auth": {
     "sign_in": "Inloggen",
@@ -50,7 +56,7 @@
     "show_password": "Wachtwoord tonen",
     "hide_password": "Wachtwoord verbergen",
     "prompt_title": "Log in om online te spelen",
-    "prompt_body": "Online partijen hebben een naam nodig. Offline spelen vraagt er nooit om.",
+    "prompt_body": "Speel onder je eigen naam. Elke winst blijft staan.",
     "errors": {
       "username_taken": "Die naam is al bezet. Probeer een andere.",
       "username_invalid": "Namen zijn 3 tot 20 tekens, met letters, cijfers, punten en liggende streepjes.",
@@ -58,7 +64,7 @@
       "invalid_credentials": "Die naam en dat wachtwoord horen niet bij elkaar. Controleer beide en probeer het opnieuw.",
       "unknown": "Er ging iets mis. Controleer je verbinding en probeer het opnieuw."
     },
-    "credentials_warning": "Naam en wachtwoord zijn niet te herstellen. Kwijt is account kwijt."
+    "credentials_warning": "Naam en wachtwoord zijn niet te herstellen.\nKwijt is account kwijt."
   },
   "profile": {
     "username_permanent": "Je naam ligt vast",

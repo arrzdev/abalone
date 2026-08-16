@@ -5,7 +5,8 @@
     "heading": "Deine Partien",
     "empty": "Noch keine Partien. Lade jemanden ein.",
     "your_turn": "Du bist am Zug",
-    "their_turn": "Gegner ist am Zug"
+    "their_turn": "Gegner ist am Zug",
+    "new_invite": "Neue Einladung"
   },
   "invites": {
     "received": "Einladungen für dich",
@@ -17,11 +18,25 @@
     "accept": "Annehmen",
     "decline": "Ablehnen",
     "cancel": "Zurückziehen",
-    "dismiss": "Ausblenden"
+    "dismiss": "Ausblenden",
+    "heading": "Einladungen",
+    "sent_heading": "Gesendet",
+    "just_sent": "Gerade verschickt · wartet auf Antwort"
   },
   "history": {
     "heading": "Beendete Partien",
-    "empty": "Noch nichts hier. Beendete Partien landen hier."
+    "empty": "Noch nichts hier. Beendete Partien landen hier.",
+    "heading_short": "Beendet",
+    "see_all": "Alle ansehen ({{count}})",
+    "title": "Beendete Partien",
+    "played": "Gespielt",
+    "won": "Gewonnen",
+    "range": "{{from}}–{{to}} von {{total}}",
+    "period_week": "Diese Woche",
+    "period_month": "Diesen Monat",
+    "period_earlier": "Früher",
+    "previous_page": "Vorherige Seite",
+    "next_page": "Nächste Seite"
   },
   "sides": {
     "black": "Schwarz",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "Neue Einladung",
-    "body": "Lade jemanden mit seinem Namen ein. Er sieht sie, sobald er die App das nächste Mal öffnet.",
-    "username": "Sein Name",
-    "username_placeholder": "Gegen wen spielst du?",
+    "body": "Er sieht sie, sobald er die App das nächste Mal öffnet. Ihr müsst nicht beide gleichzeitig da sein.",
+    "username": "Gegen wen spielst du?",
+    "username_placeholder": "Sein Name",
     "setup": "Aufstellung",
     "side": "Deine Seite",
     "send": "Einladung senden",
@@ -58,6 +73,16 @@
     "result_loss": "Verloren",
     "result_draw": "Unentschieden",
     "review": "Partie ansehen",
-    "back_to_games": "Zurück zu den Partien"
+    "back_to_games": "Zurück zu den Partien",
+    "head_to_head": "{{left}}–{{right}} bisher"
+  },
+  "offline": {
+    "heading": "Offline spielen",
+    "note": "Ein Offline-Spiel lebt in dem Tab, in dem du es gestartet hast. Schließt du ihn, ist es weg — und nichts davon erreicht dein Konto."
+  },
+  "empty": {
+    "title": "Hier ist noch nichts",
+    "body": "Lade jemanden mit Namen ein, und die Partie erscheint hier. Partien warten auf dich — ein Zug pro Tag ist eine völlig gute Partie.",
+    "play_bot": "Spiel gegen einen Bot, während du wartest"
   }
 }

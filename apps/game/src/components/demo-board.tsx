@@ -121,6 +121,8 @@ export function DemoBoard() {
         state={state}
         possibleMoves={[]}
         marbleDesign={SHOWCASE_DESIGN}
+        showCoordinates={false}
+        showLabels={false}
         interactive={false}
       />
     </div>

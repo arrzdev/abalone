@@ -17,6 +17,7 @@ export const routes = rootRoute([
   layout("subpage", "layouts/subpage.layout.tsx", [
     route("/rules", "pages/rules.page.tsx"),
     route("/login", "pages/login.page.tsx"),
+    route("/games", "pages/games.page.tsx"),
     route("/game", [
       index("pages/game-redirect.page.tsx"),
       route("/offline", "pages/game-offline.page.tsx"),

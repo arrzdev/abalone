@@ -75,7 +75,7 @@ export function ColorChoice({
             // are the panel's grey. Only the marble on top dims.
             value === option.value
               ? "bg-brand"
-              : "bg-surface-4 hover:bg-surface-5",
+              : "bg-surface-2 hover:bg-surface-3",
           )}
         >
           {option.value === "random" ? (
@@ -105,7 +105,7 @@ export function ColorChoice({
           )}
           <span
             className={cn(
-              "max-w-full truncate text-xs font-semibold",
+              "max-w-full truncate font-display text-xs font-semibold",
               value === option.value ? "text-white" : "text-muted",
             )}
           >

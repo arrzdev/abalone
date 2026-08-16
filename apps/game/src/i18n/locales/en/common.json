@@ -3,7 +3,8 @@
     "primary": "Main navigation",
     "back": "Back",
     "play": "Play",
-    "rules": "Game Rules",
+    "new_game": "New game",
+    "rules": "Rules",
     "strategy": "Strategy Guide",
     "faq": "FAQ",
     "about": "About",
@@ -37,7 +38,12 @@
     "tagline": "Push six of your opponent's marbles off the board to win.",
     "play_online": "Play Online",
     "play_offline": "Play Offline",
-    "rules_link": "Learn how to play"
+    "rules_link": "Never played? The rules take two minutes",
+    "bot_hint_short": "Eight strengths",
+    "bot_hint_long": "Eight bots, Gus to Magnus.",
+    "local_hint_short": "One device, two of you",
+    "bots_caption": "Eight bots, Gus to Magnus",
+    "account_note": "A bot game needs no account. Sign in and every game you play is kept, online and off."
   },
   "auth": {
     "sign_in": "Sign in",
@@ -50,7 +56,7 @@
     "show_password": "Show password",
     "hide_password": "Hide password",
     "prompt_title": "Sign in to play online",
-    "prompt_body": "Online games need a name to play under. Offline play never asks for one.",
+    "prompt_body": "Play under your own name. Every win is kept.",
     "errors": {
       "username_taken": "That name is already taken. Try another one.",
       "username_invalid": "Names are 3 to 20 characters, using letters, numbers, dots and underscores.",
@@ -58,7 +64,7 @@
       "invalid_credentials": "That name and password don't match. Check both and try again.",
       "unknown": "Something went wrong. Check your connection and try again."
     },
-    "credentials_warning": "Name and password can't be reset. Lose them and the account goes too."
+    "credentials_warning": "Name and password can't be reset.\nLose them and the account goes too."
   },
   "profile": {
     "username_permanent": "Your name is permanent",

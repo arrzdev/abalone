@@ -68,7 +68,9 @@
     "side_white": "Beyazlarla oyna",
     "side_black": "Siyahlarla oyna",
     "side_random": "Rastgele taraf",
-    "marbles_taken": "Rakibin {{total}} bilyesinden {{taken}} tanesi tahtadan çıkarıldı"
+    "marbles_taken": "Rakibin {{total}} bilyesinden {{taken}} tanesi tahtadan çıkarıldı",
+    "eval_advantage": "{{color}} {{score}} önde",
+    "eval_level": "Berabere"
   },
   "game_state": {
     "your_turn": "Senin sıran",
@@ -88,7 +90,9 @@
     "by_resignation": "çekilme ile",
     "by_repetition": "üçlü tekrar ile",
     "resign_title": "Oyundan çekilinsin mi?",
-    "resign_body": "Oyun hemen biter ve galibiyet rakibine gider. Bu geri alınamaz."
+    "resign_body": "Oyun hemen biter ve galibiyet rakibine gider. Bu geri alınamaz.",
+    "game_over": "Oyun bitti",
+    "moves": "{{count}} hamle"
   },
   "rules": {
     "title": "Nasıl oynanır",

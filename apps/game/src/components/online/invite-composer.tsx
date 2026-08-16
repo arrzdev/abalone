@@ -3,15 +3,21 @@ import {
   DEFAULT_SETUP,
   isPlayableSetup,
 } from "@repo/abalone-engine/board-setups"
-import { useId, useState } from "react"
+import { createGameState } from "@repo/abalone-engine/game-state"
+import { useId, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import type { ColorChoiceValue } from "@/components/color-choice"
 import { ColorChoice } from "@/components/color-choice"
+import { GameCanvas } from "@/components/game-canvas"
 import { SetupCarousel } from "@/components/setup-carousel"
 import { Button } from "@/components/ui/button"
 import { Sheet } from "@/components/ui/sheet"
 import { TextField } from "@/components/ui/text-field"
 import type { SendInviteInput } from "@/data/online/mutations"
+import { useMarbleDesign } from "@/hooks/use-marble-design"
+
+/** The shortest name the server will take, so the shortest worth sending. */
+const MIN_USERNAME = 3
 
 export type InviteComposerProps = {
   open: boolean
@@ -28,6 +34,12 @@ export type InviteComposerProps = {
  * The setup carousel and the side picker are the offline panel's own controls,
  * so the two ways into a game ask the same questions in the same order. The one
  * thing this adds is who you are asking.
+ *
+ * The name is a field and nothing else. There is no lookup in front of it, no
+ * "player found" card, no second picture of somebody you just named — you type
+ * a name and press send, and the only thing that can come back is that nobody
+ * is called that. A search that runs on every keystroke to confirm a name you
+ * already know is a request per letter for a fact you learn anyway.
  */
 export function InviteComposer({
   open,
@@ -38,11 +50,19 @@ export function InviteComposer({
 }: InviteComposerProps) {
   const { t } = useTranslation()
   const errorId = useId()
+  const [marbleDesign] = useMarbleDesign()
   const [username, setUsername] = useState("")
   const [setupType, setSetupType] = useState<PlayableSetup>(DEFAULT_SETUP)
   const [side, setSide] = useState<ColorChoiceValue>("random")
 
   const handle = username.trim()
+
+  //the opening position and nothing after it, so stepping through the setups
+  //costs one board rather than one board per press
+  const preview = useMemo(
+    () => createGameState(setupType, "black", "local"),
+    [setupType],
+  )
 
   return (
     <Sheet
@@ -50,12 +70,13 @@ export function InviteComposer({
       onClose={onClose}
       title={t("online:compose.title")}
       description={t("online:compose.body")}
+      className="lg:max-w-[476px]"
       footer={
         <Button
           variant="primary"
           size="lg"
           className="w-full"
-          disabled={pending || handle.length < 3}
+          disabled={pending || handle.length < MIN_USERNAME}
           onClick={() => onSend({ username: handle, setupType, side })}
         >
           {pending
@@ -69,6 +90,7 @@ export function InviteComposer({
           <TextField
             label={t("online:compose.username")}
             placeholder={t("online:compose.username_placeholder")}
+            prefix="@"
             value={username}
             onChange={(event) => setUsername(event.target.value)}
             autoComplete="off"
@@ -88,7 +110,7 @@ export function InviteComposer({
             <p
               id={errorId}
               role="alert"
-              className="mt-2 text-sm leading-5 text-loss"
+              className="mt-2 text-[13px] leading-5 text-loss"
             >
               {error}
             </p>
@@ -96,9 +118,7 @@ export function InviteComposer({
         </div>
 
         <div>
-          <p className="mb-2 text-sm font-semibold text-subtle">
-            {t("online:compose.setup")}
-          </p>
+          <p className="field-label mb-2">{t("online:compose.setup")}</p>
           {/* the carousel is typed on every setup there is, and only ever
               offers the playable ones. the guard is what says so out loud. */}
           <SetupCarousel
@@ -106,14 +126,26 @@ export function InviteComposer({
             onChange={(next) => {
               if (isPlayableSetup(next)) setSetupType(next)
             }}
+            preview={
+              <GameCanvas
+                state={preview}
+                possibleMoves={[]}
+                marbleDesign={marbleDesign}
+                showCoordinates={false}
+                showLabels={false}
+                interactive={false}
+              />
+            }
           />
         </div>
 
         <div>
-          <p className="mb-2 text-sm font-semibold text-subtle">
-            {t("online:compose.side")}
-          </p>
-          <ColorChoice value={side} onChange={setSide} />
+          <p className="field-label mb-2">{t("online:compose.side")}</p>
+          <ColorChoice
+            value={side}
+            onChange={setSide}
+            marbleDesign={marbleDesign}
+          />
         </div>
       </div>
     </Sheet>

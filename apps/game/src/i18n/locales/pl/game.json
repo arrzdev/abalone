@@ -68,7 +68,9 @@
     "side_white": "Graj białymi",
     "side_black": "Graj czarnymi",
     "side_random": "Losowa strona",
-    "marbles_taken": "Wypchnięto {{taken}} z {{total}} kul przeciwnika"
+    "marbles_taken": "Wypchnięto {{taken}} z {{total}} kul przeciwnika",
+    "eval_advantage": "{{color}} prowadzi o {{score}}",
+    "eval_level": "Wyrównana pozycja"
   },
   "game_state": {
     "your_turn": "Twoja kolej",
@@ -88,7 +90,9 @@
     "by_resignation": "przez poddanie",
     "by_repetition": "przez trzykrotne powtórzenie",
     "resign_title": "Poddać partię?",
-    "resign_body": "Partia kończy się natychmiast, a zwycięstwo przypada przeciwnikowi. Tego nie można cofnąć."
+    "resign_body": "Partia kończy się natychmiast, a zwycięstwo przypada przeciwnikowi. Tego nie można cofnąć.",
+    "game_over": "Koniec gry",
+    "moves": "{{count}} ruchów"
   },
   "rules": {
     "title": "Jak grać",

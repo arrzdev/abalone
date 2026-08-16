@@ -180,7 +180,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
       <p
         id={errorId}
         role="alert"
-        className="min-h-14 py-2 text-sm leading-5 text-loss"
+        className="min-h-10 py-2 text-sm leading-5 text-loss"
       >
         {errorText}
       </p>
@@ -210,10 +210,14 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
             competed with the button it sits under. There is no email on the
             account and so nothing to send a reset to, which is the whole of
             what it has to say. */}
+        {/* Two lines, and the break is in the string: it is two statements and
+            the second is the consequence of the first, so where they divide is
+            a translator's call rather than whatever the column width does to
+            them. */}
         <p
           aria-hidden={!isSignUp}
           className={cn(
-            "text-center text-xs leading-relaxed text-faint",
+            "text-center text-xs leading-relaxed whitespace-pre-line text-faint",
             !isSignUp && "invisible",
           )}
         >

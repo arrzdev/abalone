@@ -80,7 +80,7 @@ export function PostgameControls({
   const list = (
     <MoveHistory
       {...history}
-      className="min-h-0 flex-1 rounded-xl bg-surface-4 p-1"
+      className="min-h-0 flex-1 rounded-xl bg-surface-2 p-1"
     />
   )
 
@@ -103,7 +103,7 @@ export function PostgameControls({
         ) : (
           <MoveStrip
             {...history}
-            className="h-10 shrink-0 rounded-xl bg-surface-4 px-1"
+            className="h-10 shrink-0 rounded-xl bg-surface-2 px-1"
           />
         )
       ) : (

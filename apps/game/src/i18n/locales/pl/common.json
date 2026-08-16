@@ -3,7 +3,8 @@
     "primary": "Nawigacja główna",
     "back": "Wstecz",
     "play": "Graj",
-    "rules": "Zasady Gry",
+    "new_game": "Nowa gra",
+    "rules": "Zasady",
     "strategy": "Przewodnik Strategiczny",
     "faq": "FAQ",
     "about": "O grze",
@@ -37,7 +38,12 @@
     "tagline": "Wypchnij sześć kul przeciwnika poza planszę, aby wygrać.",
     "play_online": "Graj online",
     "play_offline": "Graj offline",
-    "rules_link": "Naucz się grać"
+    "rules_link": "Nigdy nie grałeś? Zasady zajmą dwie minuty",
+    "bot_hint_short": "Osiem poziomów",
+    "bot_hint_long": "Osiem botów, od Gusa do Magnusa.",
+    "local_hint_short": "Jedno urządzenie, was dwoje",
+    "bots_caption": "Osiem botów, od Gusa do Magnusa",
+    "account_note": "Gra z botem nie wymaga konta. Zaloguj się, a każda gra zostanie zapisana — online i offline."
   },
   "auth": {
     "sign_in": "Zaloguj się",
@@ -50,7 +56,7 @@
     "show_password": "Pokaż hasło",
     "hide_password": "Ukryj hasło",
     "prompt_title": "Zaloguj się, aby grać online",
-    "prompt_body": "Gry online potrzebują nazwy. Gra offline nigdy o nią nie prosi.",
+    "prompt_body": "Graj pod własną nazwą. Każda wygrana zostaje.",
     "errors": {
       "username_taken": "Ta nazwa jest już zajęta. Wybierz inną.",
       "username_invalid": "Nazwy mają od 3 do 20 znaków i składają się z liter, cyfr, kropek i podkreśleń.",
@@ -58,7 +64,7 @@
       "invalid_credentials": "Ta nazwa i hasło do siebie nie pasują. Sprawdź oba i spróbuj ponownie.",
       "unknown": "Coś poszło nie tak. Sprawdź połączenie i spróbuj ponownie."
     },
-    "credentials_warning": "Nazwy i hasła nie da się odzyskać. Stracisz je, stracisz konto."
+    "credentials_warning": "Nazwy i hasła nie da się odzyskać.\nStracisz je, stracisz konto."
   },
   "profile": {
     "username_permanent": "Twoja nazwa jest stała",

@@ -23,7 +23,11 @@ export type PlayerLineProps = {
 export function PlayerLine({ player, detail }: PlayerLineProps) {
   return (
     <div className="flex min-w-0 flex-1 items-center gap-3">
-      <Avatar src={player.avatarUrl} size={40} />
+      <Avatar
+        src={player.avatarUrl}
+        name={player.displayUsername ?? player.username}
+        size={40}
+      />
 
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold text-white">
