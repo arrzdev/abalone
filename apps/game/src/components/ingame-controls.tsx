@@ -123,7 +123,7 @@ export function IngameControls({
   const list = (
     <MoveHistory
       {...history}
-      className="min-h-0 flex-1 rounded-xl bg-surface-4 p-1"
+      className="min-h-0 flex-1 rounded-xl bg-surface-2 p-1"
     />
   )
 
@@ -150,7 +150,7 @@ export function IngameControls({
         ) : (
           <MoveStrip
             {...history}
-            className="h-10 shrink-0 rounded-xl bg-surface-4 px-1"
+            className="h-10 shrink-0 rounded-xl bg-surface-2 px-1"
           />
         )
       ) : (
@@ -198,7 +198,7 @@ export function IngameControls({
           the bottom of the panel ever holds, and what the list above is measured
           against, in this layout and after the game ends. Left to its contents
           that number is a line-height in a font, three pixels either way. */}
-      <div className="flex h-16 shrink-0 gap-1 rounded-xl bg-surface-4 p-1">
+      <div className="flex h-16 shrink-0 gap-1 rounded-xl bg-surface-2 p-1">
         <Action
           icon={<FlagIcon size={20} />}
           label={t("game:controls.resign")}

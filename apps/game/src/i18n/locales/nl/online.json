@@ -5,7 +5,8 @@
     "heading": "Jouw partijen",
     "empty": "Nog geen partijen. Nodig iemand uit.",
     "your_turn": "Jij bent aan zet",
-    "their_turn": "Tegenstander is aan zet"
+    "their_turn": "Tegenstander is aan zet",
+    "new_invite": "Nieuwe uitnodiging"
   },
   "invites": {
     "received": "Uitnodigingen voor jou",
@@ -17,11 +18,25 @@
     "accept": "Accepteren",
     "decline": "Afwijzen",
     "cancel": "Intrekken",
-    "dismiss": "Verbergen"
+    "dismiss": "Verbergen",
+    "heading": "Uitnodigingen",
+    "sent_heading": "Verzonden",
+    "just_sent": "Net verstuurd · wacht op antwoord"
   },
   "history": {
     "heading": "Afgelopen partijen",
-    "empty": "Hier staat nog niets. Afgelopen partijen komen hier."
+    "empty": "Hier staat nog niets. Afgelopen partijen komen hier.",
+    "heading_short": "Afgerond",
+    "see_all": "Alle {{count}} bekijken",
+    "title": "Afgeronde spellen",
+    "played": "Gespeeld",
+    "won": "Gewonnen",
+    "range": "{{from}}–{{to}} van {{total}}",
+    "period_week": "Deze week",
+    "period_month": "Deze maand",
+    "period_earlier": "Eerder",
+    "previous_page": "Vorige pagina",
+    "next_page": "Volgende pagina"
   },
   "sides": {
     "black": "zwart",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "Nieuwe uitnodiging",
-    "body": "Nodig iemand uit met zijn naam. Die ziet het zodra de app weer opengaat.",
-    "username": "Zijn naam",
-    "username_placeholder": "Tegen wie speel je?",
+    "body": "Die ziet het zodra de app weer opengaat. Jullie hoeven er niet tegelijk te zijn.",
+    "username": "Tegen wie speel je?",
+    "username_placeholder": "Zijn naam",
     "setup": "Opstelling",
     "side": "Jouw kant",
     "send": "Uitnodiging sturen",
@@ -58,6 +73,16 @@
     "result_loss": "Verloren",
     "result_draw": "Remise",
     "review": "Partij bekijken",
-    "back_to_games": "Terug naar partijen"
+    "back_to_games": "Terug naar partijen",
+    "head_to_head": "{{left}}–{{right}} eerder"
+  },
+  "offline": {
+    "heading": "Offline spelen",
+    "note": "Een offlinespel leeft in het tabblad waarin je het startte. Sluit je dat, dan is het weg, en niets ervan bereikt je account."
+  },
+  "empty": {
+    "title": "Hier is nog niets",
+    "body": "Nodig iemand uit op naam en het spel verschijnt hier. Spellen wachten op je, dus één zet per dag is een prima spel.",
+    "play_bot": "Speel tegen een bot terwijl je wacht"
   }
 }

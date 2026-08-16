@@ -5,7 +5,8 @@
     "heading": "进行中的对局",
     "empty": "还没有对局。邀请一个人开始吧。",
     "your_turn": "轮到你",
-    "their_turn": "轮到对手"
+    "their_turn": "轮到对手",
+    "new_invite": "新邀请"
   },
   "invites": {
     "received": "收到的邀请",
@@ -17,11 +18,25 @@
     "accept": "接受",
     "decline": "拒绝",
     "cancel": "取消",
-    "dismiss": "清除"
+    "dismiss": "清除",
+    "heading": "邀请",
+    "sent_heading": "已发送",
+    "just_sent": "刚刚发出 · 等待对方接受"
   },
   "history": {
     "heading": "已结束的对局",
-    "empty": "这里还是空的。结束的对局会出现在这里。"
+    "empty": "这里还是空的。结束的对局会出现在这里。",
+    "heading_short": "已结束",
+    "see_all": "查看全部（{{count}}）",
+    "title": "已结束的对局",
+    "played": "对局数",
+    "won": "胜局",
+    "range": "第 {{from}}–{{to}} 局，共 {{total}} 局",
+    "period_week": "本周",
+    "period_month": "本月",
+    "period_earlier": "更早",
+    "previous_page": "上一页",
+    "next_page": "下一页"
   },
   "sides": {
     "black": "黑",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "新邀请",
-    "body": "输入对方的名字来邀请。对方下次打开应用就会看到。",
-    "username": "对方的名字",
-    "username_placeholder": "和谁下？",
+    "body": "对方下次打开应用就会看到。两个人不必同时在线。",
+    "username": "和谁下？",
+    "username_placeholder": "对方的名字",
     "setup": "开局",
     "side": "你执哪方",
     "send": "发送邀请",
@@ -58,6 +73,16 @@
     "result_loss": "你输了",
     "result_draw": "和棋",
     "review": "复盘",
-    "back_to_games": "返回对局列表"
+    "back_to_games": "返回对局列表",
+    "head_to_head": "此前 {{left}}–{{right}}"
+  },
+  "offline": {
+    "heading": "离线游玩",
+    "note": "离线对局只存在于你开始它的标签页里。关掉就没了，也不会有任何记录进入你的账号。"
+  },
+  "empty": {
+    "title": "这里还什么都没有",
+    "body": "按名字邀请一个人，对局就会出现在这里。对局会等你，所以一天一步也是很好的一局。",
+    "play_bot": "等待时先和机器人下一局"
   }
 }

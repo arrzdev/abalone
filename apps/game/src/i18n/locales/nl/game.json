@@ -68,7 +68,9 @@
     "side_white": "Speel met wit",
     "side_black": "Speel met zwart",
     "side_random": "Willekeurige kleur",
-    "marbles_taken": "{{taken}} van {{total}} ballen van de tegenstander van het bord geduwd"
+    "marbles_taken": "{{taken}} van {{total}} ballen van de tegenstander van het bord geduwd",
+    "eval_advantage": "{{color}} staat {{score}} voor",
+    "eval_level": "Gelijkspel"
   },
   "game_state": {
     "your_turn": "Jouw beurt",
@@ -88,7 +90,9 @@
     "by_resignation": "door opgave",
     "by_repetition": "door drievoudige herhaling",
     "resign_title": "Partij opgeven?",
-    "resign_body": "De partij eindigt meteen en de winst gaat naar je tegenstander. Dit kun je niet terugdraaien."
+    "resign_body": "De partij eindigt meteen en de winst gaat naar je tegenstander. Dit kun je niet terugdraaien.",
+    "game_over": "Partij voorbij",
+    "moves": "{{count}} zetten"
   },
   "rules": {
     "title": "Zo speel je",

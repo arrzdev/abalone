@@ -68,7 +68,9 @@
     "side_white": "执白",
     "side_black": "执黑",
     "side_random": "随机",
-    "marbles_taken": "已将对手 {{total}} 颗棋子中的 {{taken}} 颗推出棋盘"
+    "marbles_taken": "已将对手 {{total}} 颗棋子中的 {{taken}} 颗推出棋盘",
+    "eval_advantage": "{{color}}领先 {{score}}",
+    "eval_level": "均势"
   },
   "game_state": {
     "your_turn": "轮到你",
@@ -88,7 +90,9 @@
     "by_resignation": "认输",
     "by_repetition": "三次重复局面",
     "resign_title": "要认输吗？",
-    "resign_body": "对局将立即结束，胜利归对手所有。此操作无法撤销。"
+    "resign_body": "对局将立即结束，胜利归对手所有。此操作无法撤销。",
+    "game_over": "对局结束",
+    "moves": "{{count}} 步"
   },
   "rules": {
     "title": "游戏玩法",

@@ -68,7 +68,9 @@
     "side_white": "Gioca con il bianco",
     "side_black": "Gioca con il nero",
     "side_random": "Lato casuale",
-    "marbles_taken": "{{taken}} biglie avversarie su {{total}} spinte fuori"
+    "marbles_taken": "{{taken}} biglie avversarie su {{total}} spinte fuori",
+    "eval_advantage": "{{color}} in vantaggio di {{score}}",
+    "eval_level": "In parità"
   },
   "game_state": {
     "your_turn": "Il tuo turno",
@@ -88,7 +90,9 @@
     "by_resignation": "per abbandono",
     "by_repetition": "per tripla ripetizione",
     "resign_title": "Abbandonare la partita?",
-    "resign_body": "La partita finisce subito e la vittoria va al tuo avversario. Non è reversibile."
+    "resign_body": "La partita finisce subito e la vittoria va al tuo avversario. Non è reversibile.",
+    "game_over": "Partita finita",
+    "moves": "{{count}} mosse"
   },
   "rules": {
     "title": "Come si gioca",

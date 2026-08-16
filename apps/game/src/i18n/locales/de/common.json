@@ -3,7 +3,8 @@
     "primary": "Hauptnavigation",
     "back": "Zurück",
     "play": "Spielen",
-    "rules": "Spielregeln",
+    "new_game": "Neues Spiel",
+    "rules": "Regeln",
     "strategy": "Strategie-Leitfaden",
     "faq": "FAQ",
     "about": "Über",
@@ -37,7 +38,12 @@
     "tagline": "Schiebe sechs gegnerische Kugeln vom Brett, um zu gewinnen.",
     "play_online": "Online spielen",
     "play_offline": "Offline spielen",
-    "rules_link": "Spielregeln lernen"
+    "rules_link": "Noch nie gespielt? Die Regeln dauern zwei Minuten",
+    "bot_hint_short": "Acht Stärken",
+    "bot_hint_long": "Acht Bots, von Gus bis Magnus.",
+    "local_hint_short": "Ein Gerät, ihr beide",
+    "bots_caption": "Acht Bots, von Gus bis Magnus",
+    "account_note": "Ein Bot-Spiel braucht kein Konto. Melde dich an und jede Partie wird gespeichert, online wie offline."
   },
   "auth": {
     "sign_in": "Anmelden",
@@ -50,7 +56,7 @@
     "show_password": "Passwort anzeigen",
     "hide_password": "Passwort verbergen",
     "prompt_title": "Zum Online-Spielen anmelden",
-    "prompt_body": "Online-Partien brauchen einen Namen. Offline wird nie danach gefragt.",
+    "prompt_body": "Spiel unter deinem Namen. Jeder Sieg bleibt.",
     "errors": {
       "username_taken": "Dieser Name ist bereits vergeben. Wähle einen anderen.",
       "username_invalid": "Namen haben 3 bis 20 Zeichen und bestehen aus Buchstaben, Zahlen, Punkten und Unterstrichen.",
@@ -58,7 +64,7 @@
       "invalid_credentials": "Name und Passwort passen nicht zusammen. Prüfe beides und versuche es erneut.",
       "unknown": "Etwas ist schiefgelaufen. Prüfe deine Verbindung und versuche es erneut."
     },
-    "credentials_warning": "Name und Passwort lassen sich nicht zurücksetzen. Weg heißt Konto weg."
+    "credentials_warning": "Name und Passwort lassen sich nicht zurücksetzen.\nWeg heißt Konto weg."
   },
   "profile": {
     "username_permanent": "Dein Name ist dauerhaft",

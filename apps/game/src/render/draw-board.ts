@@ -59,6 +59,12 @@ export type DrawBoardOptions = {
   possibleMoves?: CellName[]
   marbleDesign?: string
   showCoordinates?: boolean
+  /**
+   * The rank and file down the edges. On by default, and off for a board that
+   * is not being played on — a poster, a setup preview, the pregame position.
+   * Notation is for reading a move back, and nobody reads one off a picture.
+   */
+  showLabels?: boolean
   /** Painting an earlier position, not the live game. */
   reviewing?: boolean
   animation?: BoardAnimation | null
@@ -604,6 +610,7 @@ export function drawBoard(
     possibleMoves = [],
     marbleDesign = "default",
     showCoordinates = false,
+    showLabels = true,
     reviewing = false,
     animation = null,
     fading = [],
@@ -645,7 +652,7 @@ export function drawBoard(
   )
   ctx.stroke()
 
-  drawCoordinateLabels(ctx, view)
+  if (showLabels) drawCoordinateLabels(ctx, view)
 
   // Pass 1: the fixed grid of empty cells.
   forEachCell((r, q) => {
@@ -681,8 +688,14 @@ export function drawBoard(
   // which `isValidSelection` is the one answer to: your own colour in a game
   // against someone else, the colour to move in a game shared with them. The
   // ring is a promise, and the opponent's marbles are not yours to move.
+  //
+  // And it is off for as long as a move is playing out. The ring says what a
+  // press would do, the press has already happened, and the marbles under it
+  // are on their way somewhere — carrying it along with them draws a promise
+  // about a board that no longer exists.
   const selectionFull = state.selectedMarbles.length >= MAX_LINE
   const hoverable =
+    !isAnimating &&
     !selectionFull &&
     state.hoveredCell &&
     isValidSelection(state, state.hoveredCell)
@@ -699,7 +712,8 @@ export function drawBoard(
   forEachCell((r, q) => {
     const pos = hexCenter(r, q, centerX, centerY, spacing, flip)
     const coordKey = `${r},${q}`
-    const isSelected = state.selectedMarbles.includes(coordKey)
+    const isSelected =
+      !isAnimating && state.selectedMarbles.includes(coordKey)
     const isHovered = hoverable === coordKey
 
     const animated = animation ? animation.positions.get(coordKey) : null

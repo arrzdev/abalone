@@ -5,7 +5,8 @@
     "heading": "Tus partidas",
     "empty": "Aún no hay partidas. Invita a alguien.",
     "your_turn": "Tu turno",
-    "their_turn": "Turno del rival"
+    "their_turn": "Turno del rival",
+    "new_invite": "Nueva invitación"
   },
   "invites": {
     "received": "Invitaciones para ti",
@@ -17,11 +18,25 @@
     "accept": "Aceptar",
     "decline": "Rechazar",
     "cancel": "Cancelar",
-    "dismiss": "Descartar"
+    "dismiss": "Descartar",
+    "heading": "Invitaciones",
+    "sent_heading": "Enviadas",
+    "just_sent": "Recién enviada · esperando respuesta"
   },
   "history": {
     "heading": "Partidas terminadas",
-    "empty": "Aquí no hay nada aún. Tus partidas terminadas aparecerán aquí."
+    "empty": "Aquí no hay nada aún. Tus partidas terminadas aparecerán aquí.",
+    "heading_short": "Terminadas",
+    "see_all": "Ver todas ({{count}})",
+    "title": "Partidas terminadas",
+    "played": "Jugadas",
+    "won": "Ganadas",
+    "range": "{{from}}–{{to}} de {{total}}",
+    "period_week": "Esta semana",
+    "period_month": "Este mes",
+    "period_earlier": "Antes",
+    "previous_page": "Página anterior",
+    "next_page": "Página siguiente"
   },
   "sides": {
     "black": "negras",
@@ -40,9 +55,9 @@
   },
   "compose": {
     "title": "Nueva invitación",
-    "body": "Invita a alguien por su nombre. La verá la próxima vez que abra la app.",
-    "username": "Su nombre",
-    "username_placeholder": "¿Contra quién juegas?",
+    "body": "La verá la próxima vez que abra la app. Ninguno de los dos tiene que estar aquí a la vez.",
+    "username": "¿Contra quién juegas?",
+    "username_placeholder": "Su nombre",
     "setup": "Apertura",
     "side": "Tu lado",
     "send": "Enviar invitación",
@@ -58,6 +73,16 @@
     "result_loss": "Has perdido",
     "result_draw": "Tablas",
     "review": "Revisar partida",
-    "back_to_games": "Volver a las partidas"
+    "back_to_games": "Volver a las partidas",
+    "head_to_head": "{{left}}–{{right}} antes"
+  },
+  "offline": {
+    "heading": "Jugar sin conexión",
+    "note": "Una partida sin conexión vive en la pestaña donde la empezaste. Si la cierras, desaparece, y nada de ella llega a tu cuenta."
+  },
+  "empty": {
+    "title": "Aquí todavía no hay nada",
+    "body": "Invita a alguien por su nombre y la partida aparecerá aquí. Las partidas te esperan, así que un movimiento al día es una partida perfectamente buena.",
+    "play_bot": "Juega contra un bot mientras esperas"
   }
 }

@@ -106,7 +106,11 @@ export function useOnlineHome(queryClient: QueryClient): OnlineHome {
     const all = invites.data ?? []
     return {
       received: all.filter((invite) => invite.to.userId === myUserId),
-      sent: all.filter((invite) => invite.from.userId === myUserId),
+      //newest first, so the one just sent is the one at the top of the list —
+      //the server hands them over oldest first, which buries it
+      sent: all
+        .filter((invite) => invite.from.userId === myUserId)
+        .sort((a, b) => b.createdAt - a.createdAt),
     }
   }, [invites.data, myUserId])
 
