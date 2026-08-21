@@ -74,7 +74,8 @@
     "result_draw": "Nulle",
     "review": "Revoir la partie",
     "back_to_games": "Retour aux parties",
-    "head_to_head": "{{left}}–{{right}} avant"
+    "head_to_head": "Victoires passées",
+    "head_to_head_detail": "Avant cette partie : {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "Jouer hors ligne",

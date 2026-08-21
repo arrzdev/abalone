@@ -74,7 +74,8 @@
     "result_draw": "무승부",
     "review": "대국 복기",
     "back_to_games": "대국 목록으로",
-    "head_to_head": "지금까지 {{left}}–{{right}}"
+    "head_to_head": "이전 승리",
+    "head_to_head_detail": "이 대국 전까지: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "오프라인 플레이",

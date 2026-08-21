@@ -74,7 +74,8 @@
     "result_draw": "बराबरी",
     "review": "गेम देखें",
     "back_to_games": "गेम की सूची पर लौटें",
-    "head_to_head": "अब तक {{left}}–{{right}}"
+    "head_to_head": "पिछली जीत",
+    "head_to_head_detail": "इस खेल से पहले: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "ऑफ़लाइन खेलें",

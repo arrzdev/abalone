@@ -123,7 +123,12 @@ function GameOnlineBoardPage() {
     }
   }
 
-  const headToHead = useHeadToHead(game)
+  const record = useHeadToHead(game)
+  //the card reads black on the left and white on the right whoever you are, and
+  //the record has to follow it seat for seat
+  const headToHead = record
+    ? { left: record.blackWins, right: record.whiteWins }
+    : undefined
 
   const isOver = state.gameOver
 

@@ -175,14 +175,79 @@ function Side({
   )
 }
 
+/**
+ * Wins each of these two has taken off the other before today, in the same
+ * order as the seats. Only for two players who have met — a record of nothing
+ * is a line saying they are strangers.
+ */
+export type SeatRecord = {
+  left: number
+  right: number
+}
+
+/**
+ * The series, under the game: how many of the games these two have played
+ * before this one each of them won.
+ *
+ * A second row rather than a second line in the middle column, because the two
+ * numbers were the problem. Stacked under the live score they read as another
+ * score of the same kind — one glance short of telling you which of the two was
+ * the game in front of you. Here each figure sits at its own player's end of the
+ * card, directly under that face, and the words between them say what they are.
+ * Nothing has to be decoded: the number under you is yours.
+ *
+ * Separated by a rule and drawn quieter than everything above it, because it is
+ * the one thing on this card that is not about the position on the board.
+ */
+function Record({
+  record,
+  leftName,
+  rightName,
+}: {
+  record: SeatRecord
+  leftName: string
+  rightName: string
+}) {
+  const { t } = useTranslation()
+
+  return (
+    <div className="mt-1.5 flex items-center gap-2 border-t border-border-subtle px-2 pt-1.5">
+      <span
+        aria-hidden="true"
+        className="w-8 shrink-0 font-display text-xs leading-none font-bold tabular-nums text-muted"
+      >
+        {record.left}
+      </span>
+      <span
+        aria-hidden="true"
+        className="min-w-0 flex-1 truncate text-center text-[11px] leading-none text-faint"
+      >
+        {t("online:board.head_to_head")}
+      </span>
+      <span
+        aria-hidden="true"
+        className="w-8 shrink-0 text-right font-display text-xs leading-none font-bold tabular-nums text-muted"
+      >
+        {record.right}
+      </span>
+
+      {/* Three pieces read left to right are three pieces to reassemble, so the
+          row is said once as a sentence with the names in it. */}
+      <span className="sr-only">
+        {t("online:board.head_to_head_detail", {
+          left: leftName,
+          leftWins: record.left,
+          right: rightName,
+          rightWins: record.right,
+        })}
+      </span>
+    </div>
+  )
+}
+
 export type SeatBarProps = {
   seats: Seat[]
-  /**
-   * What these two have done to each other before now, already worded and in
-   * the same order as the seats. Only for two players who have met — a record
-   * of nothing is a line saying they are strangers.
-   */
-  record?: string
+  record?: SeatRecord
   marbleDesign?: string
   className?: string
 }
@@ -201,36 +266,34 @@ export function SeatBar({
     // No bottom padding: whatever comes next owns the gap to this card, so the
     // spacing down the panel is one number kept in one place.
     <div className={cn("shrink-0 px-4 pt-3", className)}>
-      <div className="flex items-center rounded-xl bg-surface-2 p-2">
-        <Side {...left} marbleDesign={marbleDesign} />
+      <div className="rounded-xl bg-surface-2 p-2">
+        <div className="flex items-center">
+          <Side {...left} marbleDesign={marbleDesign} />
 
-        {/* Dead centre, and the same width whatever the score, so neither name
+          {/* Dead centre, and the same width whatever the score, so neither name
             shifts as the game runs. The dash is drawn back out of the way: it is
             punctuation between two numbers, not a third thing to read. */}
-        <div className="flex shrink-0 flex-col items-center gap-[3px] px-2">
-          <span
+          <div
             aria-hidden="true"
-            className="flex items-baseline gap-1.5 font-display text-lg leading-none font-bold tabular-nums text-white"
+            className="flex shrink-0 items-baseline gap-1.5 px-2 font-display text-lg leading-none font-bold tabular-nums text-white"
           >
             <span>{score(left)}</span>
             <span className="font-sans text-sm font-normal text-faint">
               –
             </span>
             <span>{score(right)}</span>
-          </span>
+          </div>
 
-          {/* Under this game's score and quieter than it, because that is the
-              relationship: what is happening now, and what has happened before.
-              Read out rather than hidden — it is the one thing on this card a
-              screen reader cannot get from the seats either side. */}
-          {record && (
-            <span className="font-display text-[11px] font-semibold whitespace-nowrap text-white/30 tabular-nums">
-              {record}
-            </span>
-          )}
+          <Side {...right} marbleDesign={marbleDesign} flip />
         </div>
 
-        <Side {...right} marbleDesign={marbleDesign} flip />
+        {record && (
+          <Record
+            record={record}
+            leftName={left.name}
+            rightName={right.name}
+          />
+        )}
       </div>
     </div>
   )
