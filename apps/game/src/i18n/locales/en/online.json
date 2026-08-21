@@ -74,7 +74,8 @@
     "result_draw": "Draw",
     "review": "Review game",
     "back_to_games": "Back to games",
-    "head_to_head": "{{left}}–{{right}} before"
+    "head_to_head": "Past wins",
+    "head_to_head_detail": "Before this game: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "Play offline",

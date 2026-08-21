@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query"
-import { useTranslation } from "react-i18next"
 import type { Game } from "@/data/online/queries"
 import { gamesQueryOptions } from "@/data/online/queries"
 
@@ -21,7 +20,6 @@ import { gamesQueryOptions } from "@/data/online/queries"
  * point of the line is that they do.
  */
 export function useHeadToHead(game: Game | undefined) {
-  const { t } = useTranslation()
   const { data: finished = [] } = useQuery(gamesQueryOptions("finished"))
 
   if (!game) return undefined
@@ -33,10 +31,7 @@ export function useHeadToHead(game: Game | undefined) {
   )
   if (record.played === 0) return undefined
 
-  return t("online:board.head_to_head", {
-    left: record.blackWins,
-    right: record.whiteWins,
-  })
+  return record
 }
 
 export type HeadToHead = {
