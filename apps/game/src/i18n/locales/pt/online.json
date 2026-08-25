@@ -74,7 +74,8 @@
     "result_draw": "Empate",
     "review": "Rever jogo",
     "back_to_games": "Voltar aos jogos",
-    "head_to_head": "{{left}}–{{right}} antes"
+    "head_to_head": "Vitórias anteriores",
+    "head_to_head_detail": "Antes deste jogo: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "Jogar offline",

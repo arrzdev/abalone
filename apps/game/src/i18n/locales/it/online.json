@@ -74,7 +74,8 @@
     "result_draw": "Patta",
     "review": "Rivedi la partita",
     "back_to_games": "Torna alle partite",
-    "head_to_head": "{{left}}–{{right}} finora"
+    "head_to_head": "Vittorie precedenti",
+    "head_to_head_detail": "Prima di questa partita: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "Gioca offline",

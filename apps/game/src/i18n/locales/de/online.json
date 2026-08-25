@@ -74,7 +74,8 @@
     "result_draw": "Unentschieden",
     "review": "Partie ansehen",
     "back_to_games": "Zurück zu den Partien",
-    "head_to_head": "{{left}}–{{right}} bisher"
+    "head_to_head": "Bisherige Siege",
+    "head_to_head_detail": "Vor diesem Spiel: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "Offline spielen",

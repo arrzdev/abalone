@@ -74,7 +74,8 @@
     "result_draw": "Berabere",
     "review": "Oyunu incele",
     "back_to_games": "Oyunlara dön",
-    "head_to_head": "önceden {{left}}–{{right}}"
+    "head_to_head": "Önceki galibiyetler",
+    "head_to_head_detail": "Bu oyundan önce: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "Çevrimdışı oyna",

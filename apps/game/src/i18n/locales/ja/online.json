@@ -74,7 +74,8 @@
     "result_draw": "引き分け",
     "review": "対局を見る",
     "back_to_games": "対局一覧へ",
-    "head_to_head": "これまで {{left}}–{{right}}"
+    "head_to_head": "これまでの勝利",
+    "head_to_head_detail": "この対局まで: {{left}} {{leftWins}}、{{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "オフラインで遊ぶ",

@@ -74,7 +74,8 @@
     "result_draw": "和棋",
     "review": "复盘",
     "back_to_games": "返回对局列表",
-    "head_to_head": "此前 {{left}}–{{right}}"
+    "head_to_head": "此前胜场",
+    "head_to_head_detail": "本局之前：{{left}} {{leftWins}}，{{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "离线游玩",
