@@ -6,7 +6,8 @@
     "empty": "No games yet. Invite someone to start one.",
     "your_turn": "Your turn",
     "their_turn": "Their turn",
-    "new_invite": "New invite"
+    "new_invite": "New invite",
+    "loading": "Loading your games"
   },
   "invites": {
     "received": "Invites for you",
