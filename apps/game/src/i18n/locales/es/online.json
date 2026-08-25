@@ -74,7 +74,8 @@
     "result_draw": "Tablas",
     "review": "Revisar partida",
     "back_to_games": "Volver a las partidas",
-    "head_to_head": "{{left}}–{{right}} antes"
+    "head_to_head": "Victorias previas",
+    "head_to_head_detail": "Antes de esta partida: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "Jugar sin conexión",

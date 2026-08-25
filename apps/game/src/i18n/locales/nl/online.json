@@ -74,7 +74,8 @@
     "result_draw": "Remise",
     "review": "Partij bekijken",
     "back_to_games": "Terug naar partijen",
-    "head_to_head": "{{left}}–{{right}} eerder"
+    "head_to_head": "Eerdere winsten",
+    "head_to_head_detail": "Voor dit spel: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "offline": {
     "heading": "Offline spelen",
