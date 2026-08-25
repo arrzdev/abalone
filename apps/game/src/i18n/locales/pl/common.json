@@ -83,5 +83,10 @@
     "offline_hint": "Przeciwko botowi albo we dwoje na tym urządzeniu.",
     "bot_hint": "Przeciwko botowi, na wybranym poziomie.",
     "local_hint": "We dwoje, na zmianę, na tym urządzeniu."
+  },
+  "sync": {
+    "updating": "Aktualizowanie",
+    "offline": "Jesteś offline. To, co widzisz, może być nieaktualne.",
+    "unreachable": "Nie udało się odświeżyć. To, co widzisz, może być nieaktualne."
   }
 }

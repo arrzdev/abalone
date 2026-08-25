@@ -83,5 +83,10 @@
     "offline_hint": "Bir bota karşı ya da bu cihazda iki kişi.",
     "bot_hint": "Bir bota karşı, seçtiğin güçte.",
     "local_hint": "İki kişi, sırayla, bu cihazda."
+  },
+  "sync": {
+    "updating": "Güncelleniyor",
+    "offline": "Çevrimdışısın. Gördüklerin güncel olmayabilir.",
+    "unreachable": "Yenilenemedi. Gördüklerin güncel olmayabilir."
   }
 }

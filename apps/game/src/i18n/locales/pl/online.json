@@ -6,7 +6,8 @@
     "empty": "Jeszcze żadnych partii. Zaproś kogoś.",
     "your_turn": "Twój ruch",
     "their_turn": "Ruch przeciwnika",
-    "new_invite": "Nowe zaproszenie"
+    "new_invite": "Nowe zaproszenie",
+    "loading": "Wczytywanie twoich partii"
   },
   "invites": {
     "received": "Zaproszenia dla ciebie",

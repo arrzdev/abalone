@@ -6,7 +6,8 @@
     "empty": "Ancora nessuna partita. Invita qualcuno.",
     "your_turn": "Tocca a te",
     "their_turn": "Tocca all'avversario",
-    "new_invite": "Nuovo invito"
+    "new_invite": "Nuovo invito",
+    "loading": "Caricamento delle tue partite"
   },
   "invites": {
     "received": "Inviti per te",

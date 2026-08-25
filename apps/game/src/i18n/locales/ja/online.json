@@ -6,7 +6,8 @@
     "empty": "まだ対局がありません。誰かを誘ってみましょう。",
     "your_turn": "あなたの番",
     "their_turn": "相手の番",
-    "new_invite": "新しい招待"
+    "new_invite": "新しい招待",
+    "loading": "あなたの対局を読み込んでいます"
   },
   "invites": {
     "received": "届いた招待",

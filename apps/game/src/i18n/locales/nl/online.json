@@ -6,7 +6,8 @@
     "empty": "Nog geen partijen. Nodig iemand uit.",
     "your_turn": "Jij bent aan zet",
     "their_turn": "Tegenstander is aan zet",
-    "new_invite": "Nieuwe uitnodiging"
+    "new_invite": "Nieuwe uitnodiging",
+    "loading": "Je partijen worden geladen"
   },
   "invites": {
     "received": "Uitnodigingen voor jou",

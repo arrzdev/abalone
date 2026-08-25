@@ -83,5 +83,10 @@
     "offline_hint": "Contra um bot, ou dois de vocês neste dispositivo.",
     "bot_hint": "Contra um bot, na força que escolheres.",
     "local_hint": "Dois de vocês, à vez, neste dispositivo."
+  },
+  "sync": {
+    "updating": "A atualizar",
+    "offline": "Estás offline. O que vês pode não estar atualizado.",
+    "unreachable": "Não foi possível atualizar. O que vês pode não estar atualizado."
   }
 }
