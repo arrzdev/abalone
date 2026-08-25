@@ -83,5 +83,10 @@
     "offline_hint": "Contre un bot, ou à deux sur cet appareil.",
     "bot_hint": "Contre un bot, au niveau que tu choisis.",
     "local_hint": "À deux, chacun son tour, sur cet appareil."
+  },
+  "sync": {
+    "updating": "Mise à jour",
+    "offline": "Tu es hors ligne. Ce que tu vois n'est peut-être plus à jour.",
+    "unreachable": "L'actualisation n'a pas abouti. Ce que tu vois n'est peut-être plus à jour."
   }
 }

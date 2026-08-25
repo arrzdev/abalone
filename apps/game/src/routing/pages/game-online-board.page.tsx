@@ -28,6 +28,7 @@ import {
   SUBPAGE_HEADER_BUTTON,
   SubpageHeader,
 } from "@/components/ui/subpage-header"
+import { SyncNotice } from "@/components/ui/sync-notice"
 import { TapButton } from "@/components/ui/tap-button"
 import { useShowCoordinates } from "@/hooks/use-app-preferences"
 import { useHeadToHead } from "@/hooks/use-head-to-head"
@@ -277,6 +278,11 @@ function GameOnlineBoardPage() {
         >
           {online.error ?? statusLine}
         </p>
+
+        {/* Under the status rather than in place of it. "Your move" read off a
+            board nobody has confirmed is the misleading part, and this is the
+            line that says so. */}
+        <SyncNotice state={online.sync} className="px-4 pt-1" />
 
         {isOver ? (
           <PostgameControls

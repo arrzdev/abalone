@@ -83,5 +83,10 @@
     "offline_hint": "Gegen einen Bot, oder zu zweit an diesem Gerät.",
     "bot_hint": "Gegen einen Bot, in der Stärke deiner Wahl.",
     "local_hint": "Zu zweit, abwechselnd an diesem Gerät."
+  },
+  "sync": {
+    "updating": "Wird aktualisiert",
+    "offline": "Du bist offline. Was du siehst, ist möglicherweise nicht aktuell.",
+    "unreachable": "Das Aktualisieren hat nicht geklappt. Was du siehst, ist möglicherweise nicht aktuell."
   }
 }

@@ -6,7 +6,8 @@
     "empty": "还没有对局。邀请一个人开始吧。",
     "your_turn": "轮到你",
     "their_turn": "轮到对手",
-    "new_invite": "新邀请"
+    "new_invite": "新邀请",
+    "loading": "正在加载你的棋局"
   },
   "invites": {
     "received": "收到的邀请",

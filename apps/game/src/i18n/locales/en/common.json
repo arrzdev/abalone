@@ -83,5 +83,10 @@
     "offline_hint": "Against a bot, or two of you on this device.",
     "bot_hint": "Against a bot, at the strength you pick.",
     "local_hint": "Two of you, taking turns on this device."
+  },
+  "sync": {
+    "updating": "Updating",
+    "offline": "You're offline. What you see may be out of date.",
+    "unreachable": "Couldn't refresh this. What you see may be out of date."
   }
 }

@@ -6,7 +6,8 @@
     "empty": "Ainda não há jogos. Convida alguém.",
     "your_turn": "É a tua vez",
     "their_turn": "É a vez do adversário",
-    "new_invite": "Novo convite"
+    "new_invite": "Novo convite",
+    "loading": "A carregar os teus jogos"
   },
   "invites": {
     "received": "Convites para ti",

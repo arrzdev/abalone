@@ -6,7 +6,8 @@
     "empty": "Noch keine Partien. Lade jemanden ein.",
     "your_turn": "Du bist am Zug",
     "their_turn": "Gegner ist am Zug",
-    "new_invite": "Neue Einladung"
+    "new_invite": "Neue Einladung",
+    "loading": "Deine Partien werden geladen"
   },
   "invites": {
     "received": "Einladungen für dich",

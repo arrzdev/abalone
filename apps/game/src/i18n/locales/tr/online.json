@@ -6,7 +6,8 @@
     "empty": "Henüz oyun yok. Birini davet et.",
     "your_turn": "Sıra sende",
     "their_turn": "Sıra rakipte",
-    "new_invite": "Yeni davet"
+    "new_invite": "Yeni davet",
+    "loading": "Oyunların yükleniyor"
   },
   "invites": {
     "received": "Sana gelen davetler",

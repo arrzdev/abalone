@@ -6,7 +6,8 @@
     "empty": "아직 대국이 없어요. 누군가를 초대해 보세요.",
     "your_turn": "당신 차례",
     "their_turn": "상대 차례",
-    "new_invite": "새 초대"
+    "new_invite": "새 초대",
+    "loading": "내 대국을 불러오는 중"
   },
   "invites": {
     "received": "받은 초대",

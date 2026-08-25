@@ -8,10 +8,12 @@ import {
 } from "@/components/online/invite-row"
 import { PlayOption } from "@/components/play-option"
 import { Panel, PanelHeader, PanelRows } from "@/components/ui/panel"
+import { SyncNotice } from "@/components/ui/sync-notice"
 import type { Game } from "@/data/online/queries"
 import type { OnlineHome } from "@/hooks/use-online-home"
 import { usePlayActions } from "@/hooks/use-play-actions"
 import { formatRelativeTime } from "@/utils/relative-time"
+import type { SyncState } from "@/utils/sync-state"
 
 /** How many finished games the lobby shows before deferring to `/games`. */
 const FINISHED_PREVIEW = 5
@@ -49,7 +51,14 @@ export function Lobby({
     online.received.length === 0 &&
     online.sent.length === 0
 
-  if (hasNothing) return <EmptyLobby onCompose={onCompose} />
+  //"nothing here yet" and "nobody has asked yet" look identical, and only one
+  //of them is true on a first load. the placeholder is what stops the app
+  //announcing an empty account for as long as the first request takes.
+  if (hasNothing && online.sync === "loading") return <LobbyPlaceholder />
+
+  if (hasNothing) {
+    return <EmptyLobby onCompose={onCompose} sync={online.sync} />
+  }
 
   return (
     <div className="mx-auto grid w-full min-h-0 max-w-6xl grid-cols-1 gap-4 px-4 pt-4 pb-safe-offset-6 lg:grid-cols-[1fr_372px] lg:gap-7 lg:px-12 lg:pt-8 lg:pb-9">
@@ -63,6 +72,11 @@ export function Lobby({
           {online.error}
         </p>
       )}
+
+      <SyncNotice
+        state={online.sync}
+        className="text-left lg:col-span-2"
+      />
 
       <div className="flex min-h-0 min-w-0 flex-col gap-4 lg:gap-5">
         <Panel>
@@ -261,13 +275,24 @@ function FinishedPanel({ games, myUserId }: FinishedPanelProps) {
  * own data model; what somebody needs here is the one sentence that says how a
  * game gets started and the two buttons that start one.
  */
-function EmptyLobby({ onCompose }: { onCompose: () => void }) {
+function EmptyLobby({
+  onCompose,
+  sync,
+}: {
+  onCompose: () => void
+  sync: SyncState
+}) {
   const { t } = useTranslation()
   const { playOffline } = usePlayActions()
 
   return (
     <div className="relative flex min-h-0 flex-1 items-center justify-center px-6 py-8">
       <div className="flex w-full max-w-[452px] flex-col items-center text-center">
+        {/* Above the heading, because the heading is the claim it qualifies: an
+            account with games in it looks exactly like this from a phone that
+            cannot reach the server. */}
+        <SyncNotice state={sync} className="mb-3" />
+
         <h1 className="font-display text-[32px] font-extrabold tracking-[-0.03em] text-white">
           {t("online:empty.title")}
         </h1>
@@ -295,6 +320,26 @@ function EmptyLobby({ onCompose }: { onCompose: () => void }) {
           </button>
         </div>
       </div>
+    </div>
+  )
+}
+
+/**
+ * The lobby before the first answer has arrived, on a device holding nothing.
+ *
+ * Deliberately one line rather than a skeleton of the panels: which panels this
+ * account has is the thing nobody knows yet, so a mock-up of four of them is a
+ * guess drawn at full contrast. Somebody who has never signed in here sees this
+ * once, and only for as long as one request takes.
+ */
+function LobbyPlaceholder() {
+  const { t } = useTranslation()
+
+  return (
+    <div className="flex min-h-0 flex-1 items-center justify-center px-6 py-8">
+      <output className="block text-sm text-faint">
+        {t("online:games.loading")}
+      </output>
     </div>
   )
 }

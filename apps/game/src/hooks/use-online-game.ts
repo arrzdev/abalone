@@ -47,6 +47,8 @@ import { useAuth } from "@/providers/auth-provider"
 import { useRealtime } from "@/providers/realtime-provider"
 import { TIMING } from "@/render/motion"
 import { playFallSound, playMoveSound, primeSounds } from "@/utils/sound"
+import type { SyncState } from "@/utils/sync-state"
+import { syncStateOf } from "@/utils/sync-state"
 
 /**
  * How often the board asks whether anything has happened.
@@ -135,6 +137,8 @@ export type OnlineGame = {
   mySeat: Player | null
   possibleMoves: CellName[]
   isLoading: boolean
+  /** How current the board is. See `SyncState`. */
+  sync: SyncState
   viewingHistory: boolean
   canPrev: boolean
   canNext: boolean
@@ -577,12 +581,18 @@ export function useOnlineGame(
 
   const failure = play.error ?? resignGame.error ?? gameQuery.error
 
+  //the row is what says whether this device is looking at the game as it
+  //stands, and the plies follow from it: a `moveCount` ahead of the history
+  //puts the moves query in flight, which lands here as the same "syncing"
+  const sync = syncStateOf([gameQuery, movesQuery])
+
   return {
     game,
     state,
     mySeat,
     possibleMoves,
     isLoading: gameQuery.isPending || movesQuery.isPending,
+    sync,
     viewingHistory,
     canPrev: canPrevMove(state),
     canNext: canNextMove(state),

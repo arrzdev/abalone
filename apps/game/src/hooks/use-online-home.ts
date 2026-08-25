@@ -18,6 +18,8 @@ import {
 import { useApiError } from "@/hooks/use-api-error"
 import { useAuth } from "@/providers/auth-provider"
 import { useRealtime } from "@/providers/realtime-provider"
+import type { SyncState } from "@/utils/sync-state"
+import { syncStateOf } from "@/utils/sync-state"
 
 export type OnlineHome = {
   activeGames: Game[]
@@ -29,6 +31,8 @@ export type OnlineHome = {
   /** A row action is in flight, so the rows are not worth pressing again. */
   isBusy: boolean
   isSending: boolean
+  /** How current the lists are. See `SyncState`. */
+  sync: SyncState
   /** Whatever the last list or row action said, already translated. */
   error?: string
   /** The same, for the composer, so it lands under the field it is about. */
@@ -124,6 +128,11 @@ export function useOnlineHome(queryClient: QueryClient): OnlineHome {
     activeGames.error ??
     finishedGames.error
 
+  //all three lists, history included: it is cached as never-stale and so never
+  //refetched on a remount, which `syncStateOf` reads as nothing to report
+  //rather than as a list forever catching up
+  const sync = syncStateOf([invites, activeGames, finishedGames])
+
   return {
     activeGames: activeGames.data ?? [],
     finishedGames: finishedGames.data ?? [],
@@ -131,6 +140,7 @@ export function useOnlineHome(queryClient: QueryClient): OnlineHome {
     sent,
     isBusy: accept.isPending || decline.isPending || remove.isPending,
     isSending: send.isPending,
+    sync,
     error: failure ? translateError(failure) : undefined,
     composeError: send.error ? translateError(send.error) : undefined,
     accept: (inviteId, onOpened) =>

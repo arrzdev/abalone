@@ -83,5 +83,10 @@
     "offline_hint": "Tegen een bot, of met z'n tweeën op dit apparaat.",
     "bot_hint": "Tegen een bot, op het niveau dat je kiest.",
     "local_hint": "Met z'n tweeën, om de beurt op dit apparaat."
+  },
+  "sync": {
+    "updating": "Bijwerken",
+    "offline": "Je bent offline. Wat je ziet is mogelijk verouderd.",
+    "unreachable": "Bijwerken is niet gelukt. Wat je ziet is mogelijk verouderd."
   }
 }
