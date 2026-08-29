@@ -85,16 +85,18 @@ export type NewGameOptions = {
  *
  * @param boardRef ref to the GameCanvas, which owns canvas geometry and the
  *        rAF loop.
- * @param initialMode which game the setup panel opens on, for callers that
- *        already know — the Play sheet offers the two separately. Read once:
- *        after that the panel's own switch owns it.
+ * @param mode which of the two offline games this is. Held by the caller rather
+ *        than here, because it is in the URL: the switch in the setup panel and
+ *        `?mode=` are one piece of state, and a copy of it in here would be a
+ *        second answer to go out of step with the first.
+ * @param onModeChange where a press on that switch goes.
  */
 export function useAbaloneGame(
   boardRef: RefObject<GameCanvasHandle | null>,
-  initialMode: GameMode = "ai",
-) {
   //'ai' = vs computer, 'local' = pass & play
-  const [mode, setModeState] = useState<GameMode>(initialMode)
+  mode: GameMode,
+  onModeChange: (mode: GameMode) => void,
+) {
   const [difficulty, setDifficulty] = useState(1)
   const [setupType, setSetupType] = useState<SetupKey>(DEFAULT_SETUP)
   // What the player picked ('random' included) vs. the colour they end up with.
@@ -103,7 +105,7 @@ export function useAbaloneGame(
 
   const [phase, setPhase] = useState<GamePhase>("pregame")
   const [state, setState] = useState<GameState>(() =>
-    createGameState(DEFAULT_SETUP, "black", initialMode),
+    createGameState(DEFAULT_SETUP, "black", mode),
   )
   const [aiThinking, setAiThinking] = useState(false)
   const [hintThinking, setHintThinking] = useState(false)
@@ -298,7 +300,9 @@ export function useAbaloneGame(
       aiRequestedForRef.current = null
       busyRef.current = false
 
-      setModeState(nextMode)
+      //only when it actually changes: this runs on every new game, and the mode
+      //it is handed is almost always the one already in the URL
+      if (nextMode !== mode) onModeChange(nextMode)
       setSetupType(nextSetup)
       setColorChoice(nextChoice)
       setPlayerColor(nextColor)
@@ -323,7 +327,7 @@ export function useAbaloneGame(
       setPhase("ingame")
       return fresh
     },
-    [colorChoice, difficulty, mode, setupType],
+    [colorChoice, difficulty, mode, onModeChange, setupType],
   )
 
   // A rematch keeps the colour that was actually played, not the coin flip.
@@ -643,7 +647,7 @@ export function useAbaloneGame(
 
   const chooseMode = useCallback(
     (nextMode: GameMode) => {
-      setModeState(nextMode)
+      onModeChange(nextMode)
       // Hot-seat always starts with black at the bottom; the colour picker only
       // makes sense when there is an opponent to assign the other colour to.
       const nextColor: Player =
@@ -655,7 +659,7 @@ export function useAbaloneGame(
         previewSetup(setupType, nextColor, nextMode)
       }
     },
-    [colorChoice, previewSetup, setupType],
+    [colorChoice, onModeChange, previewSetup, setupType],
   )
 
   /**
