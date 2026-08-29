@@ -1,24 +1,23 @@
 import { cn } from "@repo/nativ/utils"
-import { Link, useMatchRoute } from "@tanstack/react-router"
+import { Link, useNavigate } from "@tanstack/react-router"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import {
   ChevronDownIcon,
-  ImageIcon,
+  HistoryIcon,
   LogoutIcon,
+  PersonIcon,
   SettingsIcon,
 } from "@/components/icons"
 import { Logo } from "@/components/logo"
 import { Avatar } from "@/components/ui/avatar"
 import { Menu, MenuItem, MenuSeparator } from "@/components/ui/menu"
 import { NavLink } from "@/components/ui/nav-link"
+import { TapButton } from "@/components/ui/tap-button"
 import { useProfile } from "@/data/profile/queries"
-import {
-  ACCEPTED_IMAGES,
-  useAvatarPicker,
-} from "@/hooks/use-avatar-picker"
 import { useSignOut } from "@/hooks/use-sign-out"
+import { useAuthPrompt } from "@/providers/auth-prompt-provider"
 import { useAuth } from "@/providers/auth-provider"
 
 /**
@@ -34,8 +33,8 @@ const CHROME_BUTTON_CLASS =
  * A destination, spelled out.
  *
  * It runs the full height of the bar rather than sitting as a pill inside it,
- * because the mark of the one you are on is a bar across its top edge — and that
- * edge only reads as an edge when it is the window's own.
+ * because the mark of the one you are on is a bar across its bottom edge — and
+ * that edge only reads as an edge when it is the window's own.
  */
 const NAV_LINK_CLASS =
   "relative flex items-center px-4 font-display text-[15px] font-semibold transition-colors duration-200 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand"
@@ -49,16 +48,20 @@ const NAV_LINK_ACTIVE_CLASS =
   "text-white [&_[data-active-bar]]:opacity-100"
 
 /**
- * The bar across the top of every screen inside the shell.
+ * The bar across the top of every screen.
  *
- * It used to be the mark and three anonymous squares. Three squares say there
- * are three things up here and nothing about what any of them is, so this one
- * spells its destinations out instead: New game, Rules, and home behind the mark
- * as it always was. What stays in icon form is the gear, because settings are
- * not a place you go.
+ * It used to say New game and Rules, which named one of the two ways to play and
+ * left the other one to a sheet behind an anonymous square in a tab bar. There
+ * is no tab bar now, so this names all three: Play Online, Play Offline, Rules.
+ * They are two different routes with two different setups, and the rules sit
+ * beside them because a new player needs them before either. Home stays behind
+ * the mark, as it always was.
  *
- * Below `lg` the destinations move to the tab bar and this keeps only the mark,
- * the gear, and — signed out — the way in.
+ * What stays in icon form is the gear, because settings are not a place you go.
+ *
+ * Below `lg` the destinations drop off and this keeps the mark, the gear and the
+ * account. A phone reaches the three of them from home, which is the one screen
+ * it always has a way back to.
  *
  * The safe padding is on the outer box and the height on the one inside it: with
  * `box-border` a single box would let the height swallow the inset instead of
@@ -94,19 +97,29 @@ export function AppHeader({ className }: { className?: string }) {
           </span>
         </Link>
 
-        {/* Above `lg` only: below it these are the tab bar, and a window that
-            said them twice would be offering two navigations. */}
+        {/* Above `lg` only. A phone bar with three labels in it has no room
+            left for the account, and home is one press away from all three. */}
         <nav
           aria-label={t("common:nav.primary")}
           className="hidden items-stretch gap-0.5 self-stretch lg:flex"
         >
           <NavLink
-            to="/game/offline"
+            to="/online"
             className={NAV_LINK_CLASS}
             activeClassName={NAV_LINK_ACTIVE_CLASS}
             inactiveClassName="text-muted"
           >
-            {t("common:nav.new_game")}
+            {t("common:nav.online")}
+            <ActiveBar />
+          </NavLink>
+
+          <NavLink
+            to="/offline"
+            className={NAV_LINK_CLASS}
+            activeClassName={NAV_LINK_ACTIVE_CLASS}
+            inactiveClassName="text-muted"
+          >
+            {t("common:nav.offline")}
             <ActiveBar />
           </NavLink>
 
@@ -154,13 +167,7 @@ export function AppHeader({ className }: { className?: string }) {
 
 /**
  * The mark on the destination you are on: a bar along the bottom of it, sitting
- * on the header's own edge.
- *
- * The tab bar below `lg` puts its copy on top, and the difference is not an
- * inconsistency — each one hangs off the edge the chrome shares with the page,
- * so the mark always points at the content it belongs to. A bar is at the top of
- * a bar docked to the bottom of the screen, and at the bottom of one docked to
- * the top of it.
+ * on the header's own edge, which is the edge the chrome shares with the page.
  */
 function ActiveBar() {
   return (
@@ -172,72 +179,91 @@ function ActiveBar() {
   )
 }
 
+const ACCOUNT_BUTTON_CLASS =
+  "h-9 gap-2 rounded-[9px] bg-surface ps-1.5 pe-2.5 font-display text-sm font-semibold text-white hover:bg-surface-2 lg:h-10 lg:gap-2.5 lg:rounded-[10px] lg:pe-3"
+
 /**
- * Who you are, in the corner, and the whole of the account on a desktop.
+ * Who you are, in the corner.
  *
- * Signing in comes back to whichever page you were on rather than to an account
- * screen: it is always something you started doing for a reason.
+ * Signing in is an overlay rather than a screen, so this asks in place: whatever
+ * you were reading stays behind the form, and pressing it costs you nothing if
+ * you change your mind.
  *
- * The menu hides below `lg`, where the Profile tab is the way to all of this.
+ * Above `lg` the caret opens the account: the profile, the record, and the way
+ * out. Below it the same button goes straight to `/profile`, because every row
+ * that menu holds is on that page anyway, and a menu hanging off a 56px bar is
+ * a target the thumb shares with the edge of the screen.
  */
 function AccountControl() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const { user } = useAuth()
   const { data: profile } = useProfile()
-  const picker = useAvatarPicker()
+  const { requireAuth } = useAuthPrompt()
   const signOut = useSignOut()
-  const matchRoute = useMatchRoute()
-
-  //nothing to offer on the login screen: signed out this is a way to the page
-  //already open, and signed in the route sends you home before it renders
-  if (matchRoute({ to: "/login" })) return null
 
   //a word, not a square. it is the one thing in this bar somebody arrives
   //looking for, and an icon is the wrong shape for something looked for by name
   if (!user) {
     return (
-      <Link
-        to="/login"
-        search={{ redirect: "/" }}
+      <TapButton
+        onClick={() => requireAuth({})}
         className="inline-flex h-[38px] items-center rounded-[9px] bg-surface px-3.5 font-display text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:h-10 lg:rounded-[10px] lg:bg-transparent lg:px-4 lg:text-[15px] lg:text-subtle lg:hover:bg-white/10 lg:hover:text-white"
       >
         {t("common:auth.sign_in")}
-      </Link>
+      </TapButton>
     )
   }
 
+  const face = (
+    <>
+      <Avatar
+        src={profile?.avatarUrl}
+        name={user.displayUsername}
+        size={28}
+      />
+      <span className="max-w-35 truncate">{user.displayUsername}</span>
+    </>
+  )
+
   return (
     <>
-      <input
-        ref={picker.inputRef}
-        type="file"
-        accept={ACCEPTED_IMAGES}
-        className="hidden"
-        onChange={picker.handleChange}
-      />
+      <TapButton
+        aria-label={t("common:nav.profile")}
+        onClick={() => navigate({ to: "/profile" })}
+        className={cn(
+          "flex items-center transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hidden",
+          ACCOUNT_BUTTON_CLASS,
+        )}
+      >
+        {face}
+      </TapButton>
 
       <Menu
         className="hidden lg:block"
         align="end"
         ariaLabel={t("common:nav.profile")}
-        triggerClassName="h-10 gap-2.5 rounded-[10px] bg-surface ps-1.5 pe-3 font-display text-sm font-semibold hover:bg-surface-2"
+        triggerClassName={ACCOUNT_BUTTON_CLASS}
         label={
           <>
-            <Avatar
-              src={profile?.avatarUrl}
-              name={user.displayUsername}
-              size={28}
-            />
-            <span className="max-w-35 truncate">
-              {user.displayUsername}
-            </span>
+            {face}
             <ChevronDownIcon size={16} className="opacity-50" />
           </>
         }
       >
-        <MenuItem icon={ImageIcon} onSelect={picker.open}>
-          {picker.isUploading && t("common:profile.uploading")}
-          {!picker.isUploading && t("common:profile.change_picture")}
+        <MenuItem
+          icon={PersonIcon}
+          onSelect={() => navigate({ to: "/profile" })}
+        >
+          {t("common:nav.profile")}
+        </MenuItem>
+        <MenuItem
+          icon={HistoryIcon}
+          onSelect={() =>
+            navigate({ to: "/online/history", search: { page: 1 } })
+          }
+        >
+          {t("online:history.heading")}
         </MenuItem>
         <MenuSeparator />
         <MenuItem

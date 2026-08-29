@@ -27,20 +27,3 @@ export function needsSignIn(): boolean {
   if (typeof window === "undefined") return false
   return !getBearerToken()
 }
-
-/** How a screen should ask, if it has to ask at all. */
-export type SignInPrompt = "none" | "login-screen" | "drawer"
-
-/**
- * Which shape the ask takes on this screen.
- *
- * One rule, wherever the app needs an account: a desktop has room for the login
- * screen and a url worth landing on, so it goes there; a phone gets the form in
- * a drawer over what it was already showing, because a page swap for two fields
- * costs the screen underneath and gives nothing back. `AuthPromptProvider`
- * applies the same split to the asks that start from a tap.
- */
-export function signInPrompt(isDesktop: boolean): SignInPrompt {
-  if (!needsSignIn()) return "none"
-  return isDesktop ? "login-screen" : "drawer"
-}

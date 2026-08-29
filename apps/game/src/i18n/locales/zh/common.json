@@ -2,26 +2,12 @@
   "nav": {
     "primary": "主导航",
     "back": "返回",
-    "play": "开始游戏",
     "new_game": "新对局",
     "rules": "规则",
-    "strategy": "策略指南",
-    "faq": "常见问题",
-    "about": "关于",
-    "history": "对局记录",
     "profile": "个人资料",
-    "back_to_game": "与电脑对战",
-    "back_to_game_from_page": "开始游戏",
-    "home": "首页"
-  },
-  "buttons": {
-    "play_now": "立即开始",
-    "get_started": "开始",
-    "try_setups": "试试不同布局",
-    "learn_strategy": "学习策略",
-    "start_playing": "开始游玩",
-    "more_about": "了解更多 角力棋 (Abalone)",
-    "read_rules": "阅读完整规则"
+    "home": "首页",
+    "online": "在线对战",
+    "offline": "离线对战"
   },
   "language": {
     "select": "选择语言",
@@ -34,7 +20,6 @@
     "change": "更改语言"
   },
   "home": {
-    "eyebrow": "两名玩家，一块六边形棋盘。",
     "tagline": "把对手的六枚棋子推出棋盘即可获胜。",
     "play_online": "在线对战",
     "play_offline": "离线对战",
@@ -42,8 +27,7 @@
     "bot_hint_short": "八种强度",
     "bot_hint_long": "八个机器人，从 Gus 到 Magnus。",
     "local_hint_short": "一台设备，两个人",
-    "bots_caption": "八个机器人，从 Gus 到 Magnus",
-    "account_note": "和机器人对战无需账号。登录后，线上线下的每一局都会保留。"
+    "bots_caption": "八个机器人，从 Gus 到 Magnus"
   },
   "auth": {
     "sign_in": "登录",
@@ -71,18 +55,15 @@
     "change_picture": "更换头像",
     "uploading": "上传中",
     "picture_hint": "支持 PNG、JPEG 或 WebP。图片会裁剪为正方形。",
-    "upload_failed": "头像未能上传。请重试。"
+    "upload_failed": "头像未能上传。请重试。",
+    "playing": "进行中",
+    "best_streak": "最佳连胜",
+    "history_hint": "你下完的每一局，以及每一局的结果",
+    "settings_hint": "语言、棋子样式、声音，以及四个开关"
   },
   "actions": {
     "close": "关闭",
     "cancel": "取消"
-  },
-  "play": {
-    "title": "开始对战",
-    "online_hint": "以你的名字与其他玩家对战。",
-    "offline_hint": "与机器人对战，或两人共用这台设备。",
-    "bot_hint": "与机器人对战，强度自己选。",
-    "local_hint": "两人共用这台设备，轮流落子。"
   },
   "sync": {
     "updating": "正在更新",

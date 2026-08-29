@@ -1,7 +1,7 @@
 import { Screen, ScrollView } from "@repo/nativ/components"
 import { cn } from "@repo/nativ/utils"
 import { useQuery } from "@tanstack/react-query"
-import { createFileRoute, Link, redirect } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons"
 import { FinishedGameRow } from "@/components/online/game-row"
@@ -10,7 +10,6 @@ import { SubpageHeader } from "@/components/ui/subpage-header"
 import type { Game } from "@/data/online/queries"
 import { gamesQueryOptions } from "@/data/online/queries"
 import { useAuth } from "@/providers/auth-provider"
-import { needsSignIn } from "@/routing/auth-guard"
 import { SignedInOnly } from "@/routing/signed-in-only"
 import { formatRelativeTime } from "@/utils/relative-time"
 
@@ -21,25 +20,17 @@ const DAY_MS = 86_400_000
 
 type HistorySearch = { page: number }
 
-export const Route = createFileRoute("/_subpage/games")({
+export const Route = createFileRoute("/_subpage/online/history")({
   validateSearch: (search: Record<string, unknown>): HistorySearch => {
     const page = Number(search.page)
     return { page: Number.isInteger(page) && page > 1 ? page : 1 }
-  },
-  beforeLoad: () => {
-    if (!needsSignIn()) return
-    throw redirect({
-      to: "/login",
-      search: { redirect: "/games" },
-      replace: true,
-    })
   },
   component: GuardedGamesPage,
 })
 
 function GuardedGamesPage() {
   return (
-    <SignedInOnly returnTo="/games">
+    <SignedInOnly returnTo="/online/history">
       <GamesPage />
     </SignedInOnly>
   )
@@ -88,11 +79,11 @@ function GamesPage() {
                 {/* Above `lg` only: on a phone the bar above already carries
                     both the title and the way back. */}
                 <Link
-                  to="/"
+                  to="/online"
                   className="hidden items-center gap-1.5 rounded-md text-sm font-semibold text-muted transition-colors duration-200 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:inline-flex"
                 >
                   <ChevronLeftIcon size={16} strokeWidth={2.2} />
-                  {t("common:nav.home")}
+                  {t("common:nav.online")}
                 </Link>
                 <h1 className="mt-2 hidden font-display text-[34px] font-extrabold tracking-[-0.03em] text-white lg:block">
                   {t("online:history.title")}
@@ -297,7 +288,7 @@ function PageLink({
 
   return (
     <Link
-      to="/games"
+      to="/online/history"
       search={{ page }}
       aria-label={label}
       aria-current={isCurrent ? "page" : undefined}

@@ -48,7 +48,7 @@ export type GameOfflineSearch = {
  * never rewrites it. Anything unrecognised is dropped and the panel opens on its
  * own default, which is what a hand-typed URL should get.
  */
-export const Route = createFileRoute("/_subpage/game/offline")({
+export const Route = createFileRoute("/_subpage/offline")({
   validateSearch: (
     search: Record<string, unknown>,
   ): GameOfflineSearch => ({

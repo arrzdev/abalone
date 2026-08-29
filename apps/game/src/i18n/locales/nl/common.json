@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Hoofdnavigatie",
     "back": "Terug",
-    "play": "Spelen",
     "new_game": "Nieuw spel",
     "rules": "Regels",
-    "strategy": "Strategiegids",
-    "faq": "FAQ",
-    "about": "Over",
-    "history": "Spelgeschiedenis",
     "profile": "Profiel",
-    "back_to_game": "Speel tegen Computer",
-    "back_to_game_from_page": "Speel Spel",
-    "home": "Start"
-  },
-  "buttons": {
-    "play_now": "Speel Nu",
-    "get_started": "Begin",
-    "try_setups": "Probeer Verschillende Opstellingen",
-    "learn_strategy": "Leer Strategie",
-    "start_playing": "Begin met Spelen",
-    "more_about": "Meer Over Abalone",
-    "read_rules": "Lees Volledige Regels"
+    "home": "Start",
+    "online": "Online spelen",
+    "offline": "Offline spelen"
   },
   "language": {
     "select": "Selecteer Taal",
@@ -34,7 +20,6 @@
     "change": "Taal wijzigen"
   },
   "home": {
-    "eyebrow": "Twee spelers. Eén zeshoekig bord.",
     "tagline": "Duw zes ballen van je tegenstander van het bord om te winnen.",
     "play_online": "Online spelen",
     "play_offline": "Offline spelen",
@@ -42,8 +27,7 @@
     "bot_hint_short": "Acht niveaus",
     "bot_hint_long": "Acht bots, van Gus tot Magnus.",
     "local_hint_short": "Eén apparaat, jullie twee",
-    "bots_caption": "Acht bots, van Gus tot Magnus",
-    "account_note": "Een botspel heeft geen account nodig. Meld je aan en elk spel wordt bewaard, online en offline."
+    "bots_caption": "Acht bots, van Gus tot Magnus"
   },
   "auth": {
     "sign_in": "Inloggen",
@@ -71,18 +55,15 @@
     "change_picture": "Foto wijzigen",
     "uploading": "Uploaden",
     "picture_hint": "PNG, JPEG of WebP. De afbeelding wordt vierkant bijgesneden.",
-    "upload_failed": "Die foto is niet geüpload. Probeer het opnieuw."
+    "upload_failed": "Die foto is niet geüpload. Probeer het opnieuw.",
+    "playing": "Bezig",
+    "best_streak": "Beste reeks",
+    "history_hint": "Elk spel dat je hebt uitgespeeld, met de uitslag ervan",
+    "settings_hint": "Taal, knikkers, geluid en de vier schakelaars"
   },
   "actions": {
     "close": "Sluiten",
     "cancel": "Annuleren"
-  },
-  "play": {
-    "title": "Spelen",
-    "online_hint": "Tegen een andere speler, onder jouw naam.",
-    "offline_hint": "Tegen een bot, of met z'n tweeën op dit apparaat.",
-    "bot_hint": "Tegen een bot, op het niveau dat je kiest.",
-    "local_hint": "Met z'n tweeën, om de beurt op dit apparaat."
   },
   "sync": {
     "updating": "Bijwerken",

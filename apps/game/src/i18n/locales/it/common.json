@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Navigazione principale",
     "back": "Indietro",
-    "play": "Gioca",
     "new_game": "Nuova partita",
     "rules": "Regole",
-    "strategy": "Guida strategica",
-    "faq": "FAQ",
-    "about": "Informazioni",
-    "history": "Cronologia Partite",
     "profile": "Profilo",
-    "back_to_game": "Gioca contro il computer",
-    "back_to_game_from_page": "Gioca al gioco",
-    "home": "Home"
-  },
-  "buttons": {
-    "play_now": "Gioca ora",
-    "get_started": "Inizia",
-    "try_setups": "Prova diverse configurazioni",
-    "learn_strategy": "Impara la strategia",
-    "start_playing": "Inizia a giocare",
-    "more_about": "Maggiori informazioni su Abalone",
-    "read_rules": "Leggi le regole complete"
+    "home": "Home",
+    "online": "Gioca online",
+    "offline": "Gioca offline"
   },
   "language": {
     "select": "Seleziona lingua",
@@ -34,7 +20,6 @@
     "change": "Cambia lingua"
   },
   "home": {
-    "eyebrow": "Due giocatori. Un tabellone esagonale.",
     "tagline": "Spingi sei biglie avversarie fuori dal tabellone per vincere.",
     "play_online": "Gioca online",
     "play_offline": "Gioca offline",
@@ -42,8 +27,7 @@
     "bot_hint_short": "Otto livelli",
     "bot_hint_long": "Otto bot, da Gus a Magnus.",
     "local_hint_short": "Un dispositivo, voi due",
-    "bots_caption": "Otto bot, da Gus a Magnus",
-    "account_note": "Una partita contro un bot non richiede un account. Accedi e ogni partita viene salvata, online e offline."
+    "bots_caption": "Otto bot, da Gus a Magnus"
   },
   "auth": {
     "sign_in": "Accedi",
@@ -71,18 +55,15 @@
     "change_picture": "Cambia immagine",
     "uploading": "Caricamento",
     "picture_hint": "PNG, JPEG o WebP. L'immagine viene ritagliata in un quadrato.",
-    "upload_failed": "L'immagine non è stata caricata. Riprova."
+    "upload_failed": "L'immagine non è stata caricata. Riprova.",
+    "playing": "In corso",
+    "best_streak": "Serie migliore",
+    "history_hint": "Ogni partita che hai portato a termine, con il suo esito",
+    "settings_hint": "Lingua, biglie, audio e i quattro interruttori"
   },
   "actions": {
     "close": "Chiudi",
     "cancel": "Annulla"
-  },
-  "play": {
-    "title": "Gioca",
-    "online_hint": "Contro un altro giocatore, con il tuo nome.",
-    "offline_hint": "Contro un bot, o in due su questo dispositivo.",
-    "bot_hint": "Contro un bot, alla difficoltà che scegli.",
-    "local_hint": "In due, a turno, su questo dispositivo."
   },
   "sync": {
     "updating": "Aggiornamento",

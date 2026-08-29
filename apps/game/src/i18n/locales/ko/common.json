@@ -2,26 +2,12 @@
   "nav": {
     "primary": "기본 탐색",
     "back": "뒤로",
-    "play": "플레이",
     "new_game": "새 게임",
     "rules": "규칙",
-    "strategy": "전략 가이드",
-    "faq": "FAQ",
-    "about": "소개",
-    "history": "게임 기록",
     "profile": "프로필",
-    "back_to_game": "컴퓨터와 대전",
-    "back_to_game_from_page": "게임 플레이",
-    "home": "홈"
-  },
-  "buttons": {
-    "play_now": "지금 플레이",
-    "get_started": "시작하기",
-    "try_setups": "다른 배치 사용",
-    "learn_strategy": "전략 배우기",
-    "start_playing": "플레이 시작",
-    "more_about": "아발론 (Abalone) 더 알아보기",
-    "read_rules": "전체 규칙 보기"
+    "home": "홈",
+    "online": "온라인 플레이",
+    "offline": "오프라인 플레이"
   },
   "language": {
     "select": "언어 선택",
@@ -34,7 +20,6 @@
     "change": "언어 변경"
   },
   "home": {
-    "eyebrow": "두 명의 플레이어, 하나의 육각 보드.",
     "tagline": "상대 구슬 6개를 보드 밖으로 밀어내면 승리합니다.",
     "play_online": "온라인 플레이",
     "play_offline": "오프라인 플레이",
@@ -42,8 +27,7 @@
     "bot_hint_short": "여덟 단계",
     "bot_hint_long": "거스부터 매그너스까지, 봇 여덟.",
     "local_hint_short": "기기 하나, 둘이서",
-    "bots_caption": "거스부터 매그너스까지, 봇 여덟",
-    "account_note": "봇과의 대국에는 계정이 필요 없습니다. 로그인하면 온라인이든 오프라인이든 모든 대국이 남습니다."
+    "bots_caption": "거스부터 매그너스까지, 봇 여덟"
   },
   "auth": {
     "sign_in": "로그인",
@@ -71,18 +55,15 @@
     "change_picture": "사진 변경",
     "uploading": "업로드 중",
     "picture_hint": "PNG, JPEG 또는 WebP. 정사각형으로 잘립니다.",
-    "upload_failed": "사진을 업로드하지 못했습니다. 다시 시도하세요."
+    "upload_failed": "사진을 업로드하지 못했습니다. 다시 시도하세요.",
+    "playing": "진행 중",
+    "best_streak": "최다 연승",
+    "history_hint": "끝까지 둔 모든 대국과 그 결과",
+    "settings_hint": "언어, 구슬, 소리, 그리고 네 개의 스위치"
   },
   "actions": {
     "close": "닫기",
     "cancel": "취소"
-  },
-  "play": {
-    "title": "플레이",
-    "online_hint": "내 이름으로 다른 플레이어와 대전합니다.",
-    "offline_hint": "봇과 대전하거나, 한 기기에서 둘이 번갈아 둡니다.",
-    "bot_hint": "봇과 대전하고, 난이도는 직접 고릅니다.",
-    "local_hint": "한 기기에서 둘이 번갈아 둡니다."
   },
   "sync": {
     "updating": "업데이트 중",

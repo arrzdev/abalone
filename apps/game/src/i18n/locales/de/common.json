@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Hauptnavigation",
     "back": "Zurück",
-    "play": "Spielen",
     "new_game": "Neues Spiel",
     "rules": "Regeln",
-    "strategy": "Strategie-Leitfaden",
-    "faq": "FAQ",
-    "about": "Über",
-    "history": "Spielverlauf",
     "profile": "Profil",
-    "back_to_game": "Gegen Computer spielen",
-    "back_to_game_from_page": "Spiel spielen",
-    "home": "Start"
-  },
-  "buttons": {
-    "play_now": "Jetzt spielen",
-    "get_started": "Loslegen",
-    "try_setups": "Verschiedene Aufstellungen ausprobieren",
-    "learn_strategy": "Strategie lernen",
-    "start_playing": "Mit dem Spielen beginnen",
-    "more_about": "Mehr über Abalone",
-    "read_rules": "Vollständige Regeln lesen"
+    "home": "Start",
+    "online": "Online spielen",
+    "offline": "Offline spielen"
   },
   "language": {
     "select": "Sprache wählen",
@@ -34,7 +20,6 @@
     "change": "Sprache ändern"
   },
   "home": {
-    "eyebrow": "Zwei Spieler. Ein sechseckiges Brett.",
     "tagline": "Schiebe sechs gegnerische Kugeln vom Brett, um zu gewinnen.",
     "play_online": "Online spielen",
     "play_offline": "Offline spielen",
@@ -42,8 +27,7 @@
     "bot_hint_short": "Acht Stärken",
     "bot_hint_long": "Acht Bots, von Gus bis Magnus.",
     "local_hint_short": "Ein Gerät, ihr beide",
-    "bots_caption": "Acht Bots, von Gus bis Magnus",
-    "account_note": "Ein Bot-Spiel braucht kein Konto. Melde dich an und jede Partie wird gespeichert, online wie offline."
+    "bots_caption": "Acht Bots, von Gus bis Magnus"
   },
   "auth": {
     "sign_in": "Anmelden",
@@ -71,18 +55,15 @@
     "change_picture": "Bild ändern",
     "uploading": "Wird hochgeladen",
     "picture_hint": "PNG, JPEG oder WebP. Das Bild wird quadratisch zugeschnitten.",
-    "upload_failed": "Das Bild wurde nicht hochgeladen. Versuche es erneut."
+    "upload_failed": "Das Bild wurde nicht hochgeladen. Versuche es erneut.",
+    "playing": "Laufend",
+    "best_streak": "Beste Serie",
+    "history_hint": "Jede Partie, die du zu Ende gespielt hast, mit ihrem Ergebnis",
+    "settings_hint": "Sprache, Murmeln, Ton und die vier Schalter"
   },
   "actions": {
     "close": "Schließen",
     "cancel": "Abbrechen"
-  },
-  "play": {
-    "title": "Spielen",
-    "online_hint": "Gegen andere, unter deinem Namen.",
-    "offline_hint": "Gegen einen Bot, oder zu zweit an diesem Gerät.",
-    "bot_hint": "Gegen einen Bot, in der Stärke deiner Wahl.",
-    "local_hint": "Zu zweit, abwechselnd an diesem Gerät."
   },
   "sync": {
     "updating": "Wird aktualisiert",

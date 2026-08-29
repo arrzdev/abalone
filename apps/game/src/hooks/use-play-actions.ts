@@ -4,14 +4,14 @@ import { useCallback } from "react"
 import { useAuthPrompt } from "@/providers/auth-prompt-provider"
 
 /**
- * The ways into a game, wherever they are offered from — the tab bar's sheet,
- * the home page.
+ * The ways into a game, wherever they are offered from — home, the hub's own
+ * empty state.
  *
  * Online is the one that needs an account, so signing in is a step on the way
- * there rather than a detour: `requireAuth` asks in whatever shape the screen
- * calls for and lands on the invite composer either way. There is no online
- * lobby to send anyone to any more — home is the lobby, and what "play online"
- * means is naming an opponent.
+ * there rather than a detour: `requireAuth` asks over whatever screen is up and
+ * lands on the invite composer either way. What "play online" means is naming an
+ * opponent, so it goes to the hub with the composer already open rather than to
+ * the hub for you to find the button again.
  *
  * Offline takes the mode as far as the URL. A caller that already knows which
  * of the two it is offering has no reason to drop the answer at the door and
@@ -23,8 +23,7 @@ export function usePlayActions() {
   const { requireAuth } = useAuthPrompt()
 
   const playOffline = useCallback(
-    (mode?: GameMode) =>
-      navigate({ to: "/game/offline", search: { mode } }),
+    (mode?: GameMode) => navigate({ to: "/offline", search: { mode } }),
     [navigate],
   )
 

@@ -241,7 +241,7 @@ function FinishedPanel({ games, myUserId }: FinishedPanelProps) {
         action={
           games.length > FINISHED_PREVIEW && (
             <Link
-              to="/games"
+              to="/online/history"
               search={{ page: 1 }}
               className="rounded-lg px-1 py-1 text-[13px] text-faint transition-colors duration-200 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
             >

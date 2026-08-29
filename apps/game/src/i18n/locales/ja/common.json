@@ -2,26 +2,12 @@
   "nav": {
     "primary": "メインナビゲーション",
     "back": "戻る",
-    "play": "プレイ",
     "new_game": "新しい対局",
     "rules": "ルール",
-    "strategy": "戦略ガイド",
-    "faq": "FAQ",
-    "about": "このサイトについて",
-    "history": "対局履歴",
     "profile": "プロフィール",
-    "back_to_game": "コンピューターと対戦",
-    "back_to_game_from_page": "ゲームをプレイ",
-    "home": "ホーム"
-  },
-  "buttons": {
-    "play_now": "今すぐプレイ",
-    "get_started": "始める",
-    "try_setups": "別の配置を試す",
-    "learn_strategy": "戦略を学ぶ",
-    "start_playing": "プレイ開始",
-    "more_about": "アバロンについてもっと知る",
-    "read_rules": "ルールを読む"
+    "home": "ホーム",
+    "online": "オンラインで対戦",
+    "offline": "オフラインで対戦"
   },
   "language": {
     "select": "言語を選択",
@@ -34,7 +20,6 @@
     "change": "言語を変更"
   },
   "home": {
-    "eyebrow": "2人のプレイヤー、1つの六角形ボード。",
     "tagline": "相手のボールを6個盤外に押し出せば勝ちです。",
     "play_online": "オンラインで対戦",
     "play_offline": "オフラインで対戦",
@@ -42,8 +27,7 @@
     "bot_hint_short": "8段階の強さ",
     "bot_hint_long": "ガスからマグナスまで、8体のボット。",
     "local_hint_short": "1台の端末で2人",
-    "bots_caption": "ガスからマグナスまで、8体のボット",
-    "account_note": "ボット対戦にアカウントは不要です。サインインすれば、オンラインでもオフラインでも対局が残ります。"
+    "bots_caption": "ガスからマグナスまで、8体のボット"
   },
   "auth": {
     "sign_in": "ログイン",
@@ -71,18 +55,15 @@
     "change_picture": "画像を変更",
     "uploading": "アップロード中",
     "picture_hint": "PNG、JPEG、WebPに対応しています。正方形に切り抜かれます。",
-    "upload_failed": "画像をアップロードできませんでした。もう一度お試しください。"
+    "upload_failed": "画像をアップロードできませんでした。もう一度お試しください。",
+    "playing": "対戦中",
+    "best_streak": "最多連勝",
+    "history_hint": "最後まで指した対局と、その結果のすべて",
+    "settings_hint": "言語、石のデザイン、音、そして4つのスイッチ"
   },
   "actions": {
     "close": "閉じる",
     "cancel": "キャンセル"
-  },
-  "play": {
-    "title": "対戦",
-    "online_hint": "自分の名前で、ほかのプレイヤーと対戦します。",
-    "offline_hint": "ボットと、または1台の端末で2人で対戦します。",
-    "bot_hint": "ボットと対戦。強さは選べます。",
-    "local_hint": "1台の端末で、2人が交代で対戦します。"
   },
   "sync": {
     "updating": "更新しています",

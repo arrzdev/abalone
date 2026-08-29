@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Navigation principale",
     "back": "Retour",
-    "play": "Jouer",
     "new_game": "Nouvelle partie",
     "rules": "Règles",
-    "strategy": "Guide stratégique",
-    "faq": "FAQ",
-    "about": "À propos",
-    "history": "Historique des Parties",
     "profile": "Profil",
-    "back_to_game": "Jouer contre l'ordinateur",
-    "back_to_game_from_page": "Jouer au jeu",
-    "home": "Accueil"
-  },
-  "buttons": {
-    "play_now": "Jouer maintenant",
-    "get_started": "Commencer",
-    "try_setups": "Essayer différentes configurations",
-    "learn_strategy": "Apprendre la stratégie",
-    "start_playing": "Commencer à jouer",
-    "more_about": "En savoir plus sur Abalone",
-    "read_rules": "Lire les règles complètes"
+    "home": "Accueil",
+    "online": "Jouer en ligne",
+    "offline": "Jouer hors ligne"
   },
   "language": {
     "select": "Sélectionner la langue",
@@ -34,7 +20,6 @@
     "change": "Changer de langue"
   },
   "home": {
-    "eyebrow": "Deux joueurs. Un plateau hexagonal.",
     "tagline": "Poussez six billes adverses hors du plateau pour gagner.",
     "play_online": "Jouer en ligne",
     "play_offline": "Jouer hors ligne",
@@ -42,8 +27,7 @@
     "bot_hint_short": "Huit niveaux",
     "bot_hint_long": "Huit bots, de Gus à Magnus.",
     "local_hint_short": "Un appareil, vous deux",
-    "bots_caption": "Huit bots, de Gus à Magnus",
-    "account_note": "Une partie contre un bot ne demande aucun compte. Connectez-vous et toutes vos parties sont conservées, en ligne comme hors ligne."
+    "bots_caption": "Huit bots, de Gus à Magnus"
   },
   "auth": {
     "sign_in": "Se connecter",
@@ -71,18 +55,15 @@
     "change_picture": "Changer la photo",
     "uploading": "Envoi en cours",
     "picture_hint": "PNG, JPEG ou WebP. L'image est recadrée en carré.",
-    "upload_failed": "Cette photo n'a pas été envoyée. Réessaie."
+    "upload_failed": "Cette photo n'a pas été envoyée. Réessaie.",
+    "playing": "En cours",
+    "best_streak": "Meilleure série",
+    "history_hint": "Chaque partie que vous avez menée à son terme, et son résultat",
+    "settings_hint": "Langue, billes, son et les quatre interrupteurs"
   },
   "actions": {
     "close": "Fermer",
     "cancel": "Annuler"
-  },
-  "play": {
-    "title": "Jouer",
-    "online_hint": "Contre un autre joueur, sous ton nom.",
-    "offline_hint": "Contre un bot, ou à deux sur cet appareil.",
-    "bot_hint": "Contre un bot, au niveau que tu choisis.",
-    "local_hint": "À deux, chacun son tour, sur cet appareil."
   },
   "sync": {
     "updating": "Mise à jour",

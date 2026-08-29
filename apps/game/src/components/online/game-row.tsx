@@ -54,7 +54,7 @@ export function GameRow({ game, myUserId }: GameRowProps) {
 
   return (
     <Link
-      to="/game/online/$gameId"
+      to="/online/$gameId"
       params={{ gameId: game.id }}
       className="flex items-center gap-3.5 px-4 py-3 transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand lg:px-[18px] lg:py-[13px]"
     >
@@ -133,7 +133,7 @@ export function FinishedGameRow({
 
   return (
     <Link
-      to="/game/online/$gameId"
+      to="/online/$gameId"
       params={{ gameId: game.id }}
       className="flex items-center gap-3 px-4 py-2.5 transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand lg:px-[18px]"
     >

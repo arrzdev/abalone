@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Navegación principal",
     "back": "Atrás",
-    "play": "Jugar",
     "new_game": "Nueva partida",
     "rules": "Reglas",
-    "strategy": "Guía de estrategia",
-    "faq": "FAQ",
-    "about": "Acerca de",
-    "history": "Historial de Partidas",
     "profile": "Perfil",
-    "back_to_game": "Jugar contra la computadora",
-    "back_to_game_from_page": "Jugar al juego",
-    "home": "Inicio"
-  },
-  "buttons": {
-    "play_now": "Jugar ahora",
-    "get_started": "Comenzar",
-    "try_setups": "Probar diferentes configuraciones",
-    "learn_strategy": "Aprender estrategia",
-    "start_playing": "Comenzar a jugar",
-    "more_about": "Más sobre Abalone",
-    "read_rules": "Leer reglas completas"
+    "home": "Inicio",
+    "online": "Jugar en línea",
+    "offline": "Jugar sin conexión"
   },
   "language": {
     "select": "Seleccionar idioma",
@@ -34,7 +20,6 @@
     "change": "Cambiar idioma"
   },
   "home": {
-    "eyebrow": "Dos jugadores. Un tablero hexagonal.",
     "tagline": "Empuja seis bolas del rival fuera del tablero para ganar.",
     "play_online": "Jugar en línea",
     "play_offline": "Jugar sin conexión",
@@ -42,8 +27,7 @@
     "bot_hint_short": "Ocho niveles",
     "bot_hint_long": "Ocho bots, de Gus a Magnus.",
     "local_hint_short": "Un dispositivo, los dos",
-    "bots_caption": "Ocho bots, de Gus a Magnus",
-    "account_note": "Una partida contra un bot no necesita cuenta. Inicia sesión y todas tus partidas se guardan, en línea y sin conexión."
+    "bots_caption": "Ocho bots, de Gus a Magnus"
   },
   "auth": {
     "sign_in": "Iniciar sesión",
@@ -71,18 +55,15 @@
     "change_picture": "Cambiar foto",
     "uploading": "Subiendo",
     "picture_hint": "PNG, JPEG o WebP. La imagen se recorta en cuadrado.",
-    "upload_failed": "Esa foto no se subió. Inténtalo de nuevo."
+    "upload_failed": "Esa foto no se subió. Inténtalo de nuevo.",
+    "playing": "En curso",
+    "best_streak": "Mejor racha",
+    "history_hint": "Cada partida que has terminado, con su resultado",
+    "settings_hint": "Idioma, canicas, sonido y los cuatro interruptores"
   },
   "actions": {
     "close": "Cerrar",
     "cancel": "Cancelar"
-  },
-  "play": {
-    "title": "Jugar",
-    "online_hint": "Contra otro jugador, con tu nombre.",
-    "offline_hint": "Contra un bot, o dos personas en este dispositivo.",
-    "bot_hint": "Contra un bot, con la dificultad que elijas.",
-    "local_hint": "Dos personas, por turnos, en este dispositivo."
   },
   "sync": {
     "updating": "Actualizando",

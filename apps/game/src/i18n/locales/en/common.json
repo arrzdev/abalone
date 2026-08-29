@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Main navigation",
     "back": "Back",
-    "play": "Play",
     "new_game": "New game",
     "rules": "Rules",
-    "strategy": "Strategy Guide",
-    "faq": "FAQ",
-    "about": "About",
-    "history": "Game History",
     "profile": "Profile",
-    "back_to_game": "Play vs Computer",
-    "back_to_game_from_page": "Play Game",
-    "home": "Home"
-  },
-  "buttons": {
-    "play_now": "Play Now",
-    "get_started": "Get Started",
-    "try_setups": "Try Different Setups",
-    "learn_strategy": "Learn Strategy",
-    "start_playing": "Start Playing",
-    "more_about": "More About Abalone",
-    "read_rules": "Read Full Rules"
+    "home": "Home",
+    "online": "Play Online",
+    "offline": "Play Offline"
   },
   "language": {
     "select": "Select Language",
@@ -34,7 +20,6 @@
     "change": "Change language"
   },
   "home": {
-    "eyebrow": "Two players. One hex board.",
     "tagline": "Push six of your opponent's marbles off the board to win.",
     "play_online": "Play Online",
     "play_offline": "Play Offline",
@@ -42,8 +27,7 @@
     "bot_hint_short": "Eight strengths",
     "bot_hint_long": "Eight bots, Gus to Magnus.",
     "local_hint_short": "One device, two of you",
-    "bots_caption": "Eight bots, Gus to Magnus",
-    "account_note": "A bot game needs no account. Sign in and every game you play is kept, online and off."
+    "bots_caption": "Eight bots, Gus to Magnus"
   },
   "auth": {
     "sign_in": "Sign in",
@@ -71,18 +55,15 @@
     "change_picture": "Change picture",
     "uploading": "Uploading",
     "picture_hint": "PNG, JPEG or WebP. It is cropped to a square.",
-    "upload_failed": "That picture didn't upload. Try again."
+    "upload_failed": "That picture didn't upload. Try again.",
+    "playing": "Playing",
+    "best_streak": "Best streak",
+    "history_hint": "Every game you have played out, and the record of each",
+    "settings_hint": "Language, marbles, sound and the four switches"
   },
   "actions": {
     "close": "Close",
     "cancel": "Cancel"
-  },
-  "play": {
-    "title": "Play",
-    "online_hint": "Against another player, under your name.",
-    "offline_hint": "Against a bot, or two of you on this device.",
-    "bot_hint": "Against a bot, at the strength you pick.",
-    "local_hint": "Two of you, taking turns on this device."
   },
   "sync": {
     "updating": "Updating",
