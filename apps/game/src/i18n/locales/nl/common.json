@@ -40,7 +40,9 @@
     "show_password": "Wachtwoord tonen",
     "hide_password": "Wachtwoord verbergen",
     "prompt_title": "Log in om online te spelen",
-    "prompt_body": "Speel onder je eigen naam. Elke winst blijft staan.",
+    "prompt_body": "Online partijen hebben een naam nodig om onder te spelen. Partijen tegen de computer of met z'n tweeën op één apparaat vragen er nooit om.",
+    "signup_title": "Kies een naam",
+    "signup_body": "Tegenstanders nodigen je uit door hem precies in te typen, dus kies er een die je hardop kunt spellen.",
     "errors": {
       "username_taken": "Die naam is al bezet. Probeer een andere.",
       "username_invalid": "Namen zijn 3 tot 20 tekens, met letters, cijfers, punten en liggende streepjes.",

@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { FormEvent } from "react"
 import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { SegmentedControl } from "@/components/ui/segmented-control"
 import { TextField } from "@/components/ui/text-field"
@@ -118,20 +119,44 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     : t("common:auth.sign_in")
 
   return (
-    //Three blocks, not seven controls: the switch, the pair of fields, and the
-    //button. 36px between blocks and 20px inside the pair, so the two fields
-    //read as one thing you fill in rather than as two more rows in a stack.
+    //Four blocks, not nine controls: the masthead, the switch, the pair of
+    //fields, and the button. 20px between blocks and 18px inside the pair, so
+    //the two fields read as one thing you fill in rather than as two more rows
+    //in a stack.
     //
-    //The pair is 20px apart and the form's one error line is the gap between it
-    //and the button, so the button carries no margin of its own. Measure from
-    //the boxes, not from the elements.
+    //The form's one error line is the gap between the pair and the button, so
+    //the button carries no margin of its own. Measure from the boxes, not from
+    //the elements.
     <form
       onSubmit={handleSubmit}
       className={cn("flex flex-col", className)}
       noValidate
     >
+      {/* The heading follows the tab rather than whatever sent you here. Which
+          of the two things you are doing is the only thing that changes what
+          these fields mean, and a heading that says "sign in" over a form set
+          to Create account is the form arguing with itself.
+
+          The mark is a desktop-only flourish. In a drawer the app is still on
+          the screen behind the overlay, so a logo inside it is the app's name
+          twice; a dialog dims everything it covers, and the mark is what says
+          whose dialog this is. */}
+      <div className="flex flex-col gap-y-1.5 pb-5 lg:items-center lg:gap-y-3 lg:pb-6">
+        <Logo className="hidden size-11 lg:block" />
+
+        <h1 className="font-display text-[22px] font-bold tracking-[-0.02em] text-white lg:text-center lg:text-3xl lg:font-extrabold lg:tracking-[-0.03em]">
+          {isSignUp && t("common:auth.signup_title")}
+          {!isSignUp && t("common:auth.prompt_title")}
+        </h1>
+
+        <p className="text-sm leading-relaxed text-muted lg:max-w-[380px] lg:text-center lg:text-[15px] lg:text-balance">
+          {isSignUp && t("common:auth.signup_body")}
+          {!isSignUp && t("common:auth.prompt_body")}
+        </p>
+      </div>
+
       <SegmentedControl
-        className="mb-9"
+        className="mb-5"
         size="lg"
         value={mode}
         onChange={switchMode}
@@ -141,7 +166,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
         ]}
       />
 
-      <div className="flex flex-col gap-y-5">
+      <div className="flex flex-col gap-y-[18px]">
         <TextField
           name="username"
           label={t("common:auth.username")}

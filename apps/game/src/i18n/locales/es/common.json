@@ -40,7 +40,9 @@
     "show_password": "Mostrar contraseña",
     "hide_password": "Ocultar contraseña",
     "prompt_title": "Inicia sesión para jugar en línea",
-    "prompt_body": "Juega con tu nombre. Cada victoria queda guardada.",
+    "prompt_body": "Las partidas en línea necesitan un nombre con el que jugar. Las partidas contra el ordenador o entre dos en un dispositivo nunca lo piden.",
+    "signup_title": "Elige un nombre",
+    "signup_body": "Los rivales te invitan escribiéndolo exactamente, así que elige uno que puedas deletrear en voz alta.",
     "errors": {
       "username_taken": "Ese nombre ya está ocupado. Prueba con otro.",
       "username_invalid": "Los nombres tienen de 3 a 20 caracteres, con letras, números, puntos y guiones bajos.",

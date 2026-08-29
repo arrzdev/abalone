@@ -40,7 +40,9 @@
     "show_password": "Parolayı göster",
     "hide_password": "Parolayı gizle",
     "prompt_title": "Çevrimiçi oynamak için giriş yap",
-    "prompt_body": "Kendi adınla oyna. Her galibiyet kayıtlı kalır.",
+    "prompt_body": "Çevrimiçi oyunlar oynayacağın bir ad ister. Bilgisayara karşı ya da iki oyuncu oynarken hiç sorulmaz.",
+    "signup_title": "Bir ad seç",
+    "signup_body": "Rakipler seni adını birebir yazarak davet eder, bu yüzden sesli olarak söyleyebileceğin bir ad seç.",
     "errors": {
       "username_taken": "Bu ad zaten alınmış. Başka bir ad dene.",
       "username_invalid": "Adlar 3 ile 20 karakter arasındadır; harf, rakam, nokta ve alt çizgi kullanabilirsin.",

@@ -40,7 +40,9 @@
     "show_password": "Afficher le mot de passe",
     "hide_password": "Masquer le mot de passe",
     "prompt_title": "Connecte-toi pour jouer en ligne",
-    "prompt_body": "Jouez sous votre nom. Chaque victoire est conservée.",
+    "prompt_body": "Les parties en ligne demandent un nom pour jouer. Les parties contre l'ordinateur ou à deux sur un appareil n'en demandent jamais.",
+    "signup_title": "Choisis un nom",
+    "signup_body": "Les adversaires t'invitent en le tapant à l'identique, alors choisis-en un que tu peux épeler à voix haute.",
     "errors": {
       "username_taken": "Ce nom est déjà pris. Essaie-en un autre.",
       "username_invalid": "Les noms font de 3 à 20 caractères, avec des lettres, des chiffres, des points et des tirets bas.",

@@ -74,7 +74,6 @@ export function AuthPromptProvider({ children }: { children: ReactNode }) {
 
       <AuthSheet
         open={intent !== null}
-        destination={intent?.redirect ?? null}
         onClose={() => setIntent(null)}
         onAuthenticated={() => {
           //closed first, so the overlay plays its exit over the screen it

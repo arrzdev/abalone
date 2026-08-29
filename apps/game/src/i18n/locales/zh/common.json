@@ -40,7 +40,9 @@
     "show_password": "显示密码",
     "hide_password": "隐藏密码",
     "prompt_title": "登录后即可在线对战",
-    "prompt_body": "以你的名字出战，每一场胜利都会留下。",
+    "prompt_body": "线上对局需要一个署名。对战电脑或双人对战从不问你要。",
+    "signup_title": "取个名字",
+    "signup_body": "对手要一字不差地输入它来邀请你，所以取一个你能念出来的。",
     "errors": {
       "username_taken": "这个名字已被使用。请换一个。",
       "username_invalid": "名字为 3 到 20 个字符，可使用字母、数字、点和下划线。",

@@ -40,7 +40,9 @@
     "show_password": "Passwort anzeigen",
     "hide_password": "Passwort verbergen",
     "prompt_title": "Zum Online-Spielen anmelden",
-    "prompt_body": "Spiel unter deinem Namen. Jeder Sieg bleibt.",
+    "prompt_body": "Online-Partien brauchen einen Namen zum Spielen. Partien gegen den Computer oder zu zweit an einem Gerät fragen nie danach.",
+    "signup_title": "Wähl einen Namen",
+    "signup_body": "Gegner laden dich ein, indem sie ihn genau eintippen. Wähl also einen, den du laut buchstabieren kannst.",
     "errors": {
       "username_taken": "Dieser Name ist bereits vergeben. Wähle einen anderen.",
       "username_invalid": "Namen haben 3 bis 20 Zeichen und bestehen aus Buchstaben, Zahlen, Punkten und Unterstrichen.",

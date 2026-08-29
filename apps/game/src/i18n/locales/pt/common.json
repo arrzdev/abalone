@@ -40,7 +40,9 @@
     "show_password": "Mostrar palavra-passe",
     "hide_password": "Ocultar palavra-passe",
     "prompt_title": "Entra para jogar online",
-    "prompt_body": "Joga com o teu nome. Todas as vitórias ficam guardadas.",
+    "prompt_body": "Os jogos online precisam de um nome para jogares. Os jogos contra o computador ou a dois no mesmo aparelho nunca pedem um.",
+    "signup_title": "Escolhe um nome",
+    "signup_body": "Os adversários convidam-te escrevendo-o tal e qual, por isso escolhe um que consigas soletrar em voz alta.",
     "errors": {
       "username_taken": "Esse nome já está ocupado. Escolhe outro.",
       "username_invalid": "Os nomes têm 3 a 20 caracteres, com letras, números, pontos e underscores.",

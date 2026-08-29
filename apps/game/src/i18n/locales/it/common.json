@@ -40,7 +40,9 @@
     "show_password": "Mostra password",
     "hide_password": "Nascondi password",
     "prompt_title": "Accedi per giocare online",
-    "prompt_body": "Gioca con il tuo nome. Ogni vittoria resta.",
+    "prompt_body": "Le partite online hanno bisogno di un nome con cui giocare. Le partite contro il computer o in due sullo stesso dispositivo non lo chiedono mai.",
+    "signup_title": "Scegli un nome",
+    "signup_body": "Gli avversari ti invitano digitandolo esattamente, quindi scegline uno che sai dire a voce alta.",
     "errors": {
       "username_taken": "Questo nome è già occupato. Provane un altro.",
       "username_invalid": "I nomi vanno da 3 a 20 caratteri, con lettere, numeri, punti e trattini bassi.",
