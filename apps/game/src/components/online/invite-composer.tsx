@@ -16,9 +16,6 @@ import { TextField } from "@/components/ui/text-field"
 import type { SendInviteInput } from "@/data/online/mutations"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 
-/** The shortest name the server will take, so the shortest worth sending. */
-const MIN_USERNAME = 3
-
 export type InviteComposerProps = {
   open: boolean
   onClose: () => void
@@ -76,7 +73,10 @@ export function InviteComposer({
           variant="primary"
           size="lg"
           className="w-full"
-          disabled={pending || handle.length < MIN_USERNAME}
+          //an empty field is the only thing this can rule out on its own. how
+          //short a name may be is the server's rule, and pre-empting it here
+          //means a button that will not press and will not say why
+          disabled={pending || handle.length === 0}
           onClick={() => onSend({ username: handle, setupType, side })}
         >
           {pending

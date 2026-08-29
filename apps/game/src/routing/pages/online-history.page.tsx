@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/icons"
-import { FinishedGameRow } from "@/components/online/game-row"
+import { HistoryGameRow } from "@/components/online/game-row"
 import { Panel } from "@/components/ui/panel"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import type { Game } from "@/data/online/queries"
@@ -75,9 +75,9 @@ function GamesPage() {
         <ScrollView className="px-safe" directionalLockEnabled>
           <div className="mx-auto flex w-full max-w-[880px] flex-col gap-5 px-4 pt-5 pb-safe-offset-10 lg:px-12 lg:pt-9">
             <div className="flex items-end justify-between gap-4">
-              <div>
-                {/* Above `lg` only: on a phone the bar above already carries
-                    both the title and the way back. */}
+              {/* Above `lg` only: on a phone the bar above already carries
+                  both the title and the way back. */}
+              <div className="max-lg:hidden">
                 <Link
                   to="/online"
                   className="hidden items-center gap-1.5 rounded-md text-sm font-semibold text-muted transition-colors duration-200 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:inline-flex"
@@ -92,8 +92,12 @@ function GamesPage() {
 
               {/* The record, and the only place in the app it is stated. Two
                   numbers rather than a percentage: a ratio invites a judgement
-                  about whether it is a good one. */}
-              <div className="flex items-baseline gap-4 pb-1.5 lg:gap-[18px]">
+                  about whether it is a good one.
+
+                  A panel of its own on a phone, where there is no heading beside
+                  it to sit against and two numbers floating over the list would
+                  read as the first row of it. */}
+              <div className="flex w-full items-baseline gap-5 rounded-2xl bg-surface px-[18px] py-3.5 lg:w-auto lg:gap-[18px] lg:rounded-none lg:bg-transparent lg:p-0 lg:pb-1.5">
                 <Stat
                   label={t("online:history.played")}
                   value={sorted.length}
@@ -156,10 +160,11 @@ function Stat({
   className?: string
 }) {
   return (
-    <span className="text-right">
+    //left in the panel on a phone, right against the heading on a desktop
+    <span className="lg:text-right">
       <span
         className={cn(
-          "block font-display text-[22px] font-bold text-white tabular-nums",
+          "block font-display text-xl font-bold text-white tabular-nums lg:text-[22px]",
           className,
         )}
       >
@@ -204,7 +209,7 @@ function PeriodGroup({
       )}
 
       <div className="border-t border-border-subtle">
-        <FinishedGameRow
+        <HistoryGameRow
           game={game}
           myUserId={myUserId}
           when={formatRelativeTime(game.updatedAt, language)}

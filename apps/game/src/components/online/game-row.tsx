@@ -139,3 +139,71 @@ export function FinishedGameRow({
     </Link>
   )
 }
+
+/**
+ * One finished game, on a page that has room for it.
+ *
+ * The same game as `FinishedGameRow` and a step louder, because the history is
+ * where these rows are the point rather than the tail of a panel. The name comes
+ * up to full white, the score is the display face, and the date moves under the
+ * score instead of into a column of its own — on a narrow panel that column is
+ * what keeps the dates lined up, and at 880px it is a gap with nothing in it.
+ */
+export function HistoryGameRow({
+  game,
+  myUserId,
+  when,
+}: FinishedGameRowProps) {
+  const { t } = useTranslation()
+
+  const seat = seatOf(game, myUserId)
+  const opponent = opponentOf(game, myUserId)
+  const result = resultOf(game, seat)
+
+  const mine = seat === "black" ? game.blackScore : game.whiteScore
+  const theirs = seat === "black" ? game.whiteScore : game.blackScore
+
+  return (
+    <Link
+      to="/online/$gameId"
+      params={{ gameId: game.id }}
+      className="flex items-center gap-3.5 px-4 py-[11px] transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand lg:px-[18px] lg:py-3"
+    >
+      <Avatar
+        src={opponent.avatarUrl}
+        name={opponent.displayUsername ?? opponent.username}
+        size={36}
+      />
+
+      <span className="block min-w-0 flex-1">
+        <span className="block truncate text-[15px] font-semibold text-white">
+          {opponent.displayUsername ?? opponent.username}
+        </span>
+        <span
+          className={cn(
+            "mt-0.5 block truncate text-xs",
+            result === "won" && "text-brand-lighter",
+            result !== "won" && "text-faint",
+          )}
+        >
+          {t(`online:results.${result}`, {
+            reason: t(`online:reasons.${game.finishReason ?? "score"}`),
+          })}
+        </span>
+      </span>
+
+      <span className="shrink-0 text-right">
+        <span
+          className={cn(
+            "block font-display text-base font-bold tabular-nums",
+            result === "won" && "text-white",
+            result !== "won" && "text-subtle",
+          )}
+        >
+          {mine}–{theirs}
+        </span>
+        <span className="mt-px block text-xs text-faint">{when}</span>
+      </span>
+    </Link>
+  )
+}
