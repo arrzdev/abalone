@@ -97,7 +97,7 @@
   },
   "rules": {
     "title": "Zo speel je",
-    "intro": "Een spel voor twee op een zeshoekig bord met 61 velden. Elke speler heeft 14 ballen.",
+    "intro": "Het hele spel in vijf korte regels.",
     "goal": {
       "title": "Het doel",
       "body": "Duw zes ballen van je tegenstander van het bord."
@@ -121,7 +121,7 @@
     },
     "capture": {
       "title": "Ballen van het bord duwen",
-      "body": "Een bal die over de rand wordt geduwd, is definitief uit. Zes daarvan winnen het spel.",
+      "body": "Een bal die over de rand is geduwd, blijft tot het eind buitenspel.",
       "caption": "Twee tegen één aan de rand: zwart is eraf."
     },
     "cta": "Nu spelen"

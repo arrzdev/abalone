@@ -97,7 +97,7 @@
   },
   "rules": {
     "title": "Cómo jugar",
-    "intro": "Un juego para dos en un tablero hexagonal de 61 casillas. Cada bando tiene 14 bolas.",
+    "intro": "Todo el juego, en cinco reglas cortas.",
     "goal": {
       "title": "El objetivo",
       "body": "Empuja seis bolas del rival fuera del tablero."
@@ -121,7 +121,7 @@
     },
     "capture": {
       "title": "Sacar bolas del tablero",
-      "body": "Una bola empujada más allá del borde queda fuera para siempre. Seis de ellas ganan la partida.",
+      "body": "Una bola empujada fuera del borde queda fuera hasta el final.",
       "caption": "Dos contra una en el borde: sale la negra."
     },
     "cta": "Jugar ahora"

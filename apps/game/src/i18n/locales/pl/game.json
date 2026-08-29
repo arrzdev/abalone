@@ -97,7 +97,7 @@
   },
   "rules": {
     "title": "Jak grać",
-    "intro": "Gra dla dwóch osób na sześciokątnej planszy z 61 polami. Każda strona ma 14 kul.",
+    "intro": "Cała gra w pięciu krótkich zasadach.",
     "goal": {
       "title": "Cel gry",
       "body": "Wypchnij sześć kul przeciwnika poza planszę."
@@ -121,7 +121,7 @@
     },
     "capture": {
       "title": "Wypychanie poza planszę",
-      "body": "Kula wypchnięta poza krawędź odpada na dobre. Sześć takich wygrywa partię.",
+      "body": "Kula wypchnięta poza krawędź zostaje poza grą do końca partii.",
       "caption": "Dwie na jedną przy krawędzi: czarna wypada."
     },
     "cta": "Zagraj teraz"

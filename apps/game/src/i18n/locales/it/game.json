@@ -97,7 +97,7 @@
   },
   "rules": {
     "title": "Come si gioca",
-    "intro": "Un gioco per due su un tabellone esagonale di 61 caselle. Ognuno ha 14 biglie.",
+    "intro": "Tutto il gioco in cinque brevi regole.",
     "goal": {
       "title": "L'obiettivo",
       "body": "Spingi sei biglie avversarie fuori dal tabellone."
@@ -121,7 +121,7 @@
     },
     "capture": {
       "title": "Spingere fuori le biglie",
-      "body": "Una biglia spinta oltre il bordo è fuori per sempre. Sei di queste vincono la partita.",
+      "body": "Una biglia spinta oltre il bordo resta fuori fino alla fine.",
       "caption": "Due contro una sul bordo: esce la nera."
     },
     "cta": "Gioca ora"

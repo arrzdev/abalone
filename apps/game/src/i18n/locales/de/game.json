@@ -97,7 +97,7 @@
   },
   "rules": {
     "title": "So wird gespielt",
-    "intro": "Ein Spiel für zwei auf einem sechseckigen Brett mit 61 Feldern. Jede Seite hat 14 Kugeln.",
+    "intro": "Das ganze Spiel in fünf kurzen Regeln.",
     "goal": {
       "title": "Das Ziel",
       "body": "Schiebe sechs Kugeln deines Gegners vom Brett."
@@ -121,7 +121,7 @@
     },
     "capture": {
       "title": "Kugeln herausschieben",
-      "body": "Eine über den Rand geschobene Kugel ist endgültig raus. Sechs davon gewinnen die Partie.",
+      "body": "Eine über den Rand geschobene Kugel bleibt bis zum Ende draußen.",
       "caption": "Zwei gegen eine am Rand: Schwarz ist draußen."
     },
     "cta": "Jetzt spielen"

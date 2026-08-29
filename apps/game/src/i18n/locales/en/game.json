@@ -97,7 +97,7 @@
   },
   "rules": {
     "title": "How to play",
-    "intro": "A game for two on a hexagonal board of 61 spaces. You each have 14 marbles.",
+    "intro": "The whole game, in five short rules.",
     "goal": {
       "title": "The goal",
       "body": "Push six of your opponent's marbles off the board."
@@ -121,7 +121,7 @@
     },
     "capture": {
       "title": "Pushing marbles off",
-      "body": "A marble pushed past the edge is out for good. Six of them wins the game.",
+      "body": "A marble pushed past the edge is out for the rest of the game.",
       "caption": "Two against one at the edge: black is out."
     },
     "cta": "Play now"

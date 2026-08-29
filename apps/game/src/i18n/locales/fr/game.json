@@ -97,7 +97,7 @@
   },
   "rules": {
     "title": "Comment jouer",
-    "intro": "Un jeu à deux sur un plateau hexagonal de 61 cases. Chaque camp a 14 billes.",
+    "intro": "Tout le jeu, en cinq règles courtes.",
     "goal": {
       "title": "L'objectif",
       "body": "Pousser six billes adverses hors du plateau."
@@ -121,7 +121,7 @@
     },
     "capture": {
       "title": "Sortir des billes",
-      "body": "Une bille poussée au-delà du bord est éliminée. Six d'entre elles gagnent la partie.",
+      "body": "Une bille poussée au-delà du bord reste hors jeu jusqu'à la fin.",
       "caption": "Deux contre une au bord : la noire sort."
     },
     "cta": "Jouer maintenant"

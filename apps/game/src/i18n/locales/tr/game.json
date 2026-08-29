@@ -97,7 +97,7 @@
   },
   "rules": {
     "title": "Nasıl oynanır",
-    "intro": "61 haneli altıgen bir tahtada iki kişilik bir oyun. Her taraf 14 bilyeyle başlar.",
+    "intro": "Oyunun tamamı, beş kısa kuralda.",
     "goal": {
       "title": "Amaç",
       "body": "Rakibinin altı bilyesini tahtadan dışarı it."
@@ -121,7 +121,7 @@
     },
     "capture": {
       "title": "Bilyeleri dışarı itmek",
-      "body": "Kenarın dışına itilen bilye geri gelmez. Altı tanesi oyunu kazandırır.",
+      "body": "Kenarın dışına itilen bilye oyunun sonuna kadar dışarıda kalır.",
       "caption": "Kenarda ikiye bir: siyah dışarı çıkar."
     },
     "cta": "Şimdi oyna"

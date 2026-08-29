@@ -97,7 +97,7 @@
   },
   "rules": {
     "title": "Como jogar",
-    "intro": "Um jogo para dois num tabuleiro hexagonal de 61 casas. Cada um tem 14 bolas.",
+    "intro": "O jogo todo, em cinco regras curtas.",
     "goal": {
       "title": "O objetivo",
       "body": "Empurra seis bolas do adversário para fora do tabuleiro."
@@ -121,7 +121,7 @@
     },
     "capture": {
       "title": "Empurrar para fora",
-      "body": "Uma bola empurrada para fora do tabuleiro sai de vez. Seis delas ganham o jogo.",
+      "body": "Uma bola empurrada para fora fica fora até ao fim do jogo.",
       "caption": "Duas contra uma na borda: a preta sai."
     },
     "cta": "Jogar agora"
