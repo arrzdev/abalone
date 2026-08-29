@@ -402,6 +402,22 @@
   .hex-texture-from-right {
     --hex-fade: linear-gradient(to left, #000 5%, transparent 65%);
   }
+
+  /*
+   * The same texture with the hole in the middle instead of at the edges.
+   *
+   * For a screen whose whole content is one block in the centre: the ordinary
+   * fade puts its densest hexes exactly where the words are, and turning it
+   * inside out leaves the middle clear and lets the pattern close in around it.
+   */
+  .hex-texture-inverted {
+    --hex-fade: radial-gradient(
+      ellipse 60% 60% at 50% 50%,
+      transparent 24%,
+      #000 80%
+    );
+    opacity: 0.05;
+  }
 }
 
 @layer components {
