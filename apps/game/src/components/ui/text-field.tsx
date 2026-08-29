@@ -85,11 +85,12 @@ export function TextField({
             "transition placeholder:text-faint",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
             //a ring rather than a border, so turning red does not resize the
-            //field. one hairline at a little over half the red, over a wash of
-            //the same: the full stroke at two pixels drew a highlighter pen
-            //around the box, and the message under the fields is already
-            //carrying the colour
-            invalid && "bg-loss/5 ring-1 ring-loss/60",
+            //field. two pixels at half the red, over a wash of the same: the
+            //full stroke drew a highlighter pen around the box, and a hairline
+            //came out broken — the dialog is centred by flex, so an odd
+            //leftover puts the box on a half pixel and a one-pixel horizontal
+            //edge is what gets rounded away
+            invalid && "bg-loss/5 ring-2 ring-loss/50",
             //room for the character in front of the value
             prefix && "ps-8",
             //room for the eye, so a long password runs under the label and not
