@@ -46,13 +46,13 @@
     "signup_title": "Kies een naam",
     "signup_body": "Tegenstanders nodigen je uit door hem precies in te typen, dus kies er een die je hardop kunt spellen.",
     "errors": {
-      "username_taken": "Die naam is al bezet. Probeer een andere.",
-      "username_invalid": "Namen zijn 3 tot 20 tekens, met letters, cijfers, punten en liggende streepjes.",
+      "username_taken": "Die naam is al bezet.",
+      "username_invalid": "3 tot 20 letters, cijfers, punten of liggende streepjes.",
       "password_too_short": "Wachtwoorden hebben minstens 8 tekens nodig.",
-      "invalid_credentials": "Die naam en dat wachtwoord horen niet bij elkaar. Controleer beide en probeer het opnieuw.",
-      "unknown": "Er ging iets mis. Controleer je verbinding en probeer het opnieuw."
+      "invalid_credentials": "Die naam en dat wachtwoord horen niet bij elkaar.",
+      "unknown": "Er ging iets mis."
     },
-    "credentials_warning": "Naam en wachtwoord zijn niet te herstellen.\nKwijt is account kwijt."
+    "credentials_warning": "Naam en wachtwoord zijn niet te herstellen."
   },
   "profile": {
     "username_permanent": "Je naam ligt vast",

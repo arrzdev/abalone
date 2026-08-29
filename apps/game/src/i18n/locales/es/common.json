@@ -46,13 +46,13 @@
     "signup_title": "Elige un nombre",
     "signup_body": "Los rivales te invitan escribiéndolo exactamente, así que elige uno que puedas deletrear en voz alta.",
     "errors": {
-      "username_taken": "Ese nombre ya está ocupado. Prueba con otro.",
-      "username_invalid": "Los nombres tienen de 3 a 20 caracteres, con letras, números, puntos y guiones bajos.",
-      "password_too_short": "Las contraseñas necesitan al menos 8 caracteres.",
-      "invalid_credentials": "Ese nombre y esa contraseña no coinciden. Revisa ambos e inténtalo de nuevo.",
-      "unknown": "Algo salió mal. Revisa tu conexión e inténtalo de nuevo."
+      "username_taken": "Ese nombre ya está ocupado.",
+      "username_invalid": "3 a 20 letras, números, puntos o guiones bajos.",
+      "password_too_short": "Las contraseñas necesitan 8 caracteres.",
+      "invalid_credentials": "Ese nombre y esa contraseña no coinciden.",
+      "unknown": "Algo salió mal."
     },
-    "credentials_warning": "El nombre y la contraseña no se recuperan.\nPerderlos es perder la cuenta."
+    "credentials_warning": "El nombre y la contraseña no se recuperan."
   },
   "profile": {
     "username_permanent": "Tu nombre es permanente",

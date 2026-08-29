@@ -46,13 +46,13 @@
     "signup_title": "Scegli un nome",
     "signup_body": "Gli avversari ti invitano digitandolo esattamente, quindi scegline uno che sai dire a voce alta.",
     "errors": {
-      "username_taken": "Questo nome è già occupato. Provane un altro.",
-      "username_invalid": "I nomi vanno da 3 a 20 caratteri, con lettere, numeri, punti e trattini bassi.",
-      "password_too_short": "Le password devono avere almeno 8 caratteri.",
-      "invalid_credentials": "Nome e password non corrispondono. Controlla entrambi e riprova.",
-      "unknown": "Qualcosa è andato storto. Controlla la connessione e riprova."
+      "username_taken": "Questo nome è già occupato.",
+      "username_invalid": "Da 3 a 20 lettere, numeri, punti o trattini bassi.",
+      "password_too_short": "Le password richiedono almeno 8 caratteri.",
+      "invalid_credentials": "Nome e password non coincidono.",
+      "unknown": "Qualcosa è andato storto."
     },
-    "credentials_warning": "Nome e password non si recuperano.\nPerderli è perdere l'account."
+    "credentials_warning": "Nome e password non si recuperano."
   },
   "profile": {
     "username_permanent": "Il tuo nome è permanente",

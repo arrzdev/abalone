@@ -46,13 +46,13 @@
     "signup_title": "Bir ad seç",
     "signup_body": "Rakipler seni adını birebir yazarak davet eder, bu yüzden sesli olarak söyleyebileceğin bir ad seç.",
     "errors": {
-      "username_taken": "Bu ad zaten alınmış. Başka bir ad dene.",
-      "username_invalid": "Adlar 3 ile 20 karakter arasındadır; harf, rakam, nokta ve alt çizgi kullanabilirsin.",
+      "username_taken": "Bu ad zaten alınmış.",
+      "username_invalid": "3 ile 20 arası harf, rakam, nokta veya alt çizgi.",
       "password_too_short": "Parolalar en az 8 karakter olmalı.",
-      "invalid_credentials": "Bu ad ve parola eşleşmiyor. İkisini de kontrol edip tekrar dene.",
-      "unknown": "Bir şeyler ters gitti. Bağlantını kontrol edip tekrar dene."
+      "invalid_credentials": "Bu ad ve parola eşleşmiyor.",
+      "unknown": "Bir şeyler ters gitti."
     },
-    "credentials_warning": "Ad ve parola sıfırlanamaz.\nKaybedersen hesap da gider."
+    "credentials_warning": "Ad ve parola sıfırlanamaz."
   },
   "profile": {
     "username_permanent": "Adın kalıcıdır",

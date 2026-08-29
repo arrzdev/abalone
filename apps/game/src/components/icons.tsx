@@ -7,7 +7,6 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronsRight,
-  CircleAlert,
   CircleQuestionMark,
   Eye,
   EyeOff,
@@ -86,7 +85,6 @@ export const VolumeUpIcon = glyph(Volume2)
 export const VolumeOffIcon = glyph(VolumeX)
 export const PlayIcon = glyph(Play)
 export const InfoIcon = glyph(Info)
-export const AlertIcon = glyph(CircleAlert)
 
 /** The rules, in the chrome: a question mark is what a stranger looks for. */
 export const HelpIcon = glyph(CircleQuestionMark)

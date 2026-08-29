@@ -46,13 +46,13 @@
     "signup_title": "이름 정하기",
     "signup_body": "상대는 이름을 그대로 입력해 초대합니다. 소리 내어 말할 수 있는 이름으로 정하세요.",
     "errors": {
-      "username_taken": "이미 사용 중인 이름입니다. 다른 이름을 사용해 보세요.",
-      "username_invalid": "이름은 3자에서 20자까지이며 영문, 숫자, 마침표, 밑줄을 쓸 수 있습니다.",
+      "username_taken": "이미 사용 중인 이름입니다.",
+      "username_invalid": "3~20자의 문자, 숫자, 점, 밑줄.",
       "password_too_short": "비밀번호는 8자 이상이어야 합니다.",
-      "invalid_credentials": "이름과 비밀번호가 일치하지 않습니다. 둘 다 확인하고 다시 시도하세요.",
-      "unknown": "문제가 발생했습니다. 연결을 확인하고 다시 시도하세요."
+      "invalid_credentials": "이름과 비밀번호가 맞지 않습니다.",
+      "unknown": "문제가 생겼습니다."
     },
-    "credentials_warning": "이름과 비밀번호는 재설정할 수 없어요.\n잊으면 계정도 사라집니다."
+    "credentials_warning": "이름과 비밀번호는 재설정할 수 없어요."
   },
   "profile": {
     "username_permanent": "이름은 바꿀 수 없습니다",

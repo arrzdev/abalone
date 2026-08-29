@@ -46,13 +46,13 @@
     "signup_title": "名前を決める",
     "signup_body": "相手はその名前をそのまま入力して招待します。声に出して伝えられる名前にしてください。",
     "errors": {
-      "username_taken": "その名前はすでに使われています。別の名前をお試しください。",
-      "username_invalid": "名前は3文字から20文字までで、英数字、ピリオド、アンダースコアが使えます。",
-      "password_too_short": "パスワードは8文字以上必要です。",
-      "invalid_credentials": "名前とパスワードが一致しません。両方を確認してもう一度お試しください。",
-      "unknown": "問題が発生しました。接続を確認してもう一度お試しください。"
+      "username_taken": "その名前は使われています。",
+      "username_invalid": "3〜20文字の英数字、ドット、アンダースコア。",
+      "password_too_short": "パスワードは8文字以上です。",
+      "invalid_credentials": "名前とパスワードが一致しません。",
+      "unknown": "問題が起きました。"
     },
-    "credentials_warning": "名前とパスワードは再設定できません。\n忘れるとアカウントも失います。"
+    "credentials_warning": "名前とパスワードは再設定できません。"
   },
   "profile": {
     "username_permanent": "名前は変更できません",

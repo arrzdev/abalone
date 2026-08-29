@@ -46,13 +46,13 @@
     "signup_title": "取个名字",
     "signup_body": "对手要一字不差地输入它来邀请你，所以取一个你能念出来的。",
     "errors": {
-      "username_taken": "这个名字已被使用。请换一个。",
-      "username_invalid": "名字为 3 到 20 个字符，可使用字母、数字、点和下划线。",
-      "password_too_short": "密码至少需要 8 个字符。",
-      "invalid_credentials": "名字和密码不匹配。请检查后重试。",
-      "unknown": "出了点问题。请检查网络后重试。"
+      "username_taken": "这个名字已经有人用了。",
+      "username_invalid": "3 到 20 个字符：字母、数字、点和下划线。",
+      "password_too_short": "密码至少 8 个字符。",
+      "invalid_credentials": "用户名和密码对不上。",
+      "unknown": "出了点问题。"
     },
-    "credentials_warning": "用户名和密码无法找回。\n丢了账号也就没了。"
+    "credentials_warning": "用户名和密码无法找回。"
   },
   "profile": {
     "username_permanent": "你的名字不可更改",

@@ -3,7 +3,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { FormEvent, ReactNode } from "react"
 import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { AlertIcon } from "@/components/icons"
 import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { SegmentedControl } from "@/components/ui/segmented-control"
@@ -76,40 +75,6 @@ function Reserved({
   return (
     <div className={cn("grid *:col-start-1 *:row-start-1", className)}>
       {children}
-    </div>
-  )
-}
-
-/**
- * The one thing that went wrong, in a block of its own.
- *
- * It used to be bare red text between the fields and the button, and it read as
- * a line that had fallen out of the layout rather than as the answer to the
- * press that just happened. The tint is a tenth of the same red: enough to make
- * it an object, not enough to make it the brightest thing on a screen whose
- * next control is a blue button.
- *
- * Always `aria-hidden`. What a screen reader announces is the live region above
- * it, which is mounted whether or not there is anything to say — a region that
- * appears with its own text is a region some readers never announce at all.
- */
-function Alert({
-  className,
-  children,
-}: {
-  className?: string
-  children: ReactNode
-}) {
-  return (
-    <div
-      aria-hidden="true"
-      className={cn(
-        "flex items-start gap-2.5 rounded-xl bg-loss/10 px-4 py-3 text-loss",
-        className,
-      )}
-    >
-      <AlertIcon size={18} className="mt-px shrink-0" />
-      <span className="text-sm leading-5">{children}</span>
     </div>
   )
 }
@@ -305,38 +270,43 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           the space instead of each reserving their own.
 
           The height is every message stacked, so nothing moves when one of them
-          turns up, nor when the longer of two languages does. Only the box on
+          turns up, nor when the longer of two languages does. Only the line on
           top is drawn; the rest are there to be measured.
+
+          Red text and nothing behind it. A tinted box with a glyph in it makes
+          the one thing that went wrong the loudest block on a screen whose next
+          control is the button you came to press.
 
           `fieldFor` sorts every failure into exactly one bucket, so a slot
           under each field as well would be two thirds dead air on a form that
           is doing nothing wrong. The offending box turns red; this says what
           happened. */}
-      <p id={errorId} role="alert" className="sr-only">
-        {errorText}
-      </p>
-
       <Reserved className="items-center pt-4 pb-5">
-        {/* Two lines, and the break is in the string: it is two statements and
-            the second is the consequence of the first, so where they divide is
-            a translator's call rather than whatever the column width does to
-            them.
+        <p
+          id={errorId}
+          role="alert"
+          className="text-center text-sm leading-5 text-loss"
+        >
+          {errorText}
+        </p>
 
-            Said in both modes, because it answers a question each of them
+        {/* Said in both modes, because it answers a question each of them
             raises: what to pick, and where the reset link went. There is no
             email on the account and so nothing to send one to. */}
         {!errorText && (
-          <p className="text-center text-xs leading-relaxed whitespace-pre-line text-faint">
+          <p className="text-center text-xs leading-relaxed text-faint">
             {t("common:auth.credentials_warning")}
           </p>
         )}
 
-        {errorText && <Alert>{errorText}</Alert>}
-
         {ERROR_CODES.map((code) => (
-          <Alert key={code} className="invisible">
+          <span
+            key={code}
+            aria-hidden="true"
+            className="invisible text-center text-sm leading-5"
+          >
             {t(`common:auth.errors.${code}`)}
-          </Alert>
+          </span>
         ))}
       </Reserved>
 

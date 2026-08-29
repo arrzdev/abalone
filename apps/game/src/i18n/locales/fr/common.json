@@ -46,13 +46,13 @@
     "signup_title": "Choisis un nom",
     "signup_body": "Les adversaires t'invitent en le tapant à l'identique, alors choisis-en un que tu peux épeler à voix haute.",
     "errors": {
-      "username_taken": "Ce nom est déjà pris. Essaie-en un autre.",
-      "username_invalid": "Les noms font de 3 à 20 caractères, avec des lettres, des chiffres, des points et des tirets bas.",
-      "password_too_short": "Les mots de passe font au moins 8 caractères.",
-      "invalid_credentials": "Ce nom et ce mot de passe ne correspondent pas. Vérifie les deux et réessaie.",
-      "unknown": "Quelque chose s'est mal passé. Vérifie ta connexion et réessaie."
+      "username_taken": "Ce nom est déjà pris.",
+      "username_invalid": "3 à 20 lettres, chiffres, points ou tirets bas.",
+      "password_too_short": "Un mot de passe fait au moins 8 caractères.",
+      "invalid_credentials": "Ce nom et ce mot de passe ne correspondent pas.",
+      "unknown": "Quelque chose s'est mal passé."
     },
-    "credentials_warning": "Nom et mot de passe irrécupérables.\nLes perdre, c'est perdre le compte."
+    "credentials_warning": "Le nom et le mot de passe sont irrécupérables."
   },
   "profile": {
     "username_permanent": "Ton nom est définitif",

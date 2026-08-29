@@ -46,13 +46,13 @@
     "signup_title": "Wybierz nazwę",
     "signup_body": "Przeciwnicy zapraszają cię, wpisując ją dokładnie, więc wybierz taką, którą potrafisz przeliterować na głos.",
     "errors": {
-      "username_taken": "Ta nazwa jest już zajęta. Wybierz inną.",
-      "username_invalid": "Nazwy mają od 3 do 20 znaków i składają się z liter, cyfr, kropek i podkreśleń.",
+      "username_taken": "Ta nazwa jest już zajęta.",
+      "username_invalid": "3 do 20 liter, cyfr, kropek lub podkreśleń.",
       "password_too_short": "Hasło musi mieć co najmniej 8 znaków.",
-      "invalid_credentials": "Ta nazwa i hasło do siebie nie pasują. Sprawdź oba i spróbuj ponownie.",
-      "unknown": "Coś poszło nie tak. Sprawdź połączenie i spróbuj ponownie."
+      "invalid_credentials": "Ta nazwa i hasło do siebie nie pasują.",
+      "unknown": "Coś poszło nie tak."
     },
-    "credentials_warning": "Nazwy i hasła nie da się odzyskać.\nStracisz je, stracisz konto."
+    "credentials_warning": "Nazwy i hasła nie da się odzyskać."
   },
   "profile": {
     "username_permanent": "Twoja nazwa jest stała",
