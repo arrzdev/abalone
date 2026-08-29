@@ -82,6 +82,6 @@
   "empty": {
     "title": "Hier ist noch nichts",
     "body": "Lade jemanden mit Namen ein, und die Partie erscheint hier. Partien warten auf dich — ein Zug pro Tag ist eine völlig gute Partie.",
-    "play_bot": "Spiel gegen einen Bot, während du wartest"
+    "play_bot": "Gegen einen Bot spielen"
   }
 }

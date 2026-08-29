@@ -428,10 +428,13 @@ function EmptyHub({
           {t("online:empty.body")}
         </p>
 
+        {/* `min-h` rather than a fixed height, and room at the ends: these
+            labels are two words in English and four in German, and a button
+            that cannot grow spills its second line over its own edges. */}
         <div className="mt-6 flex w-full flex-col gap-2.5">
           <TapButton
             onClick={onCompose}
-            className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-brand font-display text-[17px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
+            className="inline-flex min-h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-brand px-5 py-3 text-balance font-display text-[17px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
           >
             <PlusIcon size={15} strokeWidth={2.4} />
             {t("online:compose.title")}
@@ -439,7 +442,7 @@ function EmptyHub({
 
           <TapButton
             onClick={() => playOffline("ai")}
-            className="inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-surface font-display text-[17px] font-semibold text-subtle transition-colors duration-200 ease-out hover:bg-surface-2 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
+            className="inline-flex min-h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-surface px-5 py-3 text-balance font-display text-[17px] font-semibold text-subtle transition-colors duration-200 ease-out hover:bg-surface-2 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
           >
             <RobotIcon size={20} className="text-muted" />
             {t("online:empty.play_bot")}

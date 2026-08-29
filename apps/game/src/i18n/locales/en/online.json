@@ -82,6 +82,6 @@
   "empty": {
     "title": "Nothing here yet",
     "body": "Invite somebody by their name and the game appears here. Games wait for you, so a move a day is a perfectly good game.",
-    "play_bot": "Play a bot while you wait"
+    "play_bot": "Play a bot"
   }
 }
