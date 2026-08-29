@@ -81,16 +81,17 @@ export function TextField({
           className={cn(
             //text-base rather than text-sm: iOS zooms the page when a field
             //smaller than 16px takes focus, and the app is not zoomable back out.
-            "h-[54px] w-full rounded-xl bg-surface-2 px-4 text-base text-white",
+            "h-[54px] w-full rounded-xl border border-transparent bg-surface-2 px-4 text-base text-white",
             "transition placeholder:text-faint",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
-            //a ring rather than a border, so turning red does not resize the
-            //field. two pixels at half the red, over a wash of the same: the
-            //full stroke drew a highlighter pen around the box, and a hairline
-            //came out broken — the dialog is centred by flex, so an odd
-            //leftover puts the box on a half pixel and a one-pixel horizontal
-            //edge is what gets rounded away
-            invalid && "bg-loss/5 ring-2 ring-loss/50",
+            //the border is always there and usually transparent, so colouring
+            //it moves nothing. it has to be a border rather than a ring: the
+            //dialog is centred by flex, so an odd leftover parks the box on
+            //half a pixel, and a ring drawn outside it loses its top and bottom
+            //edges to the dark behind them while the sides, on whole pixels,
+            //stay solid. a border shares the edge with the field's own fill,
+            //so the same half pixel blends into the box instead of away from it
+            invalid && "border-loss/70 bg-loss/5",
             //room for the character in front of the value
             prefix && "ps-8",
             //room for the eye, so a long password runs under the label and not
