@@ -272,7 +272,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           that went wrong the brightest block on the screen.
           The slot is every message stacked, so the button does not move when one
           of them turns up — nor when the longer of two languages does. */}
-      <Reserved className="py-2">
+      <Reserved className="pt-3 pb-5">
         <p
           id={errorId}
           role="alert"
@@ -306,28 +306,20 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           {submitLabel}
         </Button>
 
-        {/* Kept in the layout in both modes, hidden rather than unmounted. It
-            only means anything when creating an account, but a line that
-            appears and disappears moves the form under a cursor that is already
-            in it — and this column is centred, so half the shift lands above
-            the fields as well as below.
+        {/* Said in both modes, because it answers a question each of them
+            raises: what to pick, and where the reset link went. There is no
+            email on the account and so nothing to send one to, which is the
+            whole of what it has to say.
 
             Small print, and drawn like it: it is a fact about the account
             rather than an instruction, and at the weight it used to have it
-            competed with the button it sits under. There is no email on the
-            account and so nothing to send a reset to, which is the whole of
-            what it has to say. */}
-        {/* Two lines, and the break is in the string: it is two statements and
+            competed with the button it sits under.
+
+            Two lines, and the break is in the string: it is two statements and
             the second is the consequence of the first, so where they divide is
             a translator's call rather than whatever the column width does to
             them. */}
-        <p
-          aria-hidden={!isSignUp}
-          className={cn(
-            "text-center text-xs leading-relaxed whitespace-pre-line text-faint",
-            !isSignUp && "invisible",
-          )}
-        >
+        <p className="text-center text-xs leading-relaxed whitespace-pre-line text-faint">
           {t("common:auth.credentials_warning")}
         </p>
       </div>
