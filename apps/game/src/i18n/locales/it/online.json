@@ -23,11 +23,11 @@
     "dismiss": "Nascondi",
     "heading": "Inviti",
     "sent_heading": "Inviati",
-    "just_sent": "Appena inviato · in attesa di risposta"
+    "just_sent": "In attesa di risposta"
   },
   "history": {
     "heading": "Partite concluse",
-    "empty": "Qui non c'è ancora niente. Le partite concluse finiscono qui.",
+    "empty": "Ancora nessuna partita conclusa.",
     "heading_short": "Concluse",
     "see_all": "Vedi tutte ({{count}})",
     "title": "Partite concluse",

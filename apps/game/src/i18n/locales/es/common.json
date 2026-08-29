@@ -23,8 +23,8 @@
     "tagline": "Empuja seis bolas del rival fuera del tablero para ganar.",
     "play_online": "Jugar en línea",
     "play_offline": "Jugar sin conexión",
-    "online_hint": "Contra otro jugador, con tu nombre.",
-    "rules_link": "¿Nunca has jugado? Las reglas llevan dos minutos",
+    "online_hint": "Contra otro jugador.",
+    "rules_link": "¿Nunca has jugado? Lee las reglas",
     "bot_hint_short": "Ocho niveles",
     "bot_hint_long": "Ocho bots, de Gus a Magnus.",
     "local_hint_short": "Un dispositivo, los dos",
@@ -42,7 +42,7 @@
     "show_password": "Mostrar contraseña",
     "hide_password": "Ocultar contraseña",
     "prompt_title": "Inicia sesión para jugar en línea",
-    "prompt_body": "Las partidas en línea necesitan una cuenta para jugar.",
+    "prompt_body": "Las partidas en línea necesitan una cuenta.",
     "signup_title": "Elige un nombre",
     "signup_body": "Los rivales te invitan escribiéndolo exactamente.",
     "errors": {
@@ -62,8 +62,8 @@
     "upload_failed": "Esa foto no se subió. Inténtalo de nuevo.",
     "playing": "En curso",
     "best_streak": "Mejor racha",
-    "history_hint": "Cada partida que has terminado, con su resultado",
-    "settings_hint": "Idioma, canicas, sonido y los cuatro interruptores"
+    "history_hint": "Tu historial, partida a partida",
+    "settings_hint": "Idioma, canicas y sonido"
   },
   "actions": {
     "close": "Cerrar",
@@ -71,12 +71,12 @@
   },
   "sync": {
     "updating": "Actualizando",
-    "offline": "Estás sin conexión. Lo que ves puede no estar actualizado.",
-    "unreachable": "No se pudo actualizar. Lo que ves puede no estar actualizado."
+    "offline": "Estás sin conexión, esto puede estar desactualizado.",
+    "unreachable": "No se pudo actualizar, esto puede estar desactualizado."
   },
   "not_found": {
     "title": "No hay nada en esta casilla",
-    "body": "Esa dirección no es ninguna pantalla del juego.",
+    "body": "Esa dirección no lleva a ninguna parte.",
     "action": "Volver al tablero"
   }
 }

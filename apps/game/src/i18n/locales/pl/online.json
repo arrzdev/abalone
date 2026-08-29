@@ -23,11 +23,11 @@
     "dismiss": "Ukryj",
     "heading": "Zaproszenia",
     "sent_heading": "Wysłane",
-    "just_sent": "Właśnie wysłane · czeka na odpowiedź"
+    "just_sent": "Czeka na odpowiedź"
   },
   "history": {
     "heading": "Zakończone partie",
-    "empty": "Jeszcze nic tu nie ma. Zakończone partie trafiają tutaj.",
+    "empty": "Nie ma jeszcze zakończonych partii.",
     "heading_short": "Zakończone",
     "see_all": "Zobacz wszystkie ({{count}})",
     "title": "Zakończone gry",

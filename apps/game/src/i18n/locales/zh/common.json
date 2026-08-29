@@ -23,8 +23,8 @@
     "tagline": "把对手的六枚棋子推出棋盘即可获胜。",
     "play_online": "在线对战",
     "play_offline": "离线对战",
-    "online_hint": "以你的名字与其他玩家对战。",
-    "rules_link": "没玩过？规则两分钟就能看完",
+    "online_hint": "与其他玩家对战。",
+    "rules_link": "没玩过？看看规则",
     "bot_hint_short": "八种强度",
     "bot_hint_long": "八个机器人，从 Gus 到 Magnus。",
     "local_hint_short": "一台设备，两个人",
@@ -62,8 +62,8 @@
     "upload_failed": "头像未能上传。请重试。",
     "playing": "进行中",
     "best_streak": "最佳连胜",
-    "history_hint": "你下完的每一局，以及每一局的结果",
-    "settings_hint": "语言、棋子样式、声音，以及四个开关"
+    "history_hint": "你的战绩，一局一局",
+    "settings_hint": "语言、棋子样式和声音"
   },
   "actions": {
     "close": "关闭",
@@ -71,12 +71,12 @@
   },
   "sync": {
     "updating": "正在更新",
-    "offline": "你处于离线状态。当前显示的内容可能不是最新的。",
-    "unreachable": "刷新失败。当前显示的内容可能不是最新的。"
+    "offline": "你处于离线状态，内容可能不是最新的。",
+    "unreachable": "刷新失败，内容可能不是最新的。"
   },
   "not_found": {
     "title": "这一格上什么都没有",
-    "body": "这个地址不是游戏里的任何一个界面。",
+    "body": "这个地址哪里也去不了。",
     "action": "回到棋盘"
   }
 }

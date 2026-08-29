@@ -23,11 +23,11 @@
     "dismiss": "消す",
     "heading": "招待",
     "sent_heading": "送信済み",
-    "just_sent": "送信しました · 返事待ち"
+    "just_sent": "返事待ち"
   },
   "history": {
     "heading": "終わった対局",
-    "empty": "まだ何もありません。終わった対局はここに並びます。",
+    "empty": "終わった対局はまだありません。",
     "heading_short": "終了",
     "see_all": "すべて表示（{{count}}）",
     "title": "終了した対局",

@@ -23,11 +23,11 @@
     "dismiss": "Descartar",
     "heading": "Invitaciones",
     "sent_heading": "Enviadas",
-    "just_sent": "Recién enviada · esperando respuesta"
+    "just_sent": "Esperando respuesta"
   },
   "history": {
     "heading": "Partidas terminadas",
-    "empty": "Aquí no hay nada aún. Tus partidas terminadas aparecerán aquí.",
+    "empty": "Aún no hay partidas terminadas.",
     "heading_short": "Terminadas",
     "see_all": "Ver todas ({{count}})",
     "title": "Partidas terminadas",

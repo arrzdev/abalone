@@ -23,8 +23,8 @@
     "tagline": "Push six of your opponent's marbles off the board to win.",
     "play_online": "Play Online",
     "play_offline": "Play Offline",
-    "online_hint": "Against another player, under your name.",
-    "rules_link": "Never played? The rules take two minutes",
+    "online_hint": "Against another player.",
+    "rules_link": "Never played? Read the rules",
     "bot_hint_short": "Eight strengths",
     "bot_hint_long": "Eight bots, Gus to Magnus.",
     "local_hint_short": "One device, two of you",
@@ -42,7 +42,7 @@
     "show_password": "Show password",
     "hide_password": "Hide password",
     "prompt_title": "Sign in to play online",
-    "prompt_body": "Online games need an account to play under.",
+    "prompt_body": "Online games need an account.",
     "signup_title": "Pick a name",
     "signup_body": "Opponents invite you by typing it exactly.",
     "errors": {
@@ -62,8 +62,8 @@
     "upload_failed": "That picture didn't upload. Try again.",
     "playing": "Playing",
     "best_streak": "Best streak",
-    "history_hint": "Every game you have played out, and the record of each",
-    "settings_hint": "Language, marbles, sound and the four switches"
+    "history_hint": "Your record, game by game",
+    "settings_hint": "Language, marbles and sound"
   },
   "actions": {
     "close": "Close",
@@ -71,12 +71,12 @@
   },
   "sync": {
     "updating": "Updating",
-    "offline": "You're offline. What you see may be out of date.",
-    "unreachable": "Couldn't refresh this. What you see may be out of date."
+    "offline": "You're offline, so this may be out of date.",
+    "unreachable": "Couldn't refresh, so this may be out of date."
   },
   "not_found": {
     "title": "Nothing on this square",
-    "body": "That address is not one of the game's screens.",
+    "body": "That address doesn't lead anywhere.",
     "action": "Back to the board"
   }
 }

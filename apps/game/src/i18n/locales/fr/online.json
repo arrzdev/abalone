@@ -23,11 +23,11 @@
     "dismiss": "Masquer",
     "heading": "Invitations",
     "sent_heading": "Envoyées",
-    "just_sent": "Tout juste envoyée · en attente de réponse"
+    "just_sent": "En attente de réponse"
   },
   "history": {
     "heading": "Parties terminées",
-    "empty": "Rien ici pour l'instant. Tes parties terminées arrivent ici.",
+    "empty": "Aucune partie terminée pour l'instant.",
     "heading_short": "Terminées",
     "see_all": "Tout voir ({{count}})",
     "title": "Parties terminées",

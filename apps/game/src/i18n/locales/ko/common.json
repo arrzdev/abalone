@@ -23,8 +23,8 @@
     "tagline": "상대 구슬 6개를 보드 밖으로 밀어내면 승리합니다.",
     "play_online": "온라인 플레이",
     "play_offline": "오프라인 플레이",
-    "online_hint": "내 이름으로 다른 플레이어와 대전합니다.",
-    "rules_link": "처음이신가요? 규칙은 2분이면 됩니다",
+    "online_hint": "다른 플레이어와 대전합니다.",
+    "rules_link": "처음이신가요? 규칙 보기",
     "bot_hint_short": "여덟 단계",
     "bot_hint_long": "거스부터 매그너스까지, 봇 여덟.",
     "local_hint_short": "기기 하나, 둘이서",
@@ -42,7 +42,7 @@
     "show_password": "비밀번호 표시",
     "hide_password": "비밀번호 숨기기",
     "prompt_title": "온라인 대전을 하려면 로그인하세요",
-    "prompt_body": "온라인 대국을 하려면 계정이 필요합니다.",
+    "prompt_body": "온라인 대국에는 계정이 필요합니다.",
     "signup_title": "이름 정하기",
     "signup_body": "상대는 이름을 그대로 입력해 초대합니다.",
     "errors": {
@@ -62,8 +62,8 @@
     "upload_failed": "사진을 업로드하지 못했습니다. 다시 시도하세요.",
     "playing": "진행 중",
     "best_streak": "최다 연승",
-    "history_hint": "끝까지 둔 모든 대국과 그 결과",
-    "settings_hint": "언어, 구슬, 소리, 그리고 네 개의 스위치"
+    "history_hint": "대국별 전적",
+    "settings_hint": "언어, 구슬, 소리"
   },
   "actions": {
     "close": "닫기",
@@ -71,12 +71,12 @@
   },
   "sync": {
     "updating": "업데이트 중",
-    "offline": "오프라인 상태입니다. 지금 보이는 내용은 최신이 아닐 수 있습니다.",
-    "unreachable": "새로 고치지 못했습니다. 지금 보이는 내용은 최신이 아닐 수 있습니다."
+    "offline": "오프라인입니다. 내용이 오래되었을 수 있습니다.",
+    "unreachable": "새로 고치지 못했습니다. 내용이 오래되었을 수 있습니다."
   },
   "not_found": {
     "title": "이 칸에는 아무것도 없습니다",
-    "body": "이 주소는 게임의 어느 화면도 아닙니다.",
+    "body": "이 주소는 어디로도 이어지지 않습니다.",
     "action": "보드로 돌아가기"
   }
 }

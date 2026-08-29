@@ -23,11 +23,11 @@
     "dismiss": "Dispensar",
     "heading": "Convites",
     "sent_heading": "Enviados",
-    "just_sent": "Acabado de enviar · à espera de resposta"
+    "just_sent": "À espera de resposta"
   },
   "history": {
     "heading": "Jogos terminados",
-    "empty": "Ainda não há nada aqui. Os teus jogos terminados aparecem aqui.",
+    "empty": "Ainda não há jogos terminados.",
     "heading_short": "Terminados",
     "see_all": "Ver todos ({{count}})",
     "title": "Jogos terminados",

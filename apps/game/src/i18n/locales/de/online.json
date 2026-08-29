@@ -23,11 +23,11 @@
     "dismiss": "Ausblenden",
     "heading": "Einladungen",
     "sent_heading": "Gesendet",
-    "just_sent": "Gerade verschickt · wartet auf Antwort"
+    "just_sent": "Wartet auf Antwort"
   },
   "history": {
     "heading": "Beendete Partien",
-    "empty": "Noch nichts hier. Beendete Partien landen hier.",
+    "empty": "Noch keine beendeten Partien.",
     "heading_short": "Beendet",
     "see_all": "Alle ansehen ({{count}})",
     "title": "Beendete Partien",

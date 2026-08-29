@@ -23,11 +23,11 @@
     "dismiss": "清除",
     "heading": "邀请",
     "sent_heading": "已发送",
-    "just_sent": "刚刚发出 · 等待对方接受"
+    "just_sent": "等待对方接受"
   },
   "history": {
     "heading": "已结束的对局",
-    "empty": "这里还是空的。结束的对局会出现在这里。",
+    "empty": "还没有结束的对局。",
     "heading_short": "已结束",
     "see_all": "查看全部（{{count}}）",
     "title": "已结束的对局",

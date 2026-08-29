@@ -23,11 +23,11 @@
     "dismiss": "Kaldır",
     "heading": "Davetler",
     "sent_heading": "Gönderilen",
-    "just_sent": "Az önce gönderildi · yanıt bekleniyor"
+    "just_sent": "Yanıt bekleniyor"
   },
   "history": {
     "heading": "Biten oyunlar",
-    "empty": "Burada henüz bir şey yok. Biten oyunlar buraya gelir.",
+    "empty": "Henüz biten oyun yok.",
     "heading_short": "Biten",
     "see_all": "Tümünü gör ({{count}})",
     "title": "Biten oyunlar",

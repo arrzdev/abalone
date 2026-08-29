@@ -23,8 +23,8 @@
     "tagline": "Kazanmak için rakibinin altı bilyesini tahtadan dışarı it.",
     "play_online": "Çevrimiçi oyna",
     "play_offline": "Çevrimdışı oyna",
-    "online_hint": "Kendi adınla, başka bir oyuncuya karşı.",
-    "rules_link": "Hiç oynamadın mı? Kurallar iki dakika sürer",
+    "online_hint": "Başka bir oyuncuya karşı.",
+    "rules_link": "Hiç oynamadın mı? Kuralları oku",
     "bot_hint_short": "Sekiz seviye",
     "bot_hint_long": "Gus'tan Magnus'a sekiz bot.",
     "local_hint_short": "Tek cihaz, ikiniz",
@@ -42,7 +42,7 @@
     "show_password": "Parolayı göster",
     "hide_password": "Parolayı gizle",
     "prompt_title": "Çevrimiçi oynamak için giriş yap",
-    "prompt_body": "Çevrimiçi oyunlar için bir hesap gerekir.",
+    "prompt_body": "Çevrimiçi oyunlar için hesap gerekir.",
     "signup_title": "Bir ad seç",
     "signup_body": "Rakipler seni adını birebir yazarak davet eder.",
     "errors": {
@@ -62,8 +62,8 @@
     "upload_failed": "Bu resim yüklenemedi. Tekrar dene.",
     "playing": "Sürüyor",
     "best_streak": "En iyi seri",
-    "history_hint": "Sonuna kadar oynadığın her oyun ve her birinin sonucu",
-    "settings_hint": "Dil, bilyeler, ses ve dört anahtar"
+    "history_hint": "Oyun oyun, senin sonuçların",
+    "settings_hint": "Dil, bilyeler ve ses"
   },
   "actions": {
     "close": "Kapat",
@@ -71,12 +71,12 @@
   },
   "sync": {
     "updating": "Güncelleniyor",
-    "offline": "Çevrimdışısın. Gördüklerin güncel olmayabilir.",
-    "unreachable": "Yenilenemedi. Gördüklerin güncel olmayabilir."
+    "offline": "Çevrimdışısın, bunlar güncel olmayabilir.",
+    "unreachable": "Yenilenemedi, bunlar güncel olmayabilir."
   },
   "not_found": {
     "title": "Bu karede bir şey yok",
-    "body": "Bu adres oyunun ekranlarından biri değil.",
+    "body": "Bu adres hiçbir yere gitmiyor.",
     "action": "Tahtaya dön"
   }
 }

@@ -23,8 +23,8 @@
     "tagline": "Spingi sei biglie avversarie fuori dal tabellone per vincere.",
     "play_online": "Gioca online",
     "play_offline": "Gioca offline",
-    "online_hint": "Contro un altro giocatore, con il tuo nome.",
-    "rules_link": "Non hai mai giocato? Le regole richiedono due minuti",
+    "online_hint": "Contro un altro giocatore.",
+    "rules_link": "Non hai mai giocato? Leggi le regole",
     "bot_hint_short": "Otto livelli",
     "bot_hint_long": "Otto bot, da Gus a Magnus.",
     "local_hint_short": "Un dispositivo, voi due",
@@ -42,7 +42,7 @@
     "show_password": "Mostra password",
     "hide_password": "Nascondi password",
     "prompt_title": "Accedi per giocare online",
-    "prompt_body": "Le partite online richiedono un account per giocare.",
+    "prompt_body": "Le partite online richiedono un account.",
     "signup_title": "Scegli un nome",
     "signup_body": "Gli avversari ti invitano digitandolo esattamente.",
     "errors": {
@@ -62,8 +62,8 @@
     "upload_failed": "L'immagine non è stata caricata. Riprova.",
     "playing": "In corso",
     "best_streak": "Serie migliore",
-    "history_hint": "Ogni partita che hai portato a termine, con il suo esito",
-    "settings_hint": "Lingua, biglie, audio e i quattro interruttori"
+    "history_hint": "Il tuo storico, partita per partita",
+    "settings_hint": "Lingua, biglie e audio"
   },
   "actions": {
     "close": "Chiudi",
@@ -71,12 +71,12 @@
   },
   "sync": {
     "updating": "Aggiornamento",
-    "offline": "Sei offline. Quello che vedi potrebbe non essere aggiornato.",
-    "unreachable": "Aggiornamento non riuscito. Quello che vedi potrebbe non essere aggiornato."
+    "offline": "Sei offline, questo potrebbe non essere aggiornato.",
+    "unreachable": "Aggiornamento non riuscito, questo potrebbe non essere aggiornato."
   },
   "not_found": {
     "title": "Su questa casella non c'è nulla",
-    "body": "Quell'indirizzo non è una schermata del gioco.",
+    "body": "Quell'indirizzo non porta da nessuna parte.",
     "action": "Torna al tabellone"
   }
 }

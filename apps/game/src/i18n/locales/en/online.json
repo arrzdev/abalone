@@ -23,11 +23,11 @@
     "dismiss": "Dismiss",
     "heading": "Invites",
     "sent_heading": "Sent",
-    "just_sent": "Just sent · waiting for them to accept"
+    "just_sent": "Waiting for them to accept"
   },
   "history": {
     "heading": "Finished games",
-    "empty": "Nothing here yet. Your finished games land here.",
+    "empty": "No finished games yet.",
     "heading_short": "Finished",
     "see_all": "See all {{count}}",
     "title": "Finished games",

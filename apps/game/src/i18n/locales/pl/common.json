@@ -23,8 +23,8 @@
     "tagline": "Wypchnij sześć kul przeciwnika poza planszę, aby wygrać.",
     "play_online": "Graj online",
     "play_offline": "Graj offline",
-    "online_hint": "Przeciwko innemu graczowi, pod twoją nazwą.",
-    "rules_link": "Nigdy nie grałeś? Zasady zajmą dwie minuty",
+    "online_hint": "Przeciwko innemu graczowi.",
+    "rules_link": "Nigdy nie grałeś? Przeczytaj zasady",
     "bot_hint_short": "Osiem poziomów",
     "bot_hint_long": "Osiem botów, od Gusa do Magnusa.",
     "local_hint_short": "Jedno urządzenie, was dwoje",
@@ -42,7 +42,7 @@
     "show_password": "Pokaż hasło",
     "hide_password": "Ukryj hasło",
     "prompt_title": "Zaloguj się, aby grać online",
-    "prompt_body": "Gry online wymagają konta, żeby zagrać.",
+    "prompt_body": "Gry online wymagają konta.",
     "signup_title": "Wybierz nazwę",
     "signup_body": "Przeciwnicy zapraszają cię, wpisując ją dokładnie.",
     "errors": {
@@ -62,8 +62,8 @@
     "upload_failed": "To zdjęcie nie zostało wysłane. Spróbuj ponownie.",
     "playing": "W toku",
     "best_streak": "Najlepsza seria",
-    "history_hint": "Każda partia rozegrana do końca, wraz z jej wynikiem",
-    "settings_hint": "Język, kule, dźwięk i cztery przełączniki"
+    "history_hint": "Twoje wyniki, partia po partii",
+    "settings_hint": "Język, kule i dźwięk"
   },
   "actions": {
     "close": "Zamknij",
@@ -71,12 +71,12 @@
   },
   "sync": {
     "updating": "Aktualizowanie",
-    "offline": "Jesteś offline. To, co widzisz, może być nieaktualne.",
-    "unreachable": "Nie udało się odświeżyć. To, co widzisz, może być nieaktualne."
+    "offline": "Jesteś offline, to może być nieaktualne.",
+    "unreachable": "Nie udało się odświeżyć, to może być nieaktualne."
   },
   "not_found": {
     "title": "Na tym polu nic nie ma",
-    "body": "Ten adres nie prowadzi do żadnego ekranu gry.",
+    "body": "Ten adres donikąd nie prowadzi.",
     "action": "Wróć do planszy"
   }
 }

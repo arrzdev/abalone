@@ -23,11 +23,11 @@
     "dismiss": "지우기",
     "heading": "초대",
     "sent_heading": "보낸 초대",
-    "just_sent": "방금 보냈습니다 · 수락 기다리는 중"
+    "just_sent": "수락 기다리는 중"
   },
   "history": {
     "heading": "끝난 대국",
-    "empty": "아직 아무것도 없어요. 끝난 대국이 여기에 쌓입니다.",
+    "empty": "끝난 대국이 아직 없습니다.",
     "heading_short": "종료",
     "see_all": "전체 보기 ({{count}})",
     "title": "종료된 대국",

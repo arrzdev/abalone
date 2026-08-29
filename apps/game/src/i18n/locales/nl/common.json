@@ -23,8 +23,8 @@
     "tagline": "Duw zes ballen van je tegenstander van het bord om te winnen.",
     "play_online": "Online spelen",
     "play_offline": "Offline spelen",
-    "online_hint": "Tegen een andere speler, onder jouw naam.",
-    "rules_link": "Nooit gespeeld? De regels kosten twee minuten",
+    "online_hint": "Tegen een andere speler.",
+    "rules_link": "Nooit gespeeld? Lees de regels",
     "bot_hint_short": "Acht niveaus",
     "bot_hint_long": "Acht bots, van Gus tot Magnus.",
     "local_hint_short": "Eén apparaat, jullie twee",
@@ -42,7 +42,7 @@
     "show_password": "Wachtwoord tonen",
     "hide_password": "Wachtwoord verbergen",
     "prompt_title": "Log in om online te spelen",
-    "prompt_body": "Online partijen hebben een account nodig om te spelen.",
+    "prompt_body": "Online partijen hebben een account nodig.",
     "signup_title": "Kies een naam",
     "signup_body": "Tegenstanders nodigen je uit door hem precies in te typen.",
     "errors": {
@@ -62,8 +62,8 @@
     "upload_failed": "Die foto is niet geüpload. Probeer het opnieuw.",
     "playing": "Bezig",
     "best_streak": "Beste reeks",
-    "history_hint": "Elk spel dat je hebt uitgespeeld, met de uitslag ervan",
-    "settings_hint": "Taal, knikkers, geluid en de vier schakelaars"
+    "history_hint": "Je resultaten, partij voor partij",
+    "settings_hint": "Taal, knikkers en geluid"
   },
   "actions": {
     "close": "Sluiten",
@@ -71,12 +71,12 @@
   },
   "sync": {
     "updating": "Bijwerken",
-    "offline": "Je bent offline. Wat je ziet is mogelijk verouderd.",
-    "unreachable": "Bijwerken is niet gelukt. Wat je ziet is mogelijk verouderd."
+    "offline": "Je bent offline, dit is mogelijk verouderd.",
+    "unreachable": "Bijwerken is niet gelukt, dit is mogelijk verouderd."
   },
   "not_found": {
     "title": "Niets op dit vakje",
-    "body": "Dat adres hoort bij geen enkel scherm van het spel.",
+    "body": "Dat adres leidt nergens heen.",
     "action": "Terug naar het bord"
   }
 }

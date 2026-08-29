@@ -23,8 +23,8 @@
     "tagline": "Empurra seis bolas do adversário para fora do tabuleiro para ganhar.",
     "play_online": "Jogar online",
     "play_offline": "Jogar offline",
-    "online_hint": "Contra outro jogador, com o teu nome.",
-    "rules_link": "Nunca jogaste? As regras levam dois minutos",
+    "online_hint": "Contra outro jogador.",
+    "rules_link": "Nunca jogaste? Lê as regras",
     "bot_hint_short": "Oito níveis",
     "bot_hint_long": "Oito bots, do Gus ao Magnus.",
     "local_hint_short": "Um dispositivo, os dois",
@@ -42,7 +42,7 @@
     "show_password": "Mostrar palavra-passe",
     "hide_password": "Ocultar palavra-passe",
     "prompt_title": "Entra para jogar online",
-    "prompt_body": "Os jogos online precisam de uma conta para jogares.",
+    "prompt_body": "Os jogos online precisam de uma conta.",
     "signup_title": "Escolhe um nome",
     "signup_body": "Os adversários convidam-te escrevendo-o tal e qual.",
     "errors": {
@@ -62,8 +62,8 @@
     "upload_failed": "Essa imagem não foi enviada. Tenta de novo.",
     "playing": "A decorrer",
     "best_streak": "Melhor série",
-    "history_hint": "Todos os jogos que levaste até ao fim, e o resultado de cada um",
-    "settings_hint": "Idioma, berlindes, som e os quatro interruptores"
+    "history_hint": "O teu registo, jogo a jogo",
+    "settings_hint": "Idioma, berlindes e som"
   },
   "actions": {
     "close": "Fechar",
@@ -71,12 +71,12 @@
   },
   "sync": {
     "updating": "A atualizar",
-    "offline": "Estás offline. O que vês pode não estar atualizado.",
-    "unreachable": "Não foi possível atualizar. O que vês pode não estar atualizado."
+    "offline": "Estás offline, isto pode estar desatualizado.",
+    "unreachable": "Não foi possível atualizar, isto pode estar desatualizado."
   },
   "not_found": {
     "title": "Não há nada nesta casa",
-    "body": "Esse endereço não é nenhum ecrã do jogo.",
+    "body": "Esse endereço não leva a lado nenhum.",
     "action": "Voltar ao tabuleiro"
   }
 }

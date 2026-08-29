@@ -23,11 +23,11 @@
     "dismiss": "Verbergen",
     "heading": "Uitnodigingen",
     "sent_heading": "Verzonden",
-    "just_sent": "Net verstuurd · wacht op antwoord"
+    "just_sent": "Wacht op antwoord"
   },
   "history": {
     "heading": "Afgelopen partijen",
-    "empty": "Hier staat nog niets. Afgelopen partijen komen hier.",
+    "empty": "Nog geen afgelopen partijen.",
     "heading_short": "Afgerond",
     "see_all": "Alle {{count}} bekijken",
     "title": "Afgeronde spellen",
