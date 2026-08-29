@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import type { FormEvent, ReactNode } from "react"
 import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { AlertIcon } from "@/components/icons"
 import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { SegmentedControl } from "@/components/ui/segmented-control"
@@ -75,6 +76,40 @@ function Reserved({
   return (
     <div className={cn("grid *:col-start-1 *:row-start-1", className)}>
       {children}
+    </div>
+  )
+}
+
+/**
+ * The one thing that went wrong, in a block of its own.
+ *
+ * It used to be bare red text between the fields and the button, and it read as
+ * a line that had fallen out of the layout rather than as the answer to the
+ * press that just happened. The tint is a tenth of the same red: enough to make
+ * it an object, not enough to make it the brightest thing on a screen whose
+ * next control is a blue button.
+ *
+ * Always `aria-hidden`. What a screen reader announces is the live region above
+ * it, which is mounted whether or not there is anything to say — a region that
+ * appears with its own text is a region some readers never announce at all.
+ */
+function Alert({
+  className,
+  children,
+}: {
+  className?: string
+  children: ReactNode
+}) {
+  return (
+    <div
+      aria-hidden="true"
+      className={cn(
+        "flex items-start gap-2.5 rounded-xl bg-loss/10 px-4 py-3 text-loss",
+        className,
+      )}
+    >
+      <AlertIcon size={18} className="mt-px shrink-0" />
+      <span className="text-sm leading-5">{children}</span>
     </div>
   )
 }
@@ -185,9 +220,9 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     //the two fields read as one thing you fill in rather than as two more rows
     //in a stack.
     //
-    //The form's one error line is the gap between the pair and the button, so
-    //the button carries no margin of its own. Measure from the boxes, not from
-    //the elements.
+    //Between the pair and the button there is one slot that always says
+    //something, so the button carries no margin of its own. Measure from the
+    //boxes, not from the elements.
     <form
       onSubmit={handleSubmit}
       className={cn("flex flex-col", className)}
@@ -263,66 +298,60 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
         />
       </div>
 
-      {/* One line for the whole form, always in the layout.
-          `fieldFor` sorts every failure into exactly one bucket, so at most one
-          message exists at a time — a reserved slot under each field as well
-          would be two thirds dead air on a form that is doing nothing wrong.
-          The offending box turns red; this says what happened.
-          Red text and nothing behind it: a tinted panel makes the one thing
-          that went wrong the brightest block on the screen.
-          The slot is every message stacked, so the button does not move when one
-          of them turns up — nor when the longer of two languages does. */}
-      <Reserved className="pt-3 pb-5">
-        <p
-          id={errorId}
-          role="alert"
-          className="text-sm leading-5 text-loss"
-        >
-          {errorText}
-        </p>
+      {/* One slot between the fields and the button, and it is never empty:
+          the small print when the form is fine, the failure when it is not.
+          They are the same subject — what a name and a password here can and
+          cannot do — and only one of them is ever worth saying, so they share
+          the space instead of each reserving their own.
+
+          The height is every message stacked, so nothing moves when one of them
+          turns up, nor when the longer of two languages does. Only the box on
+          top is drawn; the rest are there to be measured.
+
+          `fieldFor` sorts every failure into exactly one bucket, so a slot
+          under each field as well would be two thirds dead air on a form that
+          is doing nothing wrong. The offending box turns red; this says what
+          happened. */}
+      <p id={errorId} role="alert" className="sr-only">
+        {errorText}
+      </p>
+
+      <Reserved className="items-center pt-4 pb-5">
+        {/* Two lines, and the break is in the string: it is two statements and
+            the second is the consequence of the first, so where they divide is
+            a translator's call rather than whatever the column width does to
+            them.
+
+            Said in both modes, because it answers a question each of them
+            raises: what to pick, and where the reset link went. There is no
+            email on the account and so nothing to send one to. */}
+        {!errorText && (
+          <p className="text-center text-xs leading-relaxed whitespace-pre-line text-faint">
+            {t("common:auth.credentials_warning")}
+          </p>
+        )}
+
+        {errorText && <Alert>{errorText}</Alert>}
 
         {ERROR_CODES.map((code) => (
-          <span
-            key={code}
-            aria-hidden="true"
-            className="invisible text-sm leading-5"
-          >
+          <Alert key={code} className="invisible">
             {t(`common:auth.errors.${code}`)}
-          </span>
+          </Alert>
         ))}
       </Reserved>
 
-      <div className="flex flex-col gap-y-3">
-        {/* `lg` because the fields are 56px too: a button taller or shorter
-            than the two boxes above it reads as two controls that were drawn on
-            different days. */}
-        <Button
-          type="submit"
-          variant="primary"
-          size="lg"
-          className="w-full rounded-xl"
-          disabled={mutation.isPending}
-        >
-          {submitLabel}
-        </Button>
-
-        {/* Said in both modes, because it answers a question each of them
-            raises: what to pick, and where the reset link went. There is no
-            email on the account and so nothing to send one to, which is the
-            whole of what it has to say.
-
-            Small print, and drawn like it: it is a fact about the account
-            rather than an instruction, and at the weight it used to have it
-            competed with the button it sits under.
-
-            Two lines, and the break is in the string: it is two statements and
-            the second is the consequence of the first, so where they divide is
-            a translator's call rather than whatever the column width does to
-            them. */}
-        <p className="text-center text-xs leading-relaxed whitespace-pre-line text-faint">
-          {t("common:auth.credentials_warning")}
-        </p>
-      </div>
+      {/* `lg` because the fields are 56px too: a button taller or shorter than
+          the two boxes above it reads as two controls that were drawn on
+          different days. */}
+      <Button
+        type="submit"
+        variant="primary"
+        size="lg"
+        className="w-full rounded-xl"
+        disabled={mutation.isPending}
+      >
+        {submitLabel}
+      </Button>
     </form>
   )
 }
