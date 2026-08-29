@@ -1,6 +1,6 @@
 import { cn } from "@repo/nativ/utils"
 import { Link } from "@tanstack/react-router"
-import type { ReactNode } from "react"
+import type { MouseEventHandler, ReactNode } from "react"
 
 export type NavLinkProps = {
   to: string
@@ -15,6 +15,8 @@ export type NavLinkProps = {
   "aria-label"?: string
   /** The hover tooltip, for a destination whose label is only its icon. */
   title?: string
+  /** Runs before the navigation. `preventDefault` calls it off. */
+  onClick?: MouseEventHandler<HTMLAnchorElement>
   children: ReactNode
 }
 

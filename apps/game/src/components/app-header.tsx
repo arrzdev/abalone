@@ -19,6 +19,7 @@ import { useProfile } from "@/data/profile/queries"
 import { useSignOut } from "@/hooks/use-sign-out"
 import { useAuthPrompt } from "@/providers/auth-prompt-provider"
 import { useAuth } from "@/providers/auth-provider"
+import { needsSignIn } from "@/routing/auth-guard"
 
 /**
  * The gear: the one thing in this bar that is not a place.
@@ -77,6 +78,7 @@ const NAV_LINK_ACTIVE_CLASS =
  */
 export function AppHeader({ className }: { className?: string }) {
   const { t } = useTranslation()
+  const { requireAuth } = useAuthPrompt()
   const [settingsOpen, setSettingsOpen] = useState(false)
 
   return (
@@ -103,11 +105,26 @@ export function AppHeader({ className }: { className?: string }) {
           aria-label={t("common:nav.primary")}
           className="hidden items-stretch gap-0.5 self-stretch lg:flex"
         >
+          {/* The one destination that needs an account, so it asks for one
+              here rather than sending a guest to a page that would send them
+              straight back with the same form on top of it. It asks the
+              question `SignedInOnly` asks, so the two can never disagree.
+
+              Still a link: it can be copied, opened in its own tab, and it
+              lights up like the other two when you are on it. Only a plain
+              press is taken over, and a modifier press is left alone — that
+              tab can do its own asking. */}
           <NavLink
             to="/online"
             className={NAV_LINK_CLASS}
             activeClassName={NAV_LINK_ACTIVE_CLASS}
             inactiveClassName="text-muted"
+            onClick={(event) => {
+              if (!needsSignIn()) return
+              if (event.metaKey || event.ctrlKey || event.shiftKey) return
+              event.preventDefault()
+              requireAuth({ redirect: "/online" })
+            }}
           >
             {t("common:nav.online")}
             <ActiveBar />
