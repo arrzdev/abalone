@@ -42,7 +42,7 @@
     "show_password": "Show password",
     "hide_password": "Hide password",
     "prompt_title": "Sign in to play online",
-    "prompt_body": "Online games need a name to play under. Bots and Pass & Play never ask for one.",
+    "prompt_body": "Online games need an account to play under.",
     "signup_title": "Pick a name",
     "signup_body": "Opponents invite you by typing it exactly, so pick one you can spell out loud.",
     "errors": {

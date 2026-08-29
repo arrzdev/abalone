@@ -42,7 +42,7 @@
     "show_password": "Mostrar contraseña",
     "hide_password": "Ocultar contraseña",
     "prompt_title": "Inicia sesión para jugar en línea",
-    "prompt_body": "Las partidas en línea necesitan un nombre con el que jugar. Las partidas contra el ordenador o entre dos en un dispositivo nunca lo piden.",
+    "prompt_body": "Las partidas en línea necesitan una cuenta para jugar.",
     "signup_title": "Elige un nombre",
     "signup_body": "Los rivales te invitan escribiéndolo exactamente, así que elige uno que puedas deletrear en voz alta.",
     "errors": {

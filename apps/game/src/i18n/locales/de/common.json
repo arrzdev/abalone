@@ -42,7 +42,7 @@
     "show_password": "Passwort anzeigen",
     "hide_password": "Passwort verbergen",
     "prompt_title": "Zum Online-Spielen anmelden",
-    "prompt_body": "Online-Partien brauchen einen Namen zum Spielen. Partien gegen den Computer oder zu zweit an einem Gerät fragen nie danach.",
+    "prompt_body": "Online-Partien brauchen ein Konto zum Spielen.",
     "signup_title": "Wähl einen Namen",
     "signup_body": "Gegner laden dich ein, indem sie ihn genau eintippen. Wähl also einen, den du laut buchstabieren kannst.",
     "errors": {

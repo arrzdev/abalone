@@ -42,7 +42,7 @@
     "show_password": "Mostra password",
     "hide_password": "Nascondi password",
     "prompt_title": "Accedi per giocare online",
-    "prompt_body": "Le partite online hanno bisogno di un nome con cui giocare. Le partite contro il computer o in due sullo stesso dispositivo non lo chiedono mai.",
+    "prompt_body": "Le partite online richiedono un account per giocare.",
     "signup_title": "Scegli un nome",
     "signup_body": "Gli avversari ti invitano digitandolo esattamente, quindi scegline uno che sai dire a voce alta.",
     "errors": {

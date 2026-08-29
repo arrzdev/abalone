@@ -42,7 +42,7 @@
     "show_password": "Parolayı göster",
     "hide_password": "Parolayı gizle",
     "prompt_title": "Çevrimiçi oynamak için giriş yap",
-    "prompt_body": "Çevrimiçi oyunlar oynayacağın bir ad ister. Bilgisayara karşı ya da iki oyuncu oynarken hiç sorulmaz.",
+    "prompt_body": "Çevrimiçi oyunlar için bir hesap gerekir.",
     "signup_title": "Bir ad seç",
     "signup_body": "Rakipler seni adını birebir yazarak davet eder, bu yüzden sesli olarak söyleyebileceğin bir ad seç.",
     "errors": {

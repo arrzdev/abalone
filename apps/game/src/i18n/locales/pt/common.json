@@ -42,7 +42,7 @@
     "show_password": "Mostrar palavra-passe",
     "hide_password": "Ocultar palavra-passe",
     "prompt_title": "Entra para jogar online",
-    "prompt_body": "Os jogos online precisam de um nome para jogares. Os jogos contra o computador ou a dois no mesmo aparelho nunca pedem um.",
+    "prompt_body": "Os jogos online precisam de uma conta para jogares.",
     "signup_title": "Escolhe um nome",
     "signup_body": "Os adversários convidam-te escrevendo-o tal e qual, por isso escolhe um que consigas soletrar em voz alta.",
     "errors": {

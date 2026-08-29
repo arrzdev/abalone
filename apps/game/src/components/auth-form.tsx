@@ -1,6 +1,6 @@
 import { cn } from "@repo/nativ/utils"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import type { FormEvent } from "react"
+import type { FormEvent, ReactNode } from "react"
 import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Logo } from "@/components/logo"
@@ -31,6 +31,52 @@ function fieldFor(code: AuthErrorCode): "username" | "password" | "form" {
     default:
       return "form"
   }
+}
+
+/**
+ * Every message this form can put on the screen.
+ *
+ * Keyed by the code union rather than listed, so a new failure cannot be added
+ * without a line here — and the slot that holds it stays as tall as the longest
+ * of them.
+ */
+const EVERY_ERROR: Record<AuthErrorCode, true> = {
+  username_taken: true,
+  username_invalid: true,
+  password_too_short: true,
+  invalid_credentials: true,
+  unknown: true,
+}
+
+const ERROR_CODES = Object.keys(EVERY_ERROR) as AuthErrorCode[]
+
+const TITLE_CLASS =
+  "font-display text-[22px] font-bold tracking-[-0.02em] text-white lg:text-center lg:text-3xl lg:font-extrabold lg:tracking-[-0.03em]"
+
+const BODY_CLASS =
+  "text-sm leading-relaxed text-muted lg:text-center lg:text-[15px] lg:text-balance"
+
+/**
+ * Every variant in one grid cell: as tall as the tallest of them, whichever one
+ * is showing.
+ *
+ * The alternative is a height per block, and that height is a different number
+ * in every language — "Sign in to play online" is one line and its German is
+ * two, and the same is true of all five error messages. A stack measures itself,
+ * at whatever width and in whatever language it is handed.
+ */
+function Reserved({
+  className,
+  children,
+}: {
+  className?: string
+  children: ReactNode
+}) {
+  return (
+    <div className={cn("grid *:col-start-1 *:row-start-1", className)}>
+      {children}
+    </div>
+  )
 }
 
 export type AuthFormProps = {
@@ -118,6 +164,21 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     ? t("common:auth.create_account")
     : t("common:auth.sign_in")
 
+  //the mode's own copy, and the copy of the mode it is not, which is what the
+  //masthead reserves its height against
+  const title = isSignUp
+    ? t("common:auth.signup_title")
+    : t("common:auth.prompt_title")
+  const otherTitle = isSignUp
+    ? t("common:auth.prompt_title")
+    : t("common:auth.signup_title")
+  const body = isSignUp
+    ? t("common:auth.signup_body")
+    : t("common:auth.prompt_body")
+  const otherBody = isSignUp
+    ? t("common:auth.prompt_body")
+    : t("common:auth.signup_body")
+
   return (
     //Four blocks, not nine controls: the masthead, the switch, the pair of
     //fields, and the button. 20px between blocks and 18px inside the pair, so
@@ -144,15 +205,22 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
       <div className="flex flex-col gap-y-1.5 pb-5 lg:items-center lg:gap-y-3 lg:pb-6">
         <Logo className="hidden size-11 lg:block" />
 
-        <h1 className="font-display text-[22px] font-bold tracking-[-0.02em] text-white lg:text-center lg:text-3xl lg:font-extrabold lg:tracking-[-0.03em]">
-          {isSignUp && t("common:auth.signup_title")}
-          {!isSignUp && t("common:auth.prompt_title")}
-        </h1>
+        <Reserved>
+          <h1 className={TITLE_CLASS}>{title}</h1>
+          <span
+            aria-hidden="true"
+            className={cn(TITLE_CLASS, "invisible")}
+          >
+            {otherTitle}
+          </span>
+        </Reserved>
 
-        <p className="text-sm leading-relaxed text-muted lg:max-w-[380px] lg:text-center lg:text-[15px] lg:text-balance">
-          {isSignUp && t("common:auth.signup_body")}
-          {!isSignUp && t("common:auth.prompt_body")}
-        </p>
+        <Reserved className="lg:max-w-[380px]">
+          <p className={BODY_CLASS}>{body}</p>
+          <span aria-hidden="true" className={cn(BODY_CLASS, "invisible")}>
+            {otherBody}
+          </span>
+        </Reserved>
       </div>
 
       <SegmentedControl
@@ -201,14 +269,28 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           would be two thirds dead air on a form that is doing nothing wrong.
           The offending box turns red; this says what happened.
           Red text and nothing behind it: a tinted panel makes the one thing
-          that went wrong the brightest block on the screen. */}
-      <p
-        id={errorId}
-        role="alert"
-        className="min-h-10 py-2 text-sm leading-5 text-loss"
-      >
-        {errorText}
-      </p>
+          that went wrong the brightest block on the screen.
+          The slot is every message stacked, so the button does not move when one
+          of them turns up — nor when the longer of two languages does. */}
+      <Reserved className="py-2">
+        <p
+          id={errorId}
+          role="alert"
+          className="text-sm leading-5 text-loss"
+        >
+          {errorText}
+        </p>
+
+        {ERROR_CODES.map((code) => (
+          <span
+            key={code}
+            aria-hidden="true"
+            className="invisible text-sm leading-5"
+          >
+            {t(`common:auth.errors.${code}`)}
+          </span>
+        ))}
+      </Reserved>
 
       <div className="flex flex-col gap-y-3">
         {/* `lg` because the fields are 56px too: a button taller or shorter

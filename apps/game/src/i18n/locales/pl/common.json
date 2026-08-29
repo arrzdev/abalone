@@ -42,7 +42,7 @@
     "show_password": "Pokaż hasło",
     "hide_password": "Ukryj hasło",
     "prompt_title": "Zaloguj się, aby grać online",
-    "prompt_body": "Gry online wymagają nazwy, pod którą grasz. Partie z komputerem albo we dwoje na jednym urządzeniu nigdy o nią nie proszą.",
+    "prompt_body": "Gry online wymagają konta, żeby zagrać.",
     "signup_title": "Wybierz nazwę",
     "signup_body": "Przeciwnicy zapraszają cię, wpisując ją dokładnie, więc wybierz taką, którą potrafisz przeliterować na głos.",
     "errors": {

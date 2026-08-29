@@ -42,7 +42,7 @@
     "show_password": "Wachtwoord tonen",
     "hide_password": "Wachtwoord verbergen",
     "prompt_title": "Log in om online te spelen",
-    "prompt_body": "Online partijen hebben een naam nodig om onder te spelen. Partijen tegen de computer of met z'n tweeën op één apparaat vragen er nooit om.",
+    "prompt_body": "Online partijen hebben een account nodig om te spelen.",
     "signup_title": "Kies een naam",
     "signup_body": "Tegenstanders nodigen je uit door hem precies in te typen, dus kies er een die je hardop kunt spellen.",
     "errors": {
