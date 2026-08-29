@@ -1,19 +1,20 @@
 {
   "title": "Online",
-  "subtitle": "Spiel in deinem Tempo. Partien warten auf dich, ein Zug pro Tag ist völlig in Ordnung.",
+  "hub": {
+    "your_move": "Du bist am Zug",
+    "idle": "Gerade wartet nichts auf dich",
+    "none": "Nichts im Gange",
+    "waiting_on_you": "{{count}} warten auf dich",
+    "with_opponent": "{{count}} beim Gegner",
+    "finished_count": "{{count}} beendet",
+    "nothing_else": "Sonst läuft nichts",
+    "waiting_on_them": "Warten auf den Gegner"
+  },
   "games": {
-    "heading": "Deine Partien",
-    "empty": "Noch keine Partien. Lade jemanden ein.",
-    "your_turn": "Du bist am Zug",
-    "their_turn": "Gegner ist am Zug",
     "new_invite": "Neue Einladung",
     "loading": "Deine Partien werden geladen"
   },
   "invites": {
-    "received": "Einladungen für dich",
-    "received_empty": "Dich hat noch niemand eingeladen.",
-    "sent": "Deine Einladungen",
-    "sent_empty": "Du hast noch niemanden eingeladen.",
     "terms": "{{setup}}, du spielst {{side}}",
     "declined": "Abgelehnt",
     "accept": "Annehmen",
@@ -77,10 +78,6 @@
     "back_to_games": "Zurück zu den Partien",
     "head_to_head": "Bisherige Siege",
     "head_to_head_detail": "Vor diesem Spiel: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
-  },
-  "offline": {
-    "heading": "Offline spielen",
-    "note": "Ein Offline-Spiel lebt in dem Tab, in dem du es gestartet hast. Schließt du ihn, ist es weg — und nichts davon erreicht dein Konto."
   },
   "empty": {
     "title": "Hier ist noch nichts",

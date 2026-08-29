@@ -1,19 +1,20 @@
 {
   "title": "En línea",
-  "subtitle": "Juega a tu ritmo. Las partidas te esperan, así que un movimiento al día es una partida perfectamente buena.",
+  "hub": {
+    "your_move": "Te toca",
+    "idle": "Ahora mismo no hay nada que hacer",
+    "none": "Nada en curso",
+    "waiting_on_you": "{{count}} esperándote",
+    "with_opponent": "{{count}} en manos de tu rival",
+    "finished_count": "{{count}} terminadas",
+    "nothing_else": "Nada más en curso",
+    "waiting_on_them": "Esperando al rival"
+  },
   "games": {
-    "heading": "Tus partidas",
-    "empty": "Aún no hay partidas. Invita a alguien.",
-    "your_turn": "Tu turno",
-    "their_turn": "Turno del rival",
     "new_invite": "Nueva invitación",
     "loading": "Cargando tus partidas"
   },
   "invites": {
-    "received": "Invitaciones para ti",
-    "received_empty": "Todavía no te ha invitado nadie.",
-    "sent": "Invitaciones que enviaste",
-    "sent_empty": "Todavía no has invitado a nadie.",
     "terms": "{{setup}}, juegas con {{side}}",
     "declined": "Rechazada",
     "accept": "Aceptar",
@@ -77,10 +78,6 @@
     "back_to_games": "Volver a las partidas",
     "head_to_head": "Victorias previas",
     "head_to_head_detail": "Antes de esta partida: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
-  },
-  "offline": {
-    "heading": "Jugar sin conexión",
-    "note": "Una partida sin conexión vive en la pestaña donde la empezaste. Si la cierras, desaparece, y nada de ella llega a tu cuenta."
   },
   "empty": {
     "title": "Aquí todavía no hay nada",

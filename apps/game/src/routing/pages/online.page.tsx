@@ -1,7 +1,7 @@
 import { Screen, ScrollView } from "@repo/nativ/components"
 import { useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
-import { Lobby } from "@/components/home/lobby"
+import { Hub } from "@/components/online/hub"
 import { InviteComposer } from "@/components/online/invite-composer"
 import { useOnlineHome } from "@/hooks/use-online-home"
 import { useAuth } from "@/providers/auth-provider"
@@ -40,7 +40,7 @@ function GuardedOnlinePage() {
  * dashboard is the wrong first thing for a game nobody has heard of.
  *
  * Everything the hub reads and everything it can do is held here rather than in
- * `Lobby`, so the composer and the panels share one copy of it.
+ * `Hub`, so the composer and the panels share one copy of it.
  */
 function OnlinePage() {
   const navigate = useNavigate()
@@ -75,7 +75,7 @@ function OnlinePage() {
       <div className="hex-texture pointer-events-none absolute inset-0 [--hex-size:96px] opacity-[0.035]" />
 
       <ScrollView className="px-safe" directionalLockEnabled>
-        <Lobby
+        <Hub
           online={online}
           myUserId={user?.id ?? ""}
           onCompose={() => setComposing(true)}

@@ -1,19 +1,20 @@
 {
   "title": "Online",
-  "subtitle": "Joga ao teu ritmo. Os jogos esperam por ti, por isso uma jogada por dia dá um jogo perfeitamente bom.",
+  "hub": {
+    "your_move": "É a tua vez",
+    "idle": "Neste momento nada precisa de ti",
+    "none": "Nada a decorrer",
+    "waiting_on_you": "{{count}} à tua espera",
+    "with_opponent": "{{count}} com o teu adversário",
+    "finished_count": "{{count}} terminados",
+    "nothing_else": "Mais nada a decorrer",
+    "waiting_on_them": "À espera do adversário"
+  },
   "games": {
-    "heading": "Os teus jogos",
-    "empty": "Ainda não há jogos. Convida alguém.",
-    "your_turn": "É a tua vez",
-    "their_turn": "É a vez do adversário",
     "new_invite": "Novo convite",
     "loading": "A carregar os teus jogos"
   },
   "invites": {
-    "received": "Convites para ti",
-    "received_empty": "Ainda ninguém te convidou.",
-    "sent": "Convites que enviaste",
-    "sent_empty": "Ainda não convidaste ninguém.",
     "terms": "{{setup}}, jogas com as {{side}}",
     "declined": "Recusado",
     "accept": "Aceitar",
@@ -77,10 +78,6 @@
     "back_to_games": "Voltar aos jogos",
     "head_to_head": "Vitórias anteriores",
     "head_to_head_detail": "Antes deste jogo: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
-  },
-  "offline": {
-    "heading": "Jogar offline",
-    "note": "Um jogo offline vive no separador onde o começaste. Fecha-o e desaparece, e nada dele chega à tua conta."
   },
   "empty": {
     "title": "Ainda não há nada aqui",

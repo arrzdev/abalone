@@ -1,19 +1,20 @@
 {
   "title": "オンライン",
-  "subtitle": "自分のペースで指せます。対局は待ってくれるので、一日一手でも立派な一局です。",
+  "hub": {
+    "your_move": "あなたの手番",
+    "idle": "いま対応が必要なものはありません",
+    "none": "進行中の対局はありません",
+    "waiting_on_you": "あなた待ち {{count}}",
+    "with_opponent": "相手待ち {{count}}",
+    "finished_count": "終了 {{count}}",
+    "nothing_else": "ほかに進行中の対局はありません",
+    "waiting_on_them": "相手待ち"
+  },
   "games": {
-    "heading": "対局中",
-    "empty": "まだ対局がありません。誰かを誘ってみましょう。",
-    "your_turn": "あなたの番",
-    "their_turn": "相手の番",
     "new_invite": "新しい招待",
     "loading": "あなたの対局を読み込んでいます"
   },
   "invites": {
-    "received": "届いた招待",
-    "received_empty": "まだ誰からも招待されていません。",
-    "sent": "送った招待",
-    "sent_empty": "まだ誰も招待していません。",
     "terms": "{{setup}}、あなたは{{side}}",
     "declined": "断られました",
     "accept": "受ける",
@@ -77,10 +78,6 @@
     "back_to_games": "対局一覧へ",
     "head_to_head": "これまでの勝利",
     "head_to_head_detail": "この対局まで: {{left}} {{leftWins}}、{{right}} {{rightWins}}"
-  },
-  "offline": {
-    "heading": "オフラインで遊ぶ",
-    "note": "オフラインの対局は、始めたタブの中だけにあります。タブを閉じれば消え、アカウントには何も残りません。"
   },
   "empty": {
     "title": "まだ何もありません",

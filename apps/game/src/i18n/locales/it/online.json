@@ -1,19 +1,20 @@
 {
   "title": "Online",
-  "subtitle": "Gioca con i tuoi tempi. Le partite ti aspettano, quindi una mossa al giorno va benissimo.",
+  "hub": {
+    "your_move": "Tocca a te",
+    "idle": "Al momento non serve nulla da te",
+    "none": "Niente in corso",
+    "waiting_on_you": "{{count}} in attesa di te",
+    "with_opponent": "{{count}} dal tuo avversario",
+    "finished_count": "{{count}} concluse",
+    "nothing_else": "Nient'altro in corso",
+    "waiting_on_them": "In attesa dell'avversario"
+  },
   "games": {
-    "heading": "Le tue partite",
-    "empty": "Ancora nessuna partita. Invita qualcuno.",
-    "your_turn": "Tocca a te",
-    "their_turn": "Tocca all'avversario",
     "new_invite": "Nuovo invito",
     "loading": "Caricamento delle tue partite"
   },
   "invites": {
-    "received": "Inviti per te",
-    "received_empty": "Non ti ha ancora invitato nessuno.",
-    "sent": "Inviti che hai mandato",
-    "sent_empty": "Non hai ancora invitato nessuno.",
     "terms": "{{setup}}, giochi con il {{side}}",
     "declined": "Rifiutato",
     "accept": "Accetta",
@@ -77,10 +78,6 @@
     "back_to_games": "Torna alle partite",
     "head_to_head": "Vittorie precedenti",
     "head_to_head_detail": "Prima di questa partita: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
-  },
-  "offline": {
-    "heading": "Gioca offline",
-    "note": "Una partita offline vive nella scheda in cui l'hai iniziata. Chiudila e sparisce, e niente di essa arriva al tuo account."
   },
   "empty": {
     "title": "Qui non c'è ancora nulla",

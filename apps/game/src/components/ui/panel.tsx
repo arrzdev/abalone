@@ -42,10 +42,10 @@ export type PanelHeaderProps = {
  * The label over a panel's rows, the count beside it, and the panel's action at
  * the far end.
  *
- * The count is the accent's only job here. Four identical headings with nothing
- * to separate them was the old lobby's problem: nothing said which list was the
- * one to look at. A number in the accent colour says it in one glyph, and the
- * lists that never have anything urgent in them simply never pass one.
+ * The count is plain text, and quieter than the label it follows. What a panel
+ * holds is never the urgent thing on a screen that has a lead block above it,
+ * and three headings each with a coloured badge on them is three things
+ * shouting, which reads the same as none of them shouting.
  */
 export function PanelHeader({
   children,
@@ -63,9 +63,7 @@ export function PanelHeader({
       <h2 className="section-label">{children}</h2>
 
       {count !== undefined && count > 0 && (
-        <span className="inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-[5px] bg-brand px-1.5 font-display text-[11px] font-bold text-white tabular-nums">
-          {count}
-        </span>
+        <span className="text-xs text-faint tabular-nums">{count}</span>
       )}
 
       {action && <div className="ms-auto flex items-center">{action}</div>}

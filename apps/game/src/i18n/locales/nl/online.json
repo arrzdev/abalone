@@ -1,19 +1,20 @@
 {
   "title": "Online",
-  "subtitle": "Speel in je eigen tempo. Partijen wachten op je, dus één zet per dag is een prima partij.",
+  "hub": {
+    "your_move": "Jij bent aan zet",
+    "idle": "Er wacht nu niets op je",
+    "none": "Niets bezig",
+    "waiting_on_you": "{{count}} wachten op jou",
+    "with_opponent": "{{count}} bij je tegenstander",
+    "finished_count": "{{count}} afgerond",
+    "nothing_else": "Verder niets bezig",
+    "waiting_on_them": "Wachten op de tegenstander"
+  },
   "games": {
-    "heading": "Jouw partijen",
-    "empty": "Nog geen partijen. Nodig iemand uit.",
-    "your_turn": "Jij bent aan zet",
-    "their_turn": "Tegenstander is aan zet",
     "new_invite": "Nieuwe uitnodiging",
     "loading": "Je partijen worden geladen"
   },
   "invites": {
-    "received": "Uitnodigingen voor jou",
-    "received_empty": "Niemand heeft je nog uitgenodigd.",
-    "sent": "Verstuurde uitnodigingen",
-    "sent_empty": "Je hebt nog niemand uitgenodigd.",
     "terms": "{{setup}}, jij speelt {{side}}",
     "declined": "Afgewezen",
     "accept": "Accepteren",
@@ -77,10 +78,6 @@
     "back_to_games": "Terug naar partijen",
     "head_to_head": "Eerdere winsten",
     "head_to_head_detail": "Voor dit spel: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
-  },
-  "offline": {
-    "heading": "Offline spelen",
-    "note": "Een offlinespel leeft in het tabblad waarin je het startte. Sluit je dat, dan is het weg, en niets ervan bereikt je account."
   },
   "empty": {
     "title": "Hier is nog niets",

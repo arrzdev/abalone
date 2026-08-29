@@ -1,19 +1,20 @@
 {
   "title": "온라인",
-  "subtitle": "원하는 속도로 두세요. 대국은 기다려 주니까 하루 한 수라도 충분히 한 판입니다.",
+  "hub": {
+    "your_move": "당신 차례",
+    "idle": "지금은 처리할 일이 없습니다",
+    "none": "진행 중인 대국이 없습니다",
+    "waiting_on_you": "{{count}}판이 당신을 기다림",
+    "with_opponent": "{{count}}판이 상대 차례",
+    "finished_count": "{{count}}판 종료",
+    "nothing_else": "진행 중인 대국이 더 없습니다",
+    "waiting_on_them": "상대 차례"
+  },
   "games": {
-    "heading": "진행 중인 대국",
-    "empty": "아직 대국이 없어요. 누군가를 초대해 보세요.",
-    "your_turn": "당신 차례",
-    "their_turn": "상대 차례",
     "new_invite": "새 초대",
     "loading": "내 대국을 불러오는 중"
   },
   "invites": {
-    "received": "받은 초대",
-    "received_empty": "아직 아무도 초대하지 않았어요.",
-    "sent": "보낸 초대",
-    "sent_empty": "아직 아무도 초대하지 않았어요.",
     "terms": "{{setup}}, 당신은 {{side}}",
     "declined": "거절됨",
     "accept": "수락",
@@ -77,10 +78,6 @@
     "back_to_games": "대국 목록으로",
     "head_to_head": "이전 승리",
     "head_to_head_detail": "이 대국 전까지: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
-  },
-  "offline": {
-    "heading": "오프라인 플레이",
-    "note": "오프라인 대국은 시작한 탭 안에만 있습니다. 탭을 닫으면 사라지고, 계정에는 아무것도 남지 않습니다."
   },
   "empty": {
     "title": "아직 아무것도 없습니다",
