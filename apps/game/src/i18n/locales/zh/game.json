@@ -91,6 +91,7 @@
     "by_repetition": "三次重复局面",
     "resign_title": "要认输吗？",
     "resign_body": "对局将立即结束，胜利归对手所有。此操作无法撤销。",
+    "keep_playing": "继续对局",
     "game_over": "对局结束",
     "moves": "{{count}} 步"
   },

@@ -91,6 +91,7 @@
     "by_repetition": "by threefold repetition",
     "resign_title": "Resign the game?",
     "resign_body": "The game ends right away and the win goes to your opponent. This cannot be undone.",
+    "keep_playing": "Keep playing",
     "game_over": "Game over",
     "moves": "{{count}} moves"
   },

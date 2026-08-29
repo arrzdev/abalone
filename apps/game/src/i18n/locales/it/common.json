@@ -23,10 +23,12 @@
     "tagline": "Spingi sei biglie avversarie fuori dal tabellone per vincere.",
     "play_online": "Gioca online",
     "play_offline": "Gioca offline",
+    "online_hint": "Contro un altro giocatore, con il tuo nome.",
     "rules_link": "Non hai mai giocato? Le regole richiedono due minuti",
     "bot_hint_short": "Otto livelli",
     "bot_hint_long": "Otto bot, da Gus a Magnus.",
     "local_hint_short": "Un dispositivo, voi due",
+    "local_hint_long": "In due, a turno, su questo dispositivo.",
     "bots_caption": "Otto bot, da Gus a Magnus"
   },
   "auth": {
@@ -71,5 +73,10 @@
     "updating": "Aggiornamento",
     "offline": "Sei offline. Quello che vedi potrebbe non essere aggiornato.",
     "unreachable": "Aggiornamento non riuscito. Quello che vedi potrebbe non essere aggiornato."
+  },
+  "not_found": {
+    "title": "Su questa casella non c'è nulla",
+    "body": "Quell'indirizzo non è una schermata del gioco.",
+    "action": "Torna al tabellone"
   }
 }

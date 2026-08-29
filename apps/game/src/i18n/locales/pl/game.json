@@ -91,6 +91,7 @@
     "by_repetition": "przez trzykrotne powtórzenie",
     "resign_title": "Poddać partię?",
     "resign_body": "Partia kończy się natychmiast, a zwycięstwo przypada przeciwnikowi. Tego nie można cofnąć.",
+    "keep_playing": "Graj dalej",
     "game_over": "Koniec gry",
     "moves": "{{count}} ruchów"
   },

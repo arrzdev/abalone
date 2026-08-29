@@ -23,10 +23,12 @@
     "tagline": "Schiebe sechs gegnerische Kugeln vom Brett, um zu gewinnen.",
     "play_online": "Online spielen",
     "play_offline": "Offline spielen",
+    "online_hint": "Gegen andere, unter deinem Namen.",
     "rules_link": "Noch nie gespielt? Die Regeln dauern zwei Minuten",
     "bot_hint_short": "Acht Stärken",
     "bot_hint_long": "Acht Bots, von Gus bis Magnus.",
     "local_hint_short": "Ein Gerät, ihr beide",
+    "local_hint_long": "Zu zweit, abwechselnd an diesem Gerät.",
     "bots_caption": "Acht Bots, von Gus bis Magnus"
   },
   "auth": {
@@ -71,5 +73,10 @@
     "updating": "Wird aktualisiert",
     "offline": "Du bist offline. Was du siehst, ist möglicherweise nicht aktuell.",
     "unreachable": "Das Aktualisieren hat nicht geklappt. Was du siehst, ist möglicherweise nicht aktuell."
+  },
+  "not_found": {
+    "title": "Auf diesem Feld ist nichts",
+    "body": "Diese Adresse gehört zu keinem Bildschirm des Spiels.",
+    "action": "Zurück zum Spielbrett"
   }
 }

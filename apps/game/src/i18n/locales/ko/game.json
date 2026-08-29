@@ -91,6 +91,7 @@
     "by_repetition": "3회 동형 반복으로",
     "resign_title": "기권하시겠습니까?",
     "resign_body": "대국이 즉시 끝나고 상대가 승리합니다. 되돌릴 수 없습니다.",
+    "keep_playing": "계속 두기",
     "game_over": "게임 종료",
     "moves": "{{count}}수"
   },

@@ -91,6 +91,7 @@
     "by_repetition": "üçlü tekrar ile",
     "resign_title": "Oyundan çekilinsin mi?",
     "resign_body": "Oyun hemen biter ve galibiyet rakibine gider. Bu geri alınamaz.",
+    "keep_playing": "Oynamaya devam et",
     "game_over": "Oyun bitti",
     "moves": "{{count}} hamle"
   },

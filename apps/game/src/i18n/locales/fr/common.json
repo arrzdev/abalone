@@ -23,10 +23,12 @@
     "tagline": "Poussez six billes adverses hors du plateau pour gagner.",
     "play_online": "Jouer en ligne",
     "play_offline": "Jouer hors ligne",
+    "online_hint": "Contre un autre joueur, sous ton nom.",
     "rules_link": "Jamais joué ? Les règles prennent deux minutes",
     "bot_hint_short": "Huit niveaux",
     "bot_hint_long": "Huit bots, de Gus à Magnus.",
     "local_hint_short": "Un appareil, vous deux",
+    "local_hint_long": "À deux, chacun son tour, sur cet appareil.",
     "bots_caption": "Huit bots, de Gus à Magnus"
   },
   "auth": {
@@ -71,5 +73,10 @@
     "updating": "Mise à jour",
     "offline": "Tu es hors ligne. Ce que tu vois n'est peut-être plus à jour.",
     "unreachable": "L'actualisation n'a pas abouti. Ce que tu vois n'est peut-être plus à jour."
+  },
+  "not_found": {
+    "title": "Rien sur cette case",
+    "body": "Cette adresse ne correspond à aucun écran du jeu.",
+    "action": "Retour au plateau"
   }
 }

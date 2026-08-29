@@ -91,6 +91,7 @@
     "by_repetition": "durch dreifache Wiederholung",
     "resign_title": "Partie aufgeben?",
     "resign_body": "Die Partie endet sofort und dein Gegner gewinnt. Das lässt sich nicht rückgängig machen.",
+    "keep_playing": "Weiterspielen",
     "game_over": "Spiel vorbei",
     "moves": "{{count}} Züge"
   },

@@ -91,6 +91,7 @@
     "by_repetition": "3回同形反復による",
     "resign_title": "投了しますか？",
     "resign_body": "対局はただちに終了し、相手の勝ちとなります。取り消せません。",
+    "keep_playing": "対局を続ける",
     "game_over": "対局終了",
     "moves": "{{count}}手"
   },

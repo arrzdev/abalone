@@ -91,6 +91,7 @@
     "by_repetition": "par triple répétition",
     "resign_title": "Abandonner la partie ?",
     "resign_body": "La partie se termine immédiatement et la victoire revient à votre adversaire. C’est irréversible.",
+    "keep_playing": "Continuer la partie",
     "game_over": "Partie terminée",
     "moves": "{{count}} coups"
   },

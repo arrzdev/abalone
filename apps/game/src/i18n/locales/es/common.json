@@ -23,10 +23,12 @@
     "tagline": "Empuja seis bolas del rival fuera del tablero para ganar.",
     "play_online": "Jugar en línea",
     "play_offline": "Jugar sin conexión",
+    "online_hint": "Contra otro jugador, con tu nombre.",
     "rules_link": "¿Nunca has jugado? Las reglas llevan dos minutos",
     "bot_hint_short": "Ocho niveles",
     "bot_hint_long": "Ocho bots, de Gus a Magnus.",
     "local_hint_short": "Un dispositivo, los dos",
+    "local_hint_long": "Dos personas, por turnos, en este dispositivo.",
     "bots_caption": "Ocho bots, de Gus a Magnus"
   },
   "auth": {
@@ -71,5 +73,10 @@
     "updating": "Actualizando",
     "offline": "Estás sin conexión. Lo que ves puede no estar actualizado.",
     "unreachable": "No se pudo actualizar. Lo que ves puede no estar actualizado."
+  },
+  "not_found": {
+    "title": "No hay nada en esta casilla",
+    "body": "Esa dirección no es ninguna pantalla del juego.",
+    "action": "Volver al tablero"
   }
 }

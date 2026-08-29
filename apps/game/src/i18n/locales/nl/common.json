@@ -23,10 +23,12 @@
     "tagline": "Duw zes ballen van je tegenstander van het bord om te winnen.",
     "play_online": "Online spelen",
     "play_offline": "Offline spelen",
+    "online_hint": "Tegen een andere speler, onder jouw naam.",
     "rules_link": "Nooit gespeeld? De regels kosten twee minuten",
     "bot_hint_short": "Acht niveaus",
     "bot_hint_long": "Acht bots, van Gus tot Magnus.",
     "local_hint_short": "Eén apparaat, jullie twee",
+    "local_hint_long": "Met z'n tweeën, om de beurt op dit apparaat.",
     "bots_caption": "Acht bots, van Gus tot Magnus"
   },
   "auth": {
@@ -71,5 +73,10 @@
     "updating": "Bijwerken",
     "offline": "Je bent offline. Wat je ziet is mogelijk verouderd.",
     "unreachable": "Bijwerken is niet gelukt. Wat je ziet is mogelijk verouderd."
+  },
+  "not_found": {
+    "title": "Niets op dit vakje",
+    "body": "Dat adres hoort bij geen enkel scherm van het spel.",
+    "action": "Terug naar het bord"
   }
 }

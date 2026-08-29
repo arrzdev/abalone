@@ -91,6 +91,7 @@
     "by_repetition": "per tripla ripetizione",
     "resign_title": "Abbandonare la partita?",
     "resign_body": "La partita finisce subito e la vittoria va al tuo avversario. Non è reversibile.",
+    "keep_playing": "Continua a giocare",
     "game_over": "Partita finita",
     "moves": "{{count}} mosse"
   },

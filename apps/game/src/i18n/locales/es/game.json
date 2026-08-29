@@ -91,6 +91,7 @@
     "by_repetition": "por triple repetición",
     "resign_title": "¿Rendirse en la partida?",
     "resign_body": "La partida termina de inmediato y la victoria es para tu rival. No se puede deshacer.",
+    "keep_playing": "Seguir jugando",
     "game_over": "Fin de la partida",
     "moves": "{{count}} jugadas"
   },

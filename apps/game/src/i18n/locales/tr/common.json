@@ -23,10 +23,12 @@
     "tagline": "Kazanmak için rakibinin altı bilyesini tahtadan dışarı it.",
     "play_online": "Çevrimiçi oyna",
     "play_offline": "Çevrimdışı oyna",
+    "online_hint": "Kendi adınla, başka bir oyuncuya karşı.",
     "rules_link": "Hiç oynamadın mı? Kurallar iki dakika sürer",
     "bot_hint_short": "Sekiz seviye",
     "bot_hint_long": "Gus'tan Magnus'a sekiz bot.",
     "local_hint_short": "Tek cihaz, ikiniz",
+    "local_hint_long": "İki kişi, sırayla, bu cihazda.",
     "bots_caption": "Gus'tan Magnus'a sekiz bot"
   },
   "auth": {
@@ -71,5 +73,10 @@
     "updating": "Güncelleniyor",
     "offline": "Çevrimdışısın. Gördüklerin güncel olmayabilir.",
     "unreachable": "Yenilenemedi. Gördüklerin güncel olmayabilir."
+  },
+  "not_found": {
+    "title": "Bu karede bir şey yok",
+    "body": "Bu adres oyunun ekranlarından biri değil.",
+    "action": "Tahtaya dön"
   }
 }

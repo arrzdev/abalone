@@ -71,7 +71,7 @@ export function PlayPoster() {
             icon={WifiIcon}
             tone="brand"
             title={t("common:home.play_online")}
-            hint={t("common:play.online_hint")}
+            hint={t("common:home.online_hint")}
             onClick={playOnline}
           />
 
@@ -90,7 +90,7 @@ export function PlayPoster() {
               icon={GroupIcon}
               className="lg:hidden"
               title={t("game:controls.mode_local")}
-              hint={t("common:play.local_hint")}
+              hint={t("common:home.local_hint_long")}
               onClick={() => playOffline("local")}
             />
 

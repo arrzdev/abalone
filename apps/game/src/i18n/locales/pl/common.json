@@ -23,10 +23,12 @@
     "tagline": "Wypchnij sześć kul przeciwnika poza planszę, aby wygrać.",
     "play_online": "Graj online",
     "play_offline": "Graj offline",
+    "online_hint": "Przeciwko innemu graczowi, pod twoją nazwą.",
     "rules_link": "Nigdy nie grałeś? Zasady zajmą dwie minuty",
     "bot_hint_short": "Osiem poziomów",
     "bot_hint_long": "Osiem botów, od Gusa do Magnusa.",
     "local_hint_short": "Jedno urządzenie, was dwoje",
+    "local_hint_long": "We dwoje, na zmianę, na tym urządzeniu.",
     "bots_caption": "Osiem botów, od Gusa do Magnusa"
   },
   "auth": {
@@ -71,5 +73,10 @@
     "updating": "Aktualizowanie",
     "offline": "Jesteś offline. To, co widzisz, może być nieaktualne.",
     "unreachable": "Nie udało się odświeżyć. To, co widzisz, może być nieaktualne."
+  },
+  "not_found": {
+    "title": "Na tym polu nic nie ma",
+    "body": "Ten adres nie prowadzi do żadnego ekranu gry.",
+    "action": "Wróć do planszy"
   }
 }

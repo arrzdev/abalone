@@ -91,6 +91,7 @@
     "by_repetition": "door drievoudige herhaling",
     "resign_title": "Partij opgeven?",
     "resign_body": "De partij eindigt meteen en de winst gaat naar je tegenstander. Dit kun je niet terugdraaien.",
+    "keep_playing": "Doorspelen",
     "game_over": "Partij voorbij",
     "moves": "{{count}} zetten"
   },

@@ -23,10 +23,12 @@
     "tagline": "把对手的六枚棋子推出棋盘即可获胜。",
     "play_online": "在线对战",
     "play_offline": "离线对战",
+    "online_hint": "以你的名字与其他玩家对战。",
     "rules_link": "没玩过？规则两分钟就能看完",
     "bot_hint_short": "八种强度",
     "bot_hint_long": "八个机器人，从 Gus 到 Magnus。",
     "local_hint_short": "一台设备，两个人",
+    "local_hint_long": "两人共用这台设备，轮流落子。",
     "bots_caption": "八个机器人，从 Gus 到 Magnus"
   },
   "auth": {
@@ -71,5 +73,10 @@
     "updating": "正在更新",
     "offline": "你处于离线状态。当前显示的内容可能不是最新的。",
     "unreachable": "刷新失败。当前显示的内容可能不是最新的。"
+  },
+  "not_found": {
+    "title": "这一格上什么都没有",
+    "body": "这个地址不是游戏里的任何一个界面。",
+    "action": "回到棋盘"
   }
 }

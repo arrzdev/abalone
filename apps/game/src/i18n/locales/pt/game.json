@@ -91,6 +91,7 @@
     "by_repetition": "por tripla repetição",
     "resign_title": "Desistir do jogo?",
     "resign_body": "O jogo termina de imediato e a vitória vai para o teu adversário. Não pode ser desfeito.",
+    "keep_playing": "Continuar a jogar",
     "game_over": "Fim de jogo",
     "moves": "{{count}} jogadas"
   },

@@ -23,10 +23,12 @@
     "tagline": "Push six of your opponent's marbles off the board to win.",
     "play_online": "Play Online",
     "play_offline": "Play Offline",
+    "online_hint": "Against another player, under your name.",
     "rules_link": "Never played? The rules take two minutes",
     "bot_hint_short": "Eight strengths",
     "bot_hint_long": "Eight bots, Gus to Magnus.",
     "local_hint_short": "One device, two of you",
+    "local_hint_long": "Two of you, taking turns on this device.",
     "bots_caption": "Eight bots, Gus to Magnus"
   },
   "auth": {
@@ -71,5 +73,10 @@
     "updating": "Updating",
     "offline": "You're offline. What you see may be out of date.",
     "unreachable": "Couldn't refresh this. What you see may be out of date."
+  },
+  "not_found": {
+    "title": "Nothing on this square",
+    "body": "That address is not one of the game's screens.",
+    "action": "Back to the board"
   }
 }
