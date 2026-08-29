@@ -82,7 +82,7 @@
     "you_win": "Wygrałeś!",
     "opponent_won": "{{opponent}} Wygrał!",
     "draw": "Remis!",
-    "victory_message": "Gratulacje! Pokonałeś bota {{difficulty}}.",
+    "victory_message": "Pokonałeś bota {{difficulty}}.",
     "defeat_message": "Bot {{difficulty}} wygrał tę grę.",
     "draw_message": "Gra zakończyła się remisem.",
     "rematch_button": "Rewanż",
@@ -90,7 +90,7 @@
     "by_resignation": "przez poddanie",
     "by_repetition": "przez trzykrotne powtórzenie",
     "resign_title": "Poddać partię?",
-    "resign_body": "Partia kończy się natychmiast, a zwycięstwo przypada przeciwnikowi. Tego nie można cofnąć.",
+    "resign_body": "Wygrywa przeciwnik, a tego nie można cofnąć.",
     "keep_playing": "Graj dalej",
     "game_over": "Koniec gry",
     "moves": "{{count}} ruchów"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "Dwóch graczy, jedno urządzenie",
-    "description": "Czarne zaczynają, potem ruch przechodzi na drugiego gracza. Włącz obracanie planszy w ustawieniach, aby obracała się do gracza na ruchu.",
+    "description": "Czarne zaczynają, potem ruch przechodzi dalej.",
     "black": "Czarne",
     "white": "Białe",
     "names": "Nazwy graczy",

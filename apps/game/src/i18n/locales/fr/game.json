@@ -82,7 +82,7 @@
     "you_win": "Vous gagnez !",
     "opponent_won": "{{opponent}} a gagné !",
     "draw": "Match nul !",
-    "victory_message": "Félicitations ! Vous avez vaincu le bot {{difficulty}}.",
+    "victory_message": "Vous avez vaincu le bot {{difficulty}}.",
     "defeat_message": "Le bot {{difficulty}} a gagné cette partie.",
     "draw_message": "La partie s'est terminée par un match nul.",
     "rematch_button": "Revanche",
@@ -90,7 +90,7 @@
     "by_resignation": "par abandon",
     "by_repetition": "par triple répétition",
     "resign_title": "Abandonner la partie ?",
-    "resign_body": "La partie se termine immédiatement et la victoire revient à votre adversaire. C’est irréversible.",
+    "resign_body": "Votre adversaire gagne, et c’est irréversible.",
     "keep_playing": "Continuer la partie",
     "game_over": "Partie terminée",
     "moves": "{{count}} coups"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "Deux joueurs, un appareil",
-    "description": "Les noirs commencent, puis le tour passe. Activez la rotation du plateau dans les paramètres pour le retourner vers le joueur au trait.",
+    "description": "Les noirs commencent, puis le tour passe.",
     "black": "Noirs",
     "white": "Blancs",
     "names": "Noms des joueurs",

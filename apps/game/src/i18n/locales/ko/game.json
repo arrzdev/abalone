@@ -82,7 +82,7 @@
     "you_win": "승리!",
     "opponent_won": "{{opponent}} 승리!",
     "draw": "무승부!",
-    "victory_message": "축하합니다! {{difficulty}} 봇을 이겼습니다.",
+    "victory_message": "{{difficulty}} 봇을 이겼습니다.",
     "defeat_message": "{{difficulty}} 봇이 이 게임을 이겼습니다.",
     "draw_message": "게임이 무승부로 끝났습니다.",
     "rematch_button": "재대결",
@@ -90,7 +90,7 @@
     "by_resignation": "기권으로",
     "by_repetition": "3회 동형 반복으로",
     "resign_title": "기권하시겠습니까?",
-    "resign_body": "대국이 즉시 끝나고 상대가 승리합니다. 되돌릴 수 없습니다.",
+    "resign_body": "상대가 승리하며, 되돌릴 수 없습니다.",
     "keep_playing": "계속 두기",
     "game_over": "게임 종료",
     "moves": "{{count}}수"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "한 기기로 두 명이",
-    "description": "흑이 먼저 두고 이후 차례가 넘어갑니다. 설정에서 보드 회전을 켜면 둘 차례인 쪽으로 보드가 돌아갑니다.",
+    "description": "흑이 먼저 두고 이후 차례가 넘어갑니다.",
     "black": "흑",
     "white": "백",
     "names": "플레이어 이름",

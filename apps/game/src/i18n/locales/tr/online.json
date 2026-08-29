@@ -57,7 +57,7 @@
   },
   "compose": {
     "title": "Yeni davet",
-    "body": "Uygulamayı bir dahaki açışında görecek. İkinizin aynı anda burada olması gerekmiyor.",
+    "body": "Uygulamayı bir dahaki açışında görecek.",
     "username": "Kiminle oynuyorsun?",
     "username_placeholder": "Adı",
     "setup": "Açılış",
@@ -81,7 +81,7 @@
   },
   "empty": {
     "title": "Burada henüz bir şey yok",
-    "body": "Birini adıyla davet et; oyun burada belirir. Oyunlar seni bekler, günde bir hamle gayet iyi bir oyundur.",
+    "body": "Birini adıyla davet et; oyun burada başlar.",
     "play_bot": "Bota karşı oyna"
   }
 }

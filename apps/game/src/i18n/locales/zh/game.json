@@ -82,7 +82,7 @@
     "you_win": "你赢了！",
     "opponent_won": "{{opponent}} 获胜！",
     "draw": "平局！",
-    "victory_message": "恭喜！你击败了 {{difficulty}} 难度的机器人。",
+    "victory_message": "你击败了 {{difficulty}} 难度的机器人。",
     "defeat_message": "{{difficulty}} 难度的机器人赢得了本局。",
     "draw_message": "本局以平局结束。",
     "rematch_button": "再来一局",
@@ -90,7 +90,7 @@
     "by_resignation": "认输",
     "by_repetition": "三次重复局面",
     "resign_title": "要认输吗？",
-    "resign_body": "对局将立即结束，胜利归对手所有。此操作无法撤销。",
+    "resign_body": "对手获胜，且无法撤销。",
     "keep_playing": "继续对局",
     "game_over": "对局结束",
     "moves": "{{count}} 步"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "两人共用一台设备",
-    "description": "黑方先行，之后轮流走子。在设置中开启棋盘旋转，棋盘就会转向当前走子的一方。",
+    "description": "黑方先行，之后轮流走子。",
     "black": "黑方",
     "white": "白方",
     "names": "玩家名称",

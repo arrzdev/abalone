@@ -57,7 +57,7 @@
   },
   "compose": {
     "title": "Nouvelle invitation",
-    "body": "Il la verra à sa prochaine ouverture de l'app. Aucun de vous deux n'a besoin d'être là en même temps.",
+    "body": "L'invitation attend sa prochaine ouverture de l'app.",
     "username": "Contre qui joues-tu ?",
     "username_placeholder": "Son nom",
     "setup": "Ouverture",
@@ -81,7 +81,7 @@
   },
   "empty": {
     "title": "Rien ici pour l'instant",
-    "body": "Invitez quelqu'un par son nom et la partie apparaîtra ici. Les parties vous attendent : un coup par jour fait une très bonne partie.",
+    "body": "Invitez quelqu'un par son nom et la partie commence ici.",
     "play_bot": "Jouer contre un bot"
   }
 }

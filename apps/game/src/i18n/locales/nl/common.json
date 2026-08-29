@@ -44,7 +44,7 @@
     "prompt_title": "Log in om online te spelen",
     "prompt_body": "Online partijen hebben een account nodig om te spelen.",
     "signup_title": "Kies een naam",
-    "signup_body": "Tegenstanders nodigen je uit door hem precies in te typen, dus kies er een die je hardop kunt spellen.",
+    "signup_body": "Tegenstanders nodigen je uit door hem precies in te typen.",
     "errors": {
       "username_taken": "Die naam is al bezet.",
       "username_invalid": "3 tot 20 letters, cijfers, punten of liggende streepjes.",

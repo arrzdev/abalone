@@ -57,7 +57,7 @@
   },
   "compose": {
     "title": "New invite",
-    "body": "They pick it up whenever they next open the app. Neither of you has to be here at the same time.",
+    "body": "They pick it up next time they open the app.",
     "username": "Who are you playing?",
     "username_placeholder": "Their name",
     "setup": "Opening",
@@ -81,7 +81,7 @@
   },
   "empty": {
     "title": "Nothing here yet",
-    "body": "Invite somebody by their name and the game appears here. Games wait for you, so a move a day is a perfectly good game.",
+    "body": "Invite somebody by name and the game starts here.",
     "play_bot": "Play a bot"
   }
 }

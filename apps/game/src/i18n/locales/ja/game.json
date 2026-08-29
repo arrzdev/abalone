@@ -82,7 +82,7 @@
     "you_win": "勝ちました！",
     "opponent_won": "{{opponent}} の勝ち！",
     "draw": "引き分け！",
-    "victory_message": "おめでとう！{{difficulty}} ボットに勝利しました。",
+    "victory_message": "{{difficulty}} ボットに勝利しました。",
     "defeat_message": "{{difficulty}} ボットがこの対局に勝利しました。",
     "draw_message": "対局は引き分けに終わりました。",
     "rematch_button": "再戦",
@@ -90,7 +90,7 @@
     "by_resignation": "投了による",
     "by_repetition": "3回同形反復による",
     "resign_title": "投了しますか？",
-    "resign_body": "対局はただちに終了し、相手の勝ちとなります。取り消せません。",
+    "resign_body": "相手の勝ちとなり、取り消せません。",
     "keep_playing": "対局を続ける",
     "game_over": "対局終了",
     "moves": "{{count}}手"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "1台で2人対戦",
-    "description": "黒が先手で、その後は交互に手番が移ります。設定で盤の回転を有効にすると、手番の側に合わせて盤が反転します。",
+    "description": "黒が先手で、その後は交互に手番が移ります。",
     "black": "黒",
     "white": "白",
     "names": "プレイヤー名",

@@ -82,7 +82,7 @@
     "you_win": "Você venceu!",
     "opponent_won": "{{opponent}} venceu!",
     "draw": "Empate!",
-    "victory_message": "Parabéns! Você derrotou o bot {{difficulty}}.",
+    "victory_message": "Derrotaste o bot {{difficulty}}.",
     "defeat_message": "O bot {{difficulty}} venceu este jogo.",
     "draw_message": "O jogo terminou em empate.",
     "rematch_button": "Revanche",
@@ -90,7 +90,7 @@
     "by_resignation": "por desistência",
     "by_repetition": "por tripla repetição",
     "resign_title": "Desistir do jogo?",
-    "resign_body": "O jogo termina de imediato e a vitória vai para o teu adversário. Não pode ser desfeito.",
+    "resign_body": "O teu adversário ganha, e não dá para voltar atrás.",
     "keep_playing": "Continuar a jogar",
     "game_over": "Fim de jogo",
     "moves": "{{count}} jogadas"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "Dois jogadores, um dispositivo",
-    "description": "As pretas jogam primeiro e depois a vez passa. Ativa a rotação do tabuleiro nas definições para o virar para quem joga.",
+    "description": "As pretas jogam primeiro e depois a vez passa.",
     "black": "Pretas",
     "white": "Brancas",
     "names": "Nomes dos jogadores",

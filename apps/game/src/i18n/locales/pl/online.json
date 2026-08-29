@@ -57,7 +57,7 @@
   },
   "compose": {
     "title": "Nowe zaproszenie",
-    "body": "Zobaczy je, gdy następnym razem otworzy aplikację. Nie musicie być tu w tym samym czasie.",
+    "body": "Zobaczy je przy następnym otwarciu aplikacji.",
     "username": "Z kim grasz?",
     "username_placeholder": "Jego nazwa",
     "setup": "Ustawienie",
@@ -81,7 +81,7 @@
   },
   "empty": {
     "title": "Jeszcze nic tu nie ma",
-    "body": "Zaproś kogoś po imieniu, a gra pojawi się tutaj. Gry na ciebie czekają, więc jeden ruch dziennie to całkiem dobra gra.",
+    "body": "Zaproś kogoś po imieniu, a gra zacznie się tutaj.",
     "play_bot": "Zagraj z botem"
   }
 }

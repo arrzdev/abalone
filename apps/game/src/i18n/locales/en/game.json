@@ -82,7 +82,7 @@
     "you_win": "You Win!",
     "opponent_won": "{{opponent}} Won!",
     "draw": "Draw!",
-    "victory_message": "Congratulations! You defeated the {{difficulty}} bot.",
+    "victory_message": "You defeated the {{difficulty}} bot.",
     "defeat_message": "The {{difficulty}} bot won this game.",
     "draw_message": "The game ended in a draw.",
     "rematch_button": "Rematch",
@@ -90,7 +90,7 @@
     "by_resignation": "by resignation",
     "by_repetition": "by threefold repetition",
     "resign_title": "Resign the game?",
-    "resign_body": "The game ends right away and the win goes to your opponent. This cannot be undone.",
+    "resign_body": "Your opponent wins, and this cannot be undone.",
     "keep_playing": "Keep playing",
     "game_over": "Game over",
     "moves": "{{count}} moves"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "Two players, one device",
-    "description": "Black moves first, then the turn passes. Turn on board rotation in settings to flip the board for whoever is to move.",
+    "description": "Black moves first, then you take turns.",
     "black": "Black",
     "white": "White",
     "names": "Player names",

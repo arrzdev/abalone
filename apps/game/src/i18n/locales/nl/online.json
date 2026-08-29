@@ -57,7 +57,7 @@
   },
   "compose": {
     "title": "Nieuwe uitnodiging",
-    "body": "Die ziet het zodra de app weer opengaat. Jullie hoeven er niet tegelijk te zijn.",
+    "body": "Die ziet het zodra de app weer opengaat.",
     "username": "Tegen wie speel je?",
     "username_placeholder": "Zijn naam",
     "setup": "Opstelling",
@@ -81,7 +81,7 @@
   },
   "empty": {
     "title": "Hier is nog niets",
-    "body": "Nodig iemand uit op naam en het spel verschijnt hier. Spellen wachten op je, dus één zet per dag is een prima spel.",
+    "body": "Nodig iemand uit op naam en het spel begint hier.",
     "play_bot": "Speel tegen een bot"
   }
 }

@@ -82,7 +82,7 @@
     "you_win": "Hai vinto!",
     "opponent_won": "{{opponent}} ha vinto!",
     "draw": "Pareggio!",
-    "victory_message": "Congratulazioni! Hai sconfitto il bot {{difficulty}}.",
+    "victory_message": "Hai sconfitto il bot {{difficulty}}.",
     "defeat_message": "Il bot {{difficulty}} ha vinto questa partita.",
     "draw_message": "La partita è finita in pareggio.",
     "rematch_button": "Rivincita",
@@ -90,7 +90,7 @@
     "by_resignation": "per abbandono",
     "by_repetition": "per tripla ripetizione",
     "resign_title": "Abbandonare la partita?",
-    "resign_body": "La partita finisce subito e la vittoria va al tuo avversario. Non è reversibile.",
+    "resign_body": "Vince il tuo avversario, e non è reversibile.",
     "keep_playing": "Continua a giocare",
     "game_over": "Partita finita",
     "moves": "{{count}} mosse"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "Due giocatori, un dispositivo",
-    "description": "Il nero muove per primo, poi il turno passa. Attiva la rotazione del tabellone nelle impostazioni per girarlo verso chi deve muovere.",
+    "description": "Il nero muove per primo, poi il turno passa.",
     "black": "Nero",
     "white": "Bianco",
     "names": "Nomi dei giocatori",

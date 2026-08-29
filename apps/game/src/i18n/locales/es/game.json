@@ -82,7 +82,7 @@
     "you_win": "¡Ganaste!",
     "opponent_won": "¡{{opponent}} ganó!",
     "draw": "¡Empate!",
-    "victory_message": "¡Felicidades! Derrotaste al bot {{difficulty}}.",
+    "victory_message": "Derrotaste al bot {{difficulty}}.",
     "defeat_message": "El bot {{difficulty}} ganó este juego.",
     "draw_message": "El juego terminó en empate.",
     "rematch_button": "Revancha",
@@ -90,7 +90,7 @@
     "by_resignation": "por abandono",
     "by_repetition": "por triple repetición",
     "resign_title": "¿Rendirse en la partida?",
-    "resign_body": "La partida termina de inmediato y la victoria es para tu rival. No se puede deshacer.",
+    "resign_body": "Gana tu rival, y no se puede deshacer.",
     "keep_playing": "Seguir jugando",
     "game_over": "Fin de la partida",
     "moves": "{{count}} jugadas"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "Dos jugadores, un dispositivo",
-    "description": "Las negras mueven primero y luego pasa el turno. Activa la rotación del tablero en los ajustes para voltearlo hacia quien mueve.",
+    "description": "Las negras mueven primero y luego pasa el turno.",
     "black": "Negras",
     "white": "Blancas",
     "names": "Nombres de jugadores",

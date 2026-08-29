@@ -82,7 +82,7 @@
     "you_win": "Je Wint!",
     "opponent_won": "{{opponent}} Won!",
     "draw": "Gelijkspel!",
-    "victory_message": "Gefeliciteerd! Je hebt de {{difficulty}} bot verslagen.",
+    "victory_message": "Je hebt de {{difficulty}} bot verslagen.",
     "defeat_message": "De {{difficulty}} bot heeft dit spel gewonnen.",
     "draw_message": "Het spel eindigde in een gelijkspel.",
     "rematch_button": "Rematch",
@@ -90,7 +90,7 @@
     "by_resignation": "door opgave",
     "by_repetition": "door drievoudige herhaling",
     "resign_title": "Partij opgeven?",
-    "resign_body": "De partij eindigt meteen en de winst gaat naar je tegenstander. Dit kun je niet terugdraaien.",
+    "resign_body": "Je tegenstander wint, en dit kun je niet terugdraaien.",
     "keep_playing": "Doorspelen",
     "game_over": "Partij voorbij",
     "moves": "{{count}} zetten"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "Twee spelers, één apparaat",
-    "description": "Zwart begint, daarna wisselt de beurt. Zet het draaien van het bord aan in de instellingen om het naar de speler aan zet te draaien.",
+    "description": "Zwart begint, daarna wisselt de beurt.",
     "black": "Zwart",
     "white": "Wit",
     "names": "Spelersnamen",

@@ -44,7 +44,7 @@
     "prompt_title": "登录后即可在线对战",
     "prompt_body": "线上对局需要一个账号。",
     "signup_title": "取个名字",
-    "signup_body": "对手要一字不差地输入它来邀请你，所以取一个你能念出来的。",
+    "signup_body": "对手要一字不差地输入它来邀请你。",
     "errors": {
       "username_taken": "这个名字已经有人用了。",
       "username_invalid": "3 到 20 个字符：字母、数字、点和下划线。",

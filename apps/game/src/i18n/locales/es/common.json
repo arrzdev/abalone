@@ -44,7 +44,7 @@
     "prompt_title": "Inicia sesión para jugar en línea",
     "prompt_body": "Las partidas en línea necesitan una cuenta para jugar.",
     "signup_title": "Elige un nombre",
-    "signup_body": "Los rivales te invitan escribiéndolo exactamente, así que elige uno que puedas deletrear en voz alta.",
+    "signup_body": "Los rivales te invitan escribiéndolo exactamente.",
     "errors": {
       "username_taken": "Ese nombre ya está ocupado.",
       "username_invalid": "3 a 20 letras, números, puntos o guiones bajos.",

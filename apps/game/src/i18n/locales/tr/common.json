@@ -44,7 +44,7 @@
     "prompt_title": "Çevrimiçi oynamak için giriş yap",
     "prompt_body": "Çevrimiçi oyunlar için bir hesap gerekir.",
     "signup_title": "Bir ad seç",
-    "signup_body": "Rakipler seni adını birebir yazarak davet eder, bu yüzden sesli olarak söyleyebileceğin bir ad seç.",
+    "signup_body": "Rakipler seni adını birebir yazarak davet eder.",
     "errors": {
       "username_taken": "Bu ad zaten alınmış.",
       "username_invalid": "3 ile 20 arası harf, rakam, nokta veya alt çizgi.",

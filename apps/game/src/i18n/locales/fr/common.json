@@ -44,7 +44,7 @@
     "prompt_title": "Connecte-toi pour jouer en ligne",
     "prompt_body": "Les parties en ligne demandent un compte pour jouer.",
     "signup_title": "Choisis un nom",
-    "signup_body": "Les adversaires t'invitent en le tapant à l'identique, alors choisis-en un que tu peux épeler à voix haute.",
+    "signup_body": "Les adversaires t'invitent en le tapant à l'identique.",
     "errors": {
       "username_taken": "Ce nom est déjà pris.",
       "username_invalid": "3 à 20 lettres, chiffres, points ou tirets bas.",

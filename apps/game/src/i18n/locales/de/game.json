@@ -82,7 +82,7 @@
     "you_win": "Du gewinnst!",
     "opponent_won": "{{opponent}} hat gewonnen!",
     "draw": "Unentschieden!",
-    "victory_message": "Glückwunsch! Du hast den {{difficulty}} Bot besiegt.",
+    "victory_message": "Du hast den {{difficulty}} Bot besiegt.",
     "defeat_message": "Der {{difficulty}} Bot hat dieses Spiel gewonnen.",
     "draw_message": "Das Spiel endete unentschieden.",
     "rematch_button": "Revanche",
@@ -90,7 +90,7 @@
     "by_resignation": "durch Aufgabe",
     "by_repetition": "durch dreifache Wiederholung",
     "resign_title": "Partie aufgeben?",
-    "resign_body": "Die Partie endet sofort und dein Gegner gewinnt. Das lässt sich nicht rückgängig machen.",
+    "resign_body": "Dein Gegner gewinnt, und das lässt sich nicht rückgängig machen.",
     "keep_playing": "Weiterspielen",
     "game_over": "Spiel vorbei",
     "moves": "{{count}} Züge"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "Zwei Spieler, ein Gerät",
-    "description": "Schwarz beginnt, danach wechselt der Zug. Aktiviere das Drehen des Bretts in den Einstellungen, damit es sich zur ziehenden Seite dreht.",
+    "description": "Schwarz beginnt, danach wechselt der Zug.",
     "black": "Schwarz",
     "white": "Weiß",
     "names": "Spielernamen",

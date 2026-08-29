@@ -82,7 +82,7 @@
     "you_win": "Kazandın!",
     "opponent_won": "{{opponent}} Kazandı!",
     "draw": "Berabere!",
-    "victory_message": "Tebrikler! {{difficulty}} botunu yendin.",
+    "victory_message": "{{difficulty}} botunu yendin.",
     "defeat_message": "{{difficulty}} botu bu oyunu kazandı.",
     "draw_message": "Oyun berabere bitti.",
     "rematch_button": "Rövanş",
@@ -90,7 +90,7 @@
     "by_resignation": "çekilme ile",
     "by_repetition": "üçlü tekrar ile",
     "resign_title": "Oyundan çekilinsin mi?",
-    "resign_body": "Oyun hemen biter ve galibiyet rakibine gider. Bu geri alınamaz.",
+    "resign_body": "Rakibin kazanır ve bu geri alınamaz.",
     "keep_playing": "Oynamaya devam et",
     "game_over": "Oyun bitti",
     "moves": "{{count}} hamle"
@@ -141,7 +141,7 @@
   },
   "local": {
     "title": "İki oyuncu, tek cihaz",
-    "description": "Siyah önce oynar, sonra sıra karşıya geçer. Tahtanın hamle sırası olan tarafa dönmesi için ayarlardan tahta döndürmeyi aç.",
+    "description": "Siyah önce oynar, sonra sıra karşıya geçer.",
     "black": "Siyah",
     "white": "Beyaz",
     "names": "Oyuncu adları",
