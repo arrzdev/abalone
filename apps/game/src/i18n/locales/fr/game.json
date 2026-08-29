@@ -1,15 +1,15 @@
 {
   "meta": {
     "title": "Jouer à Abalone en ligne, contre des bots ou à deux | Gratuit",
-    "description": "Jouez à Abalone gratuitement dans votre navigateur. Affrontez un bot réglé sur huit forces, jouez à deux chacun son tour sur le même appareil, ou invitez quelqu'un à une partie en ligne. Neuf configurations de plateau, historique complet des coups et barre d'évaluation. Aucun téléchargement.",
+    "description": "Jouez à Abalone gratuitement dans votre navigateur. Contre un bot en huit forces, à deux sur le même appareil, ou en ligne avec qui vous invitez. Sans téléchargement.",
     "keywords": "jouer abalone, abalone en ligne, abalone navigateur, abalone contre ordinateur, abalone bot, abalone à deux, abalone gratuit, configurations abalone, règles abalone",
     "og_title": "Jouer à Abalone dans le navigateur",
-    "og_description": "Affrontez un bot réglé sur huit forces, jouez à deux sur le même appareil, ou invitez quelqu'un à une partie en ligne. Neuf configurations de plateau, historique complet des coups et barre d'évaluation. Gratuit, sans téléchargement.",
+    "og_description": "Contre un bot en huit forces, à deux sur le même appareil, ou en ligne avec qui vous invitez. Gratuit, sans téléchargement.",
     "twitter_title": "Jouer à Abalone dans le navigateur",
-    "twitter_description": "Un bot réglé sur huit forces, à deux sur le même appareil, ou une partie en ligne à votre rythme. Neuf configurations de plateau et historique complet des coups. Gratuit, sans téléchargement.",
+    "twitter_description": "Un bot en huit forces, à deux sur le même appareil, ou une partie en ligne à votre rythme. Gratuit, sans téléchargement.",
     "structured_data": {
       "name": "Abalone",
-      "description": "Jouez à Abalone contre un bot réglé sur huit forces, à deux chacun son tour sur le même appareil, ou invitez quelqu'un à une partie en ligne. Neuf configurations de plateau (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), historique complet des coups et barre d'évaluation. Gratuit dans le navigateur, sans téléchargement.",
+      "description": "Jouez à Abalone contre un bot en huit forces, à deux sur le même appareil, ou en ligne avec qui vous invitez. Neuf configurations de plateau et historique complet des coups. Gratuit dans le navigateur.",
       "audience": "Joueurs de jeux de société et amateurs de jeux de stratégie"
     }
   },
@@ -97,32 +97,32 @@
   },
   "rules": {
     "title": "Comment jouer",
-    "intro": "Abalone se joue à deux sur un plateau hexagonal de 61 cases. Chaque camp commence avec 14 billes et joue un coup par tour.",
+    "intro": "Un jeu à deux sur un plateau hexagonal de 61 cases. Chaque camp a 14 billes.",
     "goal": {
       "title": "L'objectif",
-      "body": "Pousser six billes adverses hors du plateau. C'est tout le jeu. Il n'y a rien d'autre à compter."
+      "body": "Pousser six billes adverses hors du plateau."
     },
     "directions": {
       "title": "Six directions",
-      "body": "Chaque case en touche six autres, donc une bille peut se déplacer dans six directions. Ni diagonales ni sauts : une bille va toujours sur une case voisine.",
-      "caption": "Les six directions offertes à une bille."
+      "body": "Une bille avance d'une case dans l'une des six directions. Ni diagonales ni sauts.",
+      "caption": "Les six directions."
     },
     "move": {
       "title": "Déplacer les billes",
-      "body": "À ton tour, tu déplaces une, deux ou trois de tes billes. Deux ou trois doivent être côte à côte en ligne droite, et elles avancent toutes d'une case dans la même direction.",
-      "inline_caption": "En ligne : la rangée avance dans la direction qu'elle indique déjà.",
-      "broadside_caption": "En flanc : la rangée se décale sur le côté, et toutes les cases d'arrivée doivent être vides."
+      "body": "Tu déplaces une, deux ou trois de tes billes. Deux ou trois doivent être en ligne droite et avancent ensemble.",
+      "inline_caption": "En ligne : la rangée avance dans sa propre direction.",
+      "broadside_caption": "En flanc : la rangée se décale sur des cases vides."
     },
     "push": {
       "title": "Pousser",
-      "body": "Seul un coup en ligne peut pousser. Il te faut plus de billes que l'adversaire sur cette ligne : deux contre une, trois contre une ou trois contre deux. La case derrière les billes adverses doit être libre.",
-      "ok_caption": "Trois contre deux : toute la ligne avance d'une case.",
-      "blocked_caption": "Trois contre trois ne bouge jamais, et tu ne peux jamais pousser tes propres billes."
+      "body": "Seul un coup en ligne pousse, et il te faut plus de billes que l'adversaire : deux contre une, ou trois contre une ou deux. La case derrière les siennes doit être libre.",
+      "ok_caption": "Trois contre deux : la ligne avance d'une case.",
+      "blocked_caption": "À nombre égal rien ne bouge, et tes billes ne se poussent jamais."
     },
     "capture": {
       "title": "Sortir des billes",
-      "body": "Une bille poussée au-delà du bord est éliminée. Le premier à sortir six billes adverses gagne la partie.",
-      "caption": "Deux contre une au bord : la bille noire sort."
+      "body": "Une bille poussée au-delà du bord est éliminée. Six d'entre elles gagnent la partie.",
+      "caption": "Deux contre une au bord : la noire sort."
     },
     "cta": "Jouer maintenant"
   },

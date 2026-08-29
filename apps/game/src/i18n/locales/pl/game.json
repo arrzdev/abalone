@@ -1,15 +1,15 @@
 {
   "meta": {
     "title": "Graj w Abalone online, z botem lub we dwoje | Za darmo",
-    "description": "Graj w Abalone za darmo w przeglądarce. Zmierz się z botem w ośmiu poziomach siły, grajcie we dwoje na przemian na jednym urządzeniu albo zaproś kogoś do partii online. Dziewięć układów planszy, pełna historia ruchów i pasek oceny. Bez pobierania.",
+    "description": "Graj w Abalone za darmo w przeglądarce. Z botem w ośmiu poziomach, we dwoje na jednym urządzeniu albo online z kimś, kogo zaprosisz. Bez pobierania.",
     "keywords": "graj w abalone, abalone online, abalone przeglądarka, abalone przeciwko komputerowi, abalone bot, abalone we dwoje, darmowe abalone, układy planszy abalone, zasady abalone",
     "og_title": "Graj w Abalone w przeglądarce",
-    "og_description": "Zmierz się z botem w ośmiu poziomach siły, grajcie we dwoje na jednym urządzeniu albo zaproś kogoś do partii online. Dziewięć układów planszy, pełna historia ruchów i pasek oceny. Za darmo, bez pobierania.",
+    "og_description": "Z botem w ośmiu poziomach, we dwoje na jednym urządzeniu albo online z kimś, kogo zaprosisz. Za darmo, bez pobierania.",
     "twitter_title": "Graj w Abalone w przeglądarce",
-    "twitter_description": "Bot w ośmiu poziomach siły, gra we dwoje na jednym urządzeniu albo partia online we własnym tempie. Dziewięć układów planszy i pełna historia ruchów. Za darmo, bez pobierania.",
+    "twitter_description": "Bot w ośmiu poziomach, gra we dwoje na jednym urządzeniu albo partia online we własnym tempie. Za darmo, bez pobierania.",
     "structured_data": {
       "name": "Abalone",
-      "description": "Graj w Abalone przeciwko botowi w ośmiu poziomach siły, we dwoje na przemian na jednym urządzeniu albo zaproś kogoś do partii online. Dziewięć układów planszy (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), pełna historia ruchów i pasek oceny. Za darmo w przeglądarce, bez pobierania.",
+      "description": "Graj w Abalone z botem w ośmiu poziomach, we dwoje na jednym urządzeniu albo online z kimś, kogo zaprosisz. Dziewięć układów planszy i pełna historia ruchów. Za darmo w przeglądarce.",
       "audience": "Gracze planszówek i miłośnicy gier strategicznych"
     }
   },
@@ -97,32 +97,32 @@
   },
   "rules": {
     "title": "Jak grać",
-    "intro": "Abalone to gra dla dwóch osób na sześciokątnej planszy z 61 polami. Każda strona zaczyna z 14 kulami i wykonuje jeden ruch na turę.",
+    "intro": "Gra dla dwóch osób na sześciokątnej planszy z 61 polami. Każda strona ma 14 kul.",
     "goal": {
       "title": "Cel gry",
-      "body": "Wypchnij sześć kul przeciwnika poza planszę. To cała gra. Nie liczy się nic więcej."
+      "body": "Wypchnij sześć kul przeciwnika poza planszę."
     },
     "directions": {
       "title": "Sześć kierunków",
-      "body": "Każde pole sąsiaduje z sześcioma innymi, więc kula może ruszyć się w sześciu kierunkach. Nie ma przekątnych ani przeskoków. Kula zawsze przechodzi na sąsiednie pole.",
-      "caption": "Sześć kierunków dostępnych dla jednej kuli."
+      "body": "Kula przechodzi o jedno pole w jednym z sześciu kierunków. Nie ma przekątnych ani przeskoków.",
+      "caption": "Sześć kierunków."
     },
     "move": {
       "title": "Ruch kul",
-      "body": "W swojej turze ruszasz jedną, dwiema lub trzema własnymi kulami. Dwie lub trzy muszą stać obok siebie w linii prostej i wszystkie przesuwają się o jedno pole w tym samym kierunku.",
-      "inline_caption": "W linii: rząd przesuwa się w kierunku, w którym już jest ustawiony.",
-      "broadside_caption": "Bokiem: rząd przesuwa się w bok, a każde pole docelowe musi być puste."
+      "body": "Ruszasz jedną, dwiema lub trzema własnymi kulami. Dwie lub trzy muszą stać w linii prostej i przesuwają się razem.",
+      "inline_caption": "W linii: rząd przesuwa się w swoim kierunku.",
+      "broadside_caption": "Bokiem: rząd przesuwa się na puste pola."
     },
     "push": {
       "title": "Wypychanie",
-      "body": "Wypychać można tylko ruchem w linii. Musisz mieć na tej linii więcej kul niż przeciwnik: dwie na jedną, trzy na jedną albo trzy na dwie. Pole za kulami przeciwnika musi być puste.",
-      "ok_caption": "Trzy na dwie: cała linia przesuwa się o jedno pole.",
-      "blocked_caption": "Trzy na trzy nigdy się nie ruszy, a własnych kul nie wolno wypychać."
+      "body": "Wypycha tylko ruch w linii i musisz mieć więcej kul niż przeciwnik: dwie na jedną albo trzy na jedną lub dwie. Pole za jego kulami musi być puste.",
+      "ok_caption": "Trzy na dwie: linia przesuwa się o jedno pole.",
+      "blocked_caption": "Przy równej liczbie nic się nie rusza, a własnych nie wypychasz."
     },
     "capture": {
       "title": "Wypychanie poza planszę",
-      "body": "Kula wypchnięta poza krawędź odpada z gry. Wygrywa ten, kto pierwszy wypchnie sześć kul przeciwnika.",
-      "caption": "Dwie na jedną przy krawędzi: czarna kula wypada."
+      "body": "Kula wypchnięta poza krawędź odpada na dobre. Sześć takich wygrywa partię.",
+      "caption": "Dwie na jedną przy krawędzi: czarna wypada."
     },
     "cta": "Zagraj teraz"
   },

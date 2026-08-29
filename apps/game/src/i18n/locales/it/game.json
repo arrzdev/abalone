@@ -1,15 +1,15 @@
 {
   "meta": {
     "title": "Giocare ad Abalone online, contro bot o in due | Gratis",
-    "description": "Gioca ad Abalone gratis nel browser. Sfida un bot con otto livelli di forza, giocate in due a turni sullo stesso dispositivo, oppure invita qualcuno a una partita online. Nove configurazioni del tabellone, cronologia completa delle mosse e barra di valutazione. Nessun download.",
+    "description": "Gioca ad Abalone gratis nel browser. Contro un bot con otto livelli, in due sullo stesso dispositivo, o online con chi inviti. Nessun download.",
     "keywords": "giocare abalone, abalone online, abalone browser, abalone contro computer, abalone bot, abalone in due, abalone gratis, configurazioni abalone, regole abalone",
     "og_title": "Giocare ad Abalone nel browser",
-    "og_description": "Sfida un bot con otto livelli di forza, giocate in due sullo stesso dispositivo, oppure invita qualcuno a una partita online. Nove configurazioni del tabellone, cronologia completa delle mosse e barra di valutazione. Gratis, senza download.",
+    "og_description": "Contro un bot con otto livelli, in due sullo stesso dispositivo, o online con chi inviti. Gratis, senza download.",
     "twitter_title": "Giocare ad Abalone nel browser",
-    "twitter_description": "Un bot con otto livelli, in due sullo stesso dispositivo, o una partita online con i vostri tempi. Nove configurazioni del tabellone e cronologia completa. Gratis, senza download.",
+    "twitter_description": "Un bot con otto livelli, in due sullo stesso dispositivo, o una partita online con i vostri tempi. Gratis, senza download.",
     "structured_data": {
       "name": "Abalone",
-      "description": "Gioca ad Abalone contro un bot con otto livelli di forza, in due a turni sullo stesso dispositivo, oppure invita qualcuno a una partita online. Nove configurazioni del tabellone (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), cronologia completa delle mosse e barra di valutazione. Gratis nel browser, senza download.",
+      "description": "Gioca ad Abalone contro un bot con otto livelli, in due sullo stesso dispositivo, o online con chi inviti. Nove configurazioni del tabellone e cronologia completa delle mosse. Gratis nel browser.",
       "audience": "Giocatori di giochi da tavolo e appassionati di giochi di strategia"
     }
   },
@@ -97,32 +97,32 @@
   },
   "rules": {
     "title": "Come si gioca",
-    "intro": "Abalone è un gioco per due su un tabellone esagonale di 61 caselle. Ogni giocatore parte con 14 biglie e muove una volta per turno.",
+    "intro": "Un gioco per due su un tabellone esagonale di 61 caselle. Ognuno ha 14 biglie.",
     "goal": {
       "title": "L'obiettivo",
-      "body": "Spingi sei biglie avversarie fuori dal tabellone. È tutto qui. Non c'è altro da contare."
+      "body": "Spingi sei biglie avversarie fuori dal tabellone."
     },
     "directions": {
       "title": "Sei direzioni",
-      "body": "Ogni casella ne tocca altre sei, quindi una biglia può muoversi in sei direzioni. Niente diagonali e niente salti: una biglia va sempre su una casella adiacente.",
-      "caption": "Le sei direzioni possibili per una biglia."
+      "body": "Una biglia avanza di una casella in una di sei direzioni. Niente diagonali e niente salti.",
+      "caption": "Le sei direzioni."
     },
     "move": {
       "title": "Muovere le biglie",
-      "body": "Nel tuo turno muovi una, due o tre biglie tue. Due o tre devono essere affiancate in linea retta e si spostano tutte di una casella nella stessa direzione.",
-      "inline_caption": "In linea: la fila avanza nella direzione in cui già punta.",
-      "broadside_caption": "Di fianco: la fila si sposta lateralmente e tutte le caselle d'arrivo devono essere libere."
+      "body": "Muovi una, due o tre biglie tue. Due o tre devono essere in linea retta e si muovono insieme.",
+      "inline_caption": "In linea: la fila avanza nella sua direzione.",
+      "broadside_caption": "Di fianco: la fila si sposta su caselle libere."
     },
     "push": {
       "title": "Spingere",
-      "body": "Solo una mossa in linea può spingere. Ti servono più biglie dell’avversario su quella linea: due contro una, tre contro una o tre contro due. La casella dietro le biglie avversarie deve essere libera.",
-      "ok_caption": "Tre contro due: tutta la fila avanza di una casella.",
-      "blocked_caption": "Tre contro tre non si muove mai, e non puoi mai spingere le tue stesse biglie."
+      "body": "Solo una mossa in linea spinge, e ti servono più biglie dell'avversario: due contro una, o tre contro una o due. La casella dietro le sue deve essere libera.",
+      "ok_caption": "Tre contro due: la linea avanza di una casella.",
+      "blocked_caption": "A parità non si muove nulla, e le tue non le spingi mai."
     },
     "capture": {
       "title": "Spingere fuori le biglie",
-      "body": "Una biglia spinta oltre il bordo è fuori dal gioco. Vince chi per primo fa uscire sei biglie avversarie.",
-      "caption": "Due contro una sul bordo: la biglia nera esce."
+      "body": "Una biglia spinta oltre il bordo è fuori per sempre. Sei di queste vincono la partita.",
+      "caption": "Due contro una sul bordo: esce la nera."
     },
     "cta": "Gioca ora"
   },
