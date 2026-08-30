@@ -371,13 +371,16 @@
    * element, put this on its own absolutely-positioned layer — on a container
    * it would fade the container's contents out with it.
    *
-   * `--hex-size` is the tile width; the height follows from it (√3 / 3). Tune
-   * the strength with `opacity-*` at the call site — the default is deliberately
-   * near the floor, since the point is texture you feel rather than a pattern
-   * you read.
+   * `--hex-size` is the tile width and the height follows from it (√3 / 3), but
+   * it is set here and nowhere else. Every screen carries the same lattice at
+   * the same scale and the same strength, so moving between two of them does
+   * not resize the background under the transition. Only the fade shape varies,
+   * and only where the content demands it — see the variants below. The
+   * strength is deliberately near the floor: the point is texture you feel
+   * rather than a pattern you read.
    */
   .hex-texture {
-    --hex-size: 64px;
+    --hex-size: 88px;
     background-image: url("data:image/svg+xml,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='30'%20height='17.321'%20viewBox='0%200%2030%2017.321'%20fill='none'%20stroke='%23fff'%20stroke-width='.7'><path%20d='M10,0L5,8.66L-5,8.66L-10,0L-5,-8.66L5,-8.66z'/><path%20d='M10,17.321L5,25.981L-5,25.981L-10,17.321L-5,8.66L5,8.66z'/><path%20d='M25,-8.66L20,0L10,0L5,-8.66L10,-17.321L20,-17.321z'/><path%20d='M25,8.66L20,17.321L10,17.321L5,8.66L10,0L20,0z'/><path%20d='M25,25.981L20,34.641L10,34.641L5,25.981L10,17.321L20,17.321z'/><path%20d='M40,0L35,8.66L25,8.66L20,0L25,-8.66L35,-8.66z'/><path%20d='M40,17.321L35,25.981L25,25.981L20,17.321L25,8.66L35,8.66z'/></svg>");
     background-size: var(--hex-size) calc(var(--hex-size) * 0.5774);
     --hex-fade: radial-gradient(
@@ -416,7 +419,6 @@
       transparent 24%,
       #000 80%
     );
-    opacity: 0.05;
   }
 }
 
