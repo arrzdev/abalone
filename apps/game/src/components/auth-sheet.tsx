@@ -36,6 +36,7 @@ export function AuthSheet({
       onClose={onClose}
       title={t("common:auth.prompt_title")}
       hideTitle
+      className="lg:max-w-[476px]"
     >
       <AuthForm onAuthenticated={onAuthenticated} />
     </Sheet>

@@ -57,7 +57,7 @@
   },
   "compose": {
     "title": "Nuovo invito",
-    "body": "Lo vedrà alla prossima apertura dell'app.",
+    "body": "Vedrà l'invito alla prossima apertura dell'app.",
     "username": "Contro chi giochi?",
     "username_placeholder": "Il suo nome",
     "setup": "Apertura",

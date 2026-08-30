@@ -56,7 +56,7 @@
   },
   "compose": {
     "title": "New invite",
-    "body": "They pick it up next time they open the app.",
+    "body": "They'll see the invite next time they open the app.",
     "username": "Who are you playing?",
     "username_placeholder": "Their name",
     "setup": "Opening",

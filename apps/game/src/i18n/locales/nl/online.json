@@ -57,9 +57,9 @@
   },
   "compose": {
     "title": "Nieuwe uitnodiging",
-    "body": "Die ziet het zodra de app weer opengaat.",
+    "body": "Die ziet de uitnodiging zodra de app weer opengaat.",
     "username": "Tegen wie speel je?",
-    "username_placeholder": "Zijn naam",
+    "username_placeholder": "Naam van de tegenstander",
     "setup": "Opstelling",
     "side": "Jouw kant",
     "send": "Uitnodiging sturen",

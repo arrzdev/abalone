@@ -185,8 +185,8 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     //the two fields read as one thing you fill in rather than as two more rows
     //in a stack.
     //
-    //Between the pair and the button there is one slot that always says
-    //something, so the button carries no margin of its own. Measure from the
+    //Between the pair and the button there is one slot held open for a
+    //failure, so the button carries no margin of its own. Measure from the
     //boxes, not from the elements.
     <form
       onSubmit={handleSubmit}
@@ -215,7 +215,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           </span>
         </Reserved>
 
-        <Reserved className="lg:max-w-[380px]">
+        <Reserved className="lg:max-w-[404px]">
           <p className={BODY_CLASS}>{body}</p>
           <span aria-hidden="true" className={cn(BODY_CLASS, "invisible")}>
             {otherBody}
@@ -263,11 +263,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
         />
       </div>
 
-      {/* One slot between the fields and the button, and it is never empty:
-          the small print when the form is fine, the failure when it is not.
-          They are the same subject — what a name and a password here can and
-          cannot do — and only one of them is ever worth saying, so they share
-          the space instead of each reserving their own.
+      {/* One slot between the fields and the button, for whatever went wrong.
 
           The height is every message stacked, so nothing moves when one of them
           turns up, nor when the longer of two languages does. Only the line on
@@ -289,15 +285,6 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
         >
           {errorText}
         </p>
-
-        {/* Only while making the account, which is the one moment it can be
-            acted on. Under a sign-in form it is a warning about a decision
-            already taken, sitting where that form's failures appear. */}
-        {!errorText && isSignUp && (
-          <p className="text-center text-xs leading-relaxed text-faint">
-            {t("common:auth.credentials_warning")}
-          </p>
-        )}
 
         {ERROR_CODES.map((code) => (
           <span

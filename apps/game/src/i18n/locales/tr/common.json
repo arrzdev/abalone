@@ -23,7 +23,7 @@
     "tagline": "Kazanmak için rakibinin altı bilyesini tahtadan dışarı it.",
     "play_online": "Çevrimiçi oyna",
     "play_offline": "Çevrimdışı oyna",
-    "online_hint": "Başka bir oyuncuya karşı.",
+    "online_hint": "Birini davet et, kendi hızında oyna.",
     "rules_prompt": "Hiç oynamadın mı?",
     "rules_link": "Kuralları oku",
     "bot_hint_short": "Sekiz seviye",
@@ -45,18 +45,17 @@
     "prompt_title": "Çevrimiçi oynamak için giriş yap",
     "prompt_body": "Çevrimiçi oyunlar için hesap gerekir.",
     "signup_title": "Bir ad seç",
-    "signup_body": "Rakipler seni adını birebir yazarak davet eder.",
+    "signup_body": "Rakipler seni kullanıcı adınla davet eder, o yüzden yazması kolay bir ad seç.",
     "errors": {
       "username_taken": "Bu ad zaten alınmış.",
       "username_invalid": "3 ile 20 arası harf, rakam, nokta veya alt çizgi.",
       "password_too_short": "Parolalar en az 8 karakter olmalı.",
       "invalid_credentials": "Bu ad ve parola eşleşmiyor.",
       "unknown": "Bir şeyler ters gitti."
-    },
-    "credentials_warning": "Ad ve parola sıfırlanamaz."
+    }
   },
   "profile": {
-    "username_permanent": "Adın kalıcıdır",
+    "username_hint": "Rakipler seni bu adla davet eder. Bu ad değiştirilemez.",
     "change_picture": "Resmi değiştir",
     "uploading": "Yükleniyor",
     "picture_hint": "PNG, JPEG veya WebP. Görsel kare olacak şekilde kırpılır.",
