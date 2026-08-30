@@ -93,7 +93,8 @@
     "resign_body": "Je tegenstander wint, en dit kun je niet terugdraaien.",
     "keep_playing": "Doorspelen",
     "game_over": "Partij voorbij",
-    "moves": "{{count}} zetten"
+    "moves_one": "{{count}} zet",
+    "moves_other": "{{count}} zetten"
   },
   "rules": {
     "title": "Zo speel je",

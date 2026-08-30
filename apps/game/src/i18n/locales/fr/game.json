@@ -93,7 +93,8 @@
     "resign_body": "Votre adversaire gagne, et c’est irréversible.",
     "keep_playing": "Continuer la partie",
     "game_over": "Partie terminée",
-    "moves": "{{count}} coups"
+    "moves_one": "{{count}} coup",
+    "moves_other": "{{count}} coups"
   },
   "rules": {
     "title": "Comment jouer",
