@@ -37,6 +37,14 @@ export const onlineKeys = {
   games: (status: GameStatus) => ["online", "games", status] as const,
   game: (gameId: string) => ["online", "game", gameId] as const,
   moves: (gameId: string) => ["online", "game", gameId, "moves"] as const,
+  /**
+   * The mutation key every write to one game carries.
+   *
+   * Not a query key: it is what lets anything else ask whether this device has
+   * a write to that game in flight, which is how a beacon announcing this
+   * device's own move is told from one announcing the opponent's.
+   */
+  write: (gameId: string) => ["online", "game", gameId, "write"] as const,
 }
 
 /**

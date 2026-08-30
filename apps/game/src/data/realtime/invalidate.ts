@@ -33,13 +33,28 @@ export function applyRealtimeEvent(
     return
   }
 
-  const key = onlineKeys.game(event.meta.gameId)
+  const gameId = event.meta.gameId
+  const key = onlineKeys.game(gameId)
 
   //every event goes to both seats, so the player who just moved is told about
-  //their own move — and their mutation already wrote that exact row from the
-  //response. without this they would refetch what they are holding, on every
-  //move they make. the beacon carries the row's version so an echo is telling
-  //apart from news, which is the only reason it carries anything at all.
+  //their own move — and the request that caused it is answering with that exact
+  //row. a write still in flight is therefore the one thing that will write this
+  //version, and its beacon has nothing to add.
+  //
+  //this is the first check rather than the version one below, because the two
+  //are not interchangeable. the fan-out runs in `waitUntil` while the answer to
+  //the same request is still on the wire, so an echo routinely lands BEFORE the
+  //row it echoes — at which point the versions read as news and the device
+  //refetches what it is about to be handed, mid-move.
+  if (
+    queryClient.isMutating({ mutationKey: onlineKeys.write(gameId) }) > 0
+  ) {
+    return
+  }
+
+  //and once that write has landed, the row it wrote is what says so. the beacon
+  //carries the row's version so an echo arriving after the fact — from this
+  //device or from another one of the player's — is still told from news.
   const held = queryClient.getQueryData<Game>(key)
   if (held && held.updatedAt >= event.meta.updatedAt) return
 

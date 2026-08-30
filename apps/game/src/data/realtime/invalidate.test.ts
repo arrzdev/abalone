@@ -10,6 +10,7 @@ import { applyRealtimeEvent } from "@/data/realtime/invalidate"
 //is finding out — so most of these are about the asymmetry.
 
 const GAME_ID = "3f7b1c60-0000-4000-8000-000000000001"
+const OTHER_GAME_ID = "3f7b1c60-0000-4000-8000-000000000002"
 
 /** Only the fields the invalidation actually reads. */
 function heldGame(updatedAt: number): Game {
@@ -24,6 +25,32 @@ describe("applyRealtimeEvent", () => {
     queryClient = new QueryClient()
     invalidate = vi.spyOn(queryClient, "invalidateQueries")
   })
+
+  /**
+   * Puts a write to a game in flight, as the board's play and resign mutations
+   * do. Returns the way to let it answer, so a test can look at both sides.
+   */
+  function startWrite(gameId: string) {
+    //the resolver is taken here rather than inside `mutationFn`, which is not
+    //called until `execute` reaches it
+    let answer: () => void = () => {}
+    const answered = new Promise<void>((resolve) => {
+      answer = resolve
+    })
+
+    const done = queryClient
+      .getMutationCache()
+      .build(queryClient, {
+        mutationKey: onlineKeys.write(gameId),
+        mutationFn: () => answered,
+      })
+      .execute(undefined)
+
+    return async () => {
+      answer()
+      await done
+    }
+  }
 
   /** The keys this event asked to be refetched, in order. */
   function invalidatedKeys() {
@@ -69,6 +96,51 @@ describe("applyRealtimeEvent", () => {
     })
 
     expect(invalidate).not.toHaveBeenCalled()
+  })
+
+  //THE OTHER HALF OF IT, and the one the version check cannot cover. the beacon
+  //is fanned out in `waitUntil` while the answer to the same request is still on
+  //the wire, so an echo routinely lands BEFORE the row it echoes — and the
+  //versions then read as news. That refetch races the mutation's own answer for
+  //the row, mid-move, which is the flicker.
+  it("ignores a beacon for a game this device is writing", async () => {
+    queryClient.setQueryData(onlineKeys.game(GAME_ID), heldGame(1_000))
+    const settle = startWrite(GAME_ID)
+
+    applyRealtimeEvent(queryClient, {
+      event: "game-updated",
+      meta: { gameId: GAME_ID, updatedAt: 2_000 },
+    })
+
+    expect(invalidate).not.toHaveBeenCalled()
+    await settle()
+  })
+
+  it("refetches for a game a write is in flight for elsewhere", async () => {
+    queryClient.setQueryData(onlineKeys.game(GAME_ID), heldGame(1_000))
+    const settle = startWrite(OTHER_GAME_ID)
+
+    applyRealtimeEvent(queryClient, {
+      event: "game-updated",
+      meta: { gameId: GAME_ID, updatedAt: 2_000 },
+    })
+
+    expect(invalidatedKeys()).toEqual([onlineKeys.game(GAME_ID)])
+    await settle()
+  })
+
+  //the drop lasts exactly as long as the write does. once it has answered, the
+  //row it wrote is what tells an echo from news again.
+  it("refetches once that write has finished", async () => {
+    queryClient.setQueryData(onlineKeys.game(GAME_ID), heldGame(1_000))
+    await startWrite(GAME_ID)()
+
+    applyRealtimeEvent(queryClient, {
+      event: "game-updated",
+      meta: { gameId: GAME_ID, updatedAt: 2_000 },
+    })
+
+    expect(invalidatedKeys()).toEqual([onlineKeys.game(GAME_ID)])
   })
 
   it("ignores a version older than the one it holds", () => {
