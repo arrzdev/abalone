@@ -34,6 +34,7 @@ import { useBotChatter } from "@/hooks/use-bot-chatter"
 import { getBot, titleKey } from "@/i18n/bots"
 import { getSetupName } from "@/i18n/game-text"
 import { useAuth } from "@/providers/auth-provider"
+import { pageHead } from "@/routing/page-head"
 import { DECIDED } from "@/utils/evaluation"
 
 export type GameOfflineSearch = {
@@ -62,6 +63,14 @@ export const Route = createFileRoute("/_subpage/offline")({
         ? search.mode
         : undefined,
   }),
+  head: () =>
+    pageHead({
+      title: "Play offline",
+      description:
+        "Play a bot, from Gus to Magnus, or pass the device back and forth with someone next to you. No account needed.",
+      path: "/offline",
+      image: "game",
+    }),
   component: GameOfflinePage,
 })
 

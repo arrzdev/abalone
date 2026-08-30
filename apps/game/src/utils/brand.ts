@@ -5,7 +5,8 @@
  * in all thirteen languages, which is exactly why a single find-and-replace over
  * finished text is enough to rename the whole app.
  */
-const BRAND = "Abalone"
+/** The name in the head and in every finished string off the egg host. */
+export const BRAND = "Abalone"
 const EASTER_EGG_BRAND = "Babaluje"
 
 //the word anywhere in the hostname turns it on — `babaluje.tld`,
