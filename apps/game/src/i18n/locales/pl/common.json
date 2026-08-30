@@ -24,7 +24,8 @@
     "play_online": "Graj online",
     "play_offline": "Graj offline",
     "online_hint": "Przeciwko innemu graczowi.",
-    "rules_link": "Nigdy nie grałeś? Przeczytaj zasady",
+    "rules_prompt": "Nigdy nie grałeś?",
+    "rules_link": "Przeczytaj zasady",
     "bot_hint_short": "Osiem poziomów",
     "bot_hint_long": "Osiem botów, od Gusa do Magnusa.",
     "local_hint_short": "Jedno urządzenie, was dwoje",
@@ -62,7 +63,6 @@
     "upload_failed": "To zdjęcie nie zostało wysłane. Spróbuj ponownie.",
     "playing": "W toku",
     "best_streak": "Najlepsza seria",
-    "history_hint": "Twoje wyniki, partia po partii",
     "settings_hint": "Język, kule i dźwięk"
   },
   "actions": {

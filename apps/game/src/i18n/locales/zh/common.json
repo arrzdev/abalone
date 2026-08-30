@@ -24,7 +24,8 @@
     "play_online": "在线对战",
     "play_offline": "离线对战",
     "online_hint": "与其他玩家对战。",
-    "rules_link": "没玩过？看看规则",
+    "rules_prompt": "没玩过？",
+    "rules_link": "看看规则",
     "bot_hint_short": "八种强度",
     "bot_hint_long": "八个机器人，从 Gus 到 Magnus。",
     "local_hint_short": "一台设备，两个人",
@@ -62,7 +63,6 @@
     "upload_failed": "头像未能上传。请重试。",
     "playing": "进行中",
     "best_streak": "最佳连胜",
-    "history_hint": "你的战绩，一局一局",
     "settings_hint": "语言、棋子样式和声音"
   },
   "actions": {

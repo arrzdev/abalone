@@ -24,7 +24,8 @@
     "play_online": "Gioca online",
     "play_offline": "Gioca offline",
     "online_hint": "Contro un altro giocatore.",
-    "rules_link": "Non hai mai giocato? Leggi le regole",
+    "rules_prompt": "Non hai mai giocato?",
+    "rules_link": "Leggi le regole",
     "bot_hint_short": "Otto livelli",
     "bot_hint_long": "Otto bot, da Gus a Magnus.",
     "local_hint_short": "Un dispositivo, voi due",
@@ -62,7 +63,6 @@
     "upload_failed": "L'immagine non è stata caricata. Riprova.",
     "playing": "In corso",
     "best_streak": "Serie migliore",
-    "history_hint": "Il tuo storico, partita per partita",
     "settings_hint": "Lingua, biglie e audio"
   },
   "actions": {

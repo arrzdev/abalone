@@ -290,10 +290,10 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           {errorText}
         </p>
 
-        {/* Said in both modes, because it answers a question each of them
-            raises: what to pick, and where the reset link went. There is no
-            email on the account and so nothing to send one to. */}
-        {!errorText && (
+        {/* Only while making the account, which is the one moment it can be
+            acted on. Under a sign-in form it is a warning about a decision
+            already taken, sitting where that form's failures appear. */}
+        {!errorText && isSignUp && (
           <p className="text-center text-xs leading-relaxed text-faint">
             {t("common:auth.credentials_warning")}
           </p>

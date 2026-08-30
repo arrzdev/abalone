@@ -24,7 +24,8 @@
     "play_online": "オンラインで対戦",
     "play_offline": "オフラインで対戦",
     "online_hint": "ほかのプレイヤーと対戦します。",
-    "rules_link": "はじめてですか？ ルールを読む",
+    "rules_prompt": "はじめてですか？",
+    "rules_link": "ルールを読む",
     "bot_hint_short": "8段階の強さ",
     "bot_hint_long": "ガスからマグナスまで、8体のボット。",
     "local_hint_short": "1台の端末で2人",
@@ -62,7 +63,6 @@
     "upload_failed": "画像をアップロードできませんでした。もう一度お試しください。",
     "playing": "対戦中",
     "best_streak": "最多連勝",
-    "history_hint": "対局ごとの成績",
     "settings_hint": "言語、石のデザイン、音"
   },
   "actions": {

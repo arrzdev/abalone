@@ -6,7 +6,8 @@
     "none": "Nada a decorrer",
     "waiting_on_you": "{{count}} à tua espera",
     "with_opponent": "{{count}} com o teu adversário",
-    "finished_count": "{{count}} terminados",
+    "finished_count_one": "{{count}} terminado",
+    "finished_count_other": "{{count}} terminados",
     "nothing_else": "Mais nada a decorrer",
     "waiting_on_them": "À espera do adversário"
   },
@@ -26,7 +27,6 @@
     "just_sent": "À espera de resposta"
   },
   "history": {
-    "heading": "Jogos terminados",
     "empty": "Ainda não há jogos terminados.",
     "heading_short": "Terminados",
     "see_all": "Ver todos ({{count}})",

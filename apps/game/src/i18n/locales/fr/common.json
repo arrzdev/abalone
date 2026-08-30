@@ -24,7 +24,8 @@
     "play_online": "Jouer en ligne",
     "play_offline": "Jouer hors ligne",
     "online_hint": "Contre un autre joueur.",
-    "rules_link": "Jamais joué ? Lis les règles",
+    "rules_prompt": "Jamais joué ?",
+    "rules_link": "Lis les règles",
     "bot_hint_short": "Huit niveaux",
     "bot_hint_long": "Huit bots, de Gus à Magnus.",
     "local_hint_short": "Un appareil, vous deux",
@@ -62,7 +63,6 @@
     "upload_failed": "Cette photo n'a pas été envoyée. Réessaie.",
     "playing": "En cours",
     "best_streak": "Meilleure série",
-    "history_hint": "Ton palmarès, partie par partie",
     "settings_hint": "Langue, billes et son"
   },
   "actions": {

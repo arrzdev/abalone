@@ -24,7 +24,8 @@
     "play_online": "Jogar online",
     "play_offline": "Jogar offline",
     "online_hint": "Contra outro jogador.",
-    "rules_link": "Nunca jogaste? Lê as regras",
+    "rules_prompt": "Nunca jogaste?",
+    "rules_link": "Lê as regras",
     "bot_hint_short": "Oito níveis",
     "bot_hint_long": "Oito bots, do Gus ao Magnus.",
     "local_hint_short": "Um dispositivo, os dois",
@@ -62,7 +63,6 @@
     "upload_failed": "Essa imagem não foi enviada. Tenta de novo.",
     "playing": "A decorrer",
     "best_streak": "Melhor série",
-    "history_hint": "O teu registo, jogo a jogo",
     "settings_hint": "Idioma, berlindes e som"
   },
   "actions": {

@@ -24,7 +24,8 @@
     "play_online": "Online spielen",
     "play_offline": "Offline spielen",
     "online_hint": "Gegen andere Spieler.",
-    "rules_link": "Noch nie gespielt? Lies die Regeln",
+    "rules_prompt": "Noch nie gespielt?",
+    "rules_link": "Lies die Regeln",
     "bot_hint_short": "Acht Stärken",
     "bot_hint_long": "Acht Bots, von Gus bis Magnus.",
     "local_hint_short": "Ein Gerät, ihr beide",
@@ -62,7 +63,6 @@
     "upload_failed": "Das Bild wurde nicht hochgeladen. Versuche es erneut.",
     "playing": "Laufend",
     "best_streak": "Beste Serie",
-    "history_hint": "Deine Bilanz, Partie für Partie",
     "settings_hint": "Sprache, Murmeln und Ton"
   },
   "actions": {

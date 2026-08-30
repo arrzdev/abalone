@@ -174,6 +174,20 @@ function GameOnlineBoardPage() {
     statusLine = t("online:board.your_move")
   else statusLine = t("online:board.waiting")
 
+  /**
+   * Which end of the card that line belongs at: the seat the game is waiting
+   * for. The seats are drawn black then white, so black is the left one.
+   *
+   * Nobody's, once the game is over or before it has arrived — there is no move
+   * being waited for, so there is no face to point at.
+   */
+  const turnSide =
+    !game || online.isLoading || isOver
+      ? undefined
+      : state.currentTurn === "black"
+        ? ("left" as const)
+        : ("right" as const)
+
   const historyNotice =
     state.currentMoveIndex === 0
       ? t("game:history.start")
@@ -251,20 +265,17 @@ function GameOnlineBoardPage() {
           seats={(["black", "white"] as Player[]).map(seatFor)}
           record={headToHead}
           marbleDesign={marbleDesign}
+          note={{
+            text: online.error ?? statusLine ?? null,
+            //the line names whoever the game is waiting for, so it is written
+            //at that player's end and the rule notches up at their face: "your
+            //move" and "waiting for them" become the same sentence read off
+            //which side of the card it is on. A result or a failure is about
+            //neither of them and stays in the middle.
+            side: online.error ? undefined : turnSide,
+            tone: online.error ? "error" : "plain",
+          }}
         />
-
-        {/* One line under the scoreboard, and only when there is something to
-            say: whose move it is while the game runs, and whatever the last
-            request answered when it failed. */}
-        <p
-          className={cn(
-            "shrink-0 px-4 pt-2 text-center text-xs",
-            online.error ? "text-loss" : "text-faint",
-          )}
-          role={online.error ? "alert" : undefined}
-        >
-          {online.error ?? statusLine}
-        </p>
 
         {/* Under the status rather than in place of it. "Your move" read off a
             board nobody has confirmed is the misleading part, and this is the

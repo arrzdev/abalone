@@ -74,7 +74,11 @@ function OnlinePage() {
     <Screen className="relative">
       <div className="hex-texture pointer-events-none absolute inset-0 [--hex-size:96px] opacity-[0.035]" />
 
-      <ScrollView className="px-safe" directionalLockEnabled>
+      {/* `relative`, or the texture lands on top of it: the layer above is
+          positioned and this is not, and a positioned box paints over an
+          unpositioned sibling whatever the order in the document. The hexes
+          then run across the panels and read as cards left half transparent. */}
+      <ScrollView className="relative px-safe" directionalLockEnabled>
         <Hub
           online={online}
           myUserId={user?.id ?? ""}

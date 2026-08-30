@@ -117,17 +117,34 @@ const COMPASS: Diagram = {
   })),
 }
 
+/**
+ * One rule: what it says, and the board it says it about.
+ *
+ * Above `lg` the two sit side by side, the sentence on the left and the
+ * positions on the right. Stacked, a rule is a paragraph and then a picture the
+ * length of a screen below it, and by the time the picture is on screen the
+ * sentence it illustrates is not.
+ *
+ * The text takes the smaller share. It is two lines at that width, and the
+ * diagrams are what a rule about shapes is actually made of.
+ */
 function Rule({
   title,
+  body,
   children,
 }: {
   title: string
-  children: ReactNode
+  body: string
+  children?: ReactNode
 }) {
   return (
-    <Card>
-      <h2 className="text-lg font-bold text-brand-light">{title}</h2>
-      {children}
+    <Card className="lg:flex lg:items-start lg:gap-x-7">
+      <div className="lg:w-[36%] lg:shrink-0">
+        <h2 className="text-lg font-bold text-brand-light">{title}</h2>
+        <p className="mt-2 text-sm leading-relaxed text-subtle">{body}</p>
+      </div>
+
+      {children && <div className="min-w-0 lg:flex-1">{children}</div>}
     </Card>
   )
 }
@@ -143,7 +160,9 @@ function Figure({
   marbleDesign: string
 }) {
   return (
-    <figure className="mt-4">
+    //first in the right-hand column and so already level with the heading; the
+    //gap above it belongs to the paragraph it follows, which is no longer above
+    <figure className="mt-4 lg:first:mt-0">
       <div className="overflow-hidden rounded-xl bg-well p-2">
         <RuleDiagram
           diagram={diagram}
@@ -169,18 +188,21 @@ function RulesPage() {
     <>
       <SubpageHeader title={t("game:rules.title")} />
 
-      <Page>
+      <Page className="lg:max-w-[940px]">
         <PageTitle description={t("game:rules.intro")}>
           {t("game:rules.title")}
         </PageTitle>
 
+        {/* One column, in order. The five rules are a sequence — pushing means
+            nothing before moving does — and two columns would ask them to be
+            read down one side and then down the other. */}
         <div className="flex flex-col gap-y-4">
-          <Rule title={t("game:rules.goal.title")}>
-            <p className="mt-2 text-sm leading-relaxed text-subtle">
-              {t("game:rules.goal.body")}
-            </p>
+          <Rule
+            title={t("game:rules.goal.title")}
+            body={t("game:rules.goal.body")}
+          >
             {/* The win condition at a glance: this is how many have to go. */}
-            <div className="mt-4 flex items-center justify-center gap-2 rounded-xl bg-well py-4">
+            <div className="flex items-center justify-center gap-2 rounded-xl bg-well py-4 max-lg:mt-4">
               {Array.from({ length: WINNING_SCORE }, (_, i) => (
                 <MarbleGlyph
                   // biome-ignore lint/suspicious/noArrayIndexKey: six identical marbles standing for a count, not a list of things.
@@ -193,10 +215,10 @@ function RulesPage() {
             </div>
           </Rule>
 
-          <Rule title={t("game:rules.directions.title")}>
-            <p className="mt-2 text-sm leading-relaxed text-subtle">
-              {t("game:rules.directions.body")}
-            </p>
+          <Rule
+            title={t("game:rules.directions.title")}
+            body={t("game:rules.directions.body")}
+          >
             <Figure
               diagram={COMPASS}
               caption={t("game:rules.directions.caption")}
@@ -204,10 +226,10 @@ function RulesPage() {
             />
           </Rule>
 
-          <Rule title={t("game:rules.move.title")}>
-            <p className="mt-2 text-sm leading-relaxed text-subtle">
-              {t("game:rules.move.body")}
-            </p>
+          <Rule
+            title={t("game:rules.move.title")}
+            body={t("game:rules.move.body")}
+          >
             <Figure
               diagram={INLINE}
               caption={t("game:rules.move.inline_caption")}
@@ -220,10 +242,10 @@ function RulesPage() {
             />
           </Rule>
 
-          <Rule title={t("game:rules.push.title")}>
-            <p className="mt-2 text-sm leading-relaxed text-subtle">
-              {t("game:rules.push.body")}
-            </p>
+          <Rule
+            title={t("game:rules.push.title")}
+            body={t("game:rules.push.body")}
+          >
             <Figure
               diagram={PUSH}
               caption={t("game:rules.push.ok_caption")}
@@ -236,10 +258,10 @@ function RulesPage() {
             />
           </Rule>
 
-          <Rule title={t("game:rules.capture.title")}>
-            <p className="mt-2 text-sm leading-relaxed text-subtle">
-              {t("game:rules.capture.body")}
-            </p>
+          <Rule
+            title={t("game:rules.capture.title")}
+            body={t("game:rules.capture.body")}
+          >
             <Figure
               diagram={CAPTURE}
               caption={t("game:rules.capture.caption")}
@@ -248,10 +270,14 @@ function RulesPage() {
           </Rule>
         </div>
 
+        {/* Full width on a phone, where full width is a thumb's width. Across
+            two columns it would be a button as wide as the page, so above `lg`
+            it takes the room it needs and sits in the middle of what it
+            follows. */}
         <Button
           variant="primary"
           size="lg"
-          className="w-full"
+          className="w-full lg:w-auto lg:self-center lg:px-12"
           onClick={() => navigate({ to: "/offline" })}
         >
           {t("game:rules.cta")}

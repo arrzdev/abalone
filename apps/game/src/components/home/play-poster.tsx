@@ -1,14 +1,8 @@
-import { useNavigate } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { BotFace } from "@/components/bot-face"
 import { DemoBoard } from "@/components/demo-board"
-import {
-  ChevronRightIcon,
-  GroupIcon,
-  InfoIcon,
-  RobotIcon,
-  WifiIcon,
-} from "@/components/icons"
+import { GroupIcon, RobotIcon, WifiIcon } from "@/components/icons"
 import { PlayOption } from "@/components/play-option"
 import { Reveal } from "@/components/ui/reveal"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
@@ -30,27 +24,20 @@ import { BOT_LEVELS } from "@/i18n/bots"
  *
  * The board is the smaller half on purpose. It is the argument, not the offer:
  * given the whole width it reads as a game already in progress that you are
- * watching rather than joining. On a phone it is not there at all — there is one
- * column, and a board squeezed under the rows would be the thing that costs the
- * screen its last one.
+ * watching rather than joining. On a phone it takes the room above the rows for
+ * the same reason — the three ways in stay at the bottom, where a thumb is.
  */
 export function PlayPoster() {
   const { t } = useTranslation()
-  const navigate = useNavigate()
   const { playOnline, playOffline } = usePlayActions()
 
-  //not `hidden lg:block`: the demo plays itself out of a rAF loop, and a hidden
-  //board is a loop nobody is watching
+  //the eight faces are eight pictures, and a phone never shows them: mounted
+  //behind `hidden` they are eight requests spent on nothing
   const isDesktop = useIsDesktop()
 
   return (
-    <div className="relative mx-auto flex w-full min-h-0 max-w-[1264px] flex-1 flex-col justify-center gap-y-6 px-4 py-6 lg:flex-row lg:items-center lg:gap-x-14 lg:px-12 lg:py-8">
-      {/* `justify-center` on the row centres the two columns against each
-          other, which is the desktop job. On a phone this column is the only
-          one and it grows to the full height, so it has to centre its own
-          contents or the rows sit under the header with the screen empty
-          beneath them. */}
-      <Reveal className="flex min-h-0 min-w-0 flex-1 flex-col items-stretch max-lg:justify-center lg:items-start">
+    <div className="relative mx-auto flex w-full min-h-0 max-w-[1264px] flex-1 flex-col px-4 pt-3.5 pb-safe-offset-4 lg:flex-row lg:items-center lg:gap-x-14 lg:px-12 lg:py-8">
+      <Reveal className="flex min-w-0 flex-col items-stretch max-lg:shrink-0 lg:min-h-0 lg:flex-1 lg:items-start">
         {/* The name and the rule, and only where there is room for them. On a
             phone the header two rows up already says "Abalone", and a 104px
             repeat of it is the screenful the buttons need. */}
@@ -113,35 +100,40 @@ export function PlayPoster() {
           </div>
         </div>
 
-        {/* Phone only, both of them. A desktop already carries Rules in the
-            header, and the account note explains a choice the three rows above
-            have just made for themselves — on the width that shows all three at
-            once it is a paragraph under a decision nobody is still making. */}
-        <button
-          type="button"
-          onClick={() => navigate({ to: "/rules" })}
-          className="mt-4 flex h-13 w-full items-center gap-3 rounded-xl px-5 text-left ring-1 ring-border-outline transition-colors duration-200 ease-out hover:bg-surface hover:ring-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hidden"
-        >
-          <InfoIcon size={18} className="shrink-0 text-faint" />
-          <span className="min-w-0 flex-1 truncate text-[15px] font-semibold text-muted">
-            {t("common:home.rules_link")}
+        {/* Phone only. A desktop carries Rules in the header, and a second way
+            to the same page under the three rows is a fourth thing to read on
+            the one screen that has to be read at a glance.
+
+            A line rather than a row: the rows above are the offer, and giving
+            the rules the same box makes it a fourth way to play. */}
+        <p className="flex justify-center py-0.5 lg:hidden">
+          <span className="inline-flex min-h-11 items-center gap-1.5 px-3.5 text-sm text-faint">
+            {t("common:home.rules_prompt")}
+            <Link
+              to="/rules"
+              className="rounded-sm text-brand-lighter underline underline-offset-[3px] transition-colors duration-200 ease-out hover:text-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+            >
+              {t("common:home.rules_link")}
+            </Link>
           </span>
-          <ChevronRightIcon size={18} className="shrink-0 text-faint" />
-        </button>
+        </p>
       </Reveal>
 
-      {isDesktop && (
-        <div className="flex min-h-0 w-[540px] shrink-0 flex-col items-center gap-6">
-          {/* Flex, not a plain block: the canvas sizes itself from the box it is
-              handed, and a block parent leaves it measuring a zero-height one
-              and drawing at its fallback size. */}
-          <div className="flex h-[472px] w-full flex-col drop-shadow-[0_34px_60px_rgba(0,0,0,0.55)]">
-            <DemoBoard />
-          </div>
+      {/* Second in the document and first on the screen below `lg`: the rows
+          are what somebody came for, and the board is the argument for them.
+          Above `lg` the two sit side by side and the board takes the right. */}
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center pb-3.5 max-lg:order-first lg:w-[540px] lg:flex-none lg:gap-6 lg:pb-0">
+        {/* Flex, not a plain block: the canvas sizes itself from the box it is
+            handed, and a block parent leaves it measuring a zero-height one
+            and drawing at its fallback size. */}
+        <div className="flex min-h-0 w-full max-w-[300px] flex-1 flex-col drop-shadow-[0_26px_46px_rgba(0,0,0,0.55)] lg:h-[472px] lg:max-w-none lg:flex-none lg:drop-shadow-[0_34px_60px_rgba(0,0,0,0.55)]">
+          <DemoBoard />
+        </div>
 
-          {/* The eight of them, because "eight strengths" is a claim and eight
-              faces is the evidence. Overlapped, and the row padded by the same
-              amount so the last one's tail does not pull it off centre. */}
+        {/* The eight of them, because "eight strengths" is a claim and eight
+            faces is the evidence. Overlapped, and the row padded by the same
+            amount so the last one's tail does not pull it off centre. */}
+        {isDesktop && (
           <div className="flex flex-col items-center gap-2.5">
             <div className="flex pe-2">
               {BOT_LEVELS.map((level) => (
@@ -152,8 +144,8 @@ export function PlayPoster() {
               {t("common:home.bots_caption")}
             </span>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }

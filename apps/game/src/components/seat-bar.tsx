@@ -1,7 +1,7 @@
 import { WINNING_SCORE } from "@repo/abalone-engine/config"
 import type { Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
-import type { ReactNode } from "react"
+import type { CSSProperties, ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { PersonIcon } from "@/components/icons"
 import { MarbleGlyph } from "@/components/marble-glyph"
@@ -44,14 +44,27 @@ const PORTRAIT = 34
 const BADGE = 13
 
 /**
- * Where a face's centre falls, in px from the near edge of the strip: the card's
- * own padding, then the side's, then half a portrait.
+ * Where a face's centre falls, in px from the near edge of the card's contents:
+ * the side's own padding, then half a portrait.
  *
- * Exported because the bot's speech bubble hangs its tail on this number. The
- * bubble sits under this card and points up at the face that is speaking, and
- * the two only line up while they are reading the same measurement.
+ * Measured from the contents and not from the card, because what reads it is the
+ * notch over the bot's line — and an absolute box inside the card is offset from
+ * exactly there. The 8px of card padding is common to both and cancels.
  */
-export const FACE_CENTER = 8 + 4 + PORTRAIT / 2
+const FACE_CENTER = 4 + PORTRAIT / 2
+
+/** Half the notch, in px — a 9px square stood on its corner. */
+const NOTCH = 4.5
+
+/**
+ * The card's height wherever a line can appear, held whether one has or not.
+ *
+ * Two rows of padding (16), a portrait row (46), and the line under it: its own
+ * gap and rule (13) over two rows of 14px text at `leading-snug` (39). A card
+ * that grew the first time the bot opened its mouth would shunt the move list
+ * down the panel on the opening move of every game.
+ */
+const HEIGHT_WITH_NOTE = 114
 
 /** One player as the scoreboard needs them. */
 export type Seat = {
@@ -245,9 +258,71 @@ function Record({
   )
 }
 
+/**
+ * The line along the bottom of the card: what the bot just said, whose move the
+ * game is waiting for, or what the last request came back with.
+ *
+ * All three used to sit outside the card — the bot in its own darker bubble with
+ * a tail, the online status as a stray centred line under everything. Both are
+ * about the two people on this card, so both belong on it. A second surface 8px
+ * away, pointing back, was a lot of drawing to say what the position of the
+ * words says on its own.
+ *
+ * A line about one of them sits at that player's end with the rule notched up
+ * towards their face — so "waiting" and "your move" are the same sentence read
+ * off which end it is written at. A line about neither, a result or a failure,
+ * is centred and has no notch to point with.
+ *
+ * Set quieter than the names above it: it is the one row here that is not the
+ * position on the board.
+ */
+function Note({
+  text,
+  side,
+  tone = "plain",
+}: SeatNote & { text: string }) {
+  return (
+    <div className="relative mt-1.5 border-t border-border-subtle px-2 pt-1.5">
+      {side && (
+        <span
+          aria-hidden="true"
+          className="absolute -top-[5px] h-[9px] w-[9px] rotate-45 rounded-[1px] border-s border-t border-border-subtle bg-surface-2"
+          style={{ [side]: FACE_CENTER - NOTCH } as CSSProperties}
+        />
+      )}
+      {/* Two rows of room and never a third: the longest line in the bot's
+          roster wraps to two at this width, and the clamp is what keeps a later
+          one from being the first to make the card taller. */}
+      <span
+        aria-live="polite"
+        role={tone === "error" ? "alert" : undefined}
+        className={cn(
+          "line-clamp-2 text-sm leading-snug",
+          tone === "error" ? "text-loss" : "text-subtle",
+          !side && "text-center",
+          side === "right" && "text-right",
+        )}
+      >
+        {text}
+      </span>
+    </div>
+  )
+}
+
+/** The card's bottom line: what it says and who it is about. */
+export type SeatNote = {
+  /** Already translated. Null holds the room without filling it. */
+  text: string | null
+  /** Whose line it is. Centred and un-notched when it is nobody's. */
+  side?: "left" | "right"
+  tone?: "plain" | "error"
+}
+
 export type SeatBarProps = {
   seats: Seat[]
   record?: SeatRecord
+  /** Only where a line can appear. Its absence is what keeps the card short. */
+  note?: SeatNote
   marbleDesign?: string
   className?: string
 }
@@ -255,6 +330,7 @@ export type SeatBarProps = {
 export function SeatBar({
   seats,
   record,
+  note,
   marbleDesign = "default",
   className,
 }: SeatBarProps) {
@@ -266,7 +342,14 @@ export function SeatBar({
     // No bottom padding: whatever comes next owns the gap to this card, so the
     // spacing down the panel is one number kept in one place.
     <div className={cn("shrink-0 px-4 pt-3", className)}>
-      <div className="rounded-xl bg-surface-2 p-2">
+      {/* Centred rather than stacked from the top, because the room under the
+          score is held open from the first frame and is empty until there is
+          something to write there. Sat at the top of it, the card would open
+          looking like it had lost half its contents. */}
+      <div
+        className="flex flex-col justify-center rounded-xl bg-surface-2 p-2"
+        style={note ? { minHeight: HEIGHT_WITH_NOTE } : undefined}
+      >
         <div className="flex items-center">
           <Side {...left} marbleDesign={marbleDesign} />
 
@@ -294,6 +377,8 @@ export function SeatBar({
             rightName={right.name}
           />
         )}
+
+        {note?.text && <Note {...note} text={note.text} />}
       </div>
     </div>
   )

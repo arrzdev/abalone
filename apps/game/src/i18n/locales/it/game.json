@@ -93,7 +93,8 @@
     "resign_body": "Vince il tuo avversario, e non è reversibile.",
     "keep_playing": "Continua a giocare",
     "game_over": "Partita finita",
-    "moves": "{{count}} mosse"
+    "moves_one": "{{count}} mossa",
+    "moves_other": "{{count}} mosse"
   },
   "rules": {
     "title": "Come si gioca",

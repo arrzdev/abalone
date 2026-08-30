@@ -24,7 +24,8 @@
     "play_online": "Play Online",
     "play_offline": "Play Offline",
     "online_hint": "Against another player.",
-    "rules_link": "Never played? Read the rules",
+    "rules_prompt": "Never played?",
+    "rules_link": "Read the rules",
     "bot_hint_short": "Eight strengths",
     "bot_hint_long": "Eight bots, Gus to Magnus.",
     "local_hint_short": "One device, two of you",
@@ -62,7 +63,6 @@
     "upload_failed": "That picture didn't upload. Try again.",
     "playing": "Playing",
     "best_streak": "Best streak",
-    "history_hint": "Your record, game by game",
     "settings_hint": "Language, marbles and sound"
   },
   "actions": {

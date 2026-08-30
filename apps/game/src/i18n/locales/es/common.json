@@ -24,7 +24,8 @@
     "play_online": "Jugar en línea",
     "play_offline": "Jugar sin conexión",
     "online_hint": "Contra otro jugador.",
-    "rules_link": "¿Nunca has jugado? Lee las reglas",
+    "rules_prompt": "¿Nunca has jugado?",
+    "rules_link": "Lee las reglas",
     "bot_hint_short": "Ocho niveles",
     "bot_hint_long": "Ocho bots, de Gus a Magnus.",
     "local_hint_short": "Un dispositivo, los dos",
@@ -62,7 +63,6 @@
     "upload_failed": "Esa foto no se subió. Inténtalo de nuevo.",
     "playing": "En curso",
     "best_streak": "Mejor racha",
-    "history_hint": "Tu historial, partida a partida",
     "settings_hint": "Idioma, canicas y sonido"
   },
   "actions": {

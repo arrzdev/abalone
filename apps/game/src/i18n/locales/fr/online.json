@@ -6,7 +6,8 @@
     "none": "Rien en cours",
     "waiting_on_you": "{{count}} en attente de toi",
     "with_opponent": "{{count}} chez ton adversaire",
-    "finished_count": "{{count}} terminées",
+    "finished_count_one": "{{count}} terminée",
+    "finished_count_other": "{{count}} terminées",
     "nothing_else": "Rien d'autre en cours",
     "waiting_on_them": "En attente de l'adversaire"
   },
@@ -26,7 +27,6 @@
     "just_sent": "En attente de réponse"
   },
   "history": {
-    "heading": "Parties terminées",
     "empty": "Aucune partie terminée pour l'instant.",
     "heading_short": "Terminées",
     "see_all": "Tout voir ({{count}})",

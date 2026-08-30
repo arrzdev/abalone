@@ -4,7 +4,8 @@
     "your_move": "Jij bent aan zet",
     "idle": "Er wacht nu niets op je",
     "none": "Niets bezig",
-    "waiting_on_you": "{{count}} wachten op jou",
+    "waiting_on_you_one": "{{count}} wacht op jou",
+    "waiting_on_you_other": "{{count}} wachten op jou",
     "with_opponent": "{{count}} bij je tegenstander",
     "finished_count": "{{count}} afgerond",
     "nothing_else": "Verder niets bezig",
@@ -26,7 +27,6 @@
     "just_sent": "Wacht op antwoord"
   },
   "history": {
-    "heading": "Afgelopen partijen",
     "empty": "Nog geen afgelopen partijen.",
     "heading_short": "Afgerond",
     "see_all": "Alle {{count}} bekijken",

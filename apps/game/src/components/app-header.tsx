@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import {
   ChevronDownIcon,
-  HistoryIcon,
   LogoutIcon,
   PersonIcon,
   SettingsIcon,
@@ -273,14 +272,6 @@ function AccountControl() {
           onSelect={() => navigate({ to: "/profile" })}
         >
           {t("common:nav.profile")}
-        </MenuItem>
-        <MenuItem
-          icon={HistoryIcon}
-          onSelect={() =>
-            navigate({ to: "/online/history", search: { page: 1 } })
-          }
-        >
-          {t("online:history.heading")}
         </MenuItem>
         <MenuSeparator />
         <MenuItem

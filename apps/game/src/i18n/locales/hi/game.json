@@ -93,7 +93,8 @@
     "resign_body": "प्रतिद्वंद्वी जीत जाएगा, और इसे वापस नहीं लिया जा सकता।",
     "keep_playing": "खेलते रहें",
     "game_over": "खेल खत्म",
-    "moves": "{{count}} चालें"
+    "moves_one": "{{count}} चाल",
+    "moves_other": "{{count}} चालें"
   },
   "rules": {
     "title": "कैसे खेलें",

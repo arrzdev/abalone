@@ -7,7 +7,6 @@ import { useCallback, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import { BotAvatar } from "@/components/bot-avatar"
-import { BotChatter } from "@/components/bot-chatter"
 import { EvalBar, EvalRail } from "@/components/eval-bar"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import { GameCanvas } from "@/components/game-canvas"
@@ -487,16 +486,16 @@ function GameOfflinePage() {
             <SeatBar
               seats={seatColors.map(seatFor)}
               marbleDesign={marbleDesign}
-            />
-          )}
-
-          {/* Only a bot has anything to say, and it says it under its own end of
-            the card above. */}
-          {!isLocal && !isPregame && (
-            <BotChatter
-              level={difficulty}
-              line={chatter.line}
-              side={aiColor === seatColors[0] ? "left" : "right"}
+              // Only a bot has anything to say, and it says it in the bottom of
+              // the card, under its own end of it.
+              note={
+                isLocal
+                  ? undefined
+                  : {
+                      text: chatter.line ? t(chatter.line) : null,
+                      side: aiColor === seatColors[0] ? "left" : "right",
+                    }
+              }
             />
           )}
 

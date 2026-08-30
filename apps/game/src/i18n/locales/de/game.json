@@ -93,7 +93,8 @@
     "resign_body": "Dein Gegner gewinnt, und das lässt sich nicht rückgängig machen.",
     "keep_playing": "Weiterspielen",
     "game_over": "Spiel vorbei",
-    "moves": "{{count}} Züge"
+    "moves_one": "{{count}} Zug",
+    "moves_other": "{{count}} Züge"
   },
   "rules": {
     "title": "So wird gespielt",
