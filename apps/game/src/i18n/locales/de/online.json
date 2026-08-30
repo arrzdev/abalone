@@ -1,19 +1,20 @@
 {
   "title": "Online",
-  "subtitle": "Spiel in deinem Tempo. Partien warten auf dich, ein Zug pro Tag ist völlig in Ordnung.",
+  "hub": {
+    "your_move": "Du bist am Zug",
+    "idle": "Gerade wartet nichts auf dich",
+    "none": "Nichts im Gange",
+    "waiting_on_you": "{{count}} warten auf dich",
+    "with_opponent": "{{count}} beim Gegner",
+    "finished_count": "{{count}} beendet",
+    "nothing_else": "Sonst läuft nichts",
+    "waiting_on_them": "Warten auf den Gegner"
+  },
   "games": {
-    "heading": "Deine Partien",
-    "empty": "Noch keine Partien. Lade jemanden ein.",
-    "your_turn": "Du bist am Zug",
-    "their_turn": "Gegner ist am Zug",
     "new_invite": "Neue Einladung",
     "loading": "Deine Partien werden geladen"
   },
   "invites": {
-    "received": "Einladungen für dich",
-    "received_empty": "Dich hat noch niemand eingeladen.",
-    "sent": "Deine Einladungen",
-    "sent_empty": "Du hast noch niemanden eingeladen.",
     "terms": "{{setup}}, du spielst {{side}}",
     "declined": "Abgelehnt",
     "accept": "Annehmen",
@@ -22,11 +23,11 @@
     "dismiss": "Ausblenden",
     "heading": "Einladungen",
     "sent_heading": "Gesendet",
-    "just_sent": "Gerade verschickt · wartet auf Antwort"
+    "just_sent": "Wartet auf Antwort"
   },
   "history": {
     "heading": "Beendete Partien",
-    "empty": "Noch nichts hier. Beendete Partien landen hier.",
+    "empty": "Noch keine beendeten Partien.",
     "heading_short": "Beendet",
     "see_all": "Alle ansehen ({{count}})",
     "title": "Beendete Partien",
@@ -56,7 +57,7 @@
   },
   "compose": {
     "title": "Neue Einladung",
-    "body": "Er sieht sie, sobald er die App das nächste Mal öffnet. Ihr müsst nicht beide gleichzeitig da sein.",
+    "body": "Die Einladung wartet beim nächsten Öffnen der App.",
     "username": "Gegen wen spielst du?",
     "username_placeholder": "Sein Name",
     "setup": "Aufstellung",
@@ -78,13 +79,9 @@
     "head_to_head": "Bisherige Siege",
     "head_to_head_detail": "Vor diesem Spiel: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
-  "offline": {
-    "heading": "Offline spielen",
-    "note": "Ein Offline-Spiel lebt in dem Tab, in dem du es gestartet hast. Schließt du ihn, ist es weg — und nichts davon erreicht dein Konto."
-  },
   "empty": {
     "title": "Hier ist noch nichts",
-    "body": "Lade jemanden mit Namen ein, und die Partie erscheint hier. Partien warten auf dich — ein Zug pro Tag ist eine völlig gute Partie.",
-    "play_bot": "Spiel gegen einen Bot, während du wartest"
+    "body": "Lade jemanden mit Namen ein, und die Partie beginnt hier.",
+    "play_bot": "Gegen einen Bot spielen"
   }
 }

@@ -2,26 +2,12 @@
   "nav": {
     "primary": "기본 탐색",
     "back": "뒤로",
-    "play": "플레이",
     "new_game": "새 게임",
     "rules": "규칙",
-    "strategy": "전략 가이드",
-    "faq": "FAQ",
-    "about": "소개",
-    "history": "게임 기록",
     "profile": "프로필",
-    "back_to_game": "컴퓨터와 대전",
-    "back_to_game_from_page": "게임 플레이",
-    "home": "홈"
-  },
-  "buttons": {
-    "play_now": "지금 플레이",
-    "get_started": "시작하기",
-    "try_setups": "다른 배치 사용",
-    "learn_strategy": "전략 배우기",
-    "start_playing": "플레이 시작",
-    "more_about": "아발론 (Abalone) 더 알아보기",
-    "read_rules": "전체 규칙 보기"
+    "home": "홈",
+    "online": "온라인 플레이",
+    "offline": "오프라인 플레이"
   },
   "language": {
     "select": "언어 선택",
@@ -34,16 +20,16 @@
     "change": "언어 변경"
   },
   "home": {
-    "eyebrow": "두 명의 플레이어, 하나의 육각 보드.",
     "tagline": "상대 구슬 6개를 보드 밖으로 밀어내면 승리합니다.",
     "play_online": "온라인 플레이",
     "play_offline": "오프라인 플레이",
-    "rules_link": "처음이신가요? 규칙은 2분이면 됩니다",
+    "online_hint": "다른 플레이어와 대전합니다.",
+    "rules_link": "처음이신가요? 규칙 보기",
     "bot_hint_short": "여덟 단계",
     "bot_hint_long": "거스부터 매그너스까지, 봇 여덟.",
     "local_hint_short": "기기 하나, 둘이서",
-    "bots_caption": "거스부터 매그너스까지, 봇 여덟",
-    "account_note": "봇과의 대국에는 계정이 필요 없습니다. 로그인하면 온라인이든 오프라인이든 모든 대국이 남습니다."
+    "local_hint_long": "한 기기에서 둘이 번갈아 둡니다.",
+    "bots_caption": "거스부터 매그너스까지, 봇 여덟"
   },
   "auth": {
     "sign_in": "로그인",
@@ -56,37 +42,41 @@
     "show_password": "비밀번호 표시",
     "hide_password": "비밀번호 숨기기",
     "prompt_title": "온라인 대전을 하려면 로그인하세요",
-    "prompt_body": "내 이름으로 겨루세요. 모든 승리가 기록됩니다.",
+    "prompt_body": "온라인 대국에는 계정이 필요합니다.",
+    "signup_title": "이름 정하기",
+    "signup_body": "상대는 이름을 그대로 입력해 초대합니다.",
     "errors": {
-      "username_taken": "이미 사용 중인 이름입니다. 다른 이름을 사용해 보세요.",
-      "username_invalid": "이름은 3자에서 20자까지이며 영문, 숫자, 마침표, 밑줄을 쓸 수 있습니다.",
+      "username_taken": "이미 사용 중인 이름입니다.",
+      "username_invalid": "3~20자의 문자, 숫자, 점, 밑줄.",
       "password_too_short": "비밀번호는 8자 이상이어야 합니다.",
-      "invalid_credentials": "이름과 비밀번호가 일치하지 않습니다. 둘 다 확인하고 다시 시도하세요.",
-      "unknown": "문제가 발생했습니다. 연결을 확인하고 다시 시도하세요."
+      "invalid_credentials": "이름과 비밀번호가 맞지 않습니다.",
+      "unknown": "문제가 생겼습니다."
     },
-    "credentials_warning": "이름과 비밀번호는 재설정할 수 없어요.\n잊으면 계정도 사라집니다."
+    "credentials_warning": "이름과 비밀번호는 재설정할 수 없어요."
   },
   "profile": {
     "username_permanent": "이름은 바꿀 수 없습니다",
     "change_picture": "사진 변경",
     "uploading": "업로드 중",
     "picture_hint": "PNG, JPEG 또는 WebP. 정사각형으로 잘립니다.",
-    "upload_failed": "사진을 업로드하지 못했습니다. 다시 시도하세요."
+    "upload_failed": "사진을 업로드하지 못했습니다. 다시 시도하세요.",
+    "playing": "진행 중",
+    "best_streak": "최다 연승",
+    "history_hint": "대국별 전적",
+    "settings_hint": "언어, 구슬, 소리"
   },
   "actions": {
     "close": "닫기",
     "cancel": "취소"
   },
-  "play": {
-    "title": "플레이",
-    "online_hint": "내 이름으로 다른 플레이어와 대전합니다.",
-    "offline_hint": "봇과 대전하거나, 한 기기에서 둘이 번갈아 둡니다.",
-    "bot_hint": "봇과 대전하고, 난이도는 직접 고릅니다.",
-    "local_hint": "한 기기에서 둘이 번갈아 둡니다."
-  },
   "sync": {
     "updating": "업데이트 중",
-    "offline": "오프라인 상태입니다. 지금 보이는 내용은 최신이 아닐 수 있습니다.",
-    "unreachable": "새로 고치지 못했습니다. 지금 보이는 내용은 최신이 아닐 수 있습니다."
+    "offline": "오프라인입니다. 내용이 오래되었을 수 있습니다.",
+    "unreachable": "새로 고치지 못했습니다. 내용이 오래되었을 수 있습니다."
+  },
+  "not_found": {
+    "title": "이 칸에는 아무것도 없습니다",
+    "body": "이 주소는 어디로도 이어지지 않습니다.",
+    "action": "보드로 돌아가기"
   }
 }

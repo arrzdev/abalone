@@ -1,19 +1,20 @@
 {
   "title": "Çevrimiçi",
-  "subtitle": "Kendi hızında oyna. Oyunlar seni bekler, günde bir hamle bile gayet iyi bir oyundur.",
+  "hub": {
+    "your_move": "Sıra sende",
+    "idle": "Şu an seni bekleyen bir şey yok",
+    "none": "Devam eden bir şey yok",
+    "waiting_on_you": "{{count}} seni bekliyor",
+    "with_opponent": "{{count}} rakibinde",
+    "finished_count": "{{count}} bitti",
+    "nothing_else": "Başka devam eden bir şey yok",
+    "waiting_on_them": "Rakip bekleniyor"
+  },
   "games": {
-    "heading": "Oyunların",
-    "empty": "Henüz oyun yok. Birini davet et.",
-    "your_turn": "Sıra sende",
-    "their_turn": "Sıra rakipte",
     "new_invite": "Yeni davet",
     "loading": "Oyunların yükleniyor"
   },
   "invites": {
-    "received": "Sana gelen davetler",
-    "received_empty": "Seni henüz kimse davet etmedi.",
-    "sent": "Gönderdiğin davetler",
-    "sent_empty": "Henüz kimseyi davet etmedin.",
     "terms": "{{setup}}, sen {{side}} oynuyorsun",
     "declined": "Reddedildi",
     "accept": "Kabul et",
@@ -22,11 +23,11 @@
     "dismiss": "Kaldır",
     "heading": "Davetler",
     "sent_heading": "Gönderilen",
-    "just_sent": "Az önce gönderildi · yanıt bekleniyor"
+    "just_sent": "Yanıt bekleniyor"
   },
   "history": {
     "heading": "Biten oyunlar",
-    "empty": "Burada henüz bir şey yok. Biten oyunlar buraya gelir.",
+    "empty": "Henüz biten oyun yok.",
     "heading_short": "Biten",
     "see_all": "Tümünü gör ({{count}})",
     "title": "Biten oyunlar",
@@ -56,7 +57,7 @@
   },
   "compose": {
     "title": "Yeni davet",
-    "body": "Uygulamayı bir dahaki açışında görecek. İkinizin aynı anda burada olması gerekmiyor.",
+    "body": "Uygulamayı bir dahaki açışında görecek.",
     "username": "Kiminle oynuyorsun?",
     "username_placeholder": "Adı",
     "setup": "Açılış",
@@ -78,13 +79,9 @@
     "head_to_head": "Önceki galibiyetler",
     "head_to_head_detail": "Bu oyundan önce: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
-  "offline": {
-    "heading": "Çevrimdışı oyna",
-    "note": "Çevrimdışı bir oyun, başlattığın sekmede yaşar. Sekmeyi kapatırsan oyun gider ve hiçbir izi hesabına ulaşmaz."
-  },
   "empty": {
     "title": "Burada henüz bir şey yok",
-    "body": "Birini adıyla davet et; oyun burada belirir. Oyunlar seni bekler, günde bir hamle gayet iyi bir oyundur.",
-    "play_bot": "Beklerken bota karşı oyna"
+    "body": "Birini adıyla davet et; oyun burada başlar.",
+    "play_bot": "Bota karşı oyna"
   }
 }

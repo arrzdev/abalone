@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Nawigacja główna",
     "back": "Wstecz",
-    "play": "Graj",
     "new_game": "Nowa gra",
     "rules": "Zasady",
-    "strategy": "Przewodnik Strategiczny",
-    "faq": "FAQ",
-    "about": "O grze",
-    "history": "Historia Gier",
     "profile": "Profil",
-    "back_to_game": "Graj przeciwko Komputerowi",
-    "back_to_game_from_page": "Graj w Grę",
-    "home": "Start"
-  },
-  "buttons": {
-    "play_now": "Graj Teraz",
-    "get_started": "Rozpocznij",
-    "try_setups": "Wypróbuj Różne Ustawienia",
-    "learn_strategy": "Naucz się Strategii",
-    "start_playing": "Zacznij Grać",
-    "more_about": "Więcej o Abalone",
-    "read_rules": "Przeczytaj Pełne Zasady"
+    "home": "Start",
+    "online": "Graj online",
+    "offline": "Graj offline"
   },
   "language": {
     "select": "Wybierz Język",
@@ -34,16 +20,16 @@
     "change": "Zmień język"
   },
   "home": {
-    "eyebrow": "Dwóch graczy. Jedna sześciokątna plansza.",
     "tagline": "Wypchnij sześć kul przeciwnika poza planszę, aby wygrać.",
     "play_online": "Graj online",
     "play_offline": "Graj offline",
-    "rules_link": "Nigdy nie grałeś? Zasady zajmą dwie minuty",
+    "online_hint": "Przeciwko innemu graczowi.",
+    "rules_link": "Nigdy nie grałeś? Przeczytaj zasady",
     "bot_hint_short": "Osiem poziomów",
     "bot_hint_long": "Osiem botów, od Gusa do Magnusa.",
     "local_hint_short": "Jedno urządzenie, was dwoje",
-    "bots_caption": "Osiem botów, od Gusa do Magnusa",
-    "account_note": "Gra z botem nie wymaga konta. Zaloguj się, a każda gra zostanie zapisana — online i offline."
+    "local_hint_long": "We dwoje, na zmianę, na tym urządzeniu.",
+    "bots_caption": "Osiem botów, od Gusa do Magnusa"
   },
   "auth": {
     "sign_in": "Zaloguj się",
@@ -56,37 +42,41 @@
     "show_password": "Pokaż hasło",
     "hide_password": "Ukryj hasło",
     "prompt_title": "Zaloguj się, aby grać online",
-    "prompt_body": "Graj pod własną nazwą. Każda wygrana zostaje.",
+    "prompt_body": "Gry online wymagają konta.",
+    "signup_title": "Wybierz nazwę",
+    "signup_body": "Przeciwnicy zapraszają cię, wpisując ją dokładnie.",
     "errors": {
-      "username_taken": "Ta nazwa jest już zajęta. Wybierz inną.",
-      "username_invalid": "Nazwy mają od 3 do 20 znaków i składają się z liter, cyfr, kropek i podkreśleń.",
+      "username_taken": "Ta nazwa jest już zajęta.",
+      "username_invalid": "3 do 20 liter, cyfr, kropek lub podkreśleń.",
       "password_too_short": "Hasło musi mieć co najmniej 8 znaków.",
-      "invalid_credentials": "Ta nazwa i hasło do siebie nie pasują. Sprawdź oba i spróbuj ponownie.",
-      "unknown": "Coś poszło nie tak. Sprawdź połączenie i spróbuj ponownie."
+      "invalid_credentials": "Ta nazwa i hasło do siebie nie pasują.",
+      "unknown": "Coś poszło nie tak."
     },
-    "credentials_warning": "Nazwy i hasła nie da się odzyskać.\nStracisz je, stracisz konto."
+    "credentials_warning": "Nazwy i hasła nie da się odzyskać."
   },
   "profile": {
     "username_permanent": "Twoja nazwa jest stała",
     "change_picture": "Zmień zdjęcie",
     "uploading": "Wysyłanie",
     "picture_hint": "PNG, JPEG lub WebP. Obraz zostanie przycięty do kwadratu.",
-    "upload_failed": "To zdjęcie nie zostało wysłane. Spróbuj ponownie."
+    "upload_failed": "To zdjęcie nie zostało wysłane. Spróbuj ponownie.",
+    "playing": "W toku",
+    "best_streak": "Najlepsza seria",
+    "history_hint": "Twoje wyniki, partia po partii",
+    "settings_hint": "Język, kule i dźwięk"
   },
   "actions": {
     "close": "Zamknij",
     "cancel": "Anuluj"
   },
-  "play": {
-    "title": "Graj",
-    "online_hint": "Przeciwko innemu graczowi, pod twoją nazwą.",
-    "offline_hint": "Przeciwko botowi albo we dwoje na tym urządzeniu.",
-    "bot_hint": "Przeciwko botowi, na wybranym poziomie.",
-    "local_hint": "We dwoje, na zmianę, na tym urządzeniu."
-  },
   "sync": {
     "updating": "Aktualizowanie",
-    "offline": "Jesteś offline. To, co widzisz, może być nieaktualne.",
-    "unreachable": "Nie udało się odświeżyć. To, co widzisz, może być nieaktualne."
+    "offline": "Jesteś offline, to może być nieaktualne.",
+    "unreachable": "Nie udało się odświeżyć, to może być nieaktualne."
+  },
+  "not_found": {
+    "title": "Na tym polu nic nie ma",
+    "body": "Ten adres donikąd nie prowadzi.",
+    "action": "Wróć do planszy"
   }
 }

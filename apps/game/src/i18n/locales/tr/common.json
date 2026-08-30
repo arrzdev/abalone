@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Ana gezinme",
     "back": "Geri",
-    "play": "Oyna",
     "new_game": "Yeni oyun",
     "rules": "Kurallar",
-    "strategy": "Strateji Rehberi",
-    "faq": "SSS",
-    "about": "Hakkında",
-    "history": "Oyun Geçmişi",
     "profile": "Profil",
-    "back_to_game": "Bilgisayara Karşı Oyna",
-    "back_to_game_from_page": "Oyunu Oyna",
-    "home": "Ana sayfa"
-  },
-  "buttons": {
-    "play_now": "Şimdi Oyna",
-    "get_started": "Başla",
-    "try_setups": "Farklı Dizilişleri Dene",
-    "learn_strategy": "Stratejiyi Öğren",
-    "start_playing": "Oynamaya Başla",
-    "more_about": "Abalone Hakkında Daha Fazla",
-    "read_rules": "Kuralların Tamamını Oku"
+    "home": "Ana sayfa",
+    "online": "Çevrimiçi oyna",
+    "offline": "Çevrimdışı oyna"
   },
   "language": {
     "select": "Dil Seç",
@@ -34,16 +20,16 @@
     "change": "Dili değiştir"
   },
   "home": {
-    "eyebrow": "İki oyuncu. Tek altıgen tahta.",
     "tagline": "Kazanmak için rakibinin altı bilyesini tahtadan dışarı it.",
     "play_online": "Çevrimiçi oyna",
     "play_offline": "Çevrimdışı oyna",
-    "rules_link": "Hiç oynamadın mı? Kurallar iki dakika sürer",
+    "online_hint": "Başka bir oyuncuya karşı.",
+    "rules_link": "Hiç oynamadın mı? Kuralları oku",
     "bot_hint_short": "Sekiz seviye",
     "bot_hint_long": "Gus'tan Magnus'a sekiz bot.",
     "local_hint_short": "Tek cihaz, ikiniz",
-    "bots_caption": "Gus'tan Magnus'a sekiz bot",
-    "account_note": "Bota karşı oynamak için hesap gerekmez. Giriş yap, oynadığın her oyun saklansın; çevrimiçi de çevrimdışı da."
+    "local_hint_long": "İki kişi, sırayla, bu cihazda.",
+    "bots_caption": "Gus'tan Magnus'a sekiz bot"
   },
   "auth": {
     "sign_in": "Giriş yap",
@@ -56,37 +42,41 @@
     "show_password": "Parolayı göster",
     "hide_password": "Parolayı gizle",
     "prompt_title": "Çevrimiçi oynamak için giriş yap",
-    "prompt_body": "Kendi adınla oyna. Her galibiyet kayıtlı kalır.",
+    "prompt_body": "Çevrimiçi oyunlar için hesap gerekir.",
+    "signup_title": "Bir ad seç",
+    "signup_body": "Rakipler seni adını birebir yazarak davet eder.",
     "errors": {
-      "username_taken": "Bu ad zaten alınmış. Başka bir ad dene.",
-      "username_invalid": "Adlar 3 ile 20 karakter arasındadır; harf, rakam, nokta ve alt çizgi kullanabilirsin.",
+      "username_taken": "Bu ad zaten alınmış.",
+      "username_invalid": "3 ile 20 arası harf, rakam, nokta veya alt çizgi.",
       "password_too_short": "Parolalar en az 8 karakter olmalı.",
-      "invalid_credentials": "Bu ad ve parola eşleşmiyor. İkisini de kontrol edip tekrar dene.",
-      "unknown": "Bir şeyler ters gitti. Bağlantını kontrol edip tekrar dene."
+      "invalid_credentials": "Bu ad ve parola eşleşmiyor.",
+      "unknown": "Bir şeyler ters gitti."
     },
-    "credentials_warning": "Ad ve parola sıfırlanamaz.\nKaybedersen hesap da gider."
+    "credentials_warning": "Ad ve parola sıfırlanamaz."
   },
   "profile": {
     "username_permanent": "Adın kalıcıdır",
     "change_picture": "Resmi değiştir",
     "uploading": "Yükleniyor",
     "picture_hint": "PNG, JPEG veya WebP. Görsel kare olacak şekilde kırpılır.",
-    "upload_failed": "Bu resim yüklenemedi. Tekrar dene."
+    "upload_failed": "Bu resim yüklenemedi. Tekrar dene.",
+    "playing": "Sürüyor",
+    "best_streak": "En iyi seri",
+    "history_hint": "Oyun oyun, senin sonuçların",
+    "settings_hint": "Dil, bilyeler ve ses"
   },
   "actions": {
     "close": "Kapat",
     "cancel": "Vazgeç"
   },
-  "play": {
-    "title": "Oyna",
-    "online_hint": "Kendi adınla, başka bir oyuncuya karşı.",
-    "offline_hint": "Bir bota karşı ya da bu cihazda iki kişi.",
-    "bot_hint": "Bir bota karşı, seçtiğin güçte.",
-    "local_hint": "İki kişi, sırayla, bu cihazda."
-  },
   "sync": {
     "updating": "Güncelleniyor",
-    "offline": "Çevrimdışısın. Gördüklerin güncel olmayabilir.",
-    "unreachable": "Yenilenemedi. Gördüklerin güncel olmayabilir."
+    "offline": "Çevrimdışısın, bunlar güncel olmayabilir.",
+    "unreachable": "Yenilenemedi, bunlar güncel olmayabilir."
+  },
+  "not_found": {
+    "title": "Bu karede bir şey yok",
+    "body": "Bu adres hiçbir yere gitmiyor.",
+    "action": "Tahtaya dön"
   }
 }

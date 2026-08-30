@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Main navigation",
     "back": "Back",
-    "play": "Play",
     "new_game": "New game",
     "rules": "Rules",
-    "strategy": "Strategy Guide",
-    "faq": "FAQ",
-    "about": "About",
-    "history": "Game History",
     "profile": "Profile",
-    "back_to_game": "Play vs Computer",
-    "back_to_game_from_page": "Play Game",
-    "home": "Home"
-  },
-  "buttons": {
-    "play_now": "Play Now",
-    "get_started": "Get Started",
-    "try_setups": "Try Different Setups",
-    "learn_strategy": "Learn Strategy",
-    "start_playing": "Start Playing",
-    "more_about": "More About Abalone",
-    "read_rules": "Read Full Rules"
+    "home": "Home",
+    "online": "Play Online",
+    "offline": "Play Offline"
   },
   "language": {
     "select": "Select Language",
@@ -34,16 +20,16 @@
     "change": "Change language"
   },
   "home": {
-    "eyebrow": "Two players. One hex board.",
     "tagline": "Push six of your opponent's marbles off the board to win.",
     "play_online": "Play Online",
     "play_offline": "Play Offline",
-    "rules_link": "Never played? The rules take two minutes",
+    "online_hint": "Against another player.",
+    "rules_link": "Never played? Read the rules",
     "bot_hint_short": "Eight strengths",
     "bot_hint_long": "Eight bots, Gus to Magnus.",
     "local_hint_short": "One device, two of you",
-    "bots_caption": "Eight bots, Gus to Magnus",
-    "account_note": "A bot game needs no account. Sign in and every game you play is kept, online and off."
+    "local_hint_long": "Two of you, taking turns on this device.",
+    "bots_caption": "Eight bots, Gus to Magnus"
   },
   "auth": {
     "sign_in": "Sign in",
@@ -56,37 +42,41 @@
     "show_password": "Show password",
     "hide_password": "Hide password",
     "prompt_title": "Sign in to play online",
-    "prompt_body": "Play under your own name. Every win is kept.",
+    "prompt_body": "Online games need an account.",
+    "signup_title": "Pick a name",
+    "signup_body": "Opponents invite you by typing it exactly.",
     "errors": {
-      "username_taken": "That name is already taken. Try another one.",
-      "username_invalid": "Names are 3 to 20 characters, using letters, numbers, dots and underscores.",
+      "username_taken": "That name is taken.",
+      "username_invalid": "3 to 20 letters, numbers, dots or underscores.",
       "password_too_short": "Passwords need at least 8 characters.",
-      "invalid_credentials": "That name and password don't match. Check both and try again.",
-      "unknown": "Something went wrong. Check your connection and try again."
+      "invalid_credentials": "That name and password don't match.",
+      "unknown": "Something went wrong."
     },
-    "credentials_warning": "Name and password can't be reset.\nLose them and the account goes too."
+    "credentials_warning": "Name and password can't be reset."
   },
   "profile": {
     "username_permanent": "Your name is permanent",
     "change_picture": "Change picture",
     "uploading": "Uploading",
     "picture_hint": "PNG, JPEG or WebP. It is cropped to a square.",
-    "upload_failed": "That picture didn't upload. Try again."
+    "upload_failed": "That picture didn't upload. Try again.",
+    "playing": "Playing",
+    "best_streak": "Best streak",
+    "history_hint": "Your record, game by game",
+    "settings_hint": "Language, marbles and sound"
   },
   "actions": {
     "close": "Close",
     "cancel": "Cancel"
   },
-  "play": {
-    "title": "Play",
-    "online_hint": "Against another player, under your name.",
-    "offline_hint": "Against a bot, or two of you on this device.",
-    "bot_hint": "Against a bot, at the strength you pick.",
-    "local_hint": "Two of you, taking turns on this device."
-  },
   "sync": {
     "updating": "Updating",
-    "offline": "You're offline. What you see may be out of date.",
-    "unreachable": "Couldn't refresh this. What you see may be out of date."
+    "offline": "You're offline, so this may be out of date.",
+    "unreachable": "Couldn't refresh, so this may be out of date."
+  },
+  "not_found": {
+    "title": "Nothing on this square",
+    "body": "That address doesn't lead anywhere.",
+    "action": "Back to the board"
   }
 }

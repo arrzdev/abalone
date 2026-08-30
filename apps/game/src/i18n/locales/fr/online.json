@@ -1,19 +1,20 @@
 {
   "title": "En ligne",
-  "subtitle": "Joue à ton rythme. Les parties t'attendent, un coup par jour fait très bien l'affaire.",
+  "hub": {
+    "your_move": "À toi de jouer",
+    "idle": "Rien ne t'attend pour l'instant",
+    "none": "Rien en cours",
+    "waiting_on_you": "{{count}} en attente de toi",
+    "with_opponent": "{{count}} chez ton adversaire",
+    "finished_count": "{{count}} terminées",
+    "nothing_else": "Rien d'autre en cours",
+    "waiting_on_them": "En attente de l'adversaire"
+  },
   "games": {
-    "heading": "Tes parties",
-    "empty": "Aucune partie pour l'instant. Invite quelqu'un.",
-    "your_turn": "À toi de jouer",
-    "their_turn": "À ton adversaire",
     "new_invite": "Nouvelle invitation",
     "loading": "Chargement de tes parties"
   },
   "invites": {
-    "received": "Invitations reçues",
-    "received_empty": "Personne ne t'a encore invité.",
-    "sent": "Invitations envoyées",
-    "sent_empty": "Tu n'as encore invité personne.",
     "terms": "{{setup}}, tu joues {{side}}",
     "declined": "Refusée",
     "accept": "Accepter",
@@ -22,11 +23,11 @@
     "dismiss": "Masquer",
     "heading": "Invitations",
     "sent_heading": "Envoyées",
-    "just_sent": "Tout juste envoyée · en attente de réponse"
+    "just_sent": "En attente de réponse"
   },
   "history": {
     "heading": "Parties terminées",
-    "empty": "Rien ici pour l'instant. Tes parties terminées arrivent ici.",
+    "empty": "Aucune partie terminée pour l'instant.",
     "heading_short": "Terminées",
     "see_all": "Tout voir ({{count}})",
     "title": "Parties terminées",
@@ -56,7 +57,7 @@
   },
   "compose": {
     "title": "Nouvelle invitation",
-    "body": "Il la verra à sa prochaine ouverture de l'app. Aucun de vous deux n'a besoin d'être là en même temps.",
+    "body": "L'invitation attend sa prochaine ouverture de l'app.",
     "username": "Contre qui joues-tu ?",
     "username_placeholder": "Son nom",
     "setup": "Ouverture",
@@ -78,13 +79,9 @@
     "head_to_head": "Victoires passées",
     "head_to_head_detail": "Avant cette partie : {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
-  "offline": {
-    "heading": "Jouer hors ligne",
-    "note": "Une partie hors ligne vit dans l'onglet où vous l'avez lancée. Fermez-le et elle disparaît, sans jamais toucher votre compte."
-  },
   "empty": {
     "title": "Rien ici pour l'instant",
-    "body": "Invitez quelqu'un par son nom et la partie apparaîtra ici. Les parties vous attendent : un coup par jour fait une très bonne partie.",
-    "play_bot": "Jouez contre un bot en attendant"
+    "body": "Invitez quelqu'un par son nom et la partie commence ici.",
+    "play_bot": "Jouer contre un bot"
   }
 }

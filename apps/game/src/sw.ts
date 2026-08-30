@@ -36,7 +36,7 @@ registerStaticAssetsRoute({ buildTag: BUILD_TAG })
 registerInstallRouteWarmer({
   buildTag: BUILD_TAG,
   cacheBucket: "pages",
-  routes: ["/", "/rules", "/login", "/game/offline"],
+  routes: ["/", "/online", "/rules", "/offline"],
 })
 
 registerServiceWorkerLifecycle({

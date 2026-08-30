@@ -27,79 +27,47 @@ function resultOf(game: Game, seat: "black" | "white") {
 }
 
 /**
- * One game in progress.
+ * One game that is waiting on the other player.
  *
- * Three things carry priority, and all three of them are on this row: it sorts
- * above the games that are not waiting on you, its name and score stay at full
- * white while theirs drop a step, and the line under the score says "your move"
- * in the accent. A list where every row looks the same is a list you have to
- * read; this one you can scan.
+ * Quiet on purpose. The hub gives the games needing a move from you their own
+ * block at the top of the page, so everything in this list is a game you cannot
+ * do anything about yet — a row to recognise, not a row to press.
  *
- * The score is the loudest thing on the row and set in the display face, because
- * on a list of games it is the only number, and a scoreline that reads as body
- * text is a scoreline nobody sees.
- *
- * There is no arrow. The whole row is the link — an arrow at the end of a row
- * that is entirely pressable only tells you where to aim.
+ * There is no caption saying whose turn it is. The panel this sits in is headed
+ * "Waiting on them", and repeating that on every row is the old lobby's mistake:
+ * one flat list where the only difference between a game you could play and a
+ * game you could not was a word under the score.
  */
 export function GameRow({ game, myUserId }: GameRowProps) {
-  const { t } = useTranslation()
-
   const seat = seatOf(game, myUserId)
   const opponent = opponentOf(game, myUserId)
-  const isMyTurn = game.currentTurn === seat
 
   const mine = seat === "black" ? game.blackScore : game.whiteScore
   const theirs = seat === "black" ? game.whiteScore : game.blackScore
 
   return (
     <Link
-      to="/game/online/$gameId"
+      to="/online/$gameId"
       params={{ gameId: game.id }}
-      className="flex items-center gap-3.5 px-4 py-3 transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand lg:px-[18px] lg:py-[13px]"
+      className="flex items-center gap-3 px-4 py-2.5 transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand lg:px-[18px] lg:py-[11px]"
     >
       <Avatar
         src={opponent.avatarUrl}
         name={opponent.displayUsername ?? opponent.username}
-        size={40}
-        className="lg:size-11"
+        size={36}
       />
 
       <span className="block min-w-0 flex-1">
-        <span
-          className={cn(
-            "block truncate text-[15px] font-semibold lg:text-base",
-            isMyTurn ? "text-white" : "text-subtle",
-          )}
-        >
+        <span className="block truncate text-[15px] font-semibold text-subtle">
           {opponent.displayUsername ?? opponent.username}
         </span>
-        <span className="mt-0.5 block truncate text-xs text-faint">
+        <span className="mt-px block truncate text-xs text-faint">
           {getSetupName(game.setupType)}
         </span>
       </span>
 
-      <span className="shrink-0 text-right">
-        <span
-          className={cn(
-            "block font-display text-base font-bold tabular-nums lg:text-lg",
-            isMyTurn ? "text-white" : "text-subtle",
-          )}
-        >
-          {mine}–{theirs}
-        </span>
-        <span
-          className={cn(
-            "mt-px block text-xs font-semibold",
-            isMyTurn ? "text-brand-lighter" : "text-faint",
-          )}
-        >
-          {t(
-            isMyTurn
-              ? "online:games.your_turn"
-              : "online:games.their_turn",
-          )}
-        </span>
+      <span className="shrink-0 font-display text-sm font-semibold text-muted tabular-nums">
+        {mine}–{theirs}
       </span>
     </Link>
   )
@@ -133,7 +101,7 @@ export function FinishedGameRow({
 
   return (
     <Link
-      to="/game/online/$gameId"
+      to="/online/$gameId"
       params={{ gameId: game.id }}
       className="flex items-center gap-3 px-4 py-2.5 transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand lg:px-[18px]"
     >
@@ -167,6 +135,74 @@ export function FinishedGameRow({
 
       <span className="w-10 shrink-0 text-right text-xs text-faint">
         {when}
+      </span>
+    </Link>
+  )
+}
+
+/**
+ * One finished game, on a page that has room for it.
+ *
+ * The same game as `FinishedGameRow` and a step louder, because the history is
+ * where these rows are the point rather than the tail of a panel. The name comes
+ * up to full white, the score is the display face, and the date moves under the
+ * score instead of into a column of its own — on a narrow panel that column is
+ * what keeps the dates lined up, and at 880px it is a gap with nothing in it.
+ */
+export function HistoryGameRow({
+  game,
+  myUserId,
+  when,
+}: FinishedGameRowProps) {
+  const { t } = useTranslation()
+
+  const seat = seatOf(game, myUserId)
+  const opponent = opponentOf(game, myUserId)
+  const result = resultOf(game, seat)
+
+  const mine = seat === "black" ? game.blackScore : game.whiteScore
+  const theirs = seat === "black" ? game.whiteScore : game.blackScore
+
+  return (
+    <Link
+      to="/online/$gameId"
+      params={{ gameId: game.id }}
+      className="flex items-center gap-3.5 px-4 py-[11px] transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand lg:px-[18px] lg:py-3"
+    >
+      <Avatar
+        src={opponent.avatarUrl}
+        name={opponent.displayUsername ?? opponent.username}
+        size={36}
+      />
+
+      <span className="block min-w-0 flex-1">
+        <span className="block truncate text-[15px] font-semibold text-white">
+          {opponent.displayUsername ?? opponent.username}
+        </span>
+        <span
+          className={cn(
+            "mt-0.5 block truncate text-xs",
+            result === "won" && "text-brand-lighter",
+            result !== "won" && "text-faint",
+          )}
+        >
+          {t(`online:results.${result}`, {
+            reason: t(`online:reasons.${game.finishReason ?? "score"}`),
+          })}
+        </span>
+      </span>
+
+      <span className="shrink-0 text-right">
+        <span
+          className={cn(
+            "block font-display text-base font-bold tabular-nums",
+            result === "won" && "text-white",
+            result !== "won" && "text-subtle",
+          )}
+        >
+          {mine}–{theirs}
+        </span>
+        <span className="mt-px block text-xs text-faint">{when}</span>
       </span>
     </Link>
   )

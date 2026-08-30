@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Navigazione principale",
     "back": "Indietro",
-    "play": "Gioca",
     "new_game": "Nuova partita",
     "rules": "Regole",
-    "strategy": "Guida strategica",
-    "faq": "FAQ",
-    "about": "Informazioni",
-    "history": "Cronologia Partite",
     "profile": "Profilo",
-    "back_to_game": "Gioca contro il computer",
-    "back_to_game_from_page": "Gioca al gioco",
-    "home": "Home"
-  },
-  "buttons": {
-    "play_now": "Gioca ora",
-    "get_started": "Inizia",
-    "try_setups": "Prova diverse configurazioni",
-    "learn_strategy": "Impara la strategia",
-    "start_playing": "Inizia a giocare",
-    "more_about": "Maggiori informazioni su Abalone",
-    "read_rules": "Leggi le regole complete"
+    "home": "Home",
+    "online": "Gioca online",
+    "offline": "Gioca offline"
   },
   "language": {
     "select": "Seleziona lingua",
@@ -34,16 +20,16 @@
     "change": "Cambia lingua"
   },
   "home": {
-    "eyebrow": "Due giocatori. Un tabellone esagonale.",
     "tagline": "Spingi sei biglie avversarie fuori dal tabellone per vincere.",
     "play_online": "Gioca online",
     "play_offline": "Gioca offline",
-    "rules_link": "Non hai mai giocato? Le regole richiedono due minuti",
+    "online_hint": "Contro un altro giocatore.",
+    "rules_link": "Non hai mai giocato? Leggi le regole",
     "bot_hint_short": "Otto livelli",
     "bot_hint_long": "Otto bot, da Gus a Magnus.",
     "local_hint_short": "Un dispositivo, voi due",
-    "bots_caption": "Otto bot, da Gus a Magnus",
-    "account_note": "Una partita contro un bot non richiede un account. Accedi e ogni partita viene salvata, online e offline."
+    "local_hint_long": "In due, a turno, su questo dispositivo.",
+    "bots_caption": "Otto bot, da Gus a Magnus"
   },
   "auth": {
     "sign_in": "Accedi",
@@ -56,37 +42,41 @@
     "show_password": "Mostra password",
     "hide_password": "Nascondi password",
     "prompt_title": "Accedi per giocare online",
-    "prompt_body": "Gioca con il tuo nome. Ogni vittoria resta.",
+    "prompt_body": "Le partite online richiedono un account.",
+    "signup_title": "Scegli un nome",
+    "signup_body": "Gli avversari ti invitano digitandolo esattamente.",
     "errors": {
-      "username_taken": "Questo nome è già occupato. Provane un altro.",
-      "username_invalid": "I nomi vanno da 3 a 20 caratteri, con lettere, numeri, punti e trattini bassi.",
-      "password_too_short": "Le password devono avere almeno 8 caratteri.",
-      "invalid_credentials": "Nome e password non corrispondono. Controlla entrambi e riprova.",
-      "unknown": "Qualcosa è andato storto. Controlla la connessione e riprova."
+      "username_taken": "Questo nome è già occupato.",
+      "username_invalid": "Da 3 a 20 lettere, numeri, punti o trattini bassi.",
+      "password_too_short": "Le password richiedono almeno 8 caratteri.",
+      "invalid_credentials": "Nome e password non coincidono.",
+      "unknown": "Qualcosa è andato storto."
     },
-    "credentials_warning": "Nome e password non si recuperano.\nPerderli è perdere l'account."
+    "credentials_warning": "Nome e password non si recuperano."
   },
   "profile": {
     "username_permanent": "Il tuo nome è permanente",
     "change_picture": "Cambia immagine",
     "uploading": "Caricamento",
     "picture_hint": "PNG, JPEG o WebP. L'immagine viene ritagliata in un quadrato.",
-    "upload_failed": "L'immagine non è stata caricata. Riprova."
+    "upload_failed": "L'immagine non è stata caricata. Riprova.",
+    "playing": "In corso",
+    "best_streak": "Serie migliore",
+    "history_hint": "Il tuo storico, partita per partita",
+    "settings_hint": "Lingua, biglie e audio"
   },
   "actions": {
     "close": "Chiudi",
     "cancel": "Annulla"
   },
-  "play": {
-    "title": "Gioca",
-    "online_hint": "Contro un altro giocatore, con il tuo nome.",
-    "offline_hint": "Contro un bot, o in due su questo dispositivo.",
-    "bot_hint": "Contro un bot, alla difficoltà che scegli.",
-    "local_hint": "In due, a turno, su questo dispositivo."
-  },
   "sync": {
     "updating": "Aggiornamento",
-    "offline": "Sei offline. Quello che vedi potrebbe non essere aggiornato.",
-    "unreachable": "Aggiornamento non riuscito. Quello che vedi potrebbe non essere aggiornato."
+    "offline": "Sei offline, questo potrebbe non essere aggiornato.",
+    "unreachable": "Aggiornamento non riuscito, questo potrebbe non essere aggiornato."
+  },
+  "not_found": {
+    "title": "Su questa casella non c'è nulla",
+    "body": "Quell'indirizzo non porta da nessuna parte.",
+    "action": "Torna al tabellone"
   }
 }

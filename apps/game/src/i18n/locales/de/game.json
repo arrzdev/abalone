@@ -1,15 +1,15 @@
 {
   "meta": {
     "title": "Abalone online spielen, gegen Bots oder zu zweit | Kostenlos",
-    "description": "Spiele Abalone kostenlos im Browser. Tritt gegen einen Bot in acht Stärken an, spielt zu zweit abwechselnd an einem Gerät, oder lade jemanden zu einer Onlinepartie ein. Neun Brettaufstellungen, vollständige Zughistorie und Bewertungsleiste. Kein Download.",
+    "description": "Spiele Abalone kostenlos im Browser. Gegen einen Bot in acht Stärken, zu zweit an einem Gerät oder online gegen jemanden, den du einlädst. Kein Download.",
     "keywords": "abalone spielen, abalone online spielen, abalone browserspiel, abalone gegen computer, abalone bot, abalone zu zweit, kostenloses abalone, abalone brettaufstellungen, abalone regeln",
     "og_title": "Abalone im Browser spielen",
-    "og_description": "Tritt gegen einen Bot in acht Stärken an, spielt zu zweit an einem Gerät, oder lade jemanden zu einer Onlinepartie ein. Neun Brettaufstellungen, vollständige Zughistorie und Bewertungsleiste. Kostenlos, kein Download.",
+    "og_description": "Gegen einen Bot in acht Stärken, zu zweit an einem Gerät oder online gegen jemanden, den du einlädst. Kostenlos, kein Download.",
     "twitter_title": "Abalone im Browser spielen",
-    "twitter_description": "Ein Bot in acht Stärken, zu zweit an einem Gerät, oder eine Onlinepartie in eurem Tempo. Neun Brettaufstellungen und vollständige Zughistorie. Kostenlos, kein Download.",
+    "twitter_description": "Ein Bot in acht Stärken, zu zweit an einem Gerät oder eine Onlinepartie in eurem Tempo. Kostenlos, kein Download.",
     "structured_data": {
       "name": "Abalone",
-      "description": "Spiele Abalone gegen einen Bot in acht Stärken, zu zweit abwechselnd am selben Gerät, oder lade jemanden zu einer Onlinepartie ein. Neun Brettaufstellungen (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), vollständige Zughistorie und Bewertungsleiste. Kostenlos im Browser, kein Download.",
+      "description": "Spiele Abalone gegen einen Bot in acht Stärken, zu zweit an einem Gerät oder online gegen jemanden, den du einlädst. Neun Brettaufstellungen und vollständige Zughistorie. Kostenlos im Browser.",
       "audience": "Brettspieler und Fans von Strategiespielen"
     }
   },
@@ -55,15 +55,15 @@
     "mode_ai": "gegen Computer",
     "mode_local": "Zwei Spieler",
     "sound": "Ton",
-    "sound_hint": "Kugeln, die landen, und Kugeln, die vom Brett fallen",
+    "sound_hint": "Kugeln, die landen und vom Brett fallen",
     "mute": "Stummschalten",
     "unmute": "Ton einschalten",
     "move_animations": "Zuganimationen",
-    "move_animations_hint": "Kugeln auf ihr neues Feld gleiten lassen",
+    "move_animations_hint": "Kugeln gleiten, statt zu springen",
     "rotate_board": "Brett bei jedem Zug drehen",
-    "rotate_board_hint": "Das Brett so drehen, dass die ziehende Seite immer unten ist",
-    "show_coordinates_hint": "Die Axialkoordinate in jedem Feld anzeigen",
-    "show_eval_bar_hint": "Wie die Engine die Stellung bewertet (nur gegen Bots)",
+    "rotate_board_hint": "Die ziehende Seite bleibt immer unten",
+    "show_coordinates_hint": "Eine Koordinate in jedem Feld",
+    "show_eval_bar_hint": "Wer vorn liegt, in Bot-Partien",
     "side_group": "Zu spielende Seite",
     "side_white": "Weiß spielen",
     "side_black": "Schwarz spielen",
@@ -82,7 +82,7 @@
     "you_win": "Du gewinnst!",
     "opponent_won": "{{opponent}} hat gewonnen!",
     "draw": "Unentschieden!",
-    "victory_message": "Glückwunsch! Du hast den {{difficulty}} Bot besiegt.",
+    "victory_message": "Du hast den {{difficulty}} Bot besiegt.",
     "defeat_message": "Der {{difficulty}} Bot hat dieses Spiel gewonnen.",
     "draw_message": "Das Spiel endete unentschieden.",
     "rematch_button": "Revanche",
@@ -90,38 +90,39 @@
     "by_resignation": "durch Aufgabe",
     "by_repetition": "durch dreifache Wiederholung",
     "resign_title": "Partie aufgeben?",
-    "resign_body": "Die Partie endet sofort und dein Gegner gewinnt. Das lässt sich nicht rückgängig machen.",
+    "resign_body": "Dein Gegner gewinnt, und das lässt sich nicht rückgängig machen.",
+    "keep_playing": "Weiterspielen",
     "game_over": "Spiel vorbei",
     "moves": "{{count}} Züge"
   },
   "rules": {
     "title": "So wird gespielt",
-    "intro": "Abalone ist ein Spiel für zwei Personen auf einem sechseckigen Brett mit 61 Feldern. Jede Seite startet mit 14 Kugeln und zieht einmal pro Zug.",
+    "intro": "Das ganze Spiel in fünf kurzen Regeln.",
     "goal": {
       "title": "Das Ziel",
-      "body": "Schiebe sechs Kugeln deines Gegners vom Brett. Mehr ist es nicht. Sonst wird nichts gezählt."
+      "body": "Schiebe sechs Kugeln deines Gegners vom Brett."
     },
     "directions": {
       "title": "Sechs Richtungen",
-      "body": "Jedes Feld grenzt an sechs andere, also kann eine Kugel in sechs Richtungen ziehen. Es gibt keine Diagonalen und keine Sprünge. Eine Kugel zieht immer auf ein direkt benachbartes Feld.",
-      "caption": "Die sechs Richtungen einer einzelnen Kugel."
+      "body": "Eine Kugel zieht ein Feld weit in eine von sechs Richtungen. Keine Diagonalen und keine Sprünge.",
+      "caption": "Die sechs Richtungen."
     },
     "move": {
       "title": "Kugeln bewegen",
-      "body": "In deinem Zug bewegst du eine, zwei oder drei eigene Kugeln. Zwei oder drei müssen in gerader Linie nebeneinanderliegen und ziehen alle ein Feld in dieselbe Richtung.",
-      "inline_caption": "In Linie: die Reihe zieht in die Richtung, in die sie ohnehin zeigt.",
-      "broadside_caption": "Seitwärts: die Reihe rückt zur Seite, und jedes Zielfeld muss frei sein."
+      "body": "Du bewegst eine, zwei oder drei eigene Kugeln. Zwei oder drei müssen in gerader Linie liegen und ziehen zusammen.",
+      "inline_caption": "In Linie: die Reihe zieht in ihre eigene Richtung.",
+      "broadside_caption": "Seitwärts: die Reihe rückt auf freie Felder zur Seite."
     },
     "push": {
       "title": "Schieben",
-      "body": "Nur ein Zug in Linie kann schieben. Du brauchst in dieser Linie mehr Kugeln als dein Gegner: zwei gegen eine, drei gegen eine oder drei gegen zwei. Das Feld hinter den gegnerischen Kugeln muss frei sein.",
-      "ok_caption": "Drei gegen zwei: die ganze Linie rückt ein Feld vor.",
-      "blocked_caption": "Drei gegen drei bewegt sich nie, und eigene Kugeln darfst du nie schieben."
+      "body": "Nur ein Zug in Linie schiebt, und du brauchst mehr Kugeln als dein Gegner: zwei gegen eine, oder drei gegen eine oder zwei. Das Feld dahinter muss frei sein.",
+      "ok_caption": "Drei gegen zwei: die Linie rückt ein Feld vor.",
+      "blocked_caption": "Gleich viele bewegen sich nie, und eigene schiebst du nie."
     },
     "capture": {
       "title": "Kugeln herausschieben",
-      "body": "Eine über den Rand geschobene Kugel ist aus dem Spiel. Wer zuerst sechs gegnerische Kugeln herausschiebt, gewinnt.",
-      "caption": "Zwei gegen eine am Rand: die schwarze Kugel ist draußen."
+      "body": "Eine über den Rand geschobene Kugel bleibt bis zum Ende draußen.",
+      "caption": "Zwei gegen eine am Rand: Schwarz ist draußen."
     },
     "cta": "Jetzt spielen"
   },
@@ -140,7 +141,7 @@
   },
   "local": {
     "title": "Zwei Spieler, ein Gerät",
-    "description": "Schwarz beginnt, danach wechselt der Zug. Aktiviere das Drehen des Bretts in den Einstellungen, damit es sich zur ziehenden Seite dreht.",
+    "description": "Schwarz beginnt, danach wechselt der Zug.",
     "black": "Schwarz",
     "white": "Weiß",
     "names": "Spielernamen",

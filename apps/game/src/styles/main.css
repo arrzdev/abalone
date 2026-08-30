@@ -402,6 +402,22 @@
   .hex-texture-from-right {
     --hex-fade: linear-gradient(to left, #000 5%, transparent 65%);
   }
+
+  /*
+   * The same texture with the hole in the middle instead of at the edges.
+   *
+   * For a screen whose whole content is one block in the centre: the ordinary
+   * fade puts its densest hexes exactly where the words are, and turning it
+   * inside out leaves the middle clear and lets the pattern close in around it.
+   */
+  .hex-texture-inverted {
+    --hex-fade: radial-gradient(
+      ellipse 60% 60% at 50% 50%,
+      transparent 24%,
+      #000 80%
+    );
+    opacity: 0.05;
+  }
 }
 
 @layer components {
@@ -581,4 +597,54 @@
 }
 .strip-scroll::-webkit-scrollbar {
   display: none;
+}
+
+/*
+ * A mouse gets its text back.
+ *
+ * nativ switches selection off everywhere with `* { user-select: none }`, which
+ * is the right call on a phone: there, a press held long enough to start a
+ * selection is a gesture that went wrong, and what it puts on the screen is a
+ * loupe and a copy callout on top of whatever you were doing.
+ *
+ * A pointer has none of that. It has the opposite: dragging across a name or a
+ * score to copy it is ordinary, and a page that refuses reads as broken rather
+ * than as careful. So the blanket rule is scoped to the devices it was written
+ * for, and the exceptions below are what stays switched off on every device.
+ *
+ * Keyed on the pointer rather than on a breakpoint, because a narrow desktop
+ * window is still a mouse and a wide phone is still a thumb.
+ *
+ * Unlayered and one step more specific than the `*` it answers: an important
+ * declaration inside `@layer base` loses to an unlayered one no matter what it
+ * says, so this cannot live up there with the rest of the selection rules.
+ */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  html * {
+    -webkit-user-select: text !important;
+    user-select: text !important;
+  }
+
+  /*
+   * Except the things that are not text.
+   *
+   * A canvas and an image have nothing in them to select but themselves, and a
+   * control that highlights its own label on the second press of a stepper is
+   * the reason the blanket rule was reached for in the first place. Same
+   * specificity as the rule above and written after it, which is what makes
+   * these the exceptions to it rather than an argument with it.
+   */
+  canvas,
+  img,
+  svg,
+  button,
+  [role="button"],
+  [role="option"],
+  [role="radio"],
+  [role="switch"],
+  [role="tab"] {
+    -webkit-user-select: none !important;
+    user-select: none !important;
+  }
 }

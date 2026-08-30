@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Navegación principal",
     "back": "Atrás",
-    "play": "Jugar",
     "new_game": "Nueva partida",
     "rules": "Reglas",
-    "strategy": "Guía de estrategia",
-    "faq": "FAQ",
-    "about": "Acerca de",
-    "history": "Historial de Partidas",
     "profile": "Perfil",
-    "back_to_game": "Jugar contra la computadora",
-    "back_to_game_from_page": "Jugar al juego",
-    "home": "Inicio"
-  },
-  "buttons": {
-    "play_now": "Jugar ahora",
-    "get_started": "Comenzar",
-    "try_setups": "Probar diferentes configuraciones",
-    "learn_strategy": "Aprender estrategia",
-    "start_playing": "Comenzar a jugar",
-    "more_about": "Más sobre Abalone",
-    "read_rules": "Leer reglas completas"
+    "home": "Inicio",
+    "online": "Jugar en línea",
+    "offline": "Jugar sin conexión"
   },
   "language": {
     "select": "Seleccionar idioma",
@@ -34,16 +20,16 @@
     "change": "Cambiar idioma"
   },
   "home": {
-    "eyebrow": "Dos jugadores. Un tablero hexagonal.",
     "tagline": "Empuja seis bolas del rival fuera del tablero para ganar.",
     "play_online": "Jugar en línea",
     "play_offline": "Jugar sin conexión",
-    "rules_link": "¿Nunca has jugado? Las reglas llevan dos minutos",
+    "online_hint": "Contra otro jugador.",
+    "rules_link": "¿Nunca has jugado? Lee las reglas",
     "bot_hint_short": "Ocho niveles",
     "bot_hint_long": "Ocho bots, de Gus a Magnus.",
     "local_hint_short": "Un dispositivo, los dos",
-    "bots_caption": "Ocho bots, de Gus a Magnus",
-    "account_note": "Una partida contra un bot no necesita cuenta. Inicia sesión y todas tus partidas se guardan, en línea y sin conexión."
+    "local_hint_long": "Dos personas, por turnos, en este dispositivo.",
+    "bots_caption": "Ocho bots, de Gus a Magnus"
   },
   "auth": {
     "sign_in": "Iniciar sesión",
@@ -56,37 +42,41 @@
     "show_password": "Mostrar contraseña",
     "hide_password": "Ocultar contraseña",
     "prompt_title": "Inicia sesión para jugar en línea",
-    "prompt_body": "Juega con tu nombre. Cada victoria queda guardada.",
+    "prompt_body": "Las partidas en línea necesitan una cuenta.",
+    "signup_title": "Elige un nombre",
+    "signup_body": "Los rivales te invitan escribiéndolo exactamente.",
     "errors": {
-      "username_taken": "Ese nombre ya está ocupado. Prueba con otro.",
-      "username_invalid": "Los nombres tienen de 3 a 20 caracteres, con letras, números, puntos y guiones bajos.",
-      "password_too_short": "Las contraseñas necesitan al menos 8 caracteres.",
-      "invalid_credentials": "Ese nombre y esa contraseña no coinciden. Revisa ambos e inténtalo de nuevo.",
-      "unknown": "Algo salió mal. Revisa tu conexión e inténtalo de nuevo."
+      "username_taken": "Ese nombre ya está ocupado.",
+      "username_invalid": "3 a 20 letras, números, puntos o guiones bajos.",
+      "password_too_short": "Las contraseñas necesitan 8 caracteres.",
+      "invalid_credentials": "Ese nombre y esa contraseña no coinciden.",
+      "unknown": "Algo salió mal."
     },
-    "credentials_warning": "El nombre y la contraseña no se recuperan.\nPerderlos es perder la cuenta."
+    "credentials_warning": "El nombre y la contraseña no se recuperan."
   },
   "profile": {
     "username_permanent": "Tu nombre es permanente",
     "change_picture": "Cambiar foto",
     "uploading": "Subiendo",
     "picture_hint": "PNG, JPEG o WebP. La imagen se recorta en cuadrado.",
-    "upload_failed": "Esa foto no se subió. Inténtalo de nuevo."
+    "upload_failed": "Esa foto no se subió. Inténtalo de nuevo.",
+    "playing": "En curso",
+    "best_streak": "Mejor racha",
+    "history_hint": "Tu historial, partida a partida",
+    "settings_hint": "Idioma, canicas y sonido"
   },
   "actions": {
     "close": "Cerrar",
     "cancel": "Cancelar"
   },
-  "play": {
-    "title": "Jugar",
-    "online_hint": "Contra otro jugador, con tu nombre.",
-    "offline_hint": "Contra un bot, o dos personas en este dispositivo.",
-    "bot_hint": "Contra un bot, con la dificultad que elijas.",
-    "local_hint": "Dos personas, por turnos, en este dispositivo."
-  },
   "sync": {
     "updating": "Actualizando",
-    "offline": "Estás sin conexión. Lo que ves puede no estar actualizado.",
-    "unreachable": "No se pudo actualizar. Lo que ves puede no estar actualizado."
+    "offline": "Estás sin conexión, esto puede estar desactualizado.",
+    "unreachable": "No se pudo actualizar, esto puede estar desactualizado."
+  },
+  "not_found": {
+    "title": "No hay nada en esta casilla",
+    "body": "Esa dirección no lleva a ninguna parte.",
+    "action": "Volver al tablero"
   }
 }

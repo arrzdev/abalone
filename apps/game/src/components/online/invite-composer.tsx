@@ -16,9 +16,6 @@ import { TextField } from "@/components/ui/text-field"
 import type { SendInviteInput } from "@/data/online/mutations"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 
-/** The shortest name the server will take, so the shortest worth sending. */
-const MIN_USERNAME = 3
-
 export type InviteComposerProps = {
   open: boolean
   onClose: () => void
@@ -76,7 +73,10 @@ export function InviteComposer({
           variant="primary"
           size="lg"
           className="w-full"
-          disabled={pending || handle.length < MIN_USERNAME}
+          //an empty field is the only thing this can rule out on its own. how
+          //short a name may be is the server's rule, and pre-empting it here
+          //means a button that will not press and will not say why
+          disabled={pending || handle.length === 0}
           onClick={() => onSend({ username: handle, setupType, side })}
         >
           {pending
@@ -103,18 +103,19 @@ export function InviteComposer({
           />
 
           {/* The name is the only thing here that can be wrong, so the line
-              belongs to it rather than to the sheet. No reserved slot: the send
-              button sits in the footer and does not move, so appearing costs a
-              nudge of the carousel and nothing that is under a thumb. */}
-          {error && (
-            <p
-              id={errorId}
-              role="alert"
-              className="mt-2 text-[13px] leading-5 text-loss"
-            >
-              {error}
-            </p>
-          )}
+              belongs to it rather than to the sheet.
+
+              Two lines of it, always in the layout. What can land here is
+              anything the server says about a name, and a message that arrives
+              into no space of its own pushes the board preview down and grows
+              the sheet — a press on Send that moves the thing under the thumb. */}
+          <p
+            id={errorId}
+            role="alert"
+            className="mt-2 min-h-10 text-[13px] leading-5 text-loss"
+          >
+            {error}
+          </p>
         </div>
 
         <div>

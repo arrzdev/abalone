@@ -1,15 +1,15 @@
 {
   "meta": {
     "title": "Jugar Abalone online, contra bots o a dos | Gratis",
-    "description": "Juega Abalone gratis en tu navegador. Enfréntate a un bot con ocho niveles de fuerza, jugad dos por turnos en el mismo dispositivo, o invita a alguien a una partida online. Nueve configuraciones de tablero, historial completo de movimientos y barra de evaluación. Sin descargas.",
+    "description": "Juega Abalone gratis en tu navegador. Contra un bot con ocho niveles, dos por turnos en el mismo dispositivo, o en línea con quien invites. Sin descargas.",
     "keywords": "jugar abalone, abalone online, abalone navegador, abalone contra ordenador, abalone bot, abalone dos jugadores, abalone gratis, configuraciones abalone, reglas abalone",
     "og_title": "Jugar Abalone en el navegador",
-    "og_description": "Enfréntate a un bot con ocho niveles de fuerza, jugad dos por turnos en el mismo dispositivo, o invita a alguien a una partida online. Nueve configuraciones de tablero, historial completo de movimientos y barra de evaluación. Gratis, sin descargas.",
+    "og_description": "Contra un bot con ocho niveles, dos por turnos en el mismo dispositivo, o en línea con quien invites. Gratis, sin descargas.",
     "twitter_title": "Jugar Abalone en el navegador",
-    "twitter_description": "Un bot con ocho niveles, dos por turnos en el mismo dispositivo, o una partida online a vuestro ritmo. Nueve configuraciones de tablero e historial completo. Gratis, sin descargas.",
+    "twitter_description": "Un bot con ocho niveles, dos en el mismo dispositivo, o una partida online a vuestro ritmo. Gratis, sin descargas.",
     "structured_data": {
       "name": "Abalone",
-      "description": "Juega Abalone contra un bot con ocho niveles de fuerza, dos por turnos en el mismo dispositivo, o invita a alguien a una partida online. Nueve configuraciones de tablero (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), historial completo de movimientos y barra de evaluación. Gratis en el navegador, sin descargas.",
+      "description": "Juega Abalone contra un bot con ocho niveles, dos por turnos en el mismo dispositivo, o en línea con quien invites. Nueve configuraciones de tablero e historial completo. Gratis en el navegador.",
       "audience": "Jugadores de juegos de mesa y aficionados a los juegos de estrategia"
     }
   },
@@ -55,15 +55,15 @@
     "mode_ai": "vs Ordenador",
     "mode_local": "Dos jugadores",
     "sound": "Sonido",
-    "sound_hint": "Las bolas al posarse, y las que salen del tablero",
+    "sound_hint": "Las bolas al posarse y al salir del tablero",
     "mute": "Silenciar",
     "unmute": "Activar el sonido",
     "move_animations": "Animaciones de movimiento",
-    "move_animations_hint": "Deslizar las bolas hasta su nueva casilla",
+    "move_animations_hint": "Las bolas se deslizan en vez de saltar",
     "rotate_board": "Girar el tablero cada turno",
-    "rotate_board_hint": "Voltear el tablero para que quien mueve esté siempre abajo",
-    "show_coordinates_hint": "Mostrar la coordenada axial dentro de cada casilla",
-    "show_eval_bar_hint": "Cómo el motor valora la posición (solo contra bots)",
+    "rotate_board_hint": "Quien mueve siempre queda abajo",
+    "show_coordinates_hint": "Una coordenada en cada casilla",
+    "show_eval_bar_hint": "Quién va por delante, contra bots",
     "side_group": "Lado con el que jugar",
     "side_white": "Jugar con blancas",
     "side_black": "Jugar con negras",
@@ -82,7 +82,7 @@
     "you_win": "¡Ganaste!",
     "opponent_won": "¡{{opponent}} ganó!",
     "draw": "¡Empate!",
-    "victory_message": "¡Felicidades! Derrotaste al bot {{difficulty}}.",
+    "victory_message": "Derrotaste al bot {{difficulty}}.",
     "defeat_message": "El bot {{difficulty}} ganó este juego.",
     "draw_message": "El juego terminó en empate.",
     "rematch_button": "Revancha",
@@ -90,38 +90,39 @@
     "by_resignation": "por abandono",
     "by_repetition": "por triple repetición",
     "resign_title": "¿Rendirse en la partida?",
-    "resign_body": "La partida termina de inmediato y la victoria es para tu rival. No se puede deshacer.",
+    "resign_body": "Gana tu rival, y no se puede deshacer.",
+    "keep_playing": "Seguir jugando",
     "game_over": "Fin de la partida",
     "moves": "{{count}} jugadas"
   },
   "rules": {
     "title": "Cómo jugar",
-    "intro": "Abalone es un juego para dos jugadores en un tablero hexagonal de 61 casillas. Cada bando empieza con 14 bolas y mueve una vez por turno.",
+    "intro": "Todo el juego, en cinco reglas cortas.",
     "goal": {
       "title": "El objetivo",
-      "body": "Empuja seis bolas del rival fuera del tablero. Ese es todo el juego: no hay nada más que contar."
+      "body": "Empuja seis bolas del rival fuera del tablero."
     },
     "directions": {
       "title": "Seis direcciones",
-      "body": "Cada casilla toca otras seis, así que una bola puede moverse en seis direcciones. No hay diagonales ni saltos: una bola siempre va a una casilla contigua.",
-      "caption": "Las seis direcciones posibles para una bola."
+      "body": "Una bola avanza una casilla en cualquiera de seis direcciones. No hay diagonales ni saltos.",
+      "caption": "Las seis direcciones."
     },
     "move": {
       "title": "Mover las bolas",
-      "body": "En tu turno mueves una, dos o tres bolas propias. Dos o tres deben estar juntas en línea recta, y todas avanzan una casilla en la misma dirección.",
-      "inline_caption": "En línea: la fila avanza en la dirección a la que ya apunta.",
-      "broadside_caption": "De lado: la fila se desplaza lateralmente y todas las casillas de destino deben estar vacías."
+      "body": "Mueves una, dos o tres bolas propias. Dos o tres deben estar en línea recta y se mueven juntas.",
+      "inline_caption": "En línea: la fila avanza hacia donde apunta.",
+      "broadside_caption": "De lado: la fila se desplaza a casillas vacías."
     },
     "push": {
       "title": "Empujar",
-      "body": "Solo un movimiento en línea puede empujar. Necesitas más bolas en esa línea que el rival: dos contra una, tres contra una o tres contra dos. La casilla detrás de las bolas del rival debe estar vacía.",
-      "ok_caption": "Tres contra dos: toda la línea avanza una casilla.",
-      "blocked_caption": "Tres contra tres nunca se mueve, y nunca puedes empujar tus propias bolas."
+      "body": "Solo un movimiento en línea empuja, y necesitas más bolas que el rival: dos contra una, o tres contra una o dos. La casilla detrás de las suyas debe estar vacía.",
+      "ok_caption": "Tres contra dos: la línea avanza una casilla.",
+      "blocked_caption": "Con el mismo número nada se mueve, y nunca empujas las tuyas."
     },
     "capture": {
       "title": "Sacar bolas del tablero",
-      "body": "Una bola empujada más allá del borde queda fuera del juego. Gana quien primero saque seis bolas del rival.",
-      "caption": "Dos contra una en el borde: la bola negra sale."
+      "body": "Una bola empujada fuera del borde queda fuera hasta el final.",
+      "caption": "Dos contra una en el borde: sale la negra."
     },
     "cta": "Jugar ahora"
   },
@@ -140,7 +141,7 @@
   },
   "local": {
     "title": "Dos jugadores, un dispositivo",
-    "description": "Las negras mueven primero y luego pasa el turno. Activa la rotación del tablero en los ajustes para voltearlo hacia quien mueve.",
+    "description": "Las negras mueven primero y luego pasa el turno.",
     "black": "Negras",
     "white": "Blancas",
     "names": "Nombres de jugadores",

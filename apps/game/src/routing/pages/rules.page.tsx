@@ -252,7 +252,7 @@ function RulesPage() {
           variant="primary"
           size="lg"
           className="w-full"
-          onClick={() => navigate({ to: "/game/offline" })}
+          onClick={() => navigate({ to: "/offline" })}
         >
           {t("game:rules.cta")}
         </Button>

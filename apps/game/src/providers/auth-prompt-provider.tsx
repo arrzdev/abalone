@@ -8,14 +8,13 @@ import {
   useState,
 } from "react"
 import { AuthSheet } from "@/components/auth-sheet"
-import { useIsDesktop } from "@/hooks/use-is-desktop"
 import { useAuth } from "@/providers/auth-provider"
 import type { ReturnTo } from "@/routing/return-to"
 import { returnToOptions } from "@/routing/return-to"
 
 /** What the player was trying to do when they turned out to need an account. */
 export type AuthIntent = {
-  /** Where to land afterwards. Also what `?redirect=` carries on a desktop. */
+  /** Where to land afterwards, once the overlay closes. */
   redirect?: ReturnTo
   /** Run instead of navigating — for the things that open rather than go. */
   onSuccess?: () => void
@@ -31,20 +30,20 @@ const AuthPromptContext = createContext<AuthPromptValue>({
 })
 
 /**
- * "Sign in first, then carry on" — as one call, whatever shape it takes.
+ * "Sign in first, then carry on" — as one call, from anywhere.
  *
- * The shape is the screen's, not the caller's. A desktop has room for the login
- * screen and a URL worth landing on, so it goes there. A phone gets the form in
- * a drawer over whatever it was already showing, because a page swap for two
- * fields costs the screen underneath and gives nothing back.
+ * Signing in is never a place you go. It is an overlay over the screen that
+ * asked, because it is always something started for a reason, and a page swap
+ * for two fields costs the screen underneath and gives nothing back. Above `lg`
+ * that overlay is a dialog and below it a drawer, which is `Sheet`'s own split,
+ * not a decision taken here.
  *
- * Either way what they were doing survives the detour: the drawer runs the
- * intent on success and the login screen carries it in `?redirect=`, so nobody
- * signs in only to be dropped back where they started.
+ * What they were doing survives the detour: the intent is held while the form is
+ * open and run the moment it succeeds, so nobody signs in only to be dropped
+ * back where they started.
  */
 export function AuthPromptProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
-  const isDesktop = useIsDesktop()
   const { isAuthenticated } = useAuth()
   const [intent, setIntent] = useState<AuthIntent | null>(null)
 
@@ -59,14 +58,9 @@ export function AuthPromptProvider({ children }: { children: ReactNode }) {
   const requireAuth = useCallback(
     (pending: AuthIntent) => {
       if (isAuthenticated) return run(pending)
-      if (isDesktop)
-        return void navigate({
-          to: "/login",
-          search: { redirect: pending.redirect },
-        })
       setIntent(pending)
     },
-    [isAuthenticated, isDesktop, navigate, run],
+    [isAuthenticated, run],
   )
 
   const value = useMemo<AuthPromptValue>(
@@ -80,11 +74,10 @@ export function AuthPromptProvider({ children }: { children: ReactNode }) {
 
       <AuthSheet
         open={intent !== null}
-        destination={intent?.redirect ?? null}
         onClose={() => setIntent(null)}
         onAuthenticated={() => {
-          //closed first, so the drawer plays its exit over the screen it opened
-          //on rather than over whatever the intent brings up next
+          //closed first, so the overlay plays its exit over the screen it
+          //opened on rather than over whatever the intent brings up next
           setIntent(null)
           if (intent) run(intent)
         }}

@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Hoofdnavigatie",
     "back": "Terug",
-    "play": "Spelen",
     "new_game": "Nieuw spel",
     "rules": "Regels",
-    "strategy": "Strategiegids",
-    "faq": "FAQ",
-    "about": "Over",
-    "history": "Spelgeschiedenis",
     "profile": "Profiel",
-    "back_to_game": "Speel tegen Computer",
-    "back_to_game_from_page": "Speel Spel",
-    "home": "Start"
-  },
-  "buttons": {
-    "play_now": "Speel Nu",
-    "get_started": "Begin",
-    "try_setups": "Probeer Verschillende Opstellingen",
-    "learn_strategy": "Leer Strategie",
-    "start_playing": "Begin met Spelen",
-    "more_about": "Meer Over Abalone",
-    "read_rules": "Lees Volledige Regels"
+    "home": "Start",
+    "online": "Online spelen",
+    "offline": "Offline spelen"
   },
   "language": {
     "select": "Selecteer Taal",
@@ -34,16 +20,16 @@
     "change": "Taal wijzigen"
   },
   "home": {
-    "eyebrow": "Twee spelers. Eén zeshoekig bord.",
     "tagline": "Duw zes ballen van je tegenstander van het bord om te winnen.",
     "play_online": "Online spelen",
     "play_offline": "Offline spelen",
-    "rules_link": "Nooit gespeeld? De regels kosten twee minuten",
+    "online_hint": "Tegen een andere speler.",
+    "rules_link": "Nooit gespeeld? Lees de regels",
     "bot_hint_short": "Acht niveaus",
     "bot_hint_long": "Acht bots, van Gus tot Magnus.",
     "local_hint_short": "Eén apparaat, jullie twee",
-    "bots_caption": "Acht bots, van Gus tot Magnus",
-    "account_note": "Een botspel heeft geen account nodig. Meld je aan en elk spel wordt bewaard, online en offline."
+    "local_hint_long": "Met z'n tweeën, om de beurt op dit apparaat.",
+    "bots_caption": "Acht bots, van Gus tot Magnus"
   },
   "auth": {
     "sign_in": "Inloggen",
@@ -56,37 +42,41 @@
     "show_password": "Wachtwoord tonen",
     "hide_password": "Wachtwoord verbergen",
     "prompt_title": "Log in om online te spelen",
-    "prompt_body": "Speel onder je eigen naam. Elke winst blijft staan.",
+    "prompt_body": "Online partijen hebben een account nodig.",
+    "signup_title": "Kies een naam",
+    "signup_body": "Tegenstanders nodigen je uit door hem precies in te typen.",
     "errors": {
-      "username_taken": "Die naam is al bezet. Probeer een andere.",
-      "username_invalid": "Namen zijn 3 tot 20 tekens, met letters, cijfers, punten en liggende streepjes.",
+      "username_taken": "Die naam is al bezet.",
+      "username_invalid": "3 tot 20 letters, cijfers, punten of liggende streepjes.",
       "password_too_short": "Wachtwoorden hebben minstens 8 tekens nodig.",
-      "invalid_credentials": "Die naam en dat wachtwoord horen niet bij elkaar. Controleer beide en probeer het opnieuw.",
-      "unknown": "Er ging iets mis. Controleer je verbinding en probeer het opnieuw."
+      "invalid_credentials": "Die naam en dat wachtwoord horen niet bij elkaar.",
+      "unknown": "Er ging iets mis."
     },
-    "credentials_warning": "Naam en wachtwoord zijn niet te herstellen.\nKwijt is account kwijt."
+    "credentials_warning": "Naam en wachtwoord zijn niet te herstellen."
   },
   "profile": {
     "username_permanent": "Je naam ligt vast",
     "change_picture": "Foto wijzigen",
     "uploading": "Uploaden",
     "picture_hint": "PNG, JPEG of WebP. De afbeelding wordt vierkant bijgesneden.",
-    "upload_failed": "Die foto is niet geüpload. Probeer het opnieuw."
+    "upload_failed": "Die foto is niet geüpload. Probeer het opnieuw.",
+    "playing": "Bezig",
+    "best_streak": "Beste reeks",
+    "history_hint": "Je resultaten, partij voor partij",
+    "settings_hint": "Taal, knikkers en geluid"
   },
   "actions": {
     "close": "Sluiten",
     "cancel": "Annuleren"
   },
-  "play": {
-    "title": "Spelen",
-    "online_hint": "Tegen een andere speler, onder jouw naam.",
-    "offline_hint": "Tegen een bot, of met z'n tweeën op dit apparaat.",
-    "bot_hint": "Tegen een bot, op het niveau dat je kiest.",
-    "local_hint": "Met z'n tweeën, om de beurt op dit apparaat."
-  },
   "sync": {
     "updating": "Bijwerken",
-    "offline": "Je bent offline. Wat je ziet is mogelijk verouderd.",
-    "unreachable": "Bijwerken is niet gelukt. Wat je ziet is mogelijk verouderd."
+    "offline": "Je bent offline, dit is mogelijk verouderd.",
+    "unreachable": "Bijwerken is niet gelukt, dit is mogelijk verouderd."
+  },
+  "not_found": {
+    "title": "Niets op dit vakje",
+    "body": "Dat adres leidt nergens heen.",
+    "action": "Terug naar het bord"
   }
 }
