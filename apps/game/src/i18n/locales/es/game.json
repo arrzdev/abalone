@@ -93,7 +93,8 @@
     "resign_body": "Gana tu rival, y no se puede deshacer.",
     "keep_playing": "Seguir jugando",
     "game_over": "Fin de la partida",
-    "moves": "{{count}} jugadas"
+    "moves_one": "{{count}} jugada",
+    "moves_other": "{{count}} jugadas"
   },
   "rules": {
     "title": "Cómo jugar",

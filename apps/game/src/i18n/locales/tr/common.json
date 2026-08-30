@@ -24,7 +24,8 @@
     "play_online": "Çevrimiçi oyna",
     "play_offline": "Çevrimdışı oyna",
     "online_hint": "Başka bir oyuncuya karşı.",
-    "rules_link": "Hiç oynamadın mı? Kuralları oku",
+    "rules_prompt": "Hiç oynamadın mı?",
+    "rules_link": "Kuralları oku",
     "bot_hint_short": "Sekiz seviye",
     "bot_hint_long": "Gus'tan Magnus'a sekiz bot.",
     "local_hint_short": "Tek cihaz, ikiniz",
@@ -62,7 +63,6 @@
     "upload_failed": "Bu resim yüklenemedi. Tekrar dene.",
     "playing": "Sürüyor",
     "best_streak": "En iyi seri",
-    "history_hint": "Oyun oyun, senin sonuçların",
     "settings_hint": "Dil, bilyeler ve ses"
   },
   "actions": {

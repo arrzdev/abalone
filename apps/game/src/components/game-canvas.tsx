@@ -345,8 +345,17 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
     // its last frame; this is the render that replaces it, so let it go. One that
     // is still running keeps its frame — a hover during a move must not knock the
     // marbles back to where they started.
+    //
+    // A *layout* effect, because the board and the panel beside it are one
+    // picture and a passive one does not put them in the same frame: React
+    // commits the panel — the score, the move list, whose turn it is — the
+    // browser paints that, and the canvas is only redrawn when passive effects
+    // flush afterwards. The move shows up in the panel first and the marbles
+    // follow it a frame or more later, which is the snap. It is worst exactly
+    // where it is most visible: an update arriving from the network is not a
+    // discrete event, so nothing hurries the flush along.
     // biome-ignore lint/correctness/useExhaustiveDependencies: the props are triggers; `draw` reads them off `propsRef` rather than closing over them.
-    useEffect(() => {
+    useLayoutEffect(() => {
       if (rafRef.current === null) animationRef.current = null
       draw()
     }, [draw, state, possibleMoves, marbleDesign, showCoordinates, notice])

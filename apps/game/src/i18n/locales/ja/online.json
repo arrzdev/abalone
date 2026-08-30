@@ -26,7 +26,6 @@
     "just_sent": "返事待ち"
   },
   "history": {
-    "heading": "終わった対局",
     "empty": "終わった対局はまだありません。",
     "heading_short": "終了",
     "see_all": "すべて表示（{{count}}）",

@@ -4,7 +4,8 @@
     "your_move": "Du bist am Zug",
     "idle": "Gerade wartet nichts auf dich",
     "none": "Nichts im Gange",
-    "waiting_on_you": "{{count}} warten auf dich",
+    "waiting_on_you_one": "{{count}} wartet auf dich",
+    "waiting_on_you_other": "{{count}} warten auf dich",
     "with_opponent": "{{count}} beim Gegner",
     "finished_count": "{{count}} beendet",
     "nothing_else": "Sonst läuft nichts",
@@ -26,7 +27,6 @@
     "just_sent": "Wartet auf Antwort"
   },
   "history": {
-    "heading": "Beendete Partien",
     "empty": "Noch keine beendeten Partien.",
     "heading_short": "Beendet",
     "see_all": "Alle ansehen ({{count}})",

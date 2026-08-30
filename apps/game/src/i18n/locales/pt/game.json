@@ -93,7 +93,8 @@
     "resign_body": "O teu adversário ganha, e não dá para voltar atrás.",
     "keep_playing": "Continuar a jogar",
     "game_over": "Fim de jogo",
-    "moves": "{{count}} jogadas"
+    "moves_one": "{{count}} jogada",
+    "moves_other": "{{count}} jogadas"
   },
   "rules": {
     "title": "Como jogar",

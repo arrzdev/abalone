@@ -24,7 +24,8 @@
     "play_online": "Online spelen",
     "play_offline": "Offline spelen",
     "online_hint": "Tegen een andere speler.",
-    "rules_link": "Nooit gespeeld? Lees de regels",
+    "rules_prompt": "Nooit gespeeld?",
+    "rules_link": "Lees de regels",
     "bot_hint_short": "Acht niveaus",
     "bot_hint_long": "Acht bots, van Gus tot Magnus.",
     "local_hint_short": "Eén apparaat, jullie twee",
@@ -62,7 +63,6 @@
     "upload_failed": "Die foto is niet geüpload. Probeer het opnieuw.",
     "playing": "Bezig",
     "best_streak": "Beste reeks",
-    "history_hint": "Je resultaten, partij voor partij",
     "settings_hint": "Taal, knikkers en geluid"
   },
   "actions": {

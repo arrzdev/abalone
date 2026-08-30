@@ -93,7 +93,8 @@
     "resign_body": "Your opponent wins, and this cannot be undone.",
     "keep_playing": "Keep playing",
     "game_over": "Game over",
-    "moves": "{{count}} moves"
+    "moves_one": "{{count}} move",
+    "moves_other": "{{count}} moves"
   },
   "rules": {
     "title": "How to play",

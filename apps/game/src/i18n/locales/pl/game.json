@@ -93,7 +93,9 @@
     "resign_body": "Wygrywa przeciwnik, a tego nie można cofnąć.",
     "keep_playing": "Graj dalej",
     "game_over": "Koniec gry",
-    "moves": "{{count}} ruchów"
+    "moves_one": "{{count}} ruch",
+    "moves_few": "{{count}} ruchy",
+    "moves_many": "{{count}} ruchów"
   },
   "rules": {
     "title": "Jak grać",

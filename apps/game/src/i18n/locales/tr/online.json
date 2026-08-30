@@ -26,7 +26,6 @@
     "just_sent": "Yanıt bekleniyor"
   },
   "history": {
-    "heading": "Biten oyunlar",
     "empty": "Henüz biten oyun yok.",
     "heading_short": "Biten",
     "see_all": "Tümünü gör ({{count}})",
