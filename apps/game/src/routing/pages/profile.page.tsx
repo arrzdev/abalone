@@ -25,10 +25,19 @@ import {
 } from "@/hooks/use-avatar-picker"
 import { useSignOut } from "@/hooks/use-sign-out"
 import { useAuth } from "@/providers/auth-provider"
+import { pageHead } from "@/routing/page-head"
 import { SignedInOnly } from "@/routing/signed-in-only"
 import { profileStatsOf } from "@/utils/profile-stats"
 
 export const Route = createFileRoute("/_subpage/profile")({
+  head: () =>
+    pageHead({
+      title: "Profile",
+      description:
+        "Your name, your picture and the record of every online game you have played.",
+      path: "/profile",
+      noIndex: true,
+    }),
   component: GuardedProfilePage,
 })
 

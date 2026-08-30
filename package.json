@@ -10,6 +10,7 @@
     "dev:clean": "rm -rf node_modules && pnpm install && turbo run dev --ui=tui",
     "start": "turbo run start --ui=tui",
     "logs": "tsx packages/dev/src/log-sink.ts",
+    "social:images": "tsx apps/game/scripts/social/capture.ts",
     "build": "turbo run build",
     "biome:fix": "biome check . --write --unsafe",
     "biome:check": "biome check .",
