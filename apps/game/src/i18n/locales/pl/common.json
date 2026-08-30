@@ -23,7 +23,7 @@
     "tagline": "Wypchnij sześć kul przeciwnika poza planszę, aby wygrać.",
     "play_online": "Graj online",
     "play_offline": "Graj offline",
-    "online_hint": "Przeciwko innemu graczowi.",
+    "online_hint": "Zaproś kogoś i graj we własnym tempie.",
     "rules_prompt": "Nigdy nie grałeś?",
     "rules_link": "Przeczytaj zasady",
     "bot_hint_short": "Osiem poziomów",
@@ -45,18 +45,17 @@
     "prompt_title": "Zaloguj się, aby grać online",
     "prompt_body": "Gry online wymagają konta.",
     "signup_title": "Wybierz nazwę",
-    "signup_body": "Przeciwnicy zapraszają cię, wpisując ją dokładnie.",
+    "signup_body": "Przeciwnicy zapraszają cię po nazwie użytkownika, więc wybierz taką, którą łatwo wpisać.",
     "errors": {
       "username_taken": "Ta nazwa jest już zajęta.",
       "username_invalid": "3 do 20 liter, cyfr, kropek lub podkreśleń.",
       "password_too_short": "Hasło musi mieć co najmniej 8 znaków.",
       "invalid_credentials": "Ta nazwa i hasło do siebie nie pasują.",
       "unknown": "Coś poszło nie tak."
-    },
-    "credentials_warning": "Nazwy i hasła nie da się odzyskać."
+    }
   },
   "profile": {
-    "username_permanent": "Twoja nazwa jest stała",
+    "username_hint": "Przeciwnicy zapraszają cię po tej nazwie. Nie da się jej zmienić.",
     "change_picture": "Zmień zdjęcie",
     "uploading": "Wysyłanie",
     "picture_hint": "PNG, JPEG lub WebP. Obraz zostanie przycięty do kwadratu.",

@@ -23,7 +23,7 @@
     "tagline": "Empuja seis bolas del rival fuera del tablero para ganar.",
     "play_online": "Jugar en línea",
     "play_offline": "Jugar sin conexión",
-    "online_hint": "Contra otro jugador.",
+    "online_hint": "Invita a alguien y juega a tu ritmo.",
     "rules_prompt": "¿Nunca has jugado?",
     "rules_link": "Lee las reglas",
     "bot_hint_short": "Ocho niveles",
@@ -45,18 +45,17 @@
     "prompt_title": "Inicia sesión para jugar en línea",
     "prompt_body": "Las partidas en línea necesitan una cuenta.",
     "signup_title": "Elige un nombre",
-    "signup_body": "Los rivales te invitan escribiéndolo exactamente.",
+    "signup_body": "Los rivales te invitan por tu nombre de usuario, así que elige uno fácil de escribir.",
     "errors": {
       "username_taken": "Ese nombre ya está ocupado.",
       "username_invalid": "3 a 20 letras, números, puntos o guiones bajos.",
       "password_too_short": "Las contraseñas necesitan 8 caracteres.",
       "invalid_credentials": "Ese nombre y esa contraseña no coinciden.",
       "unknown": "Algo salió mal."
-    },
-    "credentials_warning": "El nombre y la contraseña no se recuperan."
+    }
   },
   "profile": {
-    "username_permanent": "Tu nombre es permanente",
+    "username_hint": "Los rivales te invitan por este nombre. No se puede cambiar.",
     "change_picture": "Cambiar foto",
     "uploading": "Subiendo",
     "picture_hint": "PNG, JPEG o WebP. La imagen se recorta en cuadrado.",

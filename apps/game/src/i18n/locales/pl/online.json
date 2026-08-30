@@ -60,9 +60,9 @@
   },
   "compose": {
     "title": "Nowe zaproszenie",
-    "body": "Zobaczy je przy następnym otwarciu aplikacji.",
+    "body": "Zobaczy zaproszenie przy następnym otwarciu aplikacji.",
     "username": "Z kim grasz?",
-    "username_placeholder": "Jego nazwa",
+    "username_placeholder": "Nazwa przeciwnika",
     "setup": "Ustawienie",
     "side": "Twoja strona",
     "send": "Wyślij zaproszenie",

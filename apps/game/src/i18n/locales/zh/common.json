@@ -23,7 +23,7 @@
     "tagline": "把对手的六枚棋子推出棋盘即可获胜。",
     "play_online": "在线对战",
     "play_offline": "离线对战",
-    "online_hint": "与其他玩家对战。",
+    "online_hint": "邀请任何人，按自己的节奏对弈。",
     "rules_prompt": "没玩过？",
     "rules_link": "看看规则",
     "bot_hint_short": "八种强度",
@@ -45,18 +45,17 @@
     "prompt_title": "登录后即可在线对战",
     "prompt_body": "线上对局需要一个账号。",
     "signup_title": "取个名字",
-    "signup_body": "对手要一字不差地输入它来邀请你。",
+    "signup_body": "对手通过你的用户名邀请你，所以取一个好输入的名字。",
     "errors": {
       "username_taken": "这个名字已经有人用了。",
       "username_invalid": "3 到 20 个字符：字母、数字、点和下划线。",
       "password_too_short": "密码至少 8 个字符。",
       "invalid_credentials": "用户名和密码对不上。",
       "unknown": "出了点问题。"
-    },
-    "credentials_warning": "用户名和密码无法找回。"
+    }
   },
   "profile": {
-    "username_permanent": "你的名字不可更改",
+    "username_hint": "对手通过这个名字邀请你。名字无法更改。",
     "change_picture": "更换头像",
     "uploading": "上传中",
     "picture_hint": "支持 PNG、JPEG 或 WebP。图片会裁剪为正方形。",

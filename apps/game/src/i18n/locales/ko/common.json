@@ -23,7 +23,7 @@
     "tagline": "상대 구슬 6개를 보드 밖으로 밀어내면 승리합니다.",
     "play_online": "온라인 플레이",
     "play_offline": "오프라인 플레이",
-    "online_hint": "다른 플레이어와 대전합니다.",
+    "online_hint": "누구든 초대해 원하는 속도로 대국.",
     "rules_prompt": "처음이신가요?",
     "rules_link": "규칙 보기",
     "bot_hint_short": "여덟 단계",
@@ -45,18 +45,17 @@
     "prompt_title": "온라인 대전을 하려면 로그인하세요",
     "prompt_body": "온라인 대국에는 계정이 필요합니다.",
     "signup_title": "이름 정하기",
-    "signup_body": "상대는 이름을 그대로 입력해 초대합니다.",
+    "signup_body": "상대는 사용자 이름으로 초대합니다. 입력하기 쉬운 이름을 고르세요.",
     "errors": {
       "username_taken": "이미 사용 중인 이름입니다.",
       "username_invalid": "3~20자의 문자, 숫자, 점, 밑줄.",
       "password_too_short": "비밀번호는 8자 이상이어야 합니다.",
       "invalid_credentials": "이름과 비밀번호가 맞지 않습니다.",
       "unknown": "문제가 생겼습니다."
-    },
-    "credentials_warning": "이름과 비밀번호는 재설정할 수 없어요."
+    }
   },
   "profile": {
-    "username_permanent": "이름은 바꿀 수 없습니다",
+    "username_hint": "상대는 이 이름으로 초대합니다. 이름은 바꿀 수 없습니다.",
     "change_picture": "사진 변경",
     "uploading": "업로드 중",
     "picture_hint": "PNG, JPEG 또는 WebP. 정사각형으로 잘립니다.",
