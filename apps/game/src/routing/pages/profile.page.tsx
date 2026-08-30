@@ -1,7 +1,7 @@
 import { Screen, ScrollView } from "@repo/nativ/components"
 import { cn } from "@repo/nativ/utils"
 import { useQuery } from "@tanstack/react-query"
-import { createFileRoute, Link } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -9,7 +9,6 @@ import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import {
   CameraIcon,
   ChevronRightIcon,
-  HistoryIcon,
   ImageIcon,
   LogoutIcon,
   SettingsIcon,
@@ -85,7 +84,7 @@ function ProfilePage() {
 
       <Screen>
         <ScrollView className="px-safe" directionalLockEnabled>
-          <div className="mx-auto flex w-full max-w-[820px] flex-col gap-4 px-3.5 pt-5 pb-safe-offset-10 lg:gap-6 lg:px-12 lg:pt-11">
+          <div className="mx-auto flex w-full max-w-[820px] flex-col gap-4 px-3.5 pt-5 pb-safe-offset-10 lg:max-w-[1100px] lg:gap-6 lg:px-12 lg:pt-11">
             {/* The input is the control; everything visible is what it looks
                 like. A bare file input cannot be styled and reads as a form
                 field rather than as the one thing here you can change. */}
@@ -134,31 +133,11 @@ function ProfilePage() {
               />
             </Panel>
 
+            {/* Settings and nothing else. Finished games used to sit above it,
+                and it was a second front door to a page the hub already owns:
+                the record is above, and the list behind that row is reached by
+                the See all that sits on top of it. */}
             <Panel>
-              <Link
-                to="/online/history"
-                search={{ page: 1 }}
-                className={cn(ROW_CLASS, "max-lg:hidden")}
-              >
-                <HistoryIcon
-                  size={19}
-                  className="shrink-0 text-white/40"
-                />
-                <RowLabel
-                  title={t("online:history.heading")}
-                  detail={t("common:profile.history_hint")}
-                />
-                <ChevronRightIcon
-                  size={18}
-                  className="shrink-0 text-white/25"
-                />
-              </Link>
-
-              <span
-                aria-hidden="true"
-                className="block h-px bg-border-subtle max-lg:hidden"
-              />
-
               <TapButton
                 onClick={() => setSettingsOpen(true)}
                 className={ROW_CLASS}
