@@ -4,9 +4,13 @@
     "your_move": "Twój ruch",
     "idle": "Nic teraz na ciebie nie czeka",
     "none": "Nic w toku",
-    "waiting_on_you": "{{count}} czeka na ciebie",
+    "waiting_on_you_one": "{{count}} czeka na ciebie",
+    "waiting_on_you_few": "{{count}} czekają na ciebie",
+    "waiting_on_you_many": "{{count}} czeka na ciebie",
     "with_opponent": "{{count}} u przeciwnika",
-    "finished_count": "{{count}} zakończonych",
+    "finished_count_one": "{{count}} zakończona",
+    "finished_count_few": "{{count}} zakończone",
+    "finished_count_many": "{{count}} zakończonych",
     "nothing_else": "Nic więcej w toku",
     "waiting_on_them": "Czekają na przeciwnika"
   },
@@ -26,7 +30,6 @@
     "just_sent": "Czeka na odpowiedź"
   },
   "history": {
-    "heading": "Zakończone partie",
     "empty": "Nie ma jeszcze zakończonych partii.",
     "heading_short": "Zakończone",
     "see_all": "Zobacz wszystkie ({{count}})",

@@ -24,7 +24,8 @@
     "play_online": "온라인 플레이",
     "play_offline": "오프라인 플레이",
     "online_hint": "다른 플레이어와 대전합니다.",
-    "rules_link": "처음이신가요? 규칙 보기",
+    "rules_prompt": "처음이신가요?",
+    "rules_link": "규칙 보기",
     "bot_hint_short": "여덟 단계",
     "bot_hint_long": "거스부터 매그너스까지, 봇 여덟.",
     "local_hint_short": "기기 하나, 둘이서",
@@ -62,7 +63,6 @@
     "upload_failed": "사진을 업로드하지 못했습니다. 다시 시도하세요.",
     "playing": "진행 중",
     "best_streak": "최다 연승",
-    "history_hint": "대국별 전적",
     "settings_hint": "언어, 구슬, 소리"
   },
   "actions": {

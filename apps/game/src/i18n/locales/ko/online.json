@@ -26,7 +26,6 @@
     "just_sent": "수락 기다리는 중"
   },
   "history": {
-    "heading": "끝난 대국",
     "empty": "끝난 대국이 아직 없습니다.",
     "heading_short": "종료",
     "see_all": "전체 보기 ({{count}})",
