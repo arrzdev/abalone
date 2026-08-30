@@ -56,7 +56,7 @@
   },
   "compose": {
     "title": "新邀请",
-    "body": "对方下次打开应用就会看到。",
+    "body": "对方下次打开应用就会看到邀请。",
     "username": "和谁下？",
     "username_placeholder": "对方的名字",
     "setup": "开局",

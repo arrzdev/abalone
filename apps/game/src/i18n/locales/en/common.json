@@ -23,7 +23,7 @@
     "tagline": "Push six of your opponent's marbles off the board to win.",
     "play_online": "Play Online",
     "play_offline": "Play Offline",
-    "online_hint": "Against another player.",
+    "online_hint": "Invite anyone, play at your own pace.",
     "rules_prompt": "Never played?",
     "rules_link": "Read the rules",
     "bot_hint_short": "Eight strengths",
@@ -45,18 +45,17 @@
     "prompt_title": "Sign in to play online",
     "prompt_body": "Online games need an account.",
     "signup_title": "Pick a name",
-    "signup_body": "Opponents invite you by typing it exactly.",
+    "signup_body": "Opponents invite you by your username, so pick one that's easy to type.",
     "errors": {
       "username_taken": "That name is taken.",
       "username_invalid": "3 to 20 letters, numbers, dots or underscores.",
       "password_too_short": "Passwords need at least 8 characters.",
       "invalid_credentials": "That name and password don't match.",
       "unknown": "Something went wrong."
-    },
-    "credentials_warning": "Name and password can't be reset."
+    }
   },
   "profile": {
-    "username_permanent": "Your name is permanent",
+    "username_hint": "Opponents invite you by this name. It can't be changed.",
     "change_picture": "Change picture",
     "uploading": "Uploading",
     "picture_hint": "PNG, JPEG or WebP. It is cropped to a square.",

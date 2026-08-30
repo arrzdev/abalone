@@ -236,7 +236,7 @@ function Identity({
           {name}
         </h1>
         <p className="mt-1.5 text-sm text-faint">
-          {t("common:profile.username_permanent")}
+          {t("common:profile.username_hint")}
         </p>
       </div>
 

@@ -23,7 +23,7 @@
     "tagline": "Spingi sei biglie avversarie fuori dal tabellone per vincere.",
     "play_online": "Gioca online",
     "play_offline": "Gioca offline",
-    "online_hint": "Contro un altro giocatore.",
+    "online_hint": "Invita qualcuno e gioca ai tuoi tempi.",
     "rules_prompt": "Non hai mai giocato?",
     "rules_link": "Leggi le regole",
     "bot_hint_short": "Otto livelli",
@@ -45,18 +45,17 @@
     "prompt_title": "Accedi per giocare online",
     "prompt_body": "Le partite online richiedono un account.",
     "signup_title": "Scegli un nome",
-    "signup_body": "Gli avversari ti invitano digitandolo esattamente.",
+    "signup_body": "Gli avversari ti invitano con il tuo nome utente, quindi scegline uno facile da scrivere.",
     "errors": {
       "username_taken": "Questo nome è già occupato.",
       "username_invalid": "Da 3 a 20 lettere, numeri, punti o trattini bassi.",
       "password_too_short": "Le password richiedono almeno 8 caratteri.",
       "invalid_credentials": "Nome e password non coincidono.",
       "unknown": "Qualcosa è andato storto."
-    },
-    "credentials_warning": "Nome e password non si recuperano."
+    }
   },
   "profile": {
-    "username_permanent": "Il tuo nome è permanente",
+    "username_hint": "Gli avversari ti invitano con questo nome. Non si può cambiare.",
     "change_picture": "Cambia immagine",
     "uploading": "Caricamento",
     "picture_hint": "PNG, JPEG o WebP. L'immagine viene ritagliata in un quadrato.",

@@ -57,9 +57,9 @@
   },
   "compose": {
     "title": "Novo convite",
-    "body": "A pessoa vê-o da próxima vez que abrir a app.",
+    "body": "A pessoa vê o convite da próxima vez que abrir a app.",
     "username": "Contra quem vais jogar?",
-    "username_placeholder": "O nome dele",
+    "username_placeholder": "Nome do adversário",
     "setup": "Abertura",
     "side": "O teu lado",
     "send": "Enviar convite",

@@ -23,7 +23,7 @@
     "tagline": "Duw zes ballen van je tegenstander van het bord om te winnen.",
     "play_online": "Online spelen",
     "play_offline": "Offline spelen",
-    "online_hint": "Tegen een andere speler.",
+    "online_hint": "Nodig iemand uit, speel op je tempo.",
     "rules_prompt": "Nooit gespeeld?",
     "rules_link": "Lees de regels",
     "bot_hint_short": "Acht niveaus",
@@ -45,18 +45,17 @@
     "prompt_title": "Log in om online te spelen",
     "prompt_body": "Online partijen hebben een account nodig.",
     "signup_title": "Kies een naam",
-    "signup_body": "Tegenstanders nodigen je uit door hem precies in te typen.",
+    "signup_body": "Tegenstanders nodigen je uit met je gebruikersnaam, dus kies er een die makkelijk te typen is.",
     "errors": {
       "username_taken": "Die naam is al bezet.",
       "username_invalid": "3 tot 20 letters, cijfers, punten of liggende streepjes.",
       "password_too_short": "Wachtwoorden hebben minstens 8 tekens nodig.",
       "invalid_credentials": "Die naam en dat wachtwoord horen niet bij elkaar.",
       "unknown": "Er ging iets mis."
-    },
-    "credentials_warning": "Naam en wachtwoord zijn niet te herstellen."
+    }
   },
   "profile": {
-    "username_permanent": "Je naam ligt vast",
+    "username_hint": "Tegenstanders nodigen je uit met deze naam. Hij kan niet worden gewijzigd.",
     "change_picture": "Foto wijzigen",
     "uploading": "Uploaden",
     "picture_hint": "PNG, JPEG of WebP. De afbeelding wordt vierkant bijgesneden.",

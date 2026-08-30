@@ -56,7 +56,7 @@
   },
   "compose": {
     "title": "Yeni davet",
-    "body": "Uygulamayı bir dahaki açışında görecek.",
+    "body": "Daveti, uygulamayı bir dahaki açışında görecek.",
     "username": "Kiminle oynuyorsun?",
     "username_placeholder": "Adı",
     "setup": "Açılış",

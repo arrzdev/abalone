@@ -57,7 +57,7 @@
   },
   "compose": {
     "title": "Nouvelle invitation",
-    "body": "L'invitation attend sa prochaine ouverture de l'app.",
+    "body": "L'invitation l'attend à sa prochaine ouverture de l'app.",
     "username": "Contre qui joues-tu ?",
     "username_placeholder": "Son nom",
     "setup": "Ouverture",

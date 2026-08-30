@@ -23,7 +23,7 @@
     "tagline": "相手のボールを6個盤外に押し出せば勝ちです。",
     "play_online": "オンラインで対戦",
     "play_offline": "オフラインで対戦",
-    "online_hint": "ほかのプレイヤーと対戦します。",
+    "online_hint": "誰かを招待して、自分のペースで対戦。",
     "rules_prompt": "はじめてですか？",
     "rules_link": "ルールを読む",
     "bot_hint_short": "8段階の強さ",
@@ -45,18 +45,17 @@
     "prompt_title": "ログインしてオンラインで対戦",
     "prompt_body": "オンライン対局にはアカウントが必要です。",
     "signup_title": "名前を決める",
-    "signup_body": "相手はその名前をそのまま入力して招待します。",
+    "signup_body": "相手はユーザー名であなたを招待します。入力しやすい名前を選んでください。",
     "errors": {
       "username_taken": "その名前は使われています。",
       "username_invalid": "3〜20文字の英数字、ドット、アンダースコア。",
       "password_too_short": "パスワードは8文字以上です。",
       "invalid_credentials": "名前とパスワードが一致しません。",
       "unknown": "問題が起きました。"
-    },
-    "credentials_warning": "名前とパスワードは再設定できません。"
+    }
   },
   "profile": {
-    "username_permanent": "名前は変更できません",
+    "username_hint": "相手はこの名前であなたを招待します。名前は変更できません。",
     "change_picture": "画像を変更",
     "uploading": "アップロード中",
     "picture_hint": "PNG、JPEG、WebPに対応しています。正方形に切り抜かれます。",

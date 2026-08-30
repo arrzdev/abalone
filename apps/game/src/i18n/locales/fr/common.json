@@ -23,7 +23,7 @@
     "tagline": "Poussez six billes adverses hors du plateau pour gagner.",
     "play_online": "Jouer en ligne",
     "play_offline": "Jouer hors ligne",
-    "online_hint": "Contre un autre joueur.",
+    "online_hint": "Invite quelqu'un, joue à ton rythme.",
     "rules_prompt": "Jamais joué ?",
     "rules_link": "Lis les règles",
     "bot_hint_short": "Huit niveaux",
@@ -45,18 +45,17 @@
     "prompt_title": "Connecte-toi pour jouer en ligne",
     "prompt_body": "Les parties en ligne demandent un compte.",
     "signup_title": "Choisis un nom",
-    "signup_body": "Les adversaires t'invitent en le tapant à l'identique.",
+    "signup_body": "Les adversaires t'invitent avec ton nom d'utilisateur, alors choisis-en un facile à taper.",
     "errors": {
       "username_taken": "Ce nom est déjà pris.",
       "username_invalid": "3 à 20 lettres, chiffres, points ou tirets bas.",
       "password_too_short": "Un mot de passe fait au moins 8 caractères.",
       "invalid_credentials": "Ce nom et ce mot de passe ne correspondent pas.",
       "unknown": "Quelque chose s'est mal passé."
-    },
-    "credentials_warning": "Le nom et le mot de passe sont irrécupérables."
+    }
   },
   "profile": {
-    "username_permanent": "Ton nom est définitif",
+    "username_hint": "Les adversaires t'invitent avec ce nom. Il ne peut pas être changé.",
     "change_picture": "Changer la photo",
     "uploading": "Envoi en cours",
     "picture_hint": "PNG, JPEG ou WebP. L'image est recadrée en carré.",
