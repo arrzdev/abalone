@@ -1,10 +1,9 @@
 import { queryOptions, useQuery } from "@tanstack/react-query"
-import { api, withClientRequest } from "@/data/backend-client"
+import { api, apiError, withClientRequest } from "@/data/backend-client"
 import {
-  clearSnapshot,
-  readSnapshot,
-  writeSnapshot,
-} from "@/data/snapshot"
+  readProfileSnapshot,
+  writeProfileSnapshot,
+} from "@/data/profile/snapshot"
 import { useAuth } from "@/providers/auth-provider"
 
 /** The player as the app shows them. Mirrors the backend's profile shape. */
@@ -14,8 +13,6 @@ export type Profile = {
   //absolute, immutable, and cacheable forever, or null until they upload one
   avatarUrl: string | null
 }
-
-const PROFILE_SNAPSHOT_KEY = "abalone.profile"
 
 export const profileQueryKey = ["profile", "me"] as const
 
@@ -37,18 +34,17 @@ export function profileQueryOptions(isAuthenticated: boolean) {
         api.api.v1.profile.me.$get({}, { init: { signal } }),
       )
       const body = await response.json()
-      if (body.status !== "success") throw new Error(body.error_code)
+      if (body.status !== "success") throw apiError(body.error_code)
 
       //written here rather than in an onSuccess so there is exactly one place
       //that knows a fresh profile has arrived
-      writeSnapshot<Profile>(PROFILE_SNAPSHOT_KEY, body.data.profile)
+      writeProfileSnapshot(body.data.profile)
       return body.data.profile
     },
     enabled: isAuthenticated,
     //the avatar is the only thing that can change, and only from this device
     staleTime: 5 * 60_000,
-    placeholderData: () =>
-      readSnapshot<Profile>(PROFILE_SNAPSHOT_KEY) ?? undefined,
+    placeholderData: () => readProfileSnapshot() ?? undefined,
   })
 }
 
@@ -59,9 +55,4 @@ export function profileQueryOptions(isAuthenticated: boolean) {
 export function useProfile() {
   const { isAuthenticated } = useAuth()
   return useQuery(profileQueryOptions(isAuthenticated))
-}
-
-/** Dropped on sign-out, so the next player never sees the last one's face. */
-export function clearProfileSnapshot(): void {
-  clearSnapshot(PROFILE_SNAPSHOT_KEY)
 }

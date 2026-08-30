@@ -1,7 +1,7 @@
 import type { PlayableSetup } from "@repo/abalone-engine/board-setups"
 import type { CellName } from "@repo/abalone-engine/types"
 import { mutationOptions } from "@tanstack/react-query"
-import { api, withClientRequest } from "@/data/backend-client"
+import { api, apiError, withClientRequest } from "@/data/backend-client"
 import type { Game, Invite } from "@/data/online/queries"
 
 /** Which side the sender takes. `random` is only resolved once a game opens. */
@@ -32,7 +32,7 @@ export const sendInviteMutationOptions = mutationOptions({
       api.api.v1.invites.$post({ json: input }),
     )
     const body = await response.json()
-    if (body.status !== "success") throw new Error(body.error_code)
+    if (body.status !== "success") throw apiError(body.error_code)
     return body.data.invite
   },
 })
@@ -47,7 +47,7 @@ export const declineInviteMutationOptions = mutationOptions({
       }),
     )
     const body = await response.json()
-    if (body.status !== "success") throw new Error(body.error_code)
+    if (body.status !== "success") throw apiError(body.error_code)
     return body.data.invite
   },
 })
@@ -64,7 +64,7 @@ export const removeInviteMutationOptions = mutationOptions({
       api.api.v1.invites[":id"].$delete({ param: { id: inviteId } }),
     )
     const body = await response.json()
-    if (body.status !== "success") throw new Error(body.error_code)
+    if (body.status !== "success") throw apiError(body.error_code)
   },
 })
 
@@ -75,7 +75,7 @@ export const acceptInviteMutationOptions = mutationOptions({
       api.api.v1.games.$post({ json: { inviteId } }),
     )
     const body = await response.json()
-    if (body.status !== "success") throw new Error(body.error_code)
+    if (body.status !== "success") throw apiError(body.error_code)
     return body.data.game
   },
 })
@@ -93,7 +93,7 @@ export const playMoveMutationOptions = mutationOptions({
       }),
     )
     const body = await response.json()
-    if (body.status !== "success") throw new Error(body.error_code)
+    if (body.status !== "success") throw apiError(body.error_code)
     return body.data.game
   },
 })
@@ -107,7 +107,7 @@ export const resignGameMutationOptions = mutationOptions({
       }),
     )
     const body = await response.json()
-    if (body.status !== "success") throw new Error(body.error_code)
+    if (body.status !== "success") throw apiError(body.error_code)
     return body.data.game
   },
 })

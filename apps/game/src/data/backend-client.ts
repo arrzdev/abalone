@@ -1,6 +1,7 @@
 import type { RoutesInterface } from "@repo/backend/http/interface"
 import tryCatch from "@repo/shared/try-catch"
 import { hc } from "hono/client"
+import { endSession } from "@/data/auth/session-end"
 import { getBearerToken } from "@/data/auth/token"
 import { env } from "@/env/registry"
 
@@ -59,4 +60,19 @@ export async function withClientRequest<T>(
   if (!error) return data
   if (error.name === "AbortError") throw error
   throw new Error("network_unreachable", { cause: error })
+}
+
+/**
+ * The failure an api answer describes, and the one place a dead session is
+ * noticed.
+ *
+ * Every read and write in `data/` throws this rather than a bare `Error`, so
+ * `unauthorized` — the server saying this token buys nothing — ends the session
+ * on the way past instead of arriving as a sentence on a screen the player can
+ * no longer load. The code still crosses into the message, which is what the
+ * screens translate.
+ */
+export function apiError(errorCode: string): Error {
+  if (errorCode === "unauthorized") endSession()
+  return new Error(errorCode)
 }

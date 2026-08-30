@@ -1,8 +1,6 @@
 import { Logger } from "@repo/shared/logging"
 import { authClient } from "@/data/auth/client"
-import { clearSessionSnapshot } from "@/data/auth/session-snapshot"
-import { writeToken } from "@/data/auth/token"
-import { clearProfileSnapshot } from "@/data/profile/queries"
+import { endSession } from "@/data/auth/session-end"
 
 const log = new Logger("auth")
 
@@ -109,14 +107,12 @@ export async function signIn(credentials: Credentials): Promise<void> {
 /**
  * Sign out here first, then tell the server.
  *
- * The local token and snapshot go regardless of what the network says, because
- * a sign-out that fails to reach the server still has to take effect on the
+ * The local session goes regardless of what the network says, because a
+ * sign-out that fails to reach the server still has to take effect on the
  * device the player is holding.
  */
 export async function signOut(): Promise<void> {
-  writeToken(null)
-  clearSessionSnapshot()
-  clearProfileSnapshot()
+  endSession()
 
   const result = await authClient.signOut()
   //the session may still be live server-side, which is worth saying out loud

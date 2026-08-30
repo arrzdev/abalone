@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query"
 import type { InferResponseType } from "hono/client"
-import { api, withClientRequest } from "@/data/backend-client"
+import { api, apiError, withClientRequest } from "@/data/backend-client"
 
 //---- shapes ----------------
 //read off the rpc contract rather than written out again here. a field added to
@@ -59,7 +59,7 @@ export const invitesQueryOptions = queryOptions({
       api.api.v1.invites.$get({}, { init: { signal } }),
     )
     const body = await response.json()
-    if (body.status !== "success") throw new Error(body.error_code)
+    if (body.status !== "success") throw apiError(body.error_code)
     return body.data.invites
   },
   staleTime: INVITE_POLL_MS,
@@ -83,7 +83,7 @@ export function gamesQueryOptions(status: GameStatus) {
         api.api.v1.games.$get({ query: { status } }, { init: { signal } }),
       )
       const body = await response.json()
-      if (body.status !== "success") throw new Error(body.error_code)
+      if (body.status !== "success") throw apiError(body.error_code)
       return body.data.games
     },
     staleTime: isFinished ? Number.POSITIVE_INFINITY : INVITE_POLL_MS,
@@ -109,7 +109,7 @@ export function gameQueryOptions(gameId: string) {
         ),
       )
       const body = await response.json()
-      if (body.status !== "success") throw new Error(body.error_code)
+      if (body.status !== "success") throw apiError(body.error_code)
       return body.data.game
     },
   })
@@ -136,7 +136,7 @@ export function gameMovesQueryOptions(gameId: string) {
         ),
       )
       const body = await response.json()
-      if (body.status !== "success") throw new Error(body.error_code)
+      if (body.status !== "success") throw apiError(body.error_code)
       return body.data.moves
     },
   })
