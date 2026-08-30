@@ -18,7 +18,7 @@ export function NotFoundScreen() {
 
   return (
     <Screen className="relative box-border items-center justify-center bg-ground px-safe-offset-6 py-safe-offset-8 text-center">
-      <div className="hex-texture hex-texture-inverted pointer-events-none absolute inset-0 [--hex-size:110px]" />
+      <div className="hex-texture hex-texture-inverted pointer-events-none absolute inset-0" />
 
       <span
         aria-hidden="true"

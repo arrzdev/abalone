@@ -81,7 +81,7 @@ function OnlinePage() {
 
   return (
     <Screen className="relative">
-      <div className="hex-texture pointer-events-none absolute inset-0 [--hex-size:96px] opacity-[0.035]" />
+      <div className="hex-texture pointer-events-none absolute inset-0" />
 
       {/* `relative`, or the texture lands on top of it: the layer above is
           positioned and this is not, and a positioned box paints over an

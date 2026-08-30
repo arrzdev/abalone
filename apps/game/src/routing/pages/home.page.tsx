@@ -21,7 +21,7 @@ function HomePage() {
     <Screen inset="safe-x" className="relative">
       {/* Its own layer, not a class on the column: the texture is masked, and
           a mask on the column would fade the hero out with it. */}
-      <div className="hex-texture pointer-events-none absolute inset-0 [--hex-size:88px]" />
+      <div className="hex-texture pointer-events-none absolute inset-0" />
       <PlayPoster />
     </Screen>
   )
