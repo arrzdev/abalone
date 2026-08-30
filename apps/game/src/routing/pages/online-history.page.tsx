@@ -10,6 +10,7 @@ import { SubpageHeader } from "@/components/ui/subpage-header"
 import type { Game } from "@/data/online/queries"
 import { gamesQueryOptions } from "@/data/online/queries"
 import { useAuth } from "@/providers/auth-provider"
+import { pageHead } from "@/routing/page-head"
 import { SignedInOnly } from "@/routing/signed-in-only"
 import { formatRelativeTime } from "@/utils/relative-time"
 
@@ -25,6 +26,15 @@ export const Route = createFileRoute("/_subpage/online/history")({
     const page = Number(search.page)
     return { page: Number.isInteger(page) && page > 1 ? page : 1 }
   },
+  head: () =>
+    pageHead({
+      title: "Game history",
+      description:
+        "Every online game you have finished, with the result and the day you played it.",
+      path: "/online/history",
+      image: "game",
+      noIndex: true,
+    }),
   component: GuardedGamesPage,
 })
 

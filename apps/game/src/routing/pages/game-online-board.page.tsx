@@ -31,9 +31,19 @@ import { useHeadToHead } from "@/hooks/use-head-to-head"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { useOnlineGame } from "@/hooks/use-online-game"
 import { getSetupName } from "@/i18n/game-text"
+import { pageHead } from "@/routing/page-head"
 import { SignedInOnly } from "@/routing/signed-in-only"
 
 export const Route = createFileRoute("/_subpage/online/$gameId")({
+  head: () =>
+    pageHead({
+      title: "Online game",
+      description:
+        "An online game of Abalone. Take your turn whenever you like, and pick it up again on any device.",
+      path: "/online",
+      image: "game",
+      noIndex: true,
+    }),
   component: GuardedGameOnlineBoardPage,
 })
 

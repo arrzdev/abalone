@@ -5,6 +5,7 @@ import { Hub } from "@/components/online/hub"
 import { InviteComposer } from "@/components/online/invite-composer"
 import { useOnlineHome } from "@/hooks/use-online-home"
 import { useAuth } from "@/providers/auth-provider"
+import { pageHead } from "@/routing/page-head"
 import { SignedInOnly } from "@/routing/signed-in-only"
 
 /**
@@ -21,6 +22,14 @@ export const Route = createFileRoute("/_shell/online")({
   validateSearch: (search: Record<string, unknown>): OnlineSearch => ({
     invite: search.invite === "new" ? "new" : undefined,
   }),
+  head: () =>
+    pageHead({
+      title: "Play online",
+      description:
+        "Your games, your invites and your record in one place. Invite anyone by username and take your turn whenever you like.",
+      path: "/online",
+      noIndex: true,
+    }),
   component: GuardedOnlinePage,
 })
 
