@@ -59,7 +59,7 @@ export function useShowCoordinates() {
 
 /** The bar down the side of the board, reading out who is ahead. */
 export function useShowEvalBar() {
-  return useBooleanPreference("showEvalBar", false)
+  return useBooleanPreference("showEvalBar", true)
 }
 
 /**
@@ -69,7 +69,7 @@ export function useShowEvalBar() {
  * nobody's choice is reset by the move up here.
  */
 export function useAutoRotateBoard() {
-  return useBooleanPreference("autoRotateBoard", true)
+  return useBooleanPreference("autoRotateBoard", false)
 }
 
 export type SoundPreferences = {
