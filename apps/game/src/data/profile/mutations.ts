@@ -1,5 +1,9 @@
 import { mutationOptions } from "@tanstack/react-query"
-import { postFormData, withClientRequest } from "@/data/backend-client"
+import {
+  apiError,
+  postFormData,
+  withClientRequest,
+} from "@/data/backend-client"
 import type { Profile } from "@/data/profile/queries"
 import { resizeToAvatar } from "@/utils/image-resize"
 
@@ -28,7 +32,7 @@ export const uploadAvatarMutationOptions = mutationOptions({
       postFormData(AVATAR_PATH, form),
     )
     const body = (await response.json()) as ProfileEnvelope
-    if (body.status !== "success") throw new Error(body.error_code)
+    if (body.status !== "success") throw apiError(body.error_code)
     return body.data.profile
   },
 })

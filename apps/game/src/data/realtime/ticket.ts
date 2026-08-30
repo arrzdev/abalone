@@ -1,4 +1,4 @@
-import { api, withClientRequest } from "@/data/backend-client"
+import { api, apiError, withClientRequest } from "@/data/backend-client"
 
 /**
  * Buys one realtime connection.
@@ -17,6 +17,6 @@ export async function mintTicket(): Promise<string> {
     api.api.v1.realtime.ticket.$post(),
   )
   const body = await response.json()
-  if (body.status !== "success") throw new Error(body.error_code)
+  if (body.status !== "success") throw apiError(body.error_code)
   return body.data.ticket
 }

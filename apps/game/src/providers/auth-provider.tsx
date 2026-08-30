@@ -12,6 +12,7 @@ import {
   readSessionSnapshot,
   writeSessionSnapshot,
 } from "@/data/auth/session-snapshot"
+import { getBearerToken, subscribeToToken } from "@/data/auth/token"
 
 //---- Auth provider ------------------------------------------------
 //the single owner of auth. it subscribes to the session ONCE and exposes it as
@@ -29,6 +30,13 @@ import {
 //  2. a snapshot. a cold start has no cached session at all, so the first paint
 //     comes from what this device last knew (data/auth/session-snapshot.ts) and
 //     the network confirms it a moment later.
+//
+//and one thing outranks both: THE TOKEN. a cached session says who the server
+//said you were, the token is what this device can still prove, and the moment a
+//request comes back refused the token goes (data/auth/session-end.ts). without
+//it there is no session here either, however recently one was cached — which is
+//what turns a session the server has dropped into "you are signed out" on every
+//screen at once, rather than a red line on a board that can no longer load.
 
 type AuthContextValue = {
   /** The signed-in player, or null for a guest. Served from cache. */
@@ -51,6 +59,17 @@ const AuthContext = createContext<AuthContextValue>({
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { user: liveUser, isPending: rawIsPending } = useSessionState()
 
+  //subscribed rather than read once: the token is written from outside react —
+  //an auth reply lands on it, and so does a request the server refused, which is
+  //the one write nobody on screen asked for
+  const [token, setToken] = useState(getBearerToken)
+  useEffect(() => {
+    //re-read on the way in: a write between the first render and this effect
+    //would otherwise be missed
+    setToken(getBearerToken())
+    return subscribeToToken(() => setToken(getBearerToken()))
+  }, [])
+
   //read once — a snapshot is only ever about the first paint
   const [snapshot] = useState(readSessionSnapshot)
 
@@ -66,11 +85,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     writeSessionSnapshot(liveUser)
   }, [rawIsPending, liveUser])
 
-  //before the first resolve the snapshot speaks; after it, the session does
-  const user = hasSettled ? liveUser : (snapshot?.user ?? liveUser)
+  //before the first resolve the snapshot speaks; after it, the session does —
+  //and neither of them speaks at all without a token to back it
+  const cached = hasSettled ? liveUser : (snapshot?.user ?? liveUser)
+  const user = token ? cached : null
   //a snapshot of `{ user: null }` is a real answer, so a returning guest is not
-  //pending either — only a device that has never resolved anything is
-  const isPending = !hasSettled && snapshot === null
+  //pending either — only a device that has never resolved anything is. a device
+  //holding no token is not waiting for anything: it is a guest, now
+  const isPending = Boolean(token) && !hasSettled && snapshot === null
 
   const value = useMemo<AuthContextValue>(
     () => ({ user, isAuthenticated: Boolean(user), isPending }),
