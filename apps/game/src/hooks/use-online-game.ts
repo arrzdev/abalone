@@ -405,20 +405,32 @@ export function useOnlineGame(
 
   const play = useMutation({
     ...playMoveMutationOptions,
-    onSuccess: async (row) => {
-      //this device has already watched this move: it played it. marking it
-      //shown before the plies are asked for is what stops it arriving back and
-      //being played out a second time. only on success — a refused move was
-      //never on the board, so nothing was shown.
+    //this device has already watched this move: it played it, and the marbles
+    //have finished sliding by the time this runs. claiming the ply here rather
+    //than on the answer is what stops it being played out a second time — the
+    //other player's device is told the move landed at the same moment this one
+    //is, so its beacon can bring the plies back before the answer to this
+    //request has arrived. The board would then find a move one past the last it
+    //showed and slide the marbles back a ply to replay it: the snap.
+    onMutate: ({ moveIndex }) => {
+      const claimed = shownIndexRef.current
+      shownIndexRef.current = moveIndex + 1
+      return { claimed }
+    },
+    onSuccess: (row) => {
       shownIndexRef.current = row.moveCount
       queryClient.setQueryData(onlineKeys.game(gameId), row)
-      await queryClient.invalidateQueries({
+      return queryClient.invalidateQueries({
         queryKey: onlineKeys.moves(gameId),
       })
     },
     //believing the server is the whole rollback: dropping what this device
-    //played leaves the board showing the position the game is actually in
-    onError: () => setPending(null),
+    //played leaves the board showing the position the game is actually in, and
+    //the ply it claimed goes back to whoever holds it there
+    onError: (_error, _variables, context) => {
+      if (context) shownIndexRef.current = context.claimed
+      setPending(null)
+    },
   })
 
   const resignGame = useMutation({
