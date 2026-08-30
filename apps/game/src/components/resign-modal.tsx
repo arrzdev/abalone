@@ -16,8 +16,13 @@ export type ResignModalProps = {
  * from both, and it is the only control there that ends the game outright — the
  * one action in the panel worth stopping to ask about.
  *
- * Cancel is the wider, plainer button and resign is the red one, so the shape of
- * the row says which way out is the ordinary one.
+ * Keeping playing is the plain button and resigning is the red one, so the shape
+ * of the row says which way out is the ordinary one.
+ *
+ * The order flips on a phone. Side by side, the destructive answer belongs on
+ * the right, away from where a back gesture starts; stacked, it belongs on top,
+ * because the bottom of a sheet is where the thumb already is and that is the
+ * one place this button must not be.
  */
 export function ResignModal({
   open,
@@ -36,11 +41,22 @@ export function ResignModal({
         {t("game:modal.resign_body")}
       </p>
 
-      <div className="mt-6 flex gap-3">
-        <Button variant="secondary" className="flex-1" onClick={onClose}>
-          {t("common:actions.cancel")}
+      {/* `flex-col-reverse` rather than a second pair of buttons: keeping
+          playing stays first in the document, so a keyboard and a screen reader
+          reach the safe answer first on both shapes. */}
+      <div className="mt-6 flex flex-col-reverse gap-2.5 lg:flex-row lg:gap-2.5">
+        <Button
+          variant="secondary"
+          className="h-13 flex-1 lg:h-12"
+          onClick={onClose}
+        >
+          {t("game:modal.keep_playing")}
         </Button>
-        <Button variant="danger" className="flex-1" onClick={onConfirm}>
+        <Button
+          variant="danger"
+          className="h-13 flex-1 lg:h-12"
+          onClick={onConfirm}
+        >
           <FlagIcon size={20} />
           {t("game:controls.resign")}
         </Button>

@@ -1,13 +1,13 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router"
 import { AppHeader } from "@/components/app-header"
-import { AppTabBar } from "@/components/app-tab-bar"
 
 export const Route = createFileRoute("/_shell")({
   component: ShellLayout,
 })
 
 /**
- * The chrome around the app's own screens: header above `lg`, tab bar below.
+ * The chrome around the two screens that wear the whole of it: the header, at
+ * every width.
  *
  * No ambient wash. Two blurred colour blobs used to sit behind this, and what
  * they read as was a stain in one corner: a gradient with no source, aimed at
@@ -28,8 +28,6 @@ function ShellLayout() {
       <main className="relative flex min-h-0 min-w-0 flex-1 flex-col">
         <Outlet />
       </main>
-
-      <AppTabBar />
     </div>
   )
 }

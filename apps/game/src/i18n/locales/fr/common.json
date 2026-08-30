@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Navigation principale",
     "back": "Retour",
-    "play": "Jouer",
     "new_game": "Nouvelle partie",
     "rules": "Règles",
-    "strategy": "Guide stratégique",
-    "faq": "FAQ",
-    "about": "À propos",
-    "history": "Historique des Parties",
     "profile": "Profil",
-    "back_to_game": "Jouer contre l'ordinateur",
-    "back_to_game_from_page": "Jouer au jeu",
-    "home": "Accueil"
-  },
-  "buttons": {
-    "play_now": "Jouer maintenant",
-    "get_started": "Commencer",
-    "try_setups": "Essayer différentes configurations",
-    "learn_strategy": "Apprendre la stratégie",
-    "start_playing": "Commencer à jouer",
-    "more_about": "En savoir plus sur Abalone",
-    "read_rules": "Lire les règles complètes"
+    "home": "Accueil",
+    "online": "Jouer en ligne",
+    "offline": "Jouer hors ligne"
   },
   "language": {
     "select": "Sélectionner la langue",
@@ -34,16 +20,16 @@
     "change": "Changer de langue"
   },
   "home": {
-    "eyebrow": "Deux joueurs. Un plateau hexagonal.",
     "tagline": "Poussez six billes adverses hors du plateau pour gagner.",
     "play_online": "Jouer en ligne",
     "play_offline": "Jouer hors ligne",
-    "rules_link": "Jamais joué ? Les règles prennent deux minutes",
+    "online_hint": "Contre un autre joueur.",
+    "rules_link": "Jamais joué ? Lis les règles",
     "bot_hint_short": "Huit niveaux",
     "bot_hint_long": "Huit bots, de Gus à Magnus.",
     "local_hint_short": "Un appareil, vous deux",
-    "bots_caption": "Huit bots, de Gus à Magnus",
-    "account_note": "Une partie contre un bot ne demande aucun compte. Connectez-vous et toutes vos parties sont conservées, en ligne comme hors ligne."
+    "local_hint_long": "À deux, chacun son tour, sur cet appareil.",
+    "bots_caption": "Huit bots, de Gus à Magnus"
   },
   "auth": {
     "sign_in": "Se connecter",
@@ -56,37 +42,41 @@
     "show_password": "Afficher le mot de passe",
     "hide_password": "Masquer le mot de passe",
     "prompt_title": "Connecte-toi pour jouer en ligne",
-    "prompt_body": "Jouez sous votre nom. Chaque victoire est conservée.",
+    "prompt_body": "Les parties en ligne demandent un compte.",
+    "signup_title": "Choisis un nom",
+    "signup_body": "Les adversaires t'invitent en le tapant à l'identique.",
     "errors": {
-      "username_taken": "Ce nom est déjà pris. Essaie-en un autre.",
-      "username_invalid": "Les noms font de 3 à 20 caractères, avec des lettres, des chiffres, des points et des tirets bas.",
-      "password_too_short": "Les mots de passe font au moins 8 caractères.",
-      "invalid_credentials": "Ce nom et ce mot de passe ne correspondent pas. Vérifie les deux et réessaie.",
-      "unknown": "Quelque chose s'est mal passé. Vérifie ta connexion et réessaie."
+      "username_taken": "Ce nom est déjà pris.",
+      "username_invalid": "3 à 20 lettres, chiffres, points ou tirets bas.",
+      "password_too_short": "Un mot de passe fait au moins 8 caractères.",
+      "invalid_credentials": "Ce nom et ce mot de passe ne correspondent pas.",
+      "unknown": "Quelque chose s'est mal passé."
     },
-    "credentials_warning": "Nom et mot de passe irrécupérables.\nLes perdre, c'est perdre le compte."
+    "credentials_warning": "Le nom et le mot de passe sont irrécupérables."
   },
   "profile": {
     "username_permanent": "Ton nom est définitif",
     "change_picture": "Changer la photo",
     "uploading": "Envoi en cours",
     "picture_hint": "PNG, JPEG ou WebP. L'image est recadrée en carré.",
-    "upload_failed": "Cette photo n'a pas été envoyée. Réessaie."
+    "upload_failed": "Cette photo n'a pas été envoyée. Réessaie.",
+    "playing": "En cours",
+    "best_streak": "Meilleure série",
+    "history_hint": "Ton palmarès, partie par partie",
+    "settings_hint": "Langue, billes et son"
   },
   "actions": {
     "close": "Fermer",
     "cancel": "Annuler"
   },
-  "play": {
-    "title": "Jouer",
-    "online_hint": "Contre un autre joueur, sous ton nom.",
-    "offline_hint": "Contre un bot, ou à deux sur cet appareil.",
-    "bot_hint": "Contre un bot, au niveau que tu choisis.",
-    "local_hint": "À deux, chacun son tour, sur cet appareil."
-  },
   "sync": {
     "updating": "Mise à jour",
-    "offline": "Tu es hors ligne. Ce que tu vois n'est peut-être plus à jour.",
-    "unreachable": "L'actualisation n'a pas abouti. Ce que tu vois n'est peut-être plus à jour."
+    "offline": "Tu es hors ligne, ceci n'est peut-être plus à jour.",
+    "unreachable": "L'actualisation a échoué, ceci n'est peut-être plus à jour."
+  },
+  "not_found": {
+    "title": "Rien sur cette case",
+    "body": "Cette adresse ne mène nulle part.",
+    "action": "Retour au plateau"
   }
 }

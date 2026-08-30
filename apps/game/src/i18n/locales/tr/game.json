@@ -1,15 +1,15 @@
 {
   "meta": {
     "title": "Abalone'u online, bota karşı veya iki kişilik oyna | Ücretsiz",
-    "description": "Abalone'u tarayıcında ücretsiz oyna. Sekiz güç seviyesinde bir bota karşı çık, aynı cihazda sırayla iki kişi oynayın ya da birini online bir partiye davet et. Dokuz tahta dizilişi, eksiksiz hamle geçmişi ve değerlendirme çubuğu. İndirme yok.",
+    "description": "Abalone'u tarayıcında ücretsiz oyna. Sekiz seviyeli bir bota karşı, aynı cihazda iki kişi ya da davet ettiğinle online. İndirme yok.",
     "keywords": "abalone oyna, abalone online, abalone tarayıcı oyunu, abalone bilgisayara karşı, abalone bot, iki kişilik abalone, ücretsiz abalone, abalone tahta dizilişleri, abalone kuralları",
     "og_title": "Tarayıcıda Abalone oyna",
-    "og_description": "Sekiz güç seviyesinde bir bota karşı çık, aynı cihazda iki kişi oynayın ya da birini online bir partiye davet et. Dokuz tahta dizilişi, eksiksiz hamle geçmişi ve değerlendirme çubuğu. Ücretsiz, indirme yok.",
+    "og_description": "Sekiz seviyeli bir bota karşı, aynı cihazda iki kişi ya da davet ettiğinle online oyna. Ücretsiz, indirme yok.",
     "twitter_title": "Tarayıcıda Abalone oyna",
-    "twitter_description": "Sekiz güç seviyesinde bir bot, aynı cihazda iki kişilik oyun ya da kendi hızınızda bir online parti. Dokuz tahta dizilişi ve eksiksiz hamle geçmişi. Ücretsiz, indirme yok.",
+    "twitter_description": "Sekiz seviyeli bir bot, aynı cihazda iki kişilik oyun ya da kendi hızınızda bir online parti. Ücretsiz, indirme yok.",
     "structured_data": {
       "name": "Abalone",
-      "description": "Abalone'u sekiz güç seviyesinde bir bota karşı, aynı cihazda sırayla iki kişi ya da birini davet ederek online oynayın. Dokuz tahta dizilişi (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), eksiksiz hamle geçmişi ve değerlendirme çubuğu. Tarayıcıda ücretsiz, indirme yok.",
+      "description": "Sekiz seviyeli bir bota karşı, aynı cihazda iki kişi ya da davet ettiğinle online oyna. Dokuz tahta dizilişi ve eksiksiz hamle geçmişi. Tarayıcıda ücretsiz.",
       "audience": "Kutu oyunu oyuncuları ve strateji oyunu meraklıları"
     }
   },
@@ -55,15 +55,15 @@
     "mode_ai": "Bilgisayara karşı",
     "mode_local": "İki oyuncu",
     "sound": "Ses",
-    "sound_hint": "Bilyelerin yerine oturması ve tahtadan düşmesi",
+    "sound_hint": "Bilyelerin yerine oturma ve düşme sesi",
     "mute": "Sesi kapat",
     "unmute": "Sesi aç",
     "move_animations": "Hamle animasyonları",
-    "move_animations_hint": "Bilyeleri yeni karesine kaydır",
+    "move_animations_hint": "Bilyeler zıplamak yerine kayar",
     "rotate_board": "Her turda tahtayı döndür",
-    "rotate_board_hint": "Tahtayı, hamle sırası kimdeyse o taraf altta kalacak şekilde çevir",
-    "show_coordinates_hint": "Her karenin içinde eksenel koordinatı göster",
-    "show_eval_bar_hint": "Motorun konumu nasıl değerlendirdiği (yalnızca botlara karşı)",
+    "rotate_board_hint": "Hamle sırası olan taraf hep altta",
+    "show_coordinates_hint": "Her karede bir koordinat",
+    "show_eval_bar_hint": "Kim önde (yalnızca botlara karşı)",
     "side_group": "Oynanacak taraf",
     "side_white": "Beyazlarla oyna",
     "side_black": "Siyahlarla oyna",
@@ -82,7 +82,7 @@
     "you_win": "Kazandın!",
     "opponent_won": "{{opponent}} Kazandı!",
     "draw": "Berabere!",
-    "victory_message": "Tebrikler! {{difficulty}} botunu yendin.",
+    "victory_message": "{{difficulty}} botunu yendin.",
     "defeat_message": "{{difficulty}} botu bu oyunu kazandı.",
     "draw_message": "Oyun berabere bitti.",
     "rematch_button": "Rövanş",
@@ -90,38 +90,39 @@
     "by_resignation": "çekilme ile",
     "by_repetition": "üçlü tekrar ile",
     "resign_title": "Oyundan çekilinsin mi?",
-    "resign_body": "Oyun hemen biter ve galibiyet rakibine gider. Bu geri alınamaz.",
+    "resign_body": "Rakibin kazanır ve bu geri alınamaz.",
+    "keep_playing": "Oynamaya devam et",
     "game_over": "Oyun bitti",
     "moves": "{{count}} hamle"
   },
   "rules": {
     "title": "Nasıl oynanır",
-    "intro": "Abalone, 61 haneli altıgen bir tahtada iki kişiyle oynanır. Her taraf 14 bilyeyle başlar ve sırası geldiğinde bir hamle yapar.",
+    "intro": "Oyunun tamamı, beş kısa kuralda.",
     "goal": {
       "title": "Amaç",
-      "body": "Rakibinin altı bilyesini tahtadan dışarı it. Oyunun tamamı bu. Sayılacak başka bir şey yok."
+      "body": "Rakibinin altı bilyesini tahtadan dışarı it."
     },
     "directions": {
       "title": "Altı yön",
-      "body": "Her hane altı haneye komşudur, yani bir bilye altı yöne gidebilir. Çapraz yok, atlama yok: bilye her zaman hemen yanındaki haneye gider.",
-      "caption": "Tek bir bilyenin gidebileceği altı yön."
+      "body": "Bilye altı yönden birine bir hane gider. Çapraz yok, atlama yok.",
+      "caption": "Altı yön."
     },
     "move": {
       "title": "Bilyeleri oynatmak",
-      "body": "Sırandayken kendi bilyelerinden bir, iki ya da üç tanesini oynatırsın. İki ya da üç bilye düz bir çizgide yan yana olmalı ve hepsi aynı yöne bir hane ilerler.",
-      "inline_caption": "Çizgi boyunca: sıra, zaten baktığı yöne ilerler.",
-      "broadside_caption": "Yana: sıra yana kayar ve gideceği hanelerin hepsi boş olmalıdır."
+      "body": "Kendi bilyelerinden bir, iki ya da üç tanesini oynatırsın. İki ya da üç tanesi düz bir çizgide olmalı ve birlikte ilerler.",
+      "inline_caption": "Çizgi boyunca: sıra kendi yönünde ilerler.",
+      "broadside_caption": "Yana: sıra boş hanelere doğru kayar."
     },
     "push": {
       "title": "İtmek",
-      "body": "Yalnızca çizgi boyunca yapılan hamle itebilir. O çizgide rakibinden daha çok bilyen olmalı: ikiye bir, üçe bir ya da üçe iki. Rakibin bilyelerinin arkasındaki hane boş olmalıdır.",
-      "ok_caption": "Üçe iki: bütün sıra bir hane ilerler.",
-      "blocked_caption": "Üçe üç asla ilerlemez ve kendi bilyelerini asla itemezsin."
+      "body": "Yalnızca çizgi boyunca hamle iter ve rakibinden çok bilyen olmalı: ikiye bir, ya da üçe bir veya iki. Onun bilyelerinin arkasındaki hane boş olmalı.",
+      "ok_caption": "Üçe iki: sıra bir hane ilerler.",
+      "blocked_caption": "Sayılar eşitse hiçbir şey ilerlemez ve kendi bilyeni itemezsin."
     },
     "capture": {
       "title": "Bilyeleri dışarı itmek",
-      "body": "Kenarın dışına itilen bilye oyundan çıkar. Rakibinin altı bilyesini ilk düşüren kazanır.",
-      "caption": "Kenarda ikiye bir: siyah bilye dışarı çıkar."
+      "body": "Kenarın dışına itilen bilye oyunun sonuna kadar dışarıda kalır.",
+      "caption": "Kenarda ikiye bir: siyah dışarı çıkar."
     },
     "cta": "Şimdi oyna"
   },
@@ -140,7 +141,7 @@
   },
   "local": {
     "title": "İki oyuncu, tek cihaz",
-    "description": "Siyah önce oynar, sonra sıra karşıya geçer. Tahtanın hamle sırası olan tarafa dönmesi için ayarlardan tahta döndürmeyi aç.",
+    "description": "Siyah önce oynar, sonra sıra karşıya geçer.",
     "black": "Siyah",
     "white": "Beyaz",
     "names": "Oyuncu adları",

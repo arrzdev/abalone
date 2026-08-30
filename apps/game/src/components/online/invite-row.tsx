@@ -208,3 +208,70 @@ export function SentInviteRow({
     </div>
   )
 }
+
+export type LeadInviteRowProps = {
+  invite: Invite
+  busy: boolean
+  onAccept: (inviteId: string) => void
+  onDecline: (inviteId: string) => void
+}
+
+/**
+ * An invite when answering it is the whole point of the screen.
+ *
+ * The hub gives this shape to invites only when there is no move to make, so it
+ * is the largest thing on the page and both answers are full-size controls. It
+ * is one row above `lg` and a card below it, which is the same content laid out
+ * for a width that cannot hold a name and two buttons on one line.
+ *
+ * `lg:contents` is what keeps that from being two components: the buttons stay
+ * a row of their own on a phone and become siblings of the name on a desktop,
+ * without either shape being written out twice.
+ */
+export function LeadInviteRow({
+  invite,
+  busy,
+  onAccept,
+  onDecline,
+}: LeadInviteRowProps) {
+  const { t } = useTranslation()
+  const terms = useInviteTerms(invite, "received")
+  const name = invite.from.displayUsername ?? invite.from.username
+
+  return (
+    <div className="flex flex-col rounded-[14px] bg-surface-2 px-[15px] pt-3.5 pb-[15px] lg:h-[92px] lg:flex-row lg:items-center lg:gap-4 lg:rounded-2xl lg:px-5 lg:py-0">
+      <div className="flex items-center gap-3 lg:min-w-0 lg:flex-1">
+        <Avatar src={invite.from.avatarUrl} name={name} size={44} />
+
+        <span className="block min-w-0 flex-1">
+          <span className="block truncate font-display text-[17px] font-semibold text-white lg:text-[19px]">
+            {name}
+          </span>
+          <span className="mt-0.5 block truncate text-xs text-muted lg:text-[13px]">
+            {terms}
+          </span>
+        </span>
+      </div>
+
+      <div className="mt-3 flex gap-2 lg:contents">
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => onAccept(invite.id)}
+          className="inline-flex h-11 flex-1 shrink-0 items-center justify-center rounded-[11px] bg-brand font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45 lg:h-[42px] lg:flex-none lg:px-[22px]"
+        >
+          {t("online:invites.accept")}
+        </button>
+
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => onDecline(invite.id)}
+          className="inline-flex h-11 shrink-0 items-center justify-center rounded-[11px] px-4 font-display text-[15px] font-semibold text-muted transition-colors duration-200 ease-out hover:bg-surface-3 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45 lg:h-[42px]"
+        >
+          {t("online:invites.decline")}
+        </button>
+      </div>
+    </div>
+  )
+}

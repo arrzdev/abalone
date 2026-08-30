@@ -1,8 +1,9 @@
 import { cn } from "@repo/nativ/utils"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import type { FormEvent } from "react"
+import type { FormEvent, ReactNode } from "react"
 import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { SegmentedControl } from "@/components/ui/segmented-control"
 import { TextField } from "@/components/ui/text-field"
@@ -30,6 +31,52 @@ function fieldFor(code: AuthErrorCode): "username" | "password" | "form" {
     default:
       return "form"
   }
+}
+
+/**
+ * Every message this form can put on the screen.
+ *
+ * Keyed by the code union rather than listed, so a new failure cannot be added
+ * without a line here — and the slot that holds it stays as tall as the longest
+ * of them.
+ */
+const EVERY_ERROR: Record<AuthErrorCode, true> = {
+  username_taken: true,
+  username_invalid: true,
+  password_too_short: true,
+  invalid_credentials: true,
+  unknown: true,
+}
+
+const ERROR_CODES = Object.keys(EVERY_ERROR) as AuthErrorCode[]
+
+const TITLE_CLASS =
+  "font-display text-[22px] font-bold tracking-[-0.02em] text-white lg:text-center lg:text-3xl lg:font-extrabold lg:tracking-[-0.03em]"
+
+const BODY_CLASS =
+  "text-sm leading-relaxed text-muted lg:text-center lg:text-[15px] lg:text-balance"
+
+/**
+ * Every variant in one grid cell: as tall as the tallest of them, whichever one
+ * is showing.
+ *
+ * The alternative is a height per block, and that height is a different number
+ * in every language — "Sign in to play online" is one line and its German is
+ * two, and the same is true of all five error messages. A stack measures itself,
+ * at whatever width and in whatever language it is handed.
+ */
+function Reserved({
+  className,
+  children,
+}: {
+  className?: string
+  children: ReactNode
+}) {
+  return (
+    <div className={cn("grid *:col-start-1 *:row-start-1", className)}>
+      {children}
+    </div>
+  )
 }
 
 export type AuthFormProps = {
@@ -117,21 +164,67 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     ? t("common:auth.create_account")
     : t("common:auth.sign_in")
 
+  //the mode's own copy, and the copy of the mode it is not, which is what the
+  //masthead reserves its height against
+  const title = isSignUp
+    ? t("common:auth.signup_title")
+    : t("common:auth.prompt_title")
+  const otherTitle = isSignUp
+    ? t("common:auth.prompt_title")
+    : t("common:auth.signup_title")
+  const body = isSignUp
+    ? t("common:auth.signup_body")
+    : t("common:auth.prompt_body")
+  const otherBody = isSignUp
+    ? t("common:auth.prompt_body")
+    : t("common:auth.signup_body")
+
   return (
-    //Three blocks, not seven controls: the switch, the pair of fields, and the
-    //button. 36px between blocks and 20px inside the pair, so the two fields
-    //read as one thing you fill in rather than as two more rows in a stack.
+    //Four blocks, not nine controls: the masthead, the switch, the pair of
+    //fields, and the button. 20px between blocks and 18px inside the pair, so
+    //the two fields read as one thing you fill in rather than as two more rows
+    //in a stack.
     //
-    //The pair is 20px apart and the form's one error line is the gap between it
-    //and the button, so the button carries no margin of its own. Measure from
-    //the boxes, not from the elements.
+    //Between the pair and the button there is one slot that always says
+    //something, so the button carries no margin of its own. Measure from the
+    //boxes, not from the elements.
     <form
       onSubmit={handleSubmit}
       className={cn("flex flex-col", className)}
       noValidate
     >
+      {/* The heading follows the tab rather than whatever sent you here. Which
+          of the two things you are doing is the only thing that changes what
+          these fields mean, and a heading that says "sign in" over a form set
+          to Create account is the form arguing with itself.
+
+          The mark is a desktop-only flourish. In a drawer the app is still on
+          the screen behind the overlay, so a logo inside it is the app's name
+          twice; a dialog dims everything it covers, and the mark is what says
+          whose dialog this is. */}
+      <div className="flex flex-col gap-y-1.5 pb-5 lg:items-center lg:gap-y-3 lg:pb-6">
+        <Logo className="hidden size-11 lg:block" />
+
+        <Reserved>
+          <h1 className={TITLE_CLASS}>{title}</h1>
+          <span
+            aria-hidden="true"
+            className={cn(TITLE_CLASS, "invisible")}
+          >
+            {otherTitle}
+          </span>
+        </Reserved>
+
+        <Reserved className="lg:max-w-[380px]">
+          <p className={BODY_CLASS}>{body}</p>
+          <span aria-hidden="true" className={cn(BODY_CLASS, "invisible")}>
+            {otherBody}
+          </span>
+        </Reserved>
+      </div>
+
       <SegmentedControl
-        className="mb-9"
+        className="mb-5"
         size="lg"
         value={mode}
         onChange={switchMode}
@@ -141,7 +234,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
         ]}
       />
 
-      <div className="flex flex-col gap-y-5">
+      <div className="flex flex-col gap-y-[18px]">
         <TextField
           name="username"
           label={t("common:auth.username")}
@@ -170,60 +263,65 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
         />
       </div>
 
-      {/* One line for the whole form, always in the layout.
-          `fieldFor` sorts every failure into exactly one bucket, so at most one
-          message exists at a time — a reserved slot under each field as well
-          would be two thirds dead air on a form that is doing nothing wrong.
-          The offending box turns red; this says what happened.
-          Red text and nothing behind it: a tinted panel makes the one thing
-          that went wrong the brightest block on the screen. */}
-      <p
-        id={errorId}
-        role="alert"
-        className="min-h-10 py-2 text-sm leading-5 text-loss"
-      >
-        {errorText}
-      </p>
+      {/* One slot between the fields and the button, and it is never empty:
+          the small print when the form is fine, the failure when it is not.
+          They are the same subject — what a name and a password here can and
+          cannot do — and only one of them is ever worth saying, so they share
+          the space instead of each reserving their own.
 
-      <div className="flex flex-col gap-y-3">
-        {/* `lg` because the fields are 56px too: a button taller or shorter
-            than the two boxes above it reads as two controls that were drawn on
-            different days. */}
-        <Button
-          type="submit"
-          variant="primary"
-          size="lg"
-          className="w-full rounded-xl"
-          disabled={mutation.isPending}
-        >
-          {submitLabel}
-        </Button>
+          The height is every message stacked, so nothing moves when one of them
+          turns up, nor when the longer of two languages does. Only the line on
+          top is drawn; the rest are there to be measured.
 
-        {/* Kept in the layout in both modes, hidden rather than unmounted. It
-            only means anything when creating an account, but a line that
-            appears and disappears moves the form under a cursor that is already
-            in it — and this column is centred, so half the shift lands above
-            the fields as well as below.
+          Red text and nothing behind it. A tinted box with a glyph in it makes
+          the one thing that went wrong the loudest block on a screen whose next
+          control is the button you came to press.
 
-            Small print, and drawn like it: it is a fact about the account
-            rather than an instruction, and at the weight it used to have it
-            competed with the button it sits under. There is no email on the
-            account and so nothing to send a reset to, which is the whole of
-            what it has to say. */}
-        {/* Two lines, and the break is in the string: it is two statements and
-            the second is the consequence of the first, so where they divide is
-            a translator's call rather than whatever the column width does to
-            them. */}
+          `fieldFor` sorts every failure into exactly one bucket, so a slot
+          under each field as well would be two thirds dead air on a form that
+          is doing nothing wrong. The offending box turns red; this says what
+          happened. */}
+      <Reserved className="items-center pt-4 pb-5">
         <p
-          aria-hidden={!isSignUp}
-          className={cn(
-            "text-center text-xs leading-relaxed whitespace-pre-line text-faint",
-            !isSignUp && "invisible",
-          )}
+          id={errorId}
+          role="alert"
+          className="text-center text-sm leading-5 text-loss"
         >
-          {t("common:auth.credentials_warning")}
+          {errorText}
         </p>
-      </div>
+
+        {/* Said in both modes, because it answers a question each of them
+            raises: what to pick, and where the reset link went. There is no
+            email on the account and so nothing to send one to. */}
+        {!errorText && (
+          <p className="text-center text-xs leading-relaxed text-faint">
+            {t("common:auth.credentials_warning")}
+          </p>
+        )}
+
+        {ERROR_CODES.map((code) => (
+          <span
+            key={code}
+            aria-hidden="true"
+            className="invisible text-center text-sm leading-5"
+          >
+            {t(`common:auth.errors.${code}`)}
+          </span>
+        ))}
+      </Reserved>
+
+      {/* `lg` because the fields are 56px too: a button taller or shorter than
+          the two boxes above it reads as two controls that were drawn on
+          different days. */}
+      <Button
+        type="submit"
+        variant="primary"
+        size="lg"
+        className="w-full rounded-xl"
+        disabled={mutation.isPending}
+      >
+        {submitLabel}
+      </Button>
     </form>
   )
 }

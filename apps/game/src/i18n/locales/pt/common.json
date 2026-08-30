@@ -2,26 +2,12 @@
   "nav": {
     "primary": "Navegação principal",
     "back": "Voltar",
-    "play": "Jogar",
     "new_game": "Novo jogo",
     "rules": "Regras",
-    "strategy": "Guia de estratégia",
-    "faq": "FAQ",
-    "about": "Sobre",
-    "history": "Histórico de Jogos",
     "profile": "Perfil",
-    "back_to_game": "Jogar contra o computador",
-    "back_to_game_from_page": "Jogar o jogo",
-    "home": "Início"
-  },
-  "buttons": {
-    "play_now": "Jogar agora",
-    "get_started": "Começar",
-    "try_setups": "Experimentar diferentes configurações",
-    "learn_strategy": "Aprender estratégia",
-    "start_playing": "Começar a jogar",
-    "more_about": "Mais sobre Abalone",
-    "read_rules": "Ler regras completas"
+    "home": "Início",
+    "online": "Jogar online",
+    "offline": "Jogar offline"
   },
   "language": {
     "select": "Selecionar idioma",
@@ -34,16 +20,16 @@
     "change": "Mudar de idioma"
   },
   "home": {
-    "eyebrow": "Dois jogadores. Um tabuleiro hexagonal.",
     "tagline": "Empurra seis bolas do adversário para fora do tabuleiro para ganhar.",
     "play_online": "Jogar online",
     "play_offline": "Jogar offline",
-    "rules_link": "Nunca jogaste? As regras levam dois minutos",
+    "online_hint": "Contra outro jogador.",
+    "rules_link": "Nunca jogaste? Lê as regras",
     "bot_hint_short": "Oito níveis",
     "bot_hint_long": "Oito bots, do Gus ao Magnus.",
     "local_hint_short": "Um dispositivo, os dois",
-    "bots_caption": "Oito bots, do Gus ao Magnus",
-    "account_note": "Um jogo contra bot não precisa de conta. Entra e todos os teus jogos ficam guardados, online e offline."
+    "local_hint_long": "Dois de vocês, à vez, neste dispositivo.",
+    "bots_caption": "Oito bots, do Gus ao Magnus"
   },
   "auth": {
     "sign_in": "Entrar",
@@ -56,37 +42,41 @@
     "show_password": "Mostrar palavra-passe",
     "hide_password": "Ocultar palavra-passe",
     "prompt_title": "Entra para jogar online",
-    "prompt_body": "Joga com o teu nome. Todas as vitórias ficam guardadas.",
+    "prompt_body": "Os jogos online precisam de uma conta.",
+    "signup_title": "Escolhe um nome",
+    "signup_body": "Os adversários convidam-te escrevendo-o tal e qual.",
     "errors": {
-      "username_taken": "Esse nome já está ocupado. Escolhe outro.",
-      "username_invalid": "Os nomes têm 3 a 20 caracteres, com letras, números, pontos e underscores.",
-      "password_too_short": "As palavras-passe precisam de pelo menos 8 caracteres.",
-      "invalid_credentials": "Esse nome e essa palavra-passe não coincidem. Confere os dois e tenta de novo.",
-      "unknown": "Algo correu mal. Verifica a ligação e tenta de novo."
+      "username_taken": "Esse nome já está ocupado.",
+      "username_invalid": "3 a 20 letras, números, pontos ou underscores.",
+      "password_too_short": "A palavra-passe precisa de 8 caracteres.",
+      "invalid_credentials": "O nome e a palavra-passe não coincidem.",
+      "unknown": "Correu algo mal."
     },
-    "credentials_warning": "Nome e palavra-passe não se recuperam.\nPerdê-los é perder a conta."
+    "credentials_warning": "O nome e a palavra-passe não se recuperam."
   },
   "profile": {
     "username_permanent": "O teu nome é permanente",
     "change_picture": "Mudar imagem",
     "uploading": "A enviar",
     "picture_hint": "PNG, JPEG ou WebP. A imagem é cortada num quadrado.",
-    "upload_failed": "Essa imagem não foi enviada. Tenta de novo."
+    "upload_failed": "Essa imagem não foi enviada. Tenta de novo.",
+    "playing": "A decorrer",
+    "best_streak": "Melhor série",
+    "history_hint": "O teu registo, jogo a jogo",
+    "settings_hint": "Idioma, berlindes e som"
   },
   "actions": {
     "close": "Fechar",
     "cancel": "Cancelar"
   },
-  "play": {
-    "title": "Jogar",
-    "online_hint": "Contra outro jogador, com o teu nome.",
-    "offline_hint": "Contra um bot, ou dois de vocês neste dispositivo.",
-    "bot_hint": "Contra um bot, na força que escolheres.",
-    "local_hint": "Dois de vocês, à vez, neste dispositivo."
-  },
   "sync": {
     "updating": "A atualizar",
-    "offline": "Estás offline. O que vês pode não estar atualizado.",
-    "unreachable": "Não foi possível atualizar. O que vês pode não estar atualizado."
+    "offline": "Estás offline, isto pode estar desatualizado.",
+    "unreachable": "Não foi possível atualizar, isto pode estar desatualizado."
+  },
+  "not_found": {
+    "title": "Não há nada nesta casa",
+    "body": "Esse endereço não leva a lado nenhum.",
+    "action": "Voltar ao tabuleiro"
   }
 }

@@ -1,19 +1,20 @@
 {
   "title": "Online",
-  "subtitle": "Play at your own pace. Games wait for you, so a move a day is a perfectly good game.",
+  "hub": {
+    "your_move": "Your move",
+    "idle": "Nothing needs you right now",
+    "none": "Nothing in progress",
+    "waiting_on_you": "{{count}} waiting on you",
+    "with_opponent": "{{count}} with your opponent",
+    "finished_count": "{{count}} finished",
+    "nothing_else": "Nothing else in progress",
+    "waiting_on_them": "Waiting on them"
+  },
   "games": {
-    "heading": "Your games",
-    "empty": "No games yet. Invite someone to start one.",
-    "your_turn": "Your turn",
-    "their_turn": "Their turn",
     "new_invite": "New invite",
     "loading": "Loading your games"
   },
   "invites": {
-    "received": "Invites for you",
-    "received_empty": "Nobody has invited you yet.",
-    "sent": "Invites you sent",
-    "sent_empty": "You haven't invited anyone yet.",
     "terms": "{{setup}}, you play {{side}}",
     "declined": "Turned down",
     "accept": "Accept",
@@ -22,11 +23,11 @@
     "dismiss": "Dismiss",
     "heading": "Invites",
     "sent_heading": "Sent",
-    "just_sent": "Just sent · waiting for them to accept"
+    "just_sent": "Waiting for them to accept"
   },
   "history": {
     "heading": "Finished games",
-    "empty": "Nothing here yet. Your finished games land here.",
+    "empty": "No finished games yet.",
     "heading_short": "Finished",
     "see_all": "See all {{count}}",
     "title": "Finished games",
@@ -56,7 +57,7 @@
   },
   "compose": {
     "title": "New invite",
-    "body": "They pick it up whenever they next open the app. Neither of you has to be here at the same time.",
+    "body": "They pick it up next time they open the app.",
     "username": "Who are you playing?",
     "username_placeholder": "Their name",
     "setup": "Opening",
@@ -78,13 +79,9 @@
     "head_to_head": "Past wins",
     "head_to_head_detail": "Before this game: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
-  "offline": {
-    "heading": "Play offline",
-    "note": "An offline game lives in the tab you started it in. Close it and it is gone, and nothing about it reaches your account."
-  },
   "empty": {
     "title": "Nothing here yet",
-    "body": "Invite somebody by their name and the game appears here. Games wait for you, so a move a day is a perfectly good game.",
-    "play_bot": "Play a bot while you wait"
+    "body": "Invite somebody by name and the game starts here.",
+    "play_bot": "Play a bot"
   }
 }

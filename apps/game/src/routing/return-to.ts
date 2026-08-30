@@ -1,5 +1,5 @@
 /**
- * Where the login screen may send someone afterwards.
+ * Where signing in may send someone afterwards.
  *
  * A closed set of tokens rather than a validated path: `?redirect=` is a
  * parameter a stranger can write, and this is what makes "send them where they
@@ -8,27 +8,28 @@
  * you followed a link to is the same as losing the link.
  *
  * A token, not a path, because one of these destinations is not a route: the
- * invite composer is an overlay on home, so "go there" means home plus a search
- * parameter. Mapping tokens to navigation options here keeps that split in the
- * one file that already knows which destinations are allowed at all.
+ * invite composer is an overlay on the hub, so "go there" means the hub plus a
+ * search parameter. Mapping tokens to navigation options here keeps that split
+ * in the one file that already knows which destinations are allowed at all.
  *
  * The one token that carries anything is a game, and what it carries is checked
- * to be an id rather than a path. `/game/online/../../evil` never matches.
+ * to be an id rather than a path. `/online/../../evil` never matches.
  */
 
 const FIXED_ROUTES = {
   "/": { to: "/" },
-  /** Home, with the invite composer already open over it. */
-  "/invite": { to: "/", search: { invite: "new" } },
-  "/games": { to: "/games", search: { page: 1 } },
+  "/online": { to: "/online" },
+  /** The hub, with the invite composer already open over it. */
+  "/invite": { to: "/online", search: { invite: "new" } },
+  "/online/history": { to: "/online/history", search: { page: 1 } },
 } as const satisfies Record<string, { to: string; search?: object }>
 
 type FixedRoute = keyof typeof FIXED_ROUTES
 
 const GAME_PATH =
-  /^\/game\/online\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i
+  /^\/online\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i
 
-export type ReturnTo = FixedRoute | `/game/online/${string}`
+export type ReturnTo = FixedRoute | `/online/${string}`
 
 /** The front door: where a sign-in with nowhere else to be ends up. */
 export const DEFAULT_RETURN_TO: ReturnTo = "/"
@@ -50,7 +51,7 @@ export function returnToOptions(returnTo: ReturnTo) {
   const game = returnTo.match(GAME_PATH)
   if (game) {
     return {
-      to: "/game/online/$gameId",
+      to: "/online/$gameId",
       params: { gameId: game[1] },
     } as const
   }

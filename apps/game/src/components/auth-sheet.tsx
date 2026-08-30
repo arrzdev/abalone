@@ -1,55 +1,41 @@
 import { useTranslation } from "react-i18next"
 import { AuthForm } from "@/components/auth-form"
 import { Sheet } from "@/components/ui/sheet"
-import type { ReturnTo } from "@/routing/return-to"
 
 export type AuthSheetProps = {
   open: boolean
-  /** Where the player was going. It decides what the sheet says, not what it does. */
-  destination: ReturnTo | null
   onClose: () => void
   onAuthenticated: () => void
 }
 
 /**
- * Signing in without leaving the screen: the form, in a drawer.
+ * Signing in without leaving the screen: the form, in an overlay.
  *
  * A phone has one screen at a time, so sending someone to a login page means
  * losing whatever they were looking at and coming back to it by way of a
- * redirect. The drawer keeps the page underneath and hands the thumb the form,
- * which is also where the keyboard already is.
+ * redirect. The overlay keeps the page underneath and hands the thumb the form,
+ * which is also where the keyboard already is. Above `lg` the same overlay is a
+ * centred dialog, which is `Sheet`'s split rather than a decision taken here.
  *
- * The copy leans on where they were headed: online play has a reason it needs an
- * account, and saying it there beats a bare "sign in" over a form they did not
- * ask for.
+ * The heading is the form's own, because it changes with the tab: "Sign in to
+ * play online" and "Pick a name" are two different asks and the switch between
+ * them is inside the form. What stays here is the name the overlay answers to,
+ * off the screen and in the accessibility tree, where a control that changes
+ * under a screen reader would be worse than a fixed one.
  */
 export function AuthSheet({
   open,
-  destination,
   onClose,
   onAuthenticated,
 }: AuthSheetProps) {
   const { t } = useTranslation()
-  const forOnlinePlay = destination === "/invite"
-
-  const title = forOnlinePlay
-    ? t("common:auth.prompt_title")
-    : t("common:auth.sign_in")
-  const description = forOnlinePlay
-    ? t("common:auth.prompt_body")
-    : undefined
 
   return (
-    //"Entrar" over a switch whose left half says "Entrar" is the word twice in
-    //two lines. It stays for a screen reader, which has no switch to look at —
-    //and when there is a reason to be asking at all, the heading is that reason
-    //rather than the name of the form, so it is on the screen.
     <Sheet
       open={open}
       onClose={onClose}
-      title={title}
-      hideTitle={!forOnlinePlay}
-      description={description}
+      title={t("common:auth.prompt_title")}
+      hideTitle
     >
       <AuthForm onAuthenticated={onAuthenticated} />
     </Sheet>

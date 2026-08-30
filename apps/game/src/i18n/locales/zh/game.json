@@ -1,15 +1,15 @@
 {
   "meta": {
     "title": "在线玩角力棋 (Abalone)：机器人对战或双人对战 | 免费",
-    "description": "在浏览器中免费玩角力棋 (Abalone)。可与 8 种强度的机器人对战，可在同一台设备上两人轮流对弈，也可邀请好友在线对战。九种棋盘布局、完整走子记录与评估条。无需下载。",
+    "description": "在浏览器中免费玩角力棋 (Abalone)。可与 8 种强度的机器人对战，可在同一台设备上两人对弈，也可邀请好友在线对战。无需下载。",
     "keywords": "角力棋, Abalone, 角力棋 在线, 角力棋 浏览器, 角力棋 机器人, 角力棋 双人, 免费 角力棋, 角力棋 棋盘布局, 角力棋 规则",
     "og_title": "在浏览器中玩角力棋 (Abalone)",
-    "og_description": "可与 8 种强度的机器人对战，可在同一台设备上两人对弈，也可邀请好友在线对战。九种棋盘布局、完整走子记录与评估条。免费，无需下载。",
+    "og_description": "与 8 种强度的机器人对战，在同一台设备上两人对弈，或邀请好友在线对战。免费，无需下载。",
     "twitter_title": "在浏览器中玩角力棋 (Abalone)",
-    "twitter_description": "8 种强度的机器人、同一台设备上的双人对弈，或按自己节奏进行的在线对战。九种棋盘布局与完整走子记录。免费，无需下载。",
+    "twitter_description": "8 种强度的机器人、同一台设备上的双人对弈，或按自己节奏进行的在线对战。免费，无需下载。",
     "structured_data": {
       "name": "Abalone",
-      "description": "与 8 种强度的机器人对战，在同一台设备上两人轮流对弈，或邀请好友在线对战角力棋 (Abalone)。九种棋盘布局（Standard、Belgian Daisy、German Daisy、Dutch Daisy、Swiss Daisy、Alien、Domination、Infiltration、The Wall）、完整走子记录与评估条。浏览器中免费游玩，无需下载。",
+      "description": "与 8 种强度的机器人对战，在同一台设备上两人对弈，或邀请好友在线对战。九种棋盘布局与完整走子记录。浏览器中免费游玩。",
       "audience": "桌游玩家与策略游戏爱好者"
     }
   },
@@ -55,15 +55,15 @@
     "mode_ai": "对战电脑",
     "mode_local": "双人对战",
     "sound": "音效",
-    "sound_hint": "棋子落位的声音，以及棋子被推出棋盘的声音",
+    "sound_hint": "棋子落位和被推出棋盘的声音",
     "mute": "静音",
     "unmute": "取消静音",
     "move_animations": "走子动画",
-    "move_animations_hint": "让棋子滑向新的位置",
+    "move_animations_hint": "棋子滑动，而不是跳跃",
     "rotate_board": "每回合旋转棋盘",
-    "rotate_board_hint": "翻转棋盘，让走子的一方始终位于下方",
-    "show_coordinates_hint": "在每个格子内显示轴坐标",
-    "show_eval_bar_hint": "引擎对局面的评估（仅限人机对局）",
+    "rotate_board_hint": "走子的一方始终在下方",
+    "show_coordinates_hint": "在每个格子里显示坐标",
+    "show_eval_bar_hint": "谁占优势（仅人机对局）",
     "side_group": "执子颜色",
     "side_white": "执白",
     "side_black": "执黑",
@@ -82,7 +82,7 @@
     "you_win": "你赢了！",
     "opponent_won": "{{opponent}} 获胜！",
     "draw": "平局！",
-    "victory_message": "恭喜！你击败了 {{difficulty}} 难度的机器人。",
+    "victory_message": "你击败了 {{difficulty}} 难度的机器人。",
     "defeat_message": "{{difficulty}} 难度的机器人赢得了本局。",
     "draw_message": "本局以平局结束。",
     "rematch_button": "再来一局",
@@ -90,37 +90,38 @@
     "by_resignation": "认输",
     "by_repetition": "三次重复局面",
     "resign_title": "要认输吗？",
-    "resign_body": "对局将立即结束，胜利归对手所有。此操作无法撤销。",
+    "resign_body": "对手获胜，且无法撤销。",
+    "keep_playing": "继续对局",
     "game_over": "对局结束",
     "moves": "{{count}} 步"
   },
   "rules": {
     "title": "游戏玩法",
-    "intro": "阿巴隆是两人对弈的游戏，棋盘为 61 格的六边形。双方各有 14 颗棋子，每回合走一步。",
+    "intro": "整个游戏，五条简短的规则。",
     "goal": {
       "title": "目标",
-      "body": "把对手的六颗棋子推出棋盘。整个游戏就是这样，没有别的要计算。"
+      "body": "把对手的六颗棋子推出棋盘。"
     },
     "directions": {
       "title": "六个方向",
-      "body": "每一格都与另外六格相邻，所以棋子可以朝六个方向移动。没有斜走，也不能跳过：棋子只能走到紧邻的一格。",
-      "caption": "单颗棋子可走的六个方向。"
+      "body": "棋子朝六个方向之一走一格。没有斜走，也不能跳过。",
+      "caption": "六个方向。"
     },
     "move": {
       "title": "移动棋子",
-      "body": "轮到你时，可以移动自己的一颗、两颗或三颗棋子。两颗或三颗必须在一条直线上相邻，并且一起朝同一方向走一格。",
-      "inline_caption": "直线推进：整排沿着它本来的方向前进。",
-      "broadside_caption": "横向平移：整排向侧面移动，落点各格都必须是空的。"
+      "body": "每次移动自己的一到三颗棋子。两颗或三颗必须在一条直线上，一起移动。",
+      "inline_caption": "直线推进：整排沿着自己的方向前进。",
+      "broadside_caption": "横向平移：整排移到空着的格子。"
     },
     "push": {
       "title": "推挤",
-      "body": "只有直线移动才能推挤。你在那条线上的棋子必须多于对手：二对一、三对一或三对二。对手棋子后面的一格必须是空的。",
+      "body": "只有直线移动才能推挤，而且你的棋子要多于对手：二对一，或三对一、三对二。对手棋子后面的一格必须是空的。",
       "ok_caption": "三对二：整条线前进一格。",
-      "blocked_caption": "三对三永远推不动，也绝不能推自己的棋子。"
+      "blocked_caption": "数目相同就推不动，也不能推自己的棋子。"
     },
     "capture": {
       "title": "把棋子推出棋盘",
-      "body": "被推出边界的棋子就此离场。先把对手六颗棋子推出棋盘的一方获胜。",
+      "body": "被推出边界的棋子在这局里不再回来。",
       "caption": "边缘上的二对一：黑子出局。"
     },
     "cta": "立即游戏"
@@ -140,7 +141,7 @@
   },
   "local": {
     "title": "两人共用一台设备",
-    "description": "黑方先行，之后轮流走子。在设置中开启棋盘旋转，棋盘就会转向当前走子的一方。",
+    "description": "黑方先行，之后轮流走子。",
     "black": "黑方",
     "white": "白方",
     "names": "玩家名称",

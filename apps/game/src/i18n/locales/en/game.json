@@ -1,15 +1,15 @@
 {
   "meta": {
     "title": "Play Abalone Online, vs Bots, or Pass and Play | Free",
-    "description": "Play Abalone free in your browser. Take on a bot at eight strengths, pass and play on one device, or invite someone to a game online. Nine board setups, a full move history and an evaluation bar. No download.",
+    "description": "Play Abalone free in your browser. Take on a bot at eight strengths, pass and play on one device, or invite someone to a game online. No download.",
     "keywords": "play abalone, abalone online, abalone browser game, abalone vs computer, abalone bot, abalone pass and play, abalone two player, free abalone game, abalone board setups, how to play abalone",
     "og_title": "Play Abalone in Your Browser",
-    "og_description": "Take on a bot at eight strengths, pass and play on one device, or invite someone to a game online. Nine board setups, a full move history and an evaluation bar. Free, no download.",
+    "og_description": "Take on a bot at eight strengths, pass and play on one device, or invite someone to a game online. Free, no download.",
     "twitter_title": "Play Abalone in Your Browser",
-    "twitter_description": "A bot at eight strengths, pass and play on one device, or a game online at your own pace. Nine board setups and a full move history. Free, no download.",
+    "twitter_description": "A bot at eight strengths, pass and play on one device, or a game online at your own pace. Free, no download.",
     "structured_data": {
       "name": "Abalone",
-      "description": "Play Abalone against a bot at eight strengths, pass and play with someone on the same device, or invite someone to a game online. Nine board setups (Standard, Belgian Daisy, German Daisy, Dutch Daisy, Swiss Daisy, Alien, Domination, Infiltration, The Wall), a full move history and an evaluation bar. Free in the browser, no download.",
+      "description": "Play Abalone against a bot at eight strengths, pass and play on one device, or invite someone to a game online. Nine board setups and a full move history. Free in the browser.",
       "audience": "Board game players and strategy game enthusiasts"
     }
   },
@@ -55,15 +55,15 @@
     "mode_ai": "vs Computer",
     "mode_local": "Pass & Play",
     "sound": "Sound",
-    "sound_hint": "Marbles landing, and marbles going off the board",
+    "sound_hint": "Marbles landing and falling off",
     "mute": "Mute",
     "unmute": "Unmute",
     "move_animations": "Move animations",
-    "move_animations_hint": "Slide marbles to their new square",
+    "move_animations_hint": "Marbles slide instead of jumping",
     "rotate_board": "Rotate board each turn",
-    "rotate_board_hint": "Flip the board so the side to move is always at the bottom",
-    "show_coordinates_hint": "Print the axial coordinate inside every cell",
-    "show_eval_bar_hint": "How the engine rates the position (bot games only)",
+    "rotate_board_hint": "The side to move stays at the bottom",
+    "show_coordinates_hint": "A coordinate in every cell",
+    "show_eval_bar_hint": "Who is ahead, in bot games",
     "side_group": "Side to play",
     "side_white": "Play as white",
     "side_black": "Play as black",
@@ -82,7 +82,7 @@
     "you_win": "You Win!",
     "opponent_won": "{{opponent}} Won!",
     "draw": "Draw!",
-    "victory_message": "Congratulations! You defeated the {{difficulty}} bot.",
+    "victory_message": "You defeated the {{difficulty}} bot.",
     "defeat_message": "The {{difficulty}} bot won this game.",
     "draw_message": "The game ended in a draw.",
     "rematch_button": "Rematch",
@@ -90,38 +90,39 @@
     "by_resignation": "by resignation",
     "by_repetition": "by threefold repetition",
     "resign_title": "Resign the game?",
-    "resign_body": "The game ends right away and the win goes to your opponent. This cannot be undone.",
+    "resign_body": "Your opponent wins, and this cannot be undone.",
+    "keep_playing": "Keep playing",
     "game_over": "Game over",
     "moves": "{{count}} moves"
   },
   "rules": {
     "title": "How to play",
-    "intro": "Abalone is a game for two players on a hexagonal board of 61 spaces. Each side starts with 14 marbles and moves once per turn.",
+    "intro": "The whole game, in five short rules.",
     "goal": {
       "title": "The goal",
-      "body": "Push six of your opponent's marbles off the board. That is the whole game. There is nothing else to count."
+      "body": "Push six of your opponent's marbles off the board."
     },
     "directions": {
       "title": "Six directions",
-      "body": "Every space touches six others, so a marble can move in any of six directions. There are no diagonals and no jumps. A marble always moves to a space right beside it.",
-      "caption": "The six directions open to a single marble."
+      "body": "A marble moves one space in any of six directions. There are no diagonals and no jumps.",
+      "caption": "The six directions."
     },
     "move": {
       "title": "Moving marbles",
-      "body": "On your turn you move one, two or three of your own marbles. Two or three must sit next to each other in a straight line, and they all move one space in the same direction.",
-      "inline_caption": "In line: the row advances along the direction it already points in.",
-      "broadside_caption": "Broadside: the row steps sideways, and every space it lands on must be empty."
+      "body": "Move one, two or three of your own marbles. Two or three must sit in a straight line and move together.",
+      "inline_caption": "In line: the row advances the way it points.",
+      "broadside_caption": "Broadside: the row steps sideways onto empty spaces."
     },
     "push": {
       "title": "Pushing",
-      "body": "Only a move in line can push. You need more marbles in that line than your opponent: two against one, three against one, or three against two. The space behind your opponent’s marbles must be empty.",
-      "ok_caption": "Three against two: the whole line shifts one space.",
-      "blocked_caption": "Three against three never moves, and you can never push your own marbles."
+      "body": "Only a move in line can push, and you need more marbles than your opponent: two against one, or three against one or two. The space behind theirs must be empty.",
+      "ok_caption": "Three against two: the line shifts one space.",
+      "blocked_caption": "Equal numbers never move, and you never push your own."
     },
     "capture": {
       "title": "Pushing marbles off",
-      "body": "A marble pushed past the edge is out for the rest of the game. The first player to knock six of the opponent's marbles off the board wins.",
-      "caption": "Two against one at the edge: the black marble is out."
+      "body": "A marble pushed past the edge is out for the rest of the game.",
+      "caption": "Two against one at the edge: black is out."
     },
     "cta": "Play now"
   },
@@ -140,7 +141,7 @@
   },
   "local": {
     "title": "Two players, one device",
-    "description": "Black moves first, then the turn passes. Turn on board rotation in settings to flip the board for whoever is to move.",
+    "description": "Black moves first, then you take turns.",
     "black": "Black",
     "white": "White",
     "names": "Player names",

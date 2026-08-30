@@ -1,10 +1,6 @@
 import type { Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
-import {
-  createFileRoute,
-  redirect,
-  useNavigate,
-} from "@tanstack/react-router"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import type { CSSProperties, ReactNode } from "react"
 import { useCallback, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -35,25 +31,16 @@ import { useHeadToHead } from "@/hooks/use-head-to-head"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { useOnlineGame } from "@/hooks/use-online-game"
 import { getSetupName } from "@/i18n/game-text"
-import { needsSignIn } from "@/routing/auth-guard"
 import { SignedInOnly } from "@/routing/signed-in-only"
 
-export const Route = createFileRoute("/_subpage/game/online/$gameId")({
-  beforeLoad: ({ params }) => {
-    if (!needsSignIn()) return
-    throw redirect({
-      to: "/login",
-      search: { redirect: `/game/online/${params.gameId}` },
-      replace: true,
-    })
-  },
+export const Route = createFileRoute("/_subpage/online/$gameId")({
   component: GuardedGameOnlineBoardPage,
 })
 
 function GuardedGameOnlineBoardPage() {
   const { gameId } = Route.useParams()
   return (
-    <SignedInOnly returnTo={`/game/online/${gameId}`}>
+    <SignedInOnly returnTo={`/online/${gameId}`}>
       <GameOnlineBoardPage />
     </SignedInOnly>
   )
@@ -87,7 +74,7 @@ function GameOnlineBoardPage() {
   const online = useOnlineGame(gameId, boardRef)
   const { game, state, mySeat } = online
 
-  const backToList = () => navigate({ to: "/" })
+  const backToList = () => navigate({ to: "/online" })
 
   const opponent = game
     ? mySeat === "black"
@@ -216,7 +203,7 @@ function GameOnlineBoardPage() {
             ? t("online:board.against", { name: opponentName })
             : t("online:title")
         }
-        backTo="/"
+        backTo="/online"
         action={settingsButton}
       />
 

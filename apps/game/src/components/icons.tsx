@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react"
 import {
   Bot,
+  Camera,
   Check,
   ChevronDown,
   ChevronLeft,
@@ -95,6 +96,7 @@ export const HomeIcon = glyph(House)
 
 /** Change picture: a photo, not a camera — the source is the library. */
 export const ImageIcon = glyph(ImageGlyph)
+export const CameraIcon = glyph(Camera)
 
 export const EyeIcon = glyph(Eye)
 export const EyeOffIcon = glyph(EyeOff)

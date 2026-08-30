@@ -1,7 +1,6 @@
 import { cn } from "@repo/nativ/utils"
 import type { ComponentType } from "react"
 import type { IconProps } from "@/components/icons"
-import { ChevronRightIcon } from "@/components/icons"
 import { TapButton } from "@/components/ui/tap-button"
 
 const TONES = {
@@ -9,20 +8,17 @@ const TONES = {
     row: "bg-brand hover:bg-brand-hover",
     icon: "text-white",
     hint: "text-subtle",
-    chevron: "text-subtle",
   },
   neutral: {
     row: "bg-surface hover:bg-surface-2",
     icon: "text-muted",
     hint: "text-faint",
-    chevron: "text-faint",
   },
   /** The pair inside a panel, which is already `surface`. */
   sunken: {
     row: "bg-surface-2 hover:bg-surface-3",
     icon: "text-muted",
     hint: "text-faint",
-    chevron: "text-faint",
   },
 }
 
@@ -33,15 +29,18 @@ const SIZES = {
     icon: 22,
     title: "text-lg lg:text-[19px]",
     hint: "text-[13px]",
-    chevron: 19,
   },
-  /** Half a row, two side by side, where the choice is the smaller one. */
+  /**
+   * Half a row, two side by side, where the choice is the smaller one. Smaller
+   * in type and in width, not in height: the three of them sit in one block, and
+   * a pair ten pixels shorter than the row above reads as a row that came out
+   * wrong rather than as a quieter offer.
+   */
   tile: {
-    box: "h-[58px] gap-3 rounded-xl px-4",
+    box: "h-[68px] gap-3 rounded-2xl px-4",
     icon: 20,
     title: "text-[15px]",
     hint: "text-xs",
-    chevron: 0,
   },
 }
 
@@ -57,7 +56,7 @@ export type PlayOptionProps = {
 }
 
 /**
- * One way into a game, as a row: what it is, what it means, and an arrow.
+ * One way into a game, as a row: what it is and what it means.
  *
  * Online and offline are not the same button twice — one needs an account and a
  * connection, the other never asks for either — so each carries the line that
@@ -83,6 +82,11 @@ export function PlayOption({
   const scale = SIZES[size]
 
   return (
+    //no arrow. these are a set to choose from rather than a list of
+    //departures, and the one that carries the colour is already the loudest
+    //thing on the screen — an arrow on the end of it is a second way of saying
+    //press me. what an arrow does still belong to is the rules link under
+    //them, which really is somewhere else to go.
     <TapButton
       onClick={onClick}
       className={cn(
@@ -109,15 +113,6 @@ export function PlayOption({
           {hint}
         </span>
       </span>
-
-      {/* The pair has no arrow: side by side they read as a choice between two
-          things, and an arrow on each would make them two departures. */}
-      {scale.chevron > 0 && (
-        <ChevronRightIcon
-          size={scale.chevron}
-          className={cn("shrink-0", style.chevron)}
-        />
-      )}
     </TapButton>
   )
 }

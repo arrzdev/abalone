@@ -1,7 +1,7 @@
 import type { GameMode } from "@repo/abalone-engine/game-state"
 import type { CellName, Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import type { CSSProperties, ReactNode } from "react"
 import { useCallback, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -38,17 +38,23 @@ import { useAuth } from "@/providers/auth-provider"
 import { DECIDED } from "@/utils/evaluation"
 
 export type GameOfflineSearch = {
-  /** Which of the two offline games the setup panel opens on. */
+  /** Which of the two offline games this is. */
   mode?: GameMode
 }
 
 /**
- * `?mode=` is a starting position, not a setting: it seeds the panel and is not
- * read again, so switching modes on the screen never argues with the URL and
- * never rewrites it. Anything unrecognised is dropped and the panel opens on its
- * own default, which is what a hand-typed URL should get.
+ * `?mode=` is the switch in the setup panel, not a seed for it. The two are one
+ * piece of state, so the URL holds it and the switch reads it back — a copy in
+ * a `useState` would be a second answer, and the two would part company the
+ * first time either changed without the other.
+ *
+ * Written with `replace`, because flipping a switch is not somewhere you went:
+ * back belongs to the screen you came from, not to the tab you were last on.
+ *
+ * Anything unrecognised is dropped and the panel opens on its own default,
+ * which is what a hand-typed URL should get.
  */
-export const Route = createFileRoute("/_subpage/game/offline")({
+export const Route = createFileRoute("/_subpage/offline")({
   validateSearch: (
     search: Record<string, unknown>,
   ): GameOfflineSearch => ({
@@ -87,8 +93,16 @@ function GameOfflinePage() {
     [],
   )
 
-  const { mode: initialMode } = Route.useSearch()
-  const game = useAbaloneGame(boardRef, initialMode)
+  const { mode: searchMode } = Route.useSearch()
+  const navigate = useNavigate()
+
+  const chooseMode = useCallback(
+    (next: GameMode) =>
+      navigate({ to: "/offline", search: { mode: next }, replace: true }),
+    [navigate],
+  )
+
+  const game = useAbaloneGame(boardRef, searchMode ?? "ai", chooseMode)
   const {
     state,
     phase,
