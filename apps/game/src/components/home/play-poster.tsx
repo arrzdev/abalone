@@ -8,6 +8,7 @@ import { Reveal } from "@/components/ui/reveal"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
 import { usePlayActions } from "@/hooks/use-play-actions"
 import { BOT_LEVELS } from "@/i18n/bots"
+import { brandName } from "@/utils/brand"
 
 /**
  * The front door for anyone without an account: what the game is on one side,
@@ -42,7 +43,7 @@ export function PlayPoster() {
             phone the header two rows up already says "Abalone", and a 104px
             repeat of it is the screenful the buttons need. */}
         <h1 className="hidden font-display text-[104px] leading-[0.92] font-extrabold tracking-[-0.045em] text-white lg:block">
-          Abalone
+          {brandName()}
         </h1>
         {/* One line, in every language. 19px is the frame's size and fits the
             English string with room to spare; Portuguese is the longest of the

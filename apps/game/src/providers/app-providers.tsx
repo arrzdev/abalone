@@ -6,8 +6,13 @@ import { AuthProvider } from "@/providers/auth-provider"
 import { queryClient } from "@/providers/query-client"
 import { persistOptions } from "@/providers/query-persister"
 import { RealtimeProvider } from "@/providers/realtime-provider"
+import { applyBrandToDocument } from "@/utils/brand"
 //side-effect: initialises i18next before any component asks for a string
 import "@/i18n"
+
+//the tab title and the head's meta tags are baked into the shell at build time,
+//so nothing that renders can reach them — this is the one pass over the head
+applyBrandToDocument()
 
 /**
  * App-wide provider tree mounted by the nativ shell around the router outlet.

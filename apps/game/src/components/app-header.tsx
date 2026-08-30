@@ -19,6 +19,7 @@ import { useSignOut } from "@/hooks/use-sign-out"
 import { useAuthPrompt } from "@/providers/auth-prompt-provider"
 import { useAuth } from "@/providers/auth-provider"
 import { needsSignIn } from "@/routing/auth-guard"
+import { brandName } from "@/utils/brand"
 
 /**
  * The gear: the one thing in this bar that is not a place.
@@ -94,7 +95,7 @@ export function AppHeader({ className }: { className?: string }) {
         >
           <Logo className="size-[26px] lg:size-8" />
           <span className="font-display text-lg font-bold tracking-[-0.02em] text-white lg:text-xl">
-            Abalone
+            {brandName()}
           </span>
         </Link>
 
