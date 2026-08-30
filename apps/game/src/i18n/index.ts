@@ -1,6 +1,7 @@
-import type { Resource, ResourceKey } from "i18next"
+import type { PostProcessorModule, Resource, ResourceKey } from "i18next"
 import i18next from "i18next"
 import { initReactI18next } from "react-i18next"
+import { brandText } from "@/utils/brand"
 
 export const SUPPORTED_LANGUAGES = [
   "en",
@@ -102,14 +103,34 @@ function detectLanguage(): Language {
   return "en"
 }
 
-i18next.use(initReactI18next).init({
-  lng: detectLanguage(),
-  fallbackLng: "en",
-  ns: ["common", "game", "bots", "errors", "online"],
-  defaultNS: "game",
-  resources,
-  interpolation: { escapeValue: false },
-})
+/**
+ * The easter egg, applied to finished text rather than to the locale files.
+ *
+ * A post-processor runs after interpolation and after the fallback chain, so it
+ * is the one place every string in the app passes through — thirteen languages
+ * and five namespaces included — and the locale files stay the plain
+ * translations they are.
+ */
+const brandPostProcessor: PostProcessorModule = {
+  type: "postProcessor",
+  name: "brand",
+  process(value) {
+    return brandText(value)
+  },
+}
+
+i18next
+  .use(brandPostProcessor)
+  .use(initReactI18next)
+  .init({
+    lng: detectLanguage(),
+    fallbackLng: "en",
+    ns: ["common", "game", "bots", "errors", "online"],
+    defaultNS: "game",
+    resources,
+    interpolation: { escapeValue: false },
+    postProcess: "brand",
+  })
 
 export function changeLanguage(language: Language): void {
   if (!isSupported(language)) return
