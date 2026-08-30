@@ -115,6 +115,18 @@ export function toGameState(
   const moveHistory = moves.map(toHistoryEntry)
   const latest = Math.max(0, moveHistory.length - 1)
 
+  //the row and the plies are two requests, and the row is the quick one — so a
+  //game the opponent has just won says "finished" a whole round trip before the
+  //move that won it is here. Believed then, the result goes up over the position
+  //BEFORE the winning move, comes down when the plies land and the move plays
+  //out, and goes back up after it: the panel swapping to its postgame form and
+  //back, and the modal blinking, over a board that has not moved yet.
+  //
+  //the row carries the count its own ending was reached at, so it says when it
+  //is safe to believe. Until the history has caught up with that number, this
+  //is a game still in progress as far as anything reading it is concerned.
+  const settled = game.moveCount === latest
+
   const base: GameState = {
     ...createGameState(game.setupType, mySeat, "online"),
     moveHistory,
@@ -123,9 +135,9 @@ export function toGameState(
     setupType: game.setupType,
     mode: "online",
     shouldFlipBoard: mySeat === "white",
-    gameOver: game.status === "finished",
-    gameOverReason: game.finishReason,
-    winner: game.winner,
+    gameOver: settled && game.status === "finished",
+    gameOverReason: settled ? game.finishReason : null,
+    winner: settled ? game.winner : null,
   }
 
   return goToMove(base, Math.min(viewIndex ?? latest, latest))
@@ -218,6 +230,16 @@ export function useOnlineGame(
   const game = gameQuery.data
   const moves = useMemo(() => movesQuery.data ?? [], [movesQuery.data])
   const mySeat = game ? seatOf(game, myUserId) : null
+
+  /**
+   * Whether the two halves of the game agree.
+   *
+   * The row and the plies are separate requests and the row is the quick one, so
+   * between the two there is a window where this device knows a move exists and
+   * cannot draw it. Nothing that speaks for the game as it stands is true in
+   * that window, which is why this is read in more than one place.
+   */
+  const caughtUp = !!game && game.moveCount === moves.length - 1
 
   /**
    * The poll notices; this fetches.
@@ -467,9 +489,14 @@ export function useOnlineGame(
     mySeat !== null &&
     mySeat === game.currentTurn &&
     !viewingHistory &&
-    //the row already says it is your turn while their move is still sliding
-    //across the board, and a tap landing in that gap would play from a position
-    //nobody has been shown yet
+    //the row arrives a round trip ahead of the plies, so it says it is your turn
+    //while the board is still showing the position before their move. A tap in
+    //that gap reads its marbles off the old board and submits them against the
+    //new `moveCount`, which is a move nobody chose being played on a position
+    //nobody was shown.
+    caughtUp &&
+    //and then the same gap again on the other side of it, while their move is
+    //sliding across the board
     replay === null &&
     !play.isPending
 
