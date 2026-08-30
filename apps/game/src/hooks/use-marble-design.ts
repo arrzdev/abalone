@@ -13,7 +13,7 @@ import { PREF_PREFIX, parseStored, serialize } from "@/utils/preferences"
 export function useMarbleDesign() {
   return usePersistentState<MarbleDesign>(
     `${PREF_PREFIX}marbleDesign`,
-    "default",
+    "3d",
     (raw) => {
       const saved = parseStored(raw)
       return typeof saved === "string" && hasDesign(saved) ? saved : null
