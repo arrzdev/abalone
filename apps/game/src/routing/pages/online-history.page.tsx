@@ -73,7 +73,7 @@ function GamesPage() {
 
       <Screen>
         <ScrollView className="px-safe" directionalLockEnabled>
-          <div className="mx-auto flex w-full max-w-[880px] flex-col gap-5 px-4 pt-5 pb-safe-offset-10 lg:px-12 lg:pt-9">
+          <div className="mx-auto flex min-h-full w-full max-w-[880px] flex-col gap-5 px-4 pt-5 pb-safe-offset-10 lg:max-w-[1100px] lg:px-12 lg:pt-9">
             <div className="flex items-end justify-between gap-4">
               {/* Above `lg` only: on a phone the bar above already carries
                   both the title and the way back. */}
@@ -110,10 +110,26 @@ function GamesPage() {
               </div>
             </div>
 
+            {/* In the middle of what is left, not tucked under the heading. On
+                a desktop the rows would have filled the screen, and a single
+                grey line in the top corner of all that black reads as a page
+                that failed to load rather than as one with nothing in it.
+
+                A way out under it, because there is nothing else to do here:
+                the record above is zeroes, and the games it counts are
+                started in the hub. */}
             {sorted.length === 0 && (
-              <p className="text-sm leading-relaxed text-faint">
-                {t("online:history.empty")}
-              </p>
+              <div className="flex flex-1 flex-col items-center justify-center gap-5 pb-10 text-center">
+                <p className="max-w-[380px] text-[15px] leading-relaxed text-balance text-muted">
+                  {t("online:history.empty")}
+                </p>
+                <Link
+                  to="/online"
+                  className="inline-flex min-h-13 items-center justify-center rounded-xl bg-brand px-7 font-display text-[17px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
+                >
+                  {t("common:nav.online")}
+                </Link>
+              </div>
             )}
 
             {rows.length > 0 && (
