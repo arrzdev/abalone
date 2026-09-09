@@ -3,6 +3,44 @@
 @import "@repo/nativ/styles.css";
 
 /*
+ * Which way round a board screen is laid out: the panel beside the board, or
+ * under it.
+ *
+ * It used to be `lg:` and `max-lg:`, which is to say it was a question about
+ * width — and width is only half of it. Stacking costs height: a header, a
+ * board, the evaluation bar and a panel that cannot go under about 254px
+ * without losing the row of actions along its bottom. A phone held sideways has
+ * width to spare and about 320px of height to spend, so the stack it was given
+ * was one the screen could not pay for — the board squeezed to nothing and the
+ * panel still short.
+ *
+ * Beside the board that same screen is comfortable: the board is bound by
+ * height, the panel takes a column of its own, and the 320px is the full height
+ * of both rather than something to divide up.
+ *
+ * So the row layout is asked for two ways. Plenty of width — the desktop case,
+ * unchanged at `lg`. Or enough width for two columns and too little height for
+ * two rows: 40rem across, under 34rem tall. Which is every phone on its side
+ * and no phone upright — the tallest thing in that second clause is 544px, and
+ * a portrait phone is taller than that before its browser has taken a bite.
+ *
+ * `stacked` is the exact complement, written out rather than negated: `@media
+ * not (…)` around a compound condition is newer than the range syntax it would
+ * sit next to, and De Morgan is free.
+ */
+@custom-variant beside {
+  @media (width >= 64rem) or ((width >= 40rem) and (height < 34rem)) {
+    @slot;
+  }
+}
+
+@custom-variant stacked {
+  @media (width < 64rem) and ((width < 40rem) or (height >= 34rem)) {
+    @slot;
+  }
+}
+
+/*
  * The game is dark, and only dark. nativ's pre-paint script stamps `.light` or
  * `.dark` on <html> from the saved preference, so every token is declared on
  * `:root` and neither class overrides it — whichever way the shell resolves, the
@@ -534,9 +572,16 @@
  * list, which are boxes with more in them than they show and no other way of
  * saying so. Same reason for the `display`s below.
  */
+/* `none` rather than `contain`, which is the half of it that only stops the
+   scroll reaching the page behind. The other half is the bounce the box makes
+   at its own ends, and on a phone that is what a move list scrolled to the last
+   move does under your thumb: the whole record slides up off its box and drops
+   back. There is nothing past the end of a game to look at, so there is nothing
+   for the give to be showing. The page itself is already `overscroll-none`; this
+   is every box inside it saying the same. */
 .panel-scroll {
   scrollbar-width: auto !important;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
 }
 
 /* Every part of the lane, and every one of them transparent — the panel behind
@@ -595,7 +640,7 @@
 .strip-scroll {
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
 }
 .strip-scroll::-webkit-scrollbar {
   display: none;

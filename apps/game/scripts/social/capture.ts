@@ -38,6 +38,11 @@ const OUTPUT_DIR = path.resolve(
  * while the game screen at that height spends the difference on a scrollbar.
  * So each card names the width it is framed best at, and the scale that brings
  * it back to the one output size.
+ *
+ * The poster also names the app header as something to leave out. The board
+ * screens are pictures of the app and the header belongs in them; the front
+ * door is a poster, and a nav bar across the top of it is what makes a shared
+ * link unfurl into a website rather than into a game.
  */
 /**
  * JPEG, not PNG, and for a reason that is not about the picture: the service
@@ -50,7 +55,17 @@ const OUTPUT_DIR = path.resolve(
 const JPEG_QUALITY = 92
 
 const FRAMES = {
-  poster: { viewport: { width: 1200, height: 630 }, scale: 2 },
+  poster: {
+    viewport: { width: 1200, height: 630 },
+    scale: 2,
+    //the poster is the card, and the app header is not part of it: a shared
+    //link should unfurl into the game, not into a screenshot of a website with
+    //a nav bar across the top. So the window is opened as much taller than the
+    //card as the header turns out to be, and the header is cropped back off —
+    //which leaves the poster laid out in the card's own 1200×630 rather than in
+    //what is left of it.
+    withoutHeader: true,
+  },
   screen: { viewport: { width: 1600, height: 840 }, scale: 1.5 },
 } as const
 
@@ -164,6 +179,19 @@ const HIDE_SCROLLBARS = `
 
 type Frame = (typeof FRAMES)[keyof typeof FRAMES]
 
+/**
+ * How tall the app header is at this width, measured rather than tabulated —
+ * it is `h-14` on a phone and `h-17` above `lg`, and a card framed at 1200 is
+ * on the wrong side of that line often enough to be worth reading.
+ *
+ * Zero if the page has no header, which is not a failure: the crop below then
+ * takes the top of the window, which is where the content starts anyway.
+ */
+async function headerHeight(page: Page): Promise<number> {
+  const box = await page.locator("header").first().boundingBox()
+  return box ? Math.round(box.height) : 0
+}
+
 async function card(
   browser: Browser,
   filename: string,
@@ -178,12 +206,31 @@ async function card(
   })
   const page = await context.newPage()
 
+  //Measured on its own load, before the card is arranged, so that `arrange`
+  //runs at the height the shot is finally taken at. Growing the window after
+  //the position was set up would re-letterbox the board and re-run the reveal.
+  let top = 0
+  if ("withoutHeader" in frame && frame.withoutHeader) {
+    await page.goto(`${BASE_URL}/`, { waitUntil: "load" })
+    top = await headerHeight(page)
+    await page.setViewportSize({
+      width: frame.viewport.width,
+      height: frame.viewport.height + top,
+    })
+  }
+
   await arrange(page)
   await page.addStyleTag({ content: HIDE_SCROLLBARS })
   await page.screenshot({
     path: path.join(OUTPUT_DIR, filename),
     quality: JPEG_QUALITY,
     type: "jpeg",
+    clip: {
+      x: 0,
+      y: top,
+      width: frame.viewport.width,
+      height: frame.viewport.height,
+    },
   })
 
   await context.close()

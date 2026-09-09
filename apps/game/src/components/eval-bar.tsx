@@ -92,8 +92,9 @@ export function EvalColumn({
  * turning the setting off mid-game, would move every marble on the screen. The
  * eighteen pixels are cheap and the board staying still is not.
  *
- * Desktop only. Below `lg` the panel is the whole screen and the reading lies
- * down under the board instead.
+ * Wherever the panel is beside the board — a desktop, and a phone on its side.
+ * In the stacked layout the panel is the whole width of the screen and the
+ * reading lies down under the board instead.
  */
 export function EvalRail({
   score,
@@ -104,7 +105,7 @@ export function EvalRail({
   label?: string
 }) {
   return (
-    <div className="w-[18px] shrink-0 max-lg:hidden">
+    <div className="w-[18px] shrink-0 stacked:hidden">
       {score !== undefined && label !== undefined && (
         <EvalColumn score={score} label={label} className="h-full" />
       )}

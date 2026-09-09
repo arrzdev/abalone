@@ -27,6 +27,7 @@ import {
 import { SyncNotice } from "@/components/ui/sync-notice"
 import { TapButton } from "@/components/ui/tap-button"
 import { useShowCoordinates } from "@/hooks/use-app-preferences"
+import { usePanelFloor } from "@/hooks/use-compact-panel"
 import { useHeadToHead } from "@/hooks/use-head-to-head"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { useOnlineGame } from "@/hooks/use-online-game"
@@ -61,6 +62,9 @@ function GameOnlineBoardPage() {
   const navigate = useNavigate()
   const { gameId } = Route.useParams()
   const boardRef = useRef<GameCanvasHandle>(null)
+  //the fixed head of the panel — the seat card and the sync notice under it —
+  //which is what the panel's floor is measured on top of.
+  const { ref: panelHeadRef, floor: panelFloor } = usePanelFloor()
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [resignOpen, setResignOpen] = useState(false)
   const [resultDismissed, setResultDismissed] = useState(false)
@@ -218,7 +222,7 @@ function GameOnlineBoardPage() {
   )
 
   return (
-    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden select-none lg:flex-row lg:gap-4 lg:p-4">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden select-none">
       <SubpageHeader
         //who you are playing, which is the one thing about this game that is
         //not already drawn on the board below it
@@ -231,107 +235,119 @@ function GameOnlineBoardPage() {
         action={settingsButton}
       />
 
-      <section
-        className="flex min-h-0 min-w-0 flex-1 flex-col gap-1.5 max-lg:flex-initial max-lg:px-2 max-lg:py-2"
-        aria-label={t("game:board.label")}
-      >
-        <div
-          className="flex min-h-0 min-w-0 flex-1 flex-col items-center gap-1.5 max-lg:flex-initial"
-          style={
-            {
-              "--board-w": board.width ? `${board.width}px` : "100%",
-              "--board-h": board.height ? `${board.height}px` : "100%",
-            } as CSSProperties
-          }
+      {/* The board and the panel, whichever way round they go — see the offline
+          board, which is laid out the same way. */}
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col beside:flex-row lg:gap-4 lg:p-4">
+        <section
+          className="flex min-h-0 min-w-0 flex-1 flex-col gap-1.5 max-lg:px-2 max-lg:py-2 stacked:flex-initial"
+          aria-label={t("game:board.label")}
         >
-          <div className="flex min-h-0 w-full flex-1 items-center justify-center max-lg:aspect-[8/7] max-lg:max-h-[48vh] max-lg:flex-initial">
-            <GameCanvas
-              ref={boardRef}
-              state={state}
-              possibleMoves={online.possibleMoves}
-              marbleDesign={marbleDesign}
-              showCoordinates={showCoordinates}
-              notice={online.viewingHistory ? historyNotice : null}
-              noticeAction={t("game:controls.jump_to_latest")}
-              onReturnToLatest={online.goToLatestMove}
-              interactive={online.interactive}
-              onCellClick={online.handleCellClick}
-              onDragSelect={online.handleDragSelect}
-              onHover={online.setHoveredCell}
-              onResize={handleBoardResize}
-            />
+          <div
+            className="flex min-h-0 min-w-0 flex-1 flex-col items-center gap-1.5 stacked:flex-initial"
+            style={
+              {
+                "--board-w": board.width ? `${board.width}px` : "100%",
+                "--board-h": board.height ? `${board.height}px` : "100%",
+              } as CSSProperties
+            }
+          >
+            <div className="flex min-h-0 w-full flex-1 items-center justify-center stacked:aspect-[8/7] stacked:max-h-[48vh] stacked:flex-initial">
+              <GameCanvas
+                ref={boardRef}
+                state={state}
+                possibleMoves={online.possibleMoves}
+                marbleDesign={marbleDesign}
+                showCoordinates={showCoordinates}
+                notice={online.viewingHistory ? historyNotice : null}
+                noticeAction={t("game:controls.jump_to_latest")}
+                onReturnToLatest={online.goToLatestMove}
+                interactive={online.interactive}
+                onCellClick={online.handleCellClick}
+                onDragSelect={online.handleDragSelect}
+                onHover={online.setHoveredCell}
+                onResize={handleBoardResize}
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <aside
-        className={cn(
-          "flex w-full flex-col overflow-hidden bg-surface",
-          "max-lg:min-h-0 max-lg:flex-1 max-lg:rounded-none max-lg:border-0",
-          "lg:min-h-0 lg:w-[380px] lg:shrink-0 lg:rounded-2xl",
-        )}
-      >
-        <SeatBar
-          seats={(["black", "white"] as Player[]).map(seatFor)}
-          record={headToHead}
-          marbleDesign={marbleDesign}
-          note={{
-            text: online.error ?? statusLine ?? null,
-            //the line names whoever the game is waiting for, so it is written
-            //at that player's end and the rule notches up at their face: "your
-            //move" and "waiting for them" become the same sentence read off
-            //which side of the card it is on. A result or a failure is about
-            //neither of them and stays in the middle.
-            side: online.error ? undefined : turnSide,
-            tone: online.error ? "error" : "plain",
-          }}
-        />
+        <aside
+          //The floor, below `lg` only — see the same style on the offline board.
+          //The head here is the taller one: the seat card carries the head-to-head
+          //record as well, and the sync notice sits under it.
+          style={{ "--panel-floor": panelFloor } as CSSProperties}
+          className={cn(
+            "flex w-full flex-col overflow-hidden bg-surface",
+            "max-lg:rounded-none max-lg:border-0",
+            "stacked:min-h-[var(--panel-floor)] stacked:flex-1",
+            "beside:min-h-0 beside:w-[min(380px,50%)] beside:shrink-0",
+            "lg:rounded-2xl",
+          )}
+        >
+          <div ref={panelHeadRef} className="shrink-0">
+            <SeatBar
+              seats={(["black", "white"] as Player[]).map(seatFor)}
+              record={headToHead}
+              marbleDesign={marbleDesign}
+              note={{
+                text: online.error ?? statusLine ?? null,
+                //the line names whoever the game is waiting for, so it is written
+                //at that player's end and the rule notches up at their face: "your
+                //move" and "waiting for them" become the same sentence read off
+                //which side of the card it is on. A result or a failure is about
+                //neither of them and stays in the middle.
+                side: online.error ? undefined : turnSide,
+                tone: online.error ? "error" : "plain",
+              }}
+            />
 
-        {/* Under the status rather than in place of it. "Your move" read off a
-            board nobody has confirmed is the misleading part, and this is the
-            line that says so. */}
-        <SyncNotice state={online.sync} className="px-4 pt-1" />
+            {/* Under the status rather than in place of it. "Your move" read off a
+              board nobody has confirmed is the misleading part, and this is the
+              line that says so. */}
+            <SyncNotice state={online.sync} className="px-4 pt-1" />
+          </div>
 
-        {isOver ? (
-          <PostgameControls
-            state={state}
-            result={gameResult}
-            canPrev={online.canPrev}
-            canNext={online.canNext}
-            canSkipToLatest={online.canSkipToLatest}
-            marbleDesign={marbleDesign}
-            onPrev={online.goPrevMove}
-            onNext={online.goNextMove}
-            onSkipToLatest={online.goToLatestMove}
-            onGoTo={online.goToMoveIndex}
-            //there is no rematch button to press here: a new game needs an
-            //invite the other player answers, and both of these lead there
-            onRematch={backToList}
-            onNewBot={backToList}
-            newGameLabel={t("online:board.back_to_games")}
-          />
-        ) : (
-          <IngameControls
-            state={state}
-            canPrev={online.canPrev}
-            canNext={online.canNext}
-            canSkipToLatest={online.canSkipToLatest}
-            //neither exists online: there is no engine to ask, and a move
-            //already played is a move the other player has seen
-            canHint={false}
-            canUndo={false}
-            hintThinking={false}
-            marbleDesign={marbleDesign}
-            onPrev={online.goPrevMove}
-            onNext={online.goNextMove}
-            onSkipToLatest={online.goToLatestMove}
-            onGoTo={online.goToMoveIndex}
-            onHint={noop}
-            onUndo={noop}
-            onResign={() => setResignOpen(true)}
-          />
-        )}
-      </aside>
+          {isOver ? (
+            <PostgameControls
+              state={state}
+              result={gameResult}
+              canPrev={online.canPrev}
+              canNext={online.canNext}
+              canSkipToLatest={online.canSkipToLatest}
+              marbleDesign={marbleDesign}
+              onPrev={online.goPrevMove}
+              onNext={online.goNextMove}
+              onSkipToLatest={online.goToLatestMove}
+              onGoTo={online.goToMoveIndex}
+              //there is no rematch button to press here: a new game needs an
+              //invite the other player answers, and both of these lead there
+              onRematch={backToList}
+              onNewBot={backToList}
+              newGameLabel={t("online:board.back_to_games")}
+            />
+          ) : (
+            <IngameControls
+              state={state}
+              canPrev={online.canPrev}
+              canNext={online.canNext}
+              canSkipToLatest={online.canSkipToLatest}
+              //neither exists online: there is no engine to ask, and a move
+              //already played is a move the other player has seen
+              canHint={false}
+              canUndo={false}
+              hintThinking={false}
+              marbleDesign={marbleDesign}
+              onPrev={online.goPrevMove}
+              onNext={online.goNextMove}
+              onSkipToLatest={online.goToLatestMove}
+              onGoTo={online.goToMoveIndex}
+              onHint={noop}
+              onUndo={noop}
+              onResign={() => setResignOpen(true)}
+            />
+          )}
+        </aside>
+      </div>
 
       <ResignModal
         open={resignOpen}
