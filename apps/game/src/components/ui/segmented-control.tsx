@@ -9,13 +9,25 @@ export type SegmentedOption<T extends string> = {
 }
 
 /**
- * Both are the same control at two heights. `lg` exists so a switch that sits
- * at the top of a form can be the height of the fields under it — the track's
- * own padding is untouched, so the sliding indicator still lines up.
+ * One control at three heights, and each is the height of its own segment. The
+ * track's 4px padding is the same in all of them, so the control stands 8px
+ * taller than whichever of these it is given and the sliding indicator lines up
+ * either way.
+ *
+ * Stated as a height rather than as vertical padding, which is what these used
+ * to be. A switch is picked to sit level with something — a column of fields, a
+ * row of a panel — and a padding you have to add a line-height to before you
+ * know what it comes to is not a number you can match anything against. Same
+ * reason `Button` names its sizes this way.
+ *
+ * `md` is the default. `row` is level with the 48px rows a panel is built from —
+ * a 40px control in a padded track, which is what the setup carousel under it
+ * is too. `lg` is for the top of a form, read against a column of 54px fields.
  */
 const SIZES = {
-  md: "px-2 py-2 text-sm",
-  lg: "px-3 py-3 text-base",
+  md: "h-9 px-2 text-sm",
+  row: "h-10 px-3 text-base",
+  lg: "h-12 px-3 text-base",
 }
 
 export type SegmentedControlProps<T extends string> = {
