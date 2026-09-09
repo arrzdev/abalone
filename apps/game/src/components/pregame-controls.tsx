@@ -77,7 +77,11 @@ export function PregameControls({
 
   return (
     <div className="panel-scroll flex-1 space-y-6 overflow-y-auto px-4 pt-4 pb-safe-offset-4">
+      {/* Level with the setup carousel under it: this panel is a stack of 48px
+          rows, and the switch was 44 — four pixels of nothing, which is exactly
+          the amount you see without being able to name. */}
       <SegmentedControl
+        size="row"
         ariaLabel={t("game:controls.game_mode")}
         value={mode}
         onChange={onModeChange}
