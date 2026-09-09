@@ -534,9 +534,16 @@
  * list, which are boxes with more in them than they show and no other way of
  * saying so. Same reason for the `display`s below.
  */
+/* `none` rather than `contain`, which is the half of it that only stops the
+   scroll reaching the page behind. The other half is the bounce the box makes
+   at its own ends, and on a phone that is what a move list scrolled to the last
+   move does under your thumb: the whole record slides up off its box and drops
+   back. There is nothing past the end of a game to look at, so there is nothing
+   for the give to be showing. The page itself is already `overscroll-none`; this
+   is every box inside it saying the same. */
 .panel-scroll {
   scrollbar-width: auto !important;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
 }
 
 /* Every part of the lane, and every one of them transparent — the panel behind
@@ -595,7 +602,7 @@
 .strip-scroll {
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
 }
 .strip-scroll::-webkit-scrollbar {
   display: none;
