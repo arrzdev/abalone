@@ -31,6 +31,7 @@ import { TapButton } from "@/components/ui/tap-button"
 import { useProfile } from "@/data/profile/queries"
 import { useAbaloneGame } from "@/hooks/use-abalone-game"
 import { useBotChatter } from "@/hooks/use-bot-chatter"
+import { usePanelFloor } from "@/hooks/use-compact-panel"
 import { getBot, titleKey } from "@/i18n/bots"
 import { getSetupName } from "@/i18n/game-text"
 import { useAuth } from "@/providers/auth-provider"
@@ -82,6 +83,9 @@ function GameOfflinePage() {
   const { user } = useAuth()
   const { data: profile } = useProfile()
   const boardRef = useRef<GameCanvasHandle>(null)
+  //the seat card at the top of the panel: the one part of the panel whose
+  //height is its own, and what the panel's floor is measured on top of.
+  const { ref: panelHeadRef, floor: panelFloor } = usePanelFloor()
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [resignOpen, setResignOpen] = useState(false)
   /**
@@ -374,9 +378,14 @@ function GameOfflinePage() {
     // at the board or at a control, and a drag that starts on the board was
     // dragging a line of marbles, not sweeping a selection through the title
     // above it. The name fields are excepted in the stylesheet.
-    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden select-none lg:flex-row lg:gap-4 lg:p-4">
+    <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden select-none">
       <SubpageHeader title={headerTitle} action={settingsButton} />
-      {/* Board column: the board, and nothing about the game around it.
+
+      {/* The board and the panel, whichever way round they go. A box of its own
+          rather than the page itself, because the page also holds the phone's
+          header — and a header inside a `flex-row` is a third column. */}
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col beside:flex-row lg:gap-4 lg:p-4">
+        {/* Board column: the board, and nothing about the game around it.
           Everything that used to frame it — who is playing, whose move it is,
           what either side has taken — is in the panel now, at every width. A
           column that holds only the board is a column that can give all of
@@ -389,62 +398,62 @@ function GameOfflinePage() {
           will be a moment later — the evaluation bar below is the one thing
           pregame leaves out, and it holds its space rather than handing it over
           for a preview larger than the game it previews. */}
-      <section
-        className={cn(
-          // Below `lg` it takes the height its content asks for and gives the
-          // rest to the panel, but stays shrinkable so a short screen squeezes
-          // the board rather than overflowing.
-          //
-          // `min-w-0` is what keeps the panel on screen beside it. The canvas
-          // carries an explicit pixel width, which is this column's min-content
-          // width, and a column that may not shrink below that pushes the panel
-          // off the right edge on any viewport short enough for the board to be
-          // bound by height rather than width.
-          "flex min-h-0 min-w-0 flex-1 flex-col gap-1.5 max-lg:flex-initial max-lg:px-2 max-lg:py-2",
-          isPregame && "max-lg:hidden",
-        )}
-        aria-label={t("game:board.label")}
-      >
-        {/* Board and evaluation bar: one column, everything in it as wide as the
+        <section
+          className={cn(
+            // Below `lg` it takes the height its content asks for and gives the
+            // rest to the panel, but stays shrinkable so a short screen squeezes
+            // the board rather than overflowing.
+            //
+            // `min-w-0` is what keeps the panel on screen beside it. The canvas
+            // carries an explicit pixel width, which is this column's min-content
+            // width, and a column that may not shrink below that pushes the panel
+            // off the right edge on any viewport short enough for the board to be
+            // bound by height rather than width.
+            "flex min-h-0 min-w-0 flex-1 flex-col gap-1.5 max-lg:px-2 max-lg:py-2 stacked:flex-initial",
+            isPregame && "max-lg:hidden",
+          )}
+          aria-label={t("game:board.label")}
+        >
+          {/* Board and evaluation bar: one column, everything in it as wide as the
             board and no wider. The board is letterboxed into whatever this
             column has left over, so nothing out here can work its size out from
             the layout — `--board-w` and `--board-h` are how the canvas tells it,
             and everything that has to line up with the board reads them. */}
-        <div
-          className="flex min-h-0 min-w-0 flex-1 flex-col items-center gap-1.5 max-lg:flex-initial"
-          style={
-            {
-              "--board-w": board.width ? `${board.width}px` : "100%",
-              "--board-h": board.height ? `${board.height}px` : "100%",
-            } as CSSProperties
-          }
-        >
-          {/* The canvas measures this box. Below `lg` it is sized from its own
+          <div
+            className="flex min-h-0 min-w-0 flex-1 flex-col items-center gap-1.5 stacked:flex-initial"
+            style={
+              {
+                "--board-w": board.width ? `${board.width}px` : "100%",
+                "--board-h": board.height ? `${board.height}px` : "100%",
+              } as CSSProperties
+            }
+          >
+            {/* The canvas measures this box. Below `lg` it is sized from its own
               width (the canvas is 8:7) rather than from leftover height, and
               shrinks past that only when the viewport is too short. */}
-          <div className="flex min-h-0 w-full flex-1 items-center justify-center max-lg:aspect-[8/7] max-lg:max-h-[48vh] max-lg:flex-initial">
-            <GameCanvas
-              ref={boardRef}
-              state={state}
-              possibleMoves={possibleMoves}
-              marbleDesign={marbleDesign}
-              // Never in pregame — that board is a viewer for the starting
-              // position, and the settings that belong to a game in progress
-              // leave it alone. Same rule as the evaluation bar below.
-              showCoordinates={showCoordinates && !isPregame}
-              showLabels={!isPregame}
-              notice={viewingHistory ? historyNotice : null}
-              noticeAction={t("game:controls.jump_to_latest")}
-              onReturnToLatest={game.goToLatestMove}
-              interactive={boardInteractive}
-              onCellClick={game.handleCellClick}
-              onDragSelect={game.handleDragSelect}
-              onHover={game.setHoveredCell}
-              onResize={handleBoardResize}
-            />
-          </div>
+            <div className="flex min-h-0 w-full flex-1 items-center justify-center stacked:aspect-[8/7] stacked:max-h-[48vh] stacked:flex-initial">
+              <GameCanvas
+                ref={boardRef}
+                state={state}
+                possibleMoves={possibleMoves}
+                marbleDesign={marbleDesign}
+                // Never in pregame — that board is a viewer for the starting
+                // position, and the settings that belong to a game in progress
+                // leave it alone. Same rule as the evaluation bar below.
+                showCoordinates={showCoordinates && !isPregame}
+                showLabels={!isPregame}
+                notice={viewingHistory ? historyNotice : null}
+                noticeAction={t("game:controls.jump_to_latest")}
+                onReturnToLatest={game.goToLatestMove}
+                interactive={boardInteractive}
+                onCellClick={game.handleCellClick}
+                onDragSelect={game.handleDragSelect}
+                onHover={game.setHoveredCell}
+                onResize={handleBoardResize}
+              />
+            </div>
 
-          {/* Under the board and as wide as it, on a phone only.
+            {/* Under the board and as wide as it, on a phone only.
               Beside the board the bar stands up against the panel instead —
               lying down there it had to end the board's column, and a strip
               that comes and goes is a board that resizes and slides. On end
@@ -455,124 +464,156 @@ function GameOfflinePage() {
               starting position and an evaluation of a game nobody has played is
               a number about nothing; nothing in a hot-seat game, where there is
               no engine for it to be the opinion of. */}
-          {showEval && <EvalBar score={evalScore} className="lg:hidden" />}
-        </div>
-      </section>
+            {showEval && (
+              <EvalBar score={evalScore} className="beside:hidden" />
+            )}
+          </div>
+        </section>
 
-      {/* The panel, and the bar fused to its leading edge. One box, so no gap
+        {/* The panel, and the bar fused to its leading edge. One box, so no gap
           opens between them and the panel's corners round on the outside only.
           The rail is in the row whether or not it has a bar in it, so the board
           beside it is the same size in every game. */}
-      <div className="flex w-full min-h-0 max-lg:flex-1 lg:w-auto lg:shrink-0">
-        <EvalRail
-          score={showEval ? evalScore : undefined}
-          label={showEval ? evalLabel : undefined}
-        />
-
-        <aside
-          className={cn(
-            "flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-surface",
-            // A floating card only makes sense beside the board. Stacked on a
-            // phone it is the whole screen, so it drops its corners and side
-            // borders and runs to the bottom edge.
-            "max-lg:rounded-none max-lg:border-0",
-            "lg:w-[380px] lg:flex-none lg:rounded-2xl",
-            //the bar squares off the edge it is attached to
-            showEval && "lg:rounded-s-none",
-          )}
+        <div
+          //The floor, and only in the stacked layout. Beside the board the panel
+          //is a full-height column and there is nothing to run out of.
+          //
+          //Stacked it is what the board leaves over, and what it needs is not
+          //negotiable: a row of actions you can hit and a history you can move
+          //through. Without this the shortfall came out of the panel and the
+          //action bar went under the bottom edge — the evaluation bar under the
+          //board is 26px, which on a small phone is most of the difference
+          //between a panel that fits and one that doesn't. With it the shortfall
+          //comes out of the board instead, which is a canvas that letterboxes
+          //into whatever it is given and loses nothing but size.
+          //
+          //Beside the board this box is the panel's whole column — the bar and
+          //the card together — so it is the one carrying the width. 398 is the
+          //desktop figure (380 of card behind 18 of bar), and half the row is
+          //the cap under it: 398 of a 640px landscape screen is a panel wider
+          //than the board it is reporting on. Above `lg` half the row is always
+          //the larger of the two, so up there this is the same 398 it was.
+          style={{ "--panel-floor": panelFloor } as CSSProperties}
+          className="flex beside:w-[min(398px,50%)] beside:min-h-0 beside:shrink-0 stacked:w-full stacked:min-h-[var(--panel-floor)] stacked:flex-1"
         >
-          {/* No header on the panel beside the board. It carried the way home and
+          <EvalRail
+            score={showEval ? evalScore : undefined}
+            label={showEval ? evalLabel : undefined}
+          />
+
+          <aside
+            className={cn(
+              "flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-surface",
+              // A floating card only makes sense with room around it. Below `lg`
+              // — stacked under the board, or beside it on a phone held sideways
+              // — it runs to the edges of what it has, so it drops its corners
+              // and side borders.
+              "max-lg:rounded-none max-lg:border-0",
+              // Beside the board it takes whatever the column has left after
+              // the bar, rather than a width of its own — the column is the
+              // thing that was given one.
+              "beside:w-auto",
+              "lg:rounded-2xl",
+              //the bar squares off the edge it is attached to
+              showEval && "lg:rounded-s-none",
+            )}
+          >
+            {/* No header on the panel beside the board. It carried the way home and
             the settings, which are both in the app header now, and then the
             title alone — which named the panel to someone already looking at
             it. The first row of the panel is the mode switch, and that says
             what this is better than a word above it did. A phone still gets
             one, because there it is the page's own bar. */}
-          {/* Above the controls rather than inside them, so it is the same strip in
+            {/* Above the controls rather than inside them, so it is the same strip in
             play and after the result — and so `useCompactPanel` measures what is
             actually left for the move list, which is what decides whether the
             list can stay a list. */}
-          {!isPregame && (
-            <SeatBar
-              seats={seatColors.map(seatFor)}
-              marbleDesign={marbleDesign}
-              // Only a bot has anything to say, and it says it in the bottom of
-              // the card, under its own end of it.
-              note={
-                isLocal
-                  ? undefined
-                  : {
-                      text: chatter.line ? t(chatter.line) : null,
-                      side: aiColor === seatColors[0] ? "left" : "right",
-                    }
-              }
-            />
-          )}
-
-          {isPregame && (
-            <PregameControls
-              mode={mode}
-              onModeChange={game.chooseMode}
-              difficulty={difficulty}
-              onDifficultyChange={game.setDifficulty}
-              setupType={setupType}
-              onSetupChange={game.chooseSetup}
-              colorChoice={game.colorChoice}
-              onColorChange={game.chooseColor}
-              names={localNames}
-              onNameChange={game.setLocalName}
-              marbleDesign={marbleDesign}
-              onPlay={() => game.startNewGame()}
-              preview={
-                <GameCanvas
-                  state={state}
-                  possibleMoves={EMPTY_MOVES}
+            {!isPregame && (
+              <div ref={panelHeadRef} className="shrink-0">
+                <SeatBar
+                  seats={seatColors.map(seatFor)}
                   marbleDesign={marbleDesign}
-                  showCoordinates={false}
-                  showLabels={false}
-                  interactive={false}
+                  // Only a bot has anything to say, and it says it in the bottom
+                  // of the card, under its own end of it.
+                  note={
+                    isLocal
+                      ? undefined
+                      : {
+                          text: chatter.line ? t(chatter.line) : null,
+                          side:
+                            aiColor === seatColors[0] ? "left" : "right",
+                        }
+                  }
                 />
-              }
-            />
-          )}
+              </div>
+            )}
 
-          {phase === "ingame" && (
-            <IngameControls
-              state={state}
-              canPrev={canPrev}
-              canNext={canNext}
-              canSkipToLatest={canSkipToLatest}
-              canHint={canHint}
-              canUndo={canUndo}
-              hintThinking={hintThinking}
-              marbleDesign={marbleDesign}
-              onPrev={game.goPrevMove}
-              onNext={game.goNextMove}
-              onSkipToLatest={game.goToLatestMove}
-              onGoTo={game.goToMoveIndex}
-              onHint={game.requestHint}
-              onUndo={game.undoMove}
-              onResign={() => setResignOpen(true)}
-            />
-          )}
+            {isPregame && (
+              <PregameControls
+                mode={mode}
+                onModeChange={game.chooseMode}
+                difficulty={difficulty}
+                onDifficultyChange={game.setDifficulty}
+                setupType={setupType}
+                onSetupChange={game.chooseSetup}
+                colorChoice={game.colorChoice}
+                onColorChange={game.chooseColor}
+                names={localNames}
+                onNameChange={game.setLocalName}
+                marbleDesign={marbleDesign}
+                onPlay={() => game.startNewGame()}
+                preview={
+                  <GameCanvas
+                    state={state}
+                    possibleMoves={EMPTY_MOVES}
+                    marbleDesign={marbleDesign}
+                    showCoordinates={false}
+                    showLabels={false}
+                    interactive={false}
+                  />
+                }
+              />
+            )}
 
-          {isPostgame && (
-            <PostgameControls
-              state={state}
-              result={gameResult}
-              canPrev={canPrev}
-              canNext={canNext}
-              canSkipToLatest={canSkipToLatest}
-              marbleDesign={marbleDesign}
-              onPrev={game.goPrevMove}
-              onNext={game.goNextMove}
-              onSkipToLatest={game.goToLatestMove}
-              onGoTo={game.goToMoveIndex}
-              onRematch={game.handleRematch}
-              onNewBot={game.handleNewBot}
-              newGameLabel={newGameLabel}
-            />
-          )}
-        </aside>
+            {phase === "ingame" && (
+              <IngameControls
+                state={state}
+                canPrev={canPrev}
+                canNext={canNext}
+                canSkipToLatest={canSkipToLatest}
+                canHint={canHint}
+                canUndo={canUndo}
+                hintThinking={hintThinking}
+                marbleDesign={marbleDesign}
+                onPrev={game.goPrevMove}
+                onNext={game.goNextMove}
+                onSkipToLatest={game.goToLatestMove}
+                onGoTo={game.goToMoveIndex}
+                onHint={game.requestHint}
+                onUndo={game.undoMove}
+                onResign={() => setResignOpen(true)}
+              />
+            )}
+
+            {isPostgame && (
+              <PostgameControls
+                state={state}
+                result={gameResult}
+                canPrev={canPrev}
+                canNext={canNext}
+                canSkipToLatest={canSkipToLatest}
+                marbleDesign={marbleDesign}
+                onPrev={game.goPrevMove}
+                onNext={game.goNextMove}
+                onSkipToLatest={game.goToLatestMove}
+                onGoTo={game.goToMoveIndex}
+                onRematch={game.handleRematch}
+                onNewBot={game.handleNewBot}
+                newGameLabel={newGameLabel}
+              />
+            )}
+          </aside>
+        </div>
       </div>
 
       <ResignModal
