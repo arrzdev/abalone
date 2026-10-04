@@ -23,12 +23,13 @@ Read root `package.json` scripts before assuming names. Typical monorepo scripts
 
 Read `.github/workflows/` (or equivalent) for exact jobs — do not assume paths.
 
-- **Trigger:** PRs run the gating checks; push to main deploys.
-- **Path filter:** separate frontend vs backend change detection.
+- **Trigger:** PRs run one required job, `gate` (no CI on push: the deploy's verify is the post-merge gate). Pushes to deploy branches deploy.
+- **Draft and docs-only PRs** run a lighter gate, decided **inside** the job. Never a workflow `paths` filter on a required check: a skipped required check stays pending and blocks the merge.
 - **Verify (the deploy gate):** the **full** check set — lint, build, typecheck, test, schema check. Deploy jobs run only if it passes.
 - **Deploy:** API/backend first (build → upload → migrate → promote); frontend after backend succeeds.
 - **Target:** often Cloudflare Workers; secrets via CI env/vars.
-- **Gate the deploy _inside the deploy workflow_.** A separate CI workflow runs independently and **can't** block a deploy — so the deploy's own verify must run the full gate, or a direct push (no PR) to a deploy branch can ship a failure. Keep the PR-CI and deploy-verify checks in sync.
+- **Gate the deploy _inside the deploy workflow_.** A separate CI workflow runs independently and **can't** block a deploy — so the deploy's own verify must run the full gate, or a direct push (no PR) to a deploy branch can ship a failure. Keep the PR-CI and deploy-verify checks in sync (here both call `.github/actions/gate`).
+- **Actions minutes are billed per job, rounded up to a minute.** Put small checks inside the one gate job, never in their own job.
 
 ## Pre-commit hook
 
