@@ -7,7 +7,7 @@
 // Run with cwd = the app directory, so `wrangler` resolves from the app's deps and
 // `./wrangler.toml` is the config read.
 //
-// Reads the env named by TARGET_ENV (production | staging), the same one `app.sh`
+// Reads the env named by TARGET_ENV (production), the same one `app.sh`
 // passes to every wrangler call. Reading the top level instead would return the dev
 // database and migrate that, so a missing TARGET_ENV is an error, not a default.
 
@@ -15,7 +15,7 @@ import { unstable_readConfig } from "wrangler"
 
 const DEPLOY_ENV = process.env.TARGET_ENV
 if (!DEPLOY_ENV) {
-  console.error("[d1] TARGET_ENV is required (production | staging)")
+  console.error("[d1] TARGET_ENV is required (production)")
   process.exit(1)
 }
 

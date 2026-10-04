@@ -6,8 +6,7 @@
 // Emits GITHUB_OUTPUT `units` (matrix of units with >=1 changed app) and `any`.
 //
 // FORCE_ALL=true treats every listed app as changed: the manual workflow dispatch
-// (used after rotating secrets/vars, which change no files) and the
-// deployment-test branch.
+// (used after rotating secrets/vars, which change no files).
 
 import { execSync } from "node:child_process"
 import {

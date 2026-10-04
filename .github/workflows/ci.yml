@@ -1,7 +1,6 @@
 name: CI
 
-# The PR gate. One job, `gate`, which branch protection requires on `main` and
-# `staging`. No `push` trigger: deploy.yml's verify runs the same gate after the
+# The PR gate. One job, `gate`, which branch protection requires on `main`. No `push` trigger: deploy.yml's verify runs the same gate after the
 # merge, so a CI run on the merged commit would be the same check a third time.
 on:
   pull_request:

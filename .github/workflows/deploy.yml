@@ -1,11 +1,9 @@
 name: Deploy
 
-# Every deploy branch maps to exactly one GitHub Environment:
-#   main            -> production   (changed units)
-#   staging         -> staging      (changed units)
-#   deployment-test -> staging      (every unit)
-# Any other ref fails in `discover`. The Environments' deployment branch
-# policies enforce the same map on GitHub's side. What ships is
+# Production only: `main` deploys to the `production` GitHub Environment
+# (changed units; every unit on a `force_all` dispatch). There is no staging.
+# Any other ref fails in `discover`, and the Environment's deployment branch
+# policy (`main` only) enforces the same on GitHub's side. What ships is
 # .github/deploy-units.jsonc; the gate checks the whole repo regardless.
 on:
   # Manual run. It deploys for real, it is not a dry run. `force_all` ignores
@@ -20,8 +18,6 @@ on:
   push:
     branches:
       - main
-      - staging
-      - deployment-test
     paths-ignore:
       - "**/*.md"
       - ".claude/**"
@@ -63,9 +59,8 @@ jobs:
         run: |
           case "$GITHUB_REF_NAME" in
             main) target=production ;;
-            staging | deployment-test) target=staging ;;
             *)
-              echo "::error::${GITHUB_REF_NAME} is not a deploy branch (main, staging, deployment-test)"
+              echo "::error::${GITHUB_REF_NAME} is not a deploy branch (only main deploys)"
               exit 1
               ;;
           esac
@@ -102,7 +97,7 @@ jobs:
         id: d
         if: steps.tip.outputs.latest == 'true'
         env:
-          FORCE_ALL: ${{ (github.event_name == 'workflow_dispatch' && inputs.force_all) || github.ref_name == 'deployment-test' }}
+          FORCE_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.force_all }}
           TURBO_SCM_BASE: ${{ github.event.before }}
           TURBO_SCM_HEAD: ${{ github.sha }}
         run: node .github/scripts/deploy/discover.mjs

@@ -2,7 +2,7 @@
 # Deploy one unit: its changed apps, in order, fail-stop. `set -e` aborts the loop
 # on the first failure, so the rest of the unit is skipped (atomicity = ordered
 # fail-stop; see stack-deploy-environments). Reads UNIT, AFFECTED (JSON array of
-# app paths, already ordered + changed-only) and TARGET (production | staging)
+# app paths, already ordered + changed-only) and TARGET (production)
 # from the environment.
 set -euo pipefail
 

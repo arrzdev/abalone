@@ -10,7 +10,7 @@ on:
       environment:
         description: "Environment to roll back"
         type: choice
-        options: [staging, production]
+        options: [production]
         required: true
       unit:
         description: "Deploy unit name (.github/deploy-units.jsonc)"
