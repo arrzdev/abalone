@@ -8,7 +8,7 @@
 //
 // The deploy marker is derived from the branch, not stored: when the schema
 // declares DEPLOYENV (runtime) or VITE_DEPLOYENV (baked into a client bundle),
-// it is set to TARGET (production | staging) unless the bag already has it.
+// it is set to TARGET (production) unless the bag already has it.
 //
 // Values must be single-line. A newline would break the .env parse and upload a
 // truncated secret with no error, so the script fails instead (key name only).
