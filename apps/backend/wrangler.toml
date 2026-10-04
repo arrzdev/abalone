@@ -72,12 +72,9 @@ workers_dev = false
 # The api shares the game's origins under /api, so the game calls it same-origin.
 # A route beats the game Worker's custom domain on the same hostname, so these
 # two patterns are all it takes; everything else on those hosts stays the game's.
-# api.abalone.tudu.dev is declared too, so publishing the two routes cannot drop
-# the hostname the live game still calls. It goes once the game is same-origin.
 routes = [
   { pattern = "abalone.tudu.dev/api/*", zone_name = "tudu.dev" },
   { pattern = "babaluje.tudu.dev/api/*", zone_name = "tudu.dev" },
-  { pattern = "api.abalone.tudu.dev", custom_domain = true },
 ]
 
 [[env.production.d1_databases]]
