@@ -6,7 +6,7 @@
 #     ...and that Worker does not exist yet              -> migrate -> one-shot deploy (creates it)
 #   - otherwise                                          -> plain one-shot deploy
 #
-# Usage: app.sh <app-path> <target>, target = production | staging.
+# Usage: app.sh <app-path> <target>, target = production (the only deploy env).
 #
 # The top-level wrangler block is DEV. Every target is an explicit
 # `[env.<target>]` block with its own `name` and its own resources, and every
@@ -100,7 +100,7 @@ worker="$(env_name)"
 }
 
 if grep -q 'd1_databases' wrangler.toml; then
-  # Staging must never touch production data. Every env needs its own database.
+  # No env may share production's database (dev's placeholder included).
   dup="$(awk -F'"' '/^database_id[[:space:]]*=/ {print $2}' wrangler.toml | sort | uniq -d)"
   [ -z "$dup" ] || {
     echo "::error::${app_path}: two envs share D1 database_id ${dup}, refusing to migrate from ${target}"
