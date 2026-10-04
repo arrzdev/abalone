@@ -19,4 +19,4 @@ Validate any change:
 python3 .claude/scripts/check-skills.py && python3 .claude/scripts/test-hooks.py
 ```
 
-Both run in CI (`ci.yml` → `skills-guard`).
+Both run in CI, inside the `gate` job (`.github/actions/gate`).

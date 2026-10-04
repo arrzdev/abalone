@@ -5,8 +5,9 @@
 // isn't listed is warned about (so you don't forget one) but never deployed.
 // Emits GITHUB_OUTPUT `units` (matrix of units with >=1 changed app) and `any`.
 //
-// FORCE_ALL=true treats every listed app as changed (the manual workflow dispatch,
-// used after rotating secrets/vars — those change no files, so --affected finds none).
+// FORCE_ALL=true treats every listed app as changed: the manual workflow dispatch
+// (used after rotating secrets/vars, which change no files) and the
+// deployment-test branch.
 
 import { execSync } from "node:child_process"
 import {
@@ -105,9 +106,14 @@ function changedApps(apps) {
         .map(([, app]) => app),
     )
   } catch (e) {
-    console.log(
-      `::warning::affected detection failed (${e.message}); deploying all declared apps.`,
-    )
+    const msg = `affected detection failed (${e.message.split("\n")[0]}); deploying all declared apps.`
+    console.log(`::warning::${msg}`)
+    if (process.env.GITHUB_STEP_SUMMARY) {
+      appendFileSync(
+        process.env.GITHUB_STEP_SUMMARY,
+        `> **Warning:** ${msg}\n`,
+      )
+    }
     return new Set(apps)
   }
 }
