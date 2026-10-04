@@ -154,12 +154,17 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      # The ONLY step that sees the Environment's secrets. It writes each app's
-      # env/.env from its schema (an allowlist) and prints key names only.
+      # The ONLY step that sees the Environment's app secrets. It writes each
+      # app's env/.env from its schema (an allowlist) and prints key names only.
+      #
+      # Secrets are listed one by one as SECRET_<KEY>, never as
+      # `toJSON(secrets)`: GitHub flags that on public repos as possibly
+      # malicious and holds the run at `action_required` with no jobs. A new
+      # secret in an env schema needs a line here (project fact).
       - name: Write env files from schema
         env:
-          GH_SECRETS: ${{ toJSON(secrets) }}
           GH_VARS: ${{ toJSON(vars) }}
+          SECRET_BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
         run: |
           printf '%s' "$AFFECTED" | jq -r '.[]' | while IFS= read -r app; do
             pnpm tsx .github/scripts/write-env-from-schema.ts "$app"
