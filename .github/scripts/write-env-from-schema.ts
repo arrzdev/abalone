@@ -1,9 +1,10 @@
-// Writes <app>/env/.env from the app's env schema and the GitHub
-// secrets/vars bag passed in via GH_SECRETS / GH_VARS (each `toJSON(...)`).
+// Writes <app>/env/.env from the app's env schema, the GitHub vars bag passed
+// in via GH_VARS (`toJSON(vars)`) and the secrets the deploy step lists one by
+// one as SECRET_<KEY> (`toJSON(secrets)` gets public-repo runs flagged).
 //
 // The schema is the allowlist: only keys declared in `envSchema.shape` are
-// written, so the rest of the bag (GITHUB_TOKEN, unrelated vars) never lands
-// in .env. A secret wins over a var of the same name (matches `secrets.X || vars.X`).
+// written, so unrelated vars never land in .env. A secret wins over a var of
+// the same name (matches `secrets.X || vars.X`).
 //
 // The deploy marker is derived from the branch, not stored: when the schema
 // declares DEPLOYENV (runtime) or VITE_DEPLOYENV (baked into a client bundle),
@@ -29,14 +30,16 @@ async function main(): Promise<void> {
     process.exit(1)
   }
 
-  const bag: Record<string, unknown> = {
-    ...parseBag(process.env.GH_VARS),
-    ...parseBag(process.env.GH_SECRETS),
-  }
+  const bag: Record<string, unknown> = parseBag(process.env.GH_VARS)
 
   const { envSchema } = (await import(
     pathToFileURL(join(appDir, "env", "schema.ts")).href
   )) as { envSchema: { shape: Record<string, unknown> } }
+
+  for (const key of Object.keys(envSchema.shape)) {
+    const secret = process.env[`SECRET_${key}`]
+    if (secret) bag[key] = secret
+  }
 
   const target = process.env.TARGET
   for (const key of ["DEPLOYENV", "VITE_DEPLOYENV"]) {
