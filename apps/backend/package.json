@@ -16,7 +16,7 @@
   "scripts": {
     "check:env": "tsx env/check-env.ts",
     "dev": "tsx scripts/dev.ts",
-    "build": "wrangler deploy --dry-run --env production",
+    "build": "wrangler deploy --dry-run --env ${CLOUDFLARE_ENV:-production}",
     "start": "wrangler dev --env-file env/.env",
     "biome:fix": "biome check --write --unsafe .",
     "biome:check": "biome check .",
