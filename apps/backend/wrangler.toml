@@ -65,12 +65,20 @@ bucket_name = "abalone-avatars-dev"
 
 [env.production]
 name = "abalone-backend"
-# Pinned off, and pinned rather than left out: with the key absent wrangler turns
-# workers.dev ON for a worker that declares no routes, and `triggers deploy`
-# rewrites it every deploy. This api is reached at api.abalone.tudu.dev, attached
-# in the dashboard, and a second public hostname in front of the auth handler is
-# not something to publish by omission.
+# Pinned off, and pinned rather than left out: `triggers deploy` rewrites it
+# every deploy, and a second public hostname in front of the auth handler is not
+# something to publish by omission.
 workers_dev = false
+# The api shares the game's origins under /api, so the game calls it same-origin.
+# A route beats the game Worker's custom domain on the same hostname, so these
+# two patterns are all it takes; everything else on those hosts stays the game's.
+# api.abalone.tudu.dev is declared too, so publishing the two routes cannot drop
+# the hostname the live game still calls. It goes once the game is same-origin.
+routes = [
+  { pattern = "abalone.tudu.dev/api/*", zone_name = "tudu.dev" },
+  { pattern = "babaluje.tudu.dev/api/*", zone_name = "tudu.dev" },
+  { pattern = "api.abalone.tudu.dev", custom_domain = true },
+]
 
 [[env.production.d1_databases]]
 binding = "DB"
