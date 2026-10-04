@@ -5,6 +5,13 @@
 // written, so the rest of the bag (GITHUB_TOKEN, unrelated vars) never lands
 // in .env. A secret wins over a var of the same name (matches `secrets.X || vars.X`).
 //
+// The deploy marker is derived from the branch, not stored: when the schema
+// declares DEPLOYENV (runtime) or VITE_DEPLOYENV (baked into a client bundle),
+// it is set to TARGET (production | staging) unless the bag already has it.
+//
+// Values must be single-line. A newline would break the .env parse and upload a
+// truncated secret with no error, so the script fails instead (key name only).
+//
 // Usage: tsx .github/scripts/write-env-from-schema.ts <app-dir>
 
 import { writeFileSync } from "node:fs"
@@ -31,10 +38,24 @@ async function main(): Promise<void> {
     pathToFileURL(join(appDir, "env", "schema.ts")).href
   )) as { envSchema: { shape: Record<string, unknown> } }
 
+  const target = process.env.TARGET
+  for (const key of ["DEPLOYENV", "VITE_DEPLOYENV"]) {
+    if (target && key in envSchema.shape && !bag[key]) bag[key] = target
+  }
+
   const present = Object.keys(envSchema.shape).filter((key) => {
     const value = bag[key]
     return value !== undefined && value !== null && value !== ""
   })
+  const multiline = present.filter((key) =>
+    /[\r\n]/.test(String(bag[key])),
+  )
+  if (multiline.length > 0) {
+    console.error(
+      `[env] ${basename(appDir)}: multi-line value for ${multiline.join(", ")}; .env values must be single-line`,
+    )
+    process.exit(1)
+  }
   const lines = present.map((key) => `${key}=${String(bag[key])}`)
 
   writeFileSync(

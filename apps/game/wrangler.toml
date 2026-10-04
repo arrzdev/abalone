@@ -5,3 +5,14 @@ compatibility_date = "2026-03-17"
 compatibility_flags = ["nodejs_compat"]
 upload_source_maps = false
 workers_dev = false
+
+# The build selects one of these with CLOUDFLARE_ENV (.github/scripts/deploy/app.sh)
+# and bakes it into dist/server/wrangler.json. Named envs do not inherit `name`.
+[env.production]
+name = "abalone-game"
+workers_dev = false
+
+[env.staging]
+name = "abalone-game-staging"
+workers_dev = false
+routes = [{ pattern = "staging.abalone.tudu.dev", custom_domain = true }]
