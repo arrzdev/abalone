@@ -1,13 +1,21 @@
 ---
 name: stack-deploy-environments
-description: The manifest-driven deploy pipeline: deploy units, how app.sh works, why a version does not carry triggers, and the human-only setup steps. Also the shape a second environment takes, which this repo deliberately does not have. Use when adding an app to deploy or touching the deploy workflow.
+description: The manifest-driven deploy pipeline: branches and environments (main → production, staging/deployment-test → staging), deploy units, how app.sh works, why a version does not carry triggers, rollback, and the human-only setup steps. Use when adding an app to deploy, adding a binding per env, or touching the deploy workflow.
 ---
 
-# Deploy environments (apps, units, one target)
+# Deploy environments (apps, units, two targets)
 
-Cloudflare Workers deploy off **`main` → production** via a **manifest-driven** pipeline — adding an app is a line in `.github/deploy-units.jsonc`, never a workflow edit. Wired in `.github/workflows/deploy.yml`, `.github/deploy-units.jsonc`, and `.github/scripts/{deploy/discover.mjs,deploy/unit.sh,deploy/app.sh}`.
+Cloudflare Workers deploy through a **manifest-driven** pipeline — adding an app is a line in `.github/deploy-units.jsonc`, never a workflow edit. Wired in `.github/workflows/deploy.yml`, `.github/deploy-units.jsonc`, and `.github/scripts/{deploy/discover.mjs,deploy/unit.sh,deploy/app.sh}`.
 
-**This project runs one environment, on purpose.** There is no staging branch, no `[env.*]` in any `wrangler.toml`, no `--env` flag and no per-env worker name — `app.sh` takes only an app path. The multi-environment shape is still documented below, under "Adding a second environment", because it is the thing to reproduce rather than re-derive if that ever changes. Do not scaffold it speculatively.
+| Branch | GitHub Environment | Workers | Units |
+|---|---|---|---|
+| `main` | `production` | `[env.production]` | changed |
+| `staging` | `staging` | `[env.staging]` | changed |
+| `deployment-test` | `staging` | `[env.staging]` | all |
+
+Any other ref fails in `discover`, and the Environments' deployment branch policies enforce the same map (`production`: `main`; `staging`: `staging`, `deployment-test`). Manual dispatch with `force_all` redeploys every unit of the branch's environment (use it after changing a secret or var).
+
+**The top-level `wrangler.toml` block is dev.** Every deployed target is an explicit `[env.<target>]` with its own `name`, `workers_dev = false` and its own resources (staging never shares a D1 `database_id` with production; `app.sh` refuses to migrate if it does). Named envs do **not** inherit bindings or `name`, so each block repeats the full set.
 
 ## Adding an app — the whole surface
 
@@ -37,19 +45,19 @@ A `wrangler.toml` **not** in the manifest won't deploy — `discover` emits a CI
 
 ## How it runs (deploy.yml)
 
-`guard` (debounce) → `discover` (emit the unit matrix) → `verify` (full gate) → `deploy` (one generic job, `strategy.matrix` over units). The `deploy` job loops a unit's changed apps in order via `deploy/unit.sh` → `deploy/app.sh`. **No per-app job, no cross-job `needs`.**
+`discover` (ref → environment, debounce, emit the unit matrix) → `verify` (the same `.github/actions/gate` that `ci.yml` runs, full mode) → `deploy` (one generic job, `strategy.matrix` over units, bound to the target Environment). The `deploy` job writes each app's `env/.env` from its schema (the only step that sees the Environment's secrets), then loops a unit's changed apps in order via `deploy/unit.sh` → `deploy/app.sh`. **No per-app job, no cross-job `needs`.** `rollback.yml` rolls a unit's workers back (`wrangler rollback`); D1 is never rolled back.
 
 ## `deploy/app.sh` — uniform; everything else is derived
 
-Takes one argument, the app path. The worker name is the wrangler `name`, verbatim.
+Takes the app path and the target (`production` | `staging`). The worker name is `[env.<target>] name`.
 
 ```
-write-env (app's schema ← GH env) → build →
+check:env → build with CLOUDFLARE_ENV=<target>, no Cloudflare credentials →
   config: dist/server/wrangler.json exists (TanStack)?  → deploy --config that
   has D1: wrangler.toml [[d1_databases]]?
-     yes → versioned: upload → migrate the DB → deploy @100% → triggers deploy
-     no  → plain: deploy
-  always --name <worker>
+     yes → (first deploy: migrate → deploy) → versioned: upload → migrate → deploy @100% → triggers deploy
+     no  → plain: deploy --name <worker>
+  every call: --env <target> (except --config), --secrets-file env/.env when not empty
 ```
 
 ### A version does not carry triggers
@@ -66,57 +74,29 @@ Nothing in the pipeline catches it, because a pre-deploy `verify` gate cannot se
 Two config keys are load-bearing for this step, because `triggers deploy` **writes** them every run:
 
 - **`workers_dev`** — with the key absent, wrangler defaults it to **enabled** for a worker with no routes, publishing the app on a `*.workers.dev` hostname beside any custom domain. Pin it explicitly (`workers_dev = false`) for a custom-domain app; leave it unset for one that is meant to be served on `*.workers.dev`.
-- **`[triggers] crons`** — an **inherited** key, so a named env silently gets the top-level crons unless it declares its own. Set `crons = []` for an env that should have none; the empty list is applied, not ignored. With no `[env.*]` at all, as here, there is nothing to inherit and the key is only worth writing once a cron exists.
+- **`[triggers] crons`** — an **inherited** key, so a named env silently gets the top-level crons unless it declares its own. Set `crons = []` for an env that should have none; the empty list is applied, not ignored. No app has a cron today; the first one that does sets `[env.staging.triggers] crons = []` unless staging should run it.
 
 Routes are safe: with none declared, wrangler skips route publishing entirely and never deletes out-of-band custom domains.
 
 **Naming** (derived, not configured): the worker is the wrangler `name`, and the D1 database is whatever `database_name` says — read through wrangler's own config parser in `deploy/d1-databases.ts`, never spelled out from the worker name.
 
-## Adding a second environment
-
-Not wired, and not to be scaffolded until someone actually wants it. This is the shape it takes, so it can be reproduced rather than re-derived.
-
-The `deploy` job would branch on the ref:
-
-```yaml
-environment: ${{ github.ref == 'refs/heads/staging' && 'staging' || 'production' }}
-TARGET:      ${{ github.ref == 'refs/heads/staging' && 'staging' || 'production' }}
-```
-
-`environment:` selects the **GitHub Environment** → which secrets/vars the deploy sees, so a staging build picks up staging vars on its own. `app.sh` and `unit.sh` would take that target back as an argument, suffix the worker (`<name>-staging`), and pass `--env staging` to every wrangler call including the migration.
-
-Cloudflare named environments **do not inherit bindings** (`vars`, `d1_databases`, …) or `name` — only shared keys (`main`, `compatibility_*`, `minify`). So a DB-backed app repeats its D1 under `[env.staging]` with its **own `database_id`**, a genuinely separate database:
-
-```toml
-[env.staging]
-name = "app-backend-staging"
-
-[[env.staging.d1_databases]]
-binding = "DB"
-database_name = "app-backend-staging-db"   # convention: <staging-worker>-db
-database_id = "<staging-db-id>"
-migrations_dir = "src/database/migrations"
-```
-
-The guard that made this safe is worth restoring with it: a preflight that aborts *before upload* if the env's `database_id` is still the `REPLACE_WITH_…` placeholder or **duplicates** another env's id, so a misconfigured non-prod deploy can never migrate prod.
-
 ## Every deploy is fully gated
 
-`verify` runs the **full** check set — write-env (vars) → lint → build → typecheck → migration-safety → `db:check` → test — and `deploy` runs **only on `verify` success**. So a **direct push to `main`** (no PR) can't ship a failure. `ci.yml` (the PR gate) and `deploy.yml` are independent workflows — a separate CI run can't block a deploy, so the deploy workflow gates itself. Keep the two check sets in sync.
+`verify` runs the **full** gate — skills/hooks → lint → build → typecheck → migration-safety → `db:check` → test — and `deploy` runs **only on `verify` success**. So a **direct push to a deploy branch** (no PR) can't ship a failure. `ci.yml` (the PR gate) and `deploy.yml` are independent workflows, so the deploy workflow gates itself; both call `.github/actions/gate`, so the two check sets cannot drift.
 
 ## Human-only setup (the agent cannot do these)
 
 Per new DB-backed app:
 
 1. **Create the D1:** `wrangler d1 create <db-name>`, paste its `database_id` into `wrangler.toml` (replaces the `REPLACE_WITH_…` placeholder).
-2. **Populate the `production` GitHub Environment** (Settings → Environments) with the app's vars, plus `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`.
+2. **Populate the `production` and `staging` GitHub Environments** (Settings → Environments) with the app's vars, plus `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`. Platform does this; ask on the issue.
 3. **Create every queue**: `wrangler queues create <name>`. Wrangler **does not auto-create queues** the way it does R2 buckets — it only fails on a missing one. That check lives in `triggers deploy`, so before that step existed a missing queue was invisible.
-4. **First deploy is unverified** — confirm on the first push that the version lands on the expected worker and migrations hit the expected database. Rehearse it locally first: `DRY_RUN=1 bash .github/scripts/deploy/app.sh apps/<x>` prints every wrangler command without running one, and a manual workflow dispatch with `force_all` redeploys every unit.
+4. **First deploy is unverified** — confirm on the first push that the version lands on the expected worker and migrations hit the expected database. Rehearse it locally first: `DRY_RUN=1 bash .github/scripts/deploy/app.sh apps/<x> staging` prints every wrangler command without running one, and a manual workflow dispatch with `force_all` redeploys every unit.
 
 After a first deploy, confirm the **triggers** landed, not just the code — `wrangler queues info <queue>` should show a consumer, and the worker's schedules should match `[triggers] crons`. A green deploy does not imply either.
 
 ## Agent rules
 
-- **Never deploy or push to `main`** unless the human asks — that push deploys live.
+- **Never push to `main`, `staging` or `deployment-test`** unless the human asks — each push deploys.
 - The D1-create + queue-create + GitHub-Environment steps are **human-only**; scaffold the config and hand over the checklist.
 - See `core-ci-cd` for pipeline shape and `stack-database-migrations` for the migration/backward-compat model + its CI guard.

@@ -1,23 +1,30 @@
 name: Deploy
 
-# Merging to main deploys, for real. What ships is .github/deploy-units.jsonc;
-# the gate below checks the whole repo regardless.
+# Every deploy branch maps to exactly one GitHub Environment:
+#   main            -> production   (changed units)
+#   staging         -> staging      (changed units)
+#   deployment-test -> staging      (every unit)
+# Any other ref fails in `discover`. The Environments' deployment branch
+# policies enforce the same map on GitHub's side. What ships is
+# .github/deploy-units.jsonc; the gate checks the whole repo regardless.
 on:
-  # Manual run — it deploys for real, it is not a dry run. `force_all` ignores turbo
-  # --affected, which is what you want after rotating secrets/vars or changing only
-  # `.github/**`: neither moves a file inside a package, so --affected finds nothing.
+  # Manual run. It deploys for real, it is not a dry run. `force_all` ignores
+  # turbo --affected, which is what you want after changing a secret or a var,
+  # or only `.github/**`: none of those moves a file inside a package.
   workflow_dispatch:
     inputs:
       force_all:
-        description: "Redeploy every unit, ignoring turbo --affected (use after rotating secrets/vars)"
+        description: "Redeploy every unit, ignoring turbo --affected (use after changing secrets/vars)"
         type: boolean
         default: true
-  # One deploy branch, one environment: main -> production. There is no staging.
   push:
     branches:
       - main
+      - staging
+      - deployment-test
     paths-ignore:
       - "**/*.md"
+      - ".claude/**"
       - ".cursor/**"
       - ".vscode/**"
       - ".husky/**"
@@ -25,158 +32,148 @@ on:
 permissions:
   contents: read
   actions: read
-  checks: read
 
 concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  # Debounce bursts of merges (e.g. several finished PRs merged back-to-back at the
-  # end of the day). Sleep a short window so closely-following commits can land, then
-  # bail if a newer commit is now the tip of this branch — only the latest commit
-  # should deploy. Safe by construction: with `cancel-in-progress: false` an in-flight
-  # deploy is never interrupted, so this can only skip work *before* it starts. The
-  # skip cascades to discover/verify/deploy through `discover`'s `if` below.
-  guard:
+  # Ref check, debounce and discovery in one job (each job is billed a whole
+  # minute).
+  #
+  # Debounce: sleep a short window so a burst of merges can land, then bail if
+  # a newer commit is now the tip; only the latest commit deploys. Safe by
+  # construction: with `cancel-in-progress: false` an in-flight deploy is never
+  # interrupted, so this only skips work before it starts. If the tip lookup
+  # fails it fails open and deploys. Manual dispatch is not debounced.
+  #
+  # Discovery reads the manifest and computes which units have a changed app
+  # (turbo --affected). Adding an app is a line in the manifest, never an edit
+  # here.
+  discover:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
-      latest: ${{ steps.check.outputs.latest }}
+      target: ${{ steps.ref.outputs.target }}
+      units: ${{ steps.d.outputs.units }}
+      any: ${{ steps.d.outputs.any }}
     steps:
+      - name: Map ref to environment
+        id: ref
+        run: |
+          case "$GITHUB_REF_NAME" in
+            main) target=production ;;
+            staging | deployment-test) target=staging ;;
+            *)
+              echo "::error::${GITHUB_REF_NAME} is not a deploy branch (main, staging, deployment-test)"
+              exit 1
+              ;;
+          esac
+          echo "target=$target" >> "$GITHUB_OUTPUT"
+
       - name: Debounce window
-        # Tune to your merge cadence: long enough for a burst of merges to settle
-        # before the staleness check runs. 45s comfortably covers back-to-back merges.
-        # Manual dispatch is deliberate, not a merge burst — no need to debounce it.
         if: github.event_name == 'push'
         run: sleep 45
 
       - name: Skip if superseded by a newer commit
-        id: check
+        id: tip
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           tip="$(gh api "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_REF_NAME}" --jq '.sha' 2>/dev/null || true)"
           if [ -z "$tip" ] || [ "$tip" = "$GITHUB_SHA" ]; then
-            # We are the branch tip, or the lookup failed — fail open and deploy.
             echo "latest=true" >> "$GITHUB_OUTPUT"
           else
-            echo "::notice::Superseded by ${tip} on ${GITHUB_REF_NAME} — skipping stale deploy of ${GITHUB_SHA}"
+            echo "::notice::Superseded by ${tip} on ${GITHUB_REF_NAME}, skipping stale deploy of ${GITHUB_SHA}"
             echo "latest=false" >> "$GITHUB_OUTPUT"
           fi
 
-  # Read the .github/deploy-units.jsonc manifest (the apps that deploy + their grouping),
-  # then compute which units have a *changed* app (turbo --affected) and emit the deploy
-  # matrix. Adding an app = a line in the manifest, never an edit to this workflow.
-  discover:
-    needs: guard
-    if: needs.guard.outputs.latest == 'true'
-    runs-on: ubuntu-latest
-    outputs:
-      units: ${{ steps.d.outputs.units }}
-      any: ${{ steps.d.outputs.any }}
-    steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        if: steps.tip.outputs.latest == 'true'
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
           fetch-depth: 0 # turbo --affected needs history back to the previous tip
 
       - name: Setup
+        if: steps.tip.outputs.latest == 'true'
         uses: ./.github/actions/setup
 
       - name: Discover deploy units
         id: d
+        if: steps.tip.outputs.latest == 'true'
         env:
-          FORCE_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.force_all }}
+          FORCE_ALL: ${{ (github.event_name == 'workflow_dispatch' && inputs.force_all) || github.ref_name == 'deployment-test' }}
           TURBO_SCM_BASE: ${{ github.event.before }}
           TURBO_SCM_HEAD: ${{ github.sha }}
         run: node .github/scripts/deploy/discover.mjs
 
-  # The deploy gate: the FULL check set. The deploy job runs only if this succeeds,
-  # so a direct push to main (no PR) can't ship a failure. Keep in sync with ci.yml's
-  # checks.
+  # The post-merge gate: the same composite action ci.yml runs, in full mode.
+  # A direct push to a deploy branch cannot ship a failure. No `environment:`
+  # binding: verify uses no secrets, and binding it would couple the gate to
+  # the environment's protection rules.
   verify:
     needs: discover
     if: needs.discover.outputs.any == 'true'
     runs-on: ubuntu-latest
-    # No `environment:` binding on purpose: verify runs pure code/schema checks and
-    # seeds build env from committed .env.example placeholders — it uses no environment
-    # secrets. Binding it to `production` would grant unused access and would couple the
-    # gate to that environment's protection rules (required reviewers / wait timers) if
-    # any are ever added. The `deploy` job below is where the environment, and its
-    # secrets and protection, correctly applies.
+    timeout-minutes: 20
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
-          fetch-depth: 0 # migration-safety diffs new migrations vs the previous tip
+          fetch-depth: 0 # migration safety diffs new migrations against the previous tip
 
-      - name: Setup
-        uses: ./.github/actions/setup
+      - name: Gate
+        uses: ./.github/actions/gate
+        with:
+          mode: full
+          # Empty on dispatch: migration safety then diffs against origin/main;
+          # all zeros on a branch's first push: it scans every migration.
+          base: ${{ github.event.before }}
 
-      # Mirrors ci.yml: the build no longer runs check:env, so this gate validates
-      # code + schema/migration safety only — env PRESENCE is enforced in the
-      # deploy job (app.sh runs check:env with the real secrets+vars). A client app
-      # still bakes its VITE_* values in at build time, so seed them from the
-      # committed .env.example placeholders, not prod config.
-      - name: Seed build env from committed examples (placeholders, not prod config)
-        run: |
-          for app in apps/*/; do
-            [ -f "${app}env/.env.example" ] && cp "${app}env/.env.example" "${app}env/.env"
-          done
-
-      - name: Lint
-        run: pnpm lint
-
-      # Build before typecheck: it generates the routeTree the game's typecheck imports.
-      - name: Build
-        run: pnpm exec turbo run build
-
-      - name: Typecheck
-        run: pnpm typecheck
-
-      - name: Migration safety (block unacknowledged destructive DDL)
-        env:
-          BASE_REF: ${{ github.event.before }}
-        run: node .github/scripts/checks/migration-safety.mjs
-
-      - name: Backend schema drift check
-        working-directory: apps/backend
-        run: pnpm run db:check
-
-      - name: Test
-        run: pnpm exec turbo run test
-
-  # One generic job, matrixed over deploy units. Each unit deploys its changed apps
-  # in order, fail-stop (deploy/unit.sh -> deploy/app.sh). No per-app job, no cross-job
-  # `needs` graph. Adding an app = zero edits here.
+  # One generic job, matrixed over deploy units. Each unit deploys its changed
+  # apps in order, fail-stop (unit.sh -> app.sh). Units run in parallel and one
+  # unit's failure does not cancel another.
   deploy:
     needs: [discover, verify]
     if: needs.verify.result == 'success'
     runs-on: ubuntu-latest
-    # The only environment. It is what supplies the deploy's secrets and vars, and
-    # what any protection rule (required reviewers, wait timer) would attach to.
-    environment: production
+    timeout-minutes: 20
+    environment: ${{ needs.discover.outputs.target }}
     strategy:
       fail-fast: false
       matrix:
         unit: ${{ fromJSON(needs.discover.outputs.units) }}
     env:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN || vars.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+      TARGET: ${{ needs.discover.outputs.target }}
+      UNIT: ${{ matrix.unit.name }}
+      AFFECTED: ${{ toJSON(matrix.unit.affected) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Prepare Cloudflare credentials
+      # The ONLY step that sees the Environment's secrets. It writes each app's
+      # env/.env from its schema (an allowlist) and prints key names only.
+      - name: Write env files from schema
+        env:
+          GH_SECRETS: ${{ toJSON(secrets) }}
+          GH_VARS: ${{ toJSON(vars) }}
+        run: |
+          printf '%s' "$AFFECTED" | jq -r '.[]' | while IFS= read -r app; do
+            pnpm tsx .github/scripts/write-env-from-schema.ts "$app"
+          done
+
+      - name: Prepare Cloudflare account id
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           raw_len=${#CLOUDFLARE_ACCOUNT_ID}
           account_id="${CLOUDFLARE_ACCOUNT_ID//[!a-fA-F0-9]/}"
           clean_len=${#account_id}
           if [ "$raw_len" != "$clean_len" ]; then
-            echo "::warning::CLOUDFLARE_ACCOUNT_ID had ${raw_len} characters, sanitized to ${clean_len} hex (remove hidden chars in GitHub secret/var)"
+            echo "::warning::CLOUDFLARE_ACCOUNT_ID had ${raw_len} characters, sanitized to ${clean_len} hex (remove hidden chars in the GitHub secret/var)"
           fi
           if [ "$clean_len" -ne 32 ]; then
             echo "::error::CLOUDFLARE_ACCOUNT_ID must be 32 hex characters (got ${clean_len} after sanitization)"
@@ -184,10 +181,9 @@ jobs:
           fi
           echo "CLOUDFLARE_ACCOUNT_ID=$account_id" >> "$GITHUB_ENV"
 
+      # The token comes from `secrets` only: variables are not masked in logs.
+      # app.sh strips it from the build's environment, so only wrangler sees it.
       - name: Deploy unit (ordered, fail-stop)
         env:
-          UNIT: ${{ matrix.unit.name }}
-          AFFECTED: ${{ toJSON(matrix.unit.affected) }}
-          GH_SECRETS: ${{ toJSON(secrets) }}
-          GH_VARS: ${{ toJSON(vars) }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: bash .github/scripts/deploy/unit.sh

@@ -94,3 +94,31 @@ binding = "AVATARS"
 # to it in the dashboard (R2 → bucket → Settings → Public access → Custom domain).
 # There is no wrangler equivalent for that step.
 bucket_name = "abalone-avatars"
+
+# ---- staging -------------------------------------------------------
+# Same shape as production, every binding pointing at its OWN staging resource
+# (the deploy refuses to migrate if two envs share a database_id). Deployed from
+# the `staging` and `deployment-test` branches with `--env staging`.
+
+[env.staging]
+name = "abalone-backend-staging"
+workers_dev = false
+# Custom domain declared here (production's was attached in the dashboard), so
+# `triggers deploy` creates it and the DNS record on the tudu.dev zone.
+routes = [{ pattern = "staging.api.abalone.tudu.dev", custom_domain = true }]
+
+[[env.staging.d1_databases]]
+binding = "DB"
+database_name = "abalone-backend-db-staging"
+database_id = "58b50b62-90dc-4787-a6a2-6f73cc95e082"
+migrations_dir = "src/database/migrations"
+
+[[env.staging.durable_objects.bindings]]
+name = "PUBSUB"
+class_name = "PubSub"
+
+[[env.staging.r2_buckets]]
+binding = "AVATARS"
+# Public at staging.cdn.abalone.tudu.dev (R2 custom domain, set by Platform via
+# the API; there is no wrangler equivalent).
+bucket_name = "abalone-avatars-staging"

@@ -5,67 +5,113 @@
 #   - wrangler.toml has a D1 binding                     -> versioned: upload -> migrate -> promote
 #     ...and that Worker does not exist yet              -> migrate -> one-shot deploy (creates it)
 #   - otherwise                                          -> plain one-shot deploy
-# This project deploys ONE target: production off `main`. Apps whose config IS
-# their wrangler.toml select it through an `[env.production]` block, because
-# bindings differ between the values `wrangler dev` should use and the ones that
-# ship. D1 database name(s) are read from that same env via wrangler's own config
-# reader (see d1-databases.ts), never derived from the worker name, and every
-# configured database is migrated. `stack-deploy-environments` keeps this shape.
+#
+# Usage: app.sh <app-path> <target>, target = production | staging.
+#
+# The top-level wrangler block is DEV. Every target is an explicit
+# `[env.<target>]` block with its own `name` and its own resources, and every
+# wrangler call that reads this app's wrangler.toml passes `--env <target>`, so
+# nothing here can ship the dev block, and a bare `wrangler deploy` from a
+# laptop cannot reach production. D1 database name(s) are read from that same
+# env via wrangler's own config reader (d1-databases.ts), never derived from the
+# worker name, and every configured database is migrated.
+#
+# env/.env was already written from the schema by the deploy job (the only step
+# that sees the Environment's secrets). This script runs check:env against it,
+# builds with no Cloudflare credentials in the environment, and uploads it to
+# the Worker as secrets on every path.
+#
 # DRY_RUN=1 prints the wrangler commands without running anything (still reads the config).
 set -euo pipefail
 
-app_path="${1:?usage: app.sh <app-path>}"
+app_path="${1:?usage: app.sh <app-path> <target>}"
+target="${2:?usage: app.sh <app-path> <target>}"
 
 # absolute path to this script's directory, captured before any `cd` so the helper resolves
 script_dir="$(cd "$(dirname "$0")" && pwd)"
 
 if [ "${DRY_RUN:-}" != "1" ]; then
-  pnpm tsx .github/scripts/write-env-from-schema.ts "$app_path"
-  # Enforce env presence HERE — deploy time, with the real secrets+vars. The
-  # `build` script no longer runs check:env, so PR CI never gates on env; a
-  # missing required var fails the DEPLOY (this line), not the PR build.
-  (cd "$app_path" && pnpm check:env && pnpm run build)
+  # Enforce env presence HERE, at deploy time, with the real values. A missing
+  # required var fails the DEPLOY, not the PR build.
+  #
+  # CLOUDFLARE_ENV selects the wrangler environment at BUILD time: the Vite
+  # plugin bakes the matching [env.<target>] (name, routes, bindings) into
+  # dist/server/wrangler.json, and a wrangler dry-run build reads it too. The
+  # build gets no Cloudflare credentials: it needs none, and a build plugin or
+  # dependency has no business seeing them.
+  (cd "$app_path" && pnpm check:env &&
+    env -u CLOUDFLARE_API_TOKEN -u CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_ENV="$target" pnpm run build)
 fi
 
 cd "$app_path"
 
-# The name that ships. With an `[env.production]` block that block's `name` is it
-# — a named env otherwise deploys as `<top-level-name>-production`, which is why
-# the block sets it explicitly. Top level is the fallback, for the apps that have
-# no environments at all.
-#
-# THIS IS A LABEL, NOT A TARGET. The versioned path passes no `--name` (neither
-# `versions upload` nor `versions deploy` takes one); `$worker` only reaches the
-# two non-versioned branches and the step summary. Do not "fix" it into a selector.
-worker="$(awk -F'"' '
-  /^\[env\.production\]/ { inenv = 1; next }
-  inenv && /^\[/ { exit }
-  inenv && /^name = / { print $2; exit }
-' wrangler.toml)"
-[ -n "$worker" ] ||
-  worker="$(grep -m1 '^name = ' wrangler.toml | sed 's/.*"\(.*\)".*/\1/')"
+env_flag=(--env "$target")
 
-# Every wrangler call that reads THIS app's wrangler.toml targets `[env.production]`.
-# The generated-config branch below is the exception and takes no flag: TanStack
-# emits dist/server/wrangler.json from the Vite build, and that file has no
-# environments to select.
-env_flag=(--env production)
+# Upload env/.env onto the Worker AS SECRETS on every path, so the runtime env
+# is driven entirely by the GitHub Environment: no [vars] in wrangler.toml, no
+# dashboard.
+secrets_flag=()
+[ -s env/.env ] && secrets_flag=(--secrets-file env/.env)
 
 wr() {
   echo "+ wrangler $*"
   [ "${DRY_RUN:-}" = "1" ] || pnpm exec wrangler "$@"
 }
 
+# The name that ships, for the summary and the plain path. THIS IS A LABEL, NOT
+# A SELECTOR on the versioned path: neither `versions upload` nor `versions
+# deploy` takes a name, `--env` picks the block.
+env_name() {
+  awk -F'"' -v hdr="[env.${target}]" '
+    $0 == hdr { inenv = 1; next }
+    inenv && /^\[/ { exit }
+    inenv && /^name = / { print $2; exit }
+  ' wrangler.toml
+}
+
+summary_line() {
+  [ -z "${GITHUB_STEP_SUMMARY:-}" ] ||
+    echo "- \`${app_path}\` → **${1}** (${target}) version \`${2:-n/a}\`" >> "$GITHUB_STEP_SUMMARY"
+  echo "deployed ${app_path} → ${1} (${target}) version ${2:-n/a}"
+}
+
+# Version id of what is live now, for the summary (and so a rollback target is
+# easy to find). Best effort: a failed lookup never fails the deploy.
+live_version() {
+  [ "${DRY_RUN:-}" = "1" ] && return 0
+  pnpm exec wrangler deployments status "$@" 2>/dev/null |
+    sed -n 's/.*Version(s):[^0-9a-f]*\([0-9a-f-]\{36\}\).*/\1/p' | head -1 || true
+}
+
 if [ -f dist/server/wrangler.json ]; then
-  # generated-config app (e.g. a TanStack Start worker): plain deploy
-  wr deploy --config dist/server/wrangler.json --name "$worker"
-elif grep -q 'd1_databases' wrangler.toml; then
-  # database-backed worker: versioned upload -> migrate -> promote
-  # Resolve the ACTUAL D1 database name(s) from wrangler's own config reader (never
-  # derived from the worker name). Fails loud if a d1 binding has no database_name,
-  # and returns every configured database so a two-database app migrates both.
-  if ! db_list="$(pnpm exec tsx "$script_dir/d1-databases.ts")"; then
-    echo "::error::${app_path}: could not resolve D1 database name(s) from wrangler config"
+  # Generated-config app (e.g. a TanStack Start worker). The build already baked
+  # [env.<target>] in, and the generated file has no environments to select, so
+  # this one call takes no --env.
+  worker="$(node -p 'require("./dist/server/wrangler.json").name')"
+  wr deploy --config dist/server/wrangler.json "${secrets_flag[@]}"
+  summary_line "$worker" "$(live_version --config dist/server/wrangler.json)"
+  exit 0
+fi
+
+worker="$(env_name)"
+[ -n "$worker" ] || {
+  echo "::error::${app_path}: wrangler.toml has no [env.${target}] block with a name — add one (the top level is dev and never deploys)"
+  exit 1
+}
+
+if grep -q 'd1_databases' wrangler.toml; then
+  # Staging must never touch production data. Every env needs its own database.
+  dup="$(awk -F'"' '/^database_id[[:space:]]*=/ {print $2}' wrangler.toml | sort | uniq -d)"
+  [ -z "$dup" ] || {
+    echo "::error::${app_path}: two envs share D1 database_id ${dup}, refusing to migrate from ${target}"
+    exit 1
+  }
+
+  # Resolve the ACTUAL D1 database name(s) for this env from wrangler's own
+  # config reader. Fails loud on a missing name or a placeholder id, and returns
+  # every configured database so a two-database app migrates both.
+  if ! db_list="$(TARGET_ENV="$target" pnpm exec tsx "$script_dir/d1-databases.ts")"; then
+    echo "::error::${app_path}: could not resolve D1 database name(s) for env '${target}'"
     exit 1
   fi
   db_names=()
@@ -73,93 +119,73 @@ elif grep -q 'd1_databases' wrangler.toml; then
     [ -n "$db_name" ] && db_names+=("$db_name")
   done <<<"$db_list"
   [ "${#db_names[@]}" -gt 0 ] || {
-    echo "::error::${app_path}: wrangler.toml declares d1_databases but none resolved"
+    echo "::error::${app_path}: wrangler.toml declares d1_databases but none resolved for env '${target}'"
     exit 1
   }
 
-  # Upload the env (env/.env, written above from the GH-action env) onto the
-  # Worker AS SECRETS, so the runtime env is driven entirely by the deploy — no
-  # [vars] in wrangler.toml, no dashboard.
-  secrets_file=""
-  [ -s env/.env ] && secrets_file="--secrets-file env/.env"
+  migrate_all() {
+    for db_name in "${db_names[@]}"; do
+      wr d1 migrations apply "$db_name" --remote "${env_flag[@]}"
+    done
+  }
 
-  # THE FIRST DEPLOY OF A WORKER IS THE ONE CASE THIS PATH CANNOT SERVE. `versions
-  # upload` only works against a script that already exists — the API has no
-  # create-by-version path, and against a name it has never seen it fails with
-  # "This Worker does not exist on your account" (code 10007). Everything below
-  # assumes the script is there, which is true of every deploy except the first.
+  # THE FIRST DEPLOY OF A WORKER IS THE ONE CASE THE VERSIONED PATH CANNOT SERVE.
+  # `versions upload` only works against a script that already exists; against
+  # a name it has never seen it fails with code 10007. So bring it into
+  # existence here (migrations first: a brand-new Worker has no previous version
+  # serving traffic) and fall through to the normal path. One redundant deploy,
+  # once in a Worker's life.
   #
-  # So bring it into existence here and then fall through: `wrangler deploy` is
-  # what creates a script, and the normal path below runs afterwards exactly as it
-  # always does. Migrations go first because a brand-new Worker has no previous
-  # version left serving traffic — schema before code is the only ordering with no
-  # window in it. One redundant deploy, once in a Worker's life, and the versioned
-  # path stays untouched.
-  #
-  # The probe matches 10007 specifically, not any non-zero exit: a network blip is
-  # a different answer from "no such Worker", and reading one as the other would
-  # ship unversioned. DRY_RUN skips it — the probe needs credentials and a local
-  # rehearsal is not meant to.
+  # The probe matches 10007 specifically, not any non-zero exit: a network blip
+  # is a different answer from "no such Worker", and reading one as the other
+  # would ship unversioned.
   if [ "${DRY_RUN:-}" != "1" ]; then
     set +e
     probe="$(pnpm exec wrangler versions list "${env_flag[@]}" --json 2>&1)"
     set -e
     if printf '%s' "$probe" | grep -q 'code: 10007'; then
-      echo "::notice::${app_path}: no Worker on the account yet — creating it"
-      for db_name in "${db_names[@]}"; do
-        wr d1 migrations apply "$db_name" --remote "${env_flag[@]}"
-      done
-      # No --name: `[env.production]` carries it, and `deploy` applies triggers
-      # itself — the note further down about the versioned path not doing so is
-      # exactly why this one needs nothing after it.
-      wr deploy "${env_flag[@]}" $secrets_file
+      echo "::notice::${app_path}: no Worker ${worker} on the account yet, creating it"
+      migrate_all
+      wr deploy "${env_flag[@]}" "${secrets_flag[@]}"
     fi
   fi
 
-  # Set when the fallback below has already shipped this deploy outright, so the
-  # versioned promote further down knows there is nothing left to promote.
+  # Set when the fallback below already shipped this deploy outright.
   promoted=""
 
   if [ "${DRY_RUN:-}" = "1" ]; then
-    wr versions upload "${env_flag[@]}" $secrets_file
+    wr versions upload "${env_flag[@]}" "${secrets_flag[@]}"
     vid="<version-id>"
   else
-    echo "+ wrangler versions upload ${env_flag[*]} $secrets_file"
-    # Capture output, but do NOT let `set -e` abort the assignment on a non-zero
-    # exit before we can print it — otherwise a failed upload leaves a blank log
-    # (this is exactly how a missing binding once failed silently). Surface the
-    # wrangler output, check the exit code explicitly, then parse the version id.
+    echo "+ wrangler versions upload ${env_flag[*]} ${secrets_flag[*]}"
+    # Capture output without letting `set -e` abort before it is printed, so a
+    # failed upload never leaves a blank log.
     set +e
-    upload="$(pnpm exec wrangler versions upload "${env_flag[@]}" $secrets_file 2>&1)"
+    upload="$(pnpm exec wrangler versions upload "${env_flag[@]}" "${secrets_flag[@]}" 2>&1)"
     rc=$?
     set -e
     printf '%s\n' "$upload"
 
-    # A VERSION CANNOT CARRY A DURABLE OBJECT MIGRATION. Lifecycle changes — a new
-    # class, a rename, a delete — are script-level, written only by `wrangler
-    # deploy`; `versions upload` refuses the config outright rather than uploading
-    # a version that would be missing the namespace. This fires ONCE in a class's
-    # life: afterwards the migration tag is unchanged, the upload carries nothing,
-    # and the versioned path resumes forever.
-    #
-    # Same shape and same reasoning as the 10007 first-deploy branch above —
-    # migrate first, one-shot deploy, then back to normal. Migrations lead because
-    # a one-shot deploy has no previous version left serving traffic, so schema
-    # before code is the only ordering without a window in it.
-    if [ "$rc" -ne 0 ] && printf '%s' "$upload" | grep -qi 'migration'; then
-      echo "::notice::${app_path}: version upload cannot carry a Durable Object migration — deploying directly"
-      for db_name in "${db_names[@]}"; do
-        wr d1 migrations apply "$db_name" --remote "${env_flag[@]}"
-      done
-      wr deploy "${env_flag[@]}" $secrets_file
+    # A VERSION CANNOT CARRY A DURABLE OBJECT MIGRATION. A new class, rename or
+    # delete is script-level, written only by `wrangler deploy`. This fires once
+    # in a class's life. Matched on BOTH "durable object" and "migration", so
+    # an unrelated failure that mentions D1 migrations cannot take the
+    # unversioned path.
+    if [ "$rc" -ne 0 ] &&
+      printf '%s' "$upload" | grep -qi 'durable object' &&
+      printf '%s' "$upload" | grep -qi 'migration'; then
+      echo "::notice::${app_path}: version upload cannot carry a Durable Object migration, deploying directly"
+      migrate_all
+      wr deploy "${env_flag[@]}" "${secrets_flag[@]}"
       promoted=1
+      vid=""
     else
       [ "$rc" -eq 0 ] || {
         echo "::error::${app_path}: wrangler versions upload failed (exit ${rc})"
         exit 1
       }
-      # vid is scraped from wrangler's "Worker Version ID:" line; if wrangler ever
-      # changes that wording this parse yields empty and the guard below fires.
+      # Scraped from wrangler's "Worker Version ID:" line; if the wording ever
+      # changes the parse yields empty and the guard fires.
       vid="$(printf '%s\n' "$upload" | grep 'Worker Version ID:' | sed 's/.*Worker Version ID: //' | tr -d '[:space:]')"
       [ -n "$vid" ] || {
         echo "::error::${app_path}: no Worker Version ID from upload"
@@ -167,43 +193,25 @@ elif grep -q 'd1_databases' wrangler.toml; then
       }
     fi
   fi
-  # Migrate every database BEFORE promoting the new version, so the schema is ready
-  # the moment the new code goes live. The env flag is not optional here: the name
-  # is positional, but wrangler still looks it up in the config to find the id and
-  # the migrations_dir, and the top-level block declares a different database.
-  # Skipped when the fallback above already shipped: that path migrated and
-  # deployed on its own, and there is no version waiting to be promoted.
+  # Migrate every database BEFORE promoting, so the schema is ready the moment
+  # the new code goes live. Migrations are expand/contract, so the old version
+  # still serving keeps working on the new schema.
   if [ -z "$promoted" ]; then
-    for db_name in "${db_names[@]}"; do
-      wr d1 migrations apply "$db_name" --remote "${env_flag[@]}"
-    done
+    migrate_all
     wr versions deploy "${vid}@100%" -y "${env_flag[@]}"
   fi
-  # THE VERSIONED PATH DOES NOT APPLY TRIGGERS. `versions upload` + `versions deploy` push
-  # only what lives inside a version: code, bindings, secrets. Queue consumers, cron
-  # schedules and routes are script-level and are written solely by wrangler's internal
-  # triggersDeploy(), reached from `wrangler deploy` and `wrangler triggers deploy` — never
-  # from the versioned path. Omitting this makes a DB-backed app deploy GREEN while its
-  # queue consumers are never attached (jobs enqueue and are consumed by nobody) and its
-  # crons keep whatever schedule they last had.
-  # The two non-versioned branches below call `wrangler deploy`, which already does this.
-  # Also fails loud when a declared queue is missing — wrangler does not auto-create
-  # queues the way it does R2 buckets.
+  # THE VERSIONED PATH DOES NOT APPLY TRIGGERS. Queue consumers, crons and
+  # routes are script-level, written only by `wrangler deploy` and `wrangler
+  # triggers deploy`. Without this a DB-backed app deploys GREEN while its queue
+  # consumers are never attached and its crons keep their old schedule. Also
+  # fails loud when a declared queue is missing.
   wr triggers deploy "${env_flag[@]}"
+  summary_line "$worker" "${vid:-$(live_version "${env_flag[@]}")}"
 else
-  # plain worker: one-shot deploy, which is also what creates the script, so this
-  # branch needs no first-deploy handling of its own. No app takes it today; the
-  # first one that does needs an `[env.production]` block.
-  #
-  # The env flag is not optional, even though `--name` already carries the name:
-  # without it wrangler reads the TOP-LEVEL block, so the app would ship under the
-  # production name with the dev bindings, and succeed while doing it. `--name`
-  # together with `--env` was once left un-guessed here; it is exercised now
-  # (`wrangler deploy --dry-run --name … --env production` resolves the production
-  # bindings), so the pair is what this passes.
-  wr deploy --name "$worker" "${env_flag[@]}"
+  # Plain worker: one-shot deploy, which also creates the script, so no
+  # first-deploy handling. `--env` is not optional even with `--name`: without
+  # it wrangler reads the top-level (dev) block and ships those bindings under
+  # this name, green.
+  wr deploy --name "$worker" "${env_flag[@]}" "${secrets_flag[@]}"
+  summary_line "$worker" "$(live_version --name "$worker" "${env_flag[@]}")"
 fi
-
-[ -z "${GITHUB_STEP_SUMMARY:-}" ] ||
-  echo "- \`${app_path}\` → **${worker}**" >> "$GITHUB_STEP_SUMMARY"
-echo "deployed ${app_path} → ${worker}"

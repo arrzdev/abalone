@@ -1,0 +1,50 @@
+name: Rollback
+
+# Roll the Workers of one deploy unit back to an earlier version. The deploy
+# step summary prints each worker's version id. D1 is NEVER rolled back:
+# migrations are expand/contract, so the previous code runs on the new schema,
+# and schema problems are fixed forward.
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to roll back"
+        type: choice
+        options: [staging, production]
+        required: true
+      unit:
+        description: "Deploy unit name (.github/deploy-units.jsonc)"
+        type: string
+        required: true
+      version_id:
+        description: "Version id to roll back to (empty = the previous version). Only valid for a single-worker unit."
+        type: string
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-rollback-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  rollback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Roll back each worker of the unit
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+          TARGET: ${{ inputs.environment }}
+          UNIT: ${{ inputs.unit }}
+          VERSION_ID: ${{ inputs.version_id }}
+        run: bash .github/scripts/deploy/rollback.sh

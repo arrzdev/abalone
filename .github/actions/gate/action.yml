@@ -1,0 +1,100 @@
+name: Gate
+description: >
+  The one merge gate. ci.yml runs it on every PR push and deploy.yml's verify
+  runs it again after the merge, so both use this action and cannot drift.
+  Nothing in here is project-specific: optional checks run when the repo has
+  them (skills scripts, a `db:check` script, migrations).
+
+inputs:
+  mode:
+    description: "full | draft | docs. draft = affected tests only; docs = lint + skills only"
+    required: true
+  base:
+    description: "Commit to diff against (migration safety, affected tests)"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    # Agent harness integrity. Python only, no install. Fails on conditions that
+    # are otherwise silent (a skill that is never discovered, a hook glob that
+    # stops matching). Ships nothing, but it costs seconds, and a separate job
+    # would be billed a whole minute.
+    - name: Skills and hooks
+      shell: bash
+      run: |
+        if [ -f .claude/scripts/check-skills.py ]; then python3 .claude/scripts/check-skills.py; fi
+        if [ -f .claude/scripts/test-hooks.py ]; then python3 .claude/scripts/test-hooks.py; fi
+
+    - name: Setup
+      uses: ./.github/actions/setup
+
+    - name: Lint
+      shell: bash
+      run: pnpm lint
+
+    # No `environment:` and no secrets anywhere in the gate. A client app still
+    # bakes its VITE_* values in at build, so seed them from the committed
+    # .env.example placeholders. Env presence is checked at deploy (app.sh).
+    - name: Seed build env from committed examples
+      if: inputs.mode != 'docs'
+      shell: bash
+      run: |
+        for app in apps/*/; do
+          [ -f "${app}env/.env.example" ] && cp "${app}env/.env.example" "${app}env/.env"
+        done
+
+    # Build before typecheck: the build generates files (route trees) that the
+    # typecheck imports.
+    - name: Build
+      if: inputs.mode != 'docs'
+      shell: bash
+      run: pnpm exec turbo run build
+
+    - name: Typecheck
+      if: inputs.mode != 'docs'
+      shell: bash
+      run: pnpm typecheck
+
+    - name: Migration safety (block unacknowledged destructive DDL)
+      if: inputs.mode != 'docs'
+      shell: bash
+      env:
+        BASE_REF: ${{ inputs.base }}
+      run: node .github/scripts/checks/migration-safety.mjs
+
+    - name: Backward-compat cleanup reminder (non-blocking)
+      if: inputs.mode != 'docs'
+      shell: bash
+      env:
+        BASE_REF: ${{ inputs.base }}
+      run: node .github/scripts/checks/compat-markers.mjs
+
+    # Schema drift is a merge-time problem: the deploy migrates the real
+    # database, so finding it after the merge means finding it half deployed.
+    - name: Schema drift (db:check)
+      if: inputs.mode != 'docs'
+      shell: bash
+      run: |
+        for pkg in apps/*/package.json; do
+          if jq -e '.scripts["db:check"]' "$pkg" >/dev/null; then
+            dir="$(dirname "$pkg")"
+            echo "::group::db:check ${dir}"
+            pnpm --dir "$dir" run db:check
+            echo "::endgroup::"
+          fi
+        done
+
+    - name: Test
+      if: inputs.mode == 'full'
+      shell: bash
+      run: pnpm exec turbo run test
+
+    # Draft PRs: only the packages the change affects. A draft cannot merge, and
+    # marking it ready re-runs the full gate on the same head commit.
+    - name: Test (affected only)
+      if: inputs.mode == 'draft'
+      shell: bash
+      env:
+        TURBO_SCM_BASE: ${{ inputs.base }}
+      run: pnpm exec turbo run test --affected

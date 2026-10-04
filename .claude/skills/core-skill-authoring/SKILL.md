@@ -47,7 +47,7 @@ The routing hook is a `PreToolUse(Edit|Write|MultiEdit)` that resolves the targe
 python3 .claude/scripts/check-skills.py && python3 .claude/scripts/test-hooks.py
 ```
 
-Both run in CI (`ci.yml` → `skills-guard`), PR-only by design — a broken skill degrades agent sessions, it doesn't ship.
+Both run in CI, inside the `gate` job (`.github/actions/gate`).
 
 **`check-skills.py`** — frontmatter validity (a `name` that doesn't match its directory means the skill is *never discovered*, with no error anywhere), dangling cross-references, skills missing from `CLAUDE.md`, `routing.json` entries pointing at nothing, globs matching nothing on disk, and `core-` skills that name this checkout.
 
