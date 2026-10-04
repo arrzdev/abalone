@@ -120,7 +120,7 @@ export const api = hc<RoutesInterface>(backendBaseUrl, {
 })
 ```
 
-**`backendBaseUrl` resolves the origin once** — in dev the backend shares the host on its own port, in prod it's `VITE_BACKEND_URL`. Non-RPC callers (the sync transport) reuse it rather than rebuilding a URL.
+**`backendBaseUrl` resolves the origin once** — in dev the backend shares the host on its own port, in prod it's the page's own origin, because the api answers under `/api` on every domain the app is served from. Non-RPC callers (the sync transport) reuse it rather than rebuilding a URL.
 
 **`withClientRequest` wraps fetch/client throws only** — it turns a network failure into a stable user-facing message and re-throws `AbortError` untouched. Envelope handling (`status !== "success"`) stays in the `queryFn` / `mutationFn` / transport. Don't use it to swallow domain errors.
 
