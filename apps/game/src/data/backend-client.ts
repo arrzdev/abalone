@@ -5,21 +5,37 @@ import { endSession } from "@/data/auth/session-end"
 import { getBearerToken } from "@/data/auth/token"
 import { env } from "@/env/registry"
 
-//resolved once: in dev the backend shares the host but runs on its own port, so
-//keep the configured port and take the hostname from wherever the page was
-//loaded — that is what makes a phone on the LAN work without editing env. in
-//production it is the configured url verbatim.
-export const backendBaseUrl = (() => {
-  const configured = env.VITE_BACKEND_URL
+const PRERENDER_ORIGIN = "http://localhost"
 
-  if (import.meta.env.DEV && typeof window !== "undefined") {
-    const { port } = new URL(configured)
-    const { protocol, hostname } = window.location
-    return `${protocol}//${hostname}${port ? `:${port}` : ""}`
-  }
+/**
+ * The origin every api call goes to, without a trailing slash.
+ *
+ * In production the api is served under /api on whichever domain the game was
+ * loaded from, so it is the page's own origin and calls stay same-origin. In dev
+ * the backend runs on its own port, so keep the configured port and take the
+ * hostname from the page — that is what makes a phone on the LAN work without
+ * editing env. With no page (the build's prerender) there is no origin to take,
+ * and nothing is called, but better-auth's client still insists on an absolute
+ * url when it is built, so it gets a placeholder that is never fetched.
+ */
+export function resolveBackendBaseUrl(options: {
+  isDev: boolean
+  configured: string | undefined
+  location: Pick<Location, "origin" | "protocol" | "hostname"> | undefined
+}): string {
+  const location = options.location
+  if (!location) return PRERENDER_ORIGIN
+  if (!options.isDev || !options.configured) return location.origin
 
-  return configured.trim().replace(/\/$/, "")
-})()
+  const { port } = new URL(options.configured)
+  return `${location.protocol}//${location.hostname}${port ? `:${port}` : ""}`
+}
+
+export const backendBaseUrl = resolveBackendBaseUrl({
+  isDev: import.meta.env.DEV,
+  configured: env.VITE_BACKEND_URL,
+  location: typeof window === "undefined" ? undefined : window.location,
+})
 
 //auto-inject the session bearer token on every RPC call, so no call site ever
 //attaches an Authorization header by hand

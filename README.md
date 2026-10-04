@@ -99,9 +99,11 @@ To add a domain, copy those three, then mount it with one `.route()` line in
 Sign-in is a username and a password. No email, no OAuth, no verification.
 better-auth's `username` plugin owns the handle, and the email column it insists
 on is derived server-side from that handle and never shown. Sessions are bearer
-tokens in `localStorage` rather than cookies, because the app and the API are
-different origins and a cross-origin cookie is a fight with Safari that an
-installed PWA keeps losing.
+tokens in `localStorage` rather than cookies. The game and the API now share an
+origin, the API answering under `/api/v1` on every domain the game is served
+from, but the tokens stay: they were chosen when the two were different origins,
+where a cross-origin cookie is a fight with Safari that an installed PWA keeps
+losing, and nothing about them broke.
 
 Profile pictures live in R2 under a content-addressed key, `avatars/<sha256>.webp`,
 so a picture's URL never changes and its `Cache-Control` can say `immutable`. The
@@ -151,10 +153,9 @@ after rotating secrets, which change no files, so `--affected` finds nothing.
 | Key | Value |
 | --- | --- |
 | `BETTER_AUTH_SECRET` | 16 characters or more, from `openssl rand -hex 32` |
-| `BETTER_AUTH_URL` | `https://api.abalone.tudu.dev` |
+| `BETTER_AUTH_URL` | `https://abalone.tudu.dev` |
 | `FRONTEND_URLS` | `https://abalone.tudu.dev,https://babaluje.tudu.dev` — every origin the game answers on, comma-separated |
 | `AVATAR_PUBLIC_URL` | `https://cdn.abalone.tudu.dev` |
-| `VITE_BACKEND_URL` | `https://api.abalone.tudu.dev`, baked into the game's build |
 
 Then create the database and the bucket. Both already exist on this account and
 `apps/backend/wrangler.toml` carries the database's id; on a fresh account,
@@ -168,12 +169,15 @@ pnpm exec wrangler d1 create abalone-backend-db
 pnpm exec wrangler r2 bucket create abalone-avatars
 ```
 
-The domains are the dashboard's. Attach `abalone.tudu.dev` and
+The game's domains are the dashboard's. Attach `abalone.tudu.dev` and
 `babaluje.tudu.dev` to the `abalone-game` Worker — the game answers on both,
-which is why `FRONTEND_URLS` is a list — `api.abalone.tudu.dev` to
-`abalone-backend`, and `cdn.abalone.tudu.dev` to the `abalone-avatars` bucket
-under Settings, Public access, Custom domain. There is no wrangler equivalent
-for the bucket one.
+which is why `FRONTEND_URLS` is a list — and `cdn.abalone.tudu.dev` to the
+`abalone-avatars` bucket under Settings, Public access, Custom domain. There is
+no wrangler equivalent for the bucket one. The API needs no domain of its own:
+`apps/backend/wrangler.toml` routes `abalone.tudu.dev/api/*` and
+`babaluje.tudu.dev/api/*` to `abalone-backend`, and a route wins over the game's
+custom domain on the same hostname, so the game calls `/api/v1` on its own
+origin. The game reads no API url in production; `VITE_BACKEND_URL` is for dev.
 
 Do all of that before merging. A missing environment value is invisible on the
 PR, because CI seeds `.env` from `.env.example` and deliberately does not run
@@ -181,7 +185,7 @@ PR, because CI seeds `.env` from `.env.example` and deliberately does not run
 
 The deploy writes `env/.env` from `env/schema.ts`, which is the allowlist, so
 only declared keys are ever written, and then uploads it onto the Worker as
-secrets. Nothing is configured in the Cloudflare dashboard except the two
+secrets. Nothing is configured in the Cloudflare dashboard except the game's
 domains. A database-backed Worker deploys as upload, then migrate, then promote,
 so the schema is in place before the new code goes live. Destructive DDL is
 blocked on PRs unless it carries an explicit acknowledgment.
