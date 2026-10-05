@@ -16,6 +16,7 @@ type ProbeWindow = Window & {
     point: (square: string) => Point | null
     marble: (square: string) => Marble
     takesInput: () => boolean
+    selected: () => string[]
   }
 }
 
@@ -43,6 +44,27 @@ export async function tapSquare(
     .not.toBeNull()
   const { x, y } = point as unknown as Point
   await page.mouse.click(x, y)
+}
+
+/**
+ * Presses a marble and waits until the board shows it selected. The board reads
+ * the selection a press made only after it has redrawn, so a second press
+ * sooner than that, faster than any player taps, would act as if the first
+ * never happened.
+ */
+export async function selectSquare(
+  page: Page,
+  square: string,
+): Promise<void> {
+  await tapSquare(page, square)
+  await expect.poll(() => selectedSquares(page)).toContain(square)
+}
+
+/** The squares the board shows selected right now. */
+export function selectedSquares(page: Page): Promise<string[]> {
+  return page.evaluate(
+    () => (window as ProbeWindow).__abaloneBoard?.selected() ?? [],
+  )
 }
 
 /** The marble on a square right now, read off the game state the board draws. */
@@ -85,7 +107,7 @@ export async function playMove(
       { message: `a marble on ${from} to move` },
     )
     .not.toBeNull()
-  await tapSquare(page, from)
+  await selectSquare(page, from)
   await tapSquare(page, to)
   await expectMarble(page, to, mover)
   await expectMarble(page, from, null)

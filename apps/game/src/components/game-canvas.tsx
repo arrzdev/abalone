@@ -476,6 +476,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
           return { x: rect.left + center.x, y: rect.top + center.y }
         },
         takesInput: () => interactiveRef.current,
+        selection: () => propsRef.current.state.selectedMarbles,
         marbleAt(cell) {
           const { black, white } = propsRef.current.state
           if (black.has(cell)) return "black"

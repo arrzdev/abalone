@@ -5,6 +5,8 @@ import {
   marbleOn,
   moveList,
   playMove,
+  selectedSquares,
+  selectSquare,
   tapSquare,
 } from "./support/board"
 
@@ -19,8 +21,9 @@ test("a game against a bot takes a legal move, refuses an illegal one, and the b
   expect(await marbleOn(page, "c5")).toBe("black")
 
   // Two squares in one step is not a move: the marble stays where it was.
-  await tapSquare(page, "c5")
+  await selectSquare(page, "c5")
   await tapSquare(page, "e5")
+  await expect.poll(() => selectedSquares(page)).toEqual([])
   await expectMarble(page, "c5", "black")
   await expectMarble(page, "e5", null)
 
