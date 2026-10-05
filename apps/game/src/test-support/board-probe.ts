@@ -17,6 +17,8 @@ export type BoardProbe = {
   marble: (square: string) => Player | null
   /** Whether the board takes a move right now, or ignores a press. */
   takesInput: () => boolean
+  /** The squares of the marbles selected right now. */
+  selected: () => string[]
 }
 
 declare global {
@@ -31,6 +33,7 @@ const CELL_BY_SQUARE = new Map<string, CellName>(
 
 type ProbeSource = {
   takesInput: () => boolean
+  selection: () => CellName[]
   locate: (cell: CellName) => { x: number; y: number } | null
   marbleAt: (cell: CellName) => Player | null
 }
@@ -52,6 +55,7 @@ export function exposeBoardProbe(source: ProbeSource): () => void {
       return cell ? source.marbleAt(cell) : null
     },
     takesInput: source.takesInput,
+    selected: () => source.selection().map(squareLabel),
   }
   window.__abaloneBoard = probe
   return () => {
