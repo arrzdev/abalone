@@ -18,7 +18,11 @@
     "./topology": "./src/topology.ts",
     "./types": "./src/types.ts"
   },
+  "scripts": {
+    "test": "vitest run"
+  },
   "devDependencies": {
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vitest": "4.1.2"
   }
 }
