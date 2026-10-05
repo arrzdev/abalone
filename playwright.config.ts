@@ -48,6 +48,8 @@ export default defineConfig({
       command: "bash e2e/support/serve-backend.sh",
       url: apiURL,
       env: serverEnv,
+      // Its request log, so a failed run shows what the api answered.
+      stdout: "pipe",
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,
     },
