@@ -1,17 +1,38 @@
 import { defineConfig, devices } from "@playwright/test"
 
-// E2E / self-test harness. Drives a locally running app headlessly.
-// Default target is the game's committed dev port; override with E2E_BASE_URL
-// (e.g. when the agent remaps ports.ts for an isolated autonomous run — see the
-// "self-test-prefer-headless-automation" / "autonomous-test-isolate-ports" notes).
-const baseURL = process.env.E2E_BASE_URL ?? "http://127.0.0.1:6161"
+// The main user flows, end to end: an e2e build of the game in front of the
+// real backend Worker (local D1, R2 and Durable Object), both started here by
+// the scripts in e2e/support/.
+//
+// The committed dev ports are the default, which is what CI uses. On a machine
+// where something else already holds them, move the whole suite with
+// E2E_GAME_PORT / E2E_API_PORT. Outside CI a server already up on the chosen
+// ports is reused, which is what makes a second local run quick.
+const gamePort = Number(process.env.E2E_GAME_PORT ?? 6161)
+const apiPort = Number(process.env.E2E_API_PORT ?? 8181)
+const inspectorPort = Number(process.env.E2E_API_INSPECTOR_PORT ?? 9218)
+
+const baseURL = `http://localhost:${gamePort}`
+// The backend's health route, at its root, answers 200 once it is up.
+const apiURL = `http://localhost:${apiPort}`
+
+const serverEnv = {
+  E2E_GAME_PORT: String(gamePort),
+  E2E_API_PORT: String(apiPort),
+  E2E_API_INSPECTOR_PORT: String(inspectorPort),
+}
 
 export default defineConfig({
   testDir: "./e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  reporter: process.env.CI ? "line" : "list",
+  // One preview server and one backend Worker behind every test; two browsers
+  // at a time is what a CI runner serves without pages timing out.
+  workers: process.env.CI ? 2 : undefined,
+  reporter: process.env.CI ? [["line"], ["github"]] : "list",
+  timeout: 60_000,
+  expect: { timeout: 10_000 },
   use: {
     baseURL,
     trace: "on-first-retry",
@@ -22,11 +43,20 @@ export default defineConfig({
     // device — escalate device-only quirks to the iOS Simulator).
     { name: "webkit", use: { ...devices["iPhone 13"] } },
   ],
-  // Reuse a dev server if one is already up; otherwise boot the game.
-  webServer: {
-    command: "pnpm --filter @repo/game dev",
-    url: baseURL,
-    reuseExistingServer: !process.env.CI,
-    timeout: 120_000,
-  },
+  webServer: [
+    {
+      command: "bash e2e/support/serve-backend.sh",
+      url: apiURL,
+      env: serverEnv,
+      reuseExistingServer: !process.env.CI,
+      timeout: 120_000,
+    },
+    {
+      command: "bash e2e/support/serve-game.sh",
+      url: baseURL,
+      env: serverEnv,
+      reuseExistingServer: !process.env.CI,
+      timeout: 180_000,
+    },
+  ],
 })
