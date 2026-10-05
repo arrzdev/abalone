@@ -32,7 +32,9 @@ export function resolveBackendBaseUrl(options: {
 }
 
 export const backendBaseUrl = resolveBackendBaseUrl({
-  isDev: import.meta.env.DEV,
+  //the e2e build (`vite build --mode e2e`) is served by `vite preview` with the
+  //backend on its own port, the way dev is
+  isDev: import.meta.env.DEV || import.meta.env.MODE === "e2e",
   configured: env.VITE_BACKEND_URL,
   location: typeof window === "undefined" ? undefined : window.location,
 })
