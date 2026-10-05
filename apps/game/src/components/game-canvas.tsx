@@ -31,6 +31,7 @@ import {
   interpolate,
   TIMING,
 } from "@/render/motion"
+import { exposeBoardProbe } from "@/test-support/board-probe"
 
 const BASE_WIDTH = 800
 const BASE_HEIGHT = 700
@@ -445,6 +446,45 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       animateMove,
       draw,
     ])
+
+    // The e2e suite's way onto a board it cannot see into (test-support/
+    // board-probe). Only in the e2e build (`vite build --mode e2e`), which
+    // nothing deploys, and only on a board that is played on, so the demo and
+    // preview boards never answer for it. Played on rather than
+    // interactive: an online board still has to be read while it waits on the
+    // opponent.
+    const isPlayedOn = onCellClick !== undefined
+    const interactiveRef = useRef(interactive)
+    interactiveRef.current = interactive
+    useEffect(() => {
+      if (import.meta.env.MODE !== "e2e" || !isPlayedOn) return undefined
+      return exposeBoardProbe({
+        locate(cell) {
+          const canvas = canvasRef.current
+          if (!canvas) return null
+          const rect = canvas.getBoundingClientRect()
+          const view = viewRef.current
+          const [r, q] = cell.split(",").map(Number)
+          const center = hexCenter(
+            r,
+            q,
+            view.centerX,
+            view.centerY,
+            view.spacing,
+            propsRef.current.state.shouldFlipBoard,
+          )
+          return { x: rect.left + center.x, y: rect.top + center.y }
+        },
+        takesInput: () => interactiveRef.current,
+        selection: () => propsRef.current.state.selectedMarbles,
+        marbleAt(cell) {
+          const { black, white } = propsRef.current.state
+          if (black.has(cell)) return "black"
+          if (white.has(cell)) return "white"
+          return null
+        },
+      })
+    }, [isPlayedOn])
 
     const cellFromEvent = useCallback(
       (event: { clientX: number; clientY: number }) => {
