@@ -3,7 +3,12 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"],
+      "outputs": [
+        "dist/**",
+        "src/router.gen.tsx",
+        "src/routing/routeTree.gen.ts",
+        "src/routing/layouts/__root.gen.tsx"
+      ],
       "inputs": ["$TURBO_DEFAULT$", "env/.env", "env/schema.ts"]
     },
     "@repo/backend#build": {
