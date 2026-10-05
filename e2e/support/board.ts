@@ -23,26 +23,39 @@ type ProbeWindow = Window & {
 /**
  * Presses the centre of a square, the way a player taps it. Waits for the board
  * to take input first: a press while it is loading or waiting on the other side
- * is ignored, which is the game working rather than the test.
+ * is ignored, which is the game working rather than the test. Waits too for the
+ * square to hold still: on a phone the board only appears when the game starts,
+ * and a press aimed while it is still being laid out lands somewhere else.
  */
 export async function tapSquare(
   page: Page,
   square: string,
 ): Promise<void> {
-  let point: Point | null = null
+  let previous: Point | null = null
+  let settled: Point | null = null
   await expect
     .poll(
       async () => {
-        point = await page.evaluate((name) => {
+        const current = await page.evaluate((name) => {
           const board = (window as ProbeWindow).__abaloneBoard
           return board?.takesInput() ? board.point(name) : null
         }, square)
-        return point
+        const isStill =
+          current !== null &&
+          previous !== null &&
+          current.x === previous.x &&
+          current.y === previous.y
+        previous = current
+        settled = isStill ? current : null
+        return settled
       },
-      { message: `square ${square} on a board that takes input` },
+      {
+        message: `square ${square}, still, on a board that takes input`,
+        intervals: [100],
+      },
     )
     .not.toBeNull()
-  const { x, y } = point as unknown as Point
+  const { x, y } = settled as unknown as Point
   await page.mouse.click(x, y)
 }
 
