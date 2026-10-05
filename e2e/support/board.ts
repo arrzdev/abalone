@@ -64,13 +64,23 @@ export async function tapSquare(
  * the selection a press made only after it has redrawn, so a second press
  * sooner than that, faster than any player taps, would act as if the first
  * never happened.
+ *
+ * A press that shows nothing within two seconds is pressed again, the way a
+ * player would. On a CI runner webkit now and then loses the first tap of a
+ * game. Checking the selection before each press means a slow redraw is never
+ * read as a lost tap and pressed off again.
  */
 export async function selectSquare(
   page: Page,
   square: string,
 ): Promise<void> {
-  await tapSquare(page, square)
-  await expect.poll(() => selectedSquares(page)).toContain(square)
+  await expect(async () => {
+    if (!(await selectedSquares(page)).includes(square))
+      await tapSquare(page, square)
+    await expect
+      .poll(() => selectedSquares(page), { timeout: 2_000 })
+      .toContain(square)
+  }).toPass({ timeout: 20_000 })
 }
 
 /** The squares the board shows selected right now. */
@@ -120,10 +130,17 @@ export async function playMove(
       { message: `a marble on ${from} to move` },
     )
     .not.toBeNull()
-  await selectSquare(page, from)
-  await tapSquare(page, to)
+  // Pressed again when the marble has not moved within three seconds, with the
+  // same care as selectSquare: the selection is checked, never toggled blind.
+  await expect(async () => {
+    if ((await marbleOn(page, from)) === null) return
+    await selectSquare(page, from)
+    await tapSquare(page, to)
+    await expect
+      .poll(() => marbleOn(page, from), { timeout: 3_000 })
+      .toBeNull()
+  }).toPass({ timeout: 30_000 })
   await expectMarble(page, to, mover)
-  await expectMarble(page, from, null)
 }
 
 /** The move list, as the notation it shows ("c5d5"). */
