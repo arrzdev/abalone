@@ -90,6 +90,23 @@ runs:
       shell: bash
       run: pnpm exec turbo run test
 
+    # The main user flows in real browsers, when the repo has a `test:e2e`
+    # script. The suite's config starts whatever it drives (apps, local
+    # databases), so the gate only supplies the browsers. Full mode only: it is
+    # the slowest step, and a draft does not merge.
+    - name: E2E
+      if: inputs.mode == 'full'
+      shell: bash
+      run: |
+        if ! jq -e '.scripts["test:e2e"]' package.json >/dev/null; then
+          echo "No test:e2e script, skipping."
+          exit 0
+        fi
+        echo "::group::Install browsers"
+        pnpm exec playwright install --with-deps chromium webkit
+        echo "::endgroup::"
+        pnpm test:e2e
+
     # Draft PRs: only the packages the change affects. A draft cannot merge, and
     # marking it ready re-runs the full gate on the same head commit.
     - name: Test (affected only)
