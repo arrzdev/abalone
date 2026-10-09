@@ -79,7 +79,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "style": {
         "useImportType": {
           "level": "error",
@@ -124,6 +124,22 @@
       "includes": ["**/*.html"],
       "linter": {
         "enabled": false
+      }
+    },
+    {
+      "includes": ["**/*.svg"],
+      "linter": {
+        "enabled": false
+      }
+    },
+    {
+      "includes": ["packages/nativ/**"],
+      "assist": {
+        "actions": {
+          "source": {
+            "organizeImports": "off"
+          }
+        }
       }
     },
     {
