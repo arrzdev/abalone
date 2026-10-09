@@ -10,6 +10,9 @@ updates:
   # its own PR, because a major can change behaviour. @repo/nativ is out of scope.
   # Biome stays out of the group: its minors add recommended lint rules, so a
   # Biome bump needs code and config changes and would block every other bump.
+  # The ignore list is what @repo/nativ pins as peers. Bumping them only in the
+  # apps puts two copies of React and the router in the tree, so they move
+  # together with nativ, by hand.
   - package-ecosystem: npm
     directory: /
     schedule:
@@ -23,3 +26,16 @@ updates:
           - patch
         exclude-patterns:
           - "@biomejs/*"
+    ignore:
+      - dependency-name: "@tanstack/react-router"
+      - dependency-name: "@tanstack/react-start"
+      - dependency-name: react
+      - dependency-name: react-dom
+      - dependency-name: "@types/react"
+      - dependency-name: "@types/react-dom"
+      - dependency-name: vite
+      - dependency-name: tailwindcss
+      - dependency-name: motion
+      - dependency-name: clsx
+      - dependency-name: tailwind-merge
+      - dependency-name: tailwindcss-safe-area
