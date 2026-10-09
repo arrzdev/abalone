@@ -5,6 +5,8 @@ name: E2E WebKit
 # gate (the gate has its own browser run); trigger it by hand or wait for the
 # weekly run. Public repo, standard hosted runner: no paid minutes.
 on:
+  push:
+    branches: [ci/e2e-webkit-iphone]
   workflow_dispatch:
   schedule:
     - cron: "0 6 * * 1"
