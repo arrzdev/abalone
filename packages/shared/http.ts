@@ -135,16 +135,17 @@ type ExtractAppSchema<App> =
 export type ClientRoutesInterface<
   App,
   Codes extends Record<string, readonly [string, ContentfulStatusCode]>,
-> = App extends HonoBase<
-  infer E,
-  infer _Schema extends Schema,
-  infer BasePath,
-  infer CurrentPath
->
-  ? HonoBase<
-      E,
-      WithApiErrorsOnSchema<ExtractAppSchema<App>, Codes>,
-      BasePath,
-      CurrentPath
-    >
-  : never
+> =
+  App extends HonoBase<
+    infer E,
+    infer _Schema extends Schema,
+    infer BasePath,
+    infer CurrentPath
+  >
+    ? HonoBase<
+        E,
+        WithApiErrorsOnSchema<ExtractAppSchema<App>, Codes>,
+        BasePath,
+        CurrentPath
+      >
+    : never
