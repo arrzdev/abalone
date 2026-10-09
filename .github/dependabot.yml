@@ -8,6 +8,8 @@ updates:
       interval: weekly
   # npm: minor and patch bumps land together in one weekly PR; each major gets
   # its own PR, because a major can change behaviour. @repo/nativ is out of scope.
+  # Biome stays out of the group: its minors add recommended lint rules, so a
+  # Biome bump needs code and config changes and would block every other bump.
   - package-ecosystem: npm
     directory: /
     schedule:
@@ -19,3 +21,5 @@ updates:
         update-types:
           - minor
           - patch
+        exclude-patterns:
+          - "@biomejs/*"
