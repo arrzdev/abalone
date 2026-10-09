@@ -1,0 +1,51 @@
+name: E2E WebKit
+
+# The main flows in WebKit at an iPhone 13 size. The TUDU VM cannot run
+# WebKit, so this is where iPhone players get checked. Not part of the PR
+# gate (the gate has its own browser run); trigger it by hand or wait for the
+# weekly run. Public repo, standard hosted runner: no paid minutes.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-webkit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  webkit-iphone:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Seed build env from committed examples
+        run: |
+          for app in apps/*/; do
+            [ -f "${app}env/.env.example" ] && cp "${app}env/.env.example" "${app}env/.env"
+          done
+
+      - name: Install WebKit
+        run: pnpm exec playwright install --with-deps webkit
+
+      - name: E2E (webkit-iphone)
+        run: pnpm exec playwright test --project=webkit-iphone
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: playwright-report-webkit-iphone
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 14
