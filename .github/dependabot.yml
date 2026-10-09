@@ -6,3 +6,16 @@ updates:
     directory: /
     schedule:
       interval: weekly
+  # npm: minor and patch bumps land together in one weekly PR; each major gets
+  # its own PR, because a major can change behaviour. @repo/nativ is out of scope.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    exclude-paths:
+      - packages/nativ/**
+    groups:
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
