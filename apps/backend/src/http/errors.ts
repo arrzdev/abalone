@@ -18,6 +18,11 @@ export const ERROR_CODES = {
   ],
   endpoint_not_found: ["The requested endpoint does not exist.", 404],
   rate_limit_exceeded: ["Too many requests. Please try again later.", 429],
+  //a dependency the worker needs (today: D1) is not answering
+  service_unavailable: [
+    "The game server cannot be reached right now. Try again in a few minutes.",
+    503,
+  ],
   not_found: ["That resource was not found.", 404],
   unauthorized: [
     "You need to be signed in to do that. Sign in and try again.",

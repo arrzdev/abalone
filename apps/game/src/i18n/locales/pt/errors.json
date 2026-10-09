@@ -3,6 +3,7 @@
   "api_internal_server_error": "Correu algo mal do nosso lado.",
   "api_endpoint_not_found": "Essa página não existe.",
   "api_rate_limit_exceeded": "Demasiados pedidos de uma vez. Espera um momento.",
+  "api_service_unavailable": "O servidor não está disponível agora. Tenta de novo daqui a pouco.",
   "api_not_found": "Não encontrámos isso.",
   "api_unauthorized": "Precisas de ter sessão iniciada para isso.",
   "api_file_too_large": "Esse ficheiro é demasiado grande.",
