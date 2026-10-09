@@ -40,8 +40,8 @@ importers:
         specifier: 2.9.14
         version: 2.9.14
       typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: 6.0.3
+        version: 6.0.3
 
   apps/backend:
     dependencies:
@@ -207,8 +207,8 @@ importers:
   packages/abalone-engine:
     devDependencies:
       typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: 6.0.3
+        version: 6.0.3
       vitest:
         specifier: 4.1.2
         version: 4.1.2(@types/node@22.19.17)(happy-dom@20.10.6)(vite@8.0.11(@types/node@22.19.17)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.19.3)(yaml@2.8.3))
@@ -229,8 +229,8 @@ importers:
         specifier: 22.19.17
         version: 22.19.17
       typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: 6.0.3
+        version: 6.0.3
       vitest:
         specifier: 4.1.2
         version: 4.1.2(@types/node@22.19.17)(happy-dom@20.10.6)(vite@8.0.11(@types/node@22.19.17)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.19.3)(yaml@2.8.3))
@@ -244,8 +244,8 @@ importers:
         specifier: 4.19.3
         version: 4.19.3
       typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: 6.0.3
+        version: 6.0.3
       vitest:
         specifier: 4.1.2
         version: 4.1.2(@types/node@22.19.17)(happy-dom@20.10.6)(vite@8.0.11(@types/node@22.19.17)(esbuild@0.28.0)(jiti@2.7.0)(terser@5.48.0)(tsx@4.19.3)(yaml@2.8.3))
@@ -348,8 +348,8 @@ importers:
         version: 4.3.6
     devDependencies:
       typescript:
-        specifier: 5.9.3
-        version: 5.9.3
+        specifier: 6.0.3
+        version: 6.0.3
 
 packages:
 
@@ -4200,6 +4200,11 @@ packages:
 
   typescript@5.9.3:
     resolution: {integrity: sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+  typescript@6.0.3:
+    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -8312,6 +8317,8 @@ snapshots:
       reflect.getprototypeof: 1.0.10
 
   typescript@5.9.3: {}
+
+  typescript@6.0.3: {}
 
   ufo@1.6.4: {}
 
