@@ -3,6 +3,7 @@
   "api_internal_server_error": "Er ging iets mis aan onze kant.",
   "api_endpoint_not_found": "Die pagina bestaat niet.",
   "api_rate_limit_exceeded": "Te veel verzoeken tegelijk. Wacht even.",
+  "api_service_unavailable": "De server is nu niet bereikbaar. Probeer het zo opnieuw.",
   "api_not_found": "We konden dat niet vinden.",
   "api_unauthorized": "Hiervoor moet je ingelogd zijn.",
   "api_file_too_large": "Dit bestand is te groot.",

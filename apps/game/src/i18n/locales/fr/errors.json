@@ -3,6 +3,7 @@
   "api_internal_server_error": "Ça a coincé de notre côté.",
   "api_endpoint_not_found": "Cette page n'existe pas.",
   "api_rate_limit_exceeded": "Trop de requêtes d'un coup. Patiente un instant.",
+  "api_service_unavailable": "Le serveur n'est pas disponible pour le moment. Réessaie dans un instant.",
   "api_not_found": "Introuvable.",
   "api_unauthorized": "Tu dois être connecté pour ça.",
   "api_file_too_large": "Ce fichier est trop lourd.",

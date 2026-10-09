@@ -3,6 +3,7 @@
   "api_internal_server_error": "我们这边出了点问题。",
   "api_endpoint_not_found": "该页面不存在。",
   "api_rate_limit_exceeded": "请求太频繁，稍等一下。",
+  "api_service_unavailable": "服务器暂时不可用，请稍后再试。",
   "api_not_found": "没有找到。",
   "api_unauthorized": "需要登录才能这么做。",
   "api_file_too_large": "文件太大了。",
