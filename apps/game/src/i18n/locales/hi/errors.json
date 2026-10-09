@@ -3,6 +3,7 @@
   "api_internal_server_error": "हमारी तरफ़ कुछ गड़बड़ हो गई।",
   "api_endpoint_not_found": "यह पेज मौजूद नहीं है।",
   "api_rate_limit_exceeded": "एक साथ बहुत सारे अनुरोध। थोड़ा रुकें।",
+  "api_service_unavailable": "सर्वर अभी उपलब्ध नहीं है। थोड़ी देर बाद फिर से कोशिश करें।",
   "api_not_found": "वह नहीं मिला।",
   "api_unauthorized": "इसके लिए साइन इन करना होगा।",
   "api_file_too_large": "यह फ़ाइल बहुत बड़ी है।",

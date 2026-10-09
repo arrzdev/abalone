@@ -3,6 +3,7 @@
   "api_internal_server_error": "Bizim tarafımızda bir şeyler ters gitti.",
   "api_endpoint_not_found": "Böyle bir sayfa yok.",
   "api_rate_limit_exceeded": "Aynı anda çok fazla istek. Biraz bekle.",
+  "api_service_unavailable": "Sunucuya şu anda ulaşılamıyor. Biraz sonra tekrar dene.",
   "api_not_found": "Onu bulamadık.",
   "api_unauthorized": "Bunun için giriş yapman gerekiyor.",
   "api_file_too_large": "Bu dosya çok büyük.",
