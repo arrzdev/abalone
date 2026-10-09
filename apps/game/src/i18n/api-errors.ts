@@ -17,6 +17,7 @@ export const API_ERROR_KEYS = {
   internal_server_error: "errors:api_internal_server_error",
   endpoint_not_found: "errors:api_endpoint_not_found",
   rate_limit_exceeded: "errors:api_rate_limit_exceeded",
+  service_unavailable: "errors:api_service_unavailable",
   not_found: "errors:api_not_found",
   unauthorized: "errors:api_unauthorized",
   file_too_large: "errors:api_file_too_large",
