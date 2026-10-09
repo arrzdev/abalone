@@ -30,7 +30,9 @@ export default defineConfig({
   // One preview server and one backend Worker behind every test; two browsers
   // at a time is what a CI runner serves without pages timing out.
   workers: process.env.CI ? 2 : undefined,
-  reporter: process.env.CI ? [["line"], ["github"]] : "list",
+  reporter: process.env.CI
+    ? [["line"], ["github"], ["html", { open: "never" }]]
+    : "list",
   timeout: 60_000,
   expect: { timeout: 10_000 },
   use: {
@@ -41,7 +43,7 @@ export default defineConfig({
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
     // WebKit ≈ Mobile Safari for this iOS-PWA (desktop WebKit engine, NOT a real
     // device — escalate device-only quirks to the iOS Simulator).
-    { name: "webkit", use: { ...devices["iPhone 13"] } },
+    { name: "webkit-iphone", use: { ...devices["iPhone 13"] } },
   ],
   webServer: [
     {
