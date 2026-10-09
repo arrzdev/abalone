@@ -31,7 +31,7 @@
     "typescript": "5.9.3"
   },
   "optionalDependencies": {
-    "@biomejs/cli-linux-x64": "^2.3.11",
+    "@biomejs/cli-linux-x64": "^2.5.15",
     "@rollup/rollup-linux-x64-gnu": "^4.28.1",
     "@tailwindcss/oxide-linux-x64-gnu": "^4.0.0",
     "lightningcss-linux-x64-gnu": "^1.28.2"

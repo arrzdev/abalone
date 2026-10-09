@@ -9,8 +9,8 @@ importers:
   .:
     optionalDependencies:
       '@biomejs/cli-linux-x64':
-        specifier: ^2.3.11
-        version: 2.4.15
+        specifier: ^2.5.15
+        version: 2.5.15
       '@rollup/rollup-linux-x64-gnu':
         specifier: ^4.28.1
         version: 4.60.3
@@ -1020,8 +1020,8 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@biomejs/cli-linux-x64@2.4.15':
-    resolution: {integrity: sha512-0jj7THz12GbUOLmMibktK6DZjqz2zV64KFxyBtcFTKPiiOIY0a7vns1elpO1dERvxpsZ5ik0oFfz0oGwFde1+g==}
+  '@biomejs/cli-linux-x64@2.5.15':
+    resolution: {integrity: sha512-xE4iEW/3LqlYj9GFgGrFsFSH51dEEpUbYWBfeOv0q87WkUDxK2o/HhreSb7qMJqck70RVM6Lg96hgedcAYcOkA==}
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [linux]
@@ -5348,7 +5348,7 @@ snapshots:
   '@biomejs/cli-linux-x64@2.3.11':
     optional: true
 
-  '@biomejs/cli-linux-x64@2.4.15':
+  '@biomejs/cli-linux-x64@2.5.15':
     optional: true
 
   '@biomejs/cli-win32-arm64@2.3.11':
