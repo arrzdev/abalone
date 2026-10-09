@@ -27,23 +27,23 @@
     "test": "vitest run --passWithNoTests"
   },
   "dependencies": {
-    "@hono/zod-validator": "0.8.0",
+    "@hono/zod-validator": "0.9.1",
     "@repo/abalone-engine": "workspace:*",
     "@repo/dev": "workspace:*",
-    "better-auth": "1.6.28",
+    "better-auth": "1.7.7",
     "@repo/env-validation": "workspace:*",
     "@repo/shared": "workspace:*",
-    "drizzle-orm": "0.45.2",
-    "hono": "4.11.8",
-    "zod": "4.3.6"
+    "drizzle-orm": "0.45.3",
+    "hono": "4.13.13",
+    "zod": "4.6.5"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "0.16.12",
     "@cloudflare/workers-types": "4.20260317.1",
     "@types/node": "22.19.17",
-    "drizzle-kit": "0.31.4",
-    "tsx": "4.19.3",
+    "drizzle-kit": "0.31.11",
+    "tsx": "4.23.15",
     "vitest": "4.1.2",
-    "wrangler": "4.78.0"
+    "wrangler": "4.148.0"
   }
 }
