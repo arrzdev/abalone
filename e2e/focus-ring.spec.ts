@@ -17,9 +17,10 @@ type FocusRing = {
 }
 
 /**
- * Reads the focused element's outline, and the contrast of its colour against
- * the first opaque background behind it, starting from the parent: the outline
- * is offset, so it sits on whatever the element sits on.
+ * Reads the outline the focused element draws, and the contrast of its colour
+ * against the first opaque background behind it, starting from the parent: the
+ * outline is offset, so it sits on whatever the element sits on. Null once
+ * focus leaves the page or comes back to a stop already read.
  */
 function readFocusRing(page: Page): Promise<FocusRing | null> {
   return page.evaluate(() => {
@@ -27,6 +28,16 @@ function readFocusRing(page: Page): Promise<FocusRing | null> {
     if (!(element instanceof HTMLElement) || element === document.body) {
       return null
     }
+    // Focus has come back round to a stop already checked.
+    if (element.dataset.focusRingVisited !== undefined) return null
+    element.dataset.focusRingVisited = ""
+
+    // A switch or checkbox hides its input; the label around it is what shows.
+    const drawn =
+      element.classList.contains("sr-only") &&
+      element.parentElement instanceof HTMLLabelElement
+        ? element.parentElement
+        : element
 
     const canvas = document.createElement("canvas").getContext("2d")
     function toRgba(color: string): number[] {
@@ -48,7 +59,7 @@ function readFocusRing(page: Page): Promise<FocusRing | null> {
 
     let background = toRgba("#ffffff")
     for (
-      let ancestor = element.parentElement;
+      let ancestor = drawn.parentElement;
       ancestor !== null;
       ancestor = ancestor.parentElement
     ) {
@@ -59,7 +70,7 @@ function readFocusRing(page: Page): Promise<FocusRing | null> {
       }
     }
 
-    const style = getComputedStyle(element)
+    const style = getComputedStyle(drawn)
     const lighter = Math.max(
       luminance(toRgba(style.outlineColor)),
       luminance(background),
@@ -88,7 +99,7 @@ async function expectEveryTabStopRinged(page: Page): Promise<void> {
   for (let stop = 0; stop < MAX_TAB_STOPS; stop++) {
     await page.keyboard.press("Tab")
     const ring = await readFocusRing(page)
-    if (ring === null || seen.includes(ring.element)) break
+    if (ring === null) break
     seen.push(ring.element)
 
     expect
