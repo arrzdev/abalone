@@ -289,6 +289,31 @@
   }
 }
 
+/*
+ * Where the keyboard is: every control that takes focus from the keyboard draws
+ * a 2px outline 2px clear of it, and a mouse click draws none.
+ *
+ * Unlayered and with the specificity of two pseudo-classes, on purpose. nativ's
+ * patches clear `outline` and `box-shadow` on `button:focus`, `a:focus` and the
+ * rest outside any layer, which outranks every `focus-visible:ring-*` utility in
+ * the components — so those rings never painted. This rule outranks the patch
+ * instead of each component fighting it.
+ *
+ * The lighter blue holds 3:1 against every grey a control stands on, up to
+ * surface-4. Rows that fill a clipped list (the ones already asking for an inset
+ * ring) draw it inside their box, where the clip cannot cut it off. Switches
+ * and checkboxes hide their input, so the label that draws them carries it.
+ */
+:root :focus-visible,
+:root label:has(> input.sr-only:focus-visible) {
+  outline: 2px solid var(--brand-light);
+  outline-offset: 2px;
+}
+
+:root .focus-visible\:ring-inset:focus-visible {
+  outline-offset: -2px;
+}
+
 @layer base {
   /*
    * The shell owns the viewport: nativ pins the document, kills the rubber-band
