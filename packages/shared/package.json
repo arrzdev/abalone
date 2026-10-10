@@ -12,11 +12,11 @@
     "./try-catch": "./try-catch.ts"
   },
   "peerDependencies": {
-    "hono": "^4.11.8",
+    "hono": "^4.13.13",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "hono": "4.11.8",
+    "hono": "4.13.13",
     "typescript": "5.9.3",
     "zod": "4.3.6"
   }
