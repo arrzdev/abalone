@@ -16,5 +16,8 @@
   "api_illegal_move": "Die zet mag niet.",
   "api_move_conflict": "De partij ging verder terwijl je speelde.",
   "network_unreachable": "We konden de server niet bereiken.",
-  "unknown": "Er ging iets mis."
+  "unknown": "Er ging iets mis.",
+  "api_invite_link_own": "Dit is je eigen link. Stuur hem naar iemand anders om te spelen.",
+  "api_invite_link_used": "Iemand anders heeft deze uitnodiging al geaccepteerd.",
+  "api_invite_link_expired": "Deze uitnodiging is verlopen. Vraag om een nieuwe link."
 }

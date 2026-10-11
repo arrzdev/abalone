@@ -16,5 +16,8 @@
   "api_illegal_move": "Bu hamle kurallara uymuyor.",
   "api_move_conflict": "Sen oynarken oyun ilerledi.",
   "network_unreachable": "Sunucuya ulaşamadık.",
-  "unknown": "Bir şeyler ters gitti."
+  "unknown": "Bir şeyler ters gitti.",
+  "api_invite_link_own": "Bu senin kendi bağlantın. Oynamak için başka birine gönder.",
+  "api_invite_link_used": "Bu daveti başka biri zaten kabul etti.",
+  "api_invite_link_expired": "Bu davetin süresi doldu. Yeni bir bağlantı iste."
 }

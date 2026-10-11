@@ -16,5 +16,8 @@
   "api_illegal_move": "둘 수 없는 수입니다.",
   "api_move_conflict": "대국이 그새 진행됐습니다.",
   "network_unreachable": "서버에 연결하지 못했습니다.",
-  "unknown": "문제가 생겼습니다."
+  "unknown": "문제가 생겼습니다.",
+  "api_invite_link_own": "내 링크예요. 플레이하려면 다른 사람에게 보내세요.",
+  "api_invite_link_used": "다른 사람이 이미 이 초대를 수락했어요.",
+  "api_invite_link_expired": "만료된 초대예요. 새 링크를 요청하세요."
 }

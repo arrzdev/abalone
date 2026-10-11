@@ -1,6 +1,7 @@
 import { Screen, ScrollView } from "@repo/nativ/components"
 import { useQueryClient } from "@tanstack/react-query"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import { useEffect, useState } from "react"
 import { Hub } from "@/components/online/hub"
 import { InviteComposer } from "@/components/online/invite-composer"
 import { useOnlineHome } from "@/hooks/use-online-home"
@@ -69,6 +70,20 @@ function OnlinePage() {
       replace: true,
     })
 
+  //a link is taken somewhere else, so the only sign of it here is a game the
+  //list did not have when the link was made. the composer steps aside for it:
+  //left open, it sits over the very row the player is waiting for
+  const [gamesAtLink, setGamesAtLink] = useState<Set<string> | null>(null)
+  const isLinkTaken =
+    gamesAtLink !== null &&
+    online.activeGames.some((game) => !gamesAtLink.has(game.id))
+
+  useEffect(() => {
+    if (!isLinkTaken) return
+    setGamesAtLink(null)
+    navigate({ to: "/online", search: {}, replace: true })
+  }, [isLinkTaken, navigate])
+
   //saying yes opens a game, and the only reason to say yes is to play it — so
   //accepting lands on the board rather than on a new row to find and press
   const acceptAndOpen = (inviteId: string) =>
@@ -102,6 +117,11 @@ function OnlinePage() {
         pending={online.isSending}
         error={online.composeError}
         onSend={(input) => online.send(input, () => setComposing(false))}
+        onLinkCreated={() =>
+          setGamesAtLink(
+            new Set(online.activeGames.map((game) => game.id)),
+          )
+        }
       />
     </Screen>
   )

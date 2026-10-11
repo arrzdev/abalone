@@ -16,5 +16,8 @@
   "api_illegal_move": "A jogada não é legal.",
   "api_move_conflict": "O jogo avançou enquanto jogavas.",
   "network_unreachable": "Não conseguimos chegar ao servidor.",
-  "unknown": "Correu algo mal."
+  "unknown": "Correu algo mal.",
+  "api_invite_link_own": "Este link é teu. Envia-o a outra pessoa para jogar.",
+  "api_invite_link_used": "Outra pessoa já aceitou este convite.",
+  "api_invite_link_expired": "Este convite expirou. Pede um link novo."
 }

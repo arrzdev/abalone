@@ -210,7 +210,7 @@ export function useOnlineGame(
     refetchInterval: ({ state }) => {
       if (isConnected) return false
       const row = state.data
-      if (!row || row.status !== "active") return false
+      if (row?.status !== "active") return false
       return seatOf(row, myUserId) === row.currentTurn
         ? POLL_MY_TURN_MS
         : POLL_WAITING_MS

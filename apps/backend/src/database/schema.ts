@@ -216,3 +216,38 @@ export const gameEvents = sqliteTable(
     index("game_events_game_ref_idx").on(table.gameRef),
   ],
 )
+
+//---- invite links ----------------
+//an invite to whoever opens it first, rather than to a named player. its own
+//table, not a nullable `invites.to_user_id`: that column is NOT NULL, and
+//loosening it in SQLite is a table rebuild. the id is the secret in the url.
+//
+//a link is never deleted on accept. it stays as the record of who used it, so
+//the player who did gets the same game back when they ask again, and anyone
+//else is told it is used rather than that it never existed.
+
+export const inviteLinks = sqliteTable(
+  "invite_links",
+  {
+    //32 random bytes, base64url, no padding: 43 characters
+    id: text("id").primaryKey(),
+    fromUserId: text("from_user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    setupType: text("setup_type").notNull().$type<SetupKey>(),
+    side: text("side").notNull().$type<InviteSide>(),
+    expiresAt: integer("expires_at", { mode: "timestamp_ms" }).notNull(),
+    //both null until accepted, and set together by the one claiming update
+    usedAt: integer("used_at", { mode: "timestamp_ms" }),
+    //set null rather than cascade: the inviter's link outlives the account
+    //that used it, and a FK with no action would block deleting that account
+    usedByUserId: text("used_by_user_id").references(() => user.id, {
+      onDelete: "set null",
+    }),
+    //no foreign key, like `games.invite_id` pointing the other way: the game
+    //is written after the claim, so this stays null for that moment
+    gameId: text("game_id"),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [index("invite_links_from_idx").on(table.fromUserId)],
+)

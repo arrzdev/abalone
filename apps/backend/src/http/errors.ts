@@ -47,6 +47,18 @@ export const ERROR_CODES = {
     "You already have an invite out to that player. Cancel it to send a new one.",
     409,
   ],
+  invite_link_own: [
+    "This is your own invite link. Send it to a friend so they can join.",
+    400,
+  ],
+  invite_link_used: [
+    "Someone else has already used this invite. Ask for a new link.",
+    409,
+  ],
+  invite_link_expired: [
+    "This invite has expired. Ask for a new link.",
+    410,
+  ],
   game_not_active: ["That game has already finished.", 409],
   not_your_turn: [
     "It is not your turn yet. Wait for your opponent to move.",

@@ -16,5 +16,8 @@
   "api_illegal_move": "Ce coup n'est pas autorisé.",
   "api_move_conflict": "La partie a avancé pendant que tu jouais.",
   "network_unreachable": "Impossible de joindre le serveur.",
-  "unknown": "Quelque chose s'est mal passé."
+  "unknown": "Quelque chose s'est mal passé.",
+  "api_invite_link_own": "C'est votre propre lien. Envoyez-le à quelqu'un d'autre pour jouer.",
+  "api_invite_link_used": "Quelqu'un d'autre a déjà accepté cette invitation.",
+  "api_invite_link_expired": "Cette invitation a expiré. Demandez un nouveau lien."
 }
