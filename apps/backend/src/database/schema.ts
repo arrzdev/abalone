@@ -206,6 +206,11 @@ export const gameEvents = sqliteTable(
     result: text("result").$type<GameEventResult>(),
     //finish only: plies played
     moveCount: integer("move_count"),
+    //start only: the first-game guide was showing. false for every finish and
+    //every online row
+    guided: integer("guided", { mode: "boolean" })
+      .notNull()
+      .default(false),
     //the build that sent it; `server` for online rows
     appVersion: text("app_version").notNull(),
     //server time, never the device's

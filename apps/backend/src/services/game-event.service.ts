@@ -16,6 +16,8 @@ export type GameEvent = {
   botLevel: number | null
   result: GameEventResult | null
   moveCount: number | null
+  //the first-game guide was showing when it started
+  guided: boolean
   appVersion: string
 }
 
@@ -40,6 +42,7 @@ export class GameEventService {
         botLevel: event.botLevel,
         result: event.result,
         moveCount: event.moveCount,
+        guided: event.guided,
         appVersion: event.appVersion,
         createdAt: new Date(),
       }),

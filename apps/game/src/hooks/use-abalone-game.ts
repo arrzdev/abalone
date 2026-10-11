@@ -43,6 +43,7 @@ import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { usePersistentState } from "@/hooks/use-persistent-state"
 import { TIMING } from "@/render/motion"
 import { evaluateBoard } from "@/utils/evaluation"
+import { isGuidedStart } from "@/utils/first-game-guide"
 import { finishResultOf } from "@/utils/game-events"
 import { PREF_PREFIX, parseStored, serialize } from "@/utils/preferences"
 import { playFallSound, playMoveSound, primeSounds } from "@/utils/sound"
@@ -403,7 +404,11 @@ export function useAbaloneGame(
             ? { gameRef, mode: "ai", botLevel: nextDifficulty }
             : { gameRef, mode: "local" }
         countedGameRef.current = game
-        reportGameEvent({ ...game, kind: "start" })
+        reportGameEvent({
+          ...game,
+          kind: "start",
+          guided: isGuidedStart(nextMode),
+        })
       }
       return fresh
     },
