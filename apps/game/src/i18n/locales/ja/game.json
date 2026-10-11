@@ -70,7 +70,9 @@
     "side_random": "ランダム",
     "marbles_taken": "相手のボールを {{total}} 個中 {{taken}} 個 押し出した",
     "eval_advantage": "{{color}}が{{score}}リード",
-    "eval_level": "互角"
+    "eval_level": "互角",
+    "how_to_move": "動かし方",
+    "how_to_move_hint": "盤の上で3つのステップをもう一度見る。"
   },
   "game_state": {
     "your_turn": "あなたの手番",
@@ -168,5 +170,18 @@
     "turn": "{{side}}の手番。",
     "last_move": "最後の手: {{move}}。",
     "no_moves": "まだ手はありません。"
+  },
+  "guide": {
+    "title": "動かし方",
+    "step": "ステップ {{current}} / {{total}}",
+    "select_title": "自分の玉を選ぶ",
+    "select_body": "自分の玉を1つタップします。一直線に並んだ玉をあと2つまでタップすると、まとめて動かせます。",
+    "direction_title": "方向を選ぶ",
+    "direction_body": "ハイライトされたマスをタップすると、そこへ動きます。長い列は相手の短い列を押せます。",
+    "win_title": "6個押し出せば勝ち",
+    "win_body": "相手の玉を6個、盤の外へ押し出せば勝ちです。",
+    "next": "次へ",
+    "done": "わかった",
+    "skip": "スキップ"
   }
 }

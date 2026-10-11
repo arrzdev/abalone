@@ -70,7 +70,9 @@
     "side_random": "Lado aleatório",
     "marbles_taken": "{{taken}} de {{total}} bolas do adversário empurradas para fora",
     "eval_advantage": "{{color}} à frente por {{score}}",
-    "eval_level": "Equilibrado"
+    "eval_level": "Equilibrado",
+    "how_to_move": "Como jogar",
+    "how_to_move_hint": "Vê outra vez os 3 passos no tabuleiro."
   },
   "game_state": {
     "your_turn": "Sua vez",
@@ -169,5 +171,18 @@
     "turn": "Jogam as {{side}}.",
     "last_move": "Última jogada: {{move}}.",
     "no_moves": "Ainda sem jogadas."
+  },
+  "guide": {
+    "title": "Como jogar",
+    "step": "Passo {{current}} de {{total}}",
+    "select_title": "Escolhe as tuas bolas",
+    "select_body": "Toca numa das tuas bolas. Toca em até mais duas em linha reta para as moveres juntas.",
+    "direction_title": "Escolhe uma direção",
+    "direction_body": "Toca num espaço destacado para te moveres para lá. Uma linha mais longa pode empurrar uma linha mais curta do adversário.",
+    "win_title": "Empurra 6 para fora para ganhar",
+    "win_body": "Empurra seis bolas do adversário para fora do tabuleiro e ganhas.",
+    "next": "Seguinte",
+    "done": "Percebi",
+    "skip": "Saltar"
   }
 }

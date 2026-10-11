@@ -70,7 +70,9 @@
     "side_random": "Rastgele taraf",
     "marbles_taken": "Rakibin {{total}} bilyesinden {{taken}} tanesi tahtadan çıkarıldı",
     "eval_advantage": "{{color}} {{score}} önde",
-    "eval_level": "Berabere"
+    "eval_level": "Berabere",
+    "how_to_move": "Nasıl hamle yapılır",
+    "how_to_move_hint": "3 adımı tahtada yeniden gör."
   },
   "game_state": {
     "your_turn": "Senin sıran",
@@ -168,5 +170,18 @@
     "turn": "Sıra {{side}} oyuncuda.",
     "last_move": "Son hamle: {{move}}.",
     "no_moves": "Henüz hamle yok."
+  },
+  "guide": {
+    "title": "Nasıl hamle yapılır",
+    "step": "Adım {{current}} / {{total}}",
+    "select_title": "Bilyelerini seç",
+    "select_body": "Bilyelerinden birine dokun. Birlikte hareket ettirmek için düz bir çizgide en fazla iki tane daha seç.",
+    "direction_title": "Bir yön seç",
+    "direction_body": "Oraya gitmek için vurgulanan bir alana dokun. Daha uzun bir sıra, rakibin daha kısa sırasını itebilir.",
+    "win_title": "Kazanmak için 6 tane it",
+    "win_body": "Rakibinin altı bilyesini tahtanın dışına itersen kazanırsın.",
+    "next": "İleri",
+    "done": "Anladım",
+    "skip": "Geç"
   }
 }

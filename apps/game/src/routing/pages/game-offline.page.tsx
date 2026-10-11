@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import { BotAvatar } from "@/components/bot-avatar"
 import { EvalBar, EvalRail } from "@/components/eval-bar"
+import { FirstGameGuide } from "@/components/first-game-guide"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import { GameCanvas } from "@/components/game-canvas"
 import type {
@@ -32,6 +33,7 @@ import { useProfile } from "@/data/profile/queries"
 import { useAbaloneGame } from "@/hooks/use-abalone-game"
 import { useBotChatter } from "@/hooks/use-bot-chatter"
 import { usePanelFloor } from "@/hooks/use-compact-panel"
+import { useFirstGameGuide } from "@/hooks/use-first-game-guide"
 import { getBot, titleKey } from "@/i18n/bots"
 import { getSetupName } from "@/i18n/game-text"
 import { useAuth } from "@/providers/auth-provider"
@@ -152,6 +154,16 @@ function GameOfflinePage() {
     winner: state.winner,
     botColor: aiColor,
     state,
+  })
+
+  const guide = useFirstGameGuide({
+    mode,
+    phase,
+    selectedCount: state.selectedMarbles.length,
+    moveCount: state.moveHistory.length,
+    currentTurn: state.currentTurn,
+    botColor: isLocal ? null : aiColor,
+    gameOver: state.gameOver,
   })
 
   /**
@@ -545,6 +557,17 @@ function GameOfflinePage() {
                         }
                   }
                 />
+                {/* Part of the head, so the panel's floor counts it and a short
+                    screen shrinks the board for it rather than clipping the
+                    actions under it. Never over the board: the presses it
+                    teaches land there. */}
+                {guide.step && (
+                  <FirstGameGuide
+                    step={guide.step}
+                    onNext={guide.next}
+                    onSkip={guide.skip}
+                  />
+                )}
               </div>
             )}
 
