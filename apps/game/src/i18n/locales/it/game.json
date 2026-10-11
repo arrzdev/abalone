@@ -70,7 +70,9 @@
     "side_random": "Lato casuale",
     "marbles_taken": "{{taken}} biglie avversarie su {{total}} spinte fuori",
     "eval_advantage": "{{color}} in vantaggio di {{score}}",
-    "eval_level": "In parità"
+    "eval_level": "In parità",
+    "how_to_move": "Come muovere",
+    "how_to_move_hint": "Rivedi i 3 passi sul tavoliere."
   },
   "game_state": {
     "your_turn": "Il tuo turno",
@@ -169,5 +171,18 @@
     "turn": "Muove {{side}}.",
     "last_move": "Ultima mossa: {{move}}.",
     "no_moves": "Ancora nessuna mossa."
+  },
+  "guide": {
+    "title": "Come muovere",
+    "step": "Passo {{current}} di {{total}}",
+    "select_title": "Scegli le tue biglie",
+    "select_body": "Tocca una delle tue biglie. Toccane fino ad altre due in linea retta per muoverle insieme.",
+    "direction_title": "Scegli una direzione",
+    "direction_body": "Tocca una casella evidenziata per spostarti lì. Una fila più lunga può spingere una fila più corta dell'avversario.",
+    "win_title": "Spingi fuori 6 per vincere",
+    "win_body": "Spingi sei biglie dell'avversario fuori dal bordo del tavoliere e hai vinto.",
+    "next": "Avanti",
+    "done": "Ho capito",
+    "skip": "Salta"
   }
 }

@@ -70,7 +70,9 @@
     "side_random": "Lado aleatorio",
     "marbles_taken": "{{taken}} de {{total}} bolas del rival expulsadas",
     "eval_advantage": "{{color}} por delante por {{score}}",
-    "eval_level": "Igualado"
+    "eval_level": "Igualado",
+    "how_to_move": "Cómo mover",
+    "how_to_move_hint": "Vuelve a ver los 3 pasos en el tablero."
   },
   "game_state": {
     "your_turn": "Tu turno",
@@ -169,5 +171,18 @@
     "turn": "Mueven {{side}}.",
     "last_move": "Última jugada: {{move}}.",
     "no_moves": "Aún no hay jugadas."
+  },
+  "guide": {
+    "title": "Cómo mover",
+    "step": "Paso {{current}} de {{total}}",
+    "select_title": "Elige tus canicas",
+    "select_body": "Toca una de tus canicas. Toca hasta dos más en línea recta para moverlas juntas.",
+    "direction_title": "Elige una dirección",
+    "direction_body": "Toca una casilla resaltada para moverte allí. Una fila más larga puede empujar una fila más corta del rival.",
+    "win_title": "Saca 6 para ganar",
+    "win_body": "Saca seis canicas del rival por el borde del tablero y ganas.",
+    "next": "Siguiente",
+    "done": "Entendido",
+    "skip": "Omitir"
   }
 }

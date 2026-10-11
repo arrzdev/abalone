@@ -70,7 +70,9 @@
     "side_random": "Willekeurige kleur",
     "marbles_taken": "{{taken}} van {{total}} ballen van de tegenstander van het bord geduwd",
     "eval_advantage": "{{color}} staat {{score}} voor",
-    "eval_level": "Gelijkspel"
+    "eval_level": "Gelijkspel",
+    "how_to_move": "Zo zet je",
+    "how_to_move_hint": "Bekijk de 3 stappen nog eens op het bord."
   },
   "game_state": {
     "your_turn": "Jouw beurt",
@@ -169,5 +171,18 @@
     "turn": "{{side}} is aan zet.",
     "last_move": "Laatste zet: {{move}}.",
     "no_moves": "Nog geen zetten."
+  },
+  "guide": {
+    "title": "Zo zet je",
+    "step": "Stap {{current}} van {{total}}",
+    "select_title": "Kies je knikkers",
+    "select_body": "Tik op een van je knikkers. Tik op nog maximaal twee in een rechte lijn om ze samen te verplaatsen.",
+    "direction_title": "Kies een richting",
+    "direction_body": "Tik op een gemarkeerd veld om daarheen te gaan. Een langere rij kan een kortere rij van je tegenstander duwen.",
+    "win_title": "Duw er 6 af om te winnen",
+    "win_body": "Duw zes knikkers van je tegenstander over de rand van het bord en je wint.",
+    "next": "Volgende",
+    "done": "Begrepen",
+    "skip": "Overslaan"
   }
 }

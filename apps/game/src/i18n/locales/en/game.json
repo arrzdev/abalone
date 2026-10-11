@@ -70,7 +70,9 @@
     "side_random": "Random side",
     "marbles_taken": "{{taken}} of {{total}} opponent marbles pushed off",
     "eval_advantage": "{{color}} ahead by {{score}}",
-    "eval_level": "Level"
+    "eval_level": "Level",
+    "how_to_move": "How to move",
+    "how_to_move_hint": "See the 3 steps again on the board."
   },
   "game_state": {
     "your_turn": "Your turn",
@@ -169,5 +171,18 @@
     "turn": "{{side}} to move.",
     "last_move": "Last move: {{move}}.",
     "no_moves": "No moves yet."
+  },
+  "guide": {
+    "title": "How to move",
+    "step": "Step {{current}} of {{total}}",
+    "select_title": "Pick your marbles",
+    "select_body": "Tap one of your marbles. Tap up to two more in a straight line to move them together.",
+    "direction_title": "Choose a direction",
+    "direction_body": "Tap a highlighted space to move there. A longer line can push a shorter line of your opponent's.",
+    "win_title": "Push 6 off to win",
+    "win_body": "Push six of your opponent's marbles off the edge of the board and you win.",
+    "next": "Next",
+    "done": "Got it",
+    "skip": "Skip"
   }
 }
