@@ -106,14 +106,16 @@ test("every control in a bot game, its move list and its drawers is a 44px tap t
 
   const settings = await openSettings(page)
   await expectThumbSized(settings, "Settings drawer")
-  // A phone's drawer has no Close button: it is dragged or tapped away.
-  await page.keyboard.press("Escape")
+  // A phone's drawer has no Close button: it is dragged or tapped away. The
+  // top of the screen is the overlay above it.
+  await page.mouse.click(195, 20)
   await expect(settings).toBeHidden()
 
   await page.getByRole("button", { name: "Resign" }).click()
   const confirm = page
     .getByRole("dialog")
     .filter({ hasText: "Resign the game?" })
+  await expect(confirm).toBeVisible()
   await expectThumbSized(confirm, "Resign drawer")
 })
 
