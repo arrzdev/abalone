@@ -5,6 +5,7 @@ import { gameRoutes } from "@/http/routes/game.routes"
 import { gameEventRoutes } from "@/http/routes/game-events.routes"
 import { healthRoutes } from "@/http/routes/health.routes"
 import { inviteRoutes } from "@/http/routes/invite.routes"
+import { inviteLinkRoutes } from "@/http/routes/invite-link.routes"
 import { profileRoutes } from "@/http/routes/profile.routes"
 import { realtimeRoutes } from "@/http/routes/realtime.routes"
 
@@ -15,6 +16,7 @@ export const v1Routes = newEndpoint()
   .route("/auth", authHandlerRoutes)
   .route("/profile", profileRoutes)
   .route("/invites", inviteRoutes)
+  .route("/invite-links", inviteLinkRoutes)
   .route("/games", gameRoutes)
   .route("/realtime", realtimeRoutes)
   .route("/events", gameEventRoutes)
