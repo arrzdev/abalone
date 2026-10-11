@@ -46,7 +46,7 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20260317.1",
+    "@cloudflare/workers-types": "5.20261008.1",
     "@types/node": "22.19.17",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
