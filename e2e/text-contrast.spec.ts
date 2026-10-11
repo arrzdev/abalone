@@ -26,6 +26,8 @@ function measureContrast(
   return page.evaluate((selector) => {
     const element = document.querySelector(selector)
     if (!(element instanceof HTMLElement)) return null
+    // Content scrolls behind a pinned bar; bring the text out from under it.
+    element.scrollIntoView({ block: "center" })
     const box = element.getBoundingClientRect()
     const top = document.elementFromPoint(
       box.x + box.width / 2,
