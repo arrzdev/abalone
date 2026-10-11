@@ -25,8 +25,8 @@ export type SegmentedOption<T extends string> = {
  * is too. `lg` is for the top of a form, read against a column of 54px fields.
  */
 const SIZES = {
-  md: "h-9 px-2 text-sm",
-  row: "h-10 px-3 text-base",
+  md: "h-11 -my-1 px-2 text-sm",
+  row: "h-11 -my-0.5 px-3 text-base",
   lg: "h-12 px-3 text-base",
 }
 

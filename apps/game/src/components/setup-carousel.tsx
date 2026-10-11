@@ -12,7 +12,7 @@ import { getSetupName } from "@/i18n/game-text"
 export const SETUP_ORDER: readonly SetupKey[] = PLAYABLE_SETUPS
 
 const NAV_CLASS =
-  "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-muted transition " +
+  "flex size-11 hit-[2px] shrink-0 items-center justify-center rounded-[10px] text-muted transition " +
   "hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
 
 export type SetupCarouselProps = {
@@ -53,9 +53,7 @@ export function SetupCarousel({
       className={cn(preview && "overflow-hidden rounded-xl bg-surface-2")}
     >
       {/* An arrow is a direction and nothing else, so both of these say where
-          they go under the pointer as well as to a screen reader — and the dots
-          below name the setup they jump to, which the row itself only shows one
-          of at a time. */}
+          they go under the pointer as well as to a screen reader. */}
       <div
         className={cn(
           "flex items-center gap-1 p-1",
@@ -93,26 +91,22 @@ export function SetupCarousel({
         </div>
       )}
 
-      {/* Dots are 6px tall but sit in a 20px tall button so they stay tappable. */}
+      {/* Where you are in the list, and nothing to press. A dot you can tap
+          needs a 44px box, and nine of those are wider than a phone; the arrows
+          above are thumb-sized and get anywhere in four steps. The name on the
+          row is what a screen reader hears, so the dots are hidden from it. */}
       {!preview && (
-        <div className="mt-1 flex justify-center">
+        <div aria-hidden="true" className="mt-1 flex justify-center">
           {SETUP_ORDER.map((key, i) => (
-            <TapButton
-              key={key}
-              aria-label={getSetupName(key)}
-              title={getSetupName(key)}
-              aria-current={i === index}
-              onClick={() => onChange(key)}
-              className="group flex h-5 items-center px-1 focus-visible:outline-none"
-            >
+            <span key={key} className="flex h-5 items-center px-1">
               <span
                 className={
                   i === index
-                    ? "h-1.5 w-4 rounded-full bg-brand transition group-focus-visible:ring-2 group-focus-visible:ring-brand"
-                    : "h-1.5 w-1.5 rounded-full bg-white/20 transition group-hover:bg-white/40 group-focus-visible:ring-2 group-focus-visible:ring-brand"
+                    ? "h-1.5 w-4 rounded-full bg-brand transition"
+                    : "h-1.5 w-1.5 rounded-full bg-white/20 transition"
                 }
               />
-            </TapButton>
+            </span>
           ))}
         </div>
       )}

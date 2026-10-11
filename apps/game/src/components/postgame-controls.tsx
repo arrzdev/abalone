@@ -103,7 +103,7 @@ export function PostgameControls({
         ) : (
           <MoveStrip
             {...history}
-            className="h-10 shrink-0 rounded-xl bg-surface-2 px-1"
+            className="h-11 shrink-0 rounded-xl bg-surface-2 px-1"
           />
         )
       ) : (

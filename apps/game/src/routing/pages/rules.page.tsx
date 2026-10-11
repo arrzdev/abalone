@@ -433,18 +433,23 @@ function RulesPage() {
                   <dt className="font-semibold text-white">
                     {t(`game:rules.faq.items.${item}.question`)}
                   </dt>
+                  {/* A paragraph, because that is what an answer is: the
+                      strategy link in one is part of its sentence, the height
+                      of its line, not a control standing on its own. */}
                   <dd className="mt-0.5">
-                    <Trans
-                      i18nKey={`game:rules.faq.items.${item}.answer`}
-                      components={{
-                        strategy: (
-                          <Link
-                            to="/strategy"
-                            className={TEXT_LINK_CLASS}
-                          />
-                        ),
-                      }}
-                    />
+                    <p>
+                      <Trans
+                        i18nKey={`game:rules.faq.items.${item}.answer`}
+                        components={{
+                          strategy: (
+                            <Link
+                              to="/strategy"
+                              className={TEXT_LINK_CLASS}
+                            />
+                          ),
+                        }}
+                      />
+                    </p>
                   </dd>
                 </div>
               ))}

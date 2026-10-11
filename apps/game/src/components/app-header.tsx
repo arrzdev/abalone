@@ -28,7 +28,7 @@ import { brandName } from "@/utils/brand"
  * action, and the page's action belongs to the page.
  */
 const CHROME_BUTTON_CLASS =
-  "flex size-[38px] items-center justify-center rounded-[9px] text-muted transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:size-10 lg:rounded-[10px]"
+  "flex size-11 hit-[3px] items-center justify-center rounded-[12px] text-muted transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:size-10 lg:hit-[0px] lg:rounded-[10px]"
 
 /**
  * A destination, spelled out.
@@ -91,7 +91,7 @@ export function AppHeader({ className }: { className?: string }) {
       <div className="flex h-14 w-full items-center gap-2 px-4 lg:h-17 lg:gap-7 lg:px-7">
         <Link
           to="/"
-          className="flex shrink-0 items-center gap-2.5 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+          className="-my-2 flex shrink-0 items-center gap-2.5 rounded-lg py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
         >
           <Logo className="size-[26px] lg:size-8" />
           <span className="font-display text-lg font-bold tracking-[-0.02em] text-white lg:text-xl">
@@ -225,7 +225,7 @@ function AccountControl() {
     return (
       <TapButton
         onClick={() => requireAuth({})}
-        className="inline-flex h-[38px] items-center rounded-[9px] bg-surface px-3.5 font-display text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:h-10 lg:rounded-[10px] lg:bg-transparent lg:px-4 lg:text-[15px] lg:text-subtle lg:hover:bg-white/10 lg:hover:text-white"
+        className="inline-flex h-11 hit-[3px] items-center rounded-[12px] bg-surface px-3.5 font-display text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:h-10 lg:hit-[0px] lg:rounded-[10px] lg:bg-transparent lg:px-4 lg:text-[15px] lg:text-subtle lg:hover:bg-white/10 lg:hover:text-white"
       >
         {t("common:auth.sign_in")}
       </TapButton>
@@ -251,6 +251,7 @@ function AccountControl() {
         className={cn(
           "flex items-center transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hidden",
           ACCOUNT_BUTTON_CLASS,
+          "h-11 hit-[4px] rounded-[13px]",
         )}
       >
         {face}

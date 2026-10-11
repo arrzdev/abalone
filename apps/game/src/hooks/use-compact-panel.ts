@@ -29,7 +29,7 @@ export const LIST_BELOW = 144
 /**
  * The least the controls at the foot of the panel can be, in px, on top of
  * whatever the seat card above them turns out to be: the column's top padding
- * (8), the move strip (40), the gap (8), and the row of actions (64), plus the
+ * (8), the move strip (44, a thumb's height for each move in it), the gap (8), and the row of actions (64), plus the
  * 8 of the bottom padding that is not the safe-area inset. The inset is added in
  * CSS, where it can be read.
  *
@@ -47,7 +47,7 @@ export const LIST_BELOW = 144
  * into whatever box it is given, and the row of actions is not. So the panel
  * carries a floor and the board shrinks to clear it.
  */
-export const CONTROLS_FLOOR = 128
+export const CONTROLS_FLOOR = 132
 
 /**
  * The panel's floor as a CSS length: whatever its fixed head measures, plus

@@ -43,18 +43,20 @@ export function ResignModal({
 
       {/* `flex-col-reverse` rather than a second pair of buttons: keeping
           playing stays first in the document, so a keyboard and a screen reader
-          reach the safe answer first on both shapes. */}
+          reach the safe answer first on both shapes. Equal widths only in the
+          row: in the column a zero flex basis beats the height, and the buttons
+          shrank to their line of text. */}
       <div className="mt-6 flex flex-col-reverse gap-2.5 lg:flex-row lg:gap-2.5">
         <Button
           variant="secondary"
-          className="h-13 flex-1 lg:h-12"
+          className="h-13 lg:h-12 lg:flex-1"
           onClick={onClose}
         >
           {t("game:modal.keep_playing")}
         </Button>
         <Button
           variant="danger"
-          className="h-13 flex-1 lg:h-12"
+          className="h-13 lg:h-12 lg:flex-1"
           onClick={onConfirm}
         >
           <FlagIcon size={20} />
