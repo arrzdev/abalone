@@ -13,6 +13,9 @@
       "audience": "Jugadores de juegos de mesa y aficionados a los juegos de estrategia"
     }
   },
+  "offline": {
+    "heading": "Juega a Abalone contra el ordenador o con un amigo"
+  },
   "players": {
     "you": "Tú",
     "computer": "Computadora"

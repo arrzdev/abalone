@@ -13,6 +13,9 @@
       "audience": "보드게임 플레이어와 전략 게임 애호가"
     }
   },
+  "offline": {
+    "heading": "컴퓨터나 친구와 아발론 대국"
+  },
   "players": {
     "you": "나",
     "computer": "컴퓨터"

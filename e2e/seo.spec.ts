@@ -55,6 +55,28 @@ test.describe("indexable pages", () => {
       expect(html).not.toMatch(/<meta name="robots" content="noindex"/)
     })
   }
+
+  // The H1 each indexable page is served with, word for word from page-copy:
+  // exactly one per page, so the page states one topic.
+  const H1 = {
+    "/": "Play Abalone online, free",
+    "/rules": "Abalone rules: how to play",
+    "/offline": "Play Abalone vs the computer or a friend",
+    "/strategy": "Abalone strategy: 7 tips to win",
+  } as const
+
+  for (const [path, h1] of Object.entries(H1)) {
+    test(`${path} is served with its page-copy H1`, async ({
+      request,
+    }) => {
+      const html = await (await request.get(path)).text()
+      const headings = [
+        ...html.matchAll(/<h1[^>]*>([\s\S]*?)<\/h1>/g),
+      ].map((match) => match[1].replace(/<[^>]+>/g, "").trim())
+
+      expect(headings).toEqual([h1])
+    })
+  }
 })
 
 test.describe("private pages", () => {

@@ -13,6 +13,9 @@
       "audience": "Brettspieler und Fans von Strategiespielen"
     }
   },
+  "offline": {
+    "heading": "Abalone gegen den Computer oder zu zweit spielen"
+  },
   "players": {
     "you": "Du",
     "computer": "Computer"
