@@ -135,7 +135,7 @@ function GamesPage() {
                 </p>
                 <Link
                   to="/online"
-                  className="inline-flex min-h-13 items-center justify-center rounded-xl bg-brand-fill px-7 font-display text-[17px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
+                  className="inline-flex min-h-13 items-center justify-center rounded-xl bg-brand-fill px-7 font-display text-[17px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
                 >
                   {t("common:nav.online")}
                 </Link>

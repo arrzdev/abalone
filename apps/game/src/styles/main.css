@@ -95,6 +95,11 @@
      `brand` gave 4.05. `brand` itself stays for what carries no text, the ring
      and the slider, which need 3:1 against the dark around them. */
   --brand-fill: #3d6c9a;
+  /* The fill under a pointer: a fifth of the way from `brand-fill` up to
+     `brand`, lit as a response like `brand-hover` but still 5.2:1 under white
+     (4.6 under the 90% white of a Play row's hint), where `brand-hover` gave
+     2.7. */
+  --brand-fill-hover: #4070a0;
 
   /* The quiet member of the family: far less saturated than the accent, which
      is what lets 61 marbles sit on it without the board competing. */
@@ -228,6 +233,7 @@
   --color-brand-lighter: var(--brand-lighter);
   --color-brand-deep: var(--brand-deep);
   --color-brand-fill: var(--brand-fill);
+  --color-brand-fill-hover: var(--brand-fill-hover);
 
   --color-board: var(--board);
   --color-marble-black: var(--marble-black);
