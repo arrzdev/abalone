@@ -120,6 +120,8 @@ function countOnlineGame(
         gameRef: crypto.randomUUID(),
         mode: "online",
         botLevel: null,
+        //an online game never shows the first-game guide
+        guided: false,
         appVersion: "server",
       }),
     ),
