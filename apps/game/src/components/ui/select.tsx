@@ -216,7 +216,7 @@ export function Select<T extends string>({
                     {isSelected && (
                       <CheckIcon
                         size={16}
-                        className="shrink-0 text-brand"
+                        className="shrink-0 text-brand-light"
                       />
                     )}
                   </TapButton>

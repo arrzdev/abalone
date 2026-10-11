@@ -63,7 +63,7 @@ const BODY_CLASS =
   "mt-3 text-[15px] leading-relaxed text-balance text-muted"
 
 const GO_HOME_CLASS =
-  "clickable inline-flex h-[54px] w-full items-center justify-center rounded-xl bg-brand px-6 font-display text-[17px] font-semibold text-white no-underline transition-colors duration-200 ease-out hover:bg-brand-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
+  "clickable inline-flex h-[54px] w-full items-center justify-center rounded-xl bg-brand-fill px-6 font-display text-[17px] font-semibold text-white no-underline transition-colors duration-200 ease-out hover:bg-brand-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
 
 /**
  * Where an invite link opens, for whoever opens it.
