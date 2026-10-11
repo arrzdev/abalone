@@ -28,11 +28,16 @@ async function served(request: APIRequestContext, path: string) {
   return { html, blocks }
 }
 
-/** The served HTML as the text a reader sees: tags out, entities decoded. */
+/**
+ * The served HTML as the text a reader sees: tags out, entities decoded.
+ * Inline tags sit inside a run of text (`<strong>six</strong>.` reads "six."),
+ * so only the others break words.
+ */
 function visibleText(html: string): string {
   return html
     .replace(/<script[\s\S]*?<\/script>/g, " ")
     .replace(/<style[\s\S]*?<\/style>/g, " ")
+    .replace(/<\/?(?:strong|em|b|i|a|span|code)\b[^>]*>/g, "")
     .replace(/<[^>]+>/g, " ")
     .replace(/&#x27;/g, "'")
     .replace(/&quot;/g, '"')

@@ -60,25 +60,6 @@ function plainText(copy: string): string {
   return copy.replace(/<[^>]+>/g, "")
 }
 
-/**
- * A paragraph of copy as plain text, starting after its last sentence whose
- * markup closes against punctuation (`<strong>sumito</strong>.`).
- *
- * Such a sentence is two runs of text in the served HTML, the bold word and the
- * punctuation, and read with tags as word breaks (as e2e/structured-data.spec.ts
- * and a plain-text scraper do) it gains a space the step text would not have.
- * The sentences after it read the same either way.
- */
-function verbatimText(copy: string): string {
-  const sentences = copy.split(/(?<=[.:!?])\s+/)
-  const firstVerbatim = sentences.reduce(
-    (start, sentence, index) =>
-      /<\/[^>]+>[^\s<]/.test(sentence) ? index + 1 : start,
-    0,
-  )
-  return plainText(sentences.slice(firstVerbatim).join(" "))
-}
-
 function videoGame(): Json {
   return {
     "@context": "https://schema.org",
@@ -105,7 +86,7 @@ function rulesHowTo(): Json {
       "@type": "HowToStep",
       name: step.copy.title,
       url: siteUrl(`/rules#${step.id}`),
-      text: verbatimText(step.text),
+      text: plainText(step.text),
     })),
   }
 }
