@@ -4,9 +4,12 @@ import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { BackIcon } from "@/components/icons"
 
-/** The squares on this bar. Both of them, so the title is centred on the bar. */
+/**
+ * The squares on this bar. Both of them, so the title is centred on the bar.
+ * 44px, the smallest a thumb hits without aiming.
+ */
 export const SUBPAGE_HEADER_BUTTON =
-  "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-muted transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+  "flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-muted transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
 
 export type SubpageHeaderProps = {
   title: string
@@ -74,7 +77,7 @@ export function SubpageHeader({
 
         {/* The square is there either way, so a title with nothing to its right
             is centred on the same line as one with a button there. */}
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center">
           {action}
         </span>
       </div>
