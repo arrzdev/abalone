@@ -14,6 +14,11 @@ export type SubpageHeaderProps = {
   backTo?: string
   /** The right-hand square, for the one thing a page can offer from up here. */
   action?: ReactNode
+  /**
+   * Whether the title is the page's heading. A page whose own title is visible
+   * on a phone too keeps the one `<h1>` there, and the bar's copy is a label.
+   */
+  titleAs?: "h1" | "p"
   className?: string
 }
 
@@ -41,6 +46,7 @@ export function SubpageHeader({
   title,
   backTo = "/",
   action,
+  titleAs: Title = "h1",
   className,
 }: SubpageHeaderProps) {
   const { t } = useTranslation()
@@ -62,9 +68,9 @@ export function SubpageHeader({
           <BackIcon size={20} />
         </Link>
 
-        <h1 className="min-w-0 flex-1 truncate px-1 text-center font-display text-[17px] font-bold text-white">
+        <Title className="min-w-0 flex-1 truncate px-1 text-center font-display text-[17px] font-bold text-white">
           {title}
-        </h1>
+        </Title>
 
         {/* The square is there either way, so a title with nothing to its right
             is centred on the same line as one with a button there. */}
