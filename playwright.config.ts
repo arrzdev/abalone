@@ -37,6 +37,9 @@ export default defineConfig({
   expect: { timeout: 10_000 },
   use: {
     baseURL,
+    // Skips the backend's per-IP rate limits, which every browser here shares
+    // one IP for. Only the e2e Worker honours it (e2e/support/serve-backend.sh).
+    extraHTTPHeaders: { "x-test-bypass": "true" },
     trace: "on-first-retry",
   },
   projects: [

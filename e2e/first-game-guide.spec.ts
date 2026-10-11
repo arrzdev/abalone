@@ -8,6 +8,18 @@ import { playMove, selectSquare } from "./support/board"
 // skipping it is saved, so it does not come back; "How to move" in Settings
 // brings it back. Every test starts from a fresh browser context, so from empty
 // storage.
+//
+// "After a reload" means opening /offline again: startOfflineGame loads the
+// page fresh. Reloading first and then opening it makes two loads back to back,
+// and on webkit the second one cancels the first page's route preloads. The
+// router reloads a page whose route chunk failed to import, and that reload
+// interrupts the load the test asked for.
+//
+// No service worker either: webkit lets the worker one test activates claim a
+// page in another test's context. That page's own install then looks like an
+// update, and the app reloads it in the middle of a game. The guide does not
+// depend on the worker.
+test.use({ serviceWorkers: "block" })
 
 const GUIDE_KEY = "abalone.guide.v1"
 
@@ -100,7 +112,6 @@ test("a first game walks through the three steps and the next game has no guide"
   expect(await savedFlag(page)).toBe("done")
 
   // The second game, in the other mode, is not guided.
-  await page.reload()
   await startOfflineGame(page, "Pass & Play")
   await selectSquare(page, "c5")
   await expect(guide(page)).toHaveCount(0)
@@ -116,7 +127,6 @@ test("a skipped guide stays away after a reload, and How to move in Settings bri
   await expect(guide(page)).toHaveCount(0)
   expect(await savedFlag(page)).toBe("done")
 
-  await page.reload()
   await startOfflineGame(page, "vs Computer")
   // The board takes input by now, so the guide had its chance to show.
   await selectSquare(page, "c5")
