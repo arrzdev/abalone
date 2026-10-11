@@ -20,12 +20,13 @@
     "change": "更改语言"
   },
   "home": {
-    "tagline": "把对手的六枚棋子推出棋盘即可获胜。",
+    "heading": "在线免费玩 Abalone",
+    "lede": "把对手的六颗棋子推出棋盘。可以和电脑对战，也可以轮流用同一台设备，或者邀请朋友。",
     "play_online": "在线对战",
     "play_offline": "离线对战",
     "online_hint": "邀请任何人，按自己的节奏对弈。",
-    "rules_prompt": "没玩过？",
-    "rules_link": "看看规则",
+    "rules_link": "Abalone 规则",
+    "strategy_link": "Abalone 策略技巧",
     "bot_hint_short": "八种强度",
     "bot_hint_long": "八个机器人，从 Gus 到 Magnus。",
     "local_hint_short": "一台设备，两个人",

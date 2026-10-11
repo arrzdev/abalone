@@ -20,12 +20,13 @@
     "change": "Dili değiştir"
   },
   "home": {
-    "tagline": "Kazanmak için rakibinin altı bilyesini tahtadan dışarı it.",
+    "heading": "Abalone'u çevrimiçi, ücretsiz oyna",
+    "lede": "Rakibinin altı bilyesini tahtadan dışarı it. Bilgisayara karşı oyna, cihazı elden ele geçir ya da bir arkadaşını davet et.",
     "play_online": "Çevrimiçi oyna",
     "play_offline": "Çevrimdışı oyna",
     "online_hint": "Birini davet et, kendi hızında oyna.",
-    "rules_prompt": "Hiç oynamadın mı?",
-    "rules_link": "Kuralları oku",
+    "rules_link": "Abalone kuralları",
+    "strategy_link": "Abalone strateji ipuçları",
     "bot_hint_short": "Sekiz seviye",
     "bot_hint_long": "Gus'tan Magnus'a sekiz bot.",
     "local_hint_short": "Tek cihaz, ikiniz",

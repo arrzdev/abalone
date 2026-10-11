@@ -20,12 +20,13 @@
     "change": "Zmień język"
   },
   "home": {
-    "tagline": "Wypchnij sześć kul przeciwnika poza planszę, aby wygrać.",
+    "heading": "Graj w Abalone online, za darmo",
+    "lede": "Wypchnij sześć kul przeciwnika poza planszę. Graj z komputerem, podaj dalej urządzenie albo zaproś znajomego.",
     "play_online": "Graj online",
     "play_offline": "Graj offline",
     "online_hint": "Zaproś kogoś i graj we własnym tempie.",
-    "rules_prompt": "Nigdy nie grałeś?",
-    "rules_link": "Przeczytaj zasady",
+    "rules_link": "Zasady Abalone",
+    "strategy_link": "Wskazówki strategiczne do Abalone",
     "bot_hint_short": "Osiem poziomów",
     "bot_hint_long": "Osiem botów, od Gusa do Magnusa.",
     "local_hint_short": "Jedno urządzenie, was dwoje",

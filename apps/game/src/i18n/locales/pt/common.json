@@ -20,12 +20,13 @@
     "change": "Mudar de idioma"
   },
   "home": {
-    "tagline": "Empurra seis bolas do adversário para fora do tabuleiro para ganhar.",
+    "heading": "Joga Abalone online, grátis",
+    "lede": "Empurra seis bolas do adversário para fora do tabuleiro. Joga contra o computador, passa o dispositivo ou convida um amigo.",
     "play_online": "Jogar online",
     "play_offline": "Jogar offline",
     "online_hint": "Convida alguém e joga ao teu ritmo.",
-    "rules_prompt": "Nunca jogaste?",
-    "rules_link": "Lê as regras",
+    "rules_link": "Regras de Abalone",
+    "strategy_link": "Dicas de estratégia de Abalone",
     "bot_hint_short": "Oito níveis",
     "bot_hint_long": "Oito bots, do Gus ao Magnus.",
     "local_hint_short": "Um dispositivo, os dois",

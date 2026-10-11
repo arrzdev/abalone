@@ -20,12 +20,13 @@
     "change": "언어 변경"
   },
   "home": {
-    "tagline": "상대 구슬 6개를 보드 밖으로 밀어내면 승리합니다.",
+    "heading": "아발론을 온라인에서 무료로",
+    "lede": "상대 구슬 여섯 개를 판 밖으로 밀어내면 이깁니다. 컴퓨터와 대결하거나, 기기를 돌려 가며 하거나, 친구를 초대하세요.",
     "play_online": "온라인 플레이",
     "play_offline": "오프라인 플레이",
     "online_hint": "누구든 초대해 원하는 속도로 대국.",
-    "rules_prompt": "처음이신가요?",
-    "rules_link": "규칙 보기",
+    "rules_link": "아발론 규칙",
+    "strategy_link": "아발론 전략 요령",
     "bot_hint_short": "여덟 단계",
     "bot_hint_long": "거스부터 매그너스까지, 봇 여덟.",
     "local_hint_short": "기기 하나, 둘이서",
