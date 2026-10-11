@@ -83,5 +83,33 @@
     "title": "Rien ici pour l'instant",
     "body": "Invitez quelqu'un par son nom et la partie commence ici.",
     "play_bot": "Jouer contre un bot"
+  },
+  "link": {
+    "heading": "Ou envoyez un lien",
+    "create": "Inviter avec un lien",
+    "creating": "Création du lien",
+    "field": "Lien d'invitation",
+    "share": "Partager le lien",
+    "copy": "Copier le lien",
+    "copied": "Lien copié. Envoyez-le à la personne avec qui vous voulez jouer.",
+    "copy_failed": "Impossible de copier le lien. Sélectionnez-le et copiez-le vous-même.",
+    "share_text": "Une partie d'Abalone ? Ouvre ce lien pour jouer contre moi."
+  },
+  "invite_link": {
+    "loading": "Ouverture de l'invitation",
+    "load_error_title": "Impossible d'ouvrir cette invitation",
+    "retry": "Réessayer",
+    "go_home": "Retour à l'accueil",
+    "title": "{{name}} vous invite à une partie de {{brand}}",
+    "body_signed_out": "Créez un compte ou connectez-vous pour accepter. Vous reviendrez directement ici.",
+    "body_signed_in": "Acceptez et la partie commence tout de suite.",
+    "accept": "Accepter et jouer",
+    "accepting": "Ouverture de la partie",
+    "own_title": "C'est votre lien d'invitation",
+    "own_body": "Envoyez-le à la personne avec qui vous voulez jouer. La partie commence quand elle accepte.",
+    "used_title": "Cette invitation a déjà été utilisée",
+    "used_body": "Quelqu'un d'autre l'a acceptée en premier. Demandez un nouveau lien à {{name}}.",
+    "expired_title": "Cette invitation a expiré",
+    "expired_body": "Les liens d'invitation durent 7 jours. Demandez-en un nouveau à la personne qui l'a envoyé."
   }
 }

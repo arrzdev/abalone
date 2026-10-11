@@ -16,5 +16,8 @@
   "api_illegal_move": "That move isn't legal.",
   "api_move_conflict": "The game moved on while you were playing.",
   "network_unreachable": "We couldn't reach the server.",
-  "unknown": "Something went wrong."
+  "unknown": "Something went wrong.",
+  "api_invite_link_own": "This is your own link. Send it to someone else to play.",
+  "api_invite_link_used": "Someone else already accepted this invite.",
+  "api_invite_link_expired": "This invite has expired. Ask for a new link."
 }

@@ -83,5 +83,33 @@
     "title": "Hier ist noch nichts",
     "body": "Lade jemanden mit Namen ein, und die Partie beginnt hier.",
     "play_bot": "Gegen einen Bot spielen"
+  },
+  "link": {
+    "heading": "Oder einen Link senden",
+    "create": "Mit Link einladen",
+    "creating": "Link wird erstellt",
+    "field": "Einladungslink",
+    "share": "Link teilen",
+    "copy": "Link kopieren",
+    "copied": "Link kopiert. Schick ihn der Person, mit der du spielen willst.",
+    "copy_failed": "Der Link konnte nicht kopiert werden. Markiere ihn und kopiere ihn selbst.",
+    "share_text": "Lust auf eine Partie Abalone? Öffne diesen Link und spiel gegen mich."
+  },
+  "invite_link": {
+    "loading": "Einladung wird geöffnet",
+    "load_error_title": "Die Einladung konnte nicht geöffnet werden",
+    "retry": "Erneut versuchen",
+    "go_home": "Zur Startseite",
+    "title": "{{name}} hat dich zu einer Partie {{brand}} eingeladen",
+    "body_signed_out": "Erstelle ein Konto oder melde dich an, um anzunehmen. Danach landest du direkt wieder hier.",
+    "body_signed_in": "Nimm an und die Partie beginnt sofort.",
+    "accept": "Annehmen und spielen",
+    "accepting": "Partie wird geöffnet",
+    "own_title": "Das ist dein Einladungslink",
+    "own_body": "Schick ihn der Person, mit der du spielen willst. Die Partie beginnt, sobald sie annimmt.",
+    "used_title": "Diese Einladung wurde bereits genutzt",
+    "used_body": "Jemand anderes hat sie zuerst angenommen. Bitte {{name}} um einen neuen Link.",
+    "expired_title": "Diese Einladung ist abgelaufen",
+    "expired_body": "Einladungslinks gelten 7 Tage. Bitte die Person, die ihn geschickt hat, um einen neuen."
   }
 }
