@@ -24,6 +24,8 @@ export type InviteComposerProps = {
   pending: boolean
   /** What went wrong last time, already translated. */
   error?: string
+  /** A link was made, so whoever takes it opens a game from outside. */
+  onLinkCreated?: () => void
 }
 
 /**
@@ -49,6 +51,7 @@ export function InviteComposer({
   onSend,
   pending,
   error,
+  onLinkCreated,
 }: InviteComposerProps) {
   const { t } = useTranslation()
   const errorId = useId()
@@ -160,6 +163,7 @@ export function InviteComposer({
           key={`${setupType}:${side}`}
           setupType={setupType}
           side={side}
+          onCreated={onLinkCreated}
         />
       </div>
     </Sheet>

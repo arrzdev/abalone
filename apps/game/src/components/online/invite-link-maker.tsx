@@ -8,7 +8,10 @@ import type { CreateInviteLinkInput } from "@/data/online/mutations"
 import { createInviteLinkMutationOptions } from "@/data/online/mutations"
 import { useApiError } from "@/hooks/use-api-error"
 
-export type InviteLinkMakerProps = CreateInviteLinkInput
+export type InviteLinkMakerProps = CreateInviteLinkInput & {
+  /** Called once the server hands the link back. */
+  onCreated?: () => void
+}
 
 /**
  * The other way to ask: a link instead of a name.
@@ -25,6 +28,7 @@ export type InviteLinkMakerProps = CreateInviteLinkInput
 export function InviteLinkMaker({
   setupType,
   side,
+  onCreated,
 }: InviteLinkMakerProps) {
   const { t } = useTranslation()
   const errorId = useId()
@@ -44,7 +48,9 @@ export function InviteLinkMaker({
             className="w-full"
             disabled={create.isPending}
             aria-describedby={errorId}
-            onClick={() => create.mutate({ setupType, side })}
+            onClick={() =>
+              create.mutate({ setupType, side }, { onSuccess: onCreated })
+            }
           >
             {create.isPending && t("online:link.creating")}
             {!create.isPending && t("online:link.create")}
