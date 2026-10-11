@@ -21,6 +21,8 @@ type GameEventRow = {
   bot_level: number | null
   result: string | null
   move_count: number | null
+  //sqlite has no boolean: 1 or 0
+  guided: number
   app_version: string
   created_at: number
 }
@@ -32,6 +34,7 @@ const ALLOWED_COLUMNS = [
   "bot_level",
   "created_at",
   "game_ref",
+  "guided",
   "id",
   "kind",
   "mode",
@@ -176,6 +179,65 @@ describe("game event routes", () => {
     ])
   })
 
+  //---- whether the first-game guide was showing ----------------
+
+  it.each([
+    ["ai", 3],
+    ["local", undefined],
+  ] as const)(
+    "stores a %s game that started with the guide showing as guided",
+    async (mode, botLevel) => {
+      const ref = gameRef()
+
+      const response = await post({
+        ...start(ref),
+        mode,
+        botLevel,
+        guided: true,
+      })
+
+      expect(response.status).toBe(204)
+      expect(await rows()).toEqual([
+        expect.objectContaining({
+          game_ref: ref,
+          kind: "start",
+          guided: 1,
+        }),
+      ])
+    },
+  )
+
+  it("stores a game that started without the guide as not guided", async () => {
+    await post({ ...start(gameRef()), guided: false })
+
+    const [row] = await rows()
+    expect(row.guided).toBe(0)
+  })
+
+  //a build from before the flag is still cached on some phones
+  it("stores a start that does not say as not guided", async () => {
+    const response = await post(start(gameRef()))
+
+    expect(response.status).toBe(204)
+    const [row] = await rows()
+    expect(row.guided).toBe(0)
+  })
+
+  //the start says it, and its finish pairs up with it by the game's ref
+  it("stores every finish as not guided", async () => {
+    await post({
+      gameRef: gameRef(),
+      kind: "finish",
+      mode: "local",
+      result: "black",
+      moveCount: 12,
+      appVersion: "abc1234",
+    })
+
+    const [row] = await rows()
+    expect(row.guided).toBe(0)
+  })
+
   //---- what it refuses ----------------
 
   it.each([
@@ -232,6 +294,21 @@ describe("game event routes", () => {
         kind: "finish",
         result: "win",
         moveCount: -1,
+      },
+    ],
+    [
+      "a guided flag that is not a boolean",
+      { ...start(gameRef()), guided: "yes" },
+    ],
+    //only the start says whether the guide was showing
+    [
+      "a finish that says it was guided",
+      {
+        ...start(gameRef()),
+        kind: "finish",
+        result: "win",
+        moveCount: 3,
+        guided: true,
       },
     ],
     [
@@ -386,6 +463,8 @@ describe("game event routes", () => {
         mode: "online",
         bot_level: null,
         result: null,
+        //an online game never shows the guide
+        guided: 0,
       }),
     ])
   })

@@ -6,6 +6,7 @@ import {
   GUIDE_STORAGE_KEY,
   guideStepNumber,
   isGuideDone,
+  isGuidedStart,
   markGuideDone,
   resetGuide,
   shouldGuide,
@@ -187,5 +188,42 @@ describe("the guide's saved flag without storage", () => {
     markGuideDone()
     expect(() => resetGuide()).not.toThrow()
     expect(isGuideDone()).toBe(false)
+  })
+})
+
+//the game start event says whether the guide is showing, so first games with
+//the guide can be compared with games before it
+describe("isGuidedStart", () => {
+  beforeEach(() => {
+    stubMemoryStorage()
+    resetGuide()
+  })
+
+  afterEach(() => {
+    resetGuide()
+    vi.unstubAllGlobals()
+  })
+
+  it("is guided for a first offline game", () => {
+    expect(isGuidedStart("ai")).toBe(true)
+    expect(isGuidedStart("local")).toBe(true)
+  })
+
+  it("is not guided once the guide is finished or skipped", () => {
+    markGuideDone()
+
+    expect(isGuidedStart("ai")).toBe(false)
+    expect(isGuidedStart("local")).toBe(false)
+  })
+
+  it("is guided again after How to move brings the guide back", () => {
+    markGuideDone()
+    resetGuide()
+
+    expect(isGuidedStart("ai")).toBe(true)
+  })
+
+  it("is never guided online", () => {
+    expect(isGuidedStart("online")).toBe(false)
   })
 })
