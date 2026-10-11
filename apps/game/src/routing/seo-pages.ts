@@ -1,5 +1,6 @@
 import type { SocialImage } from "@/routing/page-head"
 import { pageHead } from "@/routing/page-head"
+import { structuredDataScripts } from "@/routing/structured-data"
 
 /**
  * The pages a search engine should list, and the words it lists them under.
@@ -53,7 +54,11 @@ export const SEO_PAGES: Record<
 
 export type IndexablePath = keyof typeof SEO_PAGES
 
-/** The route `head` for one indexable page. */
+/** The route `head` for one indexable page, with its JSON-LD. */
 export function seoPageHead(path: IndexablePath) {
-  return pageHead({ ...SEO_PAGES[path], path, fullTitle: true })
+  const page = SEO_PAGES[path]
+  return {
+    ...pageHead({ ...page, path, fullTitle: true }),
+    scripts: structuredDataScripts(path, page),
+  }
 }
