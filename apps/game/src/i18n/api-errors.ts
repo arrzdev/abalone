@@ -29,6 +29,9 @@ export const API_ERROR_KEYS = {
   not_your_turn: "errors:api_not_your_turn",
   illegal_move: "errors:api_illegal_move",
   move_conflict: "errors:api_move_conflict",
+  invite_link_own: "errors:api_invite_link_own",
+  invite_link_used: "errors:api_invite_link_used",
+  invite_link_expired: "errors:api_invite_link_expired",
 } as const satisfies Record<ErrorCode, string>
 
 /** The key for whatever the request threw, whether or not the api answered. */

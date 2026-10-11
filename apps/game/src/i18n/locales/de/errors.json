@@ -16,5 +16,8 @@
   "api_illegal_move": "Dieser Zug ist nicht erlaubt.",
   "api_move_conflict": "Die Partie ist inzwischen weitergegangen.",
   "network_unreachable": "Wir erreichen den Server nicht.",
-  "unknown": "Etwas ist schiefgelaufen."
+  "unknown": "Etwas ist schiefgelaufen.",
+  "api_invite_link_own": "Das ist dein eigener Link. Schick ihn jemand anderem, um zu spielen.",
+  "api_invite_link_used": "Jemand anderes hat diese Einladung bereits angenommen.",
+  "api_invite_link_expired": "Diese Einladung ist abgelaufen. Bitte um einen neuen Link."
 }

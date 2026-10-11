@@ -86,5 +86,33 @@
     "title": "Jeszcze nic tu nie ma",
     "body": "Zaproś kogoś po imieniu, a gra zacznie się tutaj.",
     "play_bot": "Zagraj z botem"
+  },
+  "link": {
+    "heading": "Albo wyślij link",
+    "create": "Zaproś linkiem",
+    "creating": "Tworzenie linku",
+    "field": "Link z zaproszeniem",
+    "share": "Udostępnij link",
+    "copy": "Kopiuj link",
+    "copied": "Link skopiowany. Wyślij go osobie, z którą chcesz zagrać.",
+    "copy_failed": "Nie udało się skopiować linku. Zaznacz go i skopiuj samodzielnie.",
+    "share_text": "Partyjka Abalone? Otwórz ten link, żeby zagrać ze mną."
+  },
+  "invite_link": {
+    "loading": "Otwieranie zaproszenia",
+    "load_error_title": "Nie udało się otworzyć tego zaproszenia",
+    "retry": "Spróbuj ponownie",
+    "go_home": "Strona główna",
+    "title": "{{name}} zaprasza cię do gry w {{brand}}",
+    "body_signed_out": "Załóż konto albo zaloguj się, żeby przyjąć. Potem od razu wrócisz tutaj.",
+    "body_signed_in": "Przyjmij, a gra zacznie się od razu.",
+    "accept": "Przyjmij i graj",
+    "accepting": "Otwieranie gry",
+    "own_title": "To twój link z zaproszeniem",
+    "own_body": "Wyślij go osobie, z którą chcesz zagrać. Gra zacznie się, gdy przyjmie zaproszenie.",
+    "used_title": "To zaproszenie zostało już wykorzystane",
+    "used_body": "Ktoś inny przyjął je pierwszy. Poproś {{name}} o nowy link.",
+    "expired_title": "To zaproszenie wygasło",
+    "expired_body": "Linki z zaproszeniem są ważne 7 dni. Poproś osobę, która go wysłała, o nowy."
   }
 }

@@ -82,5 +82,33 @@
     "title": "Nothing here yet",
     "body": "Invite somebody by name and the game starts here.",
     "play_bot": "Play a bot"
+  },
+  "link": {
+    "heading": "Or send a link",
+    "create": "Invite with a link",
+    "creating": "Making a link",
+    "field": "Invite link",
+    "share": "Share link",
+    "copy": "Copy link",
+    "copied": "Link copied. Send it to the person you want to play.",
+    "copy_failed": "We couldn't copy the link. Select it and copy it yourself.",
+    "share_text": "Want a game of Abalone? Open this link to play me."
+  },
+  "invite_link": {
+    "loading": "Opening the invite",
+    "load_error_title": "We couldn't open this invite",
+    "retry": "Try again",
+    "go_home": "Go home",
+    "title": "{{name}} invited you to a game of {{brand}}",
+    "body_signed_out": "Create an account or sign in to accept. You'll come straight back here.",
+    "body_signed_in": "Accept and the game starts right away.",
+    "accept": "Accept and play",
+    "accepting": "Opening the game",
+    "own_title": "This is your invite link",
+    "own_body": "Send it to the person you want to play. The game starts when they accept.",
+    "used_title": "This invite has already been used",
+    "used_body": "Someone else accepted it first. Ask {{name}} for a new link.",
+    "expired_title": "This invite has expired",
+    "expired_body": "Invite links last 7 days. Ask whoever sent it for a new one."
   }
 }

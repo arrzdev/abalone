@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next"
 import type { ColorChoiceValue } from "@/components/color-choice"
 import { ColorChoice } from "@/components/color-choice"
 import { GameCanvas } from "@/components/game-canvas"
+import { InviteLinkMaker } from "@/components/online/invite-link-maker"
 import { SetupCarousel } from "@/components/setup-carousel"
 import { Button } from "@/components/ui/button"
 import { Sheet } from "@/components/ui/sheet"
@@ -37,6 +38,10 @@ export type InviteComposerProps = {
  * a name and press send, and the only thing that can come back is that nobody
  * is called that. A search that runs on every keystroke to confirm a name you
  * already know is a request per letter for a fact you learn anyway.
+ *
+ * The link sits under the terms rather than beside the name, because it uses
+ * them: it is for when there is no name to type, and the board and the side it
+ * carries are the ones picked above it.
  */
 export function InviteComposer({
   open,
@@ -148,6 +153,14 @@ export function InviteComposer({
             marbleDesign={marbleDesign}
           />
         </div>
+
+        {/* Keyed on the terms, so changing either one drops a link made on
+            the old ones rather than leaving it in the field. */}
+        <InviteLinkMaker
+          key={`${setupType}:${side}`}
+          setupType={setupType}
+          side={side}
+        />
       </div>
     </Sheet>
   )
