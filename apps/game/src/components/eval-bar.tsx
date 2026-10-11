@@ -141,7 +141,7 @@ export function EvalBar({
           one to be read at all. */}
       <span
         className={cn(
-          "absolute inset-y-0 flex items-center px-2 text-[0.7rem] font-bold tabular-nums",
+          "absolute inset-y-0 flex items-center px-2 text-xs font-bold tabular-nums",
           favoursBlack ? "left-0 text-white" : "right-0 text-black",
         )}
       >
