@@ -70,7 +70,9 @@
     "side_random": "Zufällige Seite",
     "marbles_taken": "{{taken}} von {{total}} gegnerischen Kugeln hinausgeschoben",
     "eval_advantage": "{{color}} liegt {{score}} vorn",
-    "eval_level": "Ausgeglichen"
+    "eval_level": "Ausgeglichen",
+    "how_to_move": "So ziehst du",
+    "how_to_move_hint": "Sieh dir die 3 Schritte noch einmal auf dem Brett an."
   },
   "game_state": {
     "your_turn": "Du bist am Zug",
@@ -169,5 +171,18 @@
     "turn": "{{side}} ist am Zug.",
     "last_move": "Letzter Zug: {{move}}.",
     "no_moves": "Noch keine Züge."
+  },
+  "guide": {
+    "title": "So ziehst du",
+    "step": "Schritt {{current}} von {{total}}",
+    "select_title": "Wähle deine Kugeln",
+    "select_body": "Tippe auf eine deiner Kugeln. Tippe auf bis zu zwei weitere in einer geraden Linie, um sie zusammen zu bewegen.",
+    "direction_title": "Wähle eine Richtung",
+    "direction_body": "Tippe auf ein markiertes Feld, um dorthin zu ziehen. Eine längere Reihe kann eine kürzere Reihe des Gegners schieben.",
+    "win_title": "Schiebe 6 hinaus, um zu gewinnen",
+    "win_body": "Schiebe sechs Kugeln deines Gegners über den Rand des Bretts, dann hast du gewonnen.",
+    "next": "Weiter",
+    "done": "Verstanden",
+    "skip": "Überspringen"
   }
 }

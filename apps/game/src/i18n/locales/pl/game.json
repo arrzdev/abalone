@@ -70,7 +70,9 @@
     "side_random": "Losowa strona",
     "marbles_taken": "Wypchnięto {{taken}} z {{total}} kul przeciwnika",
     "eval_advantage": "{{color}} prowadzi o {{score}}",
-    "eval_level": "Wyrównana pozycja"
+    "eval_level": "Wyrównana pozycja",
+    "how_to_move": "Jak wykonać ruch",
+    "how_to_move_hint": "Zobacz ponownie 3 kroki na planszy."
   },
   "game_state": {
     "your_turn": "Twoja kolej",
@@ -170,5 +172,18 @@
     "turn": "Ruch mają {{side}}.",
     "last_move": "Ostatni ruch: {{move}}.",
     "no_moves": "Brak ruchów."
+  },
+  "guide": {
+    "title": "Jak wykonać ruch",
+    "step": "Krok {{current}} z {{total}}",
+    "select_title": "Wybierz swoje kulki",
+    "select_body": "Dotknij jednej ze swoich kulek. Dotknij jeszcze maksymalnie dwóch w linii prostej, aby przesunąć je razem.",
+    "direction_title": "Wybierz kierunek",
+    "direction_body": "Dotknij podświetlonego pola, aby się tam przesunąć. Dłuższa linia może zepchnąć krótszą linię przeciwnika.",
+    "win_title": "Zepchnij 6, aby wygrać",
+    "win_body": "Zepchnij sześć kulek przeciwnika poza krawędź planszy, a wygrasz.",
+    "next": "Dalej",
+    "done": "Rozumiem",
+    "skip": "Pomiń"
   }
 }
