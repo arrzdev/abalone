@@ -26,6 +26,9 @@ const RATE_LIMITS: Record<string, { max: number }> = {
   //anonymous game events. a game sends two, so thirty a minute is a device
   //starting a new game every four seconds, which nobody playing does.
   events: { max: 30 },
+  //making an invite link and accepting one. a player sends a few links a day,
+  //and the accept is the door a guessed token would be tried through.
+  "invite-link": { max: 20 },
 }
 
 //best-effort limiter: per-isolate on cloudflare workers, not shared across
