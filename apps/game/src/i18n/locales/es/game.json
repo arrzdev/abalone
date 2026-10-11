@@ -164,6 +164,10 @@
   },
   "board": {
     "label": "Tablero de juego",
-    "thinking": "pensando"
+    "thinking": "pensando",
+    "position": "{{black}} {{blackCount}} canicas, {{white}} {{whiteCount}} canicas.",
+    "turn": "Mueven {{side}}.",
+    "last_move": "Última jugada: {{move}}.",
+    "no_moves": "Aún no hay jugadas."
   }
 }

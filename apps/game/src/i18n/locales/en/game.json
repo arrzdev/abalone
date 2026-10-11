@@ -164,6 +164,10 @@
   },
   "board": {
     "label": "Game board",
-    "thinking": "thinking"
+    "thinking": "thinking",
+    "position": "{{black}} {{blackCount}} marbles, {{white}} {{whiteCount}} marbles.",
+    "turn": "{{side}} to move.",
+    "last_move": "Last move: {{move}}.",
+    "no_moves": "No moves yet."
   }
 }

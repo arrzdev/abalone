@@ -165,6 +165,10 @@
   },
   "board": {
     "label": "Plansza do gry",
-    "thinking": "myśli"
+    "thinking": "myśli",
+    "position": "{{black}}: {{blackCount}} kulek, {{white}}: {{whiteCount}} kulek.",
+    "turn": "Ruch mają {{side}}.",
+    "last_move": "Ostatni ruch: {{move}}.",
+    "no_moves": "Brak ruchów."
   }
 }
