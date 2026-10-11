@@ -260,7 +260,7 @@ function HubHeading({
       <TapButton
         onClick={onCompose}
         aria-label={t("online:games.new_invite")}
-        className="inline-flex size-11 shrink-0 items-center justify-center gap-2.5 rounded-xl bg-brand-fill font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground lg:h-[46px] lg:w-auto lg:px-5"
+        className="inline-flex size-11 shrink-0 items-center justify-center gap-2.5 rounded-xl bg-brand-fill font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground lg:h-[46px] lg:w-auto lg:px-5"
       >
         <PlusIcon size={19} strokeWidth={2.4} className="lg:size-4" />
         <span className="max-lg:hidden">
@@ -434,7 +434,7 @@ function EmptyHub({
         <div className="mt-6 flex w-full flex-col gap-2.5">
           <TapButton
             onClick={onCompose}
-            className="inline-flex min-h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-brand-fill px-5 py-3 text-balance font-display text-[17px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
+            className="inline-flex min-h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-brand-fill px-5 py-3 text-balance font-display text-[17px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
           >
             <PlusIcon size={15} strokeWidth={2.4} />
             {t("online:compose.title")}

@@ -160,3 +160,26 @@ for (const { name, width, height } of WIDTHS) {
     })
   })
 }
+
+// A pointer on a blue control changes its fill, and the white label on it has
+// to stay readable through that too. Only a desktop has a pointer that rests.
+test.describe("at 1440px under the pointer", () => {
+  test.use({ viewport: { width: 1440, height: 900 } })
+  test.skip(({ hasTouch }) => hasTouch, "a touch screen has no hover")
+
+  test("the Play Online row stays readable while hovered", async ({
+    page,
+  }) => {
+    await openApp(page, "/")
+    await page.getByRole("button", { name: /Play Online/ }).hover()
+    await expectReadableText(page, "hovered Play Online")
+  })
+
+  test("the Play button stays readable while hovered", async ({
+    page,
+  }) => {
+    await openApp(page, "/offline")
+    await page.getByRole("button", { name: "Play", exact: true }).hover()
+    await expectReadableText(page, "hovered Play")
+  })
+})
