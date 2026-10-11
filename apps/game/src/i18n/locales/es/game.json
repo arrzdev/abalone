@@ -100,34 +100,82 @@
   },
   "rules": {
     "title": "Cómo jugar",
-    "intro": "Todo el juego, en cinco reglas cortas.",
+    "heading": "Reglas de Abalone: cómo jugar",
+    "intro": "Abalone es un juego de estrategia para dos jugadores en un tablero hexagonal. Cada jugador tiene 14 bolas. Ganas si empujas seis bolas del rival fuera del tablero. Esta página explica todas las reglas. Cuando estés listo, <online>juega a Abalone en línea</online> o <offline>pruébalo contra el ordenador</offline>.",
     "goal": {
       "title": "El objetivo",
-      "body": "Empuja seis bolas del rival fuera del tablero."
+      "body": "Empuja <strong>seis</strong> bolas del rival fuera del borde del tablero. Gana quien lo consiga primero. No se gana atrapando bolas, solo sacándolas."
+    },
+    "turns": {
+      "title": "Quién mueve primero",
+      "body": "Los jugadores se turnan, con un movimiento cada uno. Empiezan las negras. En tu turno debes mover: no puedes pasar."
     },
     "directions": {
-      "title": "Seis direcciones",
-      "body": "Una bola avanza una casilla en cualquiera de seis direcciones. No hay diagonales ni saltos.",
+      "title": "Cómo se mueven las bolas",
+      "body": "Una bola avanza una casilla a cualquiera de las <strong>seis casillas vecinas</strong>. El tablero es un hexágono, así que cada casilla toca otras seis. No hay saltos ni capturas saltando.",
       "caption": "Las seis direcciones."
     },
     "move": {
-      "title": "Mover las bolas",
-      "body": "Mueves una, dos o tres bolas propias. Dos o tres deben estar en línea recta y se mueven juntas.",
+      "title": "Mover una, dos o tres bolas",
+      "body": "Puedes mover una, dos o tres bolas propias en un turno. Dos o tres bolas deben tocarse en <strong>línea recta</strong> y se mueven juntas una casilla. Hay dos tipos de movimiento:",
+      "inline": "<strong>Movimiento en línea:</strong> el grupo avanza por la línea hacia donde apunta, como un tren. La bola de delante entra en la casilla siguiente.",
+      "broadside": "<strong>Paso lateral:</strong> el grupo se mueve de lado, cada bola a la casilla vacía que tiene al lado. Todas las casillas de destino deben estar vacías.",
+      "limit": "Nunca puedes mover más de tres bolas, ni bolas que no estén en línea recta.",
       "inline_caption": "En línea: la fila avanza hacia donde apunta.",
       "broadside_caption": "De lado: la fila se desplaza a casillas vacías."
     },
     "push": {
-      "title": "Empujar",
-      "body": "Solo un movimiento en línea empuja, y necesitas más bolas que el rival: dos contra una, o tres contra una o dos. La casilla detrás de las suyas debe estar vacía.",
+      "title": "Empujar: el sumito",
+      "body": "Un empuje se llama <strong>sumito</strong>. Es un movimiento en línea hacia una casilla ocupada por el rival. Necesitas <strong>más bolas en la línea que tu rival</strong>:",
+      "ratios": {
+        "two_one": "2 bolas empujan 1",
+        "three_one": "3 bolas empujan 1",
+        "three_two": "3 bolas empujan 2"
+      },
+      "conditions": "Dos condiciones más: la casilla detrás de las bolas empujadas debe estar <strong>vacía</strong> (o fuera del tablero), y el empuje debe ser en línea, nunca de lado. Con el mismo número nunca se empuja, así que 2 contra 2 y 3 contra 3 es un punto muerto. Nunca puedes empujar tus propias bolas.",
       "ok_caption": "Tres contra dos: la línea avanza una casilla.",
       "blocked_caption": "Con el mismo número nada se mueve, y nunca empujas las tuyas."
     },
     "capture": {
       "title": "Sacar bolas del tablero",
-      "body": "Una bola empujada fuera del borde queda fuera hasta el final.",
+      "body": "Si un empuje lleva una bola rival más allá del borde, queda <strong>fuera del juego</strong>. Es un punto hacia tus seis. Una bola junto al borde corre peligro: si te empujan allí con menos bolas de las que tiene el rival en línea, la pierdes.",
       "caption": "Dos contra una en el borde: sale la negra."
     },
-    "cta": "Jugar ahora"
+    "win": {
+      "title": "Cómo ganar",
+      "body": "Gana quien primero saque seis bolas. Si no puedes evitar un empuje, rompe la línea: mueve una bola junto al atacante para que quede en inferioridad, o aléjate del borde."
+    },
+    "setups": {
+      "title": "Posiciones iniciales",
+      "body": "Todas las disposiciones empiezan con 14 bolas por jugador.",
+      "standard": "<name>Standard:</name> cada bando empieza en sus dos filas más cercanas (negras abajo, blancas arriba), con tres bolas en el centro de la tercera fila. Los ejércitos se miran de frente y en el primer movimiento no es posible empujar. Ideal para aprender.",
+      "belgian_daisy": "<name>Belgian daisy:</name> las bolas empiezan en cuatro grupos con forma de flor, uno en cada esquina. Negras y blancas se alternan alrededor del tablero (blancas arriba a la izquierda y abajo a la derecha, negras arriba a la derecha y abajo a la izquierda). Los ejércitos se tocan en el primer movimiento, así que el juego es rápido y táctico. Es popular en torneos porque es más justa que la disposición estándar.",
+      "german_daisy": "<name>German daisy:</name> otra vez cuatro grupos con forma de flor y los mismos colores que la Belgian daisy (blancas arriba a la izquierda y abajo a la derecha, negras arriba a la derecha y abajo a la izquierda), pero desplazados de las esquinas hacia los lados. Los grupos empiezan más separados, así que la apertura es más abierta.",
+      "others": "<strong>Otras en el juego:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration y The Wall. Elige una al empezar una partida."
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "items": {
+        "diagonal": {
+          "question": "¿Puedo mover las bolas en diagonal?",
+          "answer": "Cada dirección de la cuadrícula hexagonal cuenta como una de las seis direcciones. No existe otro tipo de diagonal."
+        },
+        "single": {
+          "question": "¿Puede empujar una sola bola?",
+          "answer": "No. Un empuje necesita al menos dos bolas contra una."
+        },
+        "own_block": {
+          "question": "¿Y si mi empuje lo bloquea una bola mía?",
+          "answer": "Entonces no es un movimiento legal."
+        },
+        "solved": {
+          "question": "¿Está resuelto Abalone?",
+          "answer": "No. Es un juego profundo con mucho que aprender."
+        }
+      }
+    },
+    "cta": "Jugar ahora",
+    "cta_computer": "Jugar contra el ordenador"
   },
   "messages": {
     "select_marble": "Selecciona una canica para mover",

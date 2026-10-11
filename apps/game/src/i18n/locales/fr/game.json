@@ -100,34 +100,82 @@
   },
   "rules": {
     "title": "Comment jouer",
-    "intro": "Tout le jeu, en cinq règles courtes.",
+    "heading": "Règles d'Abalone : comment jouer",
+    "intro": "Abalone est un jeu de stratégie pour deux joueurs sur un plateau hexagonal. Chaque joueur a 14 billes. Tu gagnes en poussant six billes adverses hors du plateau. Cette page explique toutes les règles. Quand tu es prêt, <online>joue à Abalone en ligne</online> ou <offline>essaie contre l'ordinateur</offline>.",
     "goal": {
       "title": "L'objectif",
-      "body": "Pousser six billes adverses hors du plateau."
+      "body": "Pousse <strong>six</strong> billes adverses hors du bord du plateau. Le premier qui y arrive gagne. On ne gagne pas en piégeant des billes, seulement en les sortant."
+    },
+    "turns": {
+      "title": "Qui joue en premier",
+      "body": "Les joueurs jouent à tour de rôle, un coup chacun. Les noirs commencent. À ton tour, tu dois jouer : tu ne peux pas passer."
     },
     "directions": {
-      "title": "Six directions",
-      "body": "Une bille avance d'une case dans l'une des six directions. Ni diagonales ni sauts.",
+      "title": "Comment les billes se déplacent",
+      "body": "Une bille avance d'une case vers l'une des <strong>six cases voisines</strong>. Le plateau est un hexagone, donc chaque case touche six autres cases. Il n'y a pas de sauts ni de prises en sautant.",
       "caption": "Les six directions."
     },
     "move": {
-      "title": "Déplacer les billes",
-      "body": "Tu déplaces une, deux ou trois de tes billes. Deux ou trois doivent être en ligne droite et avancent ensemble.",
+      "title": "Déplacer une, deux ou trois billes",
+      "body": "Tu peux déplacer une, deux ou trois de tes billes par tour. Deux ou trois billes doivent se toucher en <strong>ligne droite</strong> et avancent ensemble d'une case. Il y a deux types de coups :",
+      "inline": "<strong>Coup en ligne :</strong> le groupe avance le long de sa ligne, comme un train. La bille de tête entre dans la case suivante.",
+      "broadside": "<strong>Coup en flanc :</strong> le groupe se décale sur le côté, chaque bille dans la case vide à côté d'elle. Toutes les cases visées doivent être vides.",
+      "limit": "Tu ne peux jamais déplacer plus de trois billes, ni des billes qui ne sont pas en ligne droite.",
       "inline_caption": "En ligne : la rangée avance dans sa propre direction.",
       "broadside_caption": "En flanc : la rangée se décale sur des cases vides."
     },
     "push": {
-      "title": "Pousser",
-      "body": "Seul un coup en ligne pousse, et il te faut plus de billes que l'adversaire : deux contre une, ou trois contre une ou deux. La case derrière les siennes doit être libre.",
+      "title": "Pousser : le sumito",
+      "body": "Une poussée s'appelle un <strong>sumito</strong>. C'est un coup en ligne vers une case occupée par l'adversaire. Il te faut <strong>plus de billes dans la ligne que l'adversaire</strong> :",
+      "ratios": {
+        "two_one": "2 billes poussent 1",
+        "three_one": "3 billes poussent 1",
+        "three_two": "3 billes poussent 2"
+      },
+      "conditions": "Deux autres conditions : la case derrière les billes poussées doit être <strong>libre</strong> (ou hors du plateau), et la poussée doit se faire en ligne, jamais en flanc. À nombre égal on ne pousse jamais, donc 2 contre 2 et 3 contre 3 sont une impasse. Tu ne peux jamais pousser tes propres billes.",
       "ok_caption": "Trois contre deux : la ligne avance d'une case.",
       "blocked_caption": "À nombre égal rien ne bouge, et tes billes ne se poussent jamais."
     },
     "capture": {
-      "title": "Sortir des billes",
-      "body": "Une bille poussée au-delà du bord reste hors jeu jusqu'à la fin.",
+      "title": "Pousser des billes hors du plateau",
+      "body": "Si une poussée envoie une bille adverse au-delà du bord, elle est <strong>hors du jeu</strong>. C'est un point vers tes six. Une bille près du bord est en danger : si on te pousse là avec moins de billes que l'adversaire n'en a en ligne, tu la perds.",
       "caption": "Deux contre une au bord : la noire sort."
     },
-    "cta": "Jouer maintenant"
+    "win": {
+      "title": "Comment gagner",
+      "body": "Le premier qui pousse six billes dehors gagne. Si tu ne peux pas éviter une poussée, casse la ligne : place une bille à côté de l'attaquant pour qu'il soit en infériorité, ou éloigne-toi du bord."
+    },
+    "setups": {
+      "title": "Positions de départ",
+      "body": "Chaque disposition commence avec 14 billes par joueur.",
+      "standard": "<name>Standard :</name> chaque camp commence sur ses deux rangées les plus proches (noirs en bas, blancs en haut), avec trois billes au milieu de la troisième rangée. Les armées se font face et aucune poussée n'est possible au premier coup. Idéal pour apprendre.",
+      "belgian_daisy": "<name>Belgian daisy :</name> les billes commencent en quatre groupes en forme de fleur, un dans chaque coin. Noirs et blancs alternent autour du plateau (blancs en haut à gauche et en bas à droite, noirs en haut à droite et en bas à gauche). Les armées se touchent dès le premier coup, le jeu est donc rapide et tactique. Très utilisée en tournoi, car plus équitable que la disposition standard.",
+      "german_daisy": "<name>German daisy :</name> de nouveau quatre groupes en forme de fleur, avec les mêmes couleurs que la Belgian daisy (blancs en haut à gauche et en bas à droite, noirs en haut à droite et en bas à gauche), mais décalés des coins vers les côtés. Les groupes commencent plus éloignés, l'ouverture est donc plus libre.",
+      "others": "<strong>Autres dans le jeu :</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration et The Wall. Choisis-en une au début d'une partie."
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "items": {
+        "diagonal": {
+          "question": "Puis-je déplacer les billes en diagonale ?",
+          "answer": "Chaque direction de la grille hexagonale compte comme l'une des six directions. Il n'existe pas d'autre sorte de diagonale."
+        },
+        "single": {
+          "question": "Une seule bille peut-elle pousser ?",
+          "answer": "Non. Une poussée demande au moins deux billes contre une."
+        },
+        "own_block": {
+          "question": "Et si ma poussée est bloquée par une de mes billes ?",
+          "answer": "Alors ce n'est pas un coup légal."
+        },
+        "solved": {
+          "question": "Abalone est-il résolu ?",
+          "answer": "Non. C'est un jeu profond, avec beaucoup à apprendre."
+        }
+      }
+    },
+    "cta": "Jouer maintenant",
+    "cta_computer": "Jouer contre l'ordinateur"
   },
   "messages": {
     "select_marble": "Sélectionnez une bille à déplacer",

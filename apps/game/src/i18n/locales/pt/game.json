@@ -100,34 +100,82 @@
   },
   "rules": {
     "title": "Como jogar",
-    "intro": "O jogo todo, em cinco regras curtas.",
+    "heading": "Regras de Abalone: como jogar",
+    "intro": "O Abalone é um jogo de estratégia para dois jogadores num tabuleiro hexagonal. Cada jogador tem 14 bolas. Ganhas ao empurrar seis bolas do adversário para fora do tabuleiro. Esta página explica todas as regras. Quando estiveres pronto, <online>joga Abalone online</online> ou <offline>experimenta contra o computador</offline>.",
     "goal": {
       "title": "O objetivo",
-      "body": "Empurra seis bolas do adversário para fora do tabuleiro."
+      "body": "Empurra <strong>seis</strong> bolas do adversário para fora da borda do tabuleiro. Ganha quem o fizer primeiro. Não se ganha prendendo bolas, só empurrando-as para fora."
+    },
+    "turns": {
+      "title": "Quem joga primeiro",
+      "body": "Os jogadores alternam, uma jogada cada. As pretas começam. Na tua vez tens de jogar, não podes passar."
     },
     "directions": {
-      "title": "Seis direções",
-      "body": "Uma bola move-se uma casa em qualquer das seis direções. Não há diagonais nem saltos.",
+      "title": "Como se movem as bolas",
+      "body": "Uma bola move-se uma casa para qualquer uma das <strong>seis casas vizinhas</strong>. O tabuleiro é um hexágono, por isso cada casa toca em seis outras. Não há saltos nem capturas por salto.",
       "caption": "As seis direções."
     },
     "move": {
-      "title": "Mover as bolas",
-      "body": "Moves uma, duas ou três bolas tuas. Duas ou três têm de estar em linha reta e movem-se juntas.",
+      "title": "Mover uma, duas ou três bolas",
+      "body": "Podes mover uma, duas ou três bolas tuas numa jogada. Duas ou três bolas têm de se tocar numa <strong>linha reta</strong> e movem-se juntas uma casa. Há dois tipos de jogada:",
+      "inline": "<strong>Jogada em linha:</strong> o grupo avança ao longo da sua linha, como um comboio. A bola da frente passa para a casa seguinte.",
+      "broadside": "<strong>Passo lateral:</strong> o grupo move-se de lado, cada bola para a casa vazia ao seu lado. Todas as casas de destino têm de estar vazias.",
+      "limit": "Nunca podes mover mais de três bolas, nem bolas que não estejam numa linha reta.",
       "inline_caption": "Em linha: a fila avança na direção para onde aponta.",
       "broadside_caption": "De lado: a fila desloca-se para casas vazias."
     },
     "push": {
-      "title": "Empurrar",
-      "body": "Só um movimento em linha empurra, e precisas de mais bolas do que o adversário: duas contra uma, ou três contra uma ou duas. A casa atrás das dele tem de estar vazia.",
+      "title": "Empurrar: o sumito",
+      "body": "Um empurrão chama-se <strong>sumito</strong>. É uma jogada em linha para uma casa ocupada pelo adversário. Precisas de <strong>mais bolas na linha do que o adversário</strong>:",
+      "ratios": {
+        "two_one": "2 bolas empurram 1",
+        "three_one": "3 bolas empurram 1",
+        "three_two": "3 bolas empurram 2"
+      },
+      "conditions": "Mais duas condições: a casa atrás das bolas empurradas tem de estar <strong>vazia</strong> (ou fora do tabuleiro), e o empurrão tem de ser em linha, nunca de lado. Números iguais nunca empurram, por isso 2 contra 2 e 3 contra 3 é um impasse. Nunca podes empurrar as tuas próprias bolas.",
       "ok_caption": "Três contra duas: a linha avança uma casa.",
       "blocked_caption": "Número igual nunca se move, e nunca empurras as tuas."
     },
     "capture": {
-      "title": "Empurrar para fora",
-      "body": "Uma bola empurrada para fora fica fora até ao fim do jogo.",
+      "title": "Empurrar bolas para fora do tabuleiro",
+      "body": "Se um empurrão levar uma bola do adversário para lá da borda, ela fica <strong>fora do jogo</strong>. É um ponto para as tuas seis. Uma bola junto à borda está em perigo: se te empurrarem aí com menos bolas do que o adversário tem em linha, perdes essa bola.",
       "caption": "Duas contra uma na borda: a preta sai."
     },
-    "cta": "Jogar agora"
+    "win": {
+      "title": "Como ganhar",
+      "body": "Ganha o primeiro jogador a empurrar seis bolas para fora. Se não consegues evitar um empurrão, quebra a linha: move uma bola para junto do atacante para ele ficar em inferioridade, ou afasta-te da borda."
+    },
+    "setups": {
+      "title": "Posições iniciais",
+      "body": "Todas as disposições começam com 14 bolas para cada jogador.",
+      "standard": "<name>Standard:</name> cada lado começa nas suas duas filas mais próximas (pretas em baixo, brancas em cima), com três bolas no meio da terceira fila. Os exércitos ficam frente a frente e não é possível empurrar na primeira jogada. O melhor para aprender.",
+      "belgian_daisy": "<name>Belgian daisy:</name> as bolas começam em quatro grupos em forma de flor, um em cada canto. Pretas e brancas alternam à volta do tabuleiro (brancas em cima à esquerda e em baixo à direita, pretas em cima à direita e em baixo à esquerda). Os exércitos tocam-se logo na primeira jogada, por isso o jogo é rápido e tático. Popular em torneios porque é mais justo do que a disposição standard.",
+      "german_daisy": "<name>German daisy:</name> outra vez quatro grupos em forma de flor, com as mesmas cores da Belgian daisy (brancas em cima à esquerda e em baixo à direita, pretas em cima à direita e em baixo à esquerda), mas afastados dos cantos em direção aos lados. Os grupos começam mais distantes, por isso a abertura é mais livre.",
+      "others": "<strong>Outras no jogo:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration e The Wall. Escolhe uma ao começares um jogo."
+    },
+    "faq": {
+      "title": "Perguntas frequentes",
+      "items": {
+        "diagonal": {
+          "question": "Posso mover as bolas na diagonal?",
+          "answer": "Cada direção na grelha hexagonal conta como uma das seis direções. Não existe outro tipo de diagonal."
+        },
+        "single": {
+          "question": "Uma bola sozinha pode empurrar?",
+          "answer": "Não. Um empurrão precisa de pelo menos duas bolas contra uma."
+        },
+        "own_block": {
+          "question": "E se o meu empurrão for bloqueado por uma bola minha?",
+          "answer": "Então a jogada não é válida."
+        },
+        "solved": {
+          "question": "O Abalone já está resolvido?",
+          "answer": "Não. É um jogo profundo, com muito para aprender."
+        }
+      }
+    },
+    "cta": "Jogar agora",
+    "cta_computer": "Jogar contra o computador"
   },
   "messages": {
     "select_marble": "Selecione uma bola para mover",

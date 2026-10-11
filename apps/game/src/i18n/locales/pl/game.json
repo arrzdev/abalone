@@ -101,34 +101,82 @@
   },
   "rules": {
     "title": "Jak grać",
-    "intro": "Cała gra w pięciu krótkich zasadach.",
+    "heading": "Zasady Abalone: jak grać",
+    "intro": "Abalone to strategiczna gra dla dwóch osób, rozgrywana na sześciokątnej planszy. Każdy gracz ma 14 kul. Wygrywasz, wypychając poza planszę sześć kul przeciwnika. Ta strona wyjaśnia wszystkie zasady. Gdy będziesz gotowy, <online>zagraj w Abalone online</online> albo <offline>spróbuj z komputerem</offline>.",
     "goal": {
       "title": "Cel gry",
-      "body": "Wypchnij sześć kul przeciwnika poza planszę."
+      "body": "Wypchnij poza krawędź planszy <strong>sześć</strong> kul przeciwnika. Kto zrobi to pierwszy, wygrywa. Nie wygrasz, blokując kule, tylko wypychając je."
+    },
+    "turns": {
+      "title": "Kto zaczyna",
+      "body": "Gracze ruszają się na zmianę, jeden ruch na turę. Zaczynają czarne. W swojej turze musisz wykonać ruch, nie możesz spasować."
     },
     "directions": {
-      "title": "Sześć kierunków",
-      "body": "Kula przechodzi o jedno pole w jednym z sześciu kierunków. Nie ma przekątnych ani przeskoków.",
+      "title": "Jak poruszają się kule",
+      "body": "Kula przesuwa się o jedno pole na jedno z <strong>sześciu sąsiednich pól</strong>. Plansza jest sześciokątem, więc każde pole styka się z sześcioma innymi. Nie ma przeskoków ani bicia przez przeskok.",
       "caption": "Sześć kierunków."
     },
     "move": {
-      "title": "Ruch kul",
-      "body": "Ruszasz jedną, dwiema lub trzema własnymi kulami. Dwie lub trzy muszą stać w linii prostej i przesuwają się razem.",
+      "title": "Ruch jedną, dwiema lub trzema kulami",
+      "body": "W jednej turze możesz ruszyć jedną, dwiema lub trzema własnymi kulami. Dwie lub trzy kule muszą stykać się w <strong>linii prostej</strong> i przesuwają się razem o jedno pole. Są dwa rodzaje ruchu:",
+      "inline": "<strong>Ruch w linii:</strong> grupa jedzie wzdłuż swojej linii, jak pociąg. Pierwsza kula wchodzi na następne pole.",
+      "broadside": "<strong>Ruch bokiem:</strong> grupa przesuwa się w bok, każda kula na puste pole obok siebie. Wszystkie pola docelowe muszą być puste.",
+      "limit": "Nigdy nie ruszysz więcej niż trzech kul ani kul, które nie stoją w linii prostej.",
       "inline_caption": "W linii: rząd przesuwa się w swoim kierunku.",
       "broadside_caption": "Bokiem: rząd przesuwa się na puste pola."
     },
     "push": {
-      "title": "Wypychanie",
-      "body": "Wypycha tylko ruch w linii i musisz mieć więcej kul niż przeciwnik: dwie na jedną albo trzy na jedną lub dwie. Pole za jego kulami musi być puste.",
+      "title": "Wypychanie: sumito",
+      "body": "Wypchnięcie nazywa się <strong>sumito</strong>. To ruch w linii na pole zajęte przez przeciwnika. W linii musisz mieć <strong>więcej kul niż przeciwnik</strong>:",
+      "ratios": {
+        "two_one": "2 kule wypychają 1",
+        "three_one": "3 kule wypychają 1",
+        "three_two": "3 kule wypychają 2"
+      },
+      "conditions": "Są jeszcze dwa warunki: pole za wypychanymi kulami musi być <strong>puste</strong> (albo poza planszą), a wypchnięcie musi być ruchem w linii, nigdy bokiem. Równa liczba kul nie wypycha, więc 2 na 2 i 3 na 3 to pat. Własnych kul nie wypchniesz nigdy.",
       "ok_caption": "Trzy na dwie: linia przesuwa się o jedno pole.",
       "blocked_caption": "Przy równej liczbie nic się nie rusza, a własnych nie wypychasz."
     },
     "capture": {
-      "title": "Wypychanie poza planszę",
-      "body": "Kula wypchnięta poza krawędź zostaje poza grą do końca partii.",
+      "title": "Wypychanie kul poza planszę",
+      "body": "Jeśli wypchnięcie przesunie kulę przeciwnika poza krawędź, jest ona <strong>poza grą</strong>. To jeden punkt do twoich sześciu. Kula przy krawędzi jest w niebezpieczeństwie: jeśli ktoś ją tam popchnie, mając w linii więcej kul niż ty, tracisz ją.",
       "caption": "Dwie na jedną przy krawędzi: czarna wypada."
     },
-    "cta": "Zagraj teraz"
+    "win": {
+      "title": "Jak wygrać",
+      "body": "Wygrywa ten, kto pierwszy wypchnie sześć kul. Jeśli nie możesz powstrzymać wypchnięcia, przerwij linię: ustaw kulę przy atakującym, żeby miał mniej kul, albo odsuń się od krawędzi."
+    },
+    "setups": {
+      "title": "Pozycje startowe",
+      "body": "W każdym układzie każdy gracz zaczyna z 14 kulami.",
+      "standard": "<name>Standard:</name> każda strona zaczyna na swoich dwóch najbliższych rzędach (czarne na dole, białe na górze), z trzema kulami pośrodku trzeciego rzędu. Armie stoją naprzeciw siebie i w pierwszym ruchu nie da się wypychać. Najlepszy do nauki.",
+      "belgian_daisy": "<name>Belgian daisy:</name> kule zaczynają w czterech skupiskach w kształcie kwiatu, po jednym w każdym rogu. Czarne i białe występują na przemian wokół planszy (białe w lewym górnym i prawym dolnym rogu, czarne w prawym górnym i lewym dolnym). Armie stykają się już w pierwszym ruchu, więc gra jest szybka i taktyczna. Popularny na turniejach, bo jest uczciwszy niż układ standardowy.",
+      "german_daisy": "<name>German daisy:</name> znowu cztery skupiska w kształcie kwiatu, w tych samych kolorach co Belgian daisy (białe w lewym górnym i prawym dolnym rogu, czarne w prawym górnym i lewym dolnym), ale odsunięte od rogów w stronę boków. Skupiska zaczynają dalej od siebie, więc otwarcie jest swobodniejsze.",
+      "others": "<strong>Inne w grze:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration i The Wall. Wybierz jeden, zaczynając partię."
+    },
+    "faq": {
+      "title": "Częste pytania",
+      "items": {
+        "diagonal": {
+          "question": "Czy mogę ruszać kule po przekątnej?",
+          "answer": "Każdy kierunek na sześciokątnej siatce to jeden z sześciu kierunków. Innych przekątnych nie ma."
+        },
+        "single": {
+          "question": "Czy jedna kula może wypychać?",
+          "answer": "Nie. Wypchnięcie wymaga co najmniej dwóch kul przeciw jednej."
+        },
+        "own_block": {
+          "question": "Co jeśli moje wypchnięcie blokuje własna kula?",
+          "answer": "Wtedy ten ruch jest niedozwolony."
+        },
+        "solved": {
+          "question": "Czy Abalone jest rozwiązane?",
+          "answer": "Nie. To głęboka gra, w której zawsze jest czego się uczyć."
+        }
+      }
+    },
+    "cta": "Zagraj teraz",
+    "cta_computer": "Zagraj z komputerem"
   },
   "messages": {
     "select_marble": "Wybierz kulkę do przesunięcia",

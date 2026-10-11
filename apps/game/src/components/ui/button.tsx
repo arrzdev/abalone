@@ -43,6 +43,17 @@ const SIZES = {
 export type ButtonVariant = keyof typeof VARIANTS
 export type ButtonSize = keyof typeof SIZES
 
+/**
+ * A button's look without the button, for a link that goes somewhere: a link
+ * styled by hand drifts from the buttons beside it the first time either changes.
+ */
+export function buttonClassName(
+  variant: ButtonVariant = "secondary",
+  size: ButtonSize = "md",
+) {
+  return cn(BASE, VARIANTS[variant], SIZES[size])
+}
+
 export type ButtonProps = Omit<ComponentProps<"button">, "onClick"> & {
   variant?: ButtonVariant
   size?: ButtonSize
@@ -67,7 +78,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={cn(BASE, VARIANTS[variant], SIZES[size], className)}
+      className={cn(buttonClassName(variant, size), className)}
       {...tap}
       {...props}
     />
