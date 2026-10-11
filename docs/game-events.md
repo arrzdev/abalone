@@ -46,6 +46,40 @@ billing, and a queue would be one more thing that can break the game.
 
 ## Reading it
 
+The quick answer to "are people playing", from production:
+
+```sh
+pnpm --filter @repo/backend report:games --days 14
+```
+
+`--days` defaults to 7 and counts whole UTC days, today included. It runs one
+`select` through `wrangler d1 execute --remote --env production`, so it needs a
+Cloudflare token that can read D1 and never writes. The SQL and the table live in
+`apps/backend/src/utils/games-report.ts`.
+
+```
+Games, last 7 days (2026-10-05 to 2026-10-11, UTC)
+
+day         mode           started  guided  not guided  finished  finish rate
+2026-10-11  bot                  3       1           2         1          33%
+2026-10-10  pass-and-play        1       1           0         1         100%
+total       bot                  3       1           2         1          33%
+total       pass-and-play        1       1           0         1         100%
+total       online               0       0           0         0            -
+```
+
+| Column | Means |
+|---|---|
+| `day` | UTC day, newest first; only days and modes with an event get a row. `total` rows sum the whole window, one per mode, always printed |
+| `mode` | `bot` is `ai`, `pass-and-play` is `local`, `online` is `online` |
+| `started` | start rows |
+| `guided` | starts with the first-game guide showing (`guided = 1`) |
+| `not guided` | `started` minus `guided`. Every `online` start, and starts from builds older than the flag, land here |
+| `finished` | finish rows that reached an end: `abandoned` is not counted |
+| `finish rate` | `finished / started`, rounded; `-` when nothing started. Counted, not paired, so a game started the day before and finished today can push a day past 100% |
+
+For anything else, run your own SQL:
+
 ```sh
 pnpm --filter @repo/backend exec wrangler d1 execute abalone-backend-db --remote --env production --command "<sql>"
 ```
