@@ -69,7 +69,7 @@ export function SegmentedControl<T extends string>({
       {activeIndex >= 0 && (
         <span
           aria-hidden="true"
-          className="absolute top-1 bottom-1 left-1 rounded-lg bg-brand shadow transition-transform duration-300 ease-out motion-reduce:transition-none"
+          className="absolute top-1 bottom-1 left-1 rounded-lg bg-brand-fill shadow transition-transform duration-300 ease-out motion-reduce:transition-none"
           style={{
             // The track is the container minus its 0.25rem padding on each side.
             width: `calc((100% - 0.5rem) / ${options.length})`,

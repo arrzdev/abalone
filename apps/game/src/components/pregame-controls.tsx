@@ -194,7 +194,7 @@ export function PregameControls({
                         // The tile itself stays opaque either way — it is the
                         // portrait that steps back, not the card it sits on.
                         selected
-                          ? "bg-brand"
+                          ? "bg-brand-fill"
                           : "bg-surface-2 hover:bg-surface-3",
                       )}
                     >

@@ -37,7 +37,7 @@ export function NotFoundScreen() {
 
       <Link
         to="/"
-        className="clickable relative mt-[26px] inline-flex h-[50px] items-center justify-center rounded-xl bg-brand px-7 font-display text-base font-semibold text-white no-underline transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
+        className="clickable relative mt-[26px] inline-flex h-[50px] items-center justify-center rounded-xl bg-brand-fill px-7 font-display text-base font-semibold text-white no-underline transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
       >
         {t("common:not_found.action")}
       </Link>

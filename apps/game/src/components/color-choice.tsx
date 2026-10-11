@@ -74,7 +74,7 @@ export function ColorChoice({
             // Solid either way — the tile you picked is the accent, the others
             // are the panel's grey. Only the marble on top dims.
             value === option.value
-              ? "bg-brand"
+              ? "bg-brand-fill"
               : "bg-surface-2 hover:bg-surface-3",
           )}
         >

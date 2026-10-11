@@ -135,7 +135,7 @@ function GamesPage() {
                 </p>
                 <Link
                   to="/online"
-                  className="inline-flex min-h-13 items-center justify-center rounded-xl bg-brand px-7 font-display text-[17px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
+                  className="inline-flex min-h-13 items-center justify-center rounded-xl bg-brand-fill px-7 font-display text-[17px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
                 >
                   {t("common:nav.online")}
                 </Link>
@@ -299,7 +299,7 @@ function PageLink({
 }) {
   const className = cn(
     "inline-flex h-[38px] min-w-[38px] items-center justify-center rounded-[10px] px-3 font-display text-sm font-semibold tabular-nums transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
-    isCurrent && "bg-brand text-white",
+    isCurrent && "bg-brand-fill text-white",
     !isCurrent &&
       "bg-surface text-subtle hover:bg-surface-2 hover:text-white",
   )
