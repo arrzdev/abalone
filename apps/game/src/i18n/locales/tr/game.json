@@ -99,34 +99,82 @@
   },
   "rules": {
     "title": "Nasıl oynanır",
-    "intro": "Oyunun tamamı, beş kısa kuralda.",
+    "heading": "Abalone kuralları: nasıl oynanır",
+    "intro": "Abalone, altıgen bir tahtada oynanan iki kişilik bir strateji oyunudur. Her oyuncunun 14 bilyesi vardır. Rakibin altı bilyesini tahtadan dışarı iterek kazanırsın. Bu sayfa tüm kuralları anlatır. Hazır olduğunda <online>Abalone'u çevrimiçi oyna</online> ya da <offline>bilgisayara karşı dene</offline>.",
     "goal": {
       "title": "Amaç",
-      "body": "Rakibinin altı bilyesini tahtadan dışarı it."
+      "body": "Rakibinin <strong>altı</strong> bilyesini tahtanın kenarından dışarı it. Bunu ilk yapan kazanır. Bilyeleri sıkıştırarak değil, yalnızca dışarı iterek kazanılır."
+    },
+    "turns": {
+      "title": "Kim başlar",
+      "body": "Oyuncular sırayla birer hamle yapar. Siyah başlar. Sıra sendeyken hamle yapmalısın, pas geçemezsin."
     },
     "directions": {
-      "title": "Altı yön",
-      "body": "Bilye altı yönden birine bir hane gider. Çapraz yok, atlama yok.",
+      "title": "Bilyeler nasıl hareket eder",
+      "body": "Bir bilye, <strong>altı komşu hanenin</strong> herhangi birine bir hane gider. Tahta altıgendir, bu yüzden her hane altı haneye değer. Atlama yok, atlayarak alma da yok.",
       "caption": "Altı yön."
     },
     "move": {
-      "title": "Bilyeleri oynatmak",
-      "body": "Kendi bilyelerinden bir, iki ya da üç tanesini oynatırsın. İki ya da üç tanesi düz bir çizgide olmalı ve birlikte ilerler.",
+      "title": "Bir, iki ya da üç bilye oynatmak",
+      "body": "Bir turda kendi bilyelerinden bir, iki ya da üç tanesini oynatabilirsin. İki ya da üç bilye <strong>düz bir çizgide</strong> birbirine değmeli ve birlikte bir hane ilerler. İki tür hamle vardır:",
+      "inline": "<strong>Çizgi boyunca hamle:</strong> grup, bir tren gibi gösterdiği çizgi boyunca ilerler. Öndeki bilye sonraki haneye geçer.",
+      "broadside": "<strong>Yana kayma:</strong> grup yana kayar, her bilye yanındaki boş haneye geçer. Hedef hanelerin hepsi boş olmalı.",
+      "limit": "Üçten fazla bilyeyi ya da düz çizgide olmayan bilyeleri asla oynatamazsın.",
       "inline_caption": "Çizgi boyunca: sıra kendi yönünde ilerler.",
       "broadside_caption": "Yana: sıra boş hanelere doğru kayar."
     },
     "push": {
-      "title": "İtmek",
-      "body": "Yalnızca çizgi boyunca hamle iter ve rakibinden çok bilyen olmalı: ikiye bir, ya da üçe bir veya iki. Onun bilyelerinin arkasındaki hane boş olmalı.",
+      "title": "İtmek: sumito",
+      "body": "İtmeye <strong>sumito</strong> denir. Rakibin bulunduğu haneye çizgi boyunca yapılan bir hamledir. Çizgide <strong>rakibinden daha çok bilyen</strong> olmalı:",
+      "ratios": {
+        "two_one": "2 bilye 1 bilyeyi iter",
+        "three_one": "3 bilye 1 bilyeyi iter",
+        "three_two": "3 bilye 2 bilyeyi iter"
+      },
+      "conditions": "İki şart daha var: itilen bilyelerin arkasındaki hane <strong>boş</strong> olmalı (ya da tahtanın dışı olmalı) ve itme çizgi boyunca olmalı, asla yana kayarak olmaz. Eşit sayılar asla itemez, yani 2'ye 2 ve 3'e 3 çıkmazdır. Kendi bilyelerini asla itemezsin.",
       "ok_caption": "Üçe iki: sıra bir hane ilerler.",
       "blocked_caption": "Sayılar eşitse hiçbir şey ilerlemez ve kendi bilyeni itemezsin."
     },
     "capture": {
-      "title": "Bilyeleri dışarı itmek",
-      "body": "Kenarın dışına itilen bilye oyunun sonuna kadar dışarıda kalır.",
+      "title": "Bilyeleri tahtadan dışarı itmek",
+      "body": "Bir itme rakibin bilyesini kenarın ötesine taşırsa, bilye <strong>oyun dışı</strong> kalır. Bu, altı puanından bir puandır. Kenardaki bilye tehlikededir: çizgide senden çok bilyesi olan biri seni oraya iterse o bilyeyi kaybedersin.",
       "caption": "Kenarda ikiye bir: siyah dışarı çıkar."
     },
-    "cta": "Şimdi oyna"
+    "win": {
+      "title": "Nasıl kazanılır",
+      "body": "Altı bilyeyi ilk iten oyuncu kazanır. Bir itmeyi durduramıyorsan çizgiyi boz: saldıranın yanına bir bilye koy ki sayıca az kalsın, ya da kenardan uzaklaş."
+    },
+    "setups": {
+      "title": "Başlangıç dizilimleri",
+      "body": "Her dizilimde herkes 14 bilyeyle başlar.",
+      "standard": "<name>Standard:</name> her taraf kendine en yakın iki sırada başlar (siyah altta, beyaz üstte), üçüncü sıranın ortasında üç bilye bulunur. Ordular karşı karşıya durur ve ilk hamlede itme mümkün değildir. Öğrenmek için en iyisi.",
+      "belgian_daisy": "<name>Belgian daisy:</name> bilyeler, her köşede bir tane olmak üzere çiçek biçiminde dört kümede başlar. Siyah ve beyaz tahtanın çevresinde dönüşümlü durur (beyaz sol üst ve sağ alt, siyah sağ üst ve sol alt). Ordular ilk hamlede birbirine değer, bu yüzden oyun hızlı ve taktikseldir. Standart dizilimden daha adil olduğu için turnuvalarda sevilir.",
+      "german_daisy": "<name>German daisy:</name> yine çiçek biçiminde dört küme var, renkler Belgian daisy ile aynı (beyaz sol üst ve sağ alt, siyah sağ üst ve sol alt), ama köşelerden kenarlara doğru içeri alınmıştır. Kümeler birbirinden daha uzak başlar, bu yüzden açılış daha açıktır.",
+      "others": "<strong>Oyundaki diğerleri:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration ve The Wall. Oyuna başlarken birini seç."
+    },
+    "faq": {
+      "title": "Sık sorulanlar",
+      "items": {
+        "diagonal": {
+          "question": "Bilyeleri çapraz oynatabilir miyim?",
+          "answer": "Altıgen ızgaradaki her yön, altı yönden biri sayılır. Başka bir çapraz yoktur."
+        },
+        "single": {
+          "question": "Tek bir bilye itebilir mi?",
+          "answer": "Hayır. İtmek için en az ikiye bir olmalı."
+        },
+        "own_block": {
+          "question": "İtmem kendi bilyem tarafından engellenirse ne olur?",
+          "answer": "O zaman bu geçerli bir hamle değildir."
+        },
+        "solved": {
+          "question": "Abalone çözüldü mü?",
+          "answer": "Hayır. Öğrenecek çok şeyi olan derin bir oyundur."
+        }
+      }
+    },
+    "cta": "Şimdi oyna",
+    "cta_computer": "Bilgisayara karşı oyna"
   },
   "messages": {
     "select_marble": "Hareket ettirmek için bir bilye seç",

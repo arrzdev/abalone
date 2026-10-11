@@ -100,34 +100,82 @@
   },
   "rules": {
     "title": "Zo speel je",
-    "intro": "Het hele spel in vijf korte regels.",
+    "heading": "Abalone-regels: zo speel je",
+    "intro": "Abalone is een strategiespel voor twee spelers op een zeshoekig bord. Elke speler heeft 14 ballen. Je wint door zes ballen van je tegenstander van het bord te duwen. Op deze pagina staan alle regels. Ben je klaar, <online>speel dan Abalone online</online> of <offline>probeer het tegen de computer</offline>.",
     "goal": {
       "title": "Het doel",
-      "body": "Duw zes ballen van je tegenstander van het bord."
+      "body": "Duw <strong>zes</strong> ballen van je tegenstander over de rand van het bord. Wie dat als eerste doet, wint. Je wint niet door ballen klem te zetten, alleen door ze eraf te duwen."
+    },
+    "turns": {
+      "title": "Wie begint",
+      "body": "De spelers zijn om de beurt aan zet, één zet per beurt. Zwart begint. Als je aan de beurt bent, moet je zetten: passen mag niet."
     },
     "directions": {
-      "title": "Zes richtingen",
-      "body": "Een bal gaat één veld in een van zes richtingen. Geen diagonalen en geen sprongen.",
+      "title": "Hoe ballen bewegen",
+      "body": "Een bal gaat één veld naar een van de <strong>zes aangrenzende velden</strong>. Het bord is een zeshoek, dus elk veld raakt er zes andere. Er wordt niet gesprongen en niet geslagen door te springen.",
       "caption": "De zes richtingen."
     },
     "move": {
-      "title": "Ballen verplaatsen",
-      "body": "Je verplaatst één, twee of drie eigen ballen. Twee of drie moeten in een rechte lijn liggen en schuiven samen.",
+      "title": "Eén, twee of drie ballen verplaatsen",
+      "body": "Je mag in één beurt één, twee of drie van je eigen ballen verplaatsen. Twee of drie ballen moeten elkaar raken in een <strong>rechte lijn</strong> en schuiven samen één veld op. Er zijn twee soorten zetten:",
+      "inline": "<strong>Zet in lijn:</strong> de groep schuift op in de richting van de lijn, als een trein. De voorste bal stapt in het volgende veld.",
+      "broadside": "<strong>Zijwaartse zet:</strong> de groep schuift opzij, elke bal naar het lege veld naast zich. Alle doelvelden moeten leeg zijn.",
+      "limit": "Je mag nooit meer dan drie ballen verplaatsen, en nooit ballen die niet in een rechte lijn liggen.",
       "inline_caption": "In lijn: de rij schuift op in haar eigen richting.",
       "broadside_caption": "Zijwaarts: de rij stapt opzij naar lege velden."
     },
     "push": {
-      "title": "Duwen",
-      "body": "Alleen een zet in lijn duwt, en je hebt meer ballen nodig dan je tegenstander: twee tegen één, of drie tegen één of twee. Het veld achter de zijne moet leeg zijn.",
+      "title": "Duwen: de sumito",
+      "body": "Een duw heet een <strong>sumito</strong>. Het is een zet in lijn naar een veld waar een bal van je tegenstander staat. Je hebt <strong>meer ballen in de lijn nodig dan je tegenstander</strong>:",
+      "ratios": {
+        "two_one": "2 ballen duwen 1",
+        "three_one": "3 ballen duwen 1",
+        "three_two": "3 ballen duwen 2"
+      },
+      "conditions": "Nog twee voorwaarden: het veld achter de geduwde ballen moet <strong>leeg</strong> zijn (of buiten het bord), en de duw moet in lijn zijn, nooit zijwaarts. Bij gelijke aantallen duw je niet, dus 2 tegen 2 en 3 tegen 3 is een patstelling. Je kunt je eigen ballen nooit duwen.",
       "ok_caption": "Drie tegen twee: de rij schuift één veld op.",
       "blocked_caption": "Bij gelijke aantallen beweegt niets, en je eigen ballen duw je nooit."
     },
     "capture": {
       "title": "Ballen van het bord duwen",
-      "body": "Een bal die over de rand is geduwd, blijft tot het eind buitenspel.",
+      "body": "Als een duw een bal van je tegenstander over de rand brengt, is die bal <strong>uit het spel</strong>. Dat is één punt richting je zes. Een bal vlak bij de rand loopt gevaar: word je daar geduwd met minder ballen dan je tegenstander in de lijn heeft, dan raak je hem kwijt.",
       "caption": "Twee tegen één aan de rand: zwart is eraf."
     },
-    "cta": "Nu spelen"
+    "win": {
+      "title": "Zo win je",
+      "body": "Wie als eerste zes ballen van het bord duwt, wint. Kun je een duw niet tegenhouden, breek dan de lijn: zet een bal naast de aanvaller zodat hij in de minderheid is, of trek je terug van de rand."
+    },
+    "setups": {
+      "title": "Beginopstellingen",
+      "body": "Elke opstelling begint met 14 ballen per speler.",
+      "standard": "<name>Standard:</name> elke kant begint op zijn twee dichtstbijzijnde rijen (zwart onderaan, wit bovenaan), met drie ballen in het midden van de derde rij. De legers staan tegenover elkaar en in de eerste zet kan niemand duwen. Het best om te leren.",
+      "belgian_daisy": "<name>Belgian daisy:</name> de ballen beginnen in vier bloemvormige groepen, één in elke hoek. Zwart en wit wisselen elkaar af rond het bord (wit linksboven en rechtsonder, zwart rechtsboven en linksonder). De legers raken elkaar al in de eerste zet, dus het spel is snel en tactisch. Populair op toernooien omdat het eerlijker is dan de standaardopstelling.",
+      "german_daisy": "<name>German daisy:</name> weer vier bloemvormige groepen, met dezelfde kleuren als de Belgian daisy (wit linksboven en rechtsonder, zwart rechtsboven en linksonder), maar vanuit de hoeken naar de zijkanten geschoven. De groepen beginnen verder uit elkaar, dus de opening is opener.",
+      "others": "<strong>Andere in het spel:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration en The Wall. Kies er een als je een spel start."
+    },
+    "faq": {
+      "title": "Veelgestelde vragen",
+      "items": {
+        "diagonal": {
+          "question": "Mag ik ballen diagonaal verplaatsen?",
+          "answer": "Elke richting op het zeshoekige raster is een van de zes richtingen. Een ander soort diagonaal bestaat niet."
+        },
+        "single": {
+          "question": "Kan één bal duwen?",
+          "answer": "Nee. Voor een duw heb je minstens twee ballen tegen één nodig."
+        },
+        "own_block": {
+          "question": "Wat als mijn duw wordt geblokkeerd door mijn eigen bal?",
+          "answer": "Dan is de zet niet toegestaan."
+        },
+        "solved": {
+          "question": "Is Abalone opgelost?",
+          "answer": "Nee. Het is een diep spel met veel te leren."
+        }
+      }
+    },
+    "cta": "Nu spelen",
+    "cta_computer": "Speel tegen de computer"
   },
   "messages": {
     "select_marble": "Selecteer een knikker om te verplaatsen",
