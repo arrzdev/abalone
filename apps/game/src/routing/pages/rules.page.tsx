@@ -10,17 +10,10 @@ import { Card, Page, PageTitle } from "@/components/ui/page"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import type { Diagram } from "@/render/draw-diagram"
-import { pageHead } from "@/routing/page-head"
+import { seoPageHead } from "@/routing/seo-pages"
 
 export const Route = createFileRoute("/_subpage/rules")({
-  head: () =>
-    pageHead({
-      title: "Rules",
-      description:
-        "Every rule of Abalone as a position on the board: how a line moves, how a push works, and how a marble goes off.",
-      path: "/rules",
-      image: "rules",
-    }),
+  head: () => seoPageHead("/rules"),
   component: RulesPage,
 })
 

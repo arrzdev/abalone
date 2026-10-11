@@ -1,8 +1,10 @@
 import { Screen } from "@repo/nativ/components"
 import { createFileRoute } from "@tanstack/react-router"
 import { PlayPoster } from "@/components/home/play-poster"
+import { seoPageHead } from "@/routing/seo-pages"
 
 export const Route = createFileRoute("/_shell/")({
+  head: () => seoPageHead("/"),
   component: HomePage,
 })
 
