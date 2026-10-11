@@ -100,34 +100,82 @@
   },
   "rules": {
     "title": "How to play",
-    "intro": "The whole game, in five short rules.",
+    "heading": "Abalone rules: how to play",
+    "intro": "Abalone is a two-player strategy game on a hexagonal board. Each player has 14 marbles. You win by pushing six of your opponent's marbles off the board. This page explains every rule. When you are ready, <online>play Abalone online</online> or <offline>try it against the computer</offline>.",
     "goal": {
       "title": "The goal",
-      "body": "Push six of your opponent's marbles off the board."
+      "body": "Push <strong>six</strong> of your opponent's marbles off the edge of the board. The first player to do it wins. You cannot win by trapping marbles, only by pushing them out."
+    },
+    "turns": {
+      "title": "Who moves first",
+      "body": "Players take turns, one move each. Black goes first. On your turn you must move; you cannot pass."
     },
     "directions": {
-      "title": "Six directions",
-      "body": "A marble moves one space in any of six directions. There are no diagonals and no jumps.",
+      "title": "How marbles move",
+      "body": "A marble moves one space to any of the <strong>six neighbouring spaces</strong>. The board is a hexagon, so each space touches six others. There are no jumps and no captures by jumping.",
       "caption": "The six directions."
     },
     "move": {
-      "title": "Moving marbles",
-      "body": "Move one, two or three of your own marbles. Two or three must sit in a straight line and move together.",
+      "title": "Moving one, two or three marbles",
+      "body": "You may move one, two or three of your own marbles in one turn. Two or three marbles must touch in a <strong>straight line</strong>, and they move together one space. There are two kinds of move:",
+      "inline": "<strong>In-line move:</strong> the group moves along the line it points, like a train. The front marble steps into the next space.",
+      "broadside": "<strong>Side step (broadside):</strong> the group moves sideways, each marble into the empty space next to it. All the target spaces must be empty.",
+      "limit": "You can never move more than three marbles, and never marbles that are not in a straight line.",
       "inline_caption": "In line: the row advances the way it points.",
       "broadside_caption": "Broadside: the row steps sideways onto empty spaces."
     },
     "push": {
-      "title": "Pushing",
-      "body": "Only a move in line can push, and you need more marbles than your opponent: two against one, or three against one or two. The space behind theirs must be empty.",
+      "title": "Pushing: the sumito",
+      "body": "A push is called a <strong>sumito</strong>. It is an in-line move into a space held by your opponent. You need <strong>more marbles in the line than your opponent</strong>:",
+      "ratios": {
+        "two_one": "2 marbles push 1",
+        "three_one": "3 marbles push 1",
+        "three_two": "3 marbles push 2"
+      },
+      "conditions": "Two more conditions: the space behind the pushed marbles must be <strong>empty</strong> (or off the board), and the push must be in line, never a side step. Equal numbers never push, so 2 against 2 and 3 against 3 are a standoff. You can never push your own marbles.",
       "ok_caption": "Three against two: the line shifts one space.",
       "blocked_caption": "Equal numbers never move, and you never push your own."
     },
     "capture": {
-      "title": "Pushing marbles off",
-      "body": "A marble pushed past the edge is out for the rest of the game.",
+      "title": "Pushing marbles off the board",
+      "body": "If a push moves an opposing marble past the edge, it is <strong>out of the game</strong>. That is one point toward your six. A marble next to the edge is in danger: if you are pushed there with fewer marbles than your opponent has in line, you lose it.",
       "caption": "Two against one at the edge: black is out."
     },
-    "cta": "Play now"
+    "win": {
+      "title": "How to win",
+      "body": "The first player to push six marbles off wins. If you cannot stop a push, break the line: move a marble next to the attacker so it is outnumbered, or pull back from the edge."
+    },
+    "setups": {
+      "title": "Starting positions",
+      "body": "Every layout starts with 14 marbles each.",
+      "standard": "<name>Standard:</name> each side starts on its two nearest rows (black at the bottom, white at the top), with three marbles in the middle of the third row. The armies face each other and no pushing is possible on move one. Best for learning.",
+      "belgian_daisy": "<name>Belgian daisy:</name> marbles start in four flower-shaped clusters, one in each corner. Black and white alternate around the board (white top-left and bottom-right, black top-right and bottom-left). The armies touch on the first move, so play is fast and tactical. Popular in tournaments because it is fairer than the standard layout.",
+      "german_daisy": "<name>German daisy:</name> four flower-shaped clusters again, with the same colours as the Belgian daisy (white upper left and lower right, black upper right and lower left), but set in from the corners toward the sides. The clusters start further apart, so the opening is more open.",
+      "others": "<strong>Others in the game:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration and The Wall. Choose one when you start a game."
+    },
+    "faq": {
+      "title": "Frequently asked",
+      "items": {
+        "diagonal": {
+          "question": "Can I move marbles diagonally?",
+          "answer": "Every direction on the hexagon grid counts as one of six directions; there is no other kind of diagonal."
+        },
+        "single": {
+          "question": "Can a single marble push?",
+          "answer": "No. A push needs at least two marbles against one."
+        },
+        "own_block": {
+          "question": "What if my push is blocked by my own marble?",
+          "answer": "Then it is not a legal move."
+        },
+        "solved": {
+          "question": "Is Abalone solved?",
+          "answer": "No. It is a deep game with plenty to learn."
+        }
+      }
+    },
+    "cta": "Play now",
+    "cta_computer": "Play against the computer"
   },
   "messages": {
     "select_marble": "Select a marble to move",

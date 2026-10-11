@@ -100,34 +100,82 @@
   },
   "rules": {
     "title": "Come si gioca",
-    "intro": "Tutto il gioco in cinque brevi regole.",
+    "heading": "Regole di Abalone: come si gioca",
+    "intro": "Abalone è un gioco di strategia per due giocatori su una scacchiera esagonale. Ogni giocatore ha 14 biglie. Vinci spingendo sei biglie avversarie fuori dal tabellone. Questa pagina spiega ogni regola. Quando sei pronto, <online>gioca ad Abalone online</online> oppure <offline>prova contro il computer</offline>.",
     "goal": {
       "title": "L'obiettivo",
-      "body": "Spingi sei biglie avversarie fuori dal tabellone."
+      "body": "Spingi <strong>sei</strong> biglie avversarie oltre il bordo del tabellone. Vince il primo che ci riesce. Non si vince intrappolando le biglie, ma solo spingendole fuori."
+    },
+    "turns": {
+      "title": "Chi muove per primo",
+      "body": "I giocatori muovono a turno, una mossa ciascuno. Il nero comincia. Nel tuo turno devi muovere: non puoi passare."
     },
     "directions": {
-      "title": "Sei direzioni",
-      "body": "Una biglia avanza di una casella in una di sei direzioni. Niente diagonali e niente salti.",
+      "title": "Come si muovono le biglie",
+      "body": "Una biglia si sposta di una casella in una delle <strong>sei caselle vicine</strong>. Il tabellone è un esagono, quindi ogni casella ne tocca altre sei. Non ci sono salti e non si cattura saltando.",
       "caption": "Le sei direzioni."
     },
     "move": {
-      "title": "Muovere le biglie",
-      "body": "Muovi una, due o tre biglie tue. Due o tre devono essere in linea retta e si muovono insieme.",
+      "title": "Muovere una, due o tre biglie",
+      "body": "In un turno puoi muovere una, due o tre biglie tue. Due o tre biglie devono toccarsi in <strong>linea retta</strong> e si spostano insieme di una casella. Ci sono due tipi di mossa:",
+      "inline": "<strong>Mossa in linea:</strong> il gruppo avanza lungo la sua linea, come un treno. La biglia di testa entra nella casella successiva.",
+      "broadside": "<strong>Mossa di fianco:</strong> il gruppo si sposta di lato, ogni biglia nella casella libera accanto a sé. Tutte le caselle di arrivo devono essere libere.",
+      "limit": "Non puoi mai muovere più di tre biglie, né biglie che non sono in linea retta.",
       "inline_caption": "In linea: la fila avanza nella sua direzione.",
       "broadside_caption": "Di fianco: la fila si sposta su caselle libere."
     },
     "push": {
-      "title": "Spingere",
-      "body": "Solo una mossa in linea spinge, e ti servono più biglie dell'avversario: due contro una, o tre contro una o due. La casella dietro le sue deve essere libera.",
+      "title": "Spingere: il sumito",
+      "body": "Una spinta si chiama <strong>sumito</strong>. È una mossa in linea verso una casella occupata dall'avversario. Ti servono <strong>più biglie in linea dell'avversario</strong>:",
+      "ratios": {
+        "two_one": "2 biglie spingono 1",
+        "three_one": "3 biglie spingono 1",
+        "three_two": "3 biglie spingono 2"
+      },
+      "conditions": "Altre due condizioni: la casella dietro le biglie spinte deve essere <strong>libera</strong> (o fuori dal tabellone) e la spinta deve essere in linea, mai di fianco. A parità non si spinge: 2 contro 2 e 3 contro 3 sono in stallo. Non puoi mai spingere le tue biglie.",
       "ok_caption": "Tre contro due: la linea avanza di una casella.",
       "blocked_caption": "A parità non si muove nulla, e le tue non le spingi mai."
     },
     "capture": {
-      "title": "Spingere fuori le biglie",
-      "body": "Una biglia spinta oltre il bordo resta fuori fino alla fine.",
+      "title": "Spingere le biglie fuori dal tabellone",
+      "body": "Se una spinta porta una biglia avversaria oltre il bordo, questa è <strong>fuori dal gioco</strong>. È un punto verso i tuoi sei. Una biglia vicina al bordo è in pericolo: se vieni spinto lì con meno biglie di quelle che l'avversario ha in linea, la perdi.",
       "caption": "Due contro una sul bordo: esce la nera."
     },
-    "cta": "Gioca ora"
+    "win": {
+      "title": "Come si vince",
+      "body": "Vince il primo che spinge fuori sei biglie. Se non riesci a fermare una spinta, spezza la linea: sposta una biglia accanto all'attaccante così da metterlo in inferiorità, oppure allontanati dal bordo."
+    },
+    "setups": {
+      "title": "Posizioni iniziali",
+      "body": "Ogni disposizione parte con 14 biglie a testa.",
+      "standard": "<name>Standard:</name> ogni lato parte dalle sue due file più vicine (nero in basso, bianco in alto), con tre biglie al centro della terza fila. Gli eserciti si fronteggiano e alla prima mossa non si può spingere. Ideale per imparare.",
+      "belgian_daisy": "<name>Belgian daisy:</name> le biglie partono in quattro gruppi a forma di fiore, uno per angolo. Nero e bianco si alternano intorno al tabellone (bianco in alto a sinistra e in basso a destra, nero in alto a destra e in basso a sinistra). Gli eserciti si toccano già alla prima mossa, quindi il gioco è veloce e tattico. È molto usata nei tornei perché è più equa della disposizione standard.",
+      "german_daisy": "<name>German daisy:</name> ancora quattro gruppi a forma di fiore, con gli stessi colori della Belgian daisy (bianco in alto a sinistra e in basso a destra, nero in alto a destra e in basso a sinistra), ma spostati dagli angoli verso i lati. I gruppi partono più lontani, quindi l'apertura è più libera.",
+      "others": "<strong>Altre nel gioco:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration e The Wall. Scegline una quando avvii una partita."
+    },
+    "faq": {
+      "title": "Domande frequenti",
+      "items": {
+        "diagonal": {
+          "question": "Posso muovere le biglie in diagonale?",
+          "answer": "Ogni direzione della griglia esagonale è una delle sei direzioni. Non esiste un altro tipo di diagonale."
+        },
+        "single": {
+          "question": "Una biglia da sola può spingere?",
+          "answer": "No. Per spingere servono almeno due biglie contro una."
+        },
+        "own_block": {
+          "question": "E se la mia spinta è bloccata da una mia biglia?",
+          "answer": "Allora la mossa non è valida."
+        },
+        "solved": {
+          "question": "Abalone è un gioco risolto?",
+          "answer": "No. È un gioco profondo, con molto da imparare."
+        }
+      }
+    },
+    "cta": "Gioca ora",
+    "cta_computer": "Gioca contro il computer"
   },
   "messages": {
     "select_marble": "Seleziona una biglia da muovere",
