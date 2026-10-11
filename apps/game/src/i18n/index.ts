@@ -119,6 +119,13 @@ const brandPostProcessor: PostProcessorModule = {
   },
 }
 
+//the shell is prerendered as <html lang="en">, so the document only says which
+//language it is in when the client tells it: on load and on every switch
+i18next.on("languageChanged", (language) => {
+  if (typeof document === "undefined") return
+  document.documentElement.lang = language
+})
+
 i18next
   .use(brandPostProcessor)
   .use(initReactI18next)
@@ -140,7 +147,6 @@ export function changeLanguage(language: Language): void {
     //preference is best-effort; the switch itself still applies
   }
   void i18next.changeLanguage(language)
-  document.documentElement.lang = language
 }
 
 export default i18next
