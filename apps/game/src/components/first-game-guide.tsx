@@ -31,7 +31,7 @@ export function FirstGameGuide({
   return (
     <section
       aria-label={t("game:guide.title")}
-      className="mx-3 mt-2 rounded-xl bg-surface-2 p-3 ring-1 ring-border"
+      className="mx-4 mt-2 rounded-xl bg-surface-2 p-3"
     >
       <div key={step} className="motion-safe:animate-guide-in">
         <p className="text-xs font-semibold text-brand">
