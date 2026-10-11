@@ -29,6 +29,8 @@ export const routes = rootRoute([
     route("/offline", "pages/game-offline.page.tsx"),
     route("/online/history", "pages/online-history.page.tsx"),
     route("/online/$gameId", "pages/game-online-board.page.tsx"),
+    //public: whoever was sent the link sees who sent it before signing in
+    route("/invite/$linkId", "pages/invite-link.page.tsx"),
   ]),
 
   //---- the map before this one ----------------

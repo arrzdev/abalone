@@ -16,5 +16,8 @@
   "api_illegal_move": "这步不合规则。",
   "api_move_conflict": "对局已经往下走了。",
   "network_unreachable": "连不上服务器。",
-  "unknown": "出了点问题。"
+  "unknown": "出了点问题。",
+  "api_invite_link_own": "这是你自己的链接。发给别人才能对战。",
+  "api_invite_link_used": "已经有人接受了这个邀请。",
+  "api_invite_link_expired": "这个邀请已过期。请要一个新链接。"
 }

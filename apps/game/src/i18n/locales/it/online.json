@@ -83,5 +83,33 @@
     "title": "Qui non c'è ancora nulla",
     "body": "Invita qualcuno per nome e la partita inizia qui.",
     "play_bot": "Gioca contro un bot"
+  },
+  "link": {
+    "heading": "Oppure invia un link",
+    "create": "Invita con un link",
+    "creating": "Creazione del link",
+    "field": "Link di invito",
+    "share": "Condividi link",
+    "copy": "Copia link",
+    "copied": "Link copiato. Invialo alla persona con cui vuoi giocare.",
+    "copy_failed": "Non siamo riusciti a copiare il link. Selezionalo e copialo tu.",
+    "share_text": "Facciamo una partita ad Abalone? Apri questo link per giocare contro di me."
+  },
+  "invite_link": {
+    "loading": "Apertura dell'invito",
+    "load_error_title": "Non siamo riusciti ad aprire questo invito",
+    "retry": "Riprova",
+    "go_home": "Vai alla home",
+    "title": "{{name}} ti ha invitato a una partita di {{brand}}",
+    "body_signed_out": "Crea un account o accedi per accettare. Tornerai subito qui.",
+    "body_signed_in": "Accetta e la partita inizia subito.",
+    "accept": "Accetta e gioca",
+    "accepting": "Apertura della partita",
+    "own_title": "Questo è il tuo link di invito",
+    "own_body": "Invialo alla persona con cui vuoi giocare. La partita inizia quando accetta.",
+    "used_title": "Questo invito è già stato usato",
+    "used_body": "Qualcun altro l'ha accettato prima. Chiedi a {{name}} un nuovo link.",
+    "expired_title": "Questo invito è scaduto",
+    "expired_body": "I link di invito durano 7 giorni. Chiedine uno nuovo a chi te l'ha mandato."
   }
 }

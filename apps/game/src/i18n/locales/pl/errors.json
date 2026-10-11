@@ -16,5 +16,8 @@
   "api_illegal_move": "Ten ruch jest niedozwolony.",
   "api_move_conflict": "Partia poszła dalej, gdy grałeś.",
   "network_unreachable": "Nie udało się połączyć z serwerem.",
-  "unknown": "Coś poszło nie tak."
+  "unknown": "Coś poszło nie tak.",
+  "api_invite_link_own": "To twój własny link. Wyślij go komuś innemu, żeby zagrać.",
+  "api_invite_link_used": "Ktoś inny już przyjął to zaproszenie.",
+  "api_invite_link_expired": "To zaproszenie wygasło. Poproś o nowy link."
 }

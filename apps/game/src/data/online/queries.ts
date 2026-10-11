@@ -27,6 +27,16 @@ export type GameMove = Success<
   (typeof api.api.v1.games)[":id"]["moves"]["$get"]
 >["data"]["moves"][number]
 
+/**
+ * What anybody holding an invite link may know about it: who sent it, and
+ * whether it can still be taken. `inviterName` is null for a link the server
+ * has never heard of.
+ */
+export type PublicInviteLink = Omit<
+  Success<(typeof api.api.v1)["invite-links"][":id"]["$get"]>["data"],
+  "inviterName"
+> & { inviterName: string | null }
+
 /** The two lists a player's games fall into. */
 export type GameStatus = "active" | "finished"
 
@@ -45,6 +55,8 @@ export const onlineKeys = {
    * device's own move is told from one announcing the opponent's.
    */
   write: (gameId: string) => ["online", "game", gameId, "write"] as const,
+  inviteLink: (linkId: string) =>
+    ["online", "invite-link", linkId] as const,
 }
 
 /**
@@ -146,6 +158,39 @@ export function gameMovesQueryOptions(gameId: string) {
       const body = await response.json()
       if (body.status !== "success") throw apiError(body.error_code)
       return body.data.moves
+    },
+  })
+}
+
+/**
+ * One invite link, as the person it was sent to sees it. Signed in or not.
+ *
+ * Never fresh: the link is single-use, and whether somebody else took it a
+ * minute ago is the whole question. An id nobody issued answers as expired
+ * rather than as an error, which is what the landing says for it anyway, so a
+ * guessed token learns nothing a stale one would not.
+ */
+export function inviteLinkQueryOptions(linkId: string) {
+  return queryOptions({
+    queryKey: onlineKeys.inviteLink(linkId),
+    staleTime: 0,
+    queryFn: async ({ signal }): Promise<PublicInviteLink> => {
+      const response = await withClientRequest(() =>
+        api.api.v1["invite-links"][":id"].$get(
+          { param: { id: linkId } },
+          { init: { signal } },
+        ),
+      )
+      const body = await response.json()
+      if (body.status === "success") return body.data
+
+      //a malformed token is refused before it is looked up, which is the
+      //same answer as one that is not there
+      const isUnknown =
+        body.error_code === "not_found" ||
+        body.error_code === "invalid_input"
+      if (isUnknown) return { inviterName: null, state: "expired" }
+      throw apiError(body.error_code)
     },
   })
 }
