@@ -28,6 +28,12 @@ sed \
   -e "s|^AVATAR_PUBLIC_URL=.*|AVATAR_PUBLIC_URL=http://localhost:${api_port}/api/v1|" \
   env/.env.example >"$env_file"
 
+# Every browser in the suite reaches the api from one IP, so the per-IP limits
+# (60 a minute on /auth, get-session included) trip mid-run and a sign-up gets a
+# 429. This turns on the limiter's test bypass for this Worker only; Playwright
+# sends the x-test-bypass header on every request (playwright.config.ts).
+echo "RATE_LIMIT_ALLOW_TEST_BYPASS=true" >>"$env_file"
+
 pnpm exec wrangler d1 migrations apply abalone-backend-db-dev \
   --local --persist-to "$state_dir"
 
