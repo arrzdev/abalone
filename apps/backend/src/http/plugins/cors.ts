@@ -23,7 +23,10 @@ export function corsPlugin(): MiddlewareHandler {
     },
     credentials: true,
     allowMethods: ["GET", "HEAD", "POST", "PATCH", "DELETE", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization"],
+    //x-test-bypass is sent by the e2e suite, whose browsers share one IP. the
+    //header does nothing unless RATE_LIMIT_ALLOW_TEST_BYPASS is set, which only
+    //the e2e and vitest Workers do (see middlewares/rate-limit.ts).
+    allowHeaders: ["Content-Type", "Authorization", "x-test-bypass"],
     exposeHeaders: ["set-auth-token"],
     maxAge: PREFLIGHT_MAX_AGE_SECONDS,
   })
