@@ -53,7 +53,19 @@ export const SEO_PAGES: Record<
 
 export type IndexablePath = keyof typeof SEO_PAGES
 
+/** A `<script type="application/ld+json">` in the route head. */
+export type StructuredDataScript = {
+  type: "application/ld+json"
+  children: string
+}
+
 /** The route `head` for one indexable page. */
 export function seoPageHead(path: IndexablePath) {
-  return pageHead({ ...SEO_PAGES[path], path, fullTitle: true })
+  //TODO(TUD-632 PR B): contract stub from the draft PR, so the failing tests
+  //compile. Each page's JSON-LD goes here
+  const scripts: StructuredDataScript[] = []
+  return {
+    ...pageHead({ ...SEO_PAGES[path], path, fullTitle: true }),
+    scripts,
+  }
 }
