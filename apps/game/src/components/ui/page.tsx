@@ -60,7 +60,7 @@ export function PageTitle({
           says what the screen is for, which the bar has no room for. */}
       <h1
         data-on-phone={onPhone}
-        className="min-w-0 text-4xl font-extrabold tracking-tight text-white max-lg:hidden max-lg:data-[on-phone=true]:block max-lg:data-[on-phone=true]:text-3xl"
+        className="min-w-0 text-4xl font-extrabold tracking-tight text-white max-lg:hidden max-lg:data-[on-phone=true]:block max-lg:data-[on-phone=true]:text-3xl data-[on-phone=true]:text-balance"
       >
         {children}
       </h1>

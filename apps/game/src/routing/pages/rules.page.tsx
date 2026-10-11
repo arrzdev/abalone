@@ -162,7 +162,13 @@ function Rule({
 }) {
   return (
     <Card className="lg:flex lg:items-start lg:gap-x-7">
-      <div className={cn("min-w-0", diagrams && "lg:w-[40%] lg:shrink-0")}>
+      {/* Alone on the card the text keeps a reading measure, not the card's. */}
+      <div
+        className={cn(
+          "min-w-0 max-w-[70ch]",
+          diagrams && "lg:w-[40%] lg:shrink-0",
+        )}
+      >
         <h2
           id={id}
           className="scroll-mt-6 text-lg font-bold text-brand-light"
@@ -241,15 +247,17 @@ function RulesPage() {
         <PageTitle
           onPhone
           description={
-            <Trans
-              i18nKey="game:rules.intro"
-              components={{
-                online: <Link to="/" className={TEXT_LINK_CLASS} />,
-                offline: (
-                  <Link to="/offline" className={TEXT_LINK_CLASS} />
-                ),
-              }}
-            />
+            <span className="block max-w-[70ch]">
+              <Trans
+                i18nKey="game:rules.intro"
+                components={{
+                  online: <Link to="/" className={TEXT_LINK_CLASS} />,
+                  offline: (
+                    <Link to="/offline" className={TEXT_LINK_CLASS} />
+                  ),
+                }}
+              />
+            </span>
           }
         >
           {t("game:rules.heading")}
