@@ -434,7 +434,17 @@ function RulesPage() {
                     {t(`game:rules.faq.items.${item}.question`)}
                   </dt>
                   <dd className="mt-0.5">
-                    {t(`game:rules.faq.items.${item}.answer`)}
+                    <Trans
+                      i18nKey={`game:rules.faq.items.${item}.answer`}
+                      components={{
+                        strategy: (
+                          <Link
+                            to="/strategy"
+                            className={TEXT_LINK_CLASS}
+                          />
+                        ),
+                      }}
+                    />
                   </dd>
                 </div>
               ))}

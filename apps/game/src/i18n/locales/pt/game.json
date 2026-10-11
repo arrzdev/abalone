@@ -170,12 +170,60 @@
         },
         "solved": {
           "question": "O Abalone já está resolvido?",
-          "answer": "Não. É um jogo profundo, com muito para aprender."
+          "answer": "Não. É um jogo profundo, com muito para aprender. Experimenta as dicas de estratégia: <strategy>Estratégia de Abalone: 7 dicas</strategy>."
         }
       }
     },
     "cta": "Jogar agora",
     "cta_computer": "Jogar contra o computador"
+  },
+  "strategy": {
+    "title": "Estratégia",
+    "heading": "Estratégia de Abalone: 7 dicas para ganhar",
+    "intro": "O Abalone parece simples e não é. Estes sete hábitos fazem a maioria dos principiantes passar de perder bolas a ganhar empurrões. Pratica cada um num <offline>jogo grátis contra o computador</offline>. És novo no jogo? Lê primeiro as <rules>regras de Abalone</rules>.",
+    "tips": {
+      "center": {
+        "title": "1. Controla o centro",
+        "body": "As bolas no meio têm seis vizinhas e espaço para se mover. As bolas na borda estão a um empurrão de sair. No início, leva as tuas bolas exteriores para o centro e mantém as do adversário afastadas. Quem domina o centro decide onde se joga a luta."
+      },
+      "groups_of_three": {
+        "title": "2. Mantém os teus grupos de três",
+        "body": "Três bolas ligadas em linha empurram duas e dificilmente são empurradas. Joga de modo a manter as bolas em grupos compactos e em contacto. Uma bola isolada é um alvo, e uma corrente longa e fina corta-se com facilidade."
+      },
+      "edge": {
+        "title": "3. Fica longe da borda",
+        "body": "Qualquer bola no anel exterior pode perder-se com um único sumito. Só vais para lá para atacar, e só quando o teu empurrão vem primeiro. Se a tua bola está na borda e o adversário tem uma linha apontada para ela, move-a ou bloqueia a linha nesta jogada."
+      },
+      "count": {
+        "title": "4. Conta antes de empurrar",
+        "body": "Um empurrão precisa de mais bolas em linha do que o adversário e de uma casa vazia atrás. Antes de cada empurrão, conta as duas linhas e vê o que a tua jogada deixa aberto. Um empurrão que desfaz o teu próprio grupo muitas vezes devolve logo a bola."
+      },
+      "opening": {
+        "title": "5. Escolhe a abertura de propósito",
+        "body": "Na disposição standard, ninguém pode empurrar na primeira jogada, por isso avança para o centro a pequenos passos e mantém as tuas filas de três bolas. Num <strong>Belgian daisy</strong> os exércitos tocam-se logo: procura o primeiro sumito e defende o teu grupo mais fraco. Experimenta cada disposição contra o computador para ver o que muda."
+      },
+      "attack_as_a_group": {
+        "title": "6. Ataca em grupo, não como um herói",
+        "body": "Empurrar uma bola para fora com um grupo de três isolado é raro. Mais vezes ganhas ao pressionar uma bola da borda com dois grupos, para que o adversário não consiga responder a ambos. Leva uma segunda linha para a mesma zona antes de te comprometeres."
+      },
+      "tempo": {
+        "title": "7. Ganha o tempo, não a bola",
+        "body": "Não tenhas pressa de fazer o primeiro ponto. Quem lidera por uma bola mas tem os grupos dispersos perde muitas vezes as três trocas seguintes. Faz jogadas seguras que deixem ao adversário só jogadas más; o Abalone é um jogo de quem fica primeiro sem boas jogadas."
+      }
+    },
+    "mistakes": {
+      "title": "Erros comuns",
+      "items": {
+        "lone_edge": "Mover uma bola sozinha para a borda para \"ameaçar\" alguma coisa.",
+        "split_three": "Dividir um três em dois pares mesmo antes de o três do adversário chegar.",
+        "leave_hole": "Empurrar quando isso deixa um buraco onde o adversário entra."
+      }
+    },
+    "practise": {
+      "title": "Praticar",
+      "cta_computer": "Joga Abalone contra o computador",
+      "cta_friend": "Joga com um amigo online"
+    }
   },
   "messages": {
     "select_marble": "Selecione uma bola para mover",

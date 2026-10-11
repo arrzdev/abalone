@@ -171,12 +171,60 @@
         },
         "solved": {
           "question": "Czy Abalone jest rozwiązane?",
-          "answer": "Nie. To głęboka gra, w której zawsze jest czego się uczyć."
+          "answer": "Nie. To głęboka gra, w której zawsze jest czego się uczyć. Wypróbuj wskazówki strategiczne: <strategy>Strategia Abalone: 7 wskazówek</strategy>."
         }
       }
     },
     "cta": "Zagraj teraz",
     "cta_computer": "Zagraj z komputerem"
+  },
+  "strategy": {
+    "title": "Strategia",
+    "heading": "Strategia Abalone: 7 wskazówek, jak wygrywać",
+    "intro": "Abalone wygląda na proste, ale takie nie jest. Te siedem nawyków pozwala większości początkujących przejść od tracenia kul do wygrywania wypchnięć. Przećwicz każdy z nich w <offline>darmowej grze z komputerem</offline>. Dopiero zaczynasz? Najpierw przeczytaj <rules>zasady Abalone</rules>.",
+    "tips": {
+      "center": {
+        "title": "1. Kontroluj środek",
+        "body": "Kule na środku mają sześciu sąsiadów i miejsce na ruch. Kule na brzegu są o jedno wypchnięcie od wypadnięcia. Na początku przesuwaj zewnętrzne kule ku środkowi i nie wpuszczaj tam kul przeciwnika. Kto ma środek, ten decyduje, gdzie rozegra się walka."
+      },
+      "groups_of_three": {
+        "title": "2. Trzymaj trójki",
+        "body": "Trzy połączone kule w linii mogą wypchnąć dwie, a same trudno dają się wypchnąć. Ruszaj się tak, by kule tworzyły zwarte, stykające się grupy. Samotna kula to cel, a długi cienki łańcuch łatwo przeciąć."
+      },
+      "edge": {
+        "title": "3. Trzymaj się z dala od brzegu",
+        "body": "Każda kula na zewnętrznym pierścieniu może zginąć od jednego sumito. Idź tam tylko po to, by atakować, i tylko gdy twoje wypchnięcie jest pierwsze. Jeśli twoja kula stoi na brzegu, a przeciwnik ma linię wymierzoną w nią, ruszaj ją albo zablokuj linię w tej turze."
+      },
+      "count": {
+        "title": "4. Policz, zanim wypchniesz",
+        "body": "Wypchnięcie wymaga więcej kul w linii niż ma przeciwnik oraz pustego pola za nimi. Przed każdym wypchnięciem policz obie linie i sprawdź, co twój ruch odsłania. Wypchnięcie, które rozbija twoją własną grupę, często od razu oddaje kulę."
+      },
+      "opening": {
+        "title": "5. Wybierz otwarcie świadomie",
+        "body": "W układzie standardowym nikt nie może wypychać w pierwszym ruchu, więc rozwijaj się ku środkowi małymi krokami i trzymaj rzędy po trzy kule. W <strong>Belgian daisy</strong> armie stykają się od razu: szukaj pierwszego sumito i broń swojego najsłabszego skupiska. Wypróbuj każdy układ z komputerem, by zobaczyć, co się zmienia."
+      },
+      "attack_as_a_group": {
+        "title": "6. Atakuj grupą, nie jako bohater",
+        "body": "Wypchnięcie kuli samotną trójką zdarza się rzadko. Częściej wygrywasz, naciskając kulę na brzegu dwiema grupami, tak by przeciwnik nie mógł odpowiedzieć na obie. Przyprowadź drugą linię w to samo miejsce, zanim się zaangażujesz."
+      },
+      "tempo": {
+        "title": "7. Wygrywaj tempo, nie kulę",
+        "body": "Nie spiesz się po pierwszy punkt. Gracz, który prowadzi o kulę, ale ma rozproszone grupy, często przegrywa kolejne trzy wymiany. Rób bezpieczne ruchy, które zostawiają przeciwnikowi tylko złe; Abalone to gra o to, komu pierwszemu skończą się dobre ruchy."
+      }
+    },
+    "mistakes": {
+      "title": "Częste błędy",
+      "items": {
+        "lone_edge": "Wysyłanie samotnej kuli na brzeg, by czemuś \"zagrozić\".",
+        "split_three": "Rozbijanie trójki na dwie dwójki tuż przed nadejściem trójki przeciwnika.",
+        "leave_hole": "Wypychanie, gdy zostawia to dziurę, w którą wchodzi przeciwnik."
+      }
+    },
+    "practise": {
+      "title": "Trening",
+      "cta_computer": "Zagraj w Abalone z komputerem",
+      "cta_friend": "Zagraj online ze znajomym"
+    }
   },
   "messages": {
     "select_marble": "Wybierz kulkę do przesunięcia",

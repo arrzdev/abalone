@@ -25,6 +25,7 @@ export const routes = rootRoute([
   //be a child of a route in a tree it is not in.
   layout("subpage", "layouts/subpage.layout.tsx", [
     route("/rules", "pages/rules.page.tsx"),
+    route("/strategy", "pages/strategy.page.tsx"),
     route("/profile", "pages/profile.page.tsx"),
     route("/offline", "pages/game-offline.page.tsx"),
     route("/online/history", "pages/online-history.page.tsx"),

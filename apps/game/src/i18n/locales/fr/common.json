@@ -20,12 +20,13 @@
     "change": "Changer de langue"
   },
   "home": {
-    "tagline": "Poussez six billes adverses hors du plateau pour gagner.",
+    "heading": "Jouer à Abalone en ligne, gratuitement",
+    "lede": "Poussez six billes adverses hors du plateau. Jouez contre l'ordinateur, passez l'appareil ou invitez un ami.",
     "play_online": "Jouer en ligne",
     "play_offline": "Jouer hors ligne",
     "online_hint": "Invite quelqu'un, joue à ton rythme.",
-    "rules_prompt": "Jamais joué ?",
-    "rules_link": "Lis les règles",
+    "rules_link": "Règles d'Abalone",
+    "strategy_link": "Conseils de stratégie Abalone",
     "bot_hint_short": "Huit niveaux",
     "bot_hint_long": "Huit bots, de Gus à Magnus.",
     "local_hint_short": "Un appareil, vous deux",

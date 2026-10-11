@@ -170,12 +170,60 @@
         },
         "solved": {
           "question": "¿Está resuelto Abalone?",
-          "answer": "No. Es un juego profundo con mucho que aprender."
+          "answer": "No. Es un juego profundo con mucho que aprender. Prueba los consejos de estrategia: <strategy>Estrategia de Abalone: 7 consejos</strategy>."
         }
       }
     },
     "cta": "Jugar ahora",
     "cta_computer": "Jugar contra el ordenador"
+  },
+  "strategy": {
+    "title": "Estrategia",
+    "heading": "Estrategia de Abalone: 7 consejos para ganar",
+    "intro": "Abalone parece sencillo y no lo es. Estos siete hábitos ayudan a la mayoría de los principiantes a perder menos bolas y ganar más empujes. Practica cada uno en una <offline>partida gratis contra el ordenador</offline>. ¿Eres nuevo en el juego? Lee primero las <rules>reglas de Abalone</rules>.",
+    "tips": {
+      "center": {
+        "title": "1. Controla el centro",
+        "body": "Las bolas del centro tienen seis vecinas y espacio para moverse. Las bolas del borde están a un empuje de salir. Al principio, acerca tus bolas exteriores al centro y mantén fuera al rival. Quien domina el centro decide dónde se libra la lucha."
+      },
+      "groups_of_three": {
+        "title": "2. Mantén tus grupos de tres",
+        "body": "Tres bolas conectadas en línea pueden empujar dos y cuesta empujarlas. Mueve de modo que tus bolas queden en grupos compactos y en contacto. Una bola suelta es un blanco, y una cadena larga y fina es fácil de cortar."
+      },
+      "edge": {
+        "title": "3. Aléjate del borde",
+        "body": "Cualquier bola del anillo exterior puede perderse con un solo sumito. Ve allí solo para atacar, y solo cuando tu empuje llegue primero. Si tu bola está en el borde y el rival tiene una línea apuntando a ella, muévela o bloquea la línea en este turno."
+      },
+      "count": {
+        "title": "4. Cuenta antes de empujar",
+        "body": "Un empuje necesita más bolas en línea que el rival y una casilla vacía detrás. Antes de cada empuje, cuenta ambas líneas y mira qué deja abierto tu movimiento. Un empuje que rompe tu propio grupo suele devolver la bola enseguida."
+      },
+      "opening": {
+        "title": "5. Elige tu apertura a propósito",
+        "body": "En la disposición estándar nadie puede empujar en el primer movimiento, así que avanza hacia el centro con pasos cortos y conserva tus filas de tres. En una <strong>Belgian daisy</strong> los ejércitos se tocan de inmediato: busca el primer sumito y defiende tu grupo más débil. Prueba cada disposición contra el ordenador para ver qué cambia."
+      },
+      "attack_as_a_group": {
+        "title": "6. Ataca en grupo, no como un héroe",
+        "body": "Sacar una bola con una sola pila de tres es raro. Lo habitual es ganar presionando una bola del borde con dos grupos, para que el rival no pueda responder a ambos. Lleva una segunda línea a la misma zona antes de comprometerte."
+      },
+      "tempo": {
+        "title": "7. Gana el tempo, no la bola",
+        "body": "No te lances a por el primer punto. Quien va una bola por delante pero tiene grupos dispersos suele perder los tres intercambios siguientes. Haz movimientos seguros que dejen al rival solo con malos. Abalone es un juego de quién se queda antes sin buenos movimientos."
+      }
+    },
+    "mistakes": {
+      "title": "Errores comunes",
+      "items": {
+        "lone_edge": "Mover una bola sola al borde para «amenazar» algo.",
+        "split_three": "Partir un tres en dos pares justo antes de que llegue el tres del rival.",
+        "leave_hole": "Empujar dejando un hueco en el que se cuela tu rival."
+      }
+    },
+    "practise": {
+      "title": "Practicar",
+      "cta_computer": "Jugar a Abalone contra el ordenador",
+      "cta_friend": "Jugar en línea con un amigo"
+    }
   },
   "messages": {
     "select_marble": "Selecciona una canica para mover",
