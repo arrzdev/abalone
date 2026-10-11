@@ -65,5 +65,8 @@ export function pageHead(options: PageHeadOptions) {
 
   if (options.noIndex) meta.push({ name: "robots", content: "noindex" })
 
-  return { meta }
+  //TODO(TUD-632 PR A): the canonical link goes here
+  const links: Array<{ rel: string; href: string }> = []
+
+  return { meta, links }
 }
