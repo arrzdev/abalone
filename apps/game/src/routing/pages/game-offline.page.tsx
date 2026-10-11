@@ -384,7 +384,15 @@ function GameOfflinePage() {
     // dragging a line of marbles, not sweeping a selection through the title
     // above it. The name fields are excepted in the stylesheet.
     <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden select-none">
-      <SubpageHeader title={headerTitle} action={settingsButton} />
+      {/* The bar names the step you are on, not what the page is about, so it
+          is a label. The one heading says what the page is for, and is there
+          for search engines and screen readers rather than the eye. */}
+      <h1 className="sr-only">{t("game:offline.heading")}</h1>
+      <SubpageHeader
+        title={headerTitle}
+        titleAs="p"
+        action={settingsButton}
+      />
 
       {/* The board and the panel, whichever way round they go. A box of its own
           rather than the page itself, because the page also holds the phone's
