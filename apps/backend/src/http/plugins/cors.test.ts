@@ -50,6 +50,27 @@ describe("cors allowlist", () => {
     expect(response.headers.get("access-control-allow-origin")).toBeNull()
   })
 
+  //the e2e suite sends x-test-bypass from the browser, which makes every api
+  //call a preflighted one. without it in the allowlist the browser drops them.
+  it("lets the browser send the test bypass header", async () => {
+    const response = await worker.fetch(
+      new Request("http://example.com/api/v1/auth/get-session", {
+        method: "OPTIONS",
+        headers: {
+          origin: "http://example.com",
+          "access-control-request-method": "GET",
+          "access-control-request-headers": "x-test-bypass",
+        },
+      }),
+      env as never,
+      newExecutionContext(),
+    )
+
+    expect(
+      response.headers.get("access-control-allow-headers")?.toLowerCase(),
+    ).toContain("x-test-bypass")
+  })
+
   //a public frontend means allowsPrivateOrigins() is false, so the dev-only
   //localhost reflection must not happen here
   it("refuses a private origin against a public frontend", async () => {
