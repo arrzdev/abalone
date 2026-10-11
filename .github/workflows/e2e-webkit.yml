@@ -6,6 +6,11 @@ name: E2E WebKit
 # weekly run. Public repo, standard hosted runner: no paid minutes.
 on:
   workflow_dispatch:
+    inputs:
+      args:
+        description: Extra playwright arguments, e.g. --repeat-each=10 --retries=0 e2e/language.spec.ts
+        required: false
+        default: ""
   schedule:
     - cron: "0 6 * * 1"
 
@@ -37,7 +42,11 @@ jobs:
         run: pnpm exec playwright install --with-deps webkit
 
       - name: E2E (webkit-iphone)
-        run: pnpm exec playwright test --project=webkit-iphone
+        # Through env, not inlined: the input is never parsed as shell code.
+        # $ARGS stays unquoted so it splits into separate arguments.
+        env:
+          ARGS: ${{ inputs.args }}
+        run: pnpm exec playwright test --project=webkit-iphone $ARGS
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}

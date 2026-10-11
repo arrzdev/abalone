@@ -56,8 +56,12 @@ export function registerSW(options = {}) {
       registration.addEventListener("updatefound", () => {
         const installing = registration.installing
         if (!installing) return
+        //an update needs a version already active before this install. The controller
+        //is no proof: WebKit lets another tab's first worker claim this page mid-install,
+        //which made a first visit look like an update and reload the page.
+        const isUpdate = registration.active !== null
         installing.addEventListener("statechange", () => {
-          if (installing.state === "installed" && navigator.serviceWorker.controller) {
+          if (installing.state === "installed" && isUpdate && navigator.serviceWorker.controller) {
             if (onNeedRefresh) onNeedRefresh()
           }
         })
