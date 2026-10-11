@@ -1,5 +1,6 @@
 import type { SocialImage } from "@/routing/page-head"
 import { pageHead } from "@/routing/page-head"
+import { structuredDataScripts } from "@/routing/structured-data"
 
 /**
  * The pages a search engine should list, and the words it lists them under.
@@ -53,19 +54,11 @@ export const SEO_PAGES: Record<
 
 export type IndexablePath = keyof typeof SEO_PAGES
 
-/** A `<script type="application/ld+json">` in the route head. */
-export type StructuredDataScript = {
-  type: "application/ld+json"
-  children: string
-}
-
-/** The route `head` for one indexable page. */
+/** The route `head` for one indexable page, with its JSON-LD. */
 export function seoPageHead(path: IndexablePath) {
-  //TODO(TUD-632 PR B): contract stub from the draft PR, so the failing tests
-  //compile. Each page's JSON-LD goes here
-  const scripts: StructuredDataScript[] = []
+  const page = SEO_PAGES[path]
   return {
-    ...pageHead({ ...SEO_PAGES[path], path, fullTitle: true }),
-    scripts,
+    ...pageHead({ ...page, path, fullTitle: true }),
+    scripts: structuredDataScripts(path, page),
   }
 }
