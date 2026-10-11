@@ -163,6 +163,10 @@
   },
   "board": {
     "label": "游戏棋盘",
-    "thinking": "思考中"
+    "thinking": "思考中",
+    "position": "{{black}} {{blackCount}} 颗，{{white}} {{whiteCount}} 颗。",
+    "turn": "轮到{{side}}。",
+    "last_move": "上一步：{{move}}。",
+    "no_moves": "尚无走子。"
   }
 }

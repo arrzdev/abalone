@@ -164,6 +164,10 @@
   },
   "board": {
     "label": "Speelbord",
-    "thinking": "denkt na"
+    "thinking": "denkt na",
+    "position": "{{black}} {{blackCount}} knikkers, {{white}} {{whiteCount}} knikkers.",
+    "turn": "{{side}} is aan zet.",
+    "last_move": "Laatste zet: {{move}}.",
+    "no_moves": "Nog geen zetten."
   }
 }
