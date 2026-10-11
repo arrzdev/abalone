@@ -34,7 +34,7 @@ export function FirstGameGuide({
       className="mx-4 mt-2 rounded-xl bg-surface-2 p-3"
     >
       <div key={step} className="motion-safe:animate-guide-in">
-        <p className="text-xs font-semibold text-brand">
+        <p className="text-xs font-semibold text-brand-light">
           {t("game:guide.step", {
             current: guideStepNumber(step),
             total: GUIDE_STEP_COUNT,

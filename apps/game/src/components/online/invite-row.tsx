@@ -75,7 +75,7 @@ export function ReceivedInviteRow({
             type="button"
             disabled={busy}
             onClick={() => onAccept(invite.id)}
-            className="inline-flex h-[34px] items-center rounded-[9px] bg-brand px-3.5 font-display text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
+            className="inline-flex h-[34px] items-center rounded-[9px] bg-brand-fill px-3.5 font-display text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
           >
             {t("online:invites.accept")}
           </button>
@@ -115,7 +115,7 @@ export function ReceivedInviteRow({
           type="button"
           disabled={busy}
           onClick={() => onAccept(invite.id)}
-          className="inline-flex h-[42px] flex-1 items-center justify-center rounded-[10px] bg-brand font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
+          className="inline-flex h-[42px] flex-1 items-center justify-center rounded-[10px] bg-brand-fill font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
         >
           {t("online:invites.accept")}
         </button>
@@ -258,7 +258,7 @@ export function LeadInviteRow({
           type="button"
           disabled={busy}
           onClick={() => onAccept(invite.id)}
-          className="inline-flex h-11 flex-1 shrink-0 items-center justify-center rounded-[11px] bg-brand font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45 lg:h-[42px] lg:flex-none lg:px-[22px]"
+          className="inline-flex h-11 flex-1 shrink-0 items-center justify-center rounded-[11px] bg-brand-fill font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45 lg:h-[42px] lg:flex-none lg:px-[22px]"
         >
           {t("online:invites.accept")}
         </button>

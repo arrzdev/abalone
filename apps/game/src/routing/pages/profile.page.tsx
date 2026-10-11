@@ -234,7 +234,7 @@ function Identity({
             as cut out of the picture instead of stuck on top of it. */}
         <span
           aria-hidden="true"
-          className="absolute -right-1 -bottom-1 flex size-[34px] items-center justify-center rounded-full bg-brand text-white outline-[3px] outline-ground lg:hidden"
+          className="absolute -right-1 -bottom-1 flex size-[34px] items-center justify-center rounded-full bg-brand-fill text-white outline-[3px] outline-ground lg:hidden"
         >
           <CameraIcon size={17} />
         </span>
