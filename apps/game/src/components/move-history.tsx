@@ -269,7 +269,7 @@ export function MoveStrip({
             // measured by their text, so bolding the one you land on makes it
             // wider and shoves the rest of the game sideways under your thumb.
             // The fill is what marks it; the weight never was.
-            "shrink-0 rounded-md px-2 py-1 text-sm font-semibold transition",
+            "shrink-0 hit-y-[8px] rounded-[6px_/_14px] px-2 py-1 text-sm font-semibold transition",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
             currentMoveIndex === 0
               ? "bg-brand text-white"
@@ -292,7 +292,7 @@ export function MoveStrip({
               aria-current={index === currentMoveIndex || undefined}
               onClick={() => onGoTo(index)}
               className={cn(
-                "flex shrink-0 items-center gap-1.5 rounded-md px-2 py-1 text-sm font-semibold transition",
+                "flex shrink-0 items-center gap-1.5 hit-y-[8px] rounded-[6px_/_14px] px-2 py-1 text-sm font-semibold transition",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
                 index === currentMoveIndex
                   ? "bg-brand text-white"
@@ -384,7 +384,7 @@ function StartRow({
     // Every other entry is a cell sitting inside a padded row, which is where
     // its rounding has room to show. This one is a row in its own right, so it
     // carries that row's padding itself rather than running to the edges.
-    <div className="border-b border-border-subtle px-1 py-0.5">
+    <div className="border-b border-border-subtle px-1">
       <TapButton
         data-current={current}
         aria-current={current || undefined}
@@ -392,7 +392,7 @@ function StartRow({
         className={cn(
           // Same one weight as the strip, for the same reason and so the two
           // renderings of one list read alike.
-          "block w-full rounded-md px-2 py-1 text-left text-sm font-semibold transition",
+          "block w-full hit-y-[8px] rounded-[6px_/_14px] px-2 py-1 text-left text-sm font-semibold transition",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
           current
             ? "bg-brand text-white"
@@ -427,7 +427,7 @@ function MoveCell({
       onClick={() => onGoTo(index)}
       aria-current={isCurrent || undefined}
       className={cn(
-        "flex-1 rounded-md px-2 py-1 text-left text-sm font-semibold transition",
+        "flex-1 hit-y-[8px] rounded-[6px_/_14px] px-2 py-1 text-left text-sm font-semibold transition",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
         isCurrent
           ? "bg-brand text-white"
@@ -514,7 +514,7 @@ export function MoveHistory({
               pair.blackIndex === currentMoveIndex ||
               pair.whiteIndex === currentMoveIndex
             }
-            className="flex items-center gap-1 border-b border-border-subtle px-1 py-0.5 last:border-b-0"
+            className="flex items-center gap-1 border-b border-border-subtle px-1 last:border-b-0"
           >
             <span className="w-7 shrink-0 text-right text-xs text-faint tabular-nums">
               {pair.moveNumber}.

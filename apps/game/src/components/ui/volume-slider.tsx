@@ -69,7 +69,7 @@ export function VolumeSlider({
           aria-label={muteLabel}
           title={muteLabel}
           className={cn(
-            "shrink-0 rounded-lg p-1.5 transition focus-visible:outline-none",
+            "shrink-0 hit-[7px] rounded-[15px] p-1.5 transition focus-visible:outline-none",
             "focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface",
             muted
               ? "bg-surface-3 text-white"

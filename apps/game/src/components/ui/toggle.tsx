@@ -45,7 +45,7 @@ export function Toggle({
         title={description ? `${label} — ${description}` : label}
         onClick={() => onChange(!checked)}
         className={cn(
-          "relative h-6 w-11 shrink-0 rounded-full transition focus-visible:outline-none",
+          "relative h-6 w-11 shrink-0 hit-y-[10px] box-content rounded-full transition focus-visible:outline-none",
           "focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface",
           checked ? "bg-brand" : "bg-surface-3",
         )}

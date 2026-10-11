@@ -70,7 +70,7 @@ export function Modal({
         <TapButton
           onClick={onClose}
           aria-label={t("common:actions.close")}
-          className="absolute top-[18px] right-[18px] flex size-9 items-center justify-center rounded-[9px] text-faint transition hover:bg-white/10 hover:text-white"
+          className="absolute top-[18px] right-[18px] flex size-11 hit-[4px] items-center justify-center rounded-[13px] text-faint transition hover:bg-white/10 hover:text-white"
         >
           <CloseIcon size={19} />
         </TapButton>
