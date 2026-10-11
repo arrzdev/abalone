@@ -1,15 +1,13 @@
 import { execFileSync } from "node:child_process"
 import path from "node:path"
-import { fileURLToPath } from "node:url"
 
 // Direct writes to the e2e backend's local D1, for states a test cannot wait
 // for. It is the same state directory `serve-backend.sh` starts the Worker on,
 // so the running backend reads the change on its next query.
 
-const backendDir = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../../apps/backend",
-)
+// Playwright runs from the repo root, where its config lives. The e2e files load
+// as CommonJS, so `import.meta` is not available here.
+const backendDir = path.resolve(process.cwd(), "apps/backend")
 
 function execute(sql: string): void {
   execFileSync(
