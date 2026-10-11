@@ -420,7 +420,7 @@
    * it and skipped when you don't. What it labels is the loud part.
    */
   .section-label {
-    @apply font-display text-[11px] font-bold tracking-[0.15em] text-faint uppercase;
+    @apply font-display text-xs font-bold tracking-[0.15em] text-faint uppercase;
   }
 
   /*
