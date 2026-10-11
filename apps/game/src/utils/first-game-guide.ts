@@ -91,6 +91,11 @@ export function isGuideDone(): boolean {
   return raw === DONE || rememberedDone
 }
 
+/** Whether a game in `mode` starting now opens with the guide showing. */
+export function isGuidedStart(mode: GameMode): boolean {
+  return shouldGuide(mode, isGuideDone())
+}
+
 /** Remembers that the guide is finished, skipped, or its game is over. */
 export function markGuideDone(): void {
   rememberedDone = true
