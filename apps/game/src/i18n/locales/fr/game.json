@@ -164,6 +164,10 @@
   },
   "board": {
     "label": "Plateau de jeu",
-    "thinking": "réflexion"
+    "thinking": "réflexion",
+    "position": "{{black}} {{blackCount}} billes, {{white}} {{whiteCount}} billes.",
+    "turn": "Aux {{side}} de jouer.",
+    "last_move": "Dernier coup : {{move}}.",
+    "no_moves": "Aucun coup pour l’instant."
   }
 }

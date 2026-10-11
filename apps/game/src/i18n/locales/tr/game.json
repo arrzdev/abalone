@@ -163,6 +163,10 @@
   },
   "board": {
     "label": "Oyun tahtası",
-    "thinking": "düşünüyor"
+    "thinking": "düşünüyor",
+    "position": "{{black}} {{blackCount}} bilye, {{white}} {{whiteCount}} bilye.",
+    "turn": "Sıra {{side}} oyuncuda.",
+    "last_move": "Son hamle: {{move}}.",
+    "no_moves": "Henüz hamle yok."
   }
 }

@@ -164,6 +164,10 @@
   },
   "board": {
     "label": "खेल का बोर्ड",
-    "thinking": "सोच रहा है"
+    "thinking": "सोच रहा है",
+    "position": "{{black}} {{blackCount}} गोलियाँ, {{white}} {{whiteCount}} गोलियाँ।",
+    "turn": "{{side}} की चाल।",
+    "last_move": "पिछली चाल: {{move}}।",
+    "no_moves": "अभी कोई चाल नहीं।"
   }
 }
