@@ -42,6 +42,21 @@ async function expectBoardUncovered(page: Page): Promise<void> {
   expect(overlaps, "the guide overlaps the board").toBe(false)
 }
 
+/** Whether each game start the page sends from now on says it was guided. */
+function recordGuidedStarts(page: Page): unknown[] {
+  const guided: unknown[] = []
+  page.on("request", (request) => {
+    if (request.method() !== "POST") return
+    if (!request.url().endsWith("/api/v1/events/game")) return
+    const event = JSON.parse(request.postData() ?? "{}") as {
+      kind?: string
+      guided?: unknown
+    }
+    if (event.kind === "start") guided.push(event.guided)
+  })
+  return guided
+}
+
 async function openSettings(page: Page) {
   await page
     .getByRole("button", { name: "Settings" })
@@ -135,4 +150,23 @@ test("the guide speaks the player's language", async ({ page }) => {
     panel.getByRole("button", { name: "Überspringen" }),
   ).toBeVisible()
   await expect(panel).not.toContainText("Pick your marbles")
+})
+
+// The game start event says whether the guide was showing, so first games with
+// the guide can be compared with the games played before it.
+test("the first game is counted as guided and the game after the guide is not", async ({
+  page,
+}) => {
+  const guidedStarts = recordGuidedStarts(page)
+
+  await startOfflineGame(page, "vs Computer")
+  await expect(guide(page)).toBeVisible()
+  await expect.poll(() => guidedStarts).toEqual([true])
+
+  await guide(page).getByRole("button", { name: "Skip" }).click()
+  await expect(guide(page)).toHaveCount(0)
+
+  await page.reload()
+  await startOfflineGame(page, "Pass & Play")
+  await expect.poll(() => guidedStarts).toEqual([true, false])
 })
