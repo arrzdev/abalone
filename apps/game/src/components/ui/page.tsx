@@ -38,18 +38,30 @@ export type PageTitleProps = {
   children: ReactNode
   /** A line under the title, for what the screen is for. */
   description?: ReactNode
+  /**
+   * Shown on a phone as well. For a page whose heading says more than the bar
+   * above it can, such as the one a search result lands on.
+   */
+  onPhone?: boolean
 }
 
 /** The one large heading a page opens with. */
-export function PageTitle({ children, description }: PageTitleProps) {
+export function PageTitle({
+  children,
+  description,
+  onPhone = false,
+}: PageTitleProps) {
   return (
     <header className="flex flex-col gap-y-1.5">
-      {/* Above `lg` only. Every page that uses this sits under a
+      {/* Above `lg` only, by default. Every page that uses this sits under a
           `SubpageHeader` on a phone, which already carries the title — a second
           copy of it at four times the size is the first screenful spent saying
           what the bar above it just said. The line under it stays: that one
           says what the screen is for, which the bar has no room for. */}
-      <h1 className="min-w-0 text-4xl font-extrabold tracking-tight text-white max-lg:hidden">
+      <h1
+        data-on-phone={onPhone}
+        className="min-w-0 text-4xl font-extrabold tracking-tight text-white max-lg:hidden max-lg:data-[on-phone=true]:block max-lg:data-[on-phone=true]:text-3xl data-[on-phone=true]:text-balance"
+      >
         {children}
       </h1>
       {description && (

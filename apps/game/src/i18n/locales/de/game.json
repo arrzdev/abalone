@@ -100,34 +100,82 @@
   },
   "rules": {
     "title": "So wird gespielt",
-    "intro": "Das ganze Spiel in fünf kurzen Regeln.",
+    "heading": "Abalone-Regeln: so wird gespielt",
+    "intro": "Abalone ist ein Strategiespiel für zwei Personen auf einem sechseckigen Brett. Jede Seite hat 14 Kugeln. Du gewinnst, wenn du sechs Kugeln deines Gegners vom Brett schiebst. Diese Seite erklärt jede Regel. Wenn du bereit bist, <online>spiele Abalone online</online> oder <offline>probiere es gegen den Computer</offline>.",
     "goal": {
       "title": "Das Ziel",
-      "body": "Schiebe sechs Kugeln deines Gegners vom Brett."
+      "body": "Schiebe <strong>sechs</strong> Kugeln deines Gegners über den Rand des Bretts. Wer das zuerst schafft, gewinnt. Du kannst nicht durch Einkesseln gewinnen, nur durch Herausschieben."
+    },
+    "turns": {
+      "title": "Wer beginnt",
+      "body": "Die Spieler sind abwechselnd mit je einem Zug dran. Schwarz beginnt. Du musst ziehen, passen geht nicht."
     },
     "directions": {
-      "title": "Sechs Richtungen",
-      "body": "Eine Kugel zieht ein Feld weit in eine von sechs Richtungen. Keine Diagonalen und keine Sprünge.",
+      "title": "So bewegen sich die Kugeln",
+      "body": "Eine Kugel zieht ein Feld weit auf eines der <strong>sechs Nachbarfelder</strong>. Das Brett ist ein Sechseck, jedes Feld berührt also sechs andere. Es gibt keine Sprünge und kein Schlagen durch Springen.",
       "caption": "Die sechs Richtungen."
     },
     "move": {
-      "title": "Kugeln bewegen",
-      "body": "Du bewegst eine, zwei oder drei eigene Kugeln. Zwei oder drei müssen in gerader Linie liegen und ziehen zusammen.",
+      "title": "Eine, zwei oder drei Kugeln ziehen",
+      "body": "Du darfst pro Zug eine, zwei oder drei eigene Kugeln bewegen. Zwei oder drei Kugeln müssen sich in einer <strong>geraden Linie</strong> berühren und ziehen gemeinsam ein Feld weit. Es gibt zwei Arten von Zügen:",
+      "inline": "<strong>Zug in Linie:</strong> die Gruppe zieht entlang ihrer Linie, wie ein Zug. Die vorderste Kugel rückt ins nächste Feld.",
+      "broadside": "<strong>Seitwärtszug:</strong> die Gruppe zieht zur Seite, jede Kugel auf das freie Feld neben ihr. Alle Zielfelder müssen frei sein.",
+      "limit": "Du kannst nie mehr als drei Kugeln bewegen und nie Kugeln, die nicht in einer geraden Linie liegen.",
       "inline_caption": "In Linie: die Reihe zieht in ihre eigene Richtung.",
       "broadside_caption": "Seitwärts: die Reihe rückt auf freie Felder zur Seite."
     },
     "push": {
-      "title": "Schieben",
-      "body": "Nur ein Zug in Linie schiebt, und du brauchst mehr Kugeln als dein Gegner: zwei gegen eine, oder drei gegen eine oder zwei. Das Feld dahinter muss frei sein.",
+      "title": "Schieben: das Sumito",
+      "body": "Ein Schub heißt <strong>Sumito</strong>. Es ist ein Zug in Linie auf ein Feld, das dein Gegner besetzt. Du brauchst <strong>mehr Kugeln in der Linie als dein Gegner</strong>:",
+      "ratios": {
+        "two_one": "2 Kugeln schieben 1",
+        "three_one": "3 Kugeln schieben 1",
+        "three_two": "3 Kugeln schieben 2"
+      },
+      "conditions": "Zwei weitere Bedingungen: Das Feld hinter den geschobenen Kugeln muss <strong>frei</strong> sein (oder außerhalb des Bretts), und der Schub muss in Linie erfolgen, nie seitwärts. Gleich viele Kugeln schieben nie, 2 gegen 2 und 3 gegen 3 sind also eine Pattsituation. Eigene Kugeln kannst du nie schieben.",
       "ok_caption": "Drei gegen zwei: die Linie rückt ein Feld vor.",
       "blocked_caption": "Gleich viele bewegen sich nie, und eigene schiebst du nie."
     },
     "capture": {
-      "title": "Kugeln herausschieben",
-      "body": "Eine über den Rand geschobene Kugel bleibt bis zum Ende draußen.",
+      "title": "Kugeln vom Brett schieben",
+      "body": "Wenn ein Schub eine gegnerische Kugel über den Rand bewegt, ist sie <strong>aus dem Spiel</strong>. Das ist ein Punkt auf dem Weg zu deinen sechs. Eine Kugel am Rand ist in Gefahr: Wirst du dort mit weniger Kugeln geschoben, als dein Gegner in der Linie hat, verlierst du sie.",
       "caption": "Zwei gegen eine am Rand: Schwarz ist draußen."
     },
-    "cta": "Jetzt spielen"
+    "win": {
+      "title": "So gewinnst du",
+      "body": "Wer zuerst sechs Kugeln hinausschiebt, gewinnt. Kannst du einen Schub nicht verhindern, brich die Linie: Zieh eine Kugel neben den Angreifer, damit er in der Unterzahl ist, oder weiche vom Rand zurück."
+    },
+    "setups": {
+      "title": "Startaufstellungen",
+      "body": "Jede Aufstellung beginnt mit je 14 Kugeln.",
+      "standard": "<name>Standard:</name> Jede Seite startet auf ihren zwei nächsten Reihen (Schwarz unten, Weiß oben), dazu drei Kugeln in der Mitte der dritten Reihe. Die Armeen stehen sich gegenüber, im ersten Zug ist kein Schub möglich. Am besten zum Lernen.",
+      "belgian_daisy": "<name>Belgian daisy:</name> Die Kugeln starten in vier blumenförmigen Gruppen, eine in jeder Ecke. Schwarz und Weiß wechseln sich rund um das Brett ab (Weiß oben links und unten rechts, Schwarz oben rechts und unten links). Die Armeen berühren sich schon im ersten Zug, das Spiel ist schnell und taktisch. Bei Turnieren beliebt, weil es fairer ist als die Standardaufstellung.",
+      "german_daisy": "<name>German daisy:</name> Wieder vier blumenförmige Gruppen mit denselben Farben wie bei der Belgian daisy (Weiß oben links und unten rechts, Schwarz oben rechts und unten links), aber von den Ecken weg zu den Seiten versetzt. Die Gruppen starten weiter auseinander, die Eröffnung ist offener.",
+      "others": "<strong>Weitere im Spiel:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration und The Wall. Wähle eine beim Start einer Partie."
+    },
+    "faq": {
+      "title": "Häufige Fragen",
+      "items": {
+        "diagonal": {
+          "question": "Kann ich Kugeln diagonal bewegen?",
+          "answer": "Jede Richtung im Sechsfeldgitter zählt als eine von sechs Richtungen. Eine andere Art von Diagonale gibt es nicht."
+        },
+        "single": {
+          "question": "Kann eine einzelne Kugel schieben?",
+          "answer": "Nein. Für einen Schub braucht es mindestens zwei Kugeln gegen eine."
+        },
+        "own_block": {
+          "question": "Was, wenn meine eigene Kugel den Schub blockiert?",
+          "answer": "Dann ist der Zug nicht erlaubt."
+        },
+        "solved": {
+          "question": "Ist Abalone gelöst?",
+          "answer": "Nein. Es ist ein tiefgründiges Spiel mit viel zu entdecken."
+        }
+      }
+    },
+    "cta": "Jetzt spielen",
+    "cta_computer": "Gegen den Computer spielen"
   },
   "messages": {
     "select_marble": "Wähle eine Kugel zum Bewegen",
