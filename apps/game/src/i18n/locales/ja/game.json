@@ -163,6 +163,10 @@
   },
   "board": {
     "label": "ゲーム盤",
-    "thinking": "思考中"
+    "thinking": "思考中",
+    "position": "{{black}} {{blackCount}}個、{{white}} {{whiteCount}}個。",
+    "turn": "{{side}}の手番。",
+    "last_move": "最後の手: {{move}}。",
+    "no_moves": "まだ手はありません。"
   }
 }

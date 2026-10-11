@@ -164,6 +164,10 @@
   },
   "board": {
     "label": "Spielbrett",
-    "thinking": "denkt nach"
+    "thinking": "denkt nach",
+    "position": "{{black}} {{blackCount}} Kugeln, {{white}} {{whiteCount}} Kugeln.",
+    "turn": "{{side}} ist am Zug.",
+    "last_move": "Letzter Zug: {{move}}.",
+    "no_moves": "Noch keine Züge."
   }
 }

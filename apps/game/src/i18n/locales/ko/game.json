@@ -163,6 +163,10 @@
   },
   "board": {
     "label": "게임 보드",
-    "thinking": "생각 중"
+    "thinking": "생각 중",
+    "position": "{{black}} {{blackCount}}개, {{white}} {{whiteCount}}개.",
+    "turn": "{{side}} 차례.",
+    "last_move": "마지막 수: {{move}}.",
+    "no_moves": "아직 둔 수가 없습니다."
   }
 }

@@ -164,6 +164,10 @@
   },
   "board": {
     "label": "Tabuleiro de jogo",
-    "thinking": "a pensar"
+    "thinking": "a pensar",
+    "position": "{{black}} {{blackCount}} berlindes, {{white}} {{whiteCount}} berlindes.",
+    "turn": "Jogam as {{side}}.",
+    "last_move": "Última jogada: {{move}}.",
+    "no_moves": "Ainda sem jogadas."
   }
 }
