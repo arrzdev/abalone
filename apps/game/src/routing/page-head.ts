@@ -24,14 +24,22 @@ import { siteUrl } from "@/utils/site"
 export type SocialImage = "home" | "game" | "rules"
 
 export type PageHeadOptions = {
-  /** The page's own name. The brand is appended here, not by the caller. */
+  /**
+   * The page's own name. The brand is appended here, not by the caller, unless
+   * `fullTitle` says the title already carries it.
+   */
   title: string
+  /**
+   * Show `title` as written, with no brand suffix. For the pages a search
+   * result lists, whose titles are whole sentences with the brand inside.
+   */
+  fullTitle?: boolean
   /**
    * One line, under about 160 characters: the sentence under the link, and the
    * one a search result quotes. Longer is not more, it is truncated.
    */
   description: string
-  /** The page's path, for `og:url`. */
+  /** The page's path, for `og:url` and the canonical link. */
   path: string
   /** Default `"home"`. */
   image?: SocialImage
@@ -48,7 +56,10 @@ export type PageHeadOptions = {
  * rather than adding a second copy of it.
  */
 export function pageHead(options: PageHeadOptions) {
-  const title = `${options.title} · ${BRAND}`
+  const title = options.fullTitle
+    ? options.title
+    : `${options.title} · ${BRAND}`
+  const url = siteUrl(options.path)
   const image = siteUrl(`/images/social/og-${options.image ?? "home"}.jpg`)
 
   const meta: Array<Record<string, string>> = [
@@ -56,7 +67,7 @@ export function pageHead(options: PageHeadOptions) {
     { name: "description", content: options.description },
     { property: "og:title", content: title },
     { property: "og:description", content: options.description },
-    { property: "og:url", content: siteUrl(options.path) },
+    { property: "og:url", content: url },
     { property: "og:image", content: image },
     { name: "twitter:title", content: title },
     { name: "twitter:description", content: options.description },
@@ -65,8 +76,11 @@ export function pageHead(options: PageHeadOptions) {
 
   if (options.noIndex) meta.push({ name: "robots", content: "noindex" })
 
-  //TODO(TUD-632 PR A): the canonical link goes here
-  const links: Array<{ rel: string; href: string }> = []
+  //on the canonical host whichever host served the page, so the babaluje copy
+  //points search engines back at abalone instead of competing with it
+  const links: Array<{ rel: string; href: string }> = [
+    { rel: "canonical", href: url },
+  ]
 
   return { meta, links }
 }

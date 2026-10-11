@@ -1,3 +1,4 @@
+import type { SocialImage } from "@/routing/page-head"
 import { pageHead } from "@/routing/page-head"
 
 /**
@@ -8,25 +9,42 @@ import { pageHead } from "@/routing/page-head"
  * the line a search result shows, so the brand is part of the sentence rather
  * than a suffix.
  *
- * TODO(TUD-632 PR A): contract stub from the draft PR, so the failing tests
- * compile. Fill in the copy and wire the heads.
+ * The sitemap is built from this table's keys at build time
+ * (`scripts/sitemap.plugin.ts`), so a page added here is listed there too.
  */
 export type SeoPage = {
   /** ≤ 60 characters, shown as is. */
   title: string
   /** ≤ 155 characters. */
   description: string
+  /** The card a shared link unfurls with. */
+  image: SocialImage
 }
 
 export const SEO_PAGES: Record<"/" | "/rules" | "/offline", SeoPage> = {
-  "/": { title: "", description: "" },
-  "/rules": { title: "", description: "" },
-  "/offline": { title: "", description: "" },
+  "/": {
+    title: "Abalone: play the board game online, free",
+    description:
+      "Play Abalone online for free. Challenge the computer, share a screen with a friend or invite someone to a live game. No download, no sign-up needed to start.",
+    image: "home",
+  },
+  "/rules": {
+    title: "Abalone rules: how to play, moves, sumito and winning",
+    description:
+      "Learn the Abalone rules in minutes: how marbles move, how a sumito push works, how to win, plus the standard and daisy starting positions.",
+    image: "rules",
+  },
+  "/offline": {
+    title: "Play Abalone vs the computer or a friend on one device",
+    description:
+      "Play Abalone against the computer or pass the device to a friend. Pick the standard layout or a daisy opening and start a free game in your browser.",
+    image: "game",
+  },
 }
 
 export type IndexablePath = keyof typeof SEO_PAGES
 
 /** The route `head` for one indexable page. */
 export function seoPageHead(path: IndexablePath) {
-  return pageHead({ ...SEO_PAGES[path], path })
+  return pageHead({ ...SEO_PAGES[path], path, fullTitle: true })
 }
