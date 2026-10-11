@@ -5,7 +5,7 @@ import { TapButton } from "@/components/ui/tap-button"
 
 const TONES = {
   brand: {
-    row: "bg-brand-fill hover:bg-brand-hover",
+    row: "bg-brand-fill hover:bg-brand-fill-hover",
     icon: "text-white",
     hint: "text-white/90",
   },

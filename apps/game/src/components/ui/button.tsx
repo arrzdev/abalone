@@ -11,7 +11,7 @@ const BASE =
 //a fill and a hover, and nothing under either: a brand-tinted shadow behind a
 //brand-coloured button is the button's own colour blurred onto the page
 const VARIANTS = {
-  primary: "bg-brand-fill text-white hover:bg-brand-light",
+  primary: "bg-brand-fill text-white hover:bg-brand-fill-hover",
   secondary: "bg-surface-3 text-white hover:bg-surface-4",
   outline: "bg-surface-2 text-white hover:bg-surface-3",
   ghost: "text-subtle hover:bg-white/10 hover:text-white",
