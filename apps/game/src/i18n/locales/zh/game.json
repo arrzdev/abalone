@@ -13,6 +13,9 @@
       "audience": "桌游玩家与策略游戏爱好者"
     }
   },
+  "offline": {
+    "heading": "与电脑或好友对战 Abalone"
+  },
   "players": {
     "you": "你",
     "computer": "电脑"
