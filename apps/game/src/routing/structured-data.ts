@@ -1,0 +1,155 @@
+import enGame from "@/i18n/locales/en/game.json"
+import type { IndexablePath, SeoPage } from "@/routing/seo-pages"
+import { siteUrl } from "@/utils/site"
+
+/**
+ * The JSON-LD each indexable page carries (tech-seo-spec item 4 on TUD-626).
+ *
+ * A search engine reads it as a description of the page, and only trusts it
+ * while it says what the page shows. So the payloads are built from the page's
+ * own English copy rather than written a second time beside it.
+ */
+
+type Json = { [key: string]: Json | Json[] | string | string[] }
+
+/** A `<script type="application/ld+json">` in the route head. */
+export type StructuredDataScript = {
+  type: "application/ld+json"
+  children: string
+}
+
+const ORGANIZATION = { "@type": "Organization", name: "TUDU" }
+
+/** The day /strategy went live; an article's date is when it was published. */
+const STRATEGY_PUBLISHED = "2026-10-11"
+
+/**
+ * The rule sections that are steps of playing, in page order: the section's
+ * anchor, its title, and the paragraph its step quotes.
+ *
+ * One paragraph each, not the whole section: a section is a paragraph, a list
+ * and another paragraph, and joined into one string it reads as a sentence the
+ * page never shows.
+ */
+const RULE_STEPS = [
+  { id: "goal", copy: enGame.rules.goal, text: enGame.rules.goal.body },
+  {
+    id: "directions",
+    copy: enGame.rules.directions,
+    text: enGame.rules.directions.body,
+  },
+  {
+    id: "moving-groups",
+    copy: enGame.rules.move,
+    text: enGame.rules.move.limit,
+  },
+  {
+    id: "sumito",
+    copy: enGame.rules.push,
+    text: enGame.rules.push.conditions,
+  },
+  {
+    id: "pushing-off",
+    copy: enGame.rules.capture,
+    text: enGame.rules.capture.body,
+  },
+] as const
+
+/** Copy with its `<strong>`-style markup taken out. */
+function plainText(copy: string): string {
+  return copy.replace(/<[^>]+>/g, "")
+}
+
+/**
+ * A paragraph of copy as plain text, starting after its last sentence whose
+ * markup closes against punctuation (`<strong>sumito</strong>.`).
+ *
+ * Such a sentence is two runs of text in the served HTML, the bold word and the
+ * punctuation, and read with tags as word breaks (as e2e/structured-data.spec.ts
+ * and a plain-text scraper do) it gains a space the step text would not have.
+ * The sentences after it read the same either way.
+ */
+function verbatimText(copy: string): string {
+  const sentences = copy.split(/(?<=[.:!?])\s+/)
+  const firstVerbatim = sentences.reduce(
+    (start, sentence, index) =>
+      /<\/[^>]+>[^\s<]/.test(sentence) ? index + 1 : start,
+    0,
+  )
+  return plainText(sentences.slice(firstVerbatim).join(" "))
+}
+
+function videoGame(): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    name: "Abalone",
+    url: siteUrl("/"),
+    description:
+      "Play the Abalone board game online for free: against the computer, a friend on one device, or an online opponent.",
+    genre: "Board game",
+    playMode: ["SinglePlayer", "MultiPlayer"],
+    applicationCategory: "Game",
+    operatingSystem: "Web",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+  }
+}
+
+function rulesHowTo(): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to play Abalone",
+    url: siteUrl("/rules"),
+    step: RULE_STEPS.map((step) => ({
+      "@type": "HowToStep",
+      name: step.copy.title,
+      url: siteUrl(`/rules#${step.id}`),
+      text: verbatimText(step.text),
+    })),
+  }
+}
+
+function strategyArticle(description: string, image: string): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: enGame.strategy.heading,
+    description,
+    url: siteUrl("/strategy"),
+    mainEntityOfPage: siteUrl("/strategy"),
+    image,
+    datePublished: STRATEGY_PUBLISHED,
+    author: ORGANIZATION,
+    publisher: ORGANIZATION,
+  }
+}
+
+/**
+ * Serialised for the inside of a `<script>`. The router writes it as raw HTML,
+ * so a `</script>` in any string would close the tag early; `<` is the
+ * same character to a JSON parser and no tag to an HTML one.
+ */
+function toScript(data: Json): StructuredDataScript {
+  return {
+    type: "application/ld+json",
+    children: JSON.stringify(data).replace(/</g, "\\u003c"),
+  }
+}
+
+/**
+ * The JSON-LD for one indexable page. None for the game screen: it is a tool,
+ * not a document, and has nothing for a rich result.
+ */
+export function structuredDataScripts(
+  path: IndexablePath,
+  page: SeoPage,
+): StructuredDataScript[] {
+  if (path === "/") return [toScript(videoGame())]
+  if (path === "/rules") return [toScript(rulesHowTo())]
+  if (path === "/strategy") {
+    const image = siteUrl(`/images/social/og-${page.image}.jpg`)
+    return [toScript(strategyArticle(page.description, image))]
+  }
+  return []
+}
