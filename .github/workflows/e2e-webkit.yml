@@ -42,7 +42,11 @@ jobs:
         run: pnpm exec playwright install --with-deps webkit
 
       - name: E2E (webkit-iphone)
-        run: pnpm exec playwright test --project=webkit-iphone ${{ inputs.args }}
+        # Through env, not inlined: the input is never parsed as shell code.
+        # $ARGS stays unquoted so it splits into separate arguments.
+        env:
+          ARGS: ${{ inputs.args }}
+        run: pnpm exec playwright test --project=webkit-iphone $ARGS
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
