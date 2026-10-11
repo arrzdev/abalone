@@ -1,5 +1,6 @@
 import { MAX_LINE } from "@repo/abalone-engine/config"
 import type { GameState } from "@repo/abalone-engine/game-state"
+import { formatMoveAlgebraic } from "@repo/abalone-engine/notation"
 import type { MovingMarble } from "@repo/abalone-engine/rules"
 import type {
   AxialStep,
@@ -7,6 +8,7 @@ import type {
   Point,
 } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
+import type { TFunction } from "i18next"
 import type { MouseEvent, PointerEvent } from "react"
 import {
   forwardRef,
@@ -16,6 +18,7 @@ import {
   useLayoutEffect,
   useRef,
 } from "react"
+import { useTranslation } from "react-i18next"
 import { TapButton } from "@/components/ui/tap-button"
 import { markTapHandled, TAP_SLOP } from "@/hooks/use-click-fix"
 import type {
@@ -66,6 +69,43 @@ export type GameCanvasProps = {
   onResize?: (width: number, height: number) => void
 }
 
+/**
+ * What the board says to a screen reader, which hears nothing of the canvas
+ * itself: the marbles each side has left, whose turn it is (or who won), and the
+ * move that led here.
+ */
+function describeBoard(state: GameState, t: TFunction): string {
+  const black = t("game:colors.black")
+  const white = t("game:colors.white")
+  const position = t("game:board.position", {
+    black,
+    white,
+    blackCount: state.black.size,
+    whiteCount: state.white.size,
+  })
+
+  let turn = t("game:board.turn", {
+    side: state.currentTurn === "black" ? black : white,
+  })
+  if (state.gameOver) {
+    turn = state.winner
+      ? t(`game:result.${state.winner}_wins`)
+      : t("game:result.draw")
+  }
+
+  const move = state.lastMove
+    ? formatMoveAlgebraic(
+        state.lastMove.fromMarbles,
+        state.lastMove.destination,
+      )
+    : ""
+  const lastMove = move
+    ? t("game:board.last_move", { move })
+    : t("game:board.no_moves")
+
+  return `${position} ${turn} ${lastMove}`
+}
+
 /** A furrow on its way out, with the moment it started going. */
 type Ghost = Furrow & { since: number }
 
@@ -104,6 +144,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
     },
     ref,
   ) {
+    const { t } = useTranslation()
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const wrapperRef = useRef<HTMLDivElement>(null)
     const rafRef = useRef<number | null>(null)
@@ -648,6 +689,8 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         <div className="relative">
           <canvas
             ref={canvasRef}
+            role="img"
+            aria-label={describeBoard(state, t)}
             // Greyed and dimmed while reviewing, on top of the board's own change
             // of colour. The board is not accepting moves in this state, and a
             // washed-out board is what every other control on the screen does to
