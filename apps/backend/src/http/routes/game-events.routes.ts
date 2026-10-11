@@ -27,18 +27,24 @@ const botLevelSchema = z.int().min(1).max(8)
 //a pass and play game has no bot, so it may say nothing or say null
 const noBotLevelSchema = z.null().optional()
 
+//only a start says it. a build from before the guide says nothing, which is
+//stored as not guided
+const guidedSchema = z.boolean().optional()
+
 const gameEventSchema = z.union([
   z.strictObject({
     ...eventFields,
     kind: z.literal("start"),
     mode: z.literal("ai"),
     botLevel: botLevelSchema,
+    guided: guidedSchema,
   }),
   z.strictObject({
     ...eventFields,
     kind: z.literal("start"),
     mode: z.literal("local"),
     botLevel: noBotLevelSchema,
+    guided: guidedSchema,
   }),
   z.strictObject({
     ...eventFields,
@@ -103,6 +109,7 @@ export const gameEventRoutes = newEndpoint<Env>()
       botLevel: event.botLevel ?? null,
       result: "result" in event ? event.result : null,
       moveCount: "moveCount" in event ? event.moveCount : null,
+      guided: "guided" in event ? (event.guided ?? false) : false,
       appVersion: event.appVersion,
     })
 
