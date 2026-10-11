@@ -83,5 +83,33 @@
     "title": "Ainda não há nada aqui",
     "body": "Convida alguém pelo nome e o jogo começa aqui.",
     "play_bot": "Joga contra um bot"
+  },
+  "link": {
+    "heading": "Ou envia um link",
+    "create": "Convidar com um link",
+    "creating": "A criar o link",
+    "field": "Link do convite",
+    "share": "Partilhar link",
+    "copy": "Copiar link",
+    "copied": "Link copiado. Envia-o à pessoa com quem queres jogar.",
+    "copy_failed": "Não conseguimos copiar o link. Seleciona-o e copia-o tu.",
+    "share_text": "Jogamos uma partida de Abalone? Abre este link para jogares contra mim."
+  },
+  "invite_link": {
+    "loading": "A abrir o convite",
+    "load_error_title": "Não conseguimos abrir este convite",
+    "retry": "Tentar de novo",
+    "go_home": "Ir para o início",
+    "title": "{{name}} convidou-te para uma partida de {{brand}}",
+    "body_signed_out": "Cria uma conta ou inicia sessão para aceitar. Voltas logo a esta página.",
+    "body_signed_in": "Aceita e a partida começa logo.",
+    "accept": "Aceitar e jogar",
+    "accepting": "A abrir a partida",
+    "own_title": "Este é o teu link de convite",
+    "own_body": "Envia-o à pessoa com quem queres jogar. A partida começa quando ela aceitar.",
+    "used_title": "Este convite já foi usado",
+    "used_body": "Outra pessoa aceitou primeiro. Pede um link novo a {{name}}.",
+    "expired_title": "Este convite expirou",
+    "expired_body": "Os links de convite duram 7 dias. Pede um novo a quem to enviou."
   }
 }

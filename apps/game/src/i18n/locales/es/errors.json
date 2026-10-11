@@ -16,5 +16,8 @@
   "api_illegal_move": "Ese movimiento no es legal.",
   "api_move_conflict": "La partida avanzó mientras jugabas.",
   "network_unreachable": "No pudimos conectar con el servidor.",
-  "unknown": "Algo salió mal."
+  "unknown": "Algo salió mal.",
+  "api_invite_link_own": "Este es tu propio enlace. Envíalo a otra persona para jugar.",
+  "api_invite_link_used": "Otra persona ya ha aceptado esta invitación.",
+  "api_invite_link_expired": "Esta invitación ha caducado. Pide un enlace nuevo."
 }

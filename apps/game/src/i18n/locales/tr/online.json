@@ -82,5 +82,33 @@
     "title": "Burada henüz bir şey yok",
     "body": "Birini adıyla davet et; oyun burada başlar.",
     "play_bot": "Bota karşı oyna"
+  },
+  "link": {
+    "heading": "Ya da bağlantı gönder",
+    "create": "Bağlantıyla davet et",
+    "creating": "Bağlantı oluşturuluyor",
+    "field": "Davet bağlantısı",
+    "share": "Bağlantıyı paylaş",
+    "copy": "Bağlantıyı kopyala",
+    "copied": "Bağlantı kopyalandı. Oynamak istediğin kişiye gönder.",
+    "copy_failed": "Bağlantı kopyalanamadı. Seçip kendin kopyala.",
+    "share_text": "Bir Abalone oyununa ne dersin? Benimle oynamak için bu bağlantıyı aç."
+  },
+  "invite_link": {
+    "loading": "Davet açılıyor",
+    "load_error_title": "Bu davet açılamadı",
+    "retry": "Tekrar dene",
+    "go_home": "Ana sayfaya git",
+    "title": "{{name}} seni bir {{brand}} oyununa davet etti",
+    "body_signed_out": "Kabul etmek için hesap oluştur ya da giriş yap. Sonra doğrudan buraya döneceksin.",
+    "body_signed_in": "Kabul et, oyun hemen başlasın.",
+    "accept": "Kabul et ve oyna",
+    "accepting": "Oyun açılıyor",
+    "own_title": "Bu senin davet bağlantın",
+    "own_body": "Oynamak istediğin kişiye gönder. Kabul ettiğinde oyun başlar.",
+    "used_title": "Bu davet zaten kullanıldı",
+    "used_body": "Başka biri önce kabul etti. {{name}} kullanıcısından yeni bir bağlantı iste.",
+    "expired_title": "Bu davetin süresi doldu",
+    "expired_body": "Davet bağlantıları 7 gün geçerlidir. Gönderen kişiden yenisini iste."
   }
 }

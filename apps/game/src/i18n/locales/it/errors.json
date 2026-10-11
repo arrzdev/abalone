@@ -16,5 +16,8 @@
   "api_illegal_move": "Questa mossa non è valida.",
   "api_move_conflict": "La partita è andata avanti mentre giocavi.",
   "network_unreachable": "Non riusciamo a raggiungere il server.",
-  "unknown": "Qualcosa è andato storto."
+  "unknown": "Qualcosa è andato storto.",
+  "api_invite_link_own": "Questo è il tuo link. Invialo a qualcun altro per giocare.",
+  "api_invite_link_used": "Qualcun altro ha già accettato questo invito.",
+  "api_invite_link_expired": "Questo invito è scaduto. Chiedi un nuovo link."
 }

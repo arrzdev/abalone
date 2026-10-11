@@ -13,6 +13,11 @@ export type SendInviteInput = {
   side: InviteSide
 }
 
+/** The terms an invite link carries. Whoever takes it plays the other side. */
+export type CreateInviteLinkInput = Omit<SendInviteInput, "username">
+
+export type InviteLinkCreated = { url: string; expiresAt: number }
+
 export type PlayMoveInput = {
   gameId: string
   marbles: CellName[]
@@ -34,6 +39,37 @@ export const sendInviteMutationOptions = mutationOptions({
     const body = await response.json()
     if (body.status !== "success") throw apiError(body.error_code)
     return body.data.invite
+  },
+})
+
+/** Make a link anybody can open to play you, once. */
+export const createInviteLinkMutationOptions = mutationOptions({
+  mutationFn: async (
+    input: CreateInviteLinkInput,
+  ): Promise<InviteLinkCreated> => {
+    const response = await withClientRequest(() =>
+      api.api.v1["invite-links"].$post({ json: input }),
+    )
+    const body = await response.json()
+    if (body.status !== "success") throw apiError(body.error_code)
+    return body.data
+  },
+})
+
+/**
+ * Take somebody up on their link, which opens the game. Asking again after it
+ * worked hands back the same game rather than failing.
+ */
+export const acceptInviteLinkMutationOptions = mutationOptions({
+  mutationFn: async (linkId: string): Promise<{ gameId: string }> => {
+    const response = await withClientRequest(() =>
+      api.api.v1["invite-links"][":id"].accept.$post({
+        param: { id: linkId },
+      }),
+    )
+    const body = await response.json()
+    if (body.status !== "success") throw apiError(body.error_code)
+    return body.data
   },
 })
 
