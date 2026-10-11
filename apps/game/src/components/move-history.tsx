@@ -272,7 +272,7 @@ export function MoveStrip({
             "shrink-0 rounded-md px-2 py-1 text-sm font-semibold transition",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
             currentMoveIndex === 0
-              ? "bg-brand text-white"
+              ? "bg-brand-fill text-white"
               : "text-muted hover:bg-white/5 hover:text-white",
           )}
         >
@@ -295,7 +295,7 @@ export function MoveStrip({
                 "flex shrink-0 items-center gap-1.5 rounded-md px-2 py-1 text-sm font-semibold transition",
                 "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
                 index === currentMoveIndex
-                  ? "bg-brand text-white"
+                  ? "bg-brand-fill text-white"
                   : "text-subtle hover:bg-white/5 hover:text-white",
               )}
             >
@@ -395,7 +395,7 @@ function StartRow({
           "block w-full rounded-md px-2 py-1 text-left text-sm font-semibold transition",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
           current
-            ? "bg-brand text-white"
+            ? "bg-brand-fill text-white"
             : "text-muted hover:bg-white/5 hover:text-white",
         )}
       >
@@ -430,7 +430,7 @@ function MoveCell({
         "flex-1 rounded-md px-2 py-1 text-left text-sm font-semibold transition",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
         isCurrent
-          ? "bg-brand text-white"
+          ? "bg-brand-fill text-white"
           : "text-subtle hover:bg-white/5 hover:text-white",
       )}
     >

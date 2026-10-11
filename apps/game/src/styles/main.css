@@ -90,6 +90,11 @@
   --brand-light: #60a4d1;
   --brand-lighter: #7ec2e1;
   --brand-deep: #567696;
+  /* The accent as a fill with white words on it: a button, the picked tab, the
+     current move. One step down from `brand`, which gives white 5.5:1 where
+     `brand` gave 4.05. `brand` itself stays for what carries no text, the ring
+     and the slider, which need 3:1 against the dark around them. */
+  --brand-fill: #3d6c9a;
 
   /* The quiet member of the family: far less saturated than the accent, which
      is what lets 61 marbles sit on it without the board competing. */
@@ -111,7 +116,7 @@
   --surface-raised: var(--surface);
   --secondary: var(--surface-2);
   --secondary-foreground: #ffffff;
-  --primary: var(--brand);
+  --primary: var(--brand-fill);
   --primary-foreground: #ffffff;
   --ring: var(--brand);
 
@@ -130,7 +135,8 @@
   --foreground: #ffffff;
   --subtle: rgb(255 255 255 / 0.7);
   --muted: rgb(255 255 255 / 0.55);
-  --faint: rgb(255 255 255 / 0.35);
+  /* Still the quietest, but read: 4.5:1 on every surface up to `surface-3`. */
+  --faint: rgb(255 255 255 / 0.52);
 
   /*
    * Hairlines, not rules. On a dark app a solid grey border is a line you read
@@ -221,6 +227,7 @@
   --color-brand-light: var(--brand-light);
   --color-brand-lighter: var(--brand-lighter);
   --color-brand-deep: var(--brand-deep);
+  --color-brand-fill: var(--brand-fill);
 
   --color-board: var(--board);
   --color-marble-black: var(--marble-black);
