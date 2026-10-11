@@ -70,7 +70,9 @@
     "side_random": "무작위",
     "marbles_taken": "상대 구슬 {{total}}개 중 {{taken}}개를 밀어냈습니다",
     "eval_advantage": "{{color}}이(가) {{score}} 앞서는 중",
-    "eval_level": "대등함"
+    "eval_level": "대등함",
+    "how_to_move": "움직이는 방법",
+    "how_to_move_hint": "판 위에서 3단계를 다시 봅니다."
   },
   "game_state": {
     "your_turn": "내 차례",
@@ -168,5 +170,18 @@
     "turn": "{{side}} 차례.",
     "last_move": "마지막 수: {{move}}.",
     "no_moves": "아직 둔 수가 없습니다."
+  },
+  "guide": {
+    "title": "움직이는 방법",
+    "step": "{{total}}단계 중 {{current}}단계",
+    "select_title": "구슬 고르기",
+    "select_body": "내 구슬 하나를 탭하세요. 일직선으로 최대 두 개를 더 탭하면 함께 움직입니다.",
+    "direction_title": "방향 고르기",
+    "direction_body": "강조된 칸을 탭하면 그곳으로 움직입니다. 더 긴 줄은 상대의 더 짧은 줄을 밀 수 있습니다.",
+    "win_title": "6개를 밀어내면 승리",
+    "win_body": "상대 구슬 여섯 개를 판 밖으로 밀어내면 이깁니다.",
+    "next": "다음",
+    "done": "알겠어요",
+    "skip": "건너뛰기"
   }
 }

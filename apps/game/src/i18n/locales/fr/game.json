@@ -70,7 +70,9 @@
     "side_random": "Camp aléatoire",
     "marbles_taken": "{{taken}} billes adverses sur {{total}} poussées hors du plateau",
     "eval_advantage": "{{color}} devant de {{score}}",
-    "eval_level": "À égalité"
+    "eval_level": "À égalité",
+    "how_to_move": "Comment jouer un coup",
+    "how_to_move_hint": "Revois les 3 étapes sur le plateau."
   },
   "game_state": {
     "your_turn": "Votre tour",
@@ -169,5 +171,18 @@
     "turn": "Aux {{side}} de jouer.",
     "last_move": "Dernier coup : {{move}}.",
     "no_moves": "Aucun coup pour l’instant."
+  },
+  "guide": {
+    "title": "Comment jouer un coup",
+    "step": "Étape {{current}} sur {{total}}",
+    "select_title": "Choisis tes billes",
+    "select_body": "Touche une de tes billes. Touche jusqu'à deux autres en ligne droite pour les déplacer ensemble.",
+    "direction_title": "Choisis une direction",
+    "direction_body": "Touche une case en surbrillance pour y aller. Une ligne plus longue peut pousser une ligne adverse plus courte.",
+    "win_title": "Sors 6 billes pour gagner",
+    "win_body": "Pousse six billes adverses hors du plateau et tu gagnes.",
+    "next": "Suivant",
+    "done": "Compris",
+    "skip": "Passer"
   }
 }
