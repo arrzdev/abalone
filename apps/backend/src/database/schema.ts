@@ -171,3 +171,48 @@ export const gameMoves = sqliteTable(
     index("game_moves_signature_idx").on(table.gameId, table.signature),
   ],
 )
+
+//---- game events ----------------
+//how many games are played, in which mode, and how many reach an end: one row
+//per game started and one per game finished (docs/game-events.md). nothing here
+//names a player, a device or an address, and the column list is pinned by a
+//test, so keeping more on people is a decision made there rather than here.
+
+export type GameEventKind = "start" | "finish"
+
+export type GameEventMode = "ai" | "local" | "online"
+
+/** `ai` from the human's side; `local` and `online` name the winner. */
+export type GameEventResult =
+  | "win"
+  | "loss"
+  | "draw"
+  | "abandoned"
+  | Player
+
+export const gameEvents = sqliteTable(
+  "game_events",
+  {
+    id: text("id").primaryKey(),
+    //made on the device for `ai` and `local`, so a start and its finish pair
+    //up. a fresh uuid per row for `online`: the game id would join back to
+    //`games`, which names both players.
+    gameRef: text("game_ref").notNull(),
+    kind: text("kind").notNull().$type<GameEventKind>(),
+    mode: text("mode").notNull().$type<GameEventMode>(),
+    //1 to 8 for `ai`, null otherwise
+    botLevel: integer("bot_level"),
+    //finish only
+    result: text("result").$type<GameEventResult>(),
+    //finish only: plies played
+    moveCount: integer("move_count"),
+    //the build that sent it; `server` for online rows
+    appVersion: text("app_version").notNull(),
+    //server time, never the device's
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [
+    index("game_events_created_at_idx").on(table.createdAt),
+    index("game_events_game_ref_idx").on(table.gameRef),
+  ],
+)

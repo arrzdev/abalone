@@ -23,6 +23,9 @@ const RATE_LIMITS: Record<string, { max: number }> = {
   //not choose to make. roomier than a form, tighter than `api`, because a
   //client that needs sixty connections a minute is not connecting.
   realtime: { max: 60 },
+  //anonymous game events. a game sends two, so thirty a minute is a device
+  //starting a new game every four seconds, which nobody playing does.
+  events: { max: 30 },
 }
 
 //best-effort limiter: per-isolate on cloudflare workers, not shared across

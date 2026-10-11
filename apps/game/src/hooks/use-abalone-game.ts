@@ -30,6 +30,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { BotClient } from "@/ai/bot-client"
 import type { ColorChoiceValue } from "@/components/color-choice"
 import type { GameCanvasHandle } from "@/components/game-canvas"
+import type { GameEvent } from "@/data/game-events/report"
+import { reportGameEvent } from "@/data/game-events/report"
 import {
   useAnimationsEnabled,
   useAutoRotateBoard,
@@ -41,6 +43,7 @@ import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { usePersistentState } from "@/hooks/use-persistent-state"
 import { TIMING } from "@/render/motion"
 import { evaluateBoard } from "@/utils/evaluation"
+import { finishResultOf } from "@/utils/game-events"
 import { PREF_PREFIX, parseStored, serialize } from "@/utils/preferences"
 import { playFallSound, playMoveSound, primeSounds } from "@/utils/sound"
 
@@ -63,6 +66,44 @@ const MAX_LOCAL_NAME = 20
  * opponent's own repetition table.
  */
 const HINT_LEVEL = 7
+
+/**
+ * The game being counted: started and not yet reported as finished. Null on the
+ * setup screen and once the finish has gone out, which is what keeps a game to
+ * exactly one finish however it ends.
+ */
+type CountedGame = { gameRef: string } & (
+  | { mode: "ai"; botLevel: number }
+  | { mode: "local" }
+)
+
+/** The finish event for a counted game, as it stands right now. */
+function finishEventOf(
+  game: CountedGame,
+  state: GameState,
+  abandoned: boolean,
+): GameEvent {
+  const moveCount = state.moveHistory.length - 1
+  const outcome = { playerColor: state.playerColor, winner: state.winner }
+  if (game.mode === "ai") {
+    return {
+      ...game,
+      kind: "finish",
+      result: abandoned
+        ? "abandoned"
+        : finishResultOf({ mode: "ai", ...outcome }),
+      moveCount,
+    }
+  }
+  return {
+    ...game,
+    kind: "finish",
+    result: abandoned
+      ? "abandoned"
+      : finishResultOf({ mode: "local", ...outcome }),
+    moveCount,
+  }
+}
 
 /** 'random' is only settled at the moment a game actually starts. */
 function resolveColor(choice: ColorChoiceValue): Player {
@@ -148,8 +189,33 @@ export function useAbaloneGame(
   const hintBotRef = useRef<BotClient | null>(null) // created on the first hint, never before
   const aiRequestedForRef = useRef<string | null>(null) // guards against duplicate AI requests
   const gameStartTimeRef = useRef<number | null>(null)
+  const countedGameRef = useRef<CountedGame | null>(null)
 
   if (botRef.current === null) botRef.current = new BotClient()
+
+  /**
+   * Reports the counted game's finish, once: the ref is cleared on the way out,
+   * so a game that ended and is then left is not also abandoned.
+   */
+  const reportFinish = useCallback((abandoned: boolean) => {
+    const game = countedGameRef.current
+    if (!game) return
+    countedGameRef.current = null
+    reportGameEvent(finishEventOf(game, stateRef.current, abandoned))
+  }, [])
+
+  //leaving mid-game is abandoning it. `pagehide` rather than `beforeunload`:
+  //it is the one a phone fires when the tab is swiped away
+  useEffect(() => {
+    function handlePageHide() {
+      reportFinish(true)
+    }
+    window.addEventListener("pagehide", handlePageHide)
+    return () => {
+      window.removeEventListener("pagehide", handlePageHide)
+      reportFinish(true)
+    }
+  }, [reportFinish])
 
   useEffect(
     () => () => {
@@ -296,6 +362,9 @@ export function useAbaloneGame(
         nextColor = nextChoice === "random" ? "black" : nextChoice
       } else nextColor = resolveColor(nextChoice)
 
+      //before the board is replaced: the finish counts the moves played on it
+      reportFinish(true)
+
       const fresh = createGameState(nextSetup, nextColor, nextMode)
       aiRequestedForRef.current = null
       busyRef.current = false
@@ -325,9 +394,20 @@ export function useAbaloneGame(
       if (nextMode === "ai") await botRef.current?.connect(nextDifficulty)
       gameStartTimeRef.current = Date.now()
       setPhase("ingame")
+
+      //online games are counted by the server, never from here
+      if (nextMode === "ai" || nextMode === "local") {
+        const gameRef = crypto.randomUUID()
+        const game: CountedGame =
+          nextMode === "ai"
+            ? { gameRef, mode: "ai", botLevel: nextDifficulty }
+            : { gameRef, mode: "local" }
+        countedGameRef.current = game
+        reportGameEvent({ ...game, kind: "start" })
+      }
       return fresh
     },
-    [colorChoice, difficulty, mode, onModeChange, setupType],
+    [colorChoice, difficulty, mode, onModeChange, reportFinish, setupType],
   )
 
   // A rematch keeps the colour that was actually played, not the coin flip.
@@ -362,6 +442,12 @@ export function useAbaloneGame(
       setGameOverModalOpen(true)
     }
   }, [phase, state.gameOver])
+
+  // Score, repetition or resignation: however it ended, it is counted here.
+  // stateRef is the state just rendered, so the finish reads the final board.
+  useEffect(() => {
+    if (state.gameOver) reportFinish(false)
+  }, [reportFinish, state.gameOver])
 
   /* ---------------------------------------------------------------- *
    * Board interaction

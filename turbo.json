@@ -11,6 +11,17 @@
       ],
       "inputs": ["$TURBO_DEFAULT$", "env/.env", "env/schema.ts"]
     },
+    "@repo/game#build": {
+      "dependsOn": ["^build"],
+      "outputs": [
+        "dist/**",
+        "src/router.gen.tsx",
+        "src/routing/routeTree.gen.ts",
+        "src/routing/layouts/__root.gen.tsx"
+      ],
+      "inputs": ["$TURBO_DEFAULT$", "env/.env", "env/schema.ts"],
+      "env": ["GITHUB_SHA"]
+    },
     "@repo/backend#build": {
       "dependsOn": ["^build"],
       "outputs": [],
