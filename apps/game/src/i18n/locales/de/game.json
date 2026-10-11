@@ -170,12 +170,60 @@
         },
         "solved": {
           "question": "Ist Abalone gelöst?",
-          "answer": "Nein. Es ist ein tiefgründiges Spiel mit viel zu entdecken."
+          "answer": "Nein. Es ist ein tiefgründiges Spiel mit viel zu entdecken. Probiere die Strategietipps: <strategy>Abalone-Strategie: 7 Tipps</strategy>."
         }
       }
     },
     "cta": "Jetzt spielen",
     "cta_computer": "Gegen den Computer spielen"
+  },
+  "strategy": {
+    "title": "Strategie",
+    "heading": "Abalone-Strategie: 7 Tipps zum Gewinnen",
+    "intro": "Abalone wirkt einfach und ist es nicht. Mit diesen sieben Gewohnheiten verlieren Anfänger weniger Kugeln und gewinnen mehr Schübe. Übe jede davon in einem <offline>kostenlosen Spiel gegen den Computer</offline>. Neu im Spiel? Lies zuerst die <rules>Abalone-Regeln</rules>.",
+    "tips": {
+      "center": {
+        "title": "1. Kontrolliere die Mitte",
+        "body": "Kugeln in der Mitte haben sechs Nachbarn und Platz zum Ziehen. Kugeln am Rand sind einen Schub vom Aus entfernt. Bring deine äußeren Kugeln früh Richtung Mitte und halte den Gegner von ihr fern. Wer die Mitte besitzt, bestimmt, wo gekämpft wird."
+      },
+      "groups_of_three": {
+        "title": "2. Halte deine Dreiergruppen zusammen",
+        "body": "Drei verbundene Kugeln in einer Linie können zwei schieben und lassen sich nur schwer schieben. Zieh so, dass deine Kugeln in kompakten, sich berührenden Gruppen bleiben. Eine einzelne Kugel ist ein Ziel, und eine lange dünne Kette ist leicht zu zerschneiden."
+      },
+      "edge": {
+        "title": "3. Bleib weg vom Rand",
+        "body": "Jede Kugel im äußeren Ring kann durch ein einziges Sumito verloren gehen. Geh nur dorthin, um anzugreifen, und nur wenn dein Schub zuerst kommt. Steht deine Kugel am Rand und dein Gegner hat eine Linie auf sie gerichtet, zieh sie weg oder blockiere die Linie noch in diesem Zug."
+      },
+      "count": {
+        "title": "4. Zähle, bevor du schiebst",
+        "body": "Ein Schub braucht mehr Kugeln in der Linie als dein Gegner und ein freies Feld dahinter. Zähle vor jedem Schub beide Linien und prüfe, was dein Zug offen lässt. Ein Schub, der die eigene Gruppe auseinanderreißt, gibt die Kugel oft sofort zurück."
+      },
+      "opening": {
+        "title": "5. Wähle deine Eröffnung mit Absicht",
+        "body": "In der Standard-Aufstellung kann im ersten Zug niemand schieben. Entwickle dich also in kleinen Schritten zur Mitte und behalte deine Dreierreihen. Bei einer <strong>Belgian daisy</strong> berühren sich die Armeen sofort: Such das erste Sumito und verteidige deine schwächste Gruppe. Probiere jede Aufstellung gegen den Computer aus, um zu sehen, was sich ändert."
+      },
+      "attack_as_a_group": {
+        "title": "6. Greife als Gruppe an, nicht als Held",
+        "body": "Eine Kugel mit einem einzelnen Dreierstapel hinauszuschieben ist selten. Öfter gewinnst du, indem du eine Randkugel mit zwei Gruppen unter Druck setzt, sodass dein Gegner nicht beide abwehren kann. Bring eine zweite Linie in dasselbe Gebiet, bevor du dich festlegst."
+      },
+      "tempo": {
+        "title": "7. Gewinne das Tempo, nicht die Kugel",
+        "body": "Hetze nicht nach dem ersten Punkt. Wer eine Kugel vorn liegt, aber verstreute Gruppen hat, verliert oft die nächsten drei Schlagabtäusche. Mach sichere Züge, die deinem Gegner nur schlechte übrig lassen. Bei Abalone zählt, wem zuerst die guten Züge ausgehen."
+      }
+    },
+    "mistakes": {
+      "title": "Häufige Fehler",
+      "items": {
+        "lone_edge": "Eine Kugel allein an den Rand ziehen, um etwas zu „bedrohen“.",
+        "split_three": "Eine Dreiergruppe in zwei Zweiergruppen teilen, kurz bevor der Dreier des Gegners ankommt.",
+        "leave_hole": "Schieben, obwohl dadurch eine Lücke entsteht, in die dein Gegner zieht."
+      }
+    },
+    "practise": {
+      "title": "Üben",
+      "cta_computer": "Abalone gegen den Computer spielen",
+      "cta_friend": "Online gegen einen Freund spielen"
+    }
   },
   "messages": {
     "select_marble": "Wähle eine Kugel zum Bewegen",

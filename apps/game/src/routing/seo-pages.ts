@@ -21,7 +21,10 @@ export type SeoPage = {
   image: SocialImage
 }
 
-export const SEO_PAGES: Record<"/" | "/rules" | "/offline", SeoPage> = {
+export const SEO_PAGES: Record<
+  "/" | "/rules" | "/strategy" | "/offline",
+  SeoPage
+> = {
   "/": {
     title: "Abalone: play the board game online, free",
     description:
@@ -32,6 +35,12 @@ export const SEO_PAGES: Record<"/" | "/rules" | "/offline", SeoPage> = {
     title: "Abalone rules: how to play, moves, sumito and winning",
     description:
       "Learn the Abalone rules in minutes: how marbles move, how a sumito push works, how to win, plus the standard and daisy starting positions.",
+    image: "rules",
+  },
+  "/strategy": {
+    title: "Abalone strategy: 7 tips to win more games",
+    description:
+      "Seven Abalone strategy tips: control the center, keep groups of three, pick a safe opening and push at the right moment. Try them against the computer.",
     image: "rules",
   },
   "/offline": {

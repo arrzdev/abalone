@@ -170,12 +170,60 @@
         },
         "solved": {
           "question": "Abalone est-il résolu ?",
-          "answer": "Non. C'est un jeu profond, avec beaucoup à apprendre."
+          "answer": "Non. C'est un jeu profond, avec beaucoup à apprendre. Essaie les conseils de stratégie : <strategy>Stratégie Abalone : 7 conseils</strategy>."
         }
       }
     },
     "cta": "Jouer maintenant",
     "cta_computer": "Jouer contre l'ordinateur"
+  },
+  "strategy": {
+    "title": "Stratégie",
+    "heading": "Stratégie Abalone : 7 conseils pour gagner",
+    "intro": "Abalone paraît simple et ne l'est pas. Ces sept habitudes aident la plupart des débutants à perdre moins de billes et à gagner plus de poussées. Entraîne-toi à chacune dans une <offline>partie gratuite contre l'ordinateur</offline>. Nouveau dans le jeu ? Lis d'abord les <rules>règles d'Abalone</rules>.",
+    "tips": {
+      "center": {
+        "title": "1. Contrôle le centre",
+        "body": "Les billes au centre ont six voisines et de la place pour bouger. Les billes du bord sont à une poussée de la sortie. Dès le début, rapproche tes billes extérieures du centre et empêche l'adversaire d'y aller. Celui qui tient le centre décide où se joue le combat."
+      },
+      "groups_of_three": {
+        "title": "2. Garde tes groupes de trois",
+        "body": "Trois billes liées en ligne peuvent en pousser deux et se font difficilement pousser. Joue pour que tes billes restent en groupes compacts et en contact. Une bille isolée est une cible, et une longue chaîne fine se coupe facilement."
+      },
+      "edge": {
+        "title": "3. Reste loin du bord",
+        "body": "Chaque bille de l'anneau extérieur peut être perdue sur un seul sumito. N'y va que pour attaquer, et seulement quand ta poussée passe en premier. Si ta bille est au bord et que ton adversaire a une ligne pointée sur elle, déplace-la ou bloque la ligne dès ce tour."
+      },
+      "count": {
+        "title": "4. Compte avant de pousser",
+        "body": "Une poussée demande plus de billes en ligne que l'adversaire et une case libre derrière. Avant chaque poussée, compte les deux lignes et regarde ce que ton coup laisse ouvert. Une poussée qui casse ton propre groupe rend souvent la bille aussitôt."
+      },
+      "opening": {
+        "title": "5. Choisis ton ouverture exprès",
+        "body": "Dans la disposition standard, personne ne peut pousser au premier coup : avance donc vers le centre à petits pas et garde tes rangées de trois. Dans une <strong>Belgian daisy</strong>, les armées se touchent tout de suite : cherche le premier sumito et défends ton groupe le plus faible. Essaie chaque disposition contre l'ordinateur pour voir ce qui change."
+      },
+      "attack_as_a_group": {
+        "title": "6. Attaque en groupe, pas en héros",
+        "body": "Sortir une bille avec un seul bloc de trois est rare. Plus souvent, tu gagnes en mettant une bille du bord sous pression avec deux groupes, pour que ton adversaire ne puisse pas répondre aux deux. Amène une seconde ligne dans la même zone avant de t'engager."
+      },
+      "tempo": {
+        "title": "7. Gagne le tempo, pas la bille",
+        "body": "Ne te précipite pas sur le premier point. Un joueur qui mène d'une bille mais a des groupes dispersés perd souvent les trois échanges suivants. Joue des coups sûrs qui ne laissent à ton adversaire que de mauvais coups. Abalone, c'est savoir qui sera le premier à court de bons coups."
+      }
+    },
+    "mistakes": {
+      "title": "Erreurs fréquentes",
+      "items": {
+        "lone_edge": "Envoyer une bille seule au bord pour « menacer » quelque chose.",
+        "split_three": "Casser un trois en deux paires juste avant l'arrivée du trois adverse.",
+        "leave_hole": "Pousser en laissant un trou dans lequel ton adversaire s'engouffre."
+      }
+    },
+    "practise": {
+      "title": "S'entraîner",
+      "cta_computer": "Jouer à Abalone contre l'ordinateur",
+      "cta_friend": "Jouer en ligne contre un ami"
+    }
   },
   "messages": {
     "select_marble": "Sélectionnez une bille à déplacer",
