@@ -29,7 +29,7 @@ const VARIANTS = {
  * and `h-full` from a caller would win over `h-11` on its own.
  */
 const SIZES = {
-  sm: "h-9 px-3 text-sm",
+  sm: "h-11 hit-[4px] rounded-xl px-3 text-sm",
   md: "h-11 px-5 text-base",
   //the page's one commitment, so it is the one size set in the display face:
   //rounder, taller, and named in the type the headings are set in

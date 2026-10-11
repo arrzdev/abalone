@@ -335,6 +335,26 @@
   outline-offset: -2px;
 }
 
+/*
+ * A control drawn smaller than a thumb, given a 44px box without moving or
+ * redrawing it (TUD-722). The box grows by a transparent border its fill does
+ * not paint under, and an equal negative margin hands the room back to the
+ * layout. The padding box keeps the size the control is drawn at, so anything
+ * positioned inside it stays put; a rounded control adds the border to its
+ * radius to keep its corners.
+ */
+@utility hit-* {
+  border: --value([length]) solid transparent;
+  margin: calc(--value([length]) * -1);
+  background-clip: padding-box;
+}
+
+@utility hit-y-* {
+  border-block: --value([length]) solid transparent;
+  margin-block: calc(--value([length]) * -1);
+  background-clip: padding-box;
+}
+
 @layer base {
   /*
    * The shell owns the viewport: nativ pins the document, kills the rubber-band
@@ -539,8 +559,10 @@
     background: transparent;
     /* The box you can grab, not the line you can see: a 6px-tall input is a
        6px-tall hit target, which is a miss on a phone and nearly one with a
-       mouse. The track below is what has the height of a track. */
-    height: 24px;
+       mouse. The track below is what has the height of a track. A thumb
+       needs 44px; the negative margin keeps the row it sits in as it was. */
+    height: 44px;
+    margin-block: -10px;
   }
 
   /* Written out twice on purpose: a selector list is dropped whole by any engine
