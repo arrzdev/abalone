@@ -9,7 +9,7 @@ const EXPECTED_COPY = {
   "/": {
     title: "Abalone: play the board game online, free",
     description:
-      "Play Abalone online for free. Challenge the computer, share a screen with a friend or invite someone to a live game. No download, no sign-up needed to start.",
+      "Play Abalone free online. Challenge the computer, share a screen with a friend or invite someone to a live game. No download, no sign-up needed to start.",
   },
   "/rules": {
     title: "Abalone rules: how to play, moves, sumito and winning",
