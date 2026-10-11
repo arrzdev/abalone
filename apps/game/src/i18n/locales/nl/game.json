@@ -13,6 +13,9 @@
       "audience": "Bordspelers en liefhebbers van strategiespellen"
     }
   },
+  "offline": {
+    "heading": "Speel Abalone tegen de computer of een vriend"
+  },
   "players": {
     "you": "Jij",
     "computer": "Computer"

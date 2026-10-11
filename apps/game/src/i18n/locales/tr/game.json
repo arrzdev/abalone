@@ -13,6 +13,9 @@
       "audience": "Kutu oyunu oyuncuları ve strateji oyunu meraklıları"
     }
   },
+  "offline": {
+    "heading": "Abalone'u bilgisayara veya bir arkadaşına karşı oyna"
+  },
   "players": {
     "you": "Sen",
     "computer": "Bilgisayar"
