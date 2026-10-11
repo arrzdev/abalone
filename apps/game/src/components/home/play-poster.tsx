@@ -8,7 +8,6 @@ import { Reveal } from "@/components/ui/reveal"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
 import { usePlayActions } from "@/hooks/use-play-actions"
 import { BOT_LEVELS } from "@/i18n/bots"
-import { brandName } from "@/utils/brand"
 
 /**
  * The front door for anyone without an account: what the game is on one side,
@@ -28,6 +27,9 @@ import { brandName } from "@/utils/brand"
  * watching rather than joining. On a phone it takes the room above the rows for
  * the same reason — the three ways in stay at the bottom, where a thumb is.
  */
+const TEXT_LINK_CLASS =
+  "inline-flex min-h-11 items-center rounded-sm px-2.5 text-brand-lighter underline underline-offset-[3px] transition-colors duration-200 ease-out hover:text-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+
 export function PlayPoster() {
   const { t } = useTranslation()
   const { playOnline, playOffline } = usePlayActions()
@@ -39,19 +41,16 @@ export function PlayPoster() {
   return (
     <div className="relative mx-auto flex w-full min-h-0 max-w-[1264px] flex-1 flex-col px-4 pt-3.5 pb-safe-offset-4 lg:flex-row lg:items-center lg:gap-x-14 lg:px-12 lg:py-8">
       <Reveal className="flex min-w-0 flex-col items-stretch max-lg:shrink-0 lg:min-h-0 lg:flex-1 lg:items-start">
-        {/* The name and the rule, and only where there is room for them. On a
-            phone the header two rows up already says "Abalone", and a 104px
-            repeat of it is the screenful the buttons need. */}
-        <h1 className="hidden font-display text-[104px] leading-[0.92] font-extrabold tracking-[-0.045em] text-white lg:block">
-          {brandName()}
+        {/* What the page is, in the words a search result shows (the
+            `page-copy` document on TUD-626), and what the game is under it.
+            Only for a screen reader on a phone: the header two rows up
+            already says "Abalone", and a title and a paragraph there are the
+            screenful the buttons need. */}
+        <h1 className="font-display leading-[0.98] font-extrabold tracking-[-0.035em] text-balance text-white max-lg:sr-only lg:text-[clamp(2.75rem,1rem+3.2vw,4.25rem)]">
+          {t("common:home.heading")}
         </h1>
-        {/* One line, in every language. 19px is the frame's size and fits the
-            English string with room to spare; Portuguese is the longest of the
-            thirteen and overruns the column by 4px at that size, so the whole
-            line is set a point smaller rather than left to wrap in some
-            languages and not others. */}
-        <p className="hidden text-[18px] leading-relaxed whitespace-nowrap text-muted lg:mt-5 lg:block">
-          {t("common:home.tagline")}
+        <p className="max-w-[500px] text-[17px] leading-relaxed text-pretty text-muted max-lg:sr-only lg:mt-5">
+          {t("common:home.lede")}
         </p>
 
         <div className="flex w-full flex-col gap-2.5 lg:mt-9 lg:max-w-[500px]">
@@ -101,22 +100,19 @@ export function PlayPoster() {
           </div>
         </div>
 
-        {/* Phone only. A desktop carries Rules in the header, and a second way
-            to the same page under the three rows is a fourth thing to read on
-            the one screen that has to be read at a glance.
-
-            A line rather than a row: the rows above are the offer, and giving
-            the rules the same box makes it a fourth way to play. */}
-        <p className="flex justify-center py-0.5 lg:hidden">
-          <span className="inline-flex min-h-11 items-center gap-1.5 px-3.5 text-sm text-faint">
-            {t("common:home.rules_prompt")}
-            <Link
-              to="/rules"
-              className="rounded-sm text-brand-lighter underline underline-offset-[3px] transition-colors duration-200 ease-out hover:text-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-            >
-              {t("common:home.rules_link")}
-            </Link>
-          </span>
+        {/* Somewhere to read before playing, named the way it would be
+            searched for. A line rather than a row: the rows above are the
+            offer, and giving the rules the same box makes it a fourth way to
+            play. On a desktop too, where the header has the rules but not
+            the tips. */}
+        <p className="flex flex-wrap items-center justify-center text-sm text-faint lg:mt-4 lg:-ms-2.5 lg:justify-start">
+          <Link to="/rules" className={TEXT_LINK_CLASS}>
+            {t("common:home.rules_link")}
+          </Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/strategy" className={TEXT_LINK_CLASS}>
+            {t("common:home.strategy_link")}
+          </Link>
         </p>
       </Reveal>
 

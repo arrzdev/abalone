@@ -20,12 +20,13 @@
     "change": "Change language"
   },
   "home": {
-    "tagline": "Push six of your opponent's marbles off the board to win.",
+    "heading": "Play Abalone online, free",
+    "lede": "Push six of your opponent's marbles off the board. Play the computer, pass the device, or invite a friend.",
     "play_online": "Play Online",
     "play_offline": "Play Offline",
     "online_hint": "Invite anyone, play at your own pace.",
-    "rules_prompt": "Never played?",
-    "rules_link": "Read the rules",
+    "rules_link": "Abalone rules",
+    "strategy_link": "Abalone strategy tips",
     "bot_hint_short": "Eight strengths",
     "bot_hint_long": "Eight bots, Gus to Magnus.",
     "local_hint_short": "One device, two of you",

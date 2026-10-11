@@ -169,12 +169,60 @@
         },
         "solved": {
           "question": "Abalone çözüldü mü?",
-          "answer": "Hayır. Öğrenecek çok şeyi olan derin bir oyundur."
+          "answer": "Hayır. Öğrenecek çok şeyi olan derin bir oyundur. Strateji ipuçlarına göz at: <strategy>Abalone stratejisi: 7 ipucu</strategy>."
         }
       }
     },
     "cta": "Şimdi oyna",
     "cta_computer": "Bilgisayara karşı oyna"
+  },
+  "strategy": {
+    "title": "Strateji",
+    "heading": "Abalone stratejisi: kazanmak için 7 ipucu",
+    "intro": "Abalone basit görünür ama değildir. Bu yedi alışkanlık, çoğu yeni başlayanı bilye kaybetmekten itme kazanmaya taşır. Her birini <offline>bilgisayara karşı ücretsiz bir oyunda</offline> dene. Oyuna yeni misin? Önce <rules>Abalone kurallarını</rules> oku.",
+    "tips": {
+      "center": {
+        "title": "1. Merkezi kontrol et",
+        "body": "Ortadaki bilyelerin altı komşusu ve hareket edecek yeri vardır. Kenardaki bilyeler dışarı atılmaya bir itme uzaklıktadır. Başta dış bilyelerini merkeze doğru taşı, rakibin bilyelerini oradan uzak tut. Merkeze sahip olan, savaşın nerede olacağına karar verir."
+      },
+      "groups_of_three": {
+        "title": "2. Üçlülerini koru",
+        "body": "Çizgide bağlı üç bilye iki bilyeyi itebilir ve kolay itilmez. Bilyelerin sıkı, birbirine değen gruplar halinde kalacak şekilde oyna. Yalnız bir bilye hedeftir, uzun ve ince bir zincir ise kolayca kesilir."
+      },
+      "edge": {
+        "title": "3. Kenardan uzak dur",
+        "body": "Dış halkadaki her bilye tek bir sumito ile kaybedilebilir. Oraya yalnızca saldırmak için git, o da ancak itmen önce gelecekse. Bilyen kenardaysa ve rakibin ona doğru bir çizgi kurmuşsa, bu turda bilyeyi oynat ya da çizgiyi engelle."
+      },
+      "count": {
+        "title": "4. İtmeden önce say",
+        "body": "Bir itme için çizgide rakibinden daha çok bilye ve arkasında boş bir hane gerekir. Her itmeden önce iki çizgiyi say ve hamlenin nelere açık kapı bıraktığına bak. Kendi grubunu bozan bir itme çoğu zaman bilyeyi hemen geri verir."
+      },
+      "opening": {
+        "title": "5. Açılışını bilerek seç",
+        "body": "Standart dizilimde ilk hamlede kimse itemez, bu yüzden küçük adımlarla merkeze doğru ilerle ve üçlü sıralarını koru. <strong>Belgian daisy</strong> dizilişinde ordular hemen temas eder: ilk sumito fırsatını ara ve en zayıf kümeni savun. Neyin değiştiğini görmek için her dizilimi bilgisayara karşı dene."
+      },
+      "attack_as_a_group": {
+        "title": "6. Kahraman gibi değil, grup olarak saldır",
+        "body": "Yalnız bir üçlüyle tek bilye atmak nadirdir. Çoğu zaman kenardaki bir bilyeye iki grupla baskı yaparak kazanırsın, böylece rakibin ikisine birden cevap veremez. Bir şeye girişmeden önce ikinci bir çizgiyi aynı bölgeye getir."
+      },
+      "tempo": {
+        "title": "7. Bilyeyi değil, temposu kazan",
+        "body": "İlk sayı için acele etme. Bir bilye önde olup grupları dağınık olan oyuncu, sonraki üç değişimi çoğu zaman kaybeder. Rakibine yalnızca kötü hamleler bırakan güvenli hamleler yap; Abalone, iyi hamlelerin kimde önce biteceğinin oyunudur."
+      }
+    },
+    "mistakes": {
+      "title": "Sık yapılan hatalar",
+      "items": {
+        "lone_edge": "Bir şeyi \"tehdit etmek\" için tek bir bilyeyi kenara götürmek.",
+        "split_three": "Rakibin üçlüsü gelmeden hemen önce üçlüyü iki ikiliye bölmek.",
+        "leave_hole": "Rakibinin girebileceği bir boşluk bırakacak şekilde itmek."
+      }
+    },
+    "practise": {
+      "title": "Pratik yap",
+      "cta_computer": "Bilgisayara karşı Abalone oyna",
+      "cta_friend": "Çevrimiçi bir arkadaşınla oyna"
+    }
   },
   "messages": {
     "select_marble": "Hareket ettirmek için bir bilye seç",

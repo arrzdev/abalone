@@ -170,12 +170,60 @@
         },
         "solved": {
           "question": "Abalone è un gioco risolto?",
-          "answer": "No. È un gioco profondo, con molto da imparare."
+          "answer": "No. È un gioco profondo, con molto da imparare. Prova i consigli di strategia: <strategy>Strategia di Abalone: 7 consigli</strategy>."
         }
       }
     },
     "cta": "Gioca ora",
     "cta_computer": "Gioca contro il computer"
+  },
+  "strategy": {
+    "title": "Strategia",
+    "heading": "Strategia di Abalone: 7 consigli per vincere",
+    "intro": "Abalone sembra semplice e non lo è. Queste sette abitudini aiutano la maggior parte dei principianti a perdere meno biglie e a vincere più spinte. Esercitati su ognuna in una <offline>partita gratuita contro il computer</offline>. Sei nuovo? Leggi prima le <rules>regole di Abalone</rules>.",
+    "tips": {
+      "center": {
+        "title": "1. Controlla il centro",
+        "body": "Le biglie al centro hanno sei vicine e spazio per muoversi. Le biglie sul bordo sono a una spinta dall'uscita. All'inizio porta le biglie esterne verso il centro e tieni l'avversario lontano. Chi domina il centro decide dove si combatte."
+      },
+      "groups_of_three": {
+        "title": "2. Tieni i tuoi gruppi da tre",
+        "body": "Tre biglie collegate in linea possono spingerne due e si spingono con difficoltà. Muovi in modo che le tue biglie restino in gruppi compatti e a contatto. Una biglia isolata è un bersaglio, e una catena lunga e sottile si spezza facilmente."
+      },
+      "edge": {
+        "title": "3. Stai lontano dal bordo",
+        "body": "Ogni biglia sull'anello esterno può andare persa con un solo sumito. Vai lì solo per attaccare, e solo quando la tua spinta arriva per prima. Se la tua biglia è sul bordo e l'avversario ha una linea puntata su di essa, spostala o blocca la linea in questo turno."
+      },
+      "count": {
+        "title": "4. Conta prima di spingere",
+        "body": "Una spinta richiede più biglie in linea dell'avversario e una casella vuota dietro. Prima di ogni spinta, conta entrambe le linee e controlla cosa lascia aperto la tua mossa. Una spinta che rompe il tuo stesso gruppo spesso restituisce subito la biglia."
+      },
+      "opening": {
+        "title": "5. Scegli l'apertura di proposito",
+        "body": "Nella disposizione standard nessuno può spingere alla prima mossa, quindi avanza verso il centro a piccoli passi e mantieni le tue file da tre. In una <strong>Belgian daisy</strong> gli eserciti si toccano subito: cerca il primo sumito e difendi il tuo gruppo più debole. Prova ogni disposizione contro il computer per capire cosa cambia."
+      },
+      "attack_as_a_group": {
+        "title": "6. Attacca in gruppo, non da eroe",
+        "body": "Spingere fuori una biglia con un solo blocco da tre è raro. Più spesso vinci mettendo sotto pressione una biglia sul bordo con due gruppi, così l'avversario non può rispondere a entrambi. Porta una seconda linea nella stessa zona prima di impegnarti."
+      },
+      "tempo": {
+        "title": "7. Vinci il tempo, non la biglia",
+        "body": "Non correre verso il primo punto. Chi è avanti di una biglia ma ha gruppi dispersi spesso perde i tre scambi successivi. Fai mosse sicure che lascino all'avversario solo mosse cattive. Abalone è un gioco in cui vince chi finisce per ultimo le buone mosse."
+      }
+    },
+    "mistakes": {
+      "title": "Errori comuni",
+      "items": {
+        "lone_edge": "Spostare una biglia da sola sul bordo per «minacciare» qualcosa.",
+        "split_three": "Dividere un tre in due coppie poco prima che arrivi il tre dell'avversario.",
+        "leave_hole": "Spingere lasciando un buco in cui l'avversario si infila."
+      }
+    },
+    "practise": {
+      "title": "Esercitati",
+      "cta_computer": "Gioca ad Abalone contro il computer",
+      "cta_friend": "Gioca online con un amico"
+    }
   },
   "messages": {
     "select_marble": "Seleziona una biglia da muovere",

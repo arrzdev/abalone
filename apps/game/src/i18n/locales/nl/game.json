@@ -170,12 +170,60 @@
         },
         "solved": {
           "question": "Is Abalone opgelost?",
-          "answer": "Nee. Het is een diep spel met veel te leren."
+          "answer": "Nee. Het is een diep spel met veel te leren. Probeer de strategietips: <strategy>Abalone-strategie: 7 tips</strategy>."
         }
       }
     },
     "cta": "Nu spelen",
     "cta_computer": "Speel tegen de computer"
+  },
+  "strategy": {
+    "title": "Strategie",
+    "heading": "Abalone-strategie: 7 tips om te winnen",
+    "intro": "Abalone lijkt simpel en dat is het niet. Met deze zeven gewoontes gaan de meeste beginners van ballen verliezen naar duwen winnen. Oefen ze stuk voor stuk in een <offline>gratis spel tegen de computer</offline>. Nieuw in het spel? Lees eerst de <rules>Abalone-regels</rules>.",
+    "tips": {
+      "center": {
+        "title": "1. Beheers het midden",
+        "body": "Ballen in het midden hebben zes buren en ruimte om te bewegen. Ballen aan de rand zijn één duw van de uitgang verwijderd. Breng je buitenste ballen vroeg in het spel naar het midden en houd die van je tegenstander ervandaan. Wie het midden bezit, bepaalt waar de strijd plaatsvindt."
+      },
+      "groups_of_three": {
+        "title": "2. Houd je groepen van drie bij elkaar",
+        "body": "Drie verbonden ballen in een lijn kunnen er twee duwen en worden zelf niet snel geduwd. Zet zo dat je ballen in compacte, aaneengesloten groepen blijven. Een eenzame bal is een doelwit en een lange dunne keten is makkelijk door te knippen."
+      },
+      "edge": {
+        "title": "3. Blijf weg van de rand",
+        "body": "Elke bal op de buitenste ring kan met één sumito verloren gaan. Ga er alleen heen om aan te vallen, en alleen als jouw duw eerst komt. Staat je bal op de rand en wijst een lijn van je tegenstander ernaartoe, verzet hem dan of blokkeer de lijn in deze beurt."
+      },
+      "count": {
+        "title": "4. Tel voordat je duwt",
+        "body": "Voor een duw heb je meer ballen in de lijn nodig dan je tegenstander en een leeg veld erachter. Tel vóór elke duw beide lijnen en kijk wat je zet openlaat. Een duw die je eigen groep uit elkaar haalt, geeft de bal vaak meteen terug."
+      },
+      "opening": {
+        "title": "5. Kies je opening bewust",
+        "body": "In de standaardopstelling kan niemand in de eerste zet duwen, dus ontwikkel je in kleine stappen naar het midden en houd je rijen van drie. Bij een <strong>Belgian daisy</strong> raken de legers elkaar meteen: zoek de eerste sumito en verdedig je zwakste groep. Probeer elke opstelling tegen de computer om te zien wat er verandert."
+      },
+      "attack_as_a_group": {
+        "title": "6. Val aan als groep, niet als held",
+        "body": "Een bal wegduwen met één losse groep van drie komt zelden voor. Vaker win je door een randbal onder druk te zetten met twee groepen, zodat je tegenstander niet op beide kan antwoorden. Breng een tweede lijn naar hetzelfde gebied voordat je doorzet."
+      },
+      "tempo": {
+        "title": "7. Win het tempo, niet de bal",
+        "body": "Haast je niet naar het eerste punt. Wie een bal voor staat maar verspreide groepen heeft, verliest vaak de volgende drie wisselingen. Doe veilige zetten waarna je tegenstander alleen slechte opties heeft; Abalone is een spel waarin wie het eerst zonder goede zetten zit, verliest."
+      }
+    },
+    "mistakes": {
+      "title": "Veelgemaakte fouten",
+      "items": {
+        "lone_edge": "Een bal alleen naar de rand brengen om iets te \"bedreigen\".",
+        "split_three": "Een drie splitsen in twee tweetallen vlak voordat de drie van je tegenstander arriveert.",
+        "leave_hole": "Duwen terwijl er een gat achterblijft waar je tegenstander in stapt."
+      }
+    },
+    "practise": {
+      "title": "Oefenen",
+      "cta_computer": "Speel Abalone tegen de computer",
+      "cta_friend": "Speel online tegen een vriend"
+    }
   },
   "messages": {
     "select_marble": "Selecteer een knikker om te verplaatsen",

@@ -170,12 +170,60 @@
         },
         "solved": {
           "question": "Is Abalone solved?",
-          "answer": "No. It is a deep game with plenty to learn."
+          "answer": "No. It is a deep game with plenty to learn. Try the strategy tips: <strategy>Abalone strategy: 7 tips</strategy>."
         }
       }
     },
     "cta": "Play now",
     "cta_computer": "Play against the computer"
+  },
+  "strategy": {
+    "title": "Strategy",
+    "heading": "Abalone strategy: 7 tips to win",
+    "intro": "Abalone looks simple and is not. These seven habits take most beginners from losing marbles to winning pushes. Practise each one in a <offline>free game against the computer</offline>. New to the game? Read the <rules>Abalone rules</rules> first.",
+    "tips": {
+      "center": {
+        "title": "1. Control the center",
+        "body": "Marbles in the middle have six neighbours and room to move. Marbles on the edge are one push from out. Early on, move your outer marbles toward the center and keep the opponent's off it. A player who owns the center decides where the fight happens."
+      },
+      "groups_of_three": {
+        "title": "2. Keep your groups of three",
+        "body": "Three connected marbles in a line can push two, and cannot easily be pushed. Move so your marbles stay in compact, touching groups. A lone marble is a target, and a long thin chain is easy to cut."
+      },
+      "edge": {
+        "title": "3. Stay away from the edge",
+        "body": "Every marble on the outer ring can be lost to a single sumito. Only go there to attack, and only when your push comes first. If your marble is on the edge and your opponent has a line pointing at it, move it or block the line this turn."
+      },
+      "count": {
+        "title": "4. Count before you push",
+        "body": "A push needs more marbles in line than your opponent, and an empty space behind. Before each push, count both lines and check what your move leaves open. A push that breaks up your own group often gives the marble straight back."
+      },
+      "opening": {
+        "title": "5. Choose your opening on purpose",
+        "body": "In the standard layout, nobody can push on move one, so develop toward the center in small steps and keep your three-marble rows. In a <strong>Belgian daisy</strong> the armies touch at once: look for the first sumito and defend your weakest cluster. Try each layout against the computer to learn what changes."
+      },
+      "attack_as_a_group": {
+        "title": "6. Attack as a group, not as a hero",
+        "body": "Pushing one marble off with a lone stack of three is rare. More often you win by pressuring an edge marble with two groups, so your opponent cannot answer both. Bring a second line to the same area before you commit."
+      },
+      "tempo": {
+        "title": "7. Win the tempo, not the marble",
+        "body": "Do not rush for the first point. A player who leads by a marble but has scattered groups often loses the next three exchanges. Make safe moves that leave your opponent with only bad ones; Abalone is a game of who runs out of good moves first."
+      }
+    },
+    "mistakes": {
+      "title": "Common mistakes",
+      "items": {
+        "lone_edge": "Moving a marble alone to the edge to \"threaten\" something.",
+        "split_three": "Splitting a three into two twos just before the opponent's three arrives.",
+        "leave_hole": "Pushing when it leaves a hole your opponent steps into."
+      }
+    },
+    "practise": {
+      "title": "Practise",
+      "cta_computer": "Play Abalone against the computer",
+      "cta_friend": "Play a friend online"
+    }
   },
   "messages": {
     "select_marble": "Select a marble to move",

@@ -16,6 +16,11 @@ const EXPECTED_COPY = {
     description:
       "Learn the Abalone rules in minutes: how marbles move, how a sumito push works, how to win, plus the standard and daisy starting positions.",
   },
+  "/strategy": {
+    title: "Abalone strategy: 7 tips to win more games",
+    description:
+      "Seven Abalone strategy tips: control the center, keep groups of three, pick a safe opening and push at the right moment. Try them against the computer.",
+  },
   "/offline": {
     title: "Play Abalone vs the computer or a friend on one device",
     description:
