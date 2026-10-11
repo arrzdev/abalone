@@ -22,6 +22,13 @@
       "when": 1786752948620,
       "tag": "0002_online_games",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1791683151103,
+      "tag": "0003_game_events",
+      "breakpoints": true
     }
   ]
 }

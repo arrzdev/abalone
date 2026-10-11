@@ -2,6 +2,7 @@ import { newEndpoint } from "@repo/shared/http"
 import { authHandlerRoutes } from "@/http/routes/auth.routes"
 import { devAvatarRoutes } from "@/http/routes/avatars.routes"
 import { gameRoutes } from "@/http/routes/game.routes"
+import { gameEventRoutes } from "@/http/routes/game-events.routes"
 import { healthRoutes } from "@/http/routes/health.routes"
 import { inviteRoutes } from "@/http/routes/invite.routes"
 import { profileRoutes } from "@/http/routes/profile.routes"
@@ -16,5 +17,6 @@ export const v1Routes = newEndpoint()
   .route("/invites", inviteRoutes)
   .route("/games", gameRoutes)
   .route("/realtime", realtimeRoutes)
+  .route("/events", gameEventRoutes)
   //inert in production — see the file
   .route("/avatars", devAvatarRoutes)
