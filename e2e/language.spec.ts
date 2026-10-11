@@ -34,3 +34,15 @@ test("switching the language translates the app and survives a reload", async ({
     0,
   )
 })
+
+// A visitor whose browser is set to Japanese gets the page in Japanese, and
+// the document says so, for screen readers and search engines alike.
+test.describe("a browser set to Japanese", () => {
+  test.use({ locale: "ja-JP" })
+
+  test("marks the page as Japanese", async ({ page }) => {
+    await openApp(page, "/offline")
+
+    await expect(page.locator("html")).toHaveAttribute("lang", "ja")
+  })
+})
