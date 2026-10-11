@@ -233,7 +233,7 @@ function Record({
       </span>
       <span
         aria-hidden="true"
-        className="min-w-0 flex-1 truncate text-center text-[11px] leading-none text-faint"
+        className="min-w-0 flex-1 truncate text-center text-xs leading-none text-faint"
       >
         {t("online:board.head_to_head")}
       </span>

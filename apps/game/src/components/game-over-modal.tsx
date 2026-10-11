@@ -110,7 +110,7 @@ export function GameOverModal({
       <div className="text-center">
         <span
           className={cn(
-            "font-display text-[11px] font-bold tracking-[0.22em] uppercase",
+            "font-display text-xs font-bold tracking-[0.22em] uppercase",
             EYEBROWS[resultKind],
           )}
         >

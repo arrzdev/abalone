@@ -76,187 +76,196 @@ export function PregameControls({
   const isLocal = mode === "local"
 
   return (
-    <div className="panel-scroll flex-1 space-y-6 overflow-y-auto px-4 pt-4 pb-safe-offset-4">
-      {/* Level with the setup carousel under it: this panel is a stack of 48px
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="panel-scroll min-h-0 flex-1 space-y-6 overflow-y-auto px-4 pt-4 pb-4">
+        {/* Level with the setup carousel under it: this panel is a stack of 48px
           rows, and the switch was 44 — four pixels of nothing, which is exactly
           the amount you see without being able to name. */}
-      <SegmentedControl
-        size="row"
-        ariaLabel={t("game:controls.game_mode")}
-        value={mode}
-        onChange={onModeChange}
-        options={[
-          {
-            value: "ai",
-            label: t("game:controls.mode_ai"),
-            icon: <RobotIcon size={18} />,
-          },
-          {
-            value: "local",
-            label: t("game:controls.mode_local"),
-            icon: <GroupIcon size={18} />,
-          },
-        ]}
-      />
+        <SegmentedControl
+          size="row"
+          ariaLabel={t("game:controls.game_mode")}
+          value={mode}
+          onChange={onModeChange}
+          options={[
+            {
+              value: "ai",
+              label: t("game:controls.mode_ai"),
+              icon: <RobotIcon size={18} />,
+            },
+            {
+              value: "local",
+              label: t("game:controls.mode_local"),
+              icon: <GroupIcon size={18} />,
+            },
+          ]}
+        />
 
-      {/* Above the opponent, not below it: this is the one setting that applies
+        {/* Above the opponent, not below it: this is the one setting that applies
           to both modes, so it belongs on the mode switch's side of the split
           rather than stranded under a block that comes and goes with it. */}
-      <Section title={t("game:controls.board_setup")}>
-        <SetupCarousel setupType={setupType} onChange={onSetupChange} />
+        <Section title={t("game:controls.board_setup")}>
+          <SetupCarousel setupType={setupType} onChange={onSetupChange} />
 
-        {preview && (
-          <div className="mt-3 flex aspect-[8/7] items-center justify-center lg:hidden">
-            {preview}
-          </div>
-        )}
-      </Section>
+          {preview && (
+            <div className="mt-3 flex aspect-[8/7] items-center justify-center lg:hidden">
+              {preview}
+            </div>
+          )}
+        </Section>
 
-      {isLocal ? (
-        <>
-          <div className="rounded-xl bg-surface-2 p-4">
-            <h3 className="font-bold text-white">
-              {t("game:local.title")}
-            </h3>
-            <p className="mt-1 text-sm leading-relaxed text-muted">
-              {t("game:local.description")}
-            </p>
-          </div>
+        {isLocal ? (
+          <>
+            <div className="rounded-xl bg-surface-2 p-4">
+              <h3 className="font-bold text-white">
+                {t("game:local.title")}
+              </h3>
+              <p className="mt-1 text-sm leading-relaxed text-muted">
+                {t("game:local.description")}
+              </p>
+            </div>
 
-          <Section title={t("game:local.names")}>
-            {/* One field per side rather than "player 1 / player 2": the cards
+            <Section title={t("game:local.names")}>
+              {/* One field per side rather than "player 1 / player 2": the cards
                 these end up on already carry a marble, and the marble here is
                 what ties the two together. Left empty they stay the colour
                 names the cards used before this existed, so the placeholder is
                 the real default rather than a hint about one. */}
-            <div className="space-y-2">
-              {LOCAL_SIDES.map((color) => (
-                <div
-                  key={color}
-                  className="flex items-center gap-2.5 rounded-xl bg-surface-2 px-3"
-                >
-                  <MarbleGlyph
-                    color={color}
-                    design={marbleDesign}
-                    size={14}
-                  />
-                  <input
-                    type="text"
-                    value={names[color]}
-                    onChange={(event) =>
-                      onNameChange(color, event.target.value)
-                    }
-                    placeholder={t(`game:local.${color}`)}
-                    aria-label={t(`game:local.${color}`)}
-                    maxLength={20}
-                    autoComplete="off"
-                    spellCheck={false}
-                    className={cn(
-                      "min-w-0 flex-1 bg-transparent py-3 text-sm font-medium text-white",
-                      "placeholder:text-faint focus:outline-none",
-                    )}
-                  />
-                </div>
-              ))}
-            </div>
-          </Section>
-        </>
-      ) : (
-        <>
-          <Section title={t("game:controls.opponent")}>
-            {/* Every tile carries its own name and level. The panel used to
+              <div className="space-y-2">
+                {LOCAL_SIDES.map((color) => (
+                  <div
+                    key={color}
+                    className="flex items-center gap-2.5 rounded-xl bg-surface-2 px-3"
+                  >
+                    <MarbleGlyph
+                      color={color}
+                      design={marbleDesign}
+                      size={14}
+                    />
+                    <input
+                      type="text"
+                      value={names[color]}
+                      onChange={(event) =>
+                        onNameChange(color, event.target.value)
+                      }
+                      placeholder={t(`game:local.${color}`)}
+                      aria-label={t(`game:local.${color}`)}
+                      maxLength={20}
+                      autoComplete="off"
+                      spellCheck={false}
+                      className={cn(
+                        "min-w-0 flex-1 bg-transparent py-3 text-sm font-medium text-white",
+                        "placeholder:text-faint focus:outline-none",
+                      )}
+                    />
+                  </div>
+                ))}
+              </div>
+            </Section>
+          </>
+        ) : (
+          <>
+            <Section title={t("game:controls.opponent")}>
+              {/* Every tile carries its own name and level. The panel used to
                 describe the selected bot in a paragraph above the grid, which
                 was a different number of lines for each of the eight — so
                 picking an opponent shuffled everything below it. */}
-            <div className="grid grid-cols-4 gap-2">
-              {BOT_LEVELS.map((level) => {
-                const selected = level === difficulty
-                const who = `${getBotName(level)} — ${t(titleKey(level))}`
-                return (
-                  <TapButton
-                    key={level}
-                    // A tile is a face, a name and a number, and the face is the
-                    // part that says who this is — which is nothing you can read
-                    // off a 48px portrait. So the tile carries the character:
-                    // what they are called, what they are, and their own line
-                    // about how they play. The same text the panel shows beside
-                    // their portrait once the game has started, so an opponent
-                    // is introduced the same way in both places.
-                    title={`${who}\n${t(blurbKey(level))}`}
-                    aria-label={`${who} — ${t("game:controls.level", { level })}`}
-                    aria-pressed={selected}
-                    onClick={() => onDifficultyChange(level)}
-                    className={cn(
-                      "group rounded-xl p-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
-                      // Filled, not outlined: the tile you picked is a solid
-                      // block of the accent, the rest are the panel's own grey.
-                      // The tile itself stays opaque either way — it is the
-                      // portrait that steps back, not the card it sits on.
-                      selected
-                        ? "bg-brand"
-                        : "bg-surface-2 hover:bg-surface-3",
-                    )}
-                  >
-                    {/* Square whether or not there is anything in it yet. The
+              <div className="grid grid-cols-4 gap-2">
+                {BOT_LEVELS.map((level) => {
+                  const selected = level === difficulty
+                  const who = `${getBotName(level)} — ${t(titleKey(level))}`
+                  return (
+                    <TapButton
+                      key={level}
+                      // A tile is a face, a name and a number, and the face is the
+                      // part that says who this is — which is nothing you can read
+                      // off a 48px portrait. So the tile carries the character:
+                      // what they are called, what they are, and their own line
+                      // about how they play. The same text the panel shows beside
+                      // their portrait once the game has started, so an opponent
+                      // is introduced the same way in both places.
+                      title={`${who}\n${t(blurbKey(level))}`}
+                      aria-label={`${who} — ${t("game:controls.level", { level })}`}
+                      aria-pressed={selected}
+                      onClick={() => onDifficultyChange(level)}
+                      className={cn(
+                        "group rounded-xl p-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+                        // Filled, not outlined: the tile you picked is a solid
+                        // block of the accent, the rest are the panel's own grey.
+                        // The tile itself stays opaque either way — it is the
+                        // portrait that steps back, not the card it sits on.
+                        selected
+                          ? "bg-brand"
+                          : "bg-surface-2 hover:bg-surface-3",
+                      )}
+                    >
+                      {/* Square whether or not there is anything in it yet. The
                         tile's height used to come from the portrait's own
                         height, so the grid settled downward as the eight
                         landed — which the inline faces make moot, but the
                         reserved box is what makes that true rather than
                         lucky. */}
-                    <span
-                      className={cn(
-                        "relative block aspect-square overflow-hidden rounded-lg transition",
-                        !selected && "opacity-70 group-hover:opacity-100",
-                      )}
-                    >
-                      <BotAvatar
-                        level={level}
-                        className="block h-full w-full"
-                      />
-                      {/* The level is a rank, so it belongs on the portrait
+                      <span
+                        className={cn(
+                          "relative block aspect-square overflow-hidden rounded-lg transition",
+                          !selected &&
+                            "opacity-70 group-hover:opacity-100",
+                        )}
+                      >
+                        <BotAvatar
+                          level={level}
+                          className="block h-full w-full"
+                        />
+                        {/* The level is a rank, so it belongs on the portrait
                           rather than competing with the name underneath. */}
-                      <span className="absolute top-0.5 left-0.5 rounded bg-black/55 px-1 text-[0.625rem] leading-4 font-bold text-foreground tabular-nums">
-                        {level}
+                        <span className="absolute top-0.5 left-0.5 rounded bg-black/55 px-1 text-xs leading-4 font-bold text-foreground tabular-nums">
+                          {level}
+                        </span>
                       </span>
-                    </span>
-                    {/* Two lines, always: the names run from "Sharp Sam" to
+                      {/* Two lines, always: the names run from "Sharp Sam" to
                         "Grandmaster Gus" and the row must not jump when the
                         longer ones wrap. */}
-                    <span
-                      className={cn(
-                        "mt-1 flex h-7 items-center justify-center text-center text-[0.625rem] leading-tight font-semibold",
-                        selected ? "text-white" : "text-muted",
-                      )}
-                    >
-                      {getBotName(level)}
-                    </span>
-                  </TapButton>
-                )
-              })}
-            </div>
-          </Section>
+                      <span
+                        className={cn(
+                          "mt-1 flex h-8 items-center justify-center text-center text-xs leading-tight font-semibold",
+                          selected ? "text-white" : "text-muted",
+                        )}
+                      >
+                        {getBotName(level)}
+                      </span>
+                    </TapButton>
+                  )
+                })}
+              </div>
+            </Section>
 
-          <Section title={t("game:controls.play_as")}>
-            <ColorChoice
-              value={colorChoice}
-              onChange={onColorChange}
-              marbleDesign={marbleDesign}
-            />
-          </Section>
-        </>
-      )}
+            <Section title={t("game:controls.play_as")}>
+              <ColorChoice
+                value={colorChoice}
+                onChange={onColorChange}
+                marbleDesign={marbleDesign}
+              />
+            </Section>
+          </>
+        )}
 
-      {/* The three-bullet summary that used to sit here said too little to
+        {/* The three-bullet summary that used to sit here said too little to
           teach the game and took up the panel's whole tail doing it. The rules
           have their own illustrated page now, linked from the home screen. */}
-      <Button
-        variant="primary"
-        size="lg"
-        className="w-full"
-        onClick={onPlay}
-      >
-        {t("game:controls.play_button")}
-      </Button>
+      </div>
+
+      {/* Pinned under the options rather than at their end: on a phone the
+          options run past the fold, and Play was the part a new player had to
+          scroll to find. The options scroll above it instead. */}
+      <div className="shrink-0 border-t border-white/5 px-4 pt-3 pb-safe-offset-4">
+        <Button
+          variant="primary"
+          size="lg"
+          className="w-full"
+          onClick={onPlay}
+        >
+          {t("game:controls.play_button")}
+        </Button>
+      </div>
     </div>
   )
 }
