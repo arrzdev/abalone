@@ -13,6 +13,9 @@
       "audience": "Board game players and strategy game enthusiasts"
     }
   },
+  "offline": {
+    "heading": "Play Abalone vs the computer or a friend"
+  },
   "players": {
     "you": "You",
     "computer": "Computer"

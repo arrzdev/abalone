@@ -13,6 +13,9 @@
       "audience": "Gracze planszówek i miłośnicy gier strategicznych"
     }
   },
+  "offline": {
+    "heading": "Graj w Abalone z komputerem lub ze znajomym"
+  },
   "players": {
     "you": "Ty",
     "computer": "Komputer"

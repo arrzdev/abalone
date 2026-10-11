@@ -13,6 +13,9 @@
       "audience": "Jogadores de jogos de tabuleiro e entusiastas de jogos de estratégia"
     }
   },
+  "offline": {
+    "heading": "Joga Abalone contra o computador ou um amigo"
+  },
   "players": {
     "you": "Você",
     "computer": "Computador"
