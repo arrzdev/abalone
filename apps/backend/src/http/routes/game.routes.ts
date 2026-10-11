@@ -1,5 +1,6 @@
 import { MAX_LINE } from "@repo/abalone-engine/config"
 import { newEndpoint } from "@repo/shared/http"
+import tryCatch from "@repo/shared/try-catch"
 import type { Context } from "hono"
 import { z } from "zod"
 import { getDb } from "@/database/client"
@@ -13,6 +14,8 @@ import { valid } from "@/http/middlewares/valid"
 import { publishToUsers } from "@/modules/realtime/channel"
 import type { Game } from "@/services/game.service"
 import { GameService } from "@/services/game.service"
+import type { GameEvent } from "@/services/game-event.service"
+import { GameEventService } from "@/services/game-event.service"
 import { InviteService } from "@/services/invite.service"
 
 //---- schemas ----------------
@@ -92,6 +95,49 @@ function announceGameList(c: GameContext, seats: string[]): void {
   )
 }
 
+//---- counts ----------------
+
+/**
+ * Counts an online game starting or finishing (docs/game-events.md).
+ *
+ * The server writes these itself, because it is the only side that sees every
+ * online game end, and `POST /events/game` refuses `online` so none is counted
+ * twice. The ref is a fresh uuid for every row, never the game id: the id would
+ * join the row back to `games`, which names both players.
+ *
+ * `waitUntil`, and the failure is swallowed: a count that does not land is one
+ * number missing from a chart, and it must never cost a player their move.
+ */
+function countOnlineGame(
+  c: GameContext,
+  event: Pick<GameEvent, "kind" | "result" | "moveCount">,
+): void {
+  const gameEventService = new GameEventService(getDb(c.env.DB))
+  c.executionCtx.waitUntil(
+    tryCatch(() =>
+      gameEventService.record({
+        ...event,
+        gameRef: crypto.randomUUID(),
+        mode: "online",
+        botLevel: null,
+        appVersion: "server",
+      }),
+    ),
+  )
+}
+
+/** Counts the finish of a game the request just ended, if it ended one. */
+function countOnlineFinish(c: GameContext, game: Game): void {
+  if (game.status !== "finished") return
+
+  countOnlineGame(c, {
+    kind: "finish",
+    //a finished game with no winner is a draw
+    result: game.winner ?? "draw",
+    moveCount: game.moveCount,
+  })
+}
+
 //---- routes ----------------
 
 export const gameRoutes = newEndpoint<Env, AuthedVariables>()
@@ -137,6 +183,7 @@ export const gameRoutes = newEndpoint<Env, AuthedVariables>()
     c.executionCtx.waitUntil(
       publishToUsers(c.env.PUBSUB, seats, { event: "invites-changed" }),
     )
+    countOnlineGame(c, { kind: "start", result: null, moveCount: null })
 
     return ok(c, { game }, 201)
   })
@@ -184,6 +231,7 @@ export const gameRoutes = newEndpoint<Env, AuthedVariables>()
       )
 
       announceGame(c, game)
+      countOnlineFinish(c, game)
       return ok(c, { game }, 201)
     },
   )
@@ -198,5 +246,6 @@ export const gameRoutes = newEndpoint<Env, AuthedVariables>()
     )
 
     announceGame(c, game)
+    countOnlineFinish(c, game)
     return ok(c, { game })
   })

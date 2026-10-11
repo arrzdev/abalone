@@ -6,8 +6,15 @@ import { PORTS } from "./ports"
 
 const { appPort, supervisorPort } = PORTS
 
+//the build a game event says it came from: the short commit in ci, "dev" anywhere
+//else. a constant baked in at build time, so it needs no env variable
+const APP_VERSION = process.env.GITHUB_SHA?.slice(0, 7) || "dev"
+
 export default defineConfig({
   envDir: "env",
+  define: {
+    __APP_VERSION__: JSON.stringify(APP_VERSION),
+  },
   server: {
     host: "0.0.0.0",
     port: appPort,

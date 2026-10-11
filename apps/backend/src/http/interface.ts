@@ -8,3 +8,7 @@ export type RoutesInterface = ClientRoutesInterface<
   typeof api,
   typeof ERROR_CODES
 >
+
+//the body the game posts to count a game it started or finished. its own
+//export because a beacon goes through `sendBeacon`, not the RPC client.
+export type { GameEventInput } from "@/http/routes/game-events.routes"
