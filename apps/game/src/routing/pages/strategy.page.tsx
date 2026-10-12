@@ -100,7 +100,11 @@ function StrategyPage() {
                 i18nKey="game:strategy.intro"
                 components={{
                   offline: (
-                    <Link to="/offline" className={TEXT_LINK_CLASS} />
+                    <Link
+                      to="/offline"
+                      state={{ startOnBoard: true }}
+                      className={TEXT_LINK_CLASS}
+                    />
                   ),
                   rules: <Link to="/rules" className={TEXT_LINK_CLASS} />,
                 }}
@@ -146,6 +150,7 @@ function StrategyPage() {
               <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link
                   to="/offline"
+                  state={{ startOnBoard: true }}
                   className={cn(
                     buttonClassName("primary", "lg"),
                     CTA_CLASS,
