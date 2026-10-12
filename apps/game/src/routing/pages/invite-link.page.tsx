@@ -5,7 +5,11 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import {
+  createFileRoute,
+  Link as RouterLink,
+  useNavigate,
+} from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { Logo } from "@/components/logo"
 import { ShareLinkButton } from "@/components/online/share-link-button"
@@ -296,9 +300,11 @@ function SpentLinkActions() {
 
   return (
     <div className="mt-8 flex w-full flex-col items-center gap-y-3">
-      <Link {...COMPUTER_GAME} className={PLAY_CLASS}>
+      {/* the router's own link: nativ's drops `state`, and with it the ask to
+          start on the board */}
+      <RouterLink {...COMPUTER_GAME} className={PLAY_CLASS}>
         {t("online:invite_link.play_computer")}
-      </Link>
+      </RouterLink>
       <Link to="/" className={GO_HOME_CLASS}>
         {t("online:invite_link.go_home")}
       </Link>
