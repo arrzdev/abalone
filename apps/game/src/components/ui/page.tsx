@@ -45,14 +45,20 @@ export type PageTitleProps = {
   onPhone?: boolean
 }
 
-/** The one large heading a page opens with. */
+/**
+ * The one large heading a page opens with.
+ *
+ * A `div`, not a `header`: inside `main` a header is no landmark, and the one
+ * a reader knows as "the header" is the app's bar above it. The intro's links
+ * are page content, and read as such.
+ */
 export function PageTitle({
   children,
   description,
   onPhone = false,
 }: PageTitleProps) {
   return (
-    <header className="flex flex-col gap-y-1.5">
+    <div className="flex flex-col gap-y-1.5">
       {/* Above `lg` only, by default. Every page that uses this sits under a
           `SubpageHeader` on a phone, which already carries the title — a second
           copy of it at four times the size is the first screenful spent saying
@@ -67,7 +73,7 @@ export function PageTitle({
       {description && (
         <p className="text-sm leading-relaxed text-muted">{description}</p>
       )}
-    </header>
+    </div>
   )
 }
 

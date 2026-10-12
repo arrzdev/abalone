@@ -38,7 +38,7 @@ const TEXT_LINK_CLASS =
 
 export function PlayPoster() {
   const { t } = useTranslation()
-  const { playOnline, playOffline } = usePlayActions()
+  const { playOnline, playOffline, playComputer } = usePlayActions()
 
   //the eight faces are eight pictures, and a phone never shows them: mounted
   //behind `hidden` they are eight requests spent on nothing
@@ -65,7 +65,7 @@ export function PlayPoster() {
             tone="brand"
             title={t("game:controls.mode_ai")}
             hint={t("common:home.bot_hint")}
-            onClick={() => playOffline("ai")}
+            onClick={playComputer}
           />
           <PlayOption
             icon={GroupIcon}

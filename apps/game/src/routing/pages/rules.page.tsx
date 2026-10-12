@@ -5,11 +5,12 @@ import { createFileRoute, Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import { Trans, useTranslation } from "react-i18next"
 import { MarbleGlyph } from "@/components/marble-glyph"
+import { PlayBlock } from "@/components/play-block"
 import { RuleDiagram } from "@/components/rule-diagram"
-import { buttonClassName } from "@/components/ui/button"
 import { Card, Page, PageTitle } from "@/components/ui/page"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
+import { COMPUTER_GAME } from "@/hooks/use-play-actions"
 import type { Diagram } from "@/render/draw-diagram"
 import { seoPageHead } from "@/routing/seo-pages"
 
@@ -251,9 +252,13 @@ function RulesPage() {
               <Trans
                 i18nKey="game:rules.intro"
                 components={{
-                  online: <Link to="/" className={TEXT_LINK_CLASS} />,
+                  //both open the computer game: playing it in the browser is
+                  //playing Abalone online, in the sense the phrase is searched
+                  online: (
+                    <Link {...COMPUTER_GAME} className={TEXT_LINK_CLASS} />
+                  ),
                   offline: (
-                    <Link to="/offline" className={TEXT_LINK_CLASS} />
+                    <Link {...COMPUTER_GAME} className={TEXT_LINK_CLASS} />
                   ),
                 }}
               />
@@ -262,6 +267,13 @@ function RulesPage() {
         >
           {t("game:rules.heading")}
         </PageTitle>
+
+        {/* A way to the board under the intro, halfway down and at the end,
+            for whoever has read enough at any of the three. */}
+        <PlayBlock
+          cta={t("game:rules.play.cta")}
+          more={t("game:rules.play.more")}
+        />
 
         {/* One column, in order. The rules are a sequence — pushing means
             nothing before moving does — and two columns would ask them to be
@@ -393,6 +405,11 @@ function RulesPage() {
             </p>
           </Rule>
 
+          <PlayBlock
+            cta={t("game:rules.play.cta")}
+            more={t("game:rules.play.more")}
+          />
+
           <Rule id="how-to-win" title={t("game:rules.win.title")}>
             <p>
               <RuleText i18nKey="game:rules.win.body" />
@@ -457,31 +474,10 @@ function RulesPage() {
           </Rule>
         </div>
 
-        {/* Full width on a phone, where full width is a thumb's width. Across
-            two columns they would be buttons as wide as the page, so above `lg`
-            they take the room they need and sit in the middle of what they
-            follow. Links rather than buttons: they go somewhere, and a crawler
-            follows an `href`. */}
-        <div className="flex flex-col gap-3 lg:flex-row lg:justify-center">
-          <Link
-            to="/"
-            className={cn(
-              buttonClassName("primary", "lg"),
-              "w-full lg:w-auto lg:px-12",
-            )}
-          >
-            {t("game:rules.cta")}
-          </Link>
-          <Link
-            to="/offline"
-            className={cn(
-              buttonClassName("secondary", "lg"),
-              "w-full lg:w-auto lg:px-12",
-            )}
-          >
-            {t("game:rules.cta_computer")}
-          </Link>
-        </div>
+        <PlayBlock
+          cta={t("game:rules.play.cta")}
+          more={t("game:rules.play.more")}
+        />
       </Page>
     </>
   )
