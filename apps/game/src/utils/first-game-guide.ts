@@ -65,6 +65,15 @@ export function shouldGuide(mode: GameMode, done: boolean): boolean {
   return mode !== "online" && !done
 }
 
+/**
+ * Whether a game offered from a way in starts on the board, skipping the setup
+ * screen: a first game against the computer. Pass & Play keeps its setup,
+ * because the names are asked there.
+ */
+export function startsOnBoard(mode: GameMode, done: boolean): boolean {
+  return mode === "ai" && !done
+}
+
 //the flag as this page load knows it. storage that refuses every call (private
 //mode) still gets a guide that shows once per page load rather than every game
 let rememberedDone = false

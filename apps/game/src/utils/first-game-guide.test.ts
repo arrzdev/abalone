@@ -10,6 +10,7 @@ import {
   markGuideDone,
   resetGuide,
   shouldGuide,
+  startsOnBoard,
 } from "@/utils/first-game-guide"
 
 //the guide is three steps on the real board: pick marbles, pick where they go,
@@ -109,6 +110,28 @@ describe("shouldGuide", () => {
   it("does not guide a player who has finished or skipped it", () => {
     expect(shouldGuide("ai", true)).toBe(false)
     expect(shouldGuide("local", true)).toBe(false)
+  })
+})
+
+//a first game against the computer skips the setup screen: Gus, the standard
+//layout and black are the defaults it would show anyway, and the guide teaches
+//on the board. Pass & Play keeps its setup, because the names are asked there.
+describe("startsOnBoard", () => {
+  it("opens a first game against the computer on the board", () => {
+    expect(startsOnBoard("ai", false)).toBe(true)
+  })
+
+  it("opens the setup screen once the guide is finished or skipped", () => {
+    expect(startsOnBoard("ai", true)).toBe(false)
+  })
+
+  it("always opens Pass & Play on its setup screen", () => {
+    expect(startsOnBoard("local", false)).toBe(false)
+    expect(startsOnBoard("local", true)).toBe(false)
+  })
+
+  it("never applies to an online game", () => {
+    expect(startsOnBoard("online", false)).toBe(false)
   })
 })
 
