@@ -110,6 +110,9 @@
     "used_title": "Esta invitación ya se ha usado",
     "used_body": "Otra persona la aceptó antes. Pide a {{name}} un enlace nuevo.",
     "expired_title": "Esta invitación ha caducado",
-    "expired_body": "Los enlaces de invitación duran 7 días. Pide uno nuevo a quien te lo envió."
+    "expired_body": "Los enlaces de invitación duran 7 días. Pide uno nuevo a quien te lo envió.",
+    "broken_title": "Este enlace de invitación no funciona",
+    "broken_body": "Comprueba que has pegado el enlace completo o pide uno nuevo a quien te lo envió.",
+    "play_computer": "Jugar contra el ordenador"
   }
 }

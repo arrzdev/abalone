@@ -4,6 +4,22 @@ import { useCallback } from "react"
 import { useAuthPrompt } from "@/providers/auth-prompt-provider"
 
 /**
+ * The computer game: where home's vs Computer card goes, and where a page that
+ * offers a game against the computer sends you. One place, so that where a
+ * first game against the computer lands is decided once.
+ *
+ * A route, its search and its state rather than a string, so a `Link` can take
+ * it as is and a crawler still finds a plain `href`. The state asks `/offline`
+ * to start on the board; it decides whether it does (`startsOnBoard`), and it
+ * stays out of the URL search engines see.
+ */
+export const COMPUTER_GAME = {
+  to: "/offline",
+  search: { mode: "ai" },
+  state: { startOnBoard: true },
+} as const
+
+/**
  * The ways into a game, wherever they are offered from — home, the hub's own
  * empty state.
  *

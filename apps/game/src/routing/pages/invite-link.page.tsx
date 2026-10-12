@@ -1,4 +1,5 @@
 import { Link, Screen } from "@repo/nativ/components"
+import { cn } from "@repo/nativ/utils"
 import {
   useMutation,
   useQuery,
@@ -8,10 +9,11 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { Logo } from "@/components/logo"
 import { ShareLinkButton } from "@/components/online/share-link-button"
-import { Button } from "@/components/ui/button"
+import { Button, buttonClassName } from "@/components/ui/button"
 import { acceptInviteLinkMutationOptions } from "@/data/online/mutations"
 import { inviteLinkQueryOptions, onlineKeys } from "@/data/online/queries"
 import { useApiError } from "@/hooks/use-api-error"
+import { COMPUTER_GAME } from "@/hooks/use-play-actions"
 import { useAuthPrompt } from "@/providers/auth-prompt-provider"
 import { useAuth } from "@/providers/auth-provider"
 import { queryClient } from "@/providers/query-client"
@@ -54,8 +56,15 @@ const TITLE_CLASS =
 const BODY_CLASS =
   "mt-3 text-[15px] leading-relaxed text-balance text-muted"
 
+const PLAY_CLASS = cn(
+  buttonClassName("primary", "lg"),
+  "w-full no-underline",
+)
+
+//a text link, not a second button: the page has one thing to do. the padding
+//is the 44×44 tap area around a word
 const GO_HOME_CLASS =
-  "clickable inline-flex h-[54px] w-full items-center justify-center rounded-xl bg-brand-fill px-6 font-display text-[17px] font-semibold text-white no-underline transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
+  "clickable inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg px-4 text-[15px] font-semibold text-muted underline-offset-4 transition-colors duration-200 ease-out hover:text-white hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
 
 /**
  * Where an invite link opens, for whoever opens it.
@@ -66,9 +75,11 @@ const GO_HOME_CLASS =
  * and whether the link still works, and only asks for an account at the moment
  * of saying yes. Signing up from here comes back here, to the same link.
  *
- * A spent link is a dead end with one way out, home. Used and expired read
- * differently because what to do next differs: one was taken by somebody else,
- * the other just ran out.
+ * A link that cannot be taken is not a dead end: it offers a game against the
+ * computer in one tap, and home as the quiet way out. Used, expired and broken
+ * read differently because what to do about the link differs: one was taken by
+ * somebody else, one just ran out, and one never worked (a paste cut short, or
+ * an id nobody issued), so it never says "expired".
  */
 function InviteLinkPage() {
   const { t } = useTranslation()
@@ -119,6 +130,7 @@ function InviteLinkPage() {
   const showOwn = isOpen && !isLoading && isOwn
   const showUsed = state === "used"
   const showExpired = state === "expired"
+  const showBroken = state === "broken"
 
   return (
     <Screen className="relative box-border items-center justify-center bg-ground px-safe-offset-6 py-safe-offset-8 text-center">
@@ -139,7 +151,7 @@ function InviteLinkPage() {
               {t("online:invite_link.load_error_title")}
             </h1>
             <p className={BODY_CLASS}>{translateError(link.error)}</p>
-            <div className="mt-8 flex w-full flex-col gap-y-3">
+            <div className="mt-8 flex w-full flex-col items-center gap-y-3">
               <Button
                 variant="primary"
                 size="lg"
@@ -246,11 +258,19 @@ function InviteLinkPage() {
             <p className={BODY_CLASS}>
               {t("online:invite_link.used_body", { name: inviterName })}
             </p>
-            <div className="mt-8 flex w-full flex-col">
-              <Link to="/" className={GO_HOME_CLASS}>
-                {t("online:invite_link.go_home")}
-              </Link>
-            </div>
+            <SpentLinkActions />
+          </>
+        )}
+
+        {showBroken && (
+          <>
+            <h1 className={TITLE_CLASS}>
+              {t("online:invite_link.broken_title")}
+            </h1>
+            <p className={BODY_CLASS}>
+              {t("online:invite_link.broken_body")}
+            </p>
+            <SpentLinkActions />
           </>
         )}
 
@@ -262,14 +282,26 @@ function InviteLinkPage() {
             <p className={BODY_CLASS}>
               {t("online:invite_link.expired_body")}
             </p>
-            <div className="mt-8 flex w-full flex-col">
-              <Link to="/" className={GO_HOME_CLASS}>
-                {t("online:invite_link.go_home")}
-              </Link>
-            </div>
+            <SpentLinkActions />
           </>
         )}
       </div>
     </Screen>
+  )
+}
+
+/** A link that cannot be taken: a computer game in one tap, or home. */
+function SpentLinkActions() {
+  const { t } = useTranslation()
+
+  return (
+    <div className="mt-8 flex w-full flex-col items-center gap-y-3">
+      <Link {...COMPUTER_GAME} className={PLAY_CLASS}>
+        {t("online:invite_link.play_computer")}
+      </Link>
+      <Link to="/" className={GO_HOME_CLASS}>
+        {t("online:invite_link.go_home")}
+      </Link>
+    </div>
   )
 }
