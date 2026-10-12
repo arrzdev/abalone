@@ -24,13 +24,11 @@
     "lede": "Poussez six billes adverses hors du plateau. Jouez contre l'ordinateur, passez l'appareil ou invitez un ami.",
     "play_online": "Jouer en ligne",
     "play_offline": "Jouer hors ligne",
-    "online_hint": "Invite quelqu'un, joue à ton rythme.",
+    "bot_hint": "Huit bots, du facile au difficile.",
+    "local_hint": "Vous deux, un seul appareil.",
+    "online_hint": "Compte gratuit. Invite qui tu veux.",
     "rules_link": "Règles d'Abalone",
     "strategy_link": "Conseils de stratégie Abalone",
-    "bot_hint_short": "Huit niveaux",
-    "bot_hint_long": "Huit bots, de Gus à Magnus.",
-    "local_hint_short": "Un appareil, vous deux",
-    "local_hint_long": "À deux, chacun son tour, sur cet appareil.",
     "bots_caption": "Huit bots, de Gus à Magnus"
   },
   "auth": {

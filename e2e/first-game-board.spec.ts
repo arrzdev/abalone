@@ -94,7 +94,7 @@ function sawSetupScreen(page: Page): Promise<boolean> {
   )
 }
 
-/** Home's "vs Computer": a row on a phone, a tile on a desktop. */
+/** Home's "vs Computer" card. */
 function homeComputerButton(page: Page) {
   return page
     .getByRole("button", { name: /vs Computer/ })

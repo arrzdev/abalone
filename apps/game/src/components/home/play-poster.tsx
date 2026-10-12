@@ -18,9 +18,15 @@ import { BOT_LEVELS } from "@/i18n/bots"
  * poster.
  *
  * The three ways in are three rows rather than one row and a menu, because the
- * difference between them is the whole decision: one needs an account, one needs
- * nobody, and one needs somebody sitting next to you. Naming them costs three
+ * difference between them is the whole decision: one needs nobody, one needs
+ * somebody sitting next to you, and one needs an account. Naming them costs three
  * lines and saves a press and a guess.
+ *
+ * The computer comes first and is the one filled row: it is the way in that asks
+ * for nothing, so it is the one to press without reading. Online comes last and
+ * says on its own line that it needs an account, so nobody learns that from a
+ * sign-in wall. One line each, the same at every size, so no width picks its own
+ * copy.
  *
  * The board is the smaller half on purpose. It is the argument, not the offer:
  * given the whole width it reads as a game already in progress that you are
@@ -55,49 +61,26 @@ export function PlayPoster() {
 
         <div className="flex w-full flex-col gap-2.5 lg:mt-9 lg:max-w-[500px]">
           <PlayOption
-            icon={WifiIcon}
+            icon={RobotIcon}
             tone="brand"
+            title={t("game:controls.mode_ai")}
+            hint={t("common:home.bot_hint")}
+            onClick={playComputer}
+          />
+          <PlayOption
+            icon={GroupIcon}
+            tone="neutral"
+            title={t("game:controls.mode_local")}
+            hint={t("common:home.local_hint")}
+            onClick={() => playOffline("local")}
+          />
+          <PlayOption
+            icon={WifiIcon}
+            tone="neutral"
             title={t("common:home.play_online")}
             hint={t("common:home.online_hint")}
             onClick={playOnline}
           />
-
-          {/* Below `lg` the two offline modes are rows like the first, because
-              a column has the width to name them. Above it they are a pair, so
-              the row that needs an account keeps the emphasis. */}
-          <div className="flex flex-col gap-2.5 lg:flex-row lg:gap-2.5">
-            <PlayOption
-              icon={RobotIcon}
-              className="lg:hidden"
-              title={t("game:controls.mode_ai")}
-              hint={t("common:home.bot_hint_long")}
-              onClick={playComputer}
-            />
-            <PlayOption
-              icon={GroupIcon}
-              className="lg:hidden"
-              title={t("game:controls.mode_local")}
-              hint={t("common:home.local_hint_long")}
-              onClick={() => playOffline("local")}
-            />
-
-            <PlayOption
-              icon={RobotIcon}
-              size="tile"
-              className="hidden min-w-0 flex-1 lg:flex"
-              title={t("game:controls.mode_ai")}
-              hint={t("common:home.bot_hint_short")}
-              onClick={playComputer}
-            />
-            <PlayOption
-              icon={GroupIcon}
-              size="tile"
-              className="hidden min-w-0 flex-1 lg:flex"
-              title={t("game:controls.mode_local")}
-              hint={t("common:home.local_hint_short")}
-              onClick={() => playOffline("local")}
-            />
-          </div>
         </div>
 
         {/* Somewhere to read before playing, named the way it would be
