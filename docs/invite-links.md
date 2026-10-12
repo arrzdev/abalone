@@ -93,6 +93,31 @@ After an accept, both players get `games-changed` on the realtime channel.
 - All copy goes through `core-copywriting`, in every locale under
   `apps/game/src/i18n/locales`.
 
+### The empty online page (TUD-850)
+
+A new account has no friends on Abalone yet, so asking for a username is
+asking for something it does not have. With 0 games in progress and 0 open
+invites (sent or received), `/online` leads with the link:
+
+1. **Invite with a link**, the primary button. One tap makes the link (the
+   composer's defaults: `DEFAULT_SETUP`, side `random`) and hands it on at once:
+   `navigator.share({ url, text })` where it exists, otherwise
+   `navigator.clipboard.writeText(url)` and the "Link copied" line. It is
+   `InviteLinkMaker`, not a second implementation.
+   After the tap the link stays on screen in the read-only **Invite link** field
+   with its **Share link** / **Copy link** button. That is also the fallback when
+   the browser refuses to share or copy because the tap's activation ran out
+   while the link was being made (WebKit): the second tap shares it.
+2. **Play a bot**, secondary: the computer game, through the same destination as
+   home's vs Computer card.
+3. **Invite by username**, a text link under the buttons: opens the composer
+   (`?invite=new`).
+
+The body line (`online:empty.link_body`) says the game starts when the friend
+opens the link and accepts, and does not mention usernames. Once the friend
+accepts, the game is a row in the list and the page is no longer empty. With
+any game or invite, the page is unchanged.
+
 ## The link preview (TUD-799)
 
 A link pasted into a chat app unfurls as "<name> invited you to a game of
@@ -152,5 +177,9 @@ the card; nothing depends on the client.
   agent, open then used).
 - API: `apps/backend/src/http/routes/invite-link.routes.test.ts`.
 - Return path through sign-up: `apps/game/src/routing/return-to.test.ts`.
+- Empty online page: `e2e/online-empty.spec.ts` (fresh account, share and copy
+  paths, the link opens for another player, the bot game, invite by username,
+  390×844 and 1440×900) and `apps/game/src/i18n/online-locales.test.ts`
+  (`online:empty.*` in every locale).
 - E2E: `e2e/invite-link.spec.ts` (two browser contexts; used and expired links).
   `e2e/support/database.ts` moves a link's expiry into the past in the e2e D1.
