@@ -177,8 +177,10 @@
         }
       }
     },
-    "cta": "Jogar agora",
-    "cta_computer": "Jogar contra o computador"
+    "play": {
+      "cta": "Jogar contra o computador",
+      "more": "Outras formas de jogar"
+    }
   },
   "strategy": {
     "title": "Estratégia",
@@ -223,9 +225,11 @@
       }
     },
     "practise": {
-      "title": "Praticar",
-      "cta_computer": "Joga Abalone contra o computador",
-      "cta_friend": "Joga com um amigo online"
+      "title": "Praticar"
+    },
+    "play": {
+      "cta": "Jogar contra o computador",
+      "more": "Outras formas de jogar"
     }
   },
   "messages": {

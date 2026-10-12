@@ -176,8 +176,10 @@
         }
       }
     },
-    "cta": "지금 플레이",
-    "cta_computer": "컴퓨터와 대결"
+    "play": {
+      "cta": "컴퓨터와 대결",
+      "more": "다른 플레이 방법"
+    }
   },
   "strategy": {
     "title": "전략",
@@ -222,9 +224,11 @@
       }
     },
     "practise": {
-      "title": "연습",
-      "cta_computer": "컴퓨터와 아발론 대결",
-      "cta_friend": "온라인으로 친구와 대결"
+      "title": "연습"
+    },
+    "play": {
+      "cta": "컴퓨터와 대결",
+      "more": "다른 플레이 방법"
     }
   },
   "messages": {

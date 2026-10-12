@@ -176,8 +176,10 @@
         }
       }
     },
-    "cta": "Şimdi oyna",
-    "cta_computer": "Bilgisayara karşı oyna"
+    "play": {
+      "cta": "Bilgisayara karşı oyna",
+      "more": "Diğer oyun seçenekleri"
+    }
   },
   "strategy": {
     "title": "Strateji",
@@ -222,9 +224,11 @@
       }
     },
     "practise": {
-      "title": "Pratik yap",
-      "cta_computer": "Bilgisayara karşı Abalone oyna",
-      "cta_friend": "Çevrimiçi bir arkadaşınla oyna"
+      "title": "Pratik yap"
+    },
+    "play": {
+      "cta": "Bilgisayara karşı oyna",
+      "more": "Diğer oyun seçenekleri"
     }
   },
   "messages": {
