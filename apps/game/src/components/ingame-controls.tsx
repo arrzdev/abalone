@@ -9,6 +9,7 @@ import {
   ChevronRightIcon,
   FlagIcon,
   LightbulbIcon,
+  PlusIcon,
   UndoIcon,
 } from "@/components/icons"
 import { MoveHistory, MoveStrip } from "@/components/move-history"
@@ -72,6 +73,8 @@ export type IngameControlsProps = {
   onHint: () => void
   onUndo: () => void
   onResign: () => void
+  /** Back to the setup screen, leaving this game. Only against a bot. */
+  onNewGame?: () => void
 }
 
 /**
@@ -108,6 +111,7 @@ export function IngameControls({
   onHint,
   onUndo,
   onResign,
+  onNewGame,
 }: IngameControlsProps) {
   const { t } = useTranslation()
   const panelRef = useRef<HTMLDivElement>(null)
@@ -228,6 +232,15 @@ export function IngameControls({
             title={t("game:controls.undo_aria")}
             onClick={onUndo}
             disabled={!canUndo}
+          />
+        )}
+        {/* A bot game started without the setup screen (a first game) still
+            needs a way to it: another bot, layout or side is one press away. */}
+        {onNewGame && (
+          <Action
+            icon={<PlusIcon size={20} />}
+            label={t("game:controls.new_game")}
+            onClick={onNewGame}
           />
         )}
       </div>
