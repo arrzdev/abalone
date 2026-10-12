@@ -8,12 +8,15 @@ import { useAuthPrompt } from "@/providers/auth-prompt-provider"
  * link on a page about the game goes. One place, so that where a first game
  * against the computer lands is decided once.
  *
- * A route and its search rather than a string, so a `Link` can take it as is
- * and a crawler still finds a plain `href`.
+ * A route, its search and its state rather than a string, so a `Link` can take
+ * it as is and a crawler still finds a plain `href`. The state asks `/offline`
+ * to start on the board; it decides whether it does (`startsOnBoard`), and it
+ * stays out of the URL search engines see.
  */
 export const COMPUTER_GAME = {
   to: "/offline",
   search: { mode: "ai" },
+  state: { startOnBoard: true },
 } as const
 
 /**
@@ -35,13 +38,22 @@ export const COMPUTER_GAME = {
  * of the two it is offering has no reason to drop the answer at the door and
  * make the setup panel ask again; one that doesn't — the home page's single
  * "play offline" — passes nothing and gets the default.
+ *
+ * It also asks for the game to start on the board. `/offline` decides whether it
+ * does (a first game against the computer, see `startsOnBoard`); the URL stays
+ * the one search engines see.
  */
 export function usePlayActions() {
   const navigate = useNavigate()
   const { requireAuth } = useAuthPrompt()
 
   const playOffline = useCallback(
-    (mode?: GameMode) => navigate({ to: "/offline", search: { mode } }),
+    (mode?: GameMode) =>
+      navigate({
+        to: "/offline",
+        search: { mode },
+        state: { startOnBoard: true },
+      }),
     [navigate],
   )
 
