@@ -51,6 +51,9 @@ export default defineApp({
     //loop and the opponent is a web worker. there is nothing here a server can
     //usefully render, and a prerendered shell + hydrate is the whole benefit.
     render: "spa",
+    //Start's handler with the invite link card in front (docs/invite-links.md,
+    //"The link preview"). the extension keeps it off the src/server/ folder
+    serverEntry: "./server.ts",
     //route generator (nativ routes these to the vite plugin)
     generatedRouteTree: "./routing/routeTree.gen.ts",
     routesDirectory: "./routing",
