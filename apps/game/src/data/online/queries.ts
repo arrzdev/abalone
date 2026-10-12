@@ -1,6 +1,7 @@
 import { queryOptions } from "@tanstack/react-query"
 import type { InferResponseType } from "hono/client"
 import { api, apiError, withClientRequest } from "@/data/backend-client"
+import { inviteLinkFromResponse } from "@/data/online/invite-link-state"
 
 //---- shapes ----------------
 //read off the rpc contract rather than written out again here. a field added to
@@ -29,13 +30,12 @@ export type GameMove = Success<
 
 /**
  * What anybody holding an invite link may know about it: who sent it, and
- * whether it can still be taken. `inviterName` is null for a link the server
- * has never heard of.
+ * whether it can still be taken. A link the server has never heard of, or one
+ * pasted short, is `broken` and names nobody.
  */
-export type PublicInviteLink = Omit<
-  Success<(typeof api.api.v1)["invite-links"][":id"]["$get"]>["data"],
-  "inviterName"
-> & { inviterName: string | null }
+export type PublicInviteLink =
+  | Success<(typeof api.api.v1)["invite-links"][":id"]["$get"]>["data"]
+  | { inviterName: null; state: "broken" }
 
 /** The two lists a player's games fall into. */
 export type GameStatus = "active" | "finished"
@@ -166,9 +166,9 @@ export function gameMovesQueryOptions(gameId: string) {
  * One invite link, as the person it was sent to sees it. Signed in or not.
  *
  * Never fresh: the link is single-use, and whether somebody else took it a
- * minute ago is the whole question. An id nobody issued answers as expired
- * rather than as an error, which is what the landing says for it anyway, so a
- * guessed token learns nothing a stale one would not.
+ * minute ago is the whole question. An id nobody issued, or one pasted short,
+ * answers as broken rather than as an error (`inviteLinkFromResponse`), so the
+ * page says the link does not work instead of offering to try again.
  */
 export function inviteLinkQueryOptions(linkId: string) {
   return queryOptions({
@@ -181,16 +181,7 @@ export function inviteLinkQueryOptions(linkId: string) {
           { init: { signal } },
         ),
       )
-      const body = await response.json()
-      if (body.status === "success") return body.data
-
-      //a malformed token is refused before it is looked up, which is the
-      //same answer as one that is not there
-      const isUnknown =
-        body.error_code === "not_found" ||
-        body.error_code === "invalid_input"
-      if (isUnknown) return { inviterName: null, state: "expired" }
-      throw apiError(body.error_code)
+      return inviteLinkFromResponse(await response.json())
     },
   })
 }
