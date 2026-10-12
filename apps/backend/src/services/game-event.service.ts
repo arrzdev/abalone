@@ -1,6 +1,7 @@
 import tryCatch from "@repo/shared/try-catch"
 import type { Db } from "@/database/client"
 import type {
+  GameEntry,
   GameEventKind,
   GameEventMode,
   GameEventResult,
@@ -18,6 +19,8 @@ export type GameEvent = {
   moveCount: number | null
   //the first-game guide was showing when it started
   guided: boolean
+  //start only: the kind of page the tab first landed on
+  entry: GameEntry | null
   appVersion: string
 }
 
@@ -43,6 +46,7 @@ export class GameEventService {
         result: event.result,
         moveCount: event.moveCount,
         guided: event.guided,
+        entry: event.entry,
         appVersion: event.appVersion,
         createdAt: new Date(),
       }),
