@@ -5,8 +5,8 @@ import { playMove, selectSquare } from "./support/board"
 
 // A first-time visitor's first offline game shows a three-step guide on the
 // real board: pick marbles, choose a direction, push 6 off to win. Finishing or
-// skipping it is saved, so it does not come back; "How to move" in Settings
-// brings it back. Every test starts from a fresh browser context, so from empty
+// skipping it is saved on the device, so it does not come back; the "?" in the
+// game's side bar brings it back. Every test starts from a fresh browser context, so from empty
 // storage.
 //
 // "After a reload" means opening /offline again: startOfflineGame loads the
@@ -117,7 +117,7 @@ test("a first game walks through the three steps and the next game has no guide"
   await expect(guide(page)).toHaveCount(0)
 })
 
-test("a skipped guide stays away after a reload, and How to move in Settings brings it back", async ({
+test("a skipped guide stays away after a reload, and the ? beside the board brings it back", async ({
   page,
 }) => {
   await startOfflineGame(page, "Pass & Play")
@@ -132,10 +132,18 @@ test("a skipped guide stays away after a reload, and How to move in Settings bri
   await selectSquare(page, "c5")
   await expect(guide(page)).toHaveCount(0)
 
-  // How to move closes Settings and shows the guide on the game in progress.
+  // Settings has no way back to the guide any more: the ? is the only one.
   const settings = await openSettings(page)
-  await settings.getByRole("button", { name: "How to move" }).click()
+  await expect(settings.getByText("How to move")).toHaveCount(0)
+  await page.keyboard.press("Escape")
   await expect(settings).toBeHidden()
+
+  // The ? in the game's side bar shows the guide on the game in progress.
+  const help = page
+    .getByRole("button", { name: "How to move" })
+    .filter({ visible: true })
+  await expect(help).toHaveText("?")
+  await help.click()
   await expect(guide(page)).toBeVisible()
   await expect(guide(page)).toContainText("Step 1 of 3")
   expect(await savedFlag(page)).toBeNull()
