@@ -126,8 +126,9 @@ test.describe("served HTML", () => {
     }
   })
 
-  test("keeps the six diagrams", () => {
-    expect(html.match(/<figure/g)).toHaveLength(6)
+  // the six rule diagrams and the whole board in the hero (rules-redesign)
+  test("keeps the six diagrams and adds the starting position", () => {
+    expect(html.match(/<figure/g)).toHaveLength(7)
   })
 
   test("answers the common questions", () => {
