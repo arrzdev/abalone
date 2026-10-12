@@ -110,6 +110,9 @@
     "used_title": "This invite has already been used",
     "used_body": "Someone else accepted it first. Ask {{name}} for a new link.",
     "expired_title": "This invite has expired",
-    "expired_body": "Invite links last 7 days. Ask whoever sent it for a new one."
+    "expired_body": "Invite links last 7 days. Ask whoever sent it for a new one.",
+    "broken_title": "This invite link doesn't work",
+    "broken_body": "Check that the whole link was pasted, or ask whoever sent it for a new one.",
+    "play_computer": "Play against the computer"
   }
 }

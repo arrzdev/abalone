@@ -177,8 +177,10 @@
         }
       }
     },
-    "cta": "Nu spelen",
-    "cta_computer": "Speel tegen de computer"
+    "play": {
+      "cta": "Speel tegen de computer",
+      "more": "Andere manieren om te spelen"
+    }
   },
   "strategy": {
     "title": "Strategie",
@@ -223,9 +225,11 @@
       }
     },
     "practise": {
-      "title": "Oefenen",
-      "cta_computer": "Speel Abalone tegen de computer",
-      "cta_friend": "Speel online tegen een vriend"
+      "title": "Oefenen"
+    },
+    "play": {
+      "cta": "Speel tegen de computer",
+      "more": "Andere manieren om te spelen"
     }
   },
   "messages": {

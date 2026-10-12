@@ -24,13 +24,11 @@
     "lede": "把对手的六颗棋子推出棋盘。可以和电脑对战，也可以轮流用同一台设备，或者邀请朋友。",
     "play_online": "在线对战",
     "play_offline": "离线对战",
-    "online_hint": "邀请任何人，按自己的节奏对弈。",
+    "bot_hint": "八个机器人，由易到难。",
+    "local_hint": "两个人，一台设备。",
+    "online_hint": "免费账号，邀请任何人。",
     "rules_link": "Abalone 规则",
     "strategy_link": "Abalone 策略技巧",
-    "bot_hint_short": "八种强度",
-    "bot_hint_long": "八个机器人，从 Gus 到 Magnus。",
-    "local_hint_short": "一台设备，两个人",
-    "local_hint_long": "两人共用这台设备，轮流落子。",
     "bots_caption": "八个机器人，从 Gus 到 Magnus"
   },
   "auth": {

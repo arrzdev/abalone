@@ -8,11 +8,13 @@ no route, no table.
 
 | # | Step | Moves on when |
 |---|------|---------------|
-| 1 | `select`: pick 1 to 3 marbles in a line | the board has at least one marble selected, or Next |
+| 1 | `select`: pick 1 to 3 marbles in a line | the board has at least one marble selected (to step 2), or Next (to step 3) |
 | 2 | `direction`: choose where they go | a move lands, or Next. Letting go of every marble goes back to step 1 |
 | 3 | `win`: push 6 off to win | Got it (the Next of the last step) |
 
 Skip is on every step. A move that lands while still on step 1 jumps to step 3.
+Next on step 1 also jumps to step 3: step 2 talks about the spaces a selection
+highlights, and after Next nothing is selected (TUD-852).
 The guide also ends when the game it is shown on is over.
 
 The step logic is one pure function, `advanceGuide(progress, event)` in
@@ -73,12 +75,18 @@ teaches reach the board. It sits in the page's own flow (the side panel on
 desktop, the space below the board on a phone), inside the viewport contract of
 `stack-ui-shell`, with no fixed positioning of its own.
 
+On steps 1 and 2 the board is the action, so the guide has no filled button:
+Skip and Next are text buttons (44×44 targets). Only Got it on step 3 may be
+filled. On a desktop (1440x900) the card sits within 320 px (vertically) of the
+starting marble c3, not at the top of the side panel (TUD-852).
+
 ## Tests
 
 - Unit: `apps/game/src/utils/first-game-guide.test.ts` (step logic, flag, no storage).
 - e2e: `e2e/first-game-guide.spec.ts` (fresh storage shows it, finish and skip
   are saved, second game has none, How to move brings it back, German copy, the
-  guide never overlaps the board).
+  guide never overlaps the board, no filled button on steps 1 and 2, Next on
+  step 1 skips step 2, card within 320 px of c3 at 1440x900).
 - e2e: `e2e/first-game-board.spec.ts` (first game opens on the board from home,
   `/rules` and `/strategy` at 390x844 and 1440x900, first move in 3 taps, one
   start event, New game opens the setup screen, guide done keeps the setup

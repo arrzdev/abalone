@@ -114,6 +114,9 @@
     "used_title": "To zaproszenie zostało już wykorzystane",
     "used_body": "Ktoś inny przyjął je pierwszy. Poproś {{name}} o nowy link.",
     "expired_title": "To zaproszenie wygasło",
-    "expired_body": "Linki z zaproszeniem są ważne 7 dni. Poproś osobę, która go wysłała, o nowy."
+    "expired_body": "Linki z zaproszeniem są ważne 7 dni. Poproś osobę, która go wysłała, o nowy.",
+    "broken_title": "Ten link z zaproszeniem nie działa",
+    "broken_body": "Sprawdź, czy wklejono cały link, albo poproś osobę, która go wysłała, o nowy.",
+    "play_computer": "Zagraj z komputerem"
   }
 }
