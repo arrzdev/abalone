@@ -493,5 +493,3 @@ test.describe("in every shipped language", () => {
     }
   }
 })
-  }
-})
