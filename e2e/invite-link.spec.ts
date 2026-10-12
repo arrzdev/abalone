@@ -13,12 +13,9 @@ import { expireInviteLink } from "./support/database"
  * the URL the app shows for copying or sharing.
  */
 async function createInviteLink(page: Page): Promise<string> {
-  await openApp(page, "/online")
-  await page
-    .getByRole("button", { name: "New invite" })
-    .filter({ visible: true })
-    .first()
-    .click()
+  // The composer's own address: a fresh account's page leads with a one-tap
+  // link on the default terms instead (TUD-850, e2e/online-empty.spec.ts).
+  await openApp(page, "/online?invite=new")
   const composer = page.getByRole("dialog")
   await composer.getByRole("radio", { name: "Play as black" }).click()
   await composer

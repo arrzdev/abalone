@@ -19,11 +19,12 @@ test("an invited player joins and both players see each other's moves", async ({
   await signUp(guestPage, guestName)
 
   // The host invites the guest and takes black, so the host moves first.
+  // A new account's page is empty, so invite by username is the text link
+  // under the link and bot buttons (TUD-850).
   await openApp(hostPage, "/online")
   await hostPage
-    .getByRole("button", { name: "New invite" })
-    .filter({ visible: true })
-    .first()
+    .locator("main")
+    .getByRole("link", { name: "Invite by username" })
     .click()
   const composer = hostPage.getByRole("dialog")
   await composer.getByLabel("Who are you playing?").fill(guestName)
