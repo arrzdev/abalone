@@ -144,3 +144,70 @@ test("an expired link says so and offers the way home", async ({
   await host.close()
   await visitor.close()
 })
+
+//---- the link preview ----------------
+//
+// What a chat app reads to build the preview: the raw HTML, fetched with a
+// crawler's user agent and no JavaScript, the same bytes `curl` gets. The card
+// names the sender while the link is open and goes generic once it is spent.
+// Design: docs/invite-links.md, "The link preview".
+
+const CRAWLER = { "user-agent": "facebookexternalhit/1.1" }
+
+/** The `content` of the one meta tag with this `property` or `name`. */
+function metaContent(html: string, key: string): string | undefined {
+  const tags = html.match(/<meta\b[^>]*>/g) ?? []
+  const tag = tags.find((candidate) =>
+    new RegExp(`(?:property|name)="${key}"`).test(candidate),
+  )
+  return tag?.match(/content="([^"]*)"/)?.[1]
+}
+
+test("a pasted link previews with the sender's name until it is used", async ({
+  browser,
+  browserName,
+  request,
+}) => {
+  test.skip(
+    browserName !== "chromium",
+    "raw HTTP checks: one browser is enough",
+  )
+
+  const host = await browser.newContext()
+  const guest = await browser.newContext()
+  const hostPage = await host.newPage()
+  const guestPage = await guest.newPage()
+
+  const hostName = uniqueUsername("host")
+  await signUp(hostPage, hostName)
+  await signUp(guestPage, uniqueUsername("guest"))
+  const link = await createInviteLink(hostPage)
+  const path = new URL(link).pathname
+  const token = path.split("/").pop() ?? ""
+
+  const open = await request.get(path, { headers: CRAWLER })
+  expect(open.status()).toBe(200)
+  expect(open.headers()["cache-control"]).toContain("no-store")
+  const openHtml = await open.text()
+  const openTitle = `${hostName} invited you to a game of Abalone`
+  expect(metaContent(openHtml, "og:title")).toBe(openTitle)
+  expect(metaContent(openHtml, "twitter:title")).toBe(openTitle)
+  expect(metaContent(openHtml, "og:description")).toContain(hostName)
+  expect(metaContent(openHtml, "twitter:card")).toBe("summary_large_image")
+  expect(metaContent(openHtml, "og:title")).not.toContain(token)
+  expect(metaContent(openHtml, "og:description")).not.toContain(token)
+
+  await openApp(guestPage, path)
+  await guestPage.getByRole("button", { name: "Accept and play" }).click()
+  await expect(guestPage).toHaveURL(/\/online\/(?!history)[^/]+$/)
+
+  // Spent: the same URL now previews without a name.
+  const used = await request.get(path, { headers: CRAWLER })
+  expect(used.headers()["cache-control"]).toContain("no-store")
+  const usedHtml = await used.text()
+  expect(metaContent(usedHtml, "og:title")).toBe("Invite · Abalone")
+  expect(metaContent(usedHtml, "og:description")).not.toContain(hostName)
+
+  await host.close()
+  await guest.close()
+})
