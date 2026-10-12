@@ -24,13 +24,11 @@
     "lede": "Wypchnij sześć kul przeciwnika poza planszę. Graj z komputerem, podaj dalej urządzenie albo zaproś znajomego.",
     "play_online": "Graj online",
     "play_offline": "Graj offline",
-    "online_hint": "Zaproś kogoś i graj we własnym tempie.",
+    "bot_hint": "Osiem botów, od łatwych do trudnych.",
+    "local_hint": "Was dwoje, jedno urządzenie.",
+    "online_hint": "Darmowe konto. Zaproś kogo chcesz.",
     "rules_link": "Zasady Abalone",
     "strategy_link": "Wskazówki strategiczne do Abalone",
-    "bot_hint_short": "Osiem poziomów",
-    "bot_hint_long": "Osiem botów, od Gusa do Magnusa.",
-    "local_hint_short": "Jedno urządzenie, was dwoje",
-    "local_hint_long": "We dwoje, na zmianę, na tym urządzeniu.",
     "bots_caption": "Osiem botów, od Gusa do Magnusa"
   },
   "auth": {
