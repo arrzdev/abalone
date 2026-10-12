@@ -31,6 +31,8 @@ const STEPS: readonly GuideStep[] = ["select", "direction", "win"]
  * The first two steps move on when the player does what they teach; Next moves
  * any step on and Skip ends it. A move landing on step 1 jumps to the goal: a
  * move is a selection and a direction in one, however the player got there.
+ * Next on step 1 jumps there too: step 2 talks about the spaces a selection
+ * highlights, and after Next nothing is selected.
  */
 export function advanceGuide(
   progress: GuideProgress,
@@ -43,6 +45,7 @@ export function advanceGuide(
     case "game_over":
       return "done"
     case "next":
+      if (progress === "select") return "win"
       return STEPS[STEPS.indexOf(progress) + 1] ?? "done"
     case "moved":
       return "win"

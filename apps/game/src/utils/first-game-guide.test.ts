@@ -59,10 +59,16 @@ describe("advanceGuide", () => {
     expect(advanceGuide("win", { type: "selected", count: 2 })).toBe("win")
   })
 
-  it("moves one step on with Next, and ends after the last", () => {
-    expect(advanceGuide("select", { type: "next" })).toBe("direction")
+  it("moves on with Next, and ends after the last step", () => {
     expect(advanceGuide("direction", { type: "next" })).toBe("win")
     expect(advanceGuide("win", { type: "next" })).toBe("done")
+  })
+
+  //step 2 talks about the spaces a selection highlights. Next on step 1 comes
+  //without a selection, so it passes step 2 rather than show it over a board
+  //with nothing highlighted (TUD-852)
+  it("passes the direction step with Next on step 1", () => {
+    expect(advanceGuide("select", { type: "next" })).toBe("win")
   })
 
   it("ends from every step with Skip", () => {

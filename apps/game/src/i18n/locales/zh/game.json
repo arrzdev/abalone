@@ -176,8 +176,10 @@
         }
       }
     },
-    "cta": "立即游戏",
-    "cta_computer": "和电脑对战"
+    "play": {
+      "cta": "和电脑对战",
+      "more": "其他玩法"
+    }
   },
   "strategy": {
     "title": "策略",
@@ -222,9 +224,11 @@
       }
     },
     "practise": {
-      "title": "练习",
-      "cta_computer": "和电脑玩 Abalone",
-      "cta_friend": "在线和朋友对战"
+      "title": "练习"
+    },
+    "play": {
+      "cta": "和电脑对战",
+      "more": "其他玩法"
     }
   },
   "messages": {

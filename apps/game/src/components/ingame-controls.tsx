@@ -75,6 +75,8 @@ export type IngameControlsProps = {
   onResign: () => void
   /** Back to the setup screen, leaving this game. Only against a bot. */
   onNewGame?: () => void
+  /** Shown over the action bar: the first-game guide, by the marbles it is about. */
+  guide?: ReactNode
 }
 
 /**
@@ -112,6 +114,7 @@ export function IngameControls({
   onUndo,
   onResign,
   onNewGame,
+  guide,
 }: IngameControlsProps) {
   const { t } = useTranslation()
   const panelRef = useRef<HTMLDivElement>(null)
@@ -197,6 +200,8 @@ export function IngameControls({
           </div>
         </>
       )}
+
+      {guide}
 
       {/* A height of its own rather than its contents': it is the tallest thing
           the bottom of the panel ever holds, and what the list above is measured
