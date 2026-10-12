@@ -7,7 +7,7 @@
     "profile": "Profilo",
     "home": "Home",
     "online": "Gioca online",
-    "offline": "Gioca offline"
+    "offline": "Gioca"
   },
   "language": {
     "select": "Seleziona lingua",
@@ -23,7 +23,6 @@
     "heading": "Gioca ad Abalone online, gratis",
     "lede": "Spingi sei biglie avversarie fuori dal tabellone. Gioca contro il computer, passa il dispositivo o invita un amico.",
     "play_online": "Gioca online",
-    "play_offline": "Gioca offline",
     "bot_hint": "Otto bot, da facile a difficile.",
     "local_hint": "Voi due, un dispositivo.",
     "online_hint": "Account gratis. Invita chiunque.",
