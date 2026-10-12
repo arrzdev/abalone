@@ -85,7 +85,10 @@ test.describe("served HTML", () => {
         "Abalone looks simple and is not. These seven habits take most beginners from losing marbles to winning pushes.",
       )
       expect(html).toMatch(
-        linkPattern("/offline", "free game against the computer"),
+        linkPattern(
+          "/offline\\?mode=ai",
+          "free game against the computer",
+        ),
       )
       expect(html).toMatch(linkPattern("/rules", "Abalone rules"))
     })
@@ -115,14 +118,17 @@ test.describe("served HTML", () => {
       }
     })
 
-    test("ends with a way to practise, and a way to play a friend", async ({
+    // the Practise card's actions are the last play block
+    // (e2e/play-block.spec.ts, content-play-block on TUD-820)
+    test("ends with a way to practise, and the other ways to play", async ({
       request,
     }) => {
       const html = await servedHtml(request, "/strategy")
       expect(html).toMatch(
-        linkPattern("/offline", "Play Abalone against the computer"),
+        linkPattern("/offline\\?mode=ai", "Play against the computer"),
       )
-      expect(html).toMatch(linkPattern("/", "Play a friend online"))
+      expect(html).toMatch(linkPattern("/", "Other ways to play"))
+      expect(html).not.toContain("Play a friend online")
     })
   })
 
