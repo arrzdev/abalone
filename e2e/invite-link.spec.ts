@@ -111,12 +111,113 @@ test("a link that was already used says so and offers the way home", async ({
   await expect(
     latecomerPage.getByRole("button", { name: "Accept and play" }),
   ).toHaveCount(0)
+  await expectWaysOut(latecomerPage)
   await latecomerPage.getByRole("link", { name: "Go home" }).click()
   await expect(latecomerPage).toHaveURL("/")
 
   await host.close()
   await guest.close()
   await latecomer.close()
+})
+
+//---- a link that cannot be taken ----------------
+//
+// Used, expired or broken: the page offers a game against the computer in one
+// tap, through the same address as the home card, and keeps home as a text
+// link. Design: TUD-849.
+
+const COMPUTER_GAME = "/offline?mode=ai"
+const PLAY = "Play against the computer"
+const SIZES = [
+  { width: 390, height: 844 },
+  { width: 1440, height: 900 },
+]
+const NO_FILL = ["rgba(0, 0, 0, 0)", "transparent"]
+
+function backgroundOf(element: HTMLElement | SVGElement): string {
+  return getComputedStyle(element).backgroundColor
+}
+
+/** The one filled button to the computer game, and home as a 44×44 text link. */
+async function expectWaysOut(page: Page): Promise<void> {
+  const play = page.getByRole("link", { name: PLAY })
+  await expect(play).toHaveCount(1)
+  await expect(play).toHaveAttribute("href", COMPUTER_GAME)
+  expect(NO_FILL).not.toContain(await play.evaluate(backgroundOf))
+  const playBox = await play.boundingBox()
+  expect(playBox?.height ?? 0).toBeGreaterThanOrEqual(44)
+
+  const home = page.getByRole("link", { name: "Go home" })
+  expect(NO_FILL).toContain(await home.evaluate(backgroundOf))
+  const homeBox = await home.boundingBox()
+  expect(homeBox?.height ?? 0).toBeGreaterThanOrEqual(44)
+  expect(homeBox?.width ?? 0).toBeGreaterThanOrEqual(44)
+}
+
+/**
+ * The primary button opens the computer game, and every visitor here is in a
+ * fresh browser, so it is a first game: the board, not the setup screen
+ * (TUD-818). The URL alone would pass with the start-on-board state dropped.
+ */
+async function playFrom(page: Page): Promise<void> {
+  await page.getByRole("link", { name: PLAY }).click()
+  await expect(page).toHaveURL(COMPUTER_GAME)
+  await expect(page.getByRole("button", { name: "Resign" })).toBeVisible()
+}
+
+test("a broken link says it does not work and offers a computer game", async ({
+  browser,
+}) => {
+  // Never issued, and a paste cut short: both are the same page.
+  const paths = [
+    "/invite/Zq3_x-9bT2mK7vR1wY4nP8sL0cF6hJ5dA2eG9uB3oXk",
+    "/invite/Zq3_x-9bT2",
+  ]
+  for (const [index, viewport] of SIZES.entries()) {
+    const visitor = await browser.newContext({ viewport })
+    const page = await visitor.newPage()
+    await openApp(page, paths[index] ?? "")
+
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+      "This invite link doesn't work",
+    )
+    const main = page.locator("main")
+    await expect(main).toContainText("whole link")
+    await expect(main).toContainText("new one")
+    await expect(main).not.toContainText(/expired/i)
+    await expect(main).not.toContainText("7 days")
+    await expect(
+      page.getByRole("button", { name: "Accept and play" }),
+    ).toHaveCount(0)
+
+    await expectWaysOut(page)
+    await playFrom(page)
+    await visitor.close()
+  }
+})
+
+test("an expired link offers a computer game at both sizes", async ({
+  browser,
+}) => {
+  const host = await browser.newContext()
+  const hostPage = await host.newPage()
+  await signUp(hostPage, uniqueUsername("host"))
+  const link = await createInviteLink(hostPage)
+  await expireInviteLink(new URL(link).pathname.split("/").pop() ?? "")
+
+  for (const viewport of SIZES) {
+    const visitor = await browser.newContext({ viewport })
+    const page = await visitor.newPage()
+    await openApp(page, new URL(link).pathname)
+    await expect(
+      page.getByRole("heading", { name: "This invite has expired" }),
+    ).toBeVisible()
+    await expectWaysOut(page)
+    await playFrom(page)
+    await visitor.close()
+  }
+
+  await host.close()
 })
 
 test("an expired link says so and offers the way home", async ({

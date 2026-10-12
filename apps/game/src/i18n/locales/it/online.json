@@ -110,6 +110,9 @@
     "used_title": "Questo invito è già stato usato",
     "used_body": "Qualcun altro l'ha accettato prima. Chiedi a {{name}} un nuovo link.",
     "expired_title": "Questo invito è scaduto",
-    "expired_body": "I link di invito durano 7 giorni. Chiedine uno nuovo a chi te l'ha mandato."
+    "expired_body": "I link di invito durano 7 giorni. Chiedine uno nuovo a chi te l'ha mandato.",
+    "broken_title": "Questo link di invito non funziona",
+    "broken_body": "Controlla di aver incollato il link intero oppure chiedine uno nuovo a chi te l'ha mandato.",
+    "play_computer": "Gioca contro il computer"
   }
 }

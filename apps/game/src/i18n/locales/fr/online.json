@@ -110,6 +110,9 @@
     "used_title": "Cette invitation a déjà été utilisée",
     "used_body": "Quelqu'un d'autre l'a acceptée en premier. Demandez un nouveau lien à {{name}}.",
     "expired_title": "Cette invitation a expiré",
-    "expired_body": "Les liens d'invitation durent 7 jours. Demandez-en un nouveau à la personne qui l'a envoyé."
+    "expired_body": "Les liens d'invitation durent 7 jours. Demandez-en un nouveau à la personne qui l'a envoyé.",
+    "broken_title": "Ce lien d'invitation ne fonctionne pas",
+    "broken_body": "Vérifie que tu as collé le lien en entier, ou demande-en un nouveau à la personne qui te l'a envoyé.",
+    "play_computer": "Jouer contre l'ordinateur"
   }
 }
