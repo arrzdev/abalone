@@ -20,6 +20,7 @@ import {
   useCompactPanel,
   usePanelFits,
 } from "@/hooks/use-compact-panel"
+import { resetGuide } from "@/utils/first-game-guide"
 
 /** One slot of the action bar: icon over label, the whole thing a tap target. */
 function Action({
@@ -242,6 +243,25 @@ export function IngameControls({
             label={t("game:controls.new_game")}
             onClick={onNewGame}
           />
+        )}
+        {/* The first-game guide shows once per device; this is the way back
+            to it. A narrow slot rather than a share of the bar: it is help,
+            not a move in the game. The guide never runs online, so neither
+            does the way back. A board listening for the reset shows the
+            guide from step 1 on the game in progress. */}
+        {state.mode !== "online" && (
+          <TapButton
+            onClick={resetGuide}
+            aria-label={t("game:controls.how_to_move")}
+            title={t("game:controls.how_to_move")}
+            className={cn(
+              "flex w-11 shrink-0 items-center justify-center rounded-lg",
+              "font-display text-lg font-bold text-muted transition",
+              "hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
+            )}
+          >
+            ?
+          </TapButton>
         )}
       </div>
     </div>

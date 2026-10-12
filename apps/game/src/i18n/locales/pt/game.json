@@ -74,8 +74,7 @@
     "marbles_taken": "{{taken}} de {{total}} bolas do adversário empurradas para fora",
     "eval_advantage": "{{color}} à frente por {{score}}",
     "eval_level": "Equilibrado",
-    "how_to_move": "Como jogar",
-    "how_to_move_hint": "Vê outra vez os 3 passos no tabuleiro."
+    "how_to_move": "Como jogar"
   },
   "game_state": {
     "your_turn": "Sua vez",

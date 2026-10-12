@@ -74,8 +74,7 @@
     "marbles_taken": "已将对手 {{total}} 颗棋子中的 {{taken}} 颗推出棋盘",
     "eval_advantage": "{{color}}领先 {{score}}",
     "eval_level": "均势",
-    "how_to_move": "如何走棋",
-    "how_to_move_hint": "在棋盘上再看一遍这 3 步。"
+    "how_to_move": "如何走棋"
   },
   "game_state": {
     "your_turn": "轮到你",

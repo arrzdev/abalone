@@ -74,8 +74,7 @@
     "marbles_taken": "Rakibin {{total}} bilyesinden {{taken}} tanesi tahtadan çıkarıldı",
     "eval_advantage": "{{color}} {{score}} önde",
     "eval_level": "Berabere",
-    "how_to_move": "Nasıl hamle yapılır",
-    "how_to_move_hint": "3 adımı tahtada yeniden gör."
+    "how_to_move": "Nasıl hamle yapılır"
   },
   "game_state": {
     "your_turn": "Senin sıran",

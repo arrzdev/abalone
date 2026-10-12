@@ -74,8 +74,7 @@
     "marbles_taken": "{{taken}} von {{total}} gegnerischen Kugeln hinausgeschoben",
     "eval_advantage": "{{color}} liegt {{score}} vorn",
     "eval_level": "Ausgeglichen",
-    "how_to_move": "So ziehst du",
-    "how_to_move_hint": "Sieh dir die 3 Schritte noch einmal auf dem Brett an."
+    "how_to_move": "So ziehst du"
   },
   "game_state": {
     "your_turn": "Du bist am Zug",

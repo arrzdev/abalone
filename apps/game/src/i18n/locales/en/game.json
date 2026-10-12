@@ -74,8 +74,7 @@
     "marbles_taken": "{{taken}} of {{total}} opponent marbles pushed off",
     "eval_advantage": "{{color}} ahead by {{score}}",
     "eval_level": "Level",
-    "how_to_move": "How to move",
-    "how_to_move_hint": "See the 3 steps again on the board."
+    "how_to_move": "How to move"
   },
   "game_state": {
     "your_turn": "Your turn",

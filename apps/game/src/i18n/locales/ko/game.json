@@ -74,8 +74,7 @@
     "marbles_taken": "상대 구슬 {{total}}개 중 {{taken}}개를 밀어냈습니다",
     "eval_advantage": "{{color}}이(가) {{score}} 앞서는 중",
     "eval_level": "대등함",
-    "how_to_move": "움직이는 방법",
-    "how_to_move_hint": "판 위에서 3단계를 다시 봅니다."
+    "how_to_move": "움직이는 방법"
   },
   "game_state": {
     "your_turn": "내 차례",

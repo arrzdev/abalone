@@ -74,8 +74,7 @@
     "marbles_taken": "{{taken}} van {{total}} ballen van de tegenstander van het bord geduwd",
     "eval_advantage": "{{color}} staat {{score}} voor",
     "eval_level": "Gelijkspel",
-    "how_to_move": "Zo zet je",
-    "how_to_move_hint": "Bekijk de 3 stappen nog eens op het bord."
+    "how_to_move": "Zo zet je"
   },
   "game_state": {
     "your_turn": "Jouw beurt",
