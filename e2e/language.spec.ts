@@ -21,12 +21,12 @@ test("switching the language translates the app and survives a reload", async ({
 
   await expect(page.locator("html")).toHaveAttribute("lang", "de")
   await expect(
-    page.getByRole("tab", { name: "gegen Computer" }),
+    page.getByRole("tab", { name: "Gegen Computer" }),
   ).toBeAttached()
 
   await page.reload()
   await expect(
-    page.getByRole("tab", { name: "gegen Computer" }),
+    page.getByRole("tab", { name: "Gegen Computer" }),
   ).toBeVisible({
     timeout: 60_000,
   })

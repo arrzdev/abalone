@@ -7,7 +7,7 @@
     "profile": "Profil",
     "home": "Ana sayfa",
     "online": "Çevrimiçi oyna",
-    "offline": "Çevrimdışı oyna"
+    "offline": "Oyna"
   },
   "language": {
     "select": "Dil Seç",
@@ -23,7 +23,6 @@
     "heading": "Abalone'u çevrimiçi, ücretsiz oyna",
     "lede": "Rakibinin altı bilyesini tahtadan dışarı it. Bilgisayara karşı oyna, cihazı elden ele geçir ya da bir arkadaşını davet et.",
     "play_online": "Çevrimiçi oyna",
-    "play_offline": "Çevrimdışı oyna",
     "bot_hint": "Sekiz bot, kolaydan zora.",
     "local_hint": "İkiniz, tek cihaz.",
     "online_hint": "Ücretsiz hesap. Herkesi davet et.",

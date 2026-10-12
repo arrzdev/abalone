@@ -21,7 +21,7 @@
     "computer": "コンピューター"
   },
   "controls": {
-    "page_title": "ボット対戦",
+    "setup_title": "新しいゲーム · {{mode}}",
     "marble_design": "駒デザイン",
     "marble_design_classic": "ミニマル",
     "marble_design_3d": "リアル",
