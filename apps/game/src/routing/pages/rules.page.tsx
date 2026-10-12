@@ -253,7 +253,11 @@ function RulesPage() {
                 components={{
                   online: <Link to="/" className={TEXT_LINK_CLASS} />,
                   offline: (
-                    <Link to="/offline" className={TEXT_LINK_CLASS} />
+                    <Link
+                      to="/offline"
+                      state={{ startOnBoard: true }}
+                      className={TEXT_LINK_CLASS}
+                    />
                   ),
                 }}
               />
@@ -474,6 +478,7 @@ function RulesPage() {
           </Link>
           <Link
             to="/offline"
+            state={{ startOnBoard: true }}
             className={cn(
               buttonClassName("secondary", "lg"),
               "w-full lg:w-auto lg:px-12",

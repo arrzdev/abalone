@@ -1,9 +1,13 @@
 import type { GameMode } from "@repo/abalone-engine/game-state"
 import type { CellName, Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
-import { createFileRoute, useNavigate } from "@tanstack/react-router"
+import {
+  createFileRoute,
+  useLocation,
+  useNavigate,
+} from "@tanstack/react-router"
 import type { CSSProperties, ReactNode } from "react"
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useRef, useState, useSyncExternalStore } from "react"
 import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import { BotAvatar } from "@/components/bot-avatar"
@@ -39,10 +43,39 @@ import { getSetupName } from "@/i18n/game-text"
 import { useAuth } from "@/providers/auth-provider"
 import { seoPageHead } from "@/routing/seo-pages"
 import { DECIDED } from "@/utils/evaluation"
+import { isGuideDone, startsOnBoard } from "@/utils/first-game-guide"
 
 export type GameOfflineSearch = {
   /** Which of the two offline games this is. */
   mode?: GameMode
+}
+
+declare module "@tanstack/react-router" {
+  interface HistoryState {
+    /**
+     * Set by the ways in that offer a game: start it on the board if
+     * `startsOnBoard` says so. History state rather than the URL, so the link
+     * search engines see stays `/offline`.
+     */
+    startOnBoard?: boolean
+  }
+}
+
+function subscribeToNothing(): () => void {
+  return () => {}
+}
+
+/**
+ * False while hydrating a prerendered page, true on any render after. A direct
+ * load decides from what the server rendered, never from history state a
+ * reload kept, or the first client render would not match it (React #418).
+ */
+function useClientRender(): boolean {
+  return useSyncExternalStore(
+    subscribeToNothing,
+    () => true,
+    () => false,
+  )
 }
 
 /**
@@ -109,7 +142,26 @@ function GameOfflinePage() {
     [navigate],
   )
 
-  const game = useAbaloneGame(boardRef, searchMode ?? "ai", chooseMode)
+  //decided once, on entry: switching tabs on the setup screen later starts
+  //nothing. the guide's flag is only read on a client render, never while
+  //hydrating
+  const askedToStartOnBoard = useLocation({
+    select: (location) => location.state.startOnBoard === true,
+  })
+  const clientRender = useClientRender()
+  const [startOnBoard] = useState(
+    () =>
+      clientRender &&
+      askedToStartOnBoard &&
+      startsOnBoard(searchMode ?? "ai", isGuideDone()),
+  )
+
+  const game = useAbaloneGame(
+    boardRef,
+    searchMode ?? "ai",
+    chooseMode,
+    startOnBoard,
+  )
   const {
     state,
     phase,
@@ -616,6 +668,7 @@ function GameOfflinePage() {
                 onHint={game.requestHint}
                 onUndo={game.undoMove}
                 onResign={() => setResignOpen(true)}
+                onNewGame={isLocal ? undefined : game.handleNewBot}
               />
             )}
 
