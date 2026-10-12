@@ -72,14 +72,17 @@ test.describe("served HTML", () => {
     expect(headings).toEqual([H1])
   })
 
-  test("opens with what the game is, and links to both ways in", () => {
+  // both intro links open the computer game (content-play-block §4, TUD-820)
+  test("opens with what the game is, and links to the computer game", () => {
     const text = visibleText(html)
     expect(text).toContain(
       "Abalone is a two-player strategy game on a hexagonal board. Each player has 14 marbles. You win by pushing six of your opponent's marbles off the board.",
     )
-    expect(html).toMatch(/<a[^>]*href="\/"[^>]*>play Abalone online<\/a>/)
     expect(html).toMatch(
-      /<a[^>]*href="\/offline"[^>]*>try it against the computer<\/a>/,
+      /<a[^>]*href="\/offline\?mode=ai"[^>]*>play Abalone online<\/a>/,
+    )
+    expect(html).toMatch(
+      /<a[^>]*href="\/offline\?mode=ai"[^>]*>try it against the computer<\/a>/,
     )
   })
 
@@ -139,11 +142,13 @@ test.describe("served HTML", () => {
     }
   })
 
-  test("ends with a way to play, and a way to play the computer", () => {
-    expect(html).toMatch(/<a[^>]*href="\/"[^>]*>Play now<\/a>/)
+  // the end buttons are the last play block (e2e/play-block.spec.ts)
+  test("ends with the computer game, and the other ways to play", () => {
     expect(html).toMatch(
-      /<a[^>]*href="\/offline"[^>]*>Play against the computer<\/a>/,
+      /<a[^>]*href="\/offline\?mode=ai"[^>]*>Play against the computer<\/a>/,
     )
+    expect(html).toMatch(/<a[^>]*href="\/"[^>]*>Other ways to play<\/a>/)
+    expect(html).not.toContain("Play now")
   })
 })
 

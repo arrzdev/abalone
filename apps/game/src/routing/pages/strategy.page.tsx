@@ -1,10 +1,11 @@
-import { cn } from "@repo/nativ/utils"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
+import { Fragment } from "react"
 import { Trans, useTranslation } from "react-i18next"
-import { buttonClassName } from "@/components/ui/button"
+import { PlayBlock } from "@/components/play-block"
 import { Card, Page, PageTitle } from "@/components/ui/page"
 import { SubpageHeader } from "@/components/ui/subpage-header"
+import { COMPUTER_GAME } from "@/hooks/use-play-actions"
 import { seoPageHead } from "@/routing/seo-pages"
 
 export const Route = createFileRoute("/_subpage/strategy")({
@@ -32,17 +33,12 @@ const TIPS = [
   ["tempo", "tempo"],
 ] as const
 
+/** The tip the middle play block follows: halfway through the seven. */
+const MIDDLE_TIP = "edge"
+
 const MISTAKES = ["lone_edge", "split_three", "leave_hole"] as const
 
 const STRONG = <strong className="font-semibold text-white" />
-
-/**
- * The way out to a board. Full width on a phone, where full width is a
- * thumb's width, and where the longer label in some languages takes two
- * lines: the height grows with it rather than clipping it.
- */
-const CTA_CLASS =
-  "h-auto min-h-[54px] w-full py-3 text-center text-balance sm:w-auto sm:px-8 sm:whitespace-nowrap"
 
 const TEXT_LINK_CLASS =
   "font-semibold text-brand-light underline underline-offset-2 hover:text-white"
@@ -100,11 +96,7 @@ function StrategyPage() {
                 i18nKey="game:strategy.intro"
                 components={{
                   offline: (
-                    <Link
-                      to="/offline"
-                      state={{ startOnBoard: true }}
-                      className={TEXT_LINK_CLASS}
-                    />
+                    <Link {...COMPUTER_GAME} className={TEXT_LINK_CLASS} />
                   ),
                   rules: <Link to="/rules" className={TEXT_LINK_CLASS} />,
                 }}
@@ -115,20 +107,34 @@ function StrategyPage() {
           {t("game:strategy.heading")}
         </PageTitle>
 
+        {/* A way to the board under the intro, after the third tip and in
+            "Practise", for whoever has read enough at any of the three. */}
+        <PlayBlock
+          cta={t("game:strategy.play.cta")}
+          more={t("game:strategy.play.more")}
+        />
+
         <div className="flex flex-col gap-y-4">
           {TIPS.map(([id, key]) => (
-            <Section
-              key={id}
-              id={id}
-              title={t(`game:strategy.tips.${key}.title`)}
-            >
-              <p>
-                <Trans
-                  i18nKey={`game:strategy.tips.${key}.body`}
-                  components={{ strong: STRONG }}
+            <Fragment key={id}>
+              <Section
+                id={id}
+                title={t(`game:strategy.tips.${key}.title`)}
+              >
+                <p>
+                  <Trans
+                    i18nKey={`game:strategy.tips.${key}.body`}
+                    components={{ strong: STRONG }}
+                  />
+                </p>
+              </Section>
+              {id === MIDDLE_TIP && (
+                <PlayBlock
+                  cta={t("game:strategy.play.cta")}
+                  more={t("game:strategy.play.more")}
                 />
-              </p>
-            </Section>
+              )}
+            </Fragment>
           ))}
 
           <Section id="mistakes" title={t("game:strategy.mistakes.title")}>
@@ -141,32 +147,15 @@ function StrategyPage() {
             </ul>
           </Section>
 
-          {/* Links rather than buttons: they go somewhere, and a crawler
-              follows an `href`. */}
           <Section
             id="practise"
             title={t("game:strategy.practise.title")}
             actions={
-              <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                <Link
-                  to="/offline"
-                  state={{ startOnBoard: true }}
-                  className={cn(
-                    buttonClassName("primary", "lg"),
-                    CTA_CLASS,
-                  )}
-                >
-                  {t("game:strategy.practise.cta_computer")}
-                </Link>
-                <Link
-                  to="/"
-                  className={cn(
-                    buttonClassName("secondary", "lg"),
-                    CTA_CLASS,
-                  )}
-                >
-                  {t("game:strategy.practise.cta_friend")}
-                </Link>
+              <div className="mt-3">
+                <PlayBlock
+                  cta={t("game:strategy.play.cta")}
+                  more={t("game:strategy.play.more")}
+                />
               </div>
             }
           />
