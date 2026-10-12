@@ -81,8 +81,9 @@
   },
   "empty": {
     "title": "Qui non c'è ancora nulla",
-    "body": "Invita qualcuno per nome e la partita inizia qui.",
-    "play_bot": "Gioca contro un bot"
+    "link_body": "Manda un link a un amico. La partita inizia quando lo apre e accetta.",
+    "play_bot": "Gioca contro un bot",
+    "invite_by_name": "Invita per nome utente"
   },
   "link": {
     "heading": "Oppure invia un link",
@@ -110,6 +111,9 @@
     "used_title": "Questo invito è già stato usato",
     "used_body": "Qualcun altro l'ha accettato prima. Chiedi a {{name}} un nuovo link.",
     "expired_title": "Questo invito è scaduto",
-    "expired_body": "I link di invito durano 7 giorni. Chiedine uno nuovo a chi te l'ha mandato."
+    "expired_body": "I link di invito durano 7 giorni. Chiedine uno nuovo a chi te l'ha mandato.",
+    "broken_title": "Questo link di invito non funziona",
+    "broken_body": "Controlla di aver incollato il link intero oppure chiedine uno nuovo a chi te l'ha mandato.",
+    "play_computer": "Gioca contro il computer"
   }
 }

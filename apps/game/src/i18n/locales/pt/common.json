@@ -23,13 +23,11 @@
     "heading": "Joga Abalone online, grátis",
     "lede": "Empurra seis bolas do adversário para fora do tabuleiro. Joga contra o computador, passa o dispositivo ou convida um amigo.",
     "play_online": "Jogar online",
-    "online_hint": "Convida alguém e joga ao teu ritmo.",
+    "bot_hint": "Oito bots, do fácil ao difícil.",
+    "local_hint": "Os dois, um só dispositivo.",
+    "online_hint": "Conta grátis. Convida quem quiseres.",
     "rules_link": "Regras de Abalone",
     "strategy_link": "Dicas de estratégia de Abalone",
-    "bot_hint_short": "Oito níveis",
-    "bot_hint_long": "Oito bots, do Gus ao Magnus.",
-    "local_hint_short": "Um dispositivo, os dois",
-    "local_hint_long": "Dois de vocês, à vez, neste dispositivo.",
     "bots_caption": "Oito bots, do Gus ao Magnus"
   },
   "auth": {

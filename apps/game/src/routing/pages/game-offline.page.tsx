@@ -621,12 +621,13 @@ function GameOfflinePage() {
                         }
                   }
                 />
-                {/* Part of the head, so the panel's floor counts it and a short
-                    screen shrinks the board for it rather than clipping the
-                    actions under it. Never over the board: the presses it
-                    teaches land there. */}
+                {/* Below `lg`, part of the head, so the panel's floor counts it
+                    and a short screen shrinks the board for it rather than
+                    clipping the actions under it. Never over the board: the
+                    presses it teaches land there. */}
                 {guide.step && (
                   <FirstGameGuide
+                    className="lg:hidden"
                     step={guide.step}
                     onNext={guide.next}
                     onSkip={guide.skip}
@@ -680,6 +681,18 @@ function GameOfflinePage() {
                 onUndo={game.undoMove}
                 onResign={() => setResignOpen(true)}
                 onNewGame={isLocal ? undefined : game.handleNewBot}
+                // From `lg`, down the panel by the starting marbles rather than
+                // at its top, a board's height away from them (TUD-852)
+                guide={
+                  guide.step && (
+                    <FirstGameGuide
+                      className="m-0 shrink-0 max-lg:hidden"
+                      step={guide.step}
+                      onNext={guide.next}
+                      onSkip={guide.skip}
+                    />
+                  )
+                }
               />
             )}
 

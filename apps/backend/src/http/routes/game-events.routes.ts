@@ -6,6 +6,7 @@ import type { Env } from "@/env/registry"
 import { CustomError } from "@/http/errors"
 import { rateLimit } from "@/http/middlewares/rate-limit"
 import { GameEventService } from "@/services/game-event.service"
+import { isHeadlessBrowser } from "@/utils/headless-browser"
 
 //a real event is about 150 bytes. anything near this is not one.
 const MAX_BODY_LENGTH = 1_024
@@ -18,6 +19,9 @@ const MAX_BODY_LENGTH = 1_024
 const eventFields = {
   gameRef: z.uuid(),
   appVersion: z.string().min(1).max(40),
+  //the browser is driven by a test (`navigator.webdriver`). checked, then
+  //thrown away with the event
+  automated: z.boolean().optional(),
 }
 
 const moveCountSchema = z.int().min(0).max(10_000)
@@ -31,6 +35,13 @@ const noBotLevelSchema = z.null().optional()
 //stored as not guided
 const guidedSchema = z.boolean().optional()
 
+//only a start says it, and only the kind of page: never a path, query,
+//referrer or invite token. a build from before the field says nothing, which
+//is stored as null
+const entrySchema = z
+  .enum(["home", "rules", "strategy", "invite", "other"])
+  .optional()
+
 const gameEventSchema = z.union([
   z.strictObject({
     ...eventFields,
@@ -38,6 +49,7 @@ const gameEventSchema = z.union([
     mode: z.literal("ai"),
     botLevel: botLevelSchema,
     guided: guidedSchema,
+    entry: entrySchema,
   }),
   z.strictObject({
     ...eventFields,
@@ -45,6 +57,7 @@ const gameEventSchema = z.union([
     mode: z.literal("local"),
     botLevel: noBotLevelSchema,
     guided: guidedSchema,
+    entry: entrySchema,
   }),
   z.strictObject({
     ...eventFields,
@@ -101,6 +114,14 @@ export const gameEventRoutes = newEndpoint<Env>()
 
   .post("/game", async (c) => {
     const event = await readGameEvent(c.req.raw)
+
+    //our own e2e and smoke checks play real games. they get the same answer as
+    //a player, and the game is not counted
+    const isAutomated =
+      event.automated === true ||
+      isHeadlessBrowser(c.req.header("user-agent"))
+    if (isAutomated) return c.body(null, 204)
+
     const gameEventService = new GameEventService(getDb(c.env.DB))
     await gameEventService.record({
       gameRef: event.gameRef,
@@ -110,6 +131,7 @@ export const gameEventRoutes = newEndpoint<Env>()
       result: "result" in event ? event.result : null,
       moveCount: "moveCount" in event ? event.moveCount : null,
       guided: "guided" in event ? (event.guided ?? false) : false,
+      entry: "entry" in event ? (event.entry ?? null) : null,
       appVersion: event.appVersion,
     })
 

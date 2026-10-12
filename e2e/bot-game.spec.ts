@@ -95,7 +95,13 @@ test("a bot game played to the end is counted once as started and once as finish
 
   await expect.poll(() => events.length).toBe(2)
   const [started, finished] = events
-  expect(started).toMatchObject({ kind: "start", mode: "ai" })
+  // A test drives this browser, so the backend keeps neither event.
+  expect(started).toMatchObject({
+    kind: "start",
+    mode: "ai",
+    automated: true,
+  })
+  expect(finished).toMatchObject({ automated: true })
   expect(started.botLevel).toEqual(expect.any(Number))
   expect(finished).toMatchObject({
     kind: "finish",

@@ -84,14 +84,48 @@ After an accept, both players get `games-changed` on the realtime channel.
     accept and goes to `/online/<gameId>`.
   - open, inviter's own link: says it is their link and offers to share it again.
   - used or expired: "This invite has already been used" / "This invite has
-    expired", one line on what to do, and a **Go home** link.
-  - unknown id: the expired-style message with **Go home**.
+    expired" and one line on what to do.
+  - broken (TUD-849): an id the server never issued (`not_found`) or a
+    malformed one, usually a paste cut short (`invalid_input`). It says the
+    link doesn't work, to check the whole link was pasted, and to ask the
+    sender for a new one. It never says "expired". The mapping is
+    `inviteLinkFromResponse` in `src/data/online/invite-link-state.ts`.
+  - used, expired and broken all end the same way: one filled **Play against
+    the computer** button to `/offline?mode=ai` (the same destination as the
+    home card's vs Computer, TUD-828), and **Go home** as a text link with a
+    44×44 tap area. On a device's first game that opens the board (TUD-818),
+    so a spent link is 3 taps from a first move.
 - The page head (`pageHead`) uses the inviter's name from the public read, so
   share sheets and crawlers that run JavaScript see "<name> invited you to a
   game of Abalone". Chat apps that do not run JavaScript get the same card from
   the request-time head below.
 - All copy goes through `core-copywriting`, in every locale under
   `apps/game/src/i18n/locales`.
+
+### The empty online page (TUD-850)
+
+A new account has no friends on Abalone yet, so asking for a username is
+asking for something it does not have. With 0 games in progress and 0 open
+invites (sent or received), `/online` leads with the link:
+
+1. **Invite with a link**, the primary button. One tap makes the link (the
+   composer's defaults: `DEFAULT_SETUP`, side `random`) and hands it on at once:
+   `navigator.share({ url, text })` where it exists, otherwise
+   `navigator.clipboard.writeText(url)` and the "Link copied" line. It is
+   `InviteLinkMaker`, not a second implementation.
+   After the tap the link stays on screen in the read-only **Invite link** field
+   with its **Share link** / **Copy link** button. That is also the fallback when
+   the browser refuses to share or copy because the tap's activation ran out
+   while the link was being made (WebKit): the second tap shares it.
+2. **Play a bot**, secondary: the computer game, through the same destination as
+   home's vs Computer card.
+3. **Invite by username**, a text link under the buttons: opens the composer
+   (`?invite=new`).
+
+The body line (`online:empty.link_body`) says the game starts when the friend
+opens the link and accepts, and does not mention usernames. Once the friend
+accepts, the game is a row in the list and the page is no longer empty. With
+any game or invite, the page is unchanged.
 
 ## The link preview (TUD-799)
 
@@ -152,5 +186,11 @@ the card; nothing depends on the client.
   agent, open then used).
 - API: `apps/backend/src/http/routes/invite-link.routes.test.ts`.
 - Return path through sign-up: `apps/game/src/routing/return-to.test.ts`.
-- E2E: `e2e/invite-link.spec.ts` (two browser contexts; used and expired links).
+- Empty online page: `e2e/online-empty.spec.ts` (fresh account, share and copy
+  paths, the link opens for another player, the bot game, invite by username,
+  390×844 and 1440×900) and `apps/game/src/i18n/online-locales.test.ts`
+  (`online:empty.*` in every locale).
+- Link state mapping: `apps/game/src/data/online/invite-link-state.test.ts`.
+- E2E: `e2e/invite-link.spec.ts` (two browser contexts; used, expired and
+  broken links, the last two at 390×844 and 1440×900).
   `e2e/support/database.ts` moves a link's expiry into the past in the e2e D1.

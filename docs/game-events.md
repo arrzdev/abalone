@@ -16,6 +16,7 @@ in it names a player, a device or an address.
 | `result` | finish only. `ai`: `win`, `loss`, `draw`, `abandoned`, from the human's side. `local` and `online`: the winner `black` or `white`, or `draw`; `local` can also be `abandoned` |
 | `move_count` | finish only: plies played |
 | `guided` | start only: 1 when the first-game guide is showing as the game starts, 0 otherwise. Always 0 for finishes, `online` rows, and starts from builds older than the flag |
+| `entry` | start only, `ai` and `local`: which kind of page the browser tab first landed on: `home`, `rules`, `strategy`, `invite` or `other`. Null for finishes, `online` rows, and starts from builds older than the field |
 | `app_version` | the build that sent it; `server` for `online` rows |
 | `created_at` | epoch ms, set by the server |
 
@@ -33,6 +34,12 @@ worker memory only and never writes it.
   begins, read from the saved flag at that moment. "How to move" later in the
   same game does not change a start already sent. A finish never carries it;
   it pairs with its start by `game_ref`.
+  A start also says `entry`: the kind of page the tab first landed on, saved in
+  `sessionStorage` (`abalone.entry.v1`) on the tab's first load and kept for the
+  tab's life, reloads included; a new tab starts over. `/` is `home`, `/rules`
+  `rules`, `/strategy` `strategy`, `/invite/<token>` `invite`, any other path
+  `other`. Only that word is sent: never the path, query, referrer or invite
+  token. The mapping is `apps/game/src/utils/landing-entry.ts`.
 - **`online`**: the backend, from the game routes: a start when an invite is
   accepted, a finish when a move or a resignation ends the game. The route
   refuses `mode: "online"`, so an online game is never counted twice.
@@ -40,6 +47,26 @@ worker memory only and never writes it.
   join the row back to `games`, which names both players. So online starts and
   finishes do not pair; count them instead. An online game that is never
   finished stays `active` and gets no finish row.
+
+## Our own checks are not counted
+
+Our e2e and smoke checks play real games, often against production right after
+a deploy. They are not players, so their games are never stored:
+
+- The game adds `automated: true` to an event when `navigator.webdriver` is
+  true. Playwright, and any other WebDriver-driven browser, sets it. A player's
+  browser does not, and their event carries no `automated` field at all.
+- The backend drops an event that says `automated: true`, or whose user agent
+  names a headless browser (`HeadlessChrome`). That second check covers builds
+  older than the flag, and online games, which only the server counts.
+
+A dropped event is still validated and still answered 204, so a check sees no
+difference and still fails on a bad event. The user agent is read for that one
+check and never written.
+
+**Rows from before the filter went live** (TUD-847) can't be told apart: in its
+first days most of them were our own checks. Start any count of real players at
+the filter's production deploy (`:filter_live_ms` below).
 
 **Offline:** events are dropped, not queued. The numbers are for trends, not
 billing, and a queue would be one more thing that can break the game.
@@ -84,6 +111,20 @@ For anything else, run your own SQL:
 pnpm --filter @repo/backend exec wrangler d1 execute abalone-backend-db --remote --env production --command "<sql>"
 ```
 
+Real plays per day, the growth number. `:filter_live_ms` is the production
+deploy of the filter for our own checks, in epoch ms. Rows before it mix in
+our checks:
+
+```sql
+select date(created_at / 1000, 'unixepoch') as day,
+       sum(kind = 'start') as started,
+       sum(kind = 'finish' and result != 'abandoned') as finished
+from game_events
+where created_at >= :filter_live_ms
+group by day
+order by day desc;
+```
+
 Games started and finished per mode per day:
 
 ```sql
@@ -93,6 +134,20 @@ select date(created_at / 1000, 'unixepoch') as day, mode,
 from game_events
 group by day, mode
 order by day desc, mode;
+```
+
+Starts per mode per landing page, for a date range (replace `:from` and `:to`
+with `YYYY-MM-DD`, both included, UTC). `unknown` is a start from a build older
+than the field:
+
+```sql
+select mode, coalesce(entry, 'unknown') as entry, count(*) as started
+from game_events
+where kind = 'start' and mode in ('ai', 'local')
+  and created_at >= unixepoch(:from) * 1000
+  and created_at < unixepoch(:to, '+1 day') * 1000
+group by mode, entry
+order by mode, started desc;
 ```
 
 Bot level split, with the human's results:

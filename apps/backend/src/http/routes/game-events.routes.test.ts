@@ -23,6 +23,8 @@ type GameEventRow = {
   move_count: number | null
   //sqlite has no boolean: 1 or 0
   guided: number
+  //start only: the page the tab first landed on, or null
+  entry: string | null
   app_version: string
   created_at: number
 }
@@ -33,6 +35,7 @@ const ALLOWED_COLUMNS = [
   "app_version",
   "bot_level",
   "created_at",
+  "entry",
   "game_ref",
   "guided",
   "id",
@@ -238,6 +241,145 @@ describe("game event routes", () => {
     expect(row.guided).toBe(0)
   })
 
+  //---- the page the player landed on ----------------
+  //only which kind of page, never the address: no path, query, referrer or
+  //invite id ever reaches the table
+
+  it.each(["home", "rules", "strategy", "invite", "other"] as const)(
+    "stores a bot game started by a player who landed on %s",
+    async (entry) => {
+      const ref = gameRef()
+
+      const response = await post({ ...start(ref), entry })
+
+      expect(response.status).toBe(204)
+      expect(await rows()).toEqual([
+        expect.objectContaining({ game_ref: ref, kind: "start", entry }),
+      ])
+    },
+  )
+
+  it("stores the landing page of a pass and play start", async () => {
+    const ref = gameRef()
+
+    const response = await post({
+      gameRef: ref,
+      kind: "start",
+      mode: "local",
+      entry: "strategy",
+      appVersion: "abc1234",
+    })
+
+    expect(response.status).toBe(204)
+    const [row] = await rows()
+    expect(row).toMatchObject({ mode: "local", entry: "strategy" })
+  })
+
+  //a build from before the entry is still cached on some phones
+  it("stores a start that does not say where the player landed as null", async () => {
+    const response = await post(start(gameRef()))
+
+    expect(response.status).toBe(204)
+    const [row] = await rows()
+    expect(row.entry).toBeNull()
+  })
+
+  //the start says it, and its finish pairs up with it by the game's ref
+  it("stores every finish with no landing page", async () => {
+    await post({
+      gameRef: gameRef(),
+      kind: "finish",
+      mode: "ai",
+      botLevel: 3,
+      result: "win",
+      moveCount: 12,
+      appVersion: "abc1234",
+    })
+
+    const [row] = await rows()
+    expect(row.entry).toBeNull()
+  })
+
+  //---- our own checks ----------------
+
+  const HEADLESS_CHROME =
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/140.0.0.0 Safari/537.36"
+  const DESKTOP_CHROME =
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36"
+
+  async function playToTheEnd(options: {
+    automated?: boolean
+    userAgent: string
+  }) {
+    const ref = gameRef()
+    const automated =
+      options.automated === undefined
+        ? {}
+        : { automated: options.automated }
+    const headers = { "user-agent": options.userAgent }
+
+    const started = await post(
+      { ...start(ref), ...automated },
+      { headers },
+    )
+    const finished = await post(
+      {
+        ...start(ref),
+        ...automated,
+        kind: "finish",
+        result: "win",
+        moveCount: 9,
+      },
+      { headers },
+    )
+    return [started.status, finished.status]
+  }
+
+  it("counts a player's game in a normal browser once started and once finished", async () => {
+    const statuses = await playToTheEnd({ userAgent: DESKTOP_CHROME })
+
+    expect(statuses).toEqual([204, 204])
+    expect((await rows()).map((row) => row.kind)).toEqual([
+      "start",
+      "finish",
+    ])
+  })
+
+  it("counts a game whose browser says it is not automated", async () => {
+    await playToTheEnd({ automated: false, userAgent: DESKTOP_CHROME })
+
+    expect(await rows()).toHaveLength(2)
+  })
+
+  it("answers a test-driven browser like a player but keeps none of its game", async () => {
+    const statuses = await playToTheEnd({
+      automated: true,
+      userAgent: DESKTOP_CHROME,
+    })
+
+    expect(statuses).toEqual([204, 204])
+    expect(await rows()).toHaveLength(0)
+  })
+
+  //an old build does not say `automated`, and emulation can hide it
+  it("keeps none of a headless browser's game", async () => {
+    const statuses = await playToTheEnd({ userAgent: HEADLESS_CHROME })
+
+    expect(statuses).toEqual([204, 204])
+    expect(await rows()).toHaveLength(0)
+  })
+
+  //checked before it is dropped, so a test still learns it sent a bad event
+  it("still refuses an automated event that is not valid", async () => {
+    const response = await post({
+      ...start(gameRef()),
+      automated: true,
+      mode: "puzzle",
+    })
+
+    expect(response.status).toBe(400)
+  })
+
   //---- what it refuses ----------------
 
   it.each([
@@ -310,6 +452,31 @@ describe("game event routes", () => {
         moveCount: 3,
         guided: true,
       },
+    ],
+    [
+      "a landing page we do not count",
+      { ...start(gameRef()), entry: "search" },
+    ],
+    //the kind of page, never the address
+    [
+      "a landing page given as a path",
+      { ...start(gameRef()), entry: "/rules" },
+    ],
+    ["a landing page that is null", { ...start(gameRef()), entry: null }],
+    //only the start says where the player landed
+    [
+      "a finish that says where the player landed",
+      {
+        ...start(gameRef()),
+        kind: "finish",
+        result: "win",
+        moveCount: 3,
+        entry: "home",
+      },
+    ],
+    [
+      "an automated flag that is not a boolean",
+      { ...start(gameRef()), automated: "yes" },
     ],
     [
       "a field we do not collect",
@@ -407,6 +574,7 @@ describe("game event routes", () => {
     path: string,
     token: string,
     body?: unknown,
+    headers: Record<string, string> = {},
   ) {
     const context = newExecutionContext()
     const response = await worker.fetch(
@@ -417,6 +585,7 @@ describe("game event routes", () => {
           "x-test-bypass": "true",
           authorization: `Bearer ${token}`,
           "content-type": "application/json",
+          ...headers,
         },
         body: body === undefined ? undefined : JSON.stringify(body),
       }),
@@ -431,7 +600,7 @@ describe("game event routes", () => {
     return envelope.data
   }
 
-  async function openOnlineGame() {
+  async function openOnlineGame(headers: Record<string, string> = {}) {
     const sender = await signUp("sender")
     const recipient = await signUp("recipient")
     const { invite } = await call<{ invite: Invite }>(
@@ -449,6 +618,7 @@ describe("game event routes", () => {
       "/games",
       recipient.token,
       { inviteId: invite.id },
+      headers,
     )
     return { sender, recipient, game }
   }
@@ -465,6 +635,8 @@ describe("game event routes", () => {
         result: null,
         //an online game never shows the guide
         guided: 0,
+        //nor comes from a landing page this table counts
+        entry: null,
       }),
     ])
   })
@@ -483,6 +655,20 @@ describe("game event routes", () => {
         move_count: 0,
       }),
     ])
+  })
+
+  it("does not count an online game a headless browser plays", async () => {
+    const headless = { "user-agent": HEADLESS_CHROME }
+    const { sender, game } = await openOnlineGame(headless)
+    await call(
+      "POST",
+      `/games/${game.id}/resignation`,
+      sender.token,
+      undefined,
+      headless,
+    )
+
+    expect(await rows()).toHaveLength(0)
   })
 
   it("never ties an online event back to the game or its players", async () => {

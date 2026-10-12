@@ -23,13 +23,11 @@
     "heading": "아발론을 온라인에서 무료로",
     "lede": "상대 구슬 여섯 개를 판 밖으로 밀어내면 이깁니다. 컴퓨터와 대결하거나, 기기를 돌려 가며 하거나, 친구를 초대하세요.",
     "play_online": "온라인 플레이",
-    "online_hint": "누구든 초대해 원하는 속도로 대국.",
+    "bot_hint": "봇 여덟, 쉬움부터 어려움까지.",
+    "local_hint": "둘이서, 기기 하나로.",
+    "online_hint": "무료 계정. 누구든 초대.",
     "rules_link": "아발론 규칙",
     "strategy_link": "아발론 전략 요령",
-    "bot_hint_short": "여덟 단계",
-    "bot_hint_long": "거스부터 매그너스까지, 봇 여덟.",
-    "local_hint_short": "기기 하나, 둘이서",
-    "local_hint_long": "한 기기에서 둘이 번갈아 둡니다.",
     "bots_caption": "거스부터 매그너스까지, 봇 여덟"
   },
   "auth": {

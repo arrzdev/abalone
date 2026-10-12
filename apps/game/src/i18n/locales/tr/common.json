@@ -23,13 +23,11 @@
     "heading": "Abalone'u çevrimiçi, ücretsiz oyna",
     "lede": "Rakibinin altı bilyesini tahtadan dışarı it. Bilgisayara karşı oyna, cihazı elden ele geçir ya da bir arkadaşını davet et.",
     "play_online": "Çevrimiçi oyna",
-    "online_hint": "Birini davet et, kendi hızında oyna.",
+    "bot_hint": "Sekiz bot, kolaydan zora.",
+    "local_hint": "İkiniz, tek cihaz.",
+    "online_hint": "Ücretsiz hesap. Herkesi davet et.",
     "rules_link": "Abalone kuralları",
     "strategy_link": "Abalone strateji ipuçları",
-    "bot_hint_short": "Sekiz seviye",
-    "bot_hint_long": "Gus'tan Magnus'a sekiz bot.",
-    "local_hint_short": "Tek cihaz, ikiniz",
-    "local_hint_long": "İki kişi, sırayla, bu cihazda.",
     "bots_caption": "Gus'tan Magnus'a sekiz bot"
   },
   "auth": {

@@ -23,13 +23,11 @@
     "heading": "Play Abalone online, free",
     "lede": "Push six of your opponent's marbles off the board. Play the computer, pass the device, or invite a friend.",
     "play_online": "Play Online",
-    "online_hint": "Invite anyone, play at your own pace.",
+    "bot_hint": "Eight bots, easy to hard.",
+    "local_hint": "Two of you, one device.",
+    "online_hint": "Free account. Invite anyone.",
     "rules_link": "Abalone rules",
     "strategy_link": "Abalone strategy tips",
-    "bot_hint_short": "Eight strengths",
-    "bot_hint_long": "Eight bots, Gus to Magnus.",
-    "local_hint_short": "One device, two of you",
-    "local_hint_long": "Two of you, taking turns on this device.",
     "bots_caption": "Eight bots, Gus to Magnus"
   },
   "auth": {

@@ -53,7 +53,7 @@ const NAV_LINK_ACTIVE_CLASS =
  *
  * It used to say New game and Rules, which named one of the two ways to play and
  * left the other one to a sheet behind an anonymous square in a tab bar. There
- * is no tab bar now, so this names all three: Play Online, Play Offline, Rules.
+ * is no tab bar now, so this names all three: Play Online, Play, Rules.
  * They are two different routes with two different setups, and the rules sit
  * beside them because a new player needs them before either. Home stays behind
  * the mark, as it always was.

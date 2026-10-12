@@ -178,8 +178,10 @@
         }
       }
     },
-    "cta": "Zagraj teraz",
-    "cta_computer": "Zagraj z komputerem"
+    "play": {
+      "cta": "Zagraj z komputerem",
+      "more": "Inne sposoby gry"
+    }
   },
   "strategy": {
     "title": "Strategia",
@@ -224,9 +226,11 @@
       }
     },
     "practise": {
-      "title": "Trening",
-      "cta_computer": "Zagraj w Abalone z komputerem",
-      "cta_friend": "Zagraj online ze znajomym"
+      "title": "Trening"
+    },
+    "play": {
+      "cta": "Zagraj z komputerem",
+      "more": "Inne sposoby gry"
     }
   },
   "messages": {
