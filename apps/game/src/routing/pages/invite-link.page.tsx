@@ -15,6 +15,7 @@ import { useApiError } from "@/hooks/use-api-error"
 import { useAuthPrompt } from "@/providers/auth-prompt-provider"
 import { useAuth } from "@/providers/auth-provider"
 import { queryClient } from "@/providers/query-client"
+import { inviteCard } from "@/routing/invite-card"
 import { pageHead } from "@/routing/page-head"
 import { BRAND } from "@/utils/brand"
 
@@ -25,30 +26,21 @@ export const Route = createFileRoute("/_subpage/invite/$linkId")({
   loader: async ({ params }) => {
     const options = inviteLinkQueryOptions(params.linkId)
     await queryClient.prefetchQuery(options)
+    const link = queryClient.getQueryData(options.queryKey)
+    //a spent link names nobody in the head, as on the server's card
     return {
-      inviterName:
-        queryClient.getQueryData(options.queryKey)?.inviterName ?? null,
+      openInviterName:
+        link?.state === "open" ? (link.inviterName ?? null) : null,
     }
   },
-  head: ({ loaderData, params }) => {
-    const path = `/invite/${params.linkId}`
-    const inviterName = loaderData?.inviterName
-    if (!inviterName) {
-      return pageHead({
-        title: "Invite",
-        description: `An invite to a game of ${BRAND}, the two-player strategy game of pushing marbles off the board.`,
-        path,
-        noIndex: true,
-      })
-    }
-    return pageHead({
-      title: `${inviterName} invited you to a game of ${BRAND}`,
-      description: `Accept and play ${inviterName} online. ${BRAND} is the two-player strategy game where you push six of your opponent's marbles off the board.`,
-      path,
-      image: "game",
+  //the same card the game Worker writes for a chat app (src/server/invite-page.ts)
+  head: ({ loaderData, params }) =>
+    pageHead({
+      ...inviteCard(loaderData?.openInviterName ?? null),
+      fullTitle: true,
+      path: `/invite/${params.linkId}`,
       noIndex: true,
-    })
-  },
+    }),
   component: InviteLinkPage,
 })
 
