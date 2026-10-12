@@ -23,6 +23,8 @@ type GameEventRow = {
   move_count: number | null
   //sqlite has no boolean: 1 or 0
   guided: number
+  //start only: the page the tab first landed on, or null
+  entry: string | null
   app_version: string
   created_at: number
 }
@@ -33,6 +35,7 @@ const ALLOWED_COLUMNS = [
   "app_version",
   "bot_level",
   "created_at",
+  "entry",
   "game_ref",
   "guided",
   "id",
@@ -238,6 +241,65 @@ describe("game event routes", () => {
     expect(row.guided).toBe(0)
   })
 
+  //---- the page the player landed on ----------------
+  //only which kind of page, never the address: no path, query, referrer or
+  //invite id ever reaches the table
+
+  it.each(["home", "rules", "strategy", "invite", "other"] as const)(
+    "stores a bot game started by a player who landed on %s",
+    async (entry) => {
+      const ref = gameRef()
+
+      const response = await post({ ...start(ref), entry })
+
+      expect(response.status).toBe(204)
+      expect(await rows()).toEqual([
+        expect.objectContaining({ game_ref: ref, kind: "start", entry }),
+      ])
+    },
+  )
+
+  it("stores the landing page of a pass and play start", async () => {
+    const ref = gameRef()
+
+    const response = await post({
+      gameRef: ref,
+      kind: "start",
+      mode: "local",
+      entry: "strategy",
+      appVersion: "abc1234",
+    })
+
+    expect(response.status).toBe(204)
+    const [row] = await rows()
+    expect(row).toMatchObject({ mode: "local", entry: "strategy" })
+  })
+
+  //a build from before the entry is still cached on some phones
+  it("stores a start that does not say where the player landed as null", async () => {
+    const response = await post(start(gameRef()))
+
+    expect(response.status).toBe(204)
+    const [row] = await rows()
+    expect(row.entry).toBeNull()
+  })
+
+  //the start says it, and its finish pairs up with it by the game's ref
+  it("stores every finish with no landing page", async () => {
+    await post({
+      gameRef: gameRef(),
+      kind: "finish",
+      mode: "ai",
+      botLevel: 3,
+      result: "win",
+      moveCount: 12,
+      appVersion: "abc1234",
+    })
+
+    const [row] = await rows()
+    expect(row.entry).toBeNull()
+  })
+
   //---- our own checks ----------------
 
   const HEADLESS_CHROME =
@@ -389,6 +451,27 @@ describe("game event routes", () => {
         result: "win",
         moveCount: 3,
         guided: true,
+      },
+    ],
+    [
+      "a landing page we do not count",
+      { ...start(gameRef()), entry: "search" },
+    ],
+    //the kind of page, never the address
+    [
+      "a landing page given as a path",
+      { ...start(gameRef()), entry: "/rules" },
+    ],
+    ["a landing page that is null", { ...start(gameRef()), entry: null }],
+    //only the start says where the player landed
+    [
+      "a finish that says where the player landed",
+      {
+        ...start(gameRef()),
+        kind: "finish",
+        result: "win",
+        moveCount: 3,
+        entry: "home",
       },
     ],
     [
@@ -552,6 +635,8 @@ describe("game event routes", () => {
         result: null,
         //an online game never shows the guide
         guided: 0,
+        //nor comes from a landing page this table counts
+        entry: null,
       }),
     ])
   })
