@@ -20,12 +20,31 @@ async function openSettings(page: Page): Promise<Locator> {
     .click()
   const dialog = page.getByRole("dialog")
   await expect(dialog).toBeVisible()
-  // The sheet slides up on a phone; measure it where it comes to rest.
+  // The sheet slides up on a phone; measure it where it comes to rest. The
+  // slide starts a frame or two after the sheet mounts and may be driven from
+  // script rather than a CSS animation, so "no animations" alone can be read
+  // before it has moved: it has come to rest when it is on screen and still
+  // from one frame to the next.
   await expect
     .poll(() =>
-      dialog.evaluate((element) => element.getAnimations().length),
+      dialog.evaluate(
+        (element) =>
+          new Promise<boolean>((resolve) => {
+            const before = element.getBoundingClientRect().top
+            requestAnimationFrame(() =>
+              requestAnimationFrame(() => {
+                const after = element.getBoundingClientRect().top
+                resolve(
+                  element.getAnimations().length === 0 &&
+                    after === before &&
+                    after < window.innerHeight - 1,
+                )
+              }),
+            )
+          }),
+      ),
     )
-    .toBe(0)
+    .toBe(true)
   return dialog
 }
 
@@ -37,10 +56,24 @@ async function openSettings(page: Page): Promise<Locator> {
 function overflowingBoxes(dialog: Locator): Promise<string[]> {
   return dialog.evaluate((root) => {
     const found: string[] = []
-    const box = root.getBoundingClientRect()
-    if (box.top < -1 || box.bottom > window.innerHeight + 1) {
+    // The sheet's own box runs past the bottom on purpose: an empty
+    // aria-hidden spacer under it keeps the panel filled when it is dragged up
+    // past its stop. What is drawn ends with the last child that is not it.
+    const top = root.getBoundingClientRect().top
+    const bottom = Math.max(
+      ...[...root.children]
+        .filter(
+          (child) =>
+            !(
+              child.getAttribute("aria-hidden") === "true" &&
+              child.childElementCount === 0
+            ),
+        )
+        .map((child) => child.getBoundingClientRect().bottom),
+    )
+    if (top < -1 || bottom > window.innerHeight + 1) {
       found.push(
-        `the overlay runs off the screen (${Math.round(box.top)}..${Math.round(box.bottom)} of ${window.innerHeight})`,
+        `the overlay runs off the screen (${Math.round(top)}..${Math.round(bottom)} of ${window.innerHeight})`,
       )
     }
     for (const element of [root, ...root.querySelectorAll("*")]) {
@@ -161,24 +194,36 @@ test("every language shows its flag as an image", async ({ page }) => {
 })
 
 /**
- * Every box around the focused field that clips its focus ring. The ring is a
- * box shadow, so it is drawn outside the field by its spread, and any ancestor
+ * Every box around the focused field that clips its focus ring. The ring is an
+ * outline clear of the field or a box shadow, so it is drawn outside the field
+ * by the outline's width and offset or the shadow's spread, and any ancestor
  * that clips its overflow has to leave that much room around the field.
  */
 function ringClippers(page: Page): Promise<string[]> {
   return page.evaluate(() => {
     const field = document.activeElement
     if (!(field instanceof HTMLElement)) return ["nothing is focused"]
-    const shadow = getComputedStyle(field).boxShadow
-    if (shadow === "none") return ["the focused field draws no ring"]
+    const style = getComputedStyle(field)
+    const shadow = style.boxShadow
+    const outline =
+      style.outlineStyle === "none"
+        ? 0
+        : Number.parseFloat(style.outlineWidth) +
+          Number.parseFloat(style.outlineOffset)
+    if (shadow === "none" && outline <= 0) {
+      return ["the focused field draws no ring"]
+    }
 
     // One spread per shadow: the fourth length in "color x y blur spread".
     const spread = Math.max(
       0,
-      ...shadow.split(/,(?![^(]*\))/).map((part) => {
-        const lengths = part.match(/-?[\d.]+px/g) ?? []
-        return Number.parseFloat(lengths[3] ?? "0")
-      }),
+      outline,
+      ...(shadow === "none" ? [] : shadow.split(/,(?![^(]*\))/)).map(
+        (part) => {
+          const lengths = part.match(/-?[\d.]+px/g) ?? []
+          return Number.parseFloat(lengths[3] ?? "0")
+        },
+      ),
     )
     const box = field.getBoundingClientRect()
     const ring = {
