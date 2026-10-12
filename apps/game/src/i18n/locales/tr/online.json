@@ -80,8 +80,9 @@
   },
   "empty": {
     "title": "Burada henüz bir şey yok",
-    "body": "Birini adıyla davet et; oyun burada başlar.",
-    "play_bot": "Bota karşı oyna"
+    "link_body": "Bir arkadaşına bağlantı gönder. Bağlantıyı açıp kabul ettiğinde oyun başlar.",
+    "play_bot": "Bota karşı oyna",
+    "invite_by_name": "Kullanıcı adıyla davet et"
   },
   "link": {
     "heading": "Ya da bağlantı gönder",

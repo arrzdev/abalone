@@ -81,8 +81,9 @@
   },
   "empty": {
     "title": "Ainda não há nada aqui",
-    "body": "Convida alguém pelo nome e o jogo começa aqui.",
-    "play_bot": "Joga contra um bot"
+    "link_body": "Envia um link a um amigo. O jogo começa quando ele o abrir e aceitar.",
+    "play_bot": "Joga contra um bot",
+    "invite_by_name": "Convidar por nome de utilizador"
   },
   "link": {
     "heading": "Ou envia um link",

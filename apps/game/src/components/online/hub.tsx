@@ -1,3 +1,4 @@
+import { DEFAULT_SETUP } from "@repo/abalone-engine/board-setups"
 import { cn } from "@repo/nativ/utils"
 import { Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
@@ -5,6 +6,7 @@ import { useTranslation } from "react-i18next"
 import { PlusIcon, RobotIcon } from "@/components/icons"
 import { BoardThumb } from "@/components/online/board-thumb"
 import { FinishedGameRow, GameRow } from "@/components/online/game-row"
+import { InviteLinkMaker } from "@/components/online/invite-link-maker"
 import {
   LeadInviteRow,
   ReceivedInviteRow,
@@ -78,7 +80,7 @@ export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
   if (hasNothing && online.sync === "loading") return <HubPlaceholder />
 
   if (hasNothing) {
-    return <EmptyHub onCompose={onCompose} sync={online.sync} />
+    return <EmptyHub sync={online.sync} />
   }
 
   const showInvites =
@@ -401,15 +403,14 @@ function FinishedPanel({ games, myUserId }: FinishedPanelProps) {
  *
  * No empty panels. Three headings over three blank boxes is the app describing
  * its own data model; what somebody needs here is the one sentence that says
- * how a game gets started and the two buttons that start one.
+ * how a game gets started and the buttons that start one.
+ *
+ * The link leads because a new account's friends are not on Abalone yet, so
+ * a username is the one thing they cannot give. It is made on the composer's
+ * defaults, and the username stays a line of text under the buttons for the
+ * friend who already plays.
  */
-function EmptyHub({
-  onCompose,
-  sync,
-}: {
-  onCompose: () => void
-  sync: SyncState
-}) {
+function EmptyHub({ sync }: { sync: SyncState }) {
   const { t } = useTranslation()
   const { playOffline } = usePlayActions()
 
@@ -425,20 +426,16 @@ function EmptyHub({
           {t("online:empty.title")}
         </h1>
         <p className="mt-2.5 text-[15px] leading-relaxed text-balance text-muted">
-          {t("online:empty.body")}
+          {t("online:empty.link_body")}
         </p>
 
         {/* `min-h` rather than a fixed height, and room at the ends: these
             labels are two words in English and four in German, and a button
-            that cannot grow spills its second line over its own edges. */}
-        <div className="mt-6 flex w-full flex-col gap-2.5">
-          <TapButton
-            onClick={onCompose}
-            className="inline-flex min-h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-brand-fill px-5 py-3 text-balance font-display text-[17px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
-          >
-            <PlusIcon size={15} strokeWidth={2.4} />
-            {t("online:compose.title")}
-          </TapButton>
+            that cannot grow spills its second line over its own edges. The
+            link's own error line sits between the two buttons, which is where
+            the gap would be anyway. */}
+        <div className="mt-6 flex w-full flex-col gap-0.5">
+          <InviteLinkMaker setupType={DEFAULT_SETUP} side="random" lead />
 
           <TapButton
             onClick={() => playOffline("ai")}
@@ -448,6 +445,14 @@ function EmptyHub({
             {t("online:empty.play_bot")}
           </TapButton>
         </div>
+
+        <Link
+          to="/online"
+          search={{ invite: "new" }}
+          className="mt-3 inline-flex min-h-11 items-center rounded-lg px-3 text-[15px] text-subtle underline underline-offset-4 transition-colors duration-200 ease-out hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+        >
+          {t("online:empty.invite_by_name")}
+        </Link>
       </div>
     </div>
   )
