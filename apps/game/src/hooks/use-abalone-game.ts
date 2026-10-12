@@ -132,12 +132,15 @@ export type NewGameOptions = {
  *        `?mode=` are one piece of state, and a copy of it in here would be a
  *        second answer to go out of step with the first.
  * @param onModeChange where a press on that switch goes.
+ * @param startOnBoard start a game with the setup screen's defaults on mount,
+ *        rather than showing that screen. Read on the first render only.
  */
 export function useAbaloneGame(
   boardRef: RefObject<GameCanvasHandle | null>,
   //'ai' = vs computer, 'local' = pass & play
   mode: GameMode,
   onModeChange: (mode: GameMode) => void,
+  startOnBoard = false,
 ) {
   const [difficulty, setDifficulty] = useState(1)
   const [setupType, setSetupType] = useState<SetupKey>(DEFAULT_SETUP)
@@ -145,7 +148,11 @@ export function useAbaloneGame(
   const [colorChoice, setColorChoice] = useState<ColorChoiceValue>("black")
   const [playerColor, setPlayerColor] = useState<Player>("black")
 
-  const [phase, setPhase] = useState<GamePhase>("pregame")
+  //in play from the first render when starting on the board: a page that renders
+  //the setup screen and then the game has shown the setup screen
+  const [phase, setPhase] = useState<GamePhase>(
+    startOnBoard ? "ingame" : "pregame",
+  )
   const [state, setState] = useState<GameState>(() =>
     createGameState(DEFAULT_SETUP, "black", mode),
   )
@@ -425,6 +432,21 @@ export function useAbaloneGame(
       }),
     [startNewGame, state.mode, state.playerColor, state.setupType],
   )
+
+  //the board above is already the defaults' board; this connects the bot and
+  //counts the game. on a timer cleared by the cleanup, because StrictMode's
+  //throwaway mount would otherwise start a game its cleanup abandons, then a
+  //second one. the ref keeps it to one per mount however the deps change
+  const startedOnBoardRef = useRef(false)
+  const startOnBoardRef = useRef(startOnBoard)
+  useEffect(() => {
+    if (!startOnBoardRef.current || startedOnBoardRef.current) return
+    const timer = setTimeout(() => {
+      startedOnBoardRef.current = true
+      void startNewGame()
+    }, 0)
+    return () => clearTimeout(timer)
+  }, [startNewGame])
 
   const handleNewBot = useCallback(
     () => startNewGame({ setupType, colorChoice, mode, pregame: true }),

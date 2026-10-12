@@ -30,6 +30,35 @@ the board; nothing else decides which step is showing.
 - Read after mount, never during render. The pages are prerendered, and a flag
   read during the first render is a hydration mismatch (React #418).
 
+## First game against the computer opens on the board
+
+While the flag is not `done`, the ways in that offer a game against the
+computer skip the setup screen and start the game at once: bot Gus (level 1),
+the standard layout, the player on black, guide on step 1. Those are the setup
+screen's own defaults, so nothing is chosen for the player that the screen
+would not have chosen. Home → first move is 3 taps: vs Computer, a marble, a
+highlighted space.
+
+- Ways in: home "vs Computer", and the computer links on `/rules` and
+  `/strategy` (intro link and play button on each).
+- The link says "start now" in router history state (`state: { startOnBoard:
+  true }`), not in the URL. The `href` stays `/offline`, which is what search
+  engines see. A direct load of `/offline` (typed, bookmarked, from a search
+  result) has no such state and shows the setup screen as before.
+- `/offline` starts the game when that state is set and
+  `startsOnBoard(mode, isGuideDone())` holds: mode `ai` and the guide not done.
+  Pass & Play always keeps its setup screen (the names are asked there).
+- Decided on entry only. Switching tabs on the setup screen later does not
+  start a game.
+- The setup screen never paints on the way: the page starts in play, not in
+  setup and then in play.
+- Exactly one `start` game event (mode `ai`, `botLevel: 1`, `guided: true`) per
+  game started this way, also under React StrictMode.
+- **New game** (existing copy `game:controls.new_game`) on the board during a
+  game against the computer opens the setup screen in one tap. The game left
+  behind is counted as `abandoned` (see `game-events.md`).
+- After the flag is `done`, vs Computer opens the setup screen as before.
+
 ## Settings: How to move
 
 A button in the Settings sheet. It clears the flag (`resetGuide`), closes the
@@ -50,6 +79,10 @@ desktop, the space below the board on a phone), inside the viewport contract of
 - e2e: `e2e/first-game-guide.spec.ts` (fresh storage shows it, finish and skip
   are saved, second game has none, How to move brings it back, German copy, the
   guide never overlaps the board).
+- e2e: `e2e/first-game-board.spec.ts` (first game opens on the board from home,
+  `/rules` and `/strategy` at 390x844 and 1440x900, first move in 3 taps, one
+  start event, New game opens the setup screen, guide done keeps the setup
+  screen, Pass & Play keeps its setup screen).
 
 ## Later
 
