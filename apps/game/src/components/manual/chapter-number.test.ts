@@ -64,7 +64,9 @@ describe.each(Object.keys(LOCALES))("%s strategy tips", (path) => {
     (key, number) => {
       const split = splitChapterNumber(tips[key].title)
       expect(split.number).toBe(number)
-      expect(split.title).not.toMatch(/^\d/)
+      //a title may itself start with a digit (ja "3個の組を保つ"), but never
+      //with a second "N." numeral
+      expect(split.title).not.toMatch(/^\d+\.\s/)
       expect(split.title.length).toBeGreaterThan(0)
     },
   )
