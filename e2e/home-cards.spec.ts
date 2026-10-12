@@ -164,8 +164,12 @@ test.describe("taps", () => {
   test("Play Online asks a visitor to sign in", async ({ page }) => {
     await openApp(page, "/")
     await card(page, "Play Online").click()
+    //by its text, not its name: the phone drawer has no accessible name yet,
+    //which is older than this page and belongs to the sheet (TUD-627)
     await expect(
-      page.getByRole("dialog", { name: "Sign in to play online" }),
+      page
+        .getByRole("dialog")
+        .filter({ hasText: "Sign in to play online" }),
     ).toBeVisible()
   })
 })
@@ -179,9 +183,12 @@ test("Tab reaches the cards in the order they are drawn, then the rules", async 
 
   for (let stop = 0; stop < 25 && reached.length < wanted.length; stop++) {
     await page.keyboard.press("Tab")
-    const name = await page.evaluate(
-      () => document.activeElement?.textContent?.trim() ?? "",
-    )
+    //inside the page only: the desktop header has its own "Play Online" link
+    const name = await page.evaluate(() => {
+      const element = document.activeElement
+      if (element?.closest("main") == null) return ""
+      return element.textContent?.trim() ?? ""
+    })
     const match = wanted.find((title) => name.startsWith(title))
     if (match !== undefined && !reached.includes(match))
       reached.push(match)
