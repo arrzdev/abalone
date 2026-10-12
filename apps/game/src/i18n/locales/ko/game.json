@@ -21,7 +21,7 @@
     "computer": "컴퓨터"
   },
   "controls": {
-    "page_title": "봇 대전",
+    "setup_title": "새 게임 · {{mode}}",
     "marble_design": "구슬 디자인",
     "marble_design_classic": "미니멀",
     "marble_design_3d": "리얼",

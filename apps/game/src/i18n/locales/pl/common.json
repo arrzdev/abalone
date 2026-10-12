@@ -7,7 +7,7 @@
     "profile": "Profil",
     "home": "Start",
     "online": "Graj online",
-    "offline": "Graj offline"
+    "offline": "Graj"
   },
   "language": {
     "select": "Wybierz Język",
@@ -23,7 +23,6 @@
     "heading": "Graj w Abalone online, za darmo",
     "lede": "Wypchnij sześć kul przeciwnika poza planszę. Graj z komputerem, podaj dalej urządzenie albo zaproś znajomego.",
     "play_online": "Graj online",
-    "play_offline": "Graj offline",
     "bot_hint": "Osiem botów, od łatwych do trudnych.",
     "local_hint": "Was dwoje, jedno urządzenie.",
     "online_hint": "Darmowe konto. Zaproś kogo chcesz.",

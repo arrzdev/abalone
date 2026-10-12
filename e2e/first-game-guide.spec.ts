@@ -146,7 +146,7 @@ test("the guide speaks the player's language", async ({ page }) => {
     localStorage.setItem("abalone_language", "de")
   })
   await openApp(page, "/offline")
-  await page.getByRole("tab", { name: "gegen Computer" }).click()
+  await page.getByRole("tab", { name: "Gegen Computer" }).click()
   await page.getByRole("button", { name: "Spielen", exact: true }).click()
   await expect(
     page.getByRole("button", { name: "Aufgeben" }),

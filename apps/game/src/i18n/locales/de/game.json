@@ -21,7 +21,7 @@
     "computer": "Computer"
   },
   "controls": {
-    "page_title": "Bots Spielen",
+    "setup_title": "Neues Spiel · {{mode}}",
     "marble_design": "Murmel-Design",
     "marble_design_classic": "Minimalistisch",
     "marble_design_3d": "Realistisch",
@@ -55,7 +55,7 @@
     "prev_setup": "Vorherige Aufstellung",
     "next_setup": "Nächste Aufstellung",
     "game_mode": "Spielmodus",
-    "mode_ai": "gegen Computer",
+    "mode_ai": "Gegen Computer",
     "mode_local": "Zwei Spieler",
     "sound": "Ton",
     "sound_hint": "Kugeln, die landen und vom Brett fallen",
