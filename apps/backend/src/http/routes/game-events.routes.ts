@@ -31,6 +31,13 @@ const noBotLevelSchema = z.null().optional()
 //stored as not guided
 const guidedSchema = z.boolean().optional()
 
+//only a start says it, and only the kind of page: never a path, query,
+//referrer or invite token. a build from before the field says nothing, which
+//is stored as null
+const entrySchema = z
+  .enum(["home", "rules", "strategy", "invite", "other"])
+  .optional()
+
 const gameEventSchema = z.union([
   z.strictObject({
     ...eventFields,
@@ -38,6 +45,7 @@ const gameEventSchema = z.union([
     mode: z.literal("ai"),
     botLevel: botLevelSchema,
     guided: guidedSchema,
+    entry: entrySchema,
   }),
   z.strictObject({
     ...eventFields,
@@ -45,6 +53,7 @@ const gameEventSchema = z.union([
     mode: z.literal("local"),
     botLevel: noBotLevelSchema,
     guided: guidedSchema,
+    entry: entrySchema,
   }),
   z.strictObject({
     ...eventFields,
@@ -110,6 +119,7 @@ export const gameEventRoutes = newEndpoint<Env>()
       result: "result" in event ? event.result : null,
       moveCount: "moveCount" in event ? event.moveCount : null,
       guided: "guided" in event ? (event.guided ?? false) : false,
+      entry: "entry" in event ? (event.entry ?? null) : null,
       appVersion: event.appVersion,
     })
 
