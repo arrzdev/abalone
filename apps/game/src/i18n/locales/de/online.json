@@ -112,7 +112,7 @@
     "expired_title": "Diese Einladung ist abgelaufen",
     "expired_body": "Einladungslinks gelten 7 Tage. Bitte die Person, die ihn geschickt hat, um einen neuen.",
     "broken_title": "Dieser Einladungslink funktioniert nicht",
-    "broken_body": "Prüfe, ob der ganze Link eingefügt wurde, oder bitte die Person, die ihn geschickt hat, um einen neuen.",
+    "broken_body": "Prüfe, ob du den ganzen Link eingefügt hast, oder bitte den Absender um einen neuen.",
     "play_computer": "Gegen den Computer spielen"
   }
 }

@@ -110,8 +110,8 @@
     "used_body": "别人先接受了。请向 {{name}} 要一个新链接。",
     "expired_title": "这个邀请已过期",
     "expired_body": "邀请链接有效期为 7 天。请向发送者要一个新链接。",
-    "broken_title": "此邀请链接无效",
-    "broken_body": "请检查是否粘贴了完整的链接，或请发送者重新发一个。",
-    "play_computer": "与电脑对战"
+    "broken_title": "这个邀请链接无法使用",
+    "broken_body": "请检查是否粘贴了完整的链接，或向发送者要一个新的。",
+    "play_computer": "和电脑对战"
   }
 }

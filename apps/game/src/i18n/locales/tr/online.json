@@ -111,7 +111,7 @@
     "expired_title": "Bu davetin süresi doldu",
     "expired_body": "Davet bağlantıları 7 gün geçerlidir. Gönderen kişiden yenisini iste.",
     "broken_title": "Bu davet bağlantısı çalışmıyor",
-    "broken_body": "Bağlantının tamamının yapıştırıldığından emin ol ya da gönderen kişiden yenisini iste.",
+    "broken_body": "Bağlantının tamamını yapıştırdığını kontrol et ya da gönderen kişiden yenisini iste.",
     "play_computer": "Bilgisayara karşı oyna"
   }
 }
