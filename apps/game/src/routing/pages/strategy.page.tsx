@@ -1,9 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
-import type { ReactNode } from "react"
 import { Fragment } from "react"
 import { Trans, useTranslation } from "react-i18next"
+import type { ManualChapter } from "@/components/manual/chapter"
+import { Chapter, ChapterBreak } from "@/components/manual/chapter"
+import {
+  formatChapterNumber,
+  splitChapterNumber,
+} from "@/components/manual/chapter-number"
+import { ManualHero, ManualPage } from "@/components/manual/manual-page"
 import { PlayBlock } from "@/components/play-block"
-import { Card, Page, PageTitle } from "@/components/ui/page"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { COMPUTER_GAME } from "@/hooks/use-play-actions"
 import { seoPageHead } from "@/routing/seo-pages"
@@ -17,7 +22,7 @@ export const Route = createFileRoute("/_subpage/strategy")({
  * Seven habits that win games, as text (the `strategy-page-final` document on
  * TUD-632).
  *
- * Built like the rules: one card per section, each heading a link target
+ * Built like the rules, as a manual: each heading a link target
  * (/strategy#tempo). The rules say what a move is; this page says which one to
  * make, and it ends where the habits get practised, at a board.
  */
@@ -43,43 +48,30 @@ const STRONG = <strong className="font-semibold text-white" />
 const TEXT_LINK_CLASS =
   "font-semibold text-brand-light underline underline-offset-2 hover:text-white"
 
-/** One section: its heading, a link target, and what it says. */
-function Section({
-  id,
-  title,
-  children,
-  actions,
-}: {
-  id: string
-  title: string
-  children?: ReactNode
-  /** Under the text, and free of its reading measure. */
-  actions?: ReactNode
-}) {
-  return (
-    <Card>
-      <div className="min-w-0 max-w-[70ch]">
-        {/* `scroll-mt` so a link to the heading does not land it flush
-            against the top of the scroller. */}
-        <h2
-          id={id}
-          className="scroll-mt-6 text-lg font-bold text-brand-light"
-        >
-          {title}
-        </h2>
-        {children && (
-          <div className="mt-2 flex flex-col gap-y-2 text-sm leading-relaxed text-subtle">
-            {children}
-          </div>
-        )}
-      </div>
-      {actions}
-    </Card>
-  )
-}
-
 function StrategyPage() {
   const { t } = useTranslation()
+
+  const chapters: ManualChapter[] = [
+    ...TIPS.map(([id, key]) => {
+      const { number, title } = splitChapterNumber(
+        t(`game:strategy.tips.${key}.title`),
+      )
+      return {
+        id,
+        title,
+        number: number === null ? undefined : formatChapterNumber(number),
+      }
+    }),
+    { id: "mistakes", title: t("game:strategy.mistakes.title") },
+    { id: "practise", title: t("game:strategy.practise.title") },
+  ]
+
+  const playBlock = (
+    <PlayBlock
+      cta={t("game:strategy.play.cta")}
+      more={t("game:strategy.play.more")}
+    />
+  )
 
   return (
     <>
@@ -87,11 +79,16 @@ function StrategyPage() {
           label: one `<h1>` on the page. */}
       <SubpageHeader title={t("game:strategy.title")} titleAs="p" />
 
-      <Page className="lg:max-w-[760px]">
-        <PageTitle
-          onPhone
-          description={
-            <span className="block max-w-[70ch]">
+      {/* No plates: the tips are habits, not positions. The titles carry their
+          own number ("1. Control the center"); it moves to the numeral column,
+          printed once, like the rules (TUD-910, open point 1). */}
+      <ManualPage
+        title={t("game:strategy.title")}
+        chapters={chapters}
+        hero={
+          <ManualHero
+            heading={t("game:strategy.heading")}
+            intro={
               <Trans
                 i18nKey="game:strategy.intro"
                 components={{
@@ -101,66 +98,41 @@ function StrategyPage() {
                   rules: <Link to="/rules" className={TEXT_LINK_CLASS} />,
                 }}
               />
-            </span>
-          }
-        >
-          {t("game:strategy.heading")}
-        </PageTitle>
-
-        {/* A way to the board under the intro, after the third tip and in
-            "Practise", for whoever has read enough at any of the three. */}
-        <PlayBlock
-          cta={t("game:strategy.play.cta")}
-          more={t("game:strategy.play.more")}
-        />
-
-        <div className="flex flex-col gap-y-4">
-          {TIPS.map(([id, key]) => (
-            <Fragment key={id}>
-              <Section
-                id={id}
-                title={t(`game:strategy.tips.${key}.title`)}
-              >
-                <p>
-                  <Trans
-                    i18nKey={`game:strategy.tips.${key}.body`}
-                    components={{ strong: STRONG }}
-                  />
-                </p>
-              </Section>
-              {id === MIDDLE_TIP && (
-                <PlayBlock
-                  cta={t("game:strategy.play.cta")}
-                  more={t("game:strategy.play.more")}
-                />
-              )}
-            </Fragment>
-          ))}
-
-          <Section id="mistakes" title={t("game:strategy.mistakes.title")}>
-            <ul className="flex list-disc flex-col gap-y-1.5 pl-5 marker:text-faint">
-              {MISTAKES.map((item) => (
-                <li key={item}>
-                  {t(`game:strategy.mistakes.items.${item}`)}
-                </li>
-              ))}
-            </ul>
-          </Section>
-
-          <Section
-            id="practise"
-            title={t("game:strategy.practise.title")}
-            actions={
-              <div className="mt-3">
-                <PlayBlock
-                  cta={t("game:strategy.play.cta")}
-                  more={t("game:strategy.play.more")}
-                />
-              </div>
             }
+            //a way to the board under the intro, after the third tip and in
+            //"Practise", for whoever has read enough at any of the three
+            actions={playBlock}
           />
-        </div>
-      </Page>
+        }
+      >
+        {TIPS.map(([id, key], index) => (
+          <Fragment key={id}>
+            <Chapter {...chapters[index]}>
+              <p>
+                <Trans
+                  i18nKey={`game:strategy.tips.${key}.body`}
+                  components={{ strong: STRONG }}
+                />
+              </p>
+            </Chapter>
+            {id === MIDDLE_TIP && <ChapterBreak>{playBlock}</ChapterBreak>}
+          </Fragment>
+        ))}
+
+        <Chapter id="mistakes" title={t("game:strategy.mistakes.title")}>
+          <ul className="flex list-disc flex-col gap-y-1.5 pl-5 marker:text-faint">
+            {MISTAKES.map((item) => (
+              <li key={item}>
+                {t(`game:strategy.mistakes.items.${item}`)}
+              </li>
+            ))}
+          </ul>
+        </Chapter>
+
+        <Chapter id="practise" title={t("game:strategy.practise.title")}>
+          {playBlock}
+        </Chapter>
+      </ManualPage>
     </>
   )
 }
