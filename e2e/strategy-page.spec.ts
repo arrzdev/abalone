@@ -9,15 +9,17 @@ import { openApp } from "./support/app"
 const STRATEGY_H1 = "Abalone strategy: 7 tips to win"
 const HOME_H1 = "Play Abalone online, free"
 
-// The tips in reading order; each id is a link target (/strategy#center).
+// The tips in reading order; each id is a link target (/strategy#center). The
+// heading keeps the words; the tip's number is printed once, beside it, as the
+// chapter numeral (rules-redesign §10.1 on TUD-893, e2e/manual-layout.spec.ts).
 const SECTIONS = [
-  ["center", "1. Control the center"],
-  ["groups-of-three", "2. Keep your groups of three"],
-  ["edge", "3. Stay away from the edge"],
-  ["count", "4. Count before you push"],
-  ["opening", "5. Choose your opening on purpose"],
-  ["attack-as-a-group", "6. Attack as a group, not as a hero"],
-  ["tempo", "7. Win the tempo, not the marble"],
+  ["center", "Control the center"],
+  ["groups-of-three", "Keep your groups of three"],
+  ["edge", "Stay away from the edge"],
+  ["count", "Count before you push"],
+  ["opening", "Choose your opening on purpose"],
+  ["attack-as-a-group", "Attack as a group, not as a hero"],
+  ["tempo", "Win the tempo, not the marble"],
   ["mistakes", "Common mistakes"],
   ["practise", "Practise"],
 ] as const
