@@ -464,11 +464,13 @@ test.describe("in every shipped language", () => {
     "text fit: one engine is enough",
   )
 
-  for (const path of PATHS) {
-    test(`${path}: three blocks, every label whole`, async ({
-      browser,
-    }) => {
-      for (const locale of LOCALES) {
+  // one test per language and page: thirteen page loads in one test sat
+  // close to its timeout on a loaded machine
+  for (const locale of LOCALES) {
+    for (const path of PATHS) {
+      test(`${locale} ${path}: three blocks, every label whole`, async ({
+        browser,
+      }) => {
         const page = await openInLocale(browser, locale, path)
 
         // the intro links go there too; the buttons are the 54 px ones
@@ -481,13 +483,15 @@ test.describe("in every shipped language", () => {
               fits: link.scrollHeight <= link.clientHeight,
             })),
         )
-        expect(fits, locale).toHaveLength(3)
+        expect(fits).toHaveLength(3)
         for (const { text, fits: whole } of fits) {
-          expect(whole, `${locale}: "${text}"`).toBe(true)
+          expect(whole, `"${text}"`).toBe(true)
         }
 
         await page.context().close()
-      }
-    })
+      })
+    }
+  }
+})
   }
 })
