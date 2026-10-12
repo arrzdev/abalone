@@ -1,6 +1,9 @@
 # CI deploy after build: wrangler deploy --config dist/server/wrangler.json
 name = "abalone-game"
-main = "@tanstack/react-start/server-entry"
+# The Worker is src/server.ts: Start's handler with the invite link card in
+# front. The Cloudflare plugin builds this file, not Start's server entry, so it
+# is named here as well as in nativ.config.ts (router.serverEntry).
+main = "./src/server.ts"
 compatibility_date = "2026-03-17"
 compatibility_flags = ["nodejs_compat"]
 upload_source_maps = false
@@ -11,3 +14,11 @@ workers_dev = false
 [env.production]
 name = "abalone-game"
 workers_dev = false
+
+# The backend's public invite read, for the card an invite link unfurls into
+# (src/server.ts). A fetch to abalone.tudu.dev/api from this Worker is a
+# same-zone subrequest and skips Worker routes, so it never reaches the backend.
+# Dev and e2e have no binding and use VITE_BACKEND_URL.
+[[env.production.services]]
+binding = "BACKEND"
+service = "abalone-backend"

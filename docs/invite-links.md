@@ -103,7 +103,9 @@ is not a static asset already reaches the game Worker (TanStack Start), which
 writes the route head into the HTML it returns; `/invite/<id>` shows
 "Invite · Abalone" today because the route's loader has no answer on the
 server. A custom server entry (`apps/game/src/server.ts`, set with
-`router.serverEntry` in `nativ.config.ts`) wraps Start's handler:
+`router.serverEntry` in `nativ.config.ts`, and as `main` in
+`apps/game/wrangler.toml`: the Cloudflare plugin builds the Worker from `main`,
+not from Start's server entry) wraps Start's handler:
 
 1. `inviteLinkIdFromPath(pathname)` matches `/invite/<43-char token>`. Any
    other path goes to Start untouched.
