@@ -50,6 +50,43 @@ describe("reportGameEvent", () => {
     expect(fetch).not.toHaveBeenCalled()
   })
 
+  it("says the event is automated when a test drives the browser", async () => {
+    const sendBeacon = vi.fn(() => true)
+    vi.stubGlobal("navigator", {
+      ...navigator,
+      sendBeacon,
+      webdriver: true,
+    })
+
+    reportGameEvent(start)
+
+    const [, body] = sendBeacon.mock.calls[0] as unknown as [
+      string,
+      unknown,
+    ]
+    expect(await sentBody(body)).toMatchObject({
+      ...start,
+      automated: true,
+    })
+  })
+
+  it("says nothing about automation for a player's browser", async () => {
+    const sendBeacon = vi.fn(() => true)
+    vi.stubGlobal("navigator", {
+      ...navigator,
+      sendBeacon,
+      webdriver: false,
+    })
+
+    reportGameEvent(start)
+
+    const [, body] = sendBeacon.mock.calls[0] as unknown as [
+      string,
+      unknown,
+    ]
+    expect(await sentBody(body)).not.toHaveProperty("automated")
+  })
+
   it("falls back to a keepalive fetch when the beacon is refused", async () => {
     vi.stubGlobal("navigator", { ...navigator, sendBeacon: () => false })
     const fetch = vi.fn(() => Promise.resolve(new Response(null)))

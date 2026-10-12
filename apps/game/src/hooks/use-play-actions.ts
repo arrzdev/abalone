@@ -4,9 +4,9 @@ import { useCallback } from "react"
 import { useAuthPrompt } from "@/providers/auth-prompt-provider"
 
 /**
- * The computer game: where home's vs Computer card goes, and where a page that
- * offers a game against the computer sends you. One place, so that where a
- * first game against the computer lands is decided once.
+ * The computer game: where home's vs Computer card goes, and where every "play"
+ * link on a page about the game goes. One place, so that where a first game
+ * against the computer lands is decided once.
  *
  * A route, its search and its state rather than a string, so a `Link` can take
  * it as is and a crawler still finds a plain `href`. The state asks `/offline`
@@ -57,10 +57,15 @@ export function usePlayActions() {
     [navigate],
   )
 
+  const playComputer = useCallback(
+    () => navigate(COMPUTER_GAME),
+    [navigate],
+  )
+
   const playOnline = useCallback(
     () => requireAuth({ redirect: "/online" }),
     [requireAuth],
   )
 
-  return { playOnline, playOffline }
+  return { playOnline, playOffline, playComputer }
 }
