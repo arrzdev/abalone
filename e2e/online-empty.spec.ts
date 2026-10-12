@@ -86,7 +86,7 @@ function linkCreated(page: Page): Promise<string> {
         new URL(response.url()).pathname === "/api/v1/invite-links",
     )
     .then(async (response) => {
-      expect(response.status()).toBe(200)
+      expect(response.status()).toBe(201)
       const body = await response.json()
       return body.data.url as string
     })
@@ -118,7 +118,9 @@ test("a new account shares an invite link in one tap", async ({
 
   // The page says how a game starts without asking for anybody's username.
   const main = page.locator("main")
-  await expect(main).not.toContainText(/username|by name/i)
+  const body = main.locator("h1 + p")
+  await expect(body).toBeVisible()
+  await expect(body).not.toContainText(/username|by name/i)
 
   const created = linkCreated(page)
   await emptyActions(page).link.click()
