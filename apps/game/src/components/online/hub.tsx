@@ -412,7 +412,7 @@ function FinishedPanel({ games, myUserId }: FinishedPanelProps) {
  */
 function EmptyHub({ sync }: { sync: SyncState }) {
   const { t } = useTranslation()
-  const { playOffline } = usePlayActions()
+  const { playComputer } = usePlayActions()
 
   return (
     <div className="relative flex min-h-0 flex-1 items-center justify-center px-6 py-8">
@@ -438,7 +438,7 @@ function EmptyHub({ sync }: { sync: SyncState }) {
           <InviteLinkMaker setupType={DEFAULT_SETUP} side="random" lead />
 
           <TapButton
-            onClick={() => playOffline("ai")}
+            onClick={playComputer}
             className="inline-flex min-h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-surface px-5 py-3 text-balance font-display text-[17px] font-semibold text-subtle transition-colors duration-200 ease-out hover:bg-surface-2 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground"
           >
             <RobotIcon size={20} className="text-muted" />
