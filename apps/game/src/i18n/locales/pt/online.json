@@ -110,6 +110,9 @@
     "used_title": "Este convite já foi usado",
     "used_body": "Outra pessoa aceitou primeiro. Pede um link novo a {{name}}.",
     "expired_title": "Este convite expirou",
-    "expired_body": "Os links de convite duram 7 dias. Pede um novo a quem to enviou."
+    "expired_body": "Os links de convite duram 7 dias. Pede um novo a quem to enviou.",
+    "broken_title": "Este link de convite não funciona",
+    "broken_body": "Confirma que colaste o link completo ou pede um novo a quem o enviou.",
+    "play_computer": "Jogar contra o computador"
   }
 }
