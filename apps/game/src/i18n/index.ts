@@ -37,22 +37,6 @@ export const LANGUAGE_NAMES: Record<Language, string> = {
   tr: "Türkçe",
 }
 
-export const LANGUAGE_FLAGS: Record<Language, string> = {
-  en: "🇬🇧",
-  de: "🇩🇪",
-  fr: "🇫🇷",
-  es: "🇪🇸",
-  it: "🇮🇹",
-  pt: "🇵🇹",
-  nl: "🇳🇱",
-  pl: "🇵🇱",
-  ja: "🇯🇵",
-  zh: "🇨🇳",
-  ko: "🇰🇷",
-  hi: "🇮🇳",
-  tr: "🇹🇷",
-}
-
 function isSupported(value: string | undefined): value is Language {
   return (
     value !== undefined &&
