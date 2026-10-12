@@ -7,7 +7,7 @@
     "profile": "个人资料",
     "home": "首页",
     "online": "在线对战",
-    "offline": "离线对战"
+    "offline": "开始"
   },
   "language": {
     "select": "选择语言",
@@ -23,7 +23,6 @@
     "heading": "在线免费玩 Abalone",
     "lede": "把对手的六颗棋子推出棋盘。可以和电脑对战，也可以轮流用同一台设备，或者邀请朋友。",
     "play_online": "在线对战",
-    "play_offline": "离线对战",
     "online_hint": "邀请任何人，按自己的节奏对弈。",
     "rules_link": "Abalone 规则",
     "strategy_link": "Abalone 策略技巧",

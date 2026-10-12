@@ -7,7 +7,7 @@
     "profile": "Profil",
     "home": "Start",
     "online": "Online spielen",
-    "offline": "Offline spielen"
+    "offline": "Spielen"
   },
   "language": {
     "select": "Sprache wählen",
@@ -23,7 +23,6 @@
     "heading": "Abalone online spielen, kostenlos",
     "lede": "Schiebe sechs gegnerische Kugeln vom Brett. Spiel gegen den Computer, reich das Gerät weiter oder lade einen Freund ein.",
     "play_online": "Online spielen",
-    "play_offline": "Offline spielen",
     "online_hint": "Lade jemanden ein, spiel in deinem Tempo.",
     "rules_link": "Abalone-Regeln",
     "strategy_link": "Abalone-Strategietipps",

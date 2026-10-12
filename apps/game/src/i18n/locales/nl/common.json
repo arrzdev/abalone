@@ -7,7 +7,7 @@
     "profile": "Profiel",
     "home": "Start",
     "online": "Online spelen",
-    "offline": "Offline spelen"
+    "offline": "Spelen"
   },
   "language": {
     "select": "Selecteer Taal",
@@ -23,7 +23,6 @@
     "heading": "Speel Abalone online, gratis",
     "lede": "Duw zes ballen van je tegenstander van het bord. Speel tegen de computer, geef het apparaat door of nodig een vriend uit.",
     "play_online": "Online spelen",
-    "play_offline": "Offline spelen",
     "online_hint": "Nodig iemand uit, speel op je tempo.",
     "rules_link": "Abalone-regels",
     "strategy_link": "Abalone-strategietips",

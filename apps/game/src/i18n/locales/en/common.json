@@ -7,7 +7,7 @@
     "profile": "Profile",
     "home": "Home",
     "online": "Play Online",
-    "offline": "Play Offline"
+    "offline": "Play"
   },
   "language": {
     "select": "Select Language",
@@ -23,7 +23,6 @@
     "heading": "Play Abalone online, free",
     "lede": "Push six of your opponent's marbles off the board. Play the computer, pass the device, or invite a friend.",
     "play_online": "Play Online",
-    "play_offline": "Play Offline",
     "online_hint": "Invite anyone, play at your own pace.",
     "rules_link": "Abalone rules",
     "strategy_link": "Abalone strategy tips",

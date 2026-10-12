@@ -7,7 +7,7 @@
     "profile": "Perfil",
     "home": "Inicio",
     "online": "Jugar en línea",
-    "offline": "Jugar sin conexión"
+    "offline": "Jugar"
   },
   "language": {
     "select": "Seleccionar idioma",
@@ -23,7 +23,6 @@
     "heading": "Juega a Abalone en línea, gratis",
     "lede": "Empuja seis bolas del rival fuera del tablero. Juega contra el ordenador, pasa el dispositivo o invita a un amigo.",
     "play_online": "Jugar en línea",
-    "play_offline": "Jugar sin conexión",
     "online_hint": "Invita a alguien y juega a tu ritmo.",
     "rules_link": "Reglas de Abalone",
     "strategy_link": "Consejos de estrategia de Abalone",
