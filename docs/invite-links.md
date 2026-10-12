@@ -88,14 +88,66 @@ After an accept, both players get `games-changed` on the realtime channel.
   - unknown id: the expired-style message with **Go home**.
 - The page head (`pageHead`) uses the inviter's name from the public read, so
   share sheets and crawlers that run JavaScript see "<name> invited you to a
-  game of Abalone". Chat apps that do not run JavaScript still see the root card:
-  the game is one prerendered SPA shell. A per-link card needs a request-time
-  head and is a separate decision.
+  game of Abalone". Chat apps that do not run JavaScript get the same card from
+  the request-time head below.
 - All copy goes through `core-copywriting`, in every locale under
   `apps/game/src/i18n/locales`.
 
+## The link preview (TUD-799)
+
+A link pasted into a chat app unfurls as "<name> invited you to a game of
+Abalone" while it is open. Decision: Marta Reis (CTO), 2026-10-12.
+
+**Where the head is rendered: the game Worker.** Every request for a path that
+is not a static asset already reaches the game Worker (TanStack Start), which
+writes the route head into the HTML it returns; `/invite/<id>` shows
+"Invite · Abalone" today because the route's loader has no answer on the
+server. A custom server entry (`apps/game/src/server.ts`, set with
+`router.serverEntry` in `nativ.config.ts`) wraps Start's handler:
+
+1. `inviteLinkIdFromPath(pathname)` matches `/invite/<43-char token>`. Any
+   other path goes to Start untouched.
+2. Start renders the page as it does now (the shell).
+3. The Worker calls the backend's public read, `GET /api/v1/invite-links/:id`:
+   the existing route and `InviteLinkService`, one D1 query. No new route, no
+   contract change, no D1 binding on the game Worker.
+   - Production: a service binding `BACKEND` → `abalone-backend` in
+     `[env.production]` of `apps/game/wrangler.toml`. A plain `fetch` to
+     `abalone.tudu.dev/api/…` from the game Worker does not reach the backend:
+     a subrequest to the same zone skips Worker routes.
+   - Dev and e2e: no binding; the Worker fetches `VITE_BACKEND_URL`, which the
+     e2e build already sets (`e2e/support/serve-game.sh`).
+   - The request forwards the visitor's `cf-connecting-ip`, so the `api` rate
+     limit keys on the visitor, not on the game Worker. A short timeout
+     (about 1.5 s); past it, the generic card.
+4. `serveInvitePage({ linkId, shell, readLink })`
+   (`apps/game/src/server/invite-page.ts`) rewrites the head:
+
+| Link | `<title>`, `og:title`, `twitter:title` | description (all three) | image |
+|---|---|---|---|
+| open | `<name> invited you to a game of Abalone` | `Accept and play <name> online. Abalone is the two-player strategy game where you push six of your opponent's marbles off the board.` | `og-game.jpg` |
+| used, expired, unknown, read failed | `Invite · Abalone` | `An invite to a game of Abalone, the two-player strategy game of pushing marbles off the board.` | `og-home.jpg` |
+
+- `twitter:card` stays `summary_large_image`, `robots` stays `noindex`. One
+  fixed image per state; nothing is generated per link.
+- The token never appears in the card text (title, descriptions). `og:url`
+  keeps the link's own URL so a crawler that follows it gets the same card.
+- The name is HTML-escaped: it goes into attributes.
+- Every `/invite/<id>` response carries `Cache-Control: private, no-store`:
+  the card changes when the link is used, so no edge or browser keeps it.
+- The route's client head (`pages/invite-link.page.tsx`) uses the same copy
+  (`fullTitle`, so the brand is not written twice), so the tab and the preview
+  agree.
+
+**Bots without JavaScript** read the HTML the Worker returns, which already has
+the card; nothing depends on the client.
+
 ## Tests
 
+- Link preview: `apps/game/src/server/invite-page.test.ts` (the four states,
+  read failure, cache header, escaping, no token in the card text) and the
+  "link preview" test in `e2e/invite-link.spec.ts` (raw HTML with a crawler user
+  agent, open then used).
 - API: `apps/backend/src/http/routes/invite-link.routes.test.ts`.
 - Return path through sign-up: `apps/game/src/routing/return-to.test.ts`.
 - E2E: `e2e/invite-link.spec.ts` (two browser contexts; used and expired links).
