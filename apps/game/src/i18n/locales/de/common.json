@@ -24,13 +24,11 @@
     "lede": "Schiebe sechs gegnerische Kugeln vom Brett. Spiel gegen den Computer, reich das Gerät weiter oder lade einen Freund ein.",
     "play_online": "Online spielen",
     "play_offline": "Offline spielen",
-    "online_hint": "Lade jemanden ein, spiel in deinem Tempo.",
+    "bot_hint": "Acht Bots, leicht bis schwer.",
+    "local_hint": "Ihr zwei, ein Gerät.",
+    "online_hint": "Gratis-Konto. Lade jeden ein.",
     "rules_link": "Abalone-Regeln",
     "strategy_link": "Abalone-Strategietipps",
-    "bot_hint_short": "Acht Stärken",
-    "bot_hint_long": "Acht Bots, von Gus bis Magnus.",
-    "local_hint_short": "Ein Gerät, ihr beide",
-    "local_hint_long": "Zu zweit, abwechselnd an diesem Gerät.",
     "bots_caption": "Acht Bots, von Gus bis Magnus"
   },
   "auth": {

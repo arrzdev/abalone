@@ -17,6 +17,7 @@ import { GameService } from "@/services/game.service"
 import type { GameEvent } from "@/services/game-event.service"
 import { GameEventService } from "@/services/game-event.service"
 import { InviteService } from "@/services/invite.service"
+import { isHeadlessBrowser } from "@/utils/headless-browser"
 
 //---- schemas ----------------
 
@@ -112,6 +113,9 @@ function countOnlineGame(
   c: GameContext,
   event: Pick<GameEvent, "kind" | "result" | "moveCount">,
 ): void {
+  //our own e2e and smoke checks, as in `POST /events/game`
+  if (isHeadlessBrowser(c.req.header("user-agent"))) return
+
   const gameEventService = new GameEventService(getDb(c.env.DB))
   c.executionCtx.waitUntil(
     tryCatch(() =>

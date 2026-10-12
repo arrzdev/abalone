@@ -48,6 +48,26 @@ worker memory only and never writes it.
   finishes do not pair; count them instead. An online game that is never
   finished stays `active` and gets no finish row.
 
+## Our own checks are not counted
+
+Our e2e and smoke checks play real games, often against production right after
+a deploy. They are not players, so their games are never stored:
+
+- The game adds `automated: true` to an event when `navigator.webdriver` is
+  true. Playwright, and any other WebDriver-driven browser, sets it. A player's
+  browser does not, and their event carries no `automated` field at all.
+- The backend drops an event that says `automated: true`, or whose user agent
+  names a headless browser (`HeadlessChrome`). That second check covers builds
+  older than the flag, and online games, which only the server counts.
+
+A dropped event is still validated and still answered 204, so a check sees no
+difference and still fails on a bad event. The user agent is read for that one
+check and never written.
+
+**Rows from before the filter went live** (TUD-847) can't be told apart: in its
+first days most of them were our own checks. Start any count of real players at
+the filter's production deploy (`:filter_live_ms` below).
+
 **Offline:** events are dropped, not queued. The numbers are for trends, not
 billing, and a queue would be one more thing that can break the game.
 
@@ -89,6 +109,20 @@ For anything else, run your own SQL:
 
 ```sh
 pnpm --filter @repo/backend exec wrangler d1 execute abalone-backend-db --remote --env production --command "<sql>"
+```
+
+Real plays per day, the growth number. `:filter_live_ms` is the production
+deploy of the filter for our own checks, in epoch ms. Rows before it mix in
+our checks:
+
+```sql
+select date(created_at / 1000, 'unixepoch') as day,
+       sum(kind = 'start') as started,
+       sum(kind = 'finish' and result != 'abandoned') as finished
+from game_events
+where created_at >= :filter_live_ms
+group by day
+order by day desc;
 ```
 
 Games started and finished per mode per day:

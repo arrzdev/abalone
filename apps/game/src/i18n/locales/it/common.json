@@ -24,13 +24,11 @@
     "lede": "Spingi sei biglie avversarie fuori dal tabellone. Gioca contro il computer, passa il dispositivo o invita un amico.",
     "play_online": "Gioca online",
     "play_offline": "Gioca offline",
-    "online_hint": "Invita qualcuno e gioca ai tuoi tempi.",
+    "bot_hint": "Otto bot, da facile a difficile.",
+    "local_hint": "Voi due, un dispositivo.",
+    "online_hint": "Account gratis. Invita chiunque.",
     "rules_link": "Regole di Abalone",
     "strategy_link": "Consigli di strategia per Abalone",
-    "bot_hint_short": "Otto livelli",
-    "bot_hint_long": "Otto bot, da Gus a Magnus.",
-    "local_hint_short": "Un dispositivo, voi due",
-    "local_hint_long": "In due, a turno, su questo dispositivo.",
     "bots_caption": "Otto bot, da Gus a Magnus"
   },
   "auth": {

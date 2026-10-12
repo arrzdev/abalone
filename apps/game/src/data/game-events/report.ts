@@ -18,6 +18,13 @@ function appVersion(): string {
   return typeof __APP_VERSION__ === "string" ? __APP_VERSION__ : "dev"
 }
 
+//a test is driving the browser: our e2e and smoke checks. said only when true,
+//so a player's event is the same as before
+function automatedField(): { automated?: true } {
+  if (typeof navigator === "undefined") return {}
+  return navigator.webdriver === true ? { automated: true } : {}
+}
+
 //true when the browser took it. a beacon outlives the page, which is the whole
 //point when the event is the page closing
 function sendAsBeacon(url: string, body: string): boolean {
@@ -48,7 +55,11 @@ function sendAsFetch(url: string, body: string): void {
  */
 export function reportGameEvent(event: GameEvent): void {
   const url = `${backendBaseUrl}${EVENTS_PATH}`
-  const body = JSON.stringify({ ...event, appVersion: appVersion() })
+  const body = JSON.stringify({
+    ...event,
+    appVersion: appVersion(),
+    ...automatedField(),
+  })
   if (sendAsBeacon(url, body)) return
   sendAsFetch(url, body)
 }
