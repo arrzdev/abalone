@@ -126,6 +126,8 @@ function countOnlineGame(
         botLevel: null,
         //an online game never shows the first-game guide
         guided: false,
+        //nor starts from a landing page this table counts
+        entry: null,
         appVersion: "server",
       }),
     ),
