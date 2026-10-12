@@ -172,6 +172,20 @@ function secondaries(page: Page): Locator {
     .getByRole("link", { name: MORE, exact: true })
 }
 
+/**
+ * The computer game on screen. Where it lands is TUD-818's: the board on a
+ * first game (first-game-board.spec.ts), the setup screen after it. Waiting for
+ * it also lets /offline finish its own replace navigation, which would
+ * otherwise interrupt the next `goto`.
+ */
+async function expectComputerGame(page: Page): Promise<void> {
+  await expect(
+    page
+      .getByRole("button", { name: "Resign" })
+      .or(page.getByRole("tab", { name: "vs Computer", selected: true })),
+  ).toBeVisible()
+}
+
 // §8.2: the button and home's vs Computer card go to the same place, and that
 // place is the computer game.
 test.describe("in a fresh browser", () => {
@@ -185,10 +199,12 @@ test.describe("in a fresh browser", () => {
         .filter({ visible: true })
         .first()
         .click()
-      await expect(page).toHaveURL(/\/offline/)
-      const cardTarget = new URL(page.url())
-      const destination = `${cardTarget.pathname}${cardTarget.search}`
-      expect(destination).toBe(COMPUTER_GAME)
+      // the URL the card settles on, once /offline has made its own replace
+      await expect(page).toHaveURL(
+        (url) => `${url.pathname}${url.search}` === COMPUTER_GAME,
+      )
+      await expectComputerGame(page)
+      const destination = COMPUTER_GAME
 
       await openApp(page, path)
       const first = primaries(page).first()
@@ -198,15 +214,7 @@ test.describe("in a fresh browser", () => {
       await expect(page).toHaveURL(
         (url) => `${url.pathname}${url.search}` === destination,
       )
-      // where the computer game lands is TUD-818's: the board on a first game
-      // (first-game-board.spec.ts), the setup screen after it
-      await expect(
-        page
-          .getByRole("button", { name: "Resign" })
-          .or(
-            page.getByRole("tab", { name: "vs Computer", selected: true }),
-          ),
-      ).toBeVisible()
+      await expectComputerGame(page)
     })
   }
 })
