@@ -154,10 +154,15 @@ async function expectWaysOut(page: Page): Promise<void> {
   expect(homeBox?.width ?? 0).toBeGreaterThanOrEqual(44)
 }
 
-/** The primary button opens the computer game. */
+/**
+ * The primary button opens the computer game, and every visitor here is in a
+ * fresh browser, so it is a first game: the board, not the setup screen
+ * (TUD-818). The URL alone would pass with the start-on-board state dropped.
+ */
 async function playFrom(page: Page): Promise<void> {
   await page.getByRole("link", { name: PLAY }).click()
   await expect(page).toHaveURL(COMPUTER_GAME)
+  await expect(page.getByRole("button", { name: "Resign" })).toBeVisible()
 }
 
 test("a broken link says it does not work and offers a computer game", async ({
