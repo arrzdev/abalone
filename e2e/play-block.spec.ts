@@ -198,8 +198,14 @@ test.describe("in a fresh browser", () => {
       await expect(page).toHaveURL(
         (url) => `${url.pathname}${url.search}` === destination,
       )
+      // where the computer game lands is TUD-818's: the board on a first game
+      // (first-game-board.spec.ts), the setup screen after it
       await expect(
-        page.getByRole("tab", { name: "vs Computer", selected: true }),
+        page
+          .getByRole("button", { name: "Resign" })
+          .or(
+            page.getByRole("tab", { name: "vs Computer", selected: true }),
+          ),
       ).toBeVisible()
     })
   }

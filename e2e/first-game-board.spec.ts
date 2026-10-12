@@ -183,11 +183,12 @@ for (const [size, viewport] of Object.entries(VIEWPORTS)) {
 }
 
 // The links that offer a game against the computer from the two reading pages
-// lead to the same board on a first game.
+// lead to the same board on a first game. Each page has three play buttons
+// (play-block.spec.ts); the first, under the intro, stands for them.
 const READING_PAGE_LINKS = [
   { path: "/rules", name: "Play against the computer" },
   { path: "/rules", name: "try it against the computer" },
-  { path: "/strategy", name: "Play Abalone against the computer" },
+  { path: "/strategy", name: "Play against the computer" },
   { path: "/strategy", name: "free game against the computer" },
 ]
 
@@ -199,7 +200,7 @@ for (const { path, name } of READING_PAGE_LINKS) {
     await openApp(page, path)
     await watchForSetupScreen(page)
 
-    await page.getByRole("link", { name, exact: true }).click()
+    await page.getByRole("link", { name, exact: true }).first().click()
     await expect(page).toHaveURL(/\/offline/)
     await expectBoardAgainstGus(page)
     expect(await sawSetupScreen(page), "the setup screen showed").toBe(
