@@ -21,7 +21,7 @@
     "computer": "Computador"
   },
   "controls": {
-    "page_title": "Jogar Bots",
+    "setup_title": "Novo jogo · {{mode}}",
     "marble_design": "Design das bolas",
     "marble_design_classic": "Minimalista",
     "marble_design_3d": "Realista",

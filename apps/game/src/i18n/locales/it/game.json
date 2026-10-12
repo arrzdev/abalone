@@ -21,7 +21,7 @@
     "computer": "Computer"
   },
   "controls": {
-    "page_title": "Gioca Bot",
+    "setup_title": "Nuova partita · {{mode}}",
     "marble_design": "Design delle biglie",
     "marble_design_classic": "Minimalista",
     "marble_design_3d": "Realistico",

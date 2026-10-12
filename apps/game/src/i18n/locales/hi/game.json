@@ -21,7 +21,7 @@
     "computer": "कंप्यूटर"
   },
   "controls": {
-    "page_title": "बॉट्स के खिलाफ",
+    "setup_title": "नया खेल · {{mode}}",
     "marble_design": "मार्बल डिज़ाइन",
     "marble_design_classic": "मिनिमल",
     "marble_design_3d": "यथार्थवादी",

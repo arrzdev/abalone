@@ -21,7 +21,7 @@
     "computer": "Computadora"
   },
   "controls": {
-    "page_title": "Jugar Bots",
+    "setup_title": "Nueva partida · {{mode}}",
     "marble_design": "Diseño de canicas",
     "marble_design_classic": "Minimalista",
     "marble_design_3d": "Realista",

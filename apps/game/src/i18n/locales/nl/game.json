@@ -21,7 +21,7 @@
     "computer": "Computer"
   },
   "controls": {
-    "page_title": "Speel Bots",
+    "setup_title": "Nieuw spel · {{mode}}",
     "marble_design": "Knikker Ontwerp",
     "marble_design_classic": "Minimalistisch",
     "marble_design_3d": "Realistisch",

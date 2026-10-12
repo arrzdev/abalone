@@ -21,7 +21,7 @@
     "computer": "Komputer"
   },
   "controls": {
-    "page_title": "Graj Boty",
+    "setup_title": "Nowa gra · {{mode}}",
     "marble_design": "Projekt Kulek",
     "marble_design_classic": "Minimalistyczny",
     "marble_design_3d": "Realistyczny",

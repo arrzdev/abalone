@@ -21,7 +21,7 @@
     "computer": "Ordinateur"
   },
   "controls": {
-    "page_title": "Jouer Bots",
+    "setup_title": "Nouvelle partie · {{mode}}",
     "marble_design": "Design des billes",
     "marble_design_classic": "Minimaliste",
     "marble_design_3d": "Réaliste",
