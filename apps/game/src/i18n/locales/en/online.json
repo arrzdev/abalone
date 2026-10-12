@@ -80,8 +80,9 @@
   },
   "empty": {
     "title": "Nothing here yet",
-    "body": "Invite somebody by name and the game starts here.",
-    "play_bot": "Play a bot"
+    "link_body": "Send a friend a link. The game starts when they open it and accept.",
+    "play_bot": "Play a bot",
+    "invite_by_name": "Invite by username"
   },
   "link": {
     "heading": "Or send a link",

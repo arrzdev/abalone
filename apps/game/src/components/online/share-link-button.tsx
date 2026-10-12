@@ -4,6 +4,9 @@ import { useTranslation } from "react-i18next"
 import type { ButtonProps } from "@/components/ui/button"
 import { Button } from "@/components/ui/button"
 
+/** What the line under the button says after a hand-off. */
+export type HandOffStatus = "idle" | "copied" | "failed"
+
 export type ShareLinkButtonProps = Omit<
   ButtonProps,
   "onClick" | "children"
@@ -11,6 +14,40 @@ export type ShareLinkButtonProps = Omit<
   url: string
   /** The line a share sheet puts with the link. */
   text: string
+  /**
+   * The line under the button, for a caller that hands the link on itself as
+   * well (the empty online page, which shares it the moment it exists). Left
+   * out, the button keeps its own.
+   */
+  status?: HandOffStatus
+  onStatusChange?: (status: HandOffStatus) => void
+}
+
+/** Whether this browser has a share sheet to hand a link to. */
+export function canShareLinks() {
+  return typeof navigator !== "undefined" && "share" in navigator
+}
+
+/**
+ * Hands a link on: the share sheet where there is one, the clipboard where
+ * there is not.
+ *
+ * A share always comes back `idle`: a dismissed share sheet rejects too, and
+ * dismissing it is not a failure worth a sentence.
+ */
+export async function handOffLink(
+  url: string,
+  text: string,
+): Promise<HandOffStatus> {
+  if (canShareLinks()) {
+    await tryCatch(() => navigator.share({ url, text }))
+    return "idle"
+  }
+
+  const [, error] = await tryCatch(() =>
+    navigator.clipboard.writeText(url),
+  )
+  return error ? "failed" : "copied"
 }
 
 /**
@@ -29,30 +66,22 @@ export type ShareLinkButtonProps = Omit<
 export function ShareLinkButton({
   url,
   text,
+  status: statusProp,
+  onStatusChange,
   className,
   ...props
 }: ShareLinkButtonProps) {
   const { t } = useTranslation()
   const statusId = useId()
-  const [canShare] = useState(
-    () => typeof navigator !== "undefined" && "share" in navigator,
-  )
-  const [status, setStatus] = useState<"idle" | "copied" | "failed">(
-    "idle",
-  )
+  const [canShare] = useState(canShareLinks)
+  const [ownStatus, setOwnStatus] = useState<HandOffStatus>("idle")
+
+  const status = statusProp ?? ownStatus
 
   async function handlePress() {
-    if (canShare) {
-      //a dismissed share sheet rejects too, and dismissing it is not a
-      //failure worth a sentence
-      await tryCatch(() => navigator.share({ url, text }))
-      return
-    }
-
-    const [, error] = await tryCatch(() =>
-      navigator.clipboard.writeText(url),
-    )
-    setStatus(error ? "failed" : "copied")
+    const next = await handOffLink(url, text)
+    setOwnStatus(next)
+    onStatusChange?.(next)
   }
 
   return (

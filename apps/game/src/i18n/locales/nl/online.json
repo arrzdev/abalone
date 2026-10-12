@@ -81,8 +81,9 @@
   },
   "empty": {
     "title": "Hier is nog niets",
-    "body": "Nodig iemand uit op naam en het spel begint hier.",
-    "play_bot": "Speel tegen een bot"
+    "link_body": "Stuur een vriend een link. Het spel begint zodra die hem opent en accepteert.",
+    "play_bot": "Speel tegen een bot",
+    "invite_by_name": "Uitnodigen via gebruikersnaam"
   },
   "link": {
     "heading": "Of stuur een link",
