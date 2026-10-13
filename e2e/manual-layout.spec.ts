@@ -451,14 +451,23 @@ test.describe("every width", () => {
       await openApp(page, path)
       for (const width of OVERFLOW_WIDTHS) {
         await page.setViewportSize({ width, height: 900 })
-        const overflow = await page.evaluate((scroller) => {
-          const view = document.querySelector(scroller)
-          return Math.max(
-            document.documentElement.scrollWidth - window.innerWidth,
-            view ? view.scrollWidth - view.clientWidth : 0,
+        // Read once the layout has caught up with the new width: a resize
+        // lands on the next frames, and a loaded machine is slow to paint
+        // them. Overflow that is really there never goes away, so this still
+        // fails on it.
+        await expect
+          .poll(
+            () =>
+              page.evaluate((scroller) => {
+                const view = document.querySelector(scroller)
+                return Math.max(
+                  document.documentElement.scrollWidth - window.innerWidth,
+                  view ? view.scrollWidth - view.clientWidth : 0,
+                )
+              }, SCROLLER),
+            { message: `${path} at ${width}` },
           )
-        }, SCROLLER)
-        expect(overflow, `${path} at ${width}`).toBeLessThanOrEqual(0)
+          .toBeLessThanOrEqual(0)
       }
     }
   })
@@ -494,7 +503,13 @@ test.describe("motion", () => {
   test("a rail click scrolls smoothly and the bar slides", async ({
     page,
   }) => {
+    // The glide is timed by the page's clock, so a machine that stalls the
+    // page past the whole glide shows only its end (TUD-920, TUD-932). The test
+    // owns the clock instead: page time stands still and every 16 ms step is
+    // one frame, whatever else the machine is doing.
+    await page.clock.install()
     await openApp(page, "/rules")
+    await page.clock.pauseAt(new Date(Date.now() + 60_000))
     const bar = rail(page).locator("[data-rail-bar]")
     await expect(bar).toHaveCount(1)
     expect(
@@ -504,31 +519,34 @@ test.describe("motion", () => {
     ).toBe("0.2s")
 
     const landed = (offset: number) => offset >= 0 && offset <= 48
-    const traces: string[] = []
-    let glided = false
-    // A loaded machine can stall the main thread past the whole glide, so the
-    // first frame already shows it landed (TUD-920). A jump lands on the first
-    // frame every time, so seeing the glide once in three clicks is proof.
-    for (let attempt = 0; attempt < 3 && !glided; attempt++) {
-      await scrollToTop(page)
-      const { start, frames } = await clickAndSample(page, "faq")
-      const path = frames.map((frame) => frame.offset)
-      const trace = `start ${start}, path ${frames.map((frame) => `${frame.offset}@${frame.at}ms`).join(", ")}`
-      traces.push(trace)
-      // closing in on every frame, and it lands
-      for (let index = 1; index < path.length; index++)
-        expect(path[index], trace).toBeLessThanOrEqual(path[index - 1] + 1)
-      expect(landed(path.at(-1) ?? Number.NaN), trace).toBe(true)
-      // more than a jump: not there on the first frame, a frame on the way,
-      // and the glide takes time. Counted in time, not frames, so dropped
-      // frames do not fail it.
-      const between = path.filter(
-        (offset) => offset > 48 && offset < start - 48,
-      )
-      const arrival = frames.find((frame) => landed(frame.offset))?.at ?? 0
-      glided = !landed(path[0]) && between.length >= 1 && arrival >= 100
+    const offset = () => headingOffset(page, "faq")
+    const start = await offset()
+    await page.evaluate(() =>
+      document
+        .querySelector<HTMLAnchorElement>(
+          'nav[data-manual-rail] a[href$="#faq"]',
+        )
+        ?.click(),
+    )
+    const path: number[] = []
+    for (let elapsed = 0; elapsed <= 600; elapsed += 16) {
+      await page.clock.runFor(16)
+      path.push(await offset())
     }
-    expect(glided, traces.join("\n")).toBe(true)
+    const trace = `start ${start}, path ${path.join(", ")}`
+
+    // closing in on every frame, and it lands
+    for (let index = 1; index < path.length; index++)
+      expect(path[index], trace).toBeLessThanOrEqual(path[index - 1] + 1)
+    expect(landed(path.at(-1) ?? Number.NaN), trace).toBe(true)
+    // more than a jump: not there after the first frame, many frames on the
+    // way, and the glide takes time (400 ms is 25 frames; a jump is 1)
+    expect(landed(path[0]), trace).toBe(false)
+    const onTheWay = path.filter(
+      (value) => value > 48 && value < start - 48,
+    )
+    expect(onTheWay.length, trace).toBeGreaterThanOrEqual(10)
+    expect(path.findIndex(landed) * 16, trace).toBeGreaterThanOrEqual(300)
   })
 
   test("a second rail click during a glide keeps the mark on the second chapter", async ({
@@ -588,31 +606,6 @@ test.describe("motion", () => {
     expect(first).toBeGreaterThanOrEqual(0)
   })
 })
-
-/** Puts the scroller back at the top at once and waits for it to hold still. */
-function scrollToTop(page: Page): Promise<void> {
-  return page.evaluate(
-    (scroller) =>
-      new Promise<void>((resolve) => {
-        const view = document.querySelector(scroller)
-        if (!view) {
-          resolve()
-          return
-        }
-        view.scrollTo({ top: 0, behavior: "instant" })
-        let still = 0
-        let previous = view.scrollTop
-        const check = () => {
-          still = view.scrollTop === previous ? still + 1 : 0
-          previous = view.scrollTop
-          if (still < 5) requestAnimationFrame(check)
-          else resolve()
-        }
-        requestAnimationFrame(check)
-      }),
-    SCROLLER,
-  )
-}
 
 type Landing = {
   /** One entry per animation frame since the page started: the heading's offset. */
