@@ -83,7 +83,7 @@ pass; that gate is also what CI runs.
 
 ## Main user flows (e2e)
 
-Each runs on every PR, on chromium and on the webkit iPhone 13 profile.
+`pnpm test:e2e` runs each on chromium and on the webkit iPhone 13 profile. CI does not run them yet.
 
 | Flow | Spec |
 | --- | --- |
