@@ -206,18 +206,41 @@ test.describe("desktop", () => {
     )
   })
 
-  // The page is server rendered: the browser follows the link before the
-  // diagrams above the chapter have their height (TUD-916, TUD-919).
-  test("a link to a chapter lands its heading 40px down, as a rail click does", async ({
+  // The page is server rendered: the browser follows the link before the page
+  // hydrates and draws its diagrams. Whatever is above the chapter already has
+  // its final size then, so the heading lands once and stays: no re-scroll after
+  // load, no layout shift (TUD-916, TUD-919, TUD-933).
+  test("a link to a chapter lands its heading 40px down, as a rail click does, and it stays there", async ({
     page,
   }) => {
-    for (const id of ["moving-groups", "sumito", "pushing-off", "faq"]) {
-      await openApp(page, `/rules#${id}`)
-      await expect
-        .poll(async () => Math.abs((await headingOffset(page, id)) - 40), {
-          message: id,
-        })
-        .toBeLessThanOrEqual(2)
+    await page.addInitScript(watchLanding, SCROLLER)
+    const links = [
+      ...["moving-groups", "sumito", "pushing-off", "faq"].map(
+        (id) => ["/rules", id] as const,
+      ),
+      ...["center", "count", "attack-as-a-group"].map(
+        (id) => ["/strategy", id] as const,
+      ),
+    ]
+    for (const [path, id] of links) {
+      const link = `${path}#${id}`
+      await openApp(page, link)
+      const landing = await settledLanding(page)
+
+      expect(
+        Math.abs(landing.offset - 40),
+        `${link} lands at 40`,
+      ).toBeLessThanOrEqual(4)
+      await expect(
+        rail(page).locator('[aria-current="location"]'),
+        link,
+      ).toHaveAttribute("href", new RegExp(`#${id}$`))
+      // once it has landed it does not move: nothing above it grows later
+      expect(
+        landing.afterLanding.filter((offset) => Math.abs(offset - 40) > 4),
+        `${link} moved after landing: ${landing.afterLanding.join(", ")}`,
+      ).toEqual([])
+      expect(landing.shift, `${link} layout shift`).toBeLessThan(0.01)
     }
   })
 
@@ -589,6 +612,79 @@ function scrollToTop(page: Page): Promise<void> {
       }),
     SCROLLER,
   )
+}
+
+type Landing = {
+  /** One entry per animation frame since the page started: the heading's offset. */
+  offsets: number[]
+  /** The layout-shift score of the page so far, input-driven shifts left out. */
+  shift: number
+}
+
+/**
+ * Runs in the page before any of its scripts (an init script): records where
+ * the heading the address names sits on every animation frame, and sums the
+ * page's layout shifts.
+ */
+function watchLanding(scroller: string) {
+  const landing: Landing = { offsets: [], shift: 0 }
+  Object.assign(window, { __landing: landing })
+  new PerformanceObserver((list) => {
+    for (const entry of list.getEntries() as (PerformanceEntry & {
+      value: number
+      hadRecentInput: boolean
+    })[])
+      if (!entry.hadRecentInput) landing.shift += entry.value
+  }).observe({ type: "layout-shift", buffered: true })
+  const sample = () => {
+    const heading = document.getElementById(
+      decodeURIComponent(location.hash.slice(1)),
+    )
+    const view = document.querySelector(scroller)
+    if (heading && view)
+      landing.offsets.push(
+        heading.getBoundingClientRect().top -
+          view.getBoundingClientRect().top,
+      )
+    requestAnimationFrame(sample)
+  }
+  requestAnimationFrame(sample)
+}
+
+/**
+ * Waits for the fonts, then for the heading to hold still for 30 frames (the
+ * diagrams are drawn by then), and reads what `watchLanding` recorded.
+ */
+async function settledLanding(page: Page): Promise<{
+  offset: number
+  afterLanding: number[]
+  shift: number
+}> {
+  await page.evaluate(() => document.fonts.ready)
+  const read = () =>
+    page.evaluate(
+      () => (window as unknown as { __landing: Landing }).__landing,
+    )
+  await expect
+    .poll(
+      async () => {
+        const recent = (await read()).offsets.slice(-30)
+        return (
+          recent.length === 30 &&
+          recent.every((offset) => Math.abs(offset - recent[0]) < 0.5)
+        )
+      },
+      { message: "the heading holds still" },
+    )
+    .toBe(true)
+  const { offsets, shift } = await read()
+  const landed = offsets.findIndex((offset) => Math.abs(offset - 40) <= 4)
+  return {
+    offset: offsets.at(-1) ?? Number.NaN,
+    afterLanding:
+      landed === -1 ? [] : offsets.slice(landed).map(Math.round),
+    shift,
+  }
 }
 
 type Sampled = {

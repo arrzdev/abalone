@@ -1,11 +1,5 @@
 import type { RefObject } from "react"
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { easeInOutCubic, prefersReducedMotion } from "@/render/motion"
 
 /**
@@ -98,18 +92,6 @@ export function useActiveChapter(
   const cancelJumpRef = useRef<() => void>(() => {})
   const releaseRef = useRef(0)
   const idsKey = ids.join(" ")
-
-  // A link from elsewhere (/rules#sumito) is followed by the browser before the
-  // page hydrates, while the diagrams above the chapter have no height yet. Once
-  // they have one, the heading is put back where the link lands it.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: once, for the address the page opened at.
-  useLayoutEffect(() => {
-    const scroller = scrollRef.current
-    const id = decodeURIComponent(window.location.hash.slice(1))
-    if (!scroller || !ids.includes(id)) return
-    const heading = document.getElementById(id)
-    if (heading) scroller.scrollTop = headingTop(scroller, heading)
-  }, [])
 
   useEffect(() => () => window.clearTimeout(releaseRef.current), [])
 
