@@ -74,8 +74,7 @@
     "marbles_taken": "{{taken}} de {{total}} bolas del rival expulsadas",
     "eval_advantage": "{{color}} por delante por {{score}}",
     "eval_level": "Igualado",
-    "how_to_move": "Cómo mover",
-    "how_to_move_hint": "Vuelve a ver los 3 pasos en el tablero."
+    "how_to_move": "Cómo mover"
   },
   "game_state": {
     "your_turn": "Tu turno",

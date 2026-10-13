@@ -74,8 +74,7 @@
     "marbles_taken": "相手のボールを {{total}} 個中 {{taken}} 個 押し出した",
     "eval_advantage": "{{color}}が{{score}}リード",
     "eval_level": "互角",
-    "how_to_move": "動かし方",
-    "how_to_move_hint": "盤の上で3つのステップをもう一度見る。"
+    "how_to_move": "動かし方"
   },
   "game_state": {
     "your_turn": "あなたの手番",

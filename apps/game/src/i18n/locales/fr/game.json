@@ -74,8 +74,7 @@
     "marbles_taken": "{{taken}} billes adverses sur {{total}} poussées hors du plateau",
     "eval_advantage": "{{color}} devant de {{score}}",
     "eval_level": "À égalité",
-    "how_to_move": "Comment jouer un coup",
-    "how_to_move_hint": "Revois les 3 étapes sur le plateau."
+    "how_to_move": "Comment jouer un coup"
   },
   "game_state": {
     "your_turn": "Votre tour",

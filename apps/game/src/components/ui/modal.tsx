@@ -90,8 +90,12 @@ export function Modal({
           </div>
         )}
         {/* Shrinkable rather than `flex-1`: a zero basis would collapse the body
-            to nothing in a dialog that is only as tall as what it holds. */}
-        <div className="panel-scroll min-h-0 overflow-y-auto">
+            to nothing in a dialog that is only as tall as what it holds.
+            A scroller clips on both axes, so a focus ring drawn outside a
+            field's edge, or a switch's hit area hanging past the last row,
+            needs room inside this box: the padding gives it that and the
+            negative margin hands the space straight back. */}
+        <div className="panel-scroll -m-1 min-h-0 overflow-y-auto p-1">
           {children}
         </div>
         {footer && (
