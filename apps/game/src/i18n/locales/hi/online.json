@@ -10,6 +10,16 @@
     "nothing_else": "और कुछ नहीं चल रहा",
     "waiting_on_them": "प्रतिद्वंद्वी के इंतज़ार में"
   },
+  "card": {
+    "your_move": "आपकी चाल",
+    "their_move": "उनकी चाल",
+    "won": "जीते",
+    "lost": "हारे",
+    "draw": "ड्रॉ",
+    "last_move": "आख़िरी चाल {{when}}",
+    "no_moves": "अभी कोई चाल नहीं",
+    "started": "{{date}} को शुरू हुआ"
+  },
   "games": {
     "new_invite": "नया निमंत्रण",
     "loading": "आपके गेम लोड हो रहे हैं"

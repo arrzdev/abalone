@@ -11,6 +11,16 @@
     "nothing_else": "Verder niets bezig",
     "waiting_on_them": "Wachten op de tegenstander"
   },
+  "card": {
+    "your_move": "Jij bent aan zet",
+    "their_move": "Zij zijn aan zet",
+    "won": "Gewonnen",
+    "lost": "Verloren",
+    "draw": "Remise",
+    "last_move": "Laatste zet {{when}}",
+    "no_moves": "Nog geen zetten",
+    "started": "Begonnen op {{date}}"
+  },
   "games": {
     "new_invite": "Nieuwe uitnodiging",
     "loading": "Je partijen worden geladen"

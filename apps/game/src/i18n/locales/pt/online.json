@@ -11,6 +11,16 @@
     "nothing_else": "Mais nada a decorrer",
     "waiting_on_them": "À espera do adversário"
   },
+  "card": {
+    "your_move": "É a tua vez",
+    "their_move": "É a vez deles",
+    "won": "Ganhou",
+    "lost": "Perdeu",
+    "draw": "Empate",
+    "last_move": "Última jogada {{when}}",
+    "no_moves": "Ainda sem jogadas",
+    "started": "Começou a {{date}}"
+  },
   "games": {
     "new_invite": "Novo convite",
     "loading": "A carregar os teus jogos"
