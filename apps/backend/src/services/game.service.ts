@@ -406,7 +406,21 @@ export class GameService {
     //move_count check above cannot both land, and the loser arrives here
     if (writeError) throw new CustomError("move_conflict", writeError)
 
-    return this.get(gameId, userId)
+    //the write above landed whole, so the stored game is the row already read
+    //with these values over it. reading it back would only repeat the join.
+    return toGame({
+      ...row,
+      blackCells,
+      whiteCells,
+      blackScore,
+      whiteScore,
+      currentTurn,
+      moveCount: nextIndex,
+      status: ending.status,
+      winner: ending.winner,
+      finishReason: ending.finishReason,
+      updatedAt: now,
+    })
   }
 
   /** Gives the game up, handing the win to the other seat. */
