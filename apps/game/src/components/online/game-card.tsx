@@ -113,7 +113,7 @@ export function GameCard({ game, myUserId, now, lead }: GameCardProps) {
           {status}
         </span>
 
-        <span className="mt-0.5 block truncate text-xs text-faint">
+        <span className="mt-0.5 block text-xs leading-4 text-faint">
           {lastMove} · {started}
         </span>
       </span>
