@@ -164,12 +164,9 @@ test.describe("taps", () => {
   test("Play Online asks a visitor to sign in", async ({ page }) => {
     await openApp(page, "/")
     await card(page, "Play Online").click()
-    //by its text, not its name: the phone drawer has no accessible name yet,
-    //which is older than this page and belongs to the sheet (TUD-627)
+    //by its name, so the phone drawer answers to it as the desktop dialog does
     await expect(
-      page
-        .getByRole("dialog")
-        .filter({ hasText: "Sign in to play online" }),
+      page.getByRole("dialog", { name: "Sign in to play online" }),
     ).toBeVisible()
   })
 })
