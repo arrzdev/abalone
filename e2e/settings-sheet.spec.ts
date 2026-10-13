@@ -420,14 +420,11 @@ for (const viewport of [
     test("is a pill that holds its thumb, off and on", async ({
       page,
     }) => {
-      await openApp(page, "/")
-      await page
-        .getByRole("button", { name: "Settings" })
-        .filter({ visible: true })
-        .first()
-        .click()
-      const toggle = page.getByRole("dialog").getByRole("switch").first()
-      await expect(toggle).toBeVisible()
+      // At rest: a phone sheet slides up, and a screenshot clipped to where
+      // the switch was a frame ago reads the wrong pixels.
+      const dialog = await openSettings(page)
+      const toggle = dialog.getByRole("switch").first()
+      await expect(toggle).toBeInViewport({ ratio: 1 })
 
       // Off, the thumb sits on the left; on, on the right.
       const checked =
