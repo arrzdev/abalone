@@ -1,7 +1,7 @@
 import type { Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
-import { playMove, selectSquare } from "./support/board"
+import { playMove, selectedSquares, selectSquare } from "./support/board"
 
 // A first-time visitor's first offline game shows a three-step guide on the
 // real board: pick marbles, choose a direction, push 6 off to win. Finishing or
@@ -154,7 +154,7 @@ test("the guide speaks the player's language", async ({ page }) => {
     localStorage.setItem("abalone_language", "de")
   })
   await openApp(page, "/offline")
-  await page.getByRole("tab", { name: "gegen Computer" }).click()
+  await page.getByRole("tab", { name: "Gegen Computer" }).click()
   await page.getByRole("button", { name: "Spielen", exact: true }).click()
   await expect(
     page.getByRole("button", { name: "Aufgeben" }),
@@ -188,3 +188,90 @@ test("the first game is counted as guided and the game after the guide is not", 
   await startOfflineGame(page, "Pass & Play")
   await expect.poll(() => guidedStarts).toEqual([true, false])
 })
+
+// The board is the action on steps 1 and 2, so nothing in the guide may look
+// like it (TUD-852): Next is a text button, still a 44×44 target, and the board
+// move still moves the guide on.
+test("on steps 1 and 2 the guide has no filled button", async ({
+  page,
+}) => {
+  await startOfflineGame(page, "vs Computer")
+  await expect(guide(page)).toContainText("Step 1 of 3")
+  await expectTextButtonsOnly(page)
+
+  await selectSquare(page, "c5")
+  await expect(guide(page)).toContainText("Step 2 of 3")
+  await expectTextButtonsOnly(page)
+})
+
+// Step 2 talks about the spaces a selection highlights. Reached with Next,
+// nothing is highlighted, so Next on step 1 passes it.
+test("Next on step 1 never shows step 2 without a selection", async ({
+  page,
+}) => {
+  await startOfflineGame(page, "vs Computer")
+  await expect(guide(page)).toContainText("Step 1 of 3")
+
+  await guide(page).getByRole("button", { name: "Next" }).click()
+  await expect(guide(page)).toContainText("Step 3 of 3")
+  await expect(guide(page)).not.toContainText("highlighted")
+  expect(await selectedSquares(page)).toEqual([])
+})
+
+// On a wide screen the guide sits by the marbles it talks about rather than at
+// the top of the panel, ~800 px away. It stays in the page, never over the board.
+test("on a desktop the guide sits near the starting marbles", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "a desktop layout")
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await startOfflineGame(page, "vs Computer")
+  await expect(guide(page)).toContainText("Step 1 of 3")
+
+  const card = await guide(page).boundingBox()
+  const marble = await page.evaluate(
+    () =>
+      (
+        window as Window & {
+          __abaloneBoard?: {
+            point: (square: string) => DOMPointInit | null
+          }
+        }
+      ).__abaloneBoard?.point("c3") ?? null,
+  )
+  expect(card).not.toBeNull()
+  expect(marble).not.toBeNull()
+  if (card === null || marble === null) return
+  const y = marble.y ?? 0
+  const distance = Math.max(0, card.y - y, y - (card.y + card.height))
+  expect(distance, "px from the guide card to c3").toBeLessThanOrEqual(320)
+  await expectBoardUncovered(page)
+})
+
+/**
+ * Every button in the guide draws no fill of its own (a hover tint is fine), and
+ * Next is still a 44×44 target.
+ */
+async function expectTextButtonsOnly(page: Page): Promise<void> {
+  await page.mouse.move(0, 0)
+  const filled = await guide(page)
+    .getByRole("button")
+    .evaluateAll((buttons) =>
+      buttons
+        .filter((button) => {
+          const fill = getComputedStyle(button).backgroundColor
+          return fill !== "transparent" && !fill.endsWith(", 0)")
+        })
+        .map((button) => button.textContent?.trim()),
+    )
+  expect(filled, "filled buttons in the guide").toEqual([])
+
+  const next = await guide(page)
+    .getByRole("button", { name: "Next" })
+    .boundingBox()
+  expect(next).not.toBeNull()
+  if (next === null) return
+  expect(next.width).toBeGreaterThanOrEqual(43.5)
+  expect(next.height).toBeGreaterThanOrEqual(43.5)
+}

@@ -1,7 +1,7 @@
 import { Drawer } from "@repo/nativ/components"
 import { cn } from "@repo/nativ/utils"
 import type { ReactNode } from "react"
-import { useEffect } from "react"
+import { useEffect, useId } from "react"
 import { Modal } from "@/components/ui/modal"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
 
@@ -48,6 +48,7 @@ export function Sheet({
   className,
 }: SheetProps) {
   const isDesktop = useIsDesktop()
+  const titleId = useId()
 
   // Escape closes the dialog shape on its own (`Modal`); the sheet has to be
   // told. A keyboard on a tablet or a phone is still a keyboard.
@@ -86,6 +87,8 @@ export function Sheet({
       <Drawer.Portal>
         <Drawer.Overlay className="bg-overlay backdrop-blur-sm" />
         <Drawer.Content
+          //the sheet answers to its title, shown or not, as the desktop dialog does
+          aria-labelledby={title ? titleId : undefined}
           className={cn(
             "rounded-t-2xl bg-surface text-white ring-1 ring-border",
             className,
@@ -101,13 +104,18 @@ export function Sheet({
                 entirely — the shell's gap never opens for a heading that is not
                 on the screen. */}
             {title && hideTitle && (
-              <Drawer.Title className="sr-only">{title}</Drawer.Title>
+              <Drawer.Title id={titleId} className="sr-only">
+                {title}
+              </Drawer.Title>
             )}
 
             {!hideTitle && (title || description) && (
               <div className="flex flex-col gap-y-1">
                 {title && (
-                  <Drawer.Title className="font-display text-[22px] font-bold tracking-[-0.02em] text-white">
+                  <Drawer.Title
+                    id={titleId}
+                    className="font-display text-[22px] font-bold tracking-[-0.02em] text-white"
+                  >
                     {title}
                   </Drawer.Title>
                 )}

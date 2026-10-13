@@ -434,7 +434,9 @@ test.describe("layout", () => {
             )
             if (!active || !link) return false
             return (
-              active.closest("header, nav") === null &&
+              //the manual's contents list follows the hero below 1024px by design
+              active.closest("header, nav:not([data-manual-contents])") ===
+                null &&
               Boolean(
                 link.compareDocumentPosition(active) &
                   Node.DOCUMENT_POSITION_FOLLOWING,

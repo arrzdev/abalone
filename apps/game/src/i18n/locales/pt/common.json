@@ -7,7 +7,7 @@
     "profile": "Perfil",
     "home": "Início",
     "online": "Jogar online",
-    "offline": "Jogar offline"
+    "offline": "Jogar"
   },
   "language": {
     "select": "Selecionar idioma",
@@ -23,7 +23,6 @@
     "heading": "Joga Abalone online, grátis",
     "lede": "Empurra seis bolas do adversário para fora do tabuleiro. Joga contra o computador, passa o dispositivo ou convida um amigo.",
     "play_online": "Jogar online",
-    "play_offline": "Jogar offline",
     "bot_hint": "Oito bots, do fácil ao difícil.",
     "local_hint": "Os dois, um só dispositivo.",
     "online_hint": "Conta grátis. Convida quem quiseres.",

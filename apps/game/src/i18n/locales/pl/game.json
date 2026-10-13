@@ -21,7 +21,7 @@
     "computer": "Komputer"
   },
   "controls": {
-    "page_title": "Graj Boty",
+    "setup_title": "Nowa gra · {{mode}}",
     "marble_design": "Projekt Kulek",
     "marble_design_classic": "Minimalistyczny",
     "marble_design_3d": "Realistyczny",
@@ -55,7 +55,7 @@
     "prev_setup": "Poprzednie ustawienie",
     "next_setup": "Następne ustawienie",
     "game_mode": "Tryb gry",
-    "mode_ai": "vs Komputer",
+    "mode_ai": "Z komputerem",
     "mode_local": "Dwóch graczy",
     "sound": "Dźwięk",
     "sound_hint": "Kule lądujące i spadające z planszy",

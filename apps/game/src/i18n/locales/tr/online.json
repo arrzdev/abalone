@@ -80,8 +80,9 @@
   },
   "empty": {
     "title": "Burada henüz bir şey yok",
-    "body": "Birini adıyla davet et; oyun burada başlar.",
-    "play_bot": "Bota karşı oyna"
+    "link_body": "Bir arkadaşına bağlantı gönder. Bağlantıyı açıp kabul ettiğinde oyun başlar.",
+    "play_bot": "Bota karşı oyna",
+    "invite_by_name": "Kullanıcı adıyla davet et"
   },
   "link": {
     "heading": "Ya da bağlantı gönder",
@@ -109,6 +110,9 @@
     "used_title": "Bu davet zaten kullanıldı",
     "used_body": "Başka biri önce kabul etti. {{name}} kullanıcısından yeni bir bağlantı iste.",
     "expired_title": "Bu davetin süresi doldu",
-    "expired_body": "Davet bağlantıları 7 gün geçerlidir. Gönderen kişiden yenisini iste."
+    "expired_body": "Davet bağlantıları 7 gün geçerlidir. Gönderen kişiden yenisini iste.",
+    "broken_title": "Bu davet bağlantısı çalışmıyor",
+    "broken_body": "Bağlantının tamamını yapıştırdığını kontrol et ya da gönderen kişiden yenisini iste.",
+    "play_computer": "Bilgisayara karşı oyna"
   }
 }

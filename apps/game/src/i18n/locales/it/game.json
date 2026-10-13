@@ -21,7 +21,7 @@
     "computer": "Computer"
   },
   "controls": {
-    "page_title": "Gioca Bot",
+    "setup_title": "Nuova partita · {{mode}}",
     "marble_design": "Design delle biglie",
     "marble_design_classic": "Minimalista",
     "marble_design_3d": "Realistico",
@@ -55,7 +55,7 @@
     "prev_setup": "Disposizione precedente",
     "next_setup": "Disposizione successiva",
     "game_mode": "Modalità di gioco",
-    "mode_ai": "vs Computer",
+    "mode_ai": "vs computer",
     "mode_local": "Due giocatori",
     "sound": "Suono",
     "sound_hint": "Le biglie che si posano e che escono dal tabellone",

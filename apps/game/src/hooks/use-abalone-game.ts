@@ -45,6 +45,7 @@ import { TIMING } from "@/render/motion"
 import { evaluateBoard } from "@/utils/evaluation"
 import { isGuidedStart } from "@/utils/first-game-guide"
 import { finishResultOf } from "@/utils/game-events"
+import { landedEntry } from "@/utils/landing-entry"
 import { PREF_PREFIX, parseStored, serialize } from "@/utils/preferences"
 import { playFallSound, playMoveSound, primeSounds } from "@/utils/sound"
 
@@ -415,6 +416,7 @@ export function useAbaloneGame(
           ...game,
           kind: "start",
           guided: isGuidedStart(nextMode),
+          entry: landedEntry(),
         })
       }
       return fresh

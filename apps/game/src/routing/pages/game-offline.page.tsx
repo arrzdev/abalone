@@ -37,6 +37,7 @@ import { useProfile } from "@/data/profile/queries"
 import { useAbaloneGame } from "@/hooks/use-abalone-game"
 import { useBotChatter } from "@/hooks/use-bot-chatter"
 import { usePanelFloor } from "@/hooks/use-compact-panel"
+import { useDocumentTitle } from "@/hooks/use-document-title"
 import { useFirstGameGuide } from "@/hooks/use-first-game-guide"
 import { getBot, titleKey } from "@/i18n/bots"
 import { getSetupName } from "@/i18n/game-text"
@@ -400,10 +401,20 @@ function GameOfflinePage() {
   const boardInteractive =
     phase === "ingame" && !state.gameOver && !viewingHistory
 
-  let headerTitle: string
-  if (isPregame) headerTitle = t("game:controls.new_game")
-  else if (isLocal) headerTitle = t("game:controls.mode_local")
-  else headerTitle = t("game:controls.page_title")
+  /**
+   * The mode's one name, the same words the home card and the setup tab use.
+   * The header and the tab title read it so a game is never called two things.
+   */
+  const modeName = isLocal
+    ? t("game:controls.mode_local")
+    : t("game:controls.mode_ai")
+  const headerTitle = isPregame
+    ? t("game:controls.setup_title", { mode: modeName })
+    : modeName
+
+  // Pregame keeps the route's head: it is the page a search result lands on,
+  // and its title is written for that.
+  useDocumentTitle(isPregame ? null : modeName)
 
   /**
    * The gear, on a phone only.
@@ -610,12 +621,13 @@ function GameOfflinePage() {
                         }
                   }
                 />
-                {/* Part of the head, so the panel's floor counts it and a short
-                    screen shrinks the board for it rather than clipping the
-                    actions under it. Never over the board: the presses it
-                    teaches land there. */}
+                {/* Below `lg`, part of the head, so the panel's floor counts it
+                    and a short screen shrinks the board for it rather than
+                    clipping the actions under it. Never over the board: the
+                    presses it teaches land there. */}
                 {guide.step && (
                   <FirstGameGuide
+                    className="lg:hidden"
                     step={guide.step}
                     onNext={guide.next}
                     onSkip={guide.skip}
@@ -669,6 +681,18 @@ function GameOfflinePage() {
                 onUndo={game.undoMove}
                 onResign={() => setResignOpen(true)}
                 onNewGame={isLocal ? undefined : game.handleNewBot}
+                // From `lg`, down the panel by the starting marbles rather than
+                // at its top, a board's height away from them (TUD-852)
+                guide={
+                  guide.step && (
+                    <FirstGameGuide
+                      className="m-0 shrink-0 max-lg:hidden"
+                      step={guide.step}
+                      onNext={guide.next}
+                      onSkip={guide.skip}
+                    />
+                  )
+                }
               />
             )}
 

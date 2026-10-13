@@ -21,7 +21,7 @@
     "computer": "电脑"
   },
   "controls": {
-    "page_title": "对战机器人",
+    "setup_title": "新对局 · {{mode}}",
     "marble_design": "棋子风格",
     "marble_design_classic": "极简",
     "marble_design_3d": "写实",

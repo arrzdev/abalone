@@ -21,7 +21,7 @@
     "computer": "Computer"
   },
   "controls": {
-    "page_title": "Speel Bots",
+    "setup_title": "Nieuw spel · {{mode}}",
     "marble_design": "Knikker Ontwerp",
     "marble_design_classic": "Minimalistisch",
     "marble_design_3d": "Realistisch",
@@ -55,7 +55,7 @@
     "prev_setup": "Vorige opstelling",
     "next_setup": "Volgende opstelling",
     "game_mode": "Spelmodus",
-    "mode_ai": "tegen computer",
+    "mode_ai": "Tegen computer",
     "mode_local": "Twee spelers",
     "sound": "Geluid",
     "sound_hint": "Ballen die neerkomen en van het bord vallen",

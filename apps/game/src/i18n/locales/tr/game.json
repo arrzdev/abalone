@@ -21,7 +21,7 @@
     "computer": "Bilgisayar"
   },
   "controls": {
-    "page_title": "Botlara Karşı Oyna",
+    "setup_title": "Yeni oyun · {{mode}}",
     "marble_design": "Bilye Tasarımı",
     "marble_design_classic": "Minimalist",
     "marble_design_3d": "Gerçekçi",

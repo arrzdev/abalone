@@ -1,3 +1,4 @@
+import { cn } from "@repo/nativ/utils"
 import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import type { GuideStep } from "@/utils/first-game-guide"
@@ -10,6 +11,7 @@ export type FirstGameGuideProps = {
   step: GuideStep
   onNext: () => void
   onSkip: () => void
+  className?: string
 }
 
 /**
@@ -19,11 +21,15 @@ export type FirstGameGuideProps = {
  * never covers the board, because the presses it teaches have to reach the
  * board. Each step fades up as it arrives (`motion-safe`, so not at all for
  * someone who asked for less motion).
+ *
+ * On steps 1 and 2 the board is the action, so nothing here looks like one:
+ * Next is a text button like Skip. Got it, on the last step, is the one fill.
  */
 export function FirstGameGuide({
   step,
   onNext,
   onSkip,
+  className,
 }: FirstGameGuideProps) {
   const { t } = useTranslation()
   const isLast = guideStepNumber(step) === GUIDE_STEP_COUNT
@@ -31,7 +37,7 @@ export function FirstGameGuide({
   return (
     <section
       aria-label={t("game:guide.title")}
-      className="mx-4 mt-2 rounded-xl bg-surface-2 p-3"
+      className={cn("mx-4 mt-2 rounded-xl bg-surface-2 p-3", className)}
     >
       <div key={step} className="motion-safe:animate-guide-in">
         <p className="text-xs font-semibold text-brand-light">
@@ -51,7 +57,11 @@ export function FirstGameGuide({
         <Button variant="ghost" size="sm" onClick={onSkip}>
           {t("game:guide.skip")}
         </Button>
-        <Button variant="primary" size="sm" onClick={onNext}>
+        <Button
+          variant={isLast ? "primary" : "ghost"}
+          size="sm"
+          onClick={onNext}
+        >
           {isLast ? t("game:guide.done") : t("game:guide.next")}
         </Button>
       </div>

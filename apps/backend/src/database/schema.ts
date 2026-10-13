@@ -190,6 +190,9 @@ export type GameEventResult =
   | "abandoned"
   | Player
 
+/** The kind of page a browser tab first landed on, never its address. */
+export type GameEntry = "home" | "rules" | "strategy" | "invite" | "other"
+
 export const gameEvents = sqliteTable(
   "game_events",
   {
@@ -211,6 +214,9 @@ export const gameEvents = sqliteTable(
     guided: integer("guided", { mode: "boolean" })
       .notNull()
       .default(false),
+    //start only, `ai` and `local`: the page the tab first landed on. null for
+    //every finish, every online row and builds older than the field
+    entry: text("entry").$type<GameEntry>(),
     //the build that sent it; `server` for online rows
     appVersion: text("app_version").notNull(),
     //server time, never the device's
