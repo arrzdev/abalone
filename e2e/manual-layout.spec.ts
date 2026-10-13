@@ -420,24 +420,32 @@ test.describe("motion", () => {
       ),
     ).toBe("0.2s")
 
-    const { start, frames } = await clickAndSample(page, "faq")
-    const path = frames.map((frame) => frame.offset)
-    const trace = `start ${start}, path ${frames.map((frame) => `${frame.offset}@${frame.at}ms`).join(", ")}`
     const landed = (offset: number) => offset >= 0 && offset <= 48
-    // closing in on every frame, and it lands
-    for (let index = 1; index < path.length; index++)
-      expect(path[index], trace).toBeLessThanOrEqual(path[index - 1] + 1)
-    expect(landed(path.at(-1) ?? Number.NaN), trace).toBe(true)
-    // more than a jump: not there on the first frame, a frame on the way, and
-    // the glide takes time. Counted in time, not frames, so a loaded machine
-    // that drops frames still passes (TUD-920).
-    expect(landed(path[0]), trace).toBe(false)
-    const between = path.filter(
-      (offset) => offset > 48 && offset < start - 48,
-    )
-    expect(between.length, trace).toBeGreaterThanOrEqual(1)
-    const arrival = frames.find((frame) => landed(frame.offset))?.at ?? 0
-    expect(arrival, trace).toBeGreaterThanOrEqual(100)
+    const traces: string[] = []
+    let glided = false
+    // A loaded machine can stall the main thread past the whole glide, so the
+    // first frame already shows it landed (TUD-920). A jump lands on the first
+    // frame every time, so seeing the glide once in three clicks is proof.
+    for (let attempt = 0; attempt < 3 && !glided; attempt++) {
+      await scrollToTop(page)
+      const { start, frames } = await clickAndSample(page, "faq")
+      const path = frames.map((frame) => frame.offset)
+      const trace = `start ${start}, path ${frames.map((frame) => `${frame.offset}@${frame.at}ms`).join(", ")}`
+      traces.push(trace)
+      // closing in on every frame, and it lands
+      for (let index = 1; index < path.length; index++)
+        expect(path[index], trace).toBeLessThanOrEqual(path[index - 1] + 1)
+      expect(landed(path.at(-1) ?? Number.NaN), trace).toBe(true)
+      // more than a jump: not there on the first frame, a frame on the way,
+      // and the glide takes time. Counted in time, not frames, so dropped
+      // frames do not fail it.
+      const between = path.filter(
+        (offset) => offset > 48 && offset < start - 48,
+      )
+      const arrival = frames.find((frame) => landed(frame.offset))?.at ?? 0
+      glided = !landed(path[0]) && between.length >= 1 && arrival >= 100
+    }
+    expect(glided, traces.join("\n")).toBe(true)
   })
 
   test("with reduced motion a rail click jumps and the bar does not slide", async ({
@@ -462,6 +470,31 @@ test.describe("motion", () => {
     expect(first).toBeGreaterThanOrEqual(0)
   })
 })
+
+/** Puts the scroller back at the top at once and waits for it to hold still. */
+function scrollToTop(page: Page): Promise<void> {
+  return page.evaluate(
+    (scroller) =>
+      new Promise<void>((resolve) => {
+        const view = document.querySelector(scroller)
+        if (!view) {
+          resolve()
+          return
+        }
+        view.scrollTo({ top: 0, behavior: "instant" })
+        let still = 0
+        let previous = view.scrollTop
+        const check = () => {
+          still = view.scrollTop === previous ? still + 1 : 0
+          previous = view.scrollTop
+          if (still < 5) requestAnimationFrame(check)
+          else resolve()
+        }
+        requestAnimationFrame(check)
+      }),
+    SCROLLER,
+  )
+}
 
 type Sampled = {
   /** The heading's offset just before the click. */
