@@ -1,6 +1,6 @@
 import type { InvalidateQueryFilters } from "@tanstack/react-query"
 import { QueryClient } from "@tanstack/react-query"
-import { beforeEach, describe, expect, it, vi } from "vitest"
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import type { Game } from "@/data/online/queries"
 import { onlineKeys } from "@/data/online/queries"
 import { applyRealtimeEvent } from "@/data/realtime/invalidate"
@@ -214,5 +214,157 @@ describe("applyRealtimeEvent", () => {
     applyRealtimeEvent(queryClient, { event: "games-changed" })
 
     expect(invalidatedKeys()).not.toContainEqual(onlineKeys.game(GAME_ID))
+  })
+})
+
+//the hub keeps every game on screen and has no socket of its own to read. a
+//beacon for one game asks the api for that one game and puts the answer where
+//the hub already looks, so the list is never fetched again for one move.
+describe("applyRealtimeEvent on the hub's lists", () => {
+  let queryClient: QueryClient
+  let invalidate: ReturnType<typeof vi.spyOn>
+  let fetch: ReturnType<typeof vi.fn>
+
+  /** A list entry, with only the fields the hub update reads or writes. */
+  function listed(
+    id: string,
+    updatedAt: number,
+    status: "active" | "finished" = "active",
+  ): Game {
+    return { id, updatedAt, status } as Game
+  }
+
+  /** The api answering `GET /games/:id` with `game`. */
+  function answerWith(game: Game) {
+    fetch.mockImplementation(
+      async () =>
+        new Response(
+          JSON.stringify({ status: "success", data: { game } }),
+          {
+            status: 200,
+            headers: { "content-type": "application/json" },
+          },
+        ),
+    )
+  }
+
+  function requestedPaths() {
+    return fetch.mock.calls.map((call: unknown[]) => {
+      const target = call[0]
+      const url = target instanceof Request ? target.url : String(target)
+      return new URL(url).pathname
+    })
+  }
+
+  function invalidatedKeys() {
+    return invalidate.mock.calls.map(
+      (call: [InvalidateQueryFilters?]) => call[0]?.queryKey,
+    )
+  }
+
+  function announce(gameId: string, updatedAt: number) {
+    applyRealtimeEvent(queryClient, {
+      event: "game-updated",
+      meta: { gameId, updatedAt },
+    })
+  }
+
+  beforeEach(() => {
+    queryClient = new QueryClient()
+    invalidate = vi.spyOn(queryClient, "invalidateQueries")
+    fetch = vi.fn()
+    vi.stubGlobal("fetch", fetch)
+  })
+
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it("puts the announced game into the active list in place, asking only for that game", async () => {
+    queryClient.setQueryData(onlineKeys.games("active"), [
+      listed(OTHER_GAME_ID, 3_000),
+      listed(GAME_ID, 1_000),
+    ])
+    answerWith(listed(GAME_ID, 2_000))
+
+    announce(GAME_ID, 2_000)
+
+    await vi.waitFor(() => {
+      expect(
+        queryClient.getQueryData<Game[]>(onlineKeys.games("active")),
+      ).toEqual([listed(OTHER_GAME_ID, 3_000), listed(GAME_ID, 2_000)])
+    })
+    expect(requestedPaths()).toEqual([`/api/v1/games/${GAME_ID}`])
+    expect(invalidatedKeys()).not.toContainEqual(
+      onlineKeys.games("active"),
+    )
+  })
+
+  it("moves a game that ended out of the active list and to the top of the finished one", async () => {
+    queryClient.setQueryData(onlineKeys.games("active"), [
+      listed(GAME_ID, 1_000),
+    ])
+    queryClient.setQueryData(onlineKeys.games("finished"), [
+      listed(OTHER_GAME_ID, 500, "finished"),
+    ])
+    answerWith(listed(GAME_ID, 2_000, "finished"))
+
+    announce(GAME_ID, 2_000)
+
+    await vi.waitFor(() => {
+      expect(
+        queryClient.getQueryData<Game[]>(onlineKeys.games("active")),
+      ).toEqual([])
+    })
+    expect(
+      queryClient.getQueryData<Game[]>(onlineKeys.games("finished")),
+    ).toEqual([
+      listed(GAME_ID, 2_000, "finished"),
+      listed(OTHER_GAME_ID, 500, "finished"),
+    ])
+  })
+
+  it("leaves the list alone for a version it already shows", async () => {
+    queryClient.setQueryData(onlineKeys.games("active"), [
+      listed(GAME_ID, 2_000),
+    ])
+
+    announce(GAME_ID, 2_000)
+    await Promise.resolve()
+
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
+  it("asks for the whole active list again for a game the list does not have", () => {
+    queryClient.setQueryData(onlineKeys.games("active"), [
+      listed(OTHER_GAME_ID, 3_000),
+    ])
+
+    announce(GAME_ID, 2_000)
+
+    expect(invalidatedKeys()).toContainEqual(onlineKeys.games("active"))
+  })
+
+  it("asks for nothing for the list while this device is writing to the game", async () => {
+    queryClient.setQueryData(onlineKeys.games("active"), [
+      listed(GAME_ID, 1_000),
+    ])
+    let answer: () => void = () => {}
+    const answered = new Promise<void>((resolve) => {
+      answer = resolve
+    })
+    const done = queryClient
+      .getMutationCache()
+      .build(queryClient, {
+        mutationKey: onlineKeys.write(GAME_ID),
+        mutationFn: () => answered,
+      })
+      .execute(undefined)
+
+    announce(GAME_ID, 2_000)
+    answer()
+    await done
+
+    expect(fetch).not.toHaveBeenCalled()
   })
 })
