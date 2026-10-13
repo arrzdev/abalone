@@ -140,10 +140,10 @@ for (const { name, width, height } of WIDTHS) {
   test.describe(`at ${width}px`, () => {
     test.use({ viewport: { width, height } })
 
-    test(`home, rules and New Game text is readable on a ${name}`, async ({
+    test(`home, rules, strategy and New Game text is readable on a ${name}`, async ({
       page,
     }) => {
-      for (const path of ["/", "/rules", "/offline"]) {
+      for (const path of ["/", "/rules", "/strategy", "/offline"]) {
         await openApp(page, path)
         await expectReadableText(page, path)
       }
