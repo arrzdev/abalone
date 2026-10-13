@@ -106,7 +106,7 @@ export function PlayPoster() {
         {/* Flex, not a plain block: the canvas sizes itself from the box it is
             handed, and a block parent leaves it measuring a zero-height one
             and drawing at its fallback size. */}
-        <div className="flex min-h-0 w-full max-w-[300px] flex-1 flex-col drop-shadow-[0_26px_46px_rgba(0,0,0,0.55)] lg:h-[472px] lg:max-w-none lg:flex-none lg:drop-shadow-[0_34px_60px_rgba(0,0,0,0.55)]">
+        <div className="flex min-h-0 w-full max-w-[300px] flex-1 flex-col lg:h-[472px] lg:max-w-none lg:flex-none">
           <DemoBoard />
         </div>
 
