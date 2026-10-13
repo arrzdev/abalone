@@ -1,7 +1,7 @@
 import type { RealtimeEvent } from "@repo/backend/realtime/events"
 import type { QueryClient } from "@tanstack/react-query"
 import type { Game } from "@/data/online/queries"
-import { onlineKeys } from "@/data/online/queries"
+import { gameQueryOptions, onlineKeys } from "@/data/online/queries"
 
 /**
  * Which lists a beacon makes stale.
@@ -10,9 +10,12 @@ import { onlineKeys } from "@/data/online/queries"
  * place: which query a piece of news dirties is a fact about the api, not about
  * whichever screen happened to be open when it arrived.
  *
- * A beacon never carries data, so nothing here writes to the cache. It marks
- * things stale and lets the queries the screens already own do the fetching,
- * which keeps the server the only thing that says what a game looks like.
+ * A beacon never carries data. It marks things stale and lets the queries the
+ * screens already own do the fetching, which keeps the server the only thing
+ * that says what a game looks like. The one write is the hub's lists: a beacon
+ * for one game asks the api for that one game and puts the answer in the lists
+ * in place, rather than fetching every game again for one move
+ * (`docs/online-hub.md`).
  */
 export function applyRealtimeEvent(
   queryClient: QueryClient,
@@ -56,11 +59,73 @@ export function applyRealtimeEvent(
   //carries the row's version so an echo arriving after the fact — from this
   //device or from another one of the player's — is still told from news.
   const held = queryClient.getQueryData<Game>(key)
-  if (held && held.updatedAt >= event.meta.updatedAt) return
+  const isRowCurrent =
+    held !== undefined && held.updatedAt >= event.meta.updatedAt
+
+  const active = queryClient.getQueryData<Game[]>(
+    onlineKeys.games("active"),
+  )
+  const listed = active?.find((game) => game.id === gameId)
+
+  //a game the list has never seen (a new one, or one accepted elsewhere) has
+  //no place to go in place, so the list asks for itself again
+  if (active && !listed) {
+    void queryClient.invalidateQueries({
+      queryKey: onlineKeys.games("active"),
+    })
+  }
+
+  if (listed && listed.updatedAt < event.meta.updatedAt) {
+    if (isRowCurrent) {
+      patchHubLists(queryClient, held)
+      return
+    }
+
+    //one request for both: the answer lands in the row as well, so whatever is
+    //watching the row (the board) is handed it without asking a second time
+    void queryClient
+      .fetchQuery({ ...gameQueryOptions(gameId), staleTime: 0 })
+      .then((game) => patchHubLists(queryClient, game))
+      .catch(() => {
+        //the list's own poll is the fallback; a failed beacon read is not news
+      })
+    return
+  }
+
+  if (isRowCurrent) return
 
   //`exact`, and it matters: the move history is keyed UNDER the game row, so a
   //prefix match would pull the whole history down on every beacon and undo the
   //cheap-row/expensive-history split the api was built around. the row carries
   //`moveCount`, and the board fetches the plies only once that number has moved.
   void queryClient.invalidateQueries({ queryKey: key, exact: true })
+}
+
+/**
+ * Put the api's answer for one game where the hub reads it.
+ *
+ * A game still on stays where it is in the active list. One that just ended
+ * only leaves it: the end of a game also sends `games-changed`, which asks both
+ * lists again, so only the server ever orders history. An answer older than
+ * what the list already shows (two beacons answered out of order, or a poll
+ * that landed first) is dropped.
+ *
+ * Called for a beacon and for this device's own move or resignation, whose
+ * echo is dropped above: without it the hub would show the game as "Your move"
+ * until the list's next poll.
+ */
+export function patchHubLists(queryClient: QueryClient, game: Game): void {
+  const isNewer = (entry: Game) =>
+    entry.id === game.id && entry.updatedAt <= game.updatedAt
+
+  if (game.status === "finished") {
+    queryClient.setQueryData<Game[]>(onlineKeys.games("active"), (list) =>
+      list?.filter((entry) => !isNewer(entry)),
+    )
+    return
+  }
+
+  queryClient.setQueryData<Game[]>(onlineKeys.games("active"), (list) =>
+    list?.map((entry) => (isNewer(entry) ? game : entry)),
+  )
 }

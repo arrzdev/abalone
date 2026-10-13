@@ -11,6 +11,16 @@
     "nothing_else": "Nada más en curso",
     "waiting_on_them": "Esperando al rival"
   },
+  "card": {
+    "your_move": "Te toca",
+    "their_move": "Les toca",
+    "won": "Ganada",
+    "lost": "Perdida",
+    "draw": "Tablas",
+    "last_move": "Último movimiento {{when}}",
+    "no_moves": "Sin movimientos aún",
+    "started": "Empezada el {{date}}"
+  },
   "games": {
     "new_invite": "Nueva invitación",
     "loading": "Cargando tus partidas"
