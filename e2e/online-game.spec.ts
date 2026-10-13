@@ -63,6 +63,16 @@ async function startOnlineGame(browser: Browser): Promise<OnlinePlayers> {
 test("an invited player joins and both players see each other's moves", async ({
   browser,
 }) => {
+  // Two phone browsers, two sign-ups and a live game in one test. WebKit has no
+  // GPU on a Linux runner and paints in software, so on a two-core machine this
+  // runs past the default 60s while every step stays inside its own timeout
+  // (TUD-964). The browser itself is asked: the project's device sets WebKit,
+  // and the `browserName` option does not follow it.
+  test.slow(
+    browser.browserType().name() === "webkit",
+    "two WebKit pages paint in software",
+  )
+
   const { host, guest, hostPage, guestPage } =
     await startOnlineGame(browser)
 
