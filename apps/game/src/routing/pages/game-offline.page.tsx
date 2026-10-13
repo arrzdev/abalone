@@ -44,7 +44,11 @@ import { getSetupName } from "@/i18n/game-text"
 import { useAuth } from "@/providers/auth-provider"
 import { seoPageHead } from "@/routing/seo-pages"
 import { DECIDED } from "@/utils/evaluation"
-import { isGuideDone, startsOnBoard } from "@/utils/first-game-guide"
+import {
+  isGuideDone,
+  resetGuide,
+  startsOnBoard,
+} from "@/utils/first-game-guide"
 
 export type GameOfflineSearch = {
   /** Which of the two offline games this is. */
@@ -435,6 +439,27 @@ function GameOfflinePage() {
     </TapButton>
   )
 
+  /**
+   * The way back to the first-game guide, which shows once per device. In the
+   * board's top-right corner, which the hexagon leaves empty, rather than a
+   * slot in the action bar: it is help about the board, not a move in the game.
+   * A small glyph in a thumb-sized box. The board listening for the reset shows
+   * the guide from step 1 on the game in progress.
+   */
+  const howToMoveButton = (
+    <TapButton
+      onClick={resetGuide}
+      aria-label={t("game:controls.how_to_move")}
+      title={t("game:controls.how_to_move")}
+      className={cn(
+        "flex size-11 items-center justify-center rounded-full",
+        "font-display text-sm font-bold text-faint transition-colors hover:text-white",
+      )}
+    >
+      ?
+    </TapButton>
+  )
+
   return (
     // The page fills what the layout gives it and never scrolls — anything that
     // grows (the move list) scrolls inside its own box instead of pushing the
@@ -526,6 +551,7 @@ function GameOfflinePage() {
                 onDragSelect={game.handleDragSelect}
                 onHover={game.setHoveredCell}
                 onResize={handleBoardResize}
+                corner={phase === "ingame" && howToMoveButton}
               />
             </div>
 
@@ -621,13 +647,13 @@ function GameOfflinePage() {
                         }
                   }
                 />
-                {/* Below `lg`, part of the head, so the panel's floor counts it
+                {/* The first thing under the scoreboard, at every size
+                    (TUD-973). Part of the head, so the panel's floor counts it
                     and a short screen shrinks the board for it rather than
                     clipping the actions under it. Never over the board: the
                     presses it teaches land there. */}
                 {guide.step && (
                   <FirstGameGuide
-                    className="lg:hidden"
                     step={guide.step}
                     onNext={guide.next}
                     onSkip={guide.skip}
@@ -681,18 +707,6 @@ function GameOfflinePage() {
                 onUndo={game.undoMove}
                 onResign={() => setResignOpen(true)}
                 onNewGame={isLocal ? undefined : game.handleNewBot}
-                // From `lg`, down the panel by the starting marbles rather than
-                // at its top, a board's height away from them (TUD-852)
-                guide={
-                  guide.step && (
-                    <FirstGameGuide
-                      className="m-0 shrink-0 max-lg:hidden"
-                      step={guide.step}
-                      onNext={guide.next}
-                      onSkip={guide.skip}
-                    />
-                  )
-                }
               />
             )}
 

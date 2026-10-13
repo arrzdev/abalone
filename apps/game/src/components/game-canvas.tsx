@@ -9,7 +9,7 @@ import type {
 } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
 import type { TFunction } from "i18next"
-import type { MouseEvent, PointerEvent } from "react"
+import type { MouseEvent, PointerEvent, ReactNode } from "react"
 import {
   forwardRef,
   useCallback,
@@ -67,6 +67,11 @@ export type GameCanvasProps = {
   onDragSelect?: (anchor: CellName, pos: CellName) => number
   onHover?: (pos: CellName | null) => void
   onResize?: (width: number, height: number) => void
+  /**
+   * A control pinned to the board's top-right corner. The hexagon leaves that
+   * corner empty at every size, so it covers no space a move is played on.
+   */
+  corner?: ReactNode
 }
 
 /**
@@ -141,6 +146,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       onDragSelect,
       onHover,
       onResize,
+      corner,
     },
     ref,
   ) {
@@ -763,6 +769,10 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
                 {notice}
               </TapButton>
             </div>
+          )}
+
+          {corner && (
+            <div className="absolute top-0 right-0">{corner}</div>
           )}
         </div>
       </div>
