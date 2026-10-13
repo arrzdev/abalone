@@ -22,6 +22,8 @@ export type ChapterProps = ManualChapter & {
   children?: ReactNode
   /** The diagrams the chapter is about, beside it on a desktop. */
   plate?: ReactNode
+  /** How the plate sits beside the text, for a plate that is not a diagram. */
+  plateClassName?: string
 }
 
 /**
@@ -42,6 +44,7 @@ export function Chapter({
   title,
   children,
   plate,
+  plateClassName,
 }: ChapterProps) {
   return (
     <section
@@ -85,7 +88,10 @@ export function Chapter({
       {plate && (
         <div
           data-plate
-          className="min-w-0 max-lg:mt-6 lg:sticky lg:top-6 lg:self-start"
+          className={cn(
+            "min-w-0 max-lg:mt-6 lg:sticky lg:top-6 lg:self-start",
+            plateClassName,
+          )}
         >
           {plate}
         </div>

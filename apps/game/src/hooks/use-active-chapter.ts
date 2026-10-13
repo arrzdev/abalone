@@ -1,5 +1,11 @@
 import type { RefObject } from "react"
-import { useCallback, useEffect, useRef, useState } from "react"
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react"
 import { easeInOutCubic, prefersReducedMotion } from "@/render/motion"
 
 /**
@@ -45,6 +51,20 @@ function glide(scroller: HTMLElement, top: number, done: () => void) {
   return stop
 }
 
+/** The scroll that puts `heading` at its scroll margin, where a link lands it. */
+function headingTop(scroller: HTMLElement, heading: HTMLElement): number {
+  const margin = Number.parseFloat(
+    getComputedStyle(heading).scrollMarginTop,
+  )
+  return Math.min(
+    scroller.scrollHeight - scroller.clientHeight,
+    scroller.scrollTop +
+      heading.getBoundingClientRect().top -
+      scroller.getBoundingClientRect().top -
+      (Number.isNaN(margin) ? 0 : margin),
+  )
+}
+
 /** The last chapter whose heading has reached the reading band, or the first. */
 function chapterBeingRead(scroller: HTMLElement, ids: string[]): string {
   const band =
@@ -76,7 +96,22 @@ export function useActiveChapter(
   const [activeId, setActiveId] = useState(ids[0])
   const jumpingRef = useRef(false)
   const cancelJumpRef = useRef<() => void>(() => {})
+  const releaseRef = useRef(0)
   const idsKey = ids.join(" ")
+
+  // A link from elsewhere (/rules#sumito) is followed by the browser before the
+  // page hydrates, while the diagrams above the chapter have no height yet. Once
+  // they have one, the heading is put back where the link lands it.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: once, for the address the page opened at.
+  useLayoutEffect(() => {
+    const scroller = scrollRef.current
+    const id = decodeURIComponent(window.location.hash.slice(1))
+    if (!scroller || !ids.includes(id)) return
+    const heading = document.getElementById(id)
+    if (heading) scroller.scrollTop = headingTop(scroller, heading)
+  }, [])
+
+  useEffect(() => () => window.clearTimeout(releaseRef.current), [])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: `idsKey` stands for `ids`, a new array on every render with the same chapters in it.
   useEffect(() => {
@@ -106,21 +141,16 @@ export function useActiveChapter(
       if (!scroller || !heading) return
 
       setActiveId(id)
-      const margin = Number.parseFloat(
-        getComputedStyle(heading).scrollMarginTop,
-      )
-      const target = Math.min(
-        scroller.scrollHeight - scroller.clientHeight,
-        scroller.scrollTop +
-          heading.getBoundingClientRect().top -
-          scroller.getBoundingClientRect().top -
-          (Number.isNaN(margin) ? 0 : margin),
-      )
+      const target = headingTop(scroller, heading)
       // the address names the chapter, as the link it came from would
       history.replaceState(history.state, "", `#${id}`)
 
       cancelJumpRef.current()
+      // the jump this one cuts short must not hand the mark back to the
+      // scroll partway through this one
+      window.clearTimeout(releaseRef.current)
       if (prefersReducedMotion()) {
+        jumpingRef.current = false
         scroller.scrollTop = target
         return
       }
@@ -128,7 +158,7 @@ export function useActiveChapter(
       cancelJumpRef.current = glide(scroller, target, () => {
         cancelJumpRef.current = () => {}
         // after the last frame's scroll event, which is still to come
-        window.setTimeout(() => {
+        releaseRef.current = window.setTimeout(() => {
           jumpingRef.current = false
         }, 100)
       })

@@ -270,9 +270,12 @@ function RulesPage() {
       >
         <Chapter
           {...chapter.goal}
+          //as tall as the text beside it: a count, not a diagram to keep in
+          //view while a long chapter scrolls (rules-redesign §5)
+          plateClassName="lg:self-stretch lg:pb-16"
           plate={
             //the win condition at a glance: this is how many have to go
-            <Plate className="flex-row flex-wrap items-center justify-center gap-3 py-8 lg:py-10">
+            <Plate className="flex-row flex-wrap items-center justify-center gap-3 py-8 lg:h-full lg:py-10">
               {Array.from({ length: WINNING_SCORE }, (_, i) => (
                 <MarbleGlyph
                   // biome-ignore lint/suspicious/noArrayIndexKey: six identical marbles standing for a count, not a list of things.

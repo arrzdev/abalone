@@ -77,7 +77,7 @@ export function ChapterRail({
               {chapter.number && (
                 <span
                   aria-hidden
-                  className="font-display text-sm font-semibold tabular-nums"
+                  className="w-5 shrink-0 font-display text-sm font-semibold tabular-nums"
                 >
                   {chapter.number}
                 </span>
