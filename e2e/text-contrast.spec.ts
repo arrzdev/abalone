@@ -140,14 +140,15 @@ for (const { name, width, height } of WIDTHS) {
   test.describe(`at ${width}px`, () => {
     test.use({ viewport: { width, height } })
 
-    test(`home, rules, strategy and New Game text is readable on a ${name}`, async ({
-      page,
-    }) => {
-      for (const path of ["/", "/rules", "/strategy", "/offline"]) {
+    // One test per screen: each gets its own time budget, so a loaded machine
+    // that is slow to hydrate and scan four pages in a row does not run one
+    // test out of time (TUD-932).
+    for (const path of ["/", "/rules", "/strategy", "/offline"]) {
+      test(`${path} text is readable on a ${name}`, async ({ page }) => {
         await openApp(page, path)
         await expectReadableText(page, path)
-      }
-    })
+      })
+    }
 
     test(`a game against a bot is readable on a ${name}`, async ({
       page,
