@@ -420,16 +420,24 @@ test.describe("motion", () => {
       ),
     ).toBe("0.2s")
 
-    const path = await clickAndSample(page, "faq")
-    // more than a jump: several distinct positions on the way, closing in
-    const distinct = new Set(path.map(Math.round))
-    expect(
-      distinct.size,
-      `path ${path.join(", ")}`,
-    ).toBeGreaterThanOrEqual(4)
+    const { start, frames } = await clickAndSample(page, "faq")
+    const path = frames.map((frame) => frame.offset)
+    const trace = `start ${start}, path ${frames.map((frame) => `${frame.offset}@${frame.at}ms`).join(", ")}`
+    const landed = (offset: number) => offset >= 0 && offset <= 48
+    // closing in on every frame, and it lands
     for (let index = 1; index < path.length; index++)
-      expect(path[index]).toBeLessThanOrEqual(path[index - 1] + 1)
-    expect(path.at(-1) ?? Number.NaN).toBeLessThanOrEqual(48)
+      expect(path[index], trace).toBeLessThanOrEqual(path[index - 1] + 1)
+    expect(landed(path.at(-1) ?? Number.NaN), trace).toBe(true)
+    // more than a jump: not there on the first frame, a frame on the way, and
+    // the glide takes time. Counted in time, not frames, so a loaded machine
+    // that drops frames still passes (TUD-920).
+    expect(landed(path[0]), trace).toBe(false)
+    const between = path.filter(
+      (offset) => offset > 48 && offset < start - 48,
+    )
+    expect(between.length, trace).toBeGreaterThanOrEqual(1)
+    const arrival = frames.find((frame) => landed(frame.offset))?.at ?? 0
+    expect(arrival, trace).toBeGreaterThanOrEqual(100)
   })
 
   test("with reduced motion a rail click jumps and the bar does not slide", async ({
@@ -444,39 +452,62 @@ test.describe("motion", () => {
       ),
     ).toBe("0s")
 
-    const path = await clickAndSample(page, "faq")
+    const { frames } = await clickAndSample(page, "faq")
+    const first = frames[0]?.offset ?? Number.NaN
     // there on the first frame after the click
-    expect(path[0], `path ${path.join(", ")}`).toBeLessThanOrEqual(48)
-    expect(path[0]).toBeGreaterThanOrEqual(0)
+    expect(
+      first,
+      `path ${frames.map((frame) => frame.offset).join(", ")}`,
+    ).toBeLessThanOrEqual(48)
+    expect(first).toBeGreaterThanOrEqual(0)
   })
 })
 
+type Sampled = {
+  /** The heading's offset just before the click. */
+  start: number
+  /** One entry per animation frame: offset, and ms since the click. */
+  frames: { offset: number; at: number }[]
+}
+
 /**
  * Clicks the rail link to `id` and records the heading's offset from the top
- * of the scroller on each of the next 30 animation frames.
+ * of the scroller on every animation frame, until it has not moved for 10
+ * frames or 4 s have passed. Sampling by settling rather than a fixed frame
+ * count keeps the whole path when a loaded machine drops frames.
  */
-function clickAndSample(page: Page, id: string): Promise<number[]> {
+function clickAndSample(page: Page, id: string): Promise<Sampled> {
   return page.evaluate(
     ({ id, scroller }) =>
-      new Promise<number[]>((resolve) => {
+      new Promise<Sampled>((resolve) => {
         const link = document.querySelector<HTMLAnchorElement>(
           `nav[data-manual-rail] a[href$="#${id}"]`,
         )
         const heading = document.getElementById(id)
         const view = document.querySelector(scroller)
         if (!link || !heading || !view) {
-          resolve([Number.NaN])
+          resolve({ start: Number.NaN, frames: [] })
           return
         }
-        const offsets: number[] = []
+        const offset = () =>
+          heading.getBoundingClientRect().top -
+          view.getBoundingClientRect().top
+        const start = offset()
+        const frames: Sampled["frames"] = []
+        let still = 0
+        const clicked = performance.now()
         link.click()
         const sample = () => {
-          offsets.push(
-            heading.getBoundingClientRect().top -
-              view.getBoundingClientRect().top,
-          )
-          if (offsets.length < 30) requestAnimationFrame(sample)
-          else resolve(offsets)
+          const at = Math.round(performance.now() - clicked)
+          const current = offset()
+          const previous = frames.at(-1)?.offset
+          still =
+            previous !== undefined && Math.abs(current - previous) < 0.5
+              ? still + 1
+              : 0
+          frames.push({ offset: current, at })
+          if (still < 10 && at < 4000) requestAnimationFrame(sample)
+          else resolve({ start, frames })
         }
         requestAnimationFrame(sample)
       }),
