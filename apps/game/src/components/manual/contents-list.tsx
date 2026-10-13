@@ -41,7 +41,7 @@ export function ContentsList({
               {chapter.number && (
                 <span
                   aria-hidden
-                  className="font-display text-sm font-semibold tabular-nums text-muted"
+                  className="w-5 shrink-0 font-display text-sm font-semibold tabular-nums text-muted"
                 >
                   {chapter.number}
                 </span>
