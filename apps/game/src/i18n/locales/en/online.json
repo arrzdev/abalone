@@ -10,6 +10,16 @@
     "nothing_else": "Nothing else in progress",
     "waiting_on_them": "Waiting on them"
   },
+  "card": {
+    "your_move": "Your move",
+    "their_move": "Their move",
+    "won": "Won",
+    "lost": "Lost",
+    "draw": "Draw",
+    "last_move": "Last move {{when}}",
+    "no_moves": "No moves yet",
+    "started": "Started {{date}}"
+  },
   "games": {
     "new_invite": "New invite",
     "loading": "Loading your games"

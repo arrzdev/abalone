@@ -36,10 +36,12 @@ const INVITE_COLUMNS = {
   fromUserId: sender.id,
   fromUsername: sender.username,
   fromDisplayUsername: sender.displayUsername,
+  fromAccountName: sender.name,
   fromAvatarKey: senderProfile.avatarKey,
   toUserId: recipient.id,
   toUsername: recipient.username,
   toDisplayUsername: recipient.displayUsername,
+  toAccountName: recipient.name,
   toAvatarKey: recipientProfile.avatarKey,
 }
 
@@ -52,10 +54,12 @@ type InviteRow = {
   fromUserId: string
   fromUsername: string | null
   fromDisplayUsername: string | null
+  fromAccountName: string
   fromAvatarKey: string | null
   toUserId: string
   toUsername: string | null
   toDisplayUsername: string | null
+  toAccountName: string
   toAvatarKey: string | null
 }
 
@@ -72,12 +76,14 @@ function toInvite(row: InviteRow): Invite {
       userId: row.fromUserId,
       username: row.fromUsername,
       displayUsername: row.fromDisplayUsername,
+      accountName: row.fromAccountName,
       avatarKey: row.fromAvatarKey,
     }),
     to: toPlayerSummary({
       userId: row.toUserId,
       username: row.toUsername,
       displayUsername: row.toDisplayUsername,
+      accountName: row.toAccountName,
       avatarKey: row.toAvatarKey,
     }),
   }

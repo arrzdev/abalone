@@ -41,6 +41,7 @@ import {
   gameQueryOptions,
   onlineKeys,
 } from "@/data/online/queries"
+import { patchHubLists } from "@/data/realtime/invalidate"
 import { useApiError } from "@/hooks/use-api-error"
 import { useAnimationsEnabled } from "@/hooks/use-app-preferences"
 import { useAuth } from "@/providers/auth-provider"
@@ -454,6 +455,7 @@ export function useOnlineGame(
     onSuccess: (row) => {
       shownIndexRef.current = row.moveCount
       queryClient.setQueryData(onlineKeys.game(gameId), row)
+      patchHubLists(queryClient, row)
     },
     //believing the server is the whole rollback: dropping what this device
     //played leaves the board showing the position the game is actually in, and
@@ -476,8 +478,10 @@ export function useOnlineGame(
   const resignGame = useMutation({
     ...resignGameMutationOptions,
     mutationKey: onlineKeys.write(gameId),
-    onSuccess: (row) =>
-      queryClient.setQueryData(onlineKeys.game(gameId), row),
+    onSuccess: (row) => {
+      queryClient.setQueryData(onlineKeys.game(gameId), row)
+      patchHubLists(queryClient, row)
+    },
   })
 
   const viewingHistory =

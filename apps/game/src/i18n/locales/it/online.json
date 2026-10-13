@@ -11,6 +11,16 @@
     "nothing_else": "Nient'altro in corso",
     "waiting_on_them": "In attesa dell'avversario"
   },
+  "card": {
+    "your_move": "Tocca a te",
+    "their_move": "Tocca a loro",
+    "won": "Vinta",
+    "lost": "Persa",
+    "draw": "Patta",
+    "last_move": "Ultima mossa {{when}}",
+    "no_moves": "Nessuna mossa ancora",
+    "started": "Iniziata il {{date}}"
+  },
   "games": {
     "new_invite": "Nuovo invito",
     "loading": "Caricamento delle tue partite"

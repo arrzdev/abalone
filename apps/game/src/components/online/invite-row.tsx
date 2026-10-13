@@ -54,7 +54,7 @@ export function ReceivedInviteRow({
 }: ReceivedInviteRowProps) {
   const { t } = useTranslation()
   const terms = useInviteTerms(invite, "received")
-  const name = invite.from.displayUsername ?? invite.from.username
+  const name = invite.from.name
 
   if (dense) {
     return (
@@ -163,7 +163,7 @@ export function SentInviteRow({
 }: SentInviteRowProps) {
   const { t } = useTranslation()
   const terms = useInviteTerms(invite, "sent")
-  const name = invite.to.displayUsername ?? invite.to.username
+  const name = invite.to.name
   const isDeclined = invite.status === "declined"
   const isJustSent =
     !isDeclined && Date.now() - invite.createdAt < JUST_SENT_MS
@@ -236,7 +236,7 @@ export function LeadInviteRow({
 }: LeadInviteRowProps) {
   const { t } = useTranslation()
   const terms = useInviteTerms(invite, "received")
-  const name = invite.from.displayUsername ?? invite.from.username
+  const name = invite.from.name
 
   return (
     <div className="flex flex-col rounded-[14px] bg-surface-2 px-[15px] pt-3.5 pb-[15px] lg:h-[92px] lg:flex-row lg:items-center lg:gap-4 lg:rounded-2xl lg:px-5 lg:py-0">

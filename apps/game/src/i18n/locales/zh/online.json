@@ -10,6 +10,16 @@
     "nothing_else": "没有其他进行中的对局",
     "waiting_on_them": "等对手落子"
   },
+  "card": {
+    "your_move": "轮到你",
+    "their_move": "轮到对方",
+    "won": "胜",
+    "lost": "负",
+    "draw": "平局",
+    "last_move": "上一步 {{when}}",
+    "no_moves": "还没有人走棋",
+    "started": "开始于 {{date}}"
+  },
   "games": {
     "new_invite": "新邀请",
     "loading": "正在加载你的棋局"

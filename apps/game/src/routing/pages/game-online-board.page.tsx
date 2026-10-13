@@ -95,15 +95,14 @@ function GameOnlineBoardPage() {
       ? game.white
       : game.black
     : undefined
-  const opponentName =
-    opponent?.displayUsername ?? opponent?.username ?? ""
+  const opponentName = opponent?.name ?? ""
 
   const seatFor = (color: Player): Seat => {
     const player = color === "black" ? game?.black : game?.white
     const avatar: ReactNode = player?.avatarUrl ? (
       <Avatar
         src={player.avatarUrl}
-        name={player.displayUsername ?? player.username}
+        name={player.name}
         size={34}
         className="rounded-none"
       />
@@ -111,10 +110,7 @@ function GameOnlineBoardPage() {
 
     return {
       color,
-      name:
-        player?.displayUsername ??
-        player?.username ??
-        t(`game:local.${color}`),
+      name: player?.name ?? t(`game:local.${color}`),
       avatar,
       //the seat shows what this player has taken off the other, which is their
       //own score: black's score is the white marbles black has pushed off
