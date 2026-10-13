@@ -1,7 +1,7 @@
 import { env } from "cloudflare:workers"
 import { getPossibleMoves } from "@repo/abalone-engine/rules"
 import type { CellName, Player } from "@repo/abalone-engine/types"
-import { beforeAll, describe, expect, it } from "vitest"
+import { beforeAll, describe, expect, it, vi } from "vitest"
 import { user } from "@/database/auth.schema"
 import { getDb } from "@/database/client"
 import { envRegistry } from "@/env/registry"
@@ -118,6 +118,50 @@ describe("game service", () => {
     expect(game.whiteScore).toBe(0)
   })
 
+  it("hands back the game a fresh read finds after each move", async () => {
+    const blackId = await seatedPlayer()
+    const whiteId = await seatedPlayer()
+
+    const gameId = await games.open({
+      inviteId: crypto.randomUUID(),
+      fromUserId: blackId,
+      toUserId: whiteId,
+      side: "black",
+      setupType: "standard",
+    })
+
+    const opening = await games.get(gameId, blackId)
+    const [blackHome, blackOut] = loneStep(opening, "black")
+    const [whiteHome, whiteOut] = loneStep(opening, "white", [
+      blackHome,
+      blackOut,
+    ])
+
+    const lap: [string, CellName, CellName][] = [
+      [blackId, blackHome, blackOut],
+      [whiteId, whiteHome, whiteOut],
+      [blackId, blackOut, blackHome],
+      [whiteId, whiteOut, whiteHome],
+    ]
+
+    //two laps, so the last move is the one that ends the game: the active
+    //plies and the finishing one are both checked against the stored row
+    let game = opening
+    for (let ply = 0; ply < lap.length * 2; ply++) {
+      const [userId, from, to] = lap[ply % lap.length]
+      game = await games.playMove(
+        gameId,
+        userId,
+        [from],
+        to,
+        game.moveCount,
+      )
+
+      expect(game).toStrictEqual(await games.get(gameId, userId))
+    }
+    expect(game.status).toBe("finished")
+  })
+
   it("keeps a game alive when the position has only stood twice", async () => {
     const blackId = await seatedPlayer()
     const whiteId = await seatedPlayer()
@@ -161,5 +205,53 @@ describe("game service", () => {
       finishReason: null,
       moveCount: 4,
     })
+  })
+
+  /**
+   * Counts the trips a piece of work makes to D1.
+   *
+   * A batch is one trip however many statements it carries, and every other
+   * trip is a prepared statement being run, so those are the calls to watch.
+   */
+  async function roundTripsOf(
+    work: () => Promise<unknown>,
+  ): Promise<number> {
+    const statement = Object.getPrototypeOf(env.DB.prepare("select 1"))
+    const spies = [
+      vi.spyOn(env.DB, "batch"),
+      vi.spyOn(statement, "all"),
+      vi.spyOn(statement, "raw"),
+      vi.spyOn(statement, "run"),
+      vi.spyOn(statement, "first"),
+    ]
+    try {
+      await work()
+      return spies.reduce((total, spy) => total + spy.mock.calls.length, 0)
+    } finally {
+      for (const spy of spies) spy.mockRestore()
+    }
+  }
+
+  it("plays a move in three trips to the database", async () => {
+    const blackId = await seatedPlayer()
+    const whiteId = await seatedPlayer()
+
+    const gameId = await games.open({
+      inviteId: crypto.randomUUID(),
+      fromUserId: blackId,
+      toUserId: whiteId,
+      side: "black",
+      setupType: "standard",
+    })
+
+    const opening = await games.get(gameId, blackId)
+    const [from, to] = loneStep(opening, "black")
+
+    //read the game, count the position, write the ply. the game it hands back
+    //is built from what was read and written, not read a second time.
+    const trips = await roundTripsOf(() =>
+      games.playMove(gameId, blackId, [from], to, opening.moveCount),
+    )
+    expect(trips).toBe(3)
   })
 })
