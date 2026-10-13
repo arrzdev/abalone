@@ -632,6 +632,81 @@ describe("game routes", () => {
     expect(body.error_code).toBe("game_not_active")
   })
 
+  //---- how a player is named ----------------
+  //an online player has one name, the handle as they typed it. the envelope
+  //hands out that one name, so no screen has to pick between two.
+
+  /** An account whose handle has capitals, which the stored username drops. */
+  async function signUpShouting() {
+    handles += 1
+    const shouted = `Shouter${handles}`
+    const response = await fetchWorker(
+      new Request("http://example.com/api/v1/auth/sign-up/email", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          origin: "http://example.com",
+          "x-test-bypass": "true",
+        },
+        body: JSON.stringify({
+          username: shouted,
+          name: shouted,
+          email: `${shouted.toLowerCase()}@users.abalone.invalid`,
+          password: "correct-horse",
+        }),
+      }),
+    )
+    return {
+      username: shouted.toLowerCase(),
+      shouted,
+      token: response.headers.get("set-auth-token") ?? "",
+    }
+  }
+
+  it("names each player in a game once, as they typed their handle", async () => {
+    const sender = await signUpShouting()
+    const recipient = await signUp("recipient")
+    const sent = await invite(sender.token, recipient.username)
+    const opened = await accept(recipient.token, sent.id)
+
+    const { body } = await call<{ game: Game }>(
+      "GET",
+      `/games/${opened.id}`,
+      recipient.token,
+    )
+
+    expect(body.data?.game.black).toMatchObject({ name: sender.shouted })
+    expect(body.data?.game.white).toMatchObject({
+      name: recipient.username,
+    })
+
+    const listed = await call<{ games: Game[] }>(
+      "GET",
+      "/games?status=active",
+      recipient.token,
+    )
+    expect(listed.body.data?.games[0]?.black).toMatchObject({
+      name: sender.shouted,
+    })
+  })
+
+  it("names both sides of an invite the same way", async () => {
+    const sender = await signUpShouting()
+    const recipient = await signUp("recipient")
+    await invite(sender.token, recipient.username)
+
+    const { body } = await call<{ invites: Invite[] }>(
+      "GET",
+      "/invites",
+      recipient.token,
+    )
+
+    expect(body.data?.invites[0]).toMatchObject({
+      from: { name: sender.shouted },
+      to: { name: recipient.username },
+    })
+  })
+
   //---- the gate ----------------
   //everything below is the security audit: a third account who is party to
   //nothing, and requests carrying no session or a made-up one. a game or an
