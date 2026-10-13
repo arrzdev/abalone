@@ -74,8 +74,7 @@
     "marbles_taken": "{{taken}} biglie avversarie su {{total}} spinte fuori",
     "eval_advantage": "{{color}} in vantaggio di {{score}}",
     "eval_level": "In parità",
-    "how_to_move": "Come muovere",
-    "how_to_move_hint": "Rivedi i 3 passi sul tavoliere."
+    "how_to_move": "Come muovere"
   },
   "game_state": {
     "your_turn": "Il tuo turno",

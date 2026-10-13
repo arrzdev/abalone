@@ -1,40 +1,20 @@
-import { cn } from "@repo/nativ/utils"
 import { useTranslation } from "react-i18next"
+import { LanguageFlag } from "@/components/language-flag"
 import type { SelectOption } from "@/components/ui/select"
 import { Select } from "@/components/ui/select"
 import type { Language } from "@/i18n"
 import {
   changeLanguage,
-  LANGUAGE_FLAGS,
   LANGUAGE_NAMES,
   SUPPORTED_LANGUAGES,
 } from "@/i18n"
-
-/**
- * Flag emoji sit in a fixed box: their glyph metrics vary by font and don't
- * track font-size cleanly, so letting them size the layout makes the rows drift
- * out of alignment as the page zooms.
- */
-function Flag({ code, className }: { code: string; className?: string }) {
-  return (
-    <span
-      className={cn(
-        "flex h-5 w-5 shrink-0 items-center justify-center text-base leading-none",
-        className,
-      )}
-      aria-hidden="true"
-    >
-      {LANGUAGE_FLAGS[code as Language]}
-    </span>
-  )
-}
 
 /** Every language as a Select option, with its flag alongside the native name. */
 const LANGUAGE_OPTIONS: SelectOption<Language>[] = SUPPORTED_LANGUAGES.map(
   (lng) => ({
     value: lng,
     label: LANGUAGE_NAMES[lng],
-    icon: <Flag code={lng} />,
+    icon: <LanguageFlag language={lng} />,
   }),
 )
 

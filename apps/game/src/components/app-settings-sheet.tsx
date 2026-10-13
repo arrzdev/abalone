@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next"
 import { LanguageSelect } from "@/components/language-select"
-import { Button } from "@/components/ui/button"
 import type { SelectOption } from "@/components/ui/select"
 import { Select } from "@/components/ui/select"
 import { Sheet } from "@/components/ui/sheet"
@@ -15,7 +14,6 @@ import {
 } from "@/hooks/use-app-preferences"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import type { MarbleDesign } from "@/render/marble-renderer"
-import { resetGuide } from "@/utils/first-game-guide"
 
 export type AppSettingsSheetProps = {
   open: boolean
@@ -131,29 +129,6 @@ export function AppSettingsSheet({
             checked={animationsEnabled}
             onChange={setAnimationsEnabled}
           />
-        </div>
-
-        {/* Clears the first-game guide's flag. A board behind the sheet hears
-            the reset and shows the guide from step 1; anywhere else it shows on
-            the next offline game. */}
-        <div className="flex items-center justify-between gap-4 border-t border-border pt-5">
-          <div>
-            <span className="block text-sm font-medium text-white">
-              {t("game:controls.how_to_move")}
-            </span>
-            <span className="mt-0.5 block text-xs text-muted">
-              {t("game:controls.how_to_move_hint")}
-            </span>
-          </div>
-          <Button
-            size="sm"
-            onClick={() => {
-              resetGuide()
-              onClose()
-            }}
-          >
-            {t("game:controls.how_to_move")}
-          </Button>
         </div>
       </div>
     </Sheet>

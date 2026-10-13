@@ -74,8 +74,7 @@
     "marbles_taken": "{{total}} में से {{taken}} विरोधी गोलियाँ बाहर धकेली गईं",
     "eval_advantage": "{{color}} {{score}} से आगे",
     "eval_level": "बराबरी",
-    "how_to_move": "चाल कैसे चलें",
-    "how_to_move_hint": "बोर्ड पर 3 चरण फिर से देखें।"
+    "how_to_move": "चाल कैसे चलें"
   },
   "game_state": {
     "your_turn": "आपकी बारी",

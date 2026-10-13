@@ -1,7 +1,7 @@
 import { Drawer } from "@repo/nativ/components"
 import { cn } from "@repo/nativ/utils"
 import type { ReactNode } from "react"
-import { useId } from "react"
+import { useEffect, useId } from "react"
 import { Modal } from "@/components/ui/modal"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
 
@@ -49,6 +49,17 @@ export function Sheet({
 }: SheetProps) {
   const isDesktop = useIsDesktop()
   const titleId = useId()
+
+  // Escape closes the dialog shape on its own (`Modal`); the sheet has to be
+  // told. A keyboard on a tablet or a phone is still a keyboard.
+  useEffect(() => {
+    if (!open || isDesktop) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose()
+    }
+    document.addEventListener("keydown", onKeyDown)
+    return () => document.removeEventListener("keydown", onKeyDown)
+  }, [isDesktop, onClose, open])
 
   if (isDesktop) {
     return (
