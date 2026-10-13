@@ -44,18 +44,25 @@ export function Toggle({
         // this is that label under the pointer as well.
         title={description ? `${label} — ${description}` : label}
         onClick={() => onChange(!checked)}
-        className={cn(
-          "relative h-6 w-11 shrink-0 hit-y-[10px] box-content rounded-full transition focus-visible:outline-none",
-          "focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-surface",
-          checked ? "bg-brand" : "bg-surface-3",
-        )}
+        // A 44px box to press, handed back to the row by its negative margin,
+        // with the track drawn inside it. The track is not the box: given the
+        // box's height as a transparent border, its round ends took the
+        // border's radius too and it drew as an ellipse (TUD-973).
+        className="-my-2.5 flex h-11 w-11 shrink-0 items-center rounded-full"
       >
         <span
           className={cn(
-            "absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform",
-            checked && "translate-x-5",
+            "relative h-6 w-11 rounded-full transition-colors",
+            checked ? "bg-brand" : "bg-surface-3",
           )}
-        />
+        >
+          <span
+            className={cn(
+              "absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform",
+              checked && "translate-x-5",
+            )}
+          />
+        </span>
       </TapButton>
     </div>
   )
