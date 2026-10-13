@@ -1,4 +1,4 @@
-import type { Page } from "@playwright/test"
+import type { Locator, Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 
@@ -17,7 +17,13 @@ import { openApp } from "./support/app"
 // cheap whatever the page costs to paint. So only the gaps inside the board's
 // own loop count: from one of its frames to the next frame that same callback
 // asked for.
-const SAMPLE_MS = 3_000
+//
+// The first seconds after load are slower whatever the page draws (shaders,
+// textures, the bot list loading), so they are thrown away, and the shipped
+// board is timed on both sides of the unfiltered one: a page that slows down
+// or speeds up over the test weighs on both sides alike.
+const WARM_UP_MS = 2_000
+const SAMPLE_MS = 2_000
 const MAX_SLOWDOWN = 1.5
 
 declare global {
@@ -41,6 +47,16 @@ async function sampleBoardFrames(page: Page): Promise<number[]> {
   })
   await page.waitForTimeout(SAMPLE_MS)
   return page.evaluate(() => window.__animationGaps)
+}
+
+/** Switches every filter around the canvas off, or back to the page's own. */
+async function setAncestorFilters(board: Locator, value: "none" | null) {
+  await board.evaluate((canvas, filter) => {
+    for (let box = canvas.parentElement; box; box = box.parentElement) {
+      if (filter) box.style.setProperty("filter", filter, "important")
+      else box.style.removeProperty("filter")
+    }
+  }, value)
 }
 
 test("the home page's demo board paints as fast with its shadow as without", async ({
@@ -78,12 +94,12 @@ test("the home page's demo board paints as fast with its shadow as without", asy
     })
     .toBeGreaterThan(0)
 
+  await page.waitForTimeout(WARM_UP_MS)
   const shipped = await sampleBoardFrames(page)
-  await board.evaluate((canvas) => {
-    for (let box = canvas.parentElement; box; box = box.parentElement)
-      box.style.setProperty("filter", "none", "important")
-  })
+  await setAncestorFilters(board, "none")
   const unfiltered = await sampleBoardFrames(page)
+  await setAncestorFilters(board, null)
+  shipped.push(...(await sampleBoardFrames(page)))
 
   const summary = [
     `as shipped: ${shipped.length} board frames, median gap ${median(shipped).toFixed(0)} ms`,
