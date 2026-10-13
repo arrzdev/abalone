@@ -206,6 +206,66 @@ test.describe("desktop", () => {
     )
   })
 
+  // The page is server rendered: the browser follows the link before the
+  // diagrams above the chapter have their height (TUD-916, TUD-919).
+  test("a link to a chapter lands its heading 40px down, as a rail click does", async ({
+    page,
+  }) => {
+    for (const id of ["moving-groups", "sumito", "pushing-off", "faq"]) {
+      await openApp(page, `/rules#${id}`)
+      await expect
+        .poll(async () => Math.abs((await headingOffset(page, id)) - 40), {
+          message: id,
+        })
+        .toBeLessThanOrEqual(2)
+    }
+  })
+
+  test("every title starts at the same x, whatever its numeral", async ({
+    page,
+  }) => {
+    for (const path of ["/rules", "/strategy"]) {
+      await openApp(page, path)
+      const starts = await titleStarts(page, "nav[data-manual-rail]")
+      expect(starts.length, path).toBeGreaterThan(1)
+      expect(
+        new Set(starts),
+        `${path} ${starts.join(", ")}`,
+      ).toHaveProperty("size", 1)
+    }
+
+    // the list under the hero, in one column
+    await page.setViewportSize({ width: 390, height: 844 })
+    await openApp(page, "/rules")
+    const starts = await titleStarts(page, "nav[data-manual-contents]")
+    expect(starts.length).toBe(RULES_CHAPTERS.length)
+    expect(new Set(starts), starts.join(", ")).toHaveProperty("size", 1)
+  })
+
+  test("the goal's plate is as tall as the text beside it", async ({
+    page,
+  }) => {
+    await openApp(page, "/rules")
+    const { text, plate } = await page.evaluate(() => {
+      const block = document.getElementById("goal")?.parentElement
+      const surface = document.querySelector(
+        "[data-chapter]:has(#goal) [data-plate] > *",
+      )
+      if (!block || !surface) throw new Error("no goal chapter or plate")
+      const box = block.getBoundingClientRect()
+      const padding = Number.parseFloat(
+        getComputedStyle(block).paddingBottom,
+      )
+      const plateBox = surface.getBoundingClientRect()
+      return {
+        text: { top: box.top, bottom: box.bottom - padding },
+        plate: { top: plateBox.top, bottom: plateBox.bottom },
+      }
+    })
+    expect(Math.abs(plate.top - text.top)).toBeLessThanOrEqual(1)
+    expect(Math.abs(plate.bottom - text.bottom)).toBeLessThanOrEqual(1)
+  })
+
   test("a diagram stays beside its chapter while the chapter scrolls", async ({
     page,
   }) => {
@@ -448,6 +508,41 @@ test.describe("motion", () => {
     expect(glided, traces.join("\n")).toBe(true)
   })
 
+  test("a second rail click during a glide keeps the mark on the second chapter", async ({
+    page,
+  }) => {
+    await openApp(page, "/rules")
+    const marked = await page.evaluate(
+      () =>
+        new Promise<string[]>((resolve) => {
+          const link = (id: string) =>
+            document.querySelector<HTMLAnchorElement>(
+              `nav[data-manual-rail] a[href$="#${id}"]`,
+            )
+          link("moving-groups")?.click()
+          const seen: string[] = []
+          let frames = 0
+          const sample = () => {
+            frames++
+            // a few frames into the first glide, the reader changes their mind
+            if (frames === 3) link("faq")?.click()
+            if (frames > 3)
+              seen.push(
+                document
+                  .querySelector(
+                    'nav[data-manual-rail] [aria-current="location"]',
+                  )
+                  ?.getAttribute("href") ?? "",
+              )
+            if (frames < 45) requestAnimationFrame(sample)
+            else resolve(seen)
+          }
+          requestAnimationFrame(sample)
+        }),
+    )
+    expect(new Set(marked), marked.join(", ")).toEqual(new Set(["#faq"]))
+  })
+
   test("with reduced motion a rail click jumps and the bar does not slide", async ({
     page,
   }) => {
@@ -546,6 +641,15 @@ function clickAndSample(page: Page, id: string): Promise<Sampled> {
       }),
     { id, scroller: SCROLLER },
   )
+}
+
+/** Where each numbered title in a contents `nav` starts. */
+function titleStarts(page: Page, nav: string): Promise<number[]> {
+  return page
+    .locator(`${nav} a:has(> span[aria-hidden]) > span:last-child`)
+    .evaluateAll((titles) =>
+      titles.map((title) => title.getBoundingClientRect().left),
+    )
 }
 
 /** The smallest font size of any element in <main> that holds text. */
