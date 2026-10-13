@@ -77,7 +77,7 @@ export function applyRealtimeEvent(
 
   if (listed && listed.updatedAt < event.meta.updatedAt) {
     if (isRowCurrent) {
-      putInHubLists(queryClient, held)
+      patchHubLists(queryClient, held)
       return
     }
 
@@ -85,7 +85,7 @@ export function applyRealtimeEvent(
     //watching the row (the board) is handed it without asking a second time
     void queryClient
       .fetchQuery({ ...gameQueryOptions(gameId), staleTime: 0 })
-      .then((game) => putInHubLists(queryClient, game))
+      .then((game) => patchHubLists(queryClient, game))
       .catch(() => {
         //the list's own poll is the fallback; a failed beacon read is not news
       })
@@ -105,23 +105,22 @@ export function applyRealtimeEvent(
  * Put the api's answer for one game where the hub reads it.
  *
  * A game still on stays where it is in the active list. One that just ended
- * leaves it and goes to the top of the finished list, when that list is held;
- * when it is not, the next look at history asks for it anyway. An answer older
- * than what a list already shows (two beacons, answered out of order) is
- * dropped.
+ * only leaves it: the end of a game also sends `games-changed`, which asks both
+ * lists again, so only the server ever orders history. An answer older than
+ * what the list already shows (two beacons answered out of order, or a poll
+ * that landed first) is dropped.
+ *
+ * Called for a beacon and for this device's own move or resignation, whose
+ * echo is dropped above: without it the hub would show the game as "Your move"
+ * until the list's next poll.
  */
-function putInHubLists(queryClient: QueryClient, game: Game): void {
+export function patchHubLists(queryClient: QueryClient, game: Game): void {
   const isNewer = (entry: Game) =>
     entry.id === game.id && entry.updatedAt <= game.updatedAt
 
   if (game.status === "finished") {
     queryClient.setQueryData<Game[]>(onlineKeys.games("active"), (list) =>
       list?.filter((entry) => !isNewer(entry)),
-    )
-    queryClient.setQueryData<Game[]>(
-      onlineKeys.games("finished"),
-      (list) =>
-        list && [game, ...list.filter((entry) => entry.id !== game.id)],
     )
     return
   }
