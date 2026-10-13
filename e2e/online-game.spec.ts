@@ -97,12 +97,19 @@ test("an online game ended by resignation shows the result to both players and l
     .filter({ hasText: "Resign the game?" })
   await confirm.getByRole("button", { name: "Resign" }).click()
 
-  await expect(
-    guestPage.getByText("You lost by resignation"),
-  ).toBeVisible()
-  await expect(hostPage.getByText("You won by resignation")).toBeVisible({
+  // The result sheet names the outcome and the reason in separate lines.
+  const guestResult = guestPage
+    .getByRole("dialog")
+    .filter({ hasText: "Game over" })
+  await expect(guestResult.getByText("You lost")).toBeVisible()
+  await expect(guestResult.getByText("by resignation")).toBeVisible()
+  const hostResult = hostPage
+    .getByRole("dialog")
+    .filter({ hasText: "Game over" })
+  await expect(hostResult.getByText("You won")).toBeVisible({
     timeout: 30_000,
   })
+  await expect(hostResult.getByText("by resignation")).toBeVisible()
 
   await openApp(hostPage, "/online/history")
   await expect(hostPage.getByRole("main")).toContainText(guestName)
