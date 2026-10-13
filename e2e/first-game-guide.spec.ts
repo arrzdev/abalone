@@ -6,7 +6,7 @@ import { playMove, selectedSquares, selectSquare } from "./support/board"
 // A first-time visitor's first offline game shows a three-step guide on the
 // real board: pick marbles, choose a direction, push 6 off to win. Finishing or
 // skipping it is saved on the device, so it does not come back; the "?" in the
-// game's side bar brings it back. Every test starts from a fresh browser context, so from empty
+// board's top-right corner brings it back. Every test starts from a fresh browser context, so from empty
 // storage.
 //
 // "After a reload" means opening /offline again: startOfflineGame loads the
@@ -138,7 +138,7 @@ test("a skipped guide stays away after a reload, and the ? beside the board brin
   await page.keyboard.press("Escape")
   await expect(settings).toBeHidden()
 
-  // The ? in the game's side bar shows the guide on the game in progress.
+  // The ? in the board's corner shows the guide on the game in progress.
   const help = page
     .getByRole("button", { name: "How to move" })
     .filter({ visible: true })
@@ -218,36 +218,139 @@ test("Next on step 1 never shows step 2 without a selection", async ({
   expect(await selectedSquares(page)).toEqual([])
 })
 
-// On a wide screen the guide sits by the marbles it talks about rather than at
-// the top of the panel, ~800 px away. It stays in the page, never over the board.
-test("on a desktop the guide sits near the starting marbles", async ({
-  page,
-  isMobile,
-}) => {
-  test.skip(isMobile, "a desktop layout")
-  await page.setViewportSize({ width: 1440, height: 900 })
-  await startOfflineGame(page, "vs Computer")
-  await expect(guide(page)).toContainText("Step 1 of 3")
+const PHONE_AND_DESKTOP = [
+  { width: 390, height: 844 },
+  { width: 1440, height: 900 },
+]
 
-  const card = await guide(page).boundingBox()
-  const marble = await page.evaluate(
-    () =>
-      (
-        window as Window & {
-          __abaloneBoard?: {
-            point: (square: string) => DOMPointInit | null
+// TUD-973: the guide card is the first thing under the scoreboard in the side
+// panel, on a phone and a desktop, above the move list and the action bar. It
+// stays in the page, never over the board.
+for (const viewport of PHONE_AND_DESKTOP) {
+  test(`at ${viewport.width}x${viewport.height} the guide sits directly under the scoreboard`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport)
+    await startOfflineGame(page, "Pass & Play")
+    await expect(guide(page)).toContainText("Step 1 of 3")
+
+    // The score between the two names, "0 – 0": its row is the scoreboard's
+    // last line in a game with no bot to talk.
+    const score = await page
+      .locator("aside")
+      .getByText("–", { exact: true })
+      .filter({ visible: true })
+      .locator("xpath=../..")
+      .boundingBox()
+    const card = await guide(page).boundingBox()
+    const resign = await page
+      .getByRole("button", { name: "Resign" })
+      .boundingBox()
+    expect(score).not.toBeNull()
+    expect(card).not.toBeNull()
+    expect(resign).not.toBeNull()
+    if (score === null || card === null || resign === null) return
+
+    const gap = card.y - (score.y + score.height)
+    expect(
+      gap,
+      "px from the score row down to the guide",
+    ).toBeGreaterThanOrEqual(0)
+    expect(
+      gap,
+      "px from the score row down to the guide",
+    ).toBeLessThanOrEqual(24)
+    expect(
+      card.y + card.height,
+      "the guide ends above the action bar",
+    ).toBeLessThanOrEqual(resign.y)
+    await expectBoardUncovered(page)
+  })
+}
+
+const BOARD_SQUARES = [..."abcdefghi"].flatMap((row) =>
+  [..."123456789"].map((column) => `${row}${column}`),
+)
+
+// TUD-973: the way back to the guide is a small, quiet "?" in the top-right
+// corner of the board area, just off the hex, not a slot in the action bar.
+// Its target is still 44x44.
+for (const viewport of PHONE_AND_DESKTOP) {
+  test(`at ${viewport.width}x${viewport.height} the ? sits small in the board's top-right corner`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport)
+    await startOfflineGame(page, "Pass & Play")
+    await guide(page).getByRole("button", { name: "Skip" }).click()
+    await expect(guide(page)).toHaveCount(0)
+
+    const help = page
+      .getByRole("region", { name: "Game board" })
+      .getByRole("button", { name: "How to move" })
+    await expect(help).toBeVisible()
+    await expect(help).toHaveText("?")
+    await expect(
+      page.locator("aside").getByRole("button", { name: "How to move" }),
+      "the action bar has no ?",
+    ).toHaveCount(0)
+
+    const box = await help.boundingBox()
+    const board = await page
+      .locator(".game-canvas-wrapper canvas")
+      .filter({ visible: true })
+      .first()
+      .boundingBox()
+    expect(box).not.toBeNull()
+    expect(board).not.toBeNull()
+    if (box === null || board === null) return
+
+    expect(box.width, "a 44px target").toBeGreaterThanOrEqual(44)
+    expect(box.height, "a 44px target").toBeGreaterThanOrEqual(44)
+    const centre = { x: box.x + box.width / 2, y: box.y + box.height / 2 }
+    expect(centre.x, "right of the board's middle").toBeGreaterThan(
+      board.x + board.width * 0.75,
+    )
+    expect(centre.y, "above the board's middle").toBeLessThan(
+      board.y + board.height * 0.25,
+    )
+
+    // Off the hex: no space of the board lies under it.
+    const covered = await page.evaluate(
+      ({ squares, area }) => {
+        const probe = (
+          window as Window & {
+            __abaloneBoard?: {
+              point: (square: string) => DOMPointInit | null
+            }
           }
-        }
-      ).__abaloneBoard?.point("c3") ?? null,
-  )
-  expect(card).not.toBeNull()
-  expect(marble).not.toBeNull()
-  if (card === null || marble === null) return
-  const y = marble.y ?? 0
-  const distance = Math.max(0, card.y - y, y - (card.y + card.height))
-  expect(distance, "px from the guide card to c3").toBeLessThanOrEqual(320)
-  await expectBoardUncovered(page)
-})
+        ).__abaloneBoard
+        return squares.filter((square) => {
+          const point = probe?.point(square)
+          if (!point) return false
+          const x = point.x ?? 0
+          const y = point.y ?? 0
+          return (
+            x >= area.x &&
+            x <= area.x + area.width &&
+            y >= area.y &&
+            y <= area.y + area.height
+          )
+        })
+      },
+      { squares: BOARD_SQUARES, area: box },
+    )
+    expect(covered, "board spaces under the ?").toEqual([])
+
+    // Quiet: a small glyph, not a heading-sized one.
+    const fontSize = await help.evaluate((element) =>
+      Number.parseFloat(getComputedStyle(element).fontSize),
+    )
+    expect(fontSize, "the ?'s font size in px").toBeLessThanOrEqual(16)
+
+    await help.click()
+    await expect(guide(page)).toContainText("Step 1 of 3")
+  })
+}
 
 /**
  * Every button in the guide draws no fill of its own (a hover tint is fine), and

@@ -61,11 +61,14 @@ highlighted space.
   behind is counted as `abandoned` (see `game-events.md`).
 - After the flag is `done`, vs Computer opens the setup screen as before.
 
-## Settings: How to move
+## The ? on the board: How to move
 
-A button in the Settings sheet. It clears the flag (`resetGuide`), closes the
-sheet, and shows the guide at step 1 on the game in progress. Anywhere else it
-shows on the next offline game.
+A small, quiet "?" in the top-right corner of the board area, just off the hex
+(TUD-973). Its accessible name is "How to move"; the glyph is small (16 px or
+less) but the target is 44×44, and no board space lies under it. It is not in
+the action bar and not in Settings. It clears the flag (`resetGuide`) and shows
+the guide at step 1 on the game in progress. Offline games only: the guide
+never runs online, so neither does the ?.
 
 ## Layout
 
@@ -77,16 +80,19 @@ desktop, the space below the board on a phone), inside the viewport contract of
 
 On steps 1 and 2 the board is the action, so the guide has no filled button:
 Skip and Next are text buttons (44×44 targets). Only Got it on step 3 may be
-filled. On a desktop (1440x900) the card sits within 320 px (vertically) of the
-starting marble c3, not at the top of the side panel (TUD-852).
+filled. On a phone and a desktop the card sits directly under the scoreboard
+in the side panel (at most 24 px below the score row), above the move list and
+the action bar. TUD-973 reverses TUD-852, which had moved it down the panel by
+the starting marbles.
 
 ## Tests
 
 - Unit: `apps/game/src/utils/first-game-guide.test.ts` (step logic, flag, no storage).
 - e2e: `e2e/first-game-guide.spec.ts` (fresh storage shows it, finish and skip
-  are saved, second game has none, How to move brings it back, German copy, the
+  are saved, second game has none, the ? on the board brings it back, German copy, the
   guide never overlaps the board, no filled button on steps 1 and 2, Next on
-  step 1 skips step 2, card within 320 px of c3 at 1440x900).
+  step 1 skips step 2, card directly under the scoreboard and the ? small in
+  the board's top-right corner at 390x844 and 1440x900).
 - e2e: `e2e/first-game-board.spec.ts` (first game opens on the board from home,
   `/rules` and `/strategy` at 390x844 and 1440x900, first move in 3 taps, one
   start event, New game opens the setup screen, guide done keeps the setup
