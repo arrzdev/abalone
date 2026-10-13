@@ -37,6 +37,17 @@ New components live in `apps/game/src/components/manual/` and replace `Page`,
 The page still scrolls inside `main [data-scroll-view]`; scroll-spy observes
 headings inside that scroller (`rootMargin: "0px 0px -70% 0px"`).
 
+## Deep links (TUD-933)
+
+A link to a chapter (`/rules#sumito`) is followed by the browser on the server
+rendered markup, before hydration and before any canvas is drawn. So everything
+above a chapter has its final size in that markup: a diagram's box reserves its
+height (an aspect ratio or a fixed size), not the canvas drawn into it later.
+The heading lands at its `scroll-margin-top` (40px on a desktop) once and does
+not move; nothing re-scrolls after load. The e2e test samples the heading on
+every frame from the first one and sums the page's `layout-shift` entries
+(under 0.01) on `/rules` and `/strategy`.
+
 ## Decisions (TUD-910)
 
 - **Tip numbers.** The strategy tip titles carry their number in the copy
