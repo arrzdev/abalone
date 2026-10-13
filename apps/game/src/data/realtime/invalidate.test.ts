@@ -3,7 +3,10 @@ import { QueryClient } from "@tanstack/react-query"
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest"
 import type { Game } from "@/data/online/queries"
 import { onlineKeys } from "@/data/online/queries"
-import { applyRealtimeEvent } from "@/data/realtime/invalidate"
+import {
+  applyRealtimeEvent,
+  patchHubLists,
+} from "@/data/realtime/invalidate"
 
 //what a beacon is allowed to make the app do. the two players in a game see
 //different things from the same event — one of them just acted and one of them
@@ -300,13 +303,12 @@ describe("applyRealtimeEvent on the hub's lists", () => {
     )
   })
 
-  it("moves a game that ended out of the active list and to the top of the finished one", async () => {
+  it("drops a game that ended from the active list and leaves history to the server", async () => {
+    const history = [listed(OTHER_GAME_ID, 500, "finished")]
     queryClient.setQueryData(onlineKeys.games("active"), [
       listed(GAME_ID, 1_000),
     ])
-    queryClient.setQueryData(onlineKeys.games("finished"), [
-      listed(OTHER_GAME_ID, 500, "finished"),
-    ])
+    queryClient.setQueryData(onlineKeys.games("finished"), history)
     answerWith(listed(GAME_ID, 2_000, "finished"))
 
     announce(GAME_ID, 2_000)
@@ -316,12 +318,44 @@ describe("applyRealtimeEvent on the hub's lists", () => {
         queryClient.getQueryData<Game[]>(onlineKeys.games("active")),
       ).toEqual([])
     })
+    //`games-changed`, sent when a game ends, is what asks history again
     expect(
       queryClient.getQueryData<Game[]>(onlineKeys.games("finished")),
-    ).toEqual([
-      listed(GAME_ID, 2_000, "finished"),
-      listed(OTHER_GAME_ID, 500, "finished"),
+    ).toEqual(history)
+  })
+
+  it("never puts an older answer over a newer row the list already shows", async () => {
+    queryClient.setQueryData(onlineKeys.games("active"), [
+      listed(GAME_ID, 1_000),
     ])
+    answerWith(listed(GAME_ID, 2_000))
+
+    announce(GAME_ID, 2_000)
+    //a poll lands a newer row while the beacon's read is on the wire
+    queryClient.setQueryData(onlineKeys.games("active"), [
+      listed(GAME_ID, 3_000),
+    ])
+
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalled())
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(
+      queryClient.getQueryData<Game[]>(onlineKeys.games("active")),
+    ).toEqual([listed(GAME_ID, 3_000)])
+  })
+
+  //this device's own move echoes back as a beacon that is dropped, so the
+  //row the move answered with is what updates the hub
+  it("puts the row this device's own move answered with into the active list", () => {
+    queryClient.setQueryData(onlineKeys.games("active"), [
+      listed(OTHER_GAME_ID, 3_000),
+      listed(GAME_ID, 1_000),
+    ])
+
+    patchHubLists(queryClient, listed(GAME_ID, 2_000))
+
+    expect(
+      queryClient.getQueryData<Game[]>(onlineKeys.games("active")),
+    ).toEqual([listed(OTHER_GAME_ID, 3_000), listed(GAME_ID, 2_000)])
   })
 
   it("leaves the list alone for a version it already shows", async () => {
