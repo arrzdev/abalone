@@ -1,9 +1,10 @@
 import { DEMO_GAME } from "@repo/abalone-engine/demo-game"
 import type { GameState } from "@repo/abalone-engine/game-state"
 import { createGameState, makeMove } from "@repo/abalone-engine/game-state"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import { GameCanvas } from "@/components/game-canvas"
+import { useIsDesktop } from "@/hooks/use-is-desktop"
 import type { MarbleDesign } from "@/render/marble-renderer"
 
 /** Between the marbles landing and the next line setting off. */
@@ -14,6 +15,8 @@ const REPLAY_GAP_MS = 2600
 
 /** The marbles this board is shown with, whatever the player has set. */
 const SHOWCASE_DESIGN: MarbleDesign = "3d"
+
+type BoardSize = { width: number; height: number }
 
 const newDemoState = () => createGameState("standard", "black", "local")
 
@@ -35,6 +38,7 @@ export function DemoBoard() {
   const boardRef = useRef<GameCanvasHandle>(null)
   const [state, setState] = useState<GameState>(newDemoState)
   const [isOnScreen, setIsOnScreen] = useState(false)
+  const [boardSize, setBoardSize] = useState<BoardSize | null>(null)
 
   useEffect(() => {
     const wrapper = wrapperRef.current
@@ -115,7 +119,10 @@ export function DemoBoard() {
     //a plain flex column, not a `game-canvas-wrapper`: the canvas renders one of
     //those itself and measures it, and a second one around it would be a box
     //sizing to the canvas that is sizing to the box
-    <div ref={wrapperRef} className="flex min-h-0 flex-1 flex-col">
+    <div
+      ref={wrapperRef}
+      className="relative isolate flex min-h-0 flex-1 flex-col"
+    >
       <GameCanvas
         ref={boardRef}
         state={state}
@@ -124,7 +131,80 @@ export function DemoBoard() {
         showCoordinates={false}
         showLabels={false}
         interactive={false}
+        onResize={(width, height) => setBoardSize({ width, height })}
       />
+      {boardSize && <BoardShadow size={boardSize} />}
     </div>
+  )
+}
+
+/** The board's shadow at each size: how far it falls, and how soft it is. */
+const PHONE_SHADOW = { offsetY: 26, blur: 46 }
+const DESKTOP_SHADOW = { offsetY: 34, blur: 60 }
+
+/** The black the shadow is painted in. */
+const SHADOW_COLOR = "rgba(0, 0, 0, 0.55)"
+
+/**
+ * The board's shadow, painted once on a canvas of its own under the board.
+ *
+ * A `drop-shadow` on a box around the board reads the same, but it is a filter
+ * over a canvas that redraws every frame of a move, so WebKit blurs the whole
+ * board again on each of them and a frame takes several times as long
+ * (TUD-958). A `blur()` on a sibling under it is no better in Chromium, which
+ * applies the filter again wherever the canvas above it changed. A shadow drawn
+ * onto a canvas is pixels, and these never change while a move plays.
+ *
+ * The hexagon is the one `drawBoard` fills, and canvas `shadowBlur` is the same
+ * blur radius `drop-shadow` takes. The canvas reaches past the board on every
+ * side by the blur and the fall, so the soft edge is never cut off. It comes
+ * after the board, so the board stays the first canvas on the page, and sits
+ * under it by `z-index`.
+ */
+function BoardShadow({ size }: { size: BoardSize }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  const { offsetY, blur } = useIsDesktop() ? DESKTOP_SHADOW : PHONE_SHADOW
+  const margin = blur + offsetY
+  const width = size.width + margin * 2
+  const height = size.height + margin * 2
+
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current
+    const ctx = canvas?.getContext("2d")
+    if (!canvas || !ctx) return
+    const dpr = window.devicePixelRatio || 1
+    canvas.width = width * dpr
+    canvas.height = height * dpr
+
+    //the hexagon is drawn a canvas-width off to the left and its shadow thrown
+    //back by as much, so only the shadow lands on the canvas. Shadow offsets
+    //are in device pixels and ignore the transform, hence the `dpr`.
+    const throwBack = width
+    ctx.scale(dpr, dpr)
+    ctx.shadowColor = SHADOW_COLOR
+    ctx.shadowBlur = blur * dpr
+    ctx.shadowOffsetX = throwBack * dpr
+    ctx.shadowOffsetY = offsetY * dpr
+    const radius = size.width / 2
+    const centerX = width / 2 - throwBack
+    const centerY = height / 2
+    ctx.beginPath()
+    for (let corner = 0; corner < 6; corner++) {
+      const angle = (corner * Math.PI) / 3
+      ctx.lineTo(
+        centerX + radius * Math.cos(angle),
+        centerY + radius * Math.sin(angle),
+      )
+    }
+    ctx.closePath()
+    ctx.fill()
+  }, [width, height, size.width, blur, offsetY])
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none absolute top-1/2 -z-10 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      style={{ width, height }}
+    />
   )
 }
