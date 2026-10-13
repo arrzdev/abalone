@@ -83,6 +83,12 @@ test("an invited player joins and both players see each other's moves", async ({
 test("an online game ended by resignation shows the result to both players and lands in history", async ({
   browser,
 }) => {
+  // Same WebKit-sized budget as the test above (TUD-964).
+  test.slow(
+    browser.browserType().name() === "webkit",
+    "two WebKit pages paint in software",
+  )
+
   const { host, guest, hostPage, guestPage, guestName } =
     await startOnlineGame(browser)
 
