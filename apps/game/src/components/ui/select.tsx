@@ -1,6 +1,13 @@
 import { cn } from "@repo/nativ/utils"
 import type { KeyboardEvent, ReactNode } from "react"
-import { useCallback, useEffect, useId, useRef, useState } from "react"
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react"
 import { CheckIcon, ChevronDownIcon } from "@/components/icons"
 import { TapButton } from "@/components/ui/tap-button"
 import { useClickOutside } from "@/hooks/use-click-outside"
@@ -24,6 +31,50 @@ export type SelectProps<T extends string> = {
   buttonClassName?: string
 }
 
+/** The list's tallest, and the gap between it and the button it drops from. */
+const LIST_MAX_HEIGHT = 256
+const LIST_GAP = 8
+
+type Placement = { side: "below" | "above"; maxHeight: number }
+
+/** The nearest box around `element` that scrolls, or none: then the window. */
+function scrollParent(element: HTMLElement): HTMLElement | null {
+  for (
+    let parent = element.parentElement;
+    parent !== null;
+    parent = parent.parentElement
+  ) {
+    const { overflowY } = getComputedStyle(parent)
+    if (overflowY === "auto" || overflowY === "scroll") return parent
+  }
+  return null
+}
+
+/**
+ * Where the open list goes: below the button while it fits in the box that
+ * scrolls around it, above when there is more room there, and never taller than
+ * that room. A list that hangs past the bottom of a scroller makes the scroller
+ * taller, and an overlay that grows a scrollbar while you pick from it shifts
+ * every control in it.
+ */
+function placeList(container: HTMLElement): Placement {
+  const button = container.getBoundingClientRect()
+  const scroller = scrollParent(container)
+  let top = 0
+  let bottom = window.innerHeight
+  if (scroller) {
+    const box = scroller.getBoundingClientRect()
+    top = box.top + scroller.clientTop
+    bottom = top + scroller.clientHeight
+  }
+  const below = Math.floor(bottom - button.bottom - LIST_GAP)
+  const above = Math.floor(button.top - top - LIST_GAP)
+  if (below >= LIST_MAX_HEIGHT || below >= above) {
+    return { side: "below", maxHeight: Math.min(LIST_MAX_HEIGHT, below) }
+  }
+  return { side: "above", maxHeight: Math.min(LIST_MAX_HEIGHT, above) }
+}
+
 /**
  * Custom listbox replacing the native <select>, which renders with the OS
  * dropdown and cannot be themed.
@@ -37,6 +88,10 @@ export function Select<T extends string>({
   buttonClassName,
 }: SelectProps<T>) {
   const [open, setOpen] = useState(false)
+  const [placement, setPlacement] = useState<Placement>({
+    side: "below",
+    maxHeight: LIST_MAX_HEIGHT,
+  })
   const [activeIndex, setActiveIndex] = useState(() =>
     Math.max(
       0,
@@ -62,6 +117,12 @@ export function Select<T extends string>({
     0,
     options.findIndex((option) => option.value === value),
   )
+
+  //measured before the list is painted, so it never shows in the wrong place
+  useLayoutEffect(() => {
+    if (!open || !containerRef.current) return
+    setPlacement(placeList(containerRef.current))
+  }, [open])
 
   useEffect(() => {
     if (!open) return
@@ -175,7 +236,10 @@ export function Select<T extends string>({
         //
         // Same corner as the button it drops out of: two radii on one control
         // is the join you notice.
-        <div className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl bg-surface-3 shadow-lg shadow-black/30">
+        <div
+          data-side={placement.side}
+          className="absolute z-50 w-full overflow-hidden rounded-xl bg-surface-3 shadow-lg shadow-black/30 data-[side=above]:bottom-full data-[side=above]:mb-2 data-[side=below]:top-full data-[side=below]:mt-2"
+        >
           <ul
             id={listboxId}
             ref={listRef}
@@ -187,7 +251,8 @@ export function Select<T extends string>({
             //under a cursor that is somewhere else is the list claiming a
             //choice nobody is making, and it hides the one already made
             onMouseLeave={() => setActiveIndex(selectedIndex)}
-            className="panel-scroll max-h-64 overflow-y-auto p-1"
+            style={{ maxHeight: placement.maxHeight }}
+            className="panel-scroll overflow-y-auto p-1"
           >
             {options.map((option, index) => {
               const isSelected = option.value === value
