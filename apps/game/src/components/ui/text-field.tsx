@@ -82,7 +82,10 @@ export function TextField({
             //text-base rather than text-sm: iOS zooms the page when a field
             //smaller than 16px takes focus, and the app is not zoomable back out.
             "h-[54px] w-full rounded-xl border border-transparent bg-surface-2 px-4 text-base text-white",
-            "transition placeholder:text-faint",
+            //the fill and the border only. a bare `transition` also eased the
+            //focus outline in from the text colour, so the ring flashed white
+            //before it turned blue
+            "transition-[background-color,border-color] placeholder:text-faint",
             "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
             //the border is always there and usually transparent, so colouring
             //it moves nothing. it has to be a border rather than a ring: the
