@@ -584,31 +584,6 @@ test.describe("motion", () => {
   })
 })
 
-/** Puts the scroller back at the top at once and waits for it to hold still. */
-function _scrollToTop(page: Page): Promise<void> {
-  return page.evaluate(
-    (scroller) =>
-      new Promise<void>((resolve) => {
-        const view = document.querySelector(scroller)
-        if (!view) {
-          resolve()
-          return
-        }
-        view.scrollTo({ top: 0, behavior: "instant" })
-        let still = 0
-        let previous = view.scrollTop
-        const check = () => {
-          still = view.scrollTop === previous ? still + 1 : 0
-          previous = view.scrollTop
-          if (still < 5) requestAnimationFrame(check)
-          else resolve()
-        }
-        requestAnimationFrame(check)
-      }),
-    SCROLLER,
-  )
-}
-
 type Sampled = {
   /** The heading's offset just before the click. */
   start: number
