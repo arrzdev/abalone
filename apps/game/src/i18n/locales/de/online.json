@@ -11,6 +11,16 @@
     "nothing_else": "Sonst läuft nichts",
     "waiting_on_them": "Warten auf den Gegner"
   },
+  "card": {
+    "your_move": "Du bist am Zug",
+    "their_move": "Sie sind am Zug",
+    "won": "Gewonnen",
+    "lost": "Verloren",
+    "draw": "Remis",
+    "last_move": "Letzter Zug {{when}}",
+    "no_moves": "Noch kein Zug",
+    "started": "Begonnen am {{date}}"
+  },
   "games": {
     "new_invite": "Neue Einladung",
     "loading": "Deine Partien werden geladen"

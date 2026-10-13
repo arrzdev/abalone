@@ -10,6 +10,16 @@
     "nothing_else": "Başka devam eden bir şey yok",
     "waiting_on_them": "Rakip bekleniyor"
   },
+  "card": {
+    "your_move": "Sıra sende",
+    "their_move": "Sıra onda",
+    "won": "Kazandın",
+    "lost": "Kaybettin",
+    "draw": "Berabere",
+    "last_move": "Son hamle {{when}}",
+    "no_moves": "Henüz hamle yok",
+    "started": "Başlangıç {{date}}"
+  },
   "games": {
     "new_invite": "Yeni davet",
     "loading": "Oyunların yükleniyor"

@@ -4,8 +4,7 @@ import { Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { PlusIcon, RobotIcon } from "@/components/icons"
-import { BoardThumb } from "@/components/online/board-thumb"
-import { FinishedGameRow, GameRow } from "@/components/online/game-row"
+import { GameCard } from "@/components/online/game-card"
 import { InviteLinkMaker } from "@/components/online/invite-link-maker"
 import {
   LeadInviteRow,
@@ -16,15 +15,17 @@ import { Panel, PanelHeader, PanelRows } from "@/components/ui/panel"
 import { SyncNotice } from "@/components/ui/sync-notice"
 import { TapButton } from "@/components/ui/tap-button"
 import type { Game } from "@/data/online/queries"
+import { useNow } from "@/hooks/use-now"
 import type { OnlineHome } from "@/hooks/use-online-home"
 import { usePlayActions } from "@/hooks/use-play-actions"
-import { getSetupName } from "@/i18n/game-text"
 import { hubGroupsOf } from "@/utils/hub-groups"
-import { formatRelativeTime } from "@/utils/relative-time"
 import type { SyncState } from "@/utils/sync-state"
 
 /** How many finished games the hub shows before deferring to the history. */
 const FINISHED_PREVIEW = 5
+
+/** How often the "5 min ago" on the cards is read again. */
+const CLOCK_TICK_MS = 60_000
 
 /**
  * A panel row that is one column wide, two, or three.
@@ -65,6 +66,7 @@ export type HubProps = {
  */
 export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
   const { t } = useTranslation()
+  const now = useNow(CLOCK_TICK_MS)
 
   const groups = hubGroupsOf(online.activeGames, online.received, myUserId)
 
@@ -111,7 +113,13 @@ export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
       {groups.lead === "games" && (
         <div className="grid shrink-0 grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-3">
           {groups.yourMove.map((game) => (
-            <LeadGameCard key={game.id} game={game} myUserId={myUserId} />
+            <GameCard
+              key={game.id}
+              game={game}
+              myUserId={myUserId}
+              now={now}
+              lead
+            />
           ))}
         </div>
       )}
@@ -142,11 +150,16 @@ export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
               heading={t("online:hub.waiting_on_them")}
               count={groups.theirMove.length}
             >
-              <PanelRows>
+              <PanelCards>
                 {groups.theirMove.map((game) => (
-                  <GameRow key={game.id} game={game} myUserId={myUserId} />
+                  <GameCard
+                    key={game.id}
+                    game={game}
+                    myUserId={myUserId}
+                    now={now}
+                  />
                 ))}
-              </PanelRows>
+              </PanelCards>
             </HubPanel>
           )}
 
@@ -193,6 +206,7 @@ export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
             <FinishedPanel
               games={online.finishedGames}
               myUserId={myUserId}
+              now={now}
             />
           )}
         </div>
@@ -273,61 +287,6 @@ function HubHeading({
   )
 }
 
-type LeadGameCardProps = {
-  game: Game
-  myUserId: string
-}
-
-/**
- * One game waiting on you, at the size of the thing it is.
- *
- * The position is on it, which is what makes it this game rather than another
- * line with a name on it: two games against the same opponent are one glance
- * apart here and identical without it. The score is the loudest thing on the
- * card because on a list of games it is the only number.
- *
- * No caption saying it is your move. Every card in this block is your move —
- * that is what the block is — and a label repeated four times says nothing the
- * fifth time either.
- */
-function LeadGameCard({ game, myUserId }: LeadGameCardProps) {
-  const { i18n } = useTranslation()
-
-  const seat = game.black.userId === myUserId ? "black" : "white"
-  const opponent = seat === "black" ? game.white : game.black
-  const mine = seat === "black" ? game.blackScore : game.whiteScore
-  const theirs = seat === "black" ? game.whiteScore : game.blackScore
-
-  return (
-    <Link
-      to="/online/$gameId"
-      params={{ gameId: game.id }}
-      className="flex h-24 items-center gap-3 rounded-[14px] bg-surface-2 ps-2 pe-3.5 transition-colors duration-200 ease-out hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:h-[124px] lg:gap-[18px] lg:rounded-2xl lg:p-2.5 lg:pe-[22px]"
-    >
-      <span className="flex h-[77px] w-22 shrink-0 items-center justify-center lg:h-26 lg:w-[118px]">
-        <BoardThumb
-          blackCells={game.blackCells}
-          whiteCells={game.whiteCells}
-        />
-      </span>
-
-      <span className="block min-w-0 flex-1">
-        <span className="block truncate font-display text-[17px] font-semibold text-white lg:text-[21px] lg:tracking-[-0.015em]">
-          {opponent.displayUsername ?? opponent.username}
-        </span>
-        <span className="mt-1 block truncate text-xs leading-normal text-muted lg:mt-[5px] lg:text-[13px]">
-          {getSetupName(game.setupType)} ·{" "}
-          {formatRelativeTime(game.updatedAt, i18n.language)}
-        </span>
-      </span>
-
-      <span className="shrink-0 font-display text-xl font-bold leading-none text-white tabular-nums lg:text-[26px]">
-        {mine}–{theirs}
-      </span>
-    </Link>
-  )
-}
-
 type HubPanelProps = {
   heading: string
   count?: number
@@ -356,19 +315,29 @@ function HubPanel({ heading, count, action, children }: HubPanelProps) {
   )
 }
 
+/**
+ * Game cards stacked inside a panel.
+ *
+ * Cards rather than rows, so a game reads the same whichever panel it is in.
+ */
+function PanelCards({ children }: { children: ReactNode }) {
+  return <div className="flex flex-col gap-2 p-2 lg:p-2.5">{children}</div>
+}
+
 type FinishedPanelProps = {
   games: Game[]
   myUserId: string
+  now: number
 }
 
 /**
  * The last few games that are over, and a way to the rest.
  *
- * Five rows is the preview; the count on "See all" is what says how much more
+ * Five cards is the preview; the count on "See all" is what says how much more
  * there is behind it.
  */
-function FinishedPanel({ games, myUserId }: FinishedPanelProps) {
-  const { t, i18n } = useTranslation()
+function FinishedPanel({ games, myUserId, now }: FinishedPanelProps) {
+  const { t } = useTranslation()
 
   return (
     <HubPanel
@@ -383,16 +352,16 @@ function FinishedPanel({ games, myUserId }: FinishedPanelProps) {
         </Link>
       }
     >
-      <PanelRows>
+      <PanelCards>
         {games.slice(0, FINISHED_PREVIEW).map((game) => (
-          <FinishedGameRow
+          <GameCard
             key={game.id}
             game={game}
             myUserId={myUserId}
-            when={formatRelativeTime(game.updatedAt, i18n.language)}
+            now={now}
           />
         ))}
-      </PanelRows>
+      </PanelCards>
     </HubPanel>
   )
 }
