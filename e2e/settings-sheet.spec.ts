@@ -295,3 +295,250 @@ test.describe("on a 375x667 phone, sign-in", () => {
     await expectSignInRingsWhole(page)
   })
 })
+
+// TUD-973: a switch is the pill it always was, a 44x24 track with round ends
+// that holds its thumb in either position. Its 44px hit area is not drawn: when
+// the hit area was a transparent border, the track's corners took the border's
+// radius and it rounded into an ellipse the thumb stuck out of.
+
+type Rgb = [number, number, number]
+
+/** The track a switch draws, in CSS px: centred on the switch's own box. */
+const TRACK = { width: 44, height: 24 }
+
+/**
+ * Just inside a pill's round end and just outside an ellipse of the same box,
+ * about 1px each way, at the top and bottom of each end: (6, 2.8) is 11 px from
+ * the centre of a 12 px end, and past the edge of a 22x12 ellipse.
+ */
+const CORNERS = {
+  left: [
+    [6, 2.8],
+    [6, TRACK.height - 2.8],
+  ],
+  right: [
+    [TRACK.width - 6, 2.8],
+    [TRACK.width - 6, TRACK.height - 2.8],
+  ],
+} as const
+
+/**
+ * The colour at each point (CSS px from the top left of `clip`), read from a
+ * screenshot at device scale. Decoded in a blank page of the same browser, so
+ * the app's content policy has no say over the image.
+ */
+async function pixelsAt(
+  page: Page,
+  clip: { x: number; y: number; width: number; height: number },
+  points: readonly (readonly [number, number])[],
+): Promise<Rgb[]> {
+  const png = await page.screenshot({
+    clip,
+    scale: "device",
+    animations: "disabled",
+  })
+  const blank = await page.context().newPage()
+  try {
+    return await blank.evaluate(
+      async ({ data, width, points }) => {
+        const image = new Image()
+        image.src = `data:image/png;base64,${data}`
+        await image.decode()
+        const scale = image.naturalWidth / width
+        const canvas = document.createElement("canvas")
+        canvas.width = image.naturalWidth
+        canvas.height = image.naturalHeight
+        const context = canvas.getContext("2d")
+        if (context === null) throw new Error("no 2d context")
+        context.drawImage(image, 0, 0)
+        return points.map(([x, y]) => {
+          const [red, green, blue] = context.getImageData(
+            Math.floor(x * scale),
+            Math.floor(y * scale),
+            1,
+            1,
+          ).data
+          return [red, green, blue] as [number, number, number]
+        })
+      },
+      { data: png.toString("base64"), width: clip.width, points },
+    )
+  } finally {
+    await blank.close()
+  }
+}
+
+function distance(a: Rgb, b: Rgb): number {
+  return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2])
+}
+
+/**
+ * Reads the switch's free end, the one its thumb is not on: both corner points
+ * there must be the track's colour, not what is behind the switch. The track's
+ * colour is read in the middle of the free end, what is behind it at the clip's
+ * very corner, outside any rounded shape.
+ */
+async function expectPillEnd(
+  page: Page,
+  toggle: Locator,
+  freeEnd: "left" | "right",
+): Promise<void> {
+  const box = await toggle.boundingBox()
+  expect(box).not.toBeNull()
+  if (box === null) return
+  const clip = {
+    x: box.x + box.width / 2 - TRACK.width / 2,
+    y: box.y + box.height / 2 - TRACK.height / 2,
+    width: TRACK.width,
+    height: TRACK.height,
+  }
+  const trackX = freeEnd === "left" ? 11 : TRACK.width - 11
+  const [behind, track, ...corners] = await pixelsAt(page, clip, [
+    [0.3, 0.3],
+    [trackX, TRACK.height / 2],
+    ...CORNERS[freeEnd],
+  ])
+  expect(
+    distance(behind, track),
+    "the track stands out from what is behind it",
+  ).toBeGreaterThan(12)
+  for (const corner of corners) {
+    expect(
+      distance(corner, track),
+      `the ${freeEnd} end of the track is round like a pill, not an ellipse`,
+    ).toBeLessThan(distance(corner, behind))
+  }
+}
+
+for (const viewport of [
+  { width: 390, height: 844 },
+  { width: 1440, height: 900 },
+]) {
+  test.describe(`at ${viewport.width}x${viewport.height}, a settings switch`, () => {
+    test.use({ viewport, deviceScaleFactor: 3 })
+
+    test("is a pill that holds its thumb, off and on", async ({
+      page,
+    }) => {
+      // At rest: a phone sheet slides up, and a screenshot clipped to where
+      // the switch was a frame ago reads the wrong pixels.
+      const dialog = await openSettings(page)
+      const toggle = dialog.getByRole("switch").first()
+      await expect(toggle).toBeInViewport({ ratio: 1 })
+
+      // Off, the thumb sits on the left; on, on the right.
+      const checked =
+        (await toggle.getAttribute("aria-checked")) === "true"
+      await expectPillEnd(page, toggle, checked ? "left" : "right")
+      await toggle.click()
+      await expect(toggle).toHaveAttribute(
+        "aria-checked",
+        String(!checked),
+      )
+      await expectPillEnd(page, toggle, checked ? "right" : "left")
+
+      // Still a thumb's worth to press, whatever it draws.
+      const box = await toggle.boundingBox()
+      expect(box?.height ?? 0).toBeGreaterThanOrEqual(44)
+      expect(box?.width ?? 0).toBeGreaterThanOrEqual(44)
+    })
+  })
+}
+
+// TUD-973: focusing a field draws its ring blue from the first frame. The
+// field's `transition` animated the outline colour in from the text colour, so
+// the ring showed white and then faded to blue.
+
+type RingFrame = {
+  outlineStyle: string
+  outlineWidth: string
+  outlineColor: string
+  boxShadow: string
+}
+
+/** The light blue every focus ring is drawn in (`--brand-light`). */
+const RING_BLUE = "rgb(96, 164, 209)"
+
+/** Starts reading the focused field's ring on every frame from now on. */
+function recordRingFrames(page: Page): Promise<void> {
+  return page.evaluate(() => {
+    const frames: unknown[] = []
+    ;(window as Window & { __ringFrames?: unknown[] }).__ringFrames =
+      frames
+    function sample() {
+      const element = document.activeElement
+      if (element instanceof HTMLInputElement) {
+        const style = getComputedStyle(element)
+        frames.push({
+          outlineStyle: style.outlineStyle,
+          outlineWidth: style.outlineWidth,
+          outlineColor: style.outlineColor,
+          boxShadow: style.boxShadow,
+        })
+      }
+      requestAnimationFrame(sample)
+    }
+    requestAnimationFrame(sample)
+  })
+}
+
+function ringFrames(page: Page): Promise<RingFrame[]> {
+  return page.evaluate(
+    () =>
+      ((window as Window & { __ringFrames?: unknown[] }).__ringFrames ??
+        []) as RingFrame[],
+  )
+}
+
+/** Every colour in a computed `box-shadow` or colour value that is near white. */
+function whiteColors(value: string): string[] {
+  return [...value.matchAll(/rgba?\(([^)]*)\)/g)]
+    .map((match) => match[0])
+    .filter((color) => {
+      const [red, green, blue, alpha = 1] = color
+        .replace(/rgba?\(|\)/g, "")
+        .split(/[\s,/]+/)
+        .filter(Boolean)
+        .map(Number)
+      return alpha > 0 && red >= 200 && green >= 200 && blue >= 200
+    })
+}
+
+for (const viewport of [
+  { width: 390, height: 844 },
+  { width: 1440, height: 900 },
+]) {
+  test.describe(`at ${viewport.width}x${viewport.height}, sign-in`, () => {
+    test.use({ viewport })
+
+    test("a focused field's ring is blue from its first frame, never white", async ({
+      page,
+    }) => {
+      await openApp(page, "/")
+      await recordRingFrames(page)
+      await page.getByRole("button", { name: "Sign in" }).first().click()
+      const form = page.getByRole("dialog")
+      await form.getByLabel("Username").click()
+      // Longer than any transition the app uses, so a fade has run its course.
+      await page.waitForTimeout(600)
+      await form.getByLabel("Password", { exact: true }).click()
+      await page.waitForTimeout(600)
+
+      const rings = (await ringFrames(page)).filter(
+        (frame) =>
+          frame.outlineStyle !== "none" &&
+          Number.parseFloat(frame.outlineWidth) > 0,
+      )
+      expect(rings.length, "frames with a focus ring").toBeGreaterThan(0)
+      for (const frame of rings) {
+        expect(frame.outlineColor, "ring colour on every frame").toBe(
+          RING_BLUE,
+        )
+        expect(
+          whiteColors(frame.boxShadow),
+          "white in the ring's shadow",
+        ).toEqual([])
+      }
+    })
+  })
+}
