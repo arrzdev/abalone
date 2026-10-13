@@ -1,3 +1,4 @@
+import type { Browser, BrowserContext, Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
 import { openApp, signUp, uniqueUsername } from "./support/app"
 import { expectMarble, playMove } from "./support/board"
@@ -5,9 +6,16 @@ import { expectMarble, playMove } from "./support/board"
 // Online play between two players in two browsers: one invites the other by
 // username, the other accepts, and each move reaches the other board through
 // the backend's game room (Durable Object) without a reload.
-test("an invited player joins and both players see each other's moves", async ({
-  browser,
-}) => {
+type OnlinePlayers = {
+  host: BrowserContext
+  guest: BrowserContext
+  hostPage: Page
+  guestPage: Page
+  guestName: string
+}
+
+/** Signs two players up, invites and accepts, and opens the game on both pages. */
+async function startOnlineGame(browser: Browser): Promise<OnlinePlayers> {
   const host = await browser.newContext()
   const guest = await browser.newContext()
   const hostPage = await host.newPage()
@@ -49,6 +57,15 @@ test("an invited player joins and both players see each other's moves", async ({
     .click({ timeout: 30_000 })
   await expect(hostPage).toHaveURL(guestPage.url())
 
+  return { host, guest, hostPage, guestPage, guestName }
+}
+
+test("an invited player joins and both players see each other's moves", async ({
+  browser,
+}) => {
+  const { host, guest, hostPage, guestPage } =
+    await startOnlineGame(browser)
+
   await playMove(hostPage, "c5", "d5")
   await expectMarble(guestPage, "d5", "black")
   await expectMarble(guestPage, "c5", null)
@@ -56,6 +73,55 @@ test("an invited player joins and both players see each other's moves", async ({
   await playMove(guestPage, "g5", "f5")
   await expectMarble(hostPage, "f5", "white")
   await expectMarble(hostPage, "g5", null)
+
+  await host.close()
+  await guest.close()
+})
+
+// A finished game ends the same way for both players, and the host's history
+// keeps it.
+test("an online game ended by resignation shows the result to both players and lands in history", async ({
+  browser,
+}) => {
+  // Same WebKit-sized budget as the test above (TUD-964).
+  test.slow(
+    browser.browserType().name() === "webkit",
+    "two WebKit pages paint in software",
+  )
+
+  const { host, guest, hostPage, guestPage, guestName } =
+    await startOnlineGame(browser)
+
+  await playMove(hostPage, "c5", "d5")
+  await expectMarble(guestPage, "d5", "black")
+  await playMove(guestPage, "g5", "f5")
+  await expectMarble(hostPage, "f5", "white")
+
+  await guestPage.getByRole("button", { name: "Resign" }).click()
+  const confirm = guestPage
+    .getByRole("dialog")
+    .filter({ hasText: "Resign the game?" })
+  await confirm.getByRole("button", { name: "Resign" }).click()
+
+  // The result sheet names the outcome and the reason in separate lines.
+  const guestResult = guestPage
+    .getByRole("dialog")
+    .filter({ hasText: "Game over" })
+  await expect(guestResult.getByText("You lost")).toBeVisible()
+  await expect(guestResult.getByText("by resignation")).toBeVisible()
+  const hostResult = hostPage
+    .getByRole("dialog")
+    .filter({ hasText: "Game over" })
+  await expect(hostResult.getByText("You won")).toBeVisible({
+    timeout: 30_000,
+  })
+  await expect(hostResult.getByText("by resignation")).toBeVisible()
+
+  await openApp(hostPage, "/online/history")
+  await expect(hostPage.getByRole("main")).toContainText(guestName)
+  await expect(hostPage.getByRole("main")).not.toContainText(
+    "No finished games yet.",
+  )
 
   await host.close()
   await guest.close()

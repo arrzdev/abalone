@@ -81,6 +81,18 @@ testing the PWA on a phone.
 Anything that edits source is done when typecheck, Biome, and the build all
 pass; that gate is also what CI runs.
 
+## Main user flows (e2e)
+
+`pnpm test:e2e` runs each on chromium and on the webkit iPhone 13 profile. CI does not run them yet.
+
+| Flow | Spec |
+| --- | --- |
+| Online game: invite, accept, both players see each move | `e2e/online-game.spec.ts` |
+| Online game: a resignation shows "by resignation" to both players and the game lands in the host's `/online/history` | `e2e/online-game.spec.ts` |
+| Bot game played to the end | `e2e/bot-game.spec.ts` |
+| Pass and play ending on a resignation | `e2e/local-game.spec.ts` |
+| Invite link used and expired | `e2e/invite-link.spec.ts` |
+
 ## Adding an endpoint
 
 `apps/backend/src/http/routes/profile.routes.ts` is the shape every route
