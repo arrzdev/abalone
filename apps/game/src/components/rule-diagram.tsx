@@ -33,27 +33,20 @@ export function RuleDiagram({
   label,
   className,
 }: RuleDiagramProps) {
-  const wrapperRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const lastWidthRef = useRef(0)
+  const aspect = diagramAspect(diagram)
 
   const paint = useCallback(() => {
     const canvas = canvasRef.current
-    const wrapper = wrapperRef.current
-    if (!canvas || !wrapper) return
+    if (!canvas) return
 
-    const width = wrapper.clientWidth
-    if (width <= 0) return
-    const height = Math.round(
-      Math.min(width / diagramAspect(diagram), MAX_HEIGHT),
-    )
-    lastWidthRef.current = width
+    // The box is the stylesheet's; this only fills it with pixels.
+    const { width, height } = canvas.getBoundingClientRect()
+    if (width <= 0 || height <= 0) return
 
     const dpr = window.devicePixelRatio || 1
     canvas.width = Math.round(width * dpr)
     canvas.height = Math.round(height * dpr)
-    canvas.style.width = `${width}px`
-    canvas.style.height = `${height}px`
 
     const ctx = canvas.getContext("2d")
     if (!ctx) return
@@ -65,31 +58,32 @@ export function RuleDiagram({
 
   useLayoutEffect(() => {
     paint()
-    const wrapper = wrapperRef.current
-    if (!wrapper || typeof ResizeObserver === "undefined") {
+    const canvas = canvasRef.current
+    if (!canvas || typeof ResizeObserver === "undefined") {
       window.addEventListener("resize", paint)
       return () => window.removeEventListener("resize", paint)
     }
-    // The canvas sets its own height, which resizes this box in turn. Only a
-    // change in width is news; reacting to the height it just caused would have
-    // the observer chasing its own tail.
-    const observer = new ResizeObserver(() => {
-      if (wrapperRef.current?.clientWidth !== lastWidthRef.current) paint()
-    })
-    observer.observe(wrapper)
+    // Painting sets only the backing store, never the box, so the observer
+    // hears about the column and nothing else.
+    const observer = new ResizeObserver(paint)
+    observer.observe(canvas)
     return () => observer.disconnect()
   }, [paint])
 
+  // The box is sized here, in the server markup, not by the first paint: a link
+  // to a chapter (/rules#sumito) is followed before the page hydrates, and a
+  // diagram that grew afterwards would push the chapter down (TUD-933).
   return (
-    <div
-      ref={wrapperRef}
-      className={cn("flex w-full justify-center", className)}
-    >
+    <div className={cn("flex w-full justify-center", className)}>
       <canvas
         ref={canvasRef}
         role="img"
         aria-label={label}
         className="block"
+        style={{
+          width: `min(100%, ${MAX_HEIGHT * aspect}px)`,
+          aspectRatio: aspect,
+        }}
       />
     </div>
   )
