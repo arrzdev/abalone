@@ -95,10 +95,12 @@ const GAME_COLUMNS = {
   blackUserId: black.id,
   blackUsername: black.username,
   blackDisplayUsername: black.displayUsername,
+  blackAccountName: black.name,
   blackAvatarKey: blackProfile.avatarKey,
   whiteUserId: white.id,
   whiteUsername: white.username,
   whiteDisplayUsername: white.displayUsername,
+  whiteAccountName: white.name,
   whiteAvatarKey: whiteProfile.avatarKey,
 }
 
@@ -119,10 +121,12 @@ type GameRow = {
   blackUserId: string
   blackUsername: string | null
   blackDisplayUsername: string | null
+  blackAccountName: string
   blackAvatarKey: string | null
   whiteUserId: string
   whiteUsername: string | null
   whiteDisplayUsername: string | null
+  whiteAccountName: string
   whiteAvatarKey: string | null
 }
 
@@ -145,12 +149,14 @@ function toGame(row: GameRow): Game {
       userId: row.blackUserId,
       username: row.blackUsername,
       displayUsername: row.blackDisplayUsername,
+      accountName: row.blackAccountName,
       avatarKey: row.blackAvatarKey,
     }),
     white: toPlayerSummary({
       userId: row.whiteUserId,
       username: row.whiteUsername,
       displayUsername: row.whiteDisplayUsername,
+      accountName: row.whiteAccountName,
       avatarKey: row.whiteAvatarKey,
     }),
   }

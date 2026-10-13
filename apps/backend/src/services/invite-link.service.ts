@@ -7,6 +7,7 @@ import type { InviteSide } from "@/database/schema"
 import { inviteLinks } from "@/database/schema"
 import { CustomError } from "@/http/errors"
 import { toBase64Url } from "@/utils/base64url"
+import { playerName } from "@/utils/player-summary"
 
 const LINK_LIFETIME_MS = 7 * 24 * 60 * 60 * 1000
 
@@ -116,7 +117,7 @@ export class InviteLinkService {
           ...LINK_COLUMNS,
           username: user.username,
           displayUsername: user.displayUsername,
-          name: user.name,
+          accountName: user.name,
         })
         .from(inviteLinks)
         .innerJoin(user, eq(user.id, inviteLinks.fromUserId))
@@ -128,7 +129,7 @@ export class InviteLinkService {
     if (!row) throw new CustomError("not_found")
 
     return {
-      inviterName: row.displayUsername ?? row.username ?? row.name,
+      inviterName: playerName(row),
       state: stateOf(toInviteLink(row), Date.now()),
     }
   }
