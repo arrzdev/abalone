@@ -262,6 +262,13 @@ test.describe("at 1440×900", () => {
 test("at 375×667 an online game's history keeps a full row and the page does not scroll", async ({
   browser,
 }) => {
+  // Two WebKit pages paint in software on a Linux runner: see the same note in
+  // online-game.spec.ts (TUD-964).
+  test.slow(
+    browser.browserType().name() === "webkit",
+    "two WebKit pages paint in software",
+  )
+
   const { host, guest, hostPage, guestPage } =
     await startOnlineGame(browser)
   try {
