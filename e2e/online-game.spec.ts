@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test"
-import { startOnlineGame } from "./support/app"
+import { openApp, startOnlineGame } from "./support/app"
 import { expectMarble, playMove } from "./support/board"
 
 // Online play between two players in two browsers: each move reaches the other
