@@ -18,6 +18,7 @@ import {
   Lightbulb,
   LogIn,
   LogOut,
+  Pause,
   Play,
   Plus,
   RefreshCw,
@@ -84,6 +85,7 @@ export const HistoryIcon = glyph(History)
 export const VolumeUpIcon = glyph(Volume2)
 export const VolumeOffIcon = glyph(VolumeX)
 export const PlayIcon = glyph(Play)
+export const PauseIcon = glyph(Pause)
 export const InfoIcon = glyph(Info)
 
 /** The rules, in the chrome: a question mark is what a stranger looks for. */

@@ -28,7 +28,9 @@
     "online_hint": "無料アカウントで誰でも招待。",
     "rules_link": "アバロンのルール",
     "strategy_link": "アバロンの戦略のコツ",
-    "bots_caption": "ガスからマグナスまで、8体のボット"
+    "bots_caption": "ガスからマグナスまで、8体のボット",
+    "play_demo": "デモを再生",
+    "pause_demo": "デモを一時停止"
   },
   "auth": {
     "sign_in": "ログイン",

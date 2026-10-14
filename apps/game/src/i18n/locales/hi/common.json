@@ -28,7 +28,9 @@
     "online_hint": "मुफ़्त खाता। किसी को भी बुलाएँ।",
     "rules_link": "Abalone के नियम",
     "strategy_link": "Abalone रणनीति के सुझाव",
-    "bots_caption": "आठ बॉट, गस से मैग्नस तक"
+    "bots_caption": "आठ बॉट, गस से मैग्नस तक",
+    "play_demo": "डेमो चलाएँ",
+    "pause_demo": "डेमो रोकें"
   },
   "auth": {
     "sign_in": "साइन इन करें",

@@ -28,7 +28,9 @@
     "online_hint": "Gratis-Konto. Lade jeden ein.",
     "rules_link": "Abalone-Regeln",
     "strategy_link": "Abalone-Strategietipps",
-    "bots_caption": "Acht Bots, von Gus bis Magnus"
+    "bots_caption": "Acht Bots, von Gus bis Magnus",
+    "play_demo": "Demo abspielen",
+    "pause_demo": "Demo pausieren"
   },
   "auth": {
     "sign_in": "Anmelden",

@@ -28,7 +28,9 @@
     "online_hint": "Ücretsiz hesap. Herkesi davet et.",
     "rules_link": "Abalone kuralları",
     "strategy_link": "Abalone strateji ipuçları",
-    "bots_caption": "Gus'tan Magnus'a sekiz bot"
+    "bots_caption": "Gus'tan Magnus'a sekiz bot",
+    "play_demo": "Demoyu oynat",
+    "pause_demo": "Demoyu duraklat"
   },
   "auth": {
     "sign_in": "Giriş yap",

@@ -28,7 +28,9 @@
     "online_hint": "免费账号，邀请任何人。",
     "rules_link": "Abalone 规则",
     "strategy_link": "Abalone 策略技巧",
-    "bots_caption": "八个机器人，从 Gus 到 Magnus"
+    "bots_caption": "八个机器人，从 Gus 到 Magnus",
+    "play_demo": "播放演示",
+    "pause_demo": "暂停演示"
   },
   "auth": {
     "sign_in": "登录",
