@@ -562,10 +562,19 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
             }
           })
 
-          const start = performance.now()
+          //the clock starts on the first frame the move is painted on, not when
+          //it was asked for: a main thread busy in between (the commit that
+          //handed the board this move, a slow device) would otherwise spend
+          //the slide before anything was drawn, and the marbles would land in
+          //a frame or two
+          let start: number | null = null
 
           const step = (now: number) => {
-            const rawProgress = Math.min((now - start) / TIMING.MOVE, 1)
+            start ??= now
+            const rawProgress = Math.min(
+              Math.max((now - start) / TIMING.MOVE, 0),
+              1,
+            )
             const eased = easeInOutCubic(rawProgress)
 
             const positions = new Map<
