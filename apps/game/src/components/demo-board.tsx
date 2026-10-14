@@ -175,7 +175,9 @@ function DemoToggle({
   onToggle: () => void
 }) {
   const { t } = useTranslation()
-  const label = isPaused ? t("home.play_demo") : t("home.pause_demo")
+  const label = isPaused
+    ? t("common:home.play_demo")
+    : t("common:home.pause_demo")
 
   return (
     <button
