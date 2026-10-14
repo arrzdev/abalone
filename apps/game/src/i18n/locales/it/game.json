@@ -272,7 +272,11 @@
     "position": "{{black}} {{blackCount}} biglie, {{white}} {{whiteCount}} biglie.",
     "turn": "Muove {{side}}.",
     "last_move": "Ultima mossa: {{move}}.",
-    "no_moves": "Ancora nessuna mossa."
+    "no_moves": "Ancora nessuna mossa.",
+    "cell_black": "{{square}}, biglia nera",
+    "cell_white": "{{square}}, biglia bianca",
+    "cell_empty": "{{square}}, vuota",
+    "cell_selected": "{{cell}}, selezionata"
   },
   "guide": {
     "title": "Come muovere",

@@ -273,7 +273,11 @@
     "position": "{{black}}: {{blackCount}} kulek, {{white}}: {{whiteCount}} kulek.",
     "turn": "Ruch mają {{side}}.",
     "last_move": "Ostatni ruch: {{move}}.",
-    "no_moves": "Brak ruchów."
+    "no_moves": "Brak ruchów.",
+    "cell_black": "{{square}}, czarna kulka",
+    "cell_white": "{{square}}, biała kulka",
+    "cell_empty": "{{square}}, puste",
+    "cell_selected": "{{cell}}, zaznaczona"
   },
   "guide": {
     "title": "Jak wykonać ruch",
