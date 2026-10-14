@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest"
 import type { BoardTimelineInput, PlyMove } from "@/utils/board-timeline"
-import { MAX_REPLAYED_PLIES, nextBoardStep } from "@/utils/board-timeline"
+import {
+  failedMoveVerdict,
+  MAX_REPLAYED_PLIES,
+  nextBoardStep,
+} from "@/utils/board-timeline"
 
 //the online board has one way to change what it shows, and these are its rules.
 //every case below used to be its own path through the board hook (a played
@@ -165,5 +169,67 @@ describe("nextBoardStep", () => {
         ),
       ).toEqual({ kind: "cut", index: 3 })
     })
+  })
+})
+
+//what a failed play request means for the move it carried. only the server can
+//say a move did not happen: a refusal in so many words, or its log holding a
+//different move at that index (which `nextBoardStep` already cuts on). anything
+//else is an answer that may have been lost after the move was played.
+describe("failedMoveVerdict", () => {
+  it("refuses the move when the server answered with a domain error", () => {
+    expect(
+      failedMoveVerdict({
+        failure: "refused",
+        index: 3,
+        serverLatest: 2,
+        refetches: 0,
+      }),
+    ).toBe("refused")
+  })
+
+  it("asks the server again after a network error", () => {
+    expect(
+      failedMoveVerdict({
+        failure: "unknown",
+        index: 3,
+        serverLatest: 2,
+        refetches: 0,
+      }),
+    ).toBe("refetch")
+  })
+
+  //the lost answer: the server played the move and the reply never came back
+  it("leaves it to the log once the log has reached the move", () => {
+    expect(
+      failedMoveVerdict({
+        failure: "unknown",
+        index: 3,
+        serverLatest: 3,
+        refetches: 1,
+      }),
+    ).toBe("settled")
+  })
+
+  it("asks once more when the first refetch has not reached the move", () => {
+    expect(
+      failedMoveVerdict({
+        failure: "unknown",
+        index: 3,
+        serverLatest: 2,
+        refetches: 1,
+      }),
+    ).toBe("refetch")
+  })
+
+  it("refuses the move when the log is still missing it after that", () => {
+    expect(
+      failedMoveVerdict({
+        failure: "unknown",
+        index: 3,
+        serverLatest: 2,
+        refetches: 2,
+      }),
+    ).toBe("refused")
   })
 })
