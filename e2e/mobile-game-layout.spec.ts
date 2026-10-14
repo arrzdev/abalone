@@ -309,20 +309,18 @@ async function panelSpacing(page: Page): Promise<PanelSpacing> {
  * between the cards are the same.
  */
 async function expectEvenPanelSpacing(page: Page, what: string) {
-  await expect
-    .poll(
-      async () => {
-        const spacing = await panelSpacing(page)
-        return {
-          ...spacing,
-          evenEnds: Math.abs(spacing.above - spacing.below) <= 4,
-          evenGaps:
-            Math.abs(spacing.scoreToMiddle - spacing.middleToActions) <= 1,
-        }
-      },
-      { message: `${what}: the panel's spacing in px` },
-    )
-    .toMatchObject({ evenEnds: true, evenGaps: true })
+  await expect(async () => {
+    const spacing = await panelSpacing(page)
+    const measured = `${what}, spacing in px: ${JSON.stringify(spacing)}`
+    expect(
+      Math.abs(spacing.above - spacing.below),
+      `${measured}; above vs below the cards`,
+    ).toBeLessThanOrEqual(4)
+    expect(
+      Math.abs(spacing.scoreToMiddle - spacing.middleToActions),
+      `${measured}; the two gaps between the cards`,
+    ).toBeLessThanOrEqual(1)
+  }).toPass({ timeout: 10_000 })
 }
 
 for (const viewport of PHONES) {
