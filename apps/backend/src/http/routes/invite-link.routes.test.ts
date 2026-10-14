@@ -313,8 +313,8 @@ describe("invite link routes", () => {
           player.token,
         )
         expect(read.status).toBe(200)
-        expect(game.data?.game.black.username).toBe(inviter.username)
-        expect(game.data?.game.white.username).toBe(friend.username)
+        expect(game.data?.game.black.name).toBe(inviter.username)
+        expect(game.data?.game.white.name).toBe(friend.username)
         expect(game.data?.game.setupType).toBe("standard")
       }
     })

@@ -76,9 +76,8 @@ Expand and contract, because installed clients still read the old fields:
 
 1. Expand (this change): add `name`; `username` and `displayUsername` stay,
    marked `BACKWARD_COMPAT`. The game reads only `name`.
-2. Contract (follow-up, once the expand build is on production and installed
-   PWAs have had a deploy cycle): drop `username` and
-   `displayUsername` from `PlayerSummary`.
+2. Contract (done, once the expand build had been on production for a day):
+   `username` and `displayUsername` are gone from `PlayerSummary`.
 
 Account fields (`/auth`, profile) keep `username` and `displayUsername`: those
 are the account, not the player envelope.
@@ -86,7 +85,8 @@ are the account, not the player envelope.
 ## Tests
 
 - API: `apps/backend/src/http/routes/game.routes.test.ts`, "how a player is
-  named"; `apps/backend/src/utils/player-summary.test.ts` for the fallback.
+  named" (also the exact envelope keys);
+  `apps/backend/src/utils/player-summary.test.ts` for the fallback.
 - Cache update: `apps/game/src/data/realtime/invalidate.test.ts`, "on the
   hub's lists".
 - Card states: `apps/game/src/utils/game-card.test.ts`.
