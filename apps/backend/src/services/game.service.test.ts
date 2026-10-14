@@ -254,4 +254,47 @@ describe("game service", () => {
     )
     expect(trips).toBe(3)
   })
+
+  it("keeps a resignation that lands while a move is in flight", async () => {
+    const blackId = await seatedPlayer()
+    const whiteId = await seatedPlayer()
+
+    const gameId = await games.open({
+      inviteId: crypto.randomUUID(),
+      fromUserId: blackId,
+      toUserId: whiteId,
+      side: "black",
+      setupType: "standard",
+    })
+
+    const opening = await games.get(gameId, blackId)
+    const [from, to] = loneStep(opening, "black")
+
+    //white resigns after black's move has read the game and before it writes,
+    //which is the window two requests from two devices can always fall into
+    const batch = db.batch.bind(db)
+    const spy = vi
+      .spyOn(db, "batch")
+      .mockImplementationOnce(async (queries) => {
+        await games.resign(gameId, whiteId)
+        return batch(queries)
+      })
+    try {
+      await expect(
+        games.playMove(gameId, blackId, [from], to, opening.moveCount),
+      ).rejects.toMatchObject({ errorCode: "move_conflict" })
+    } finally {
+      spy.mockRestore()
+    }
+
+    const after = await games.get(gameId, blackId)
+    expect(after).toMatchObject({
+      status: "finished",
+      winner: "black",
+      finishReason: "resignation",
+      moveCount: 0,
+      blackCells: opening.blackCells,
+    })
+    expect(await games.listMoves(gameId, blackId)).toHaveLength(1)
+  })
 })
