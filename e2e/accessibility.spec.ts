@@ -25,10 +25,7 @@ type KnownViolation = {
   task: string
 }
 
-const KNOWN_VIOLATIONS: KnownViolation[] = [
-  // The shell's viewport meta disables pinch zoom (WCAG 1.4.4).
-  { rule: "meta-viewport", path: "*", task: "TUD-1050" },
-]
+const KNOWN_VIOLATIONS: KnownViolation[] = []
 
 const TAGS = ["wcag2a", "wcag2aa", "wcag21aa"]
 
