@@ -1,13 +1,15 @@
+import { BOARD_SETUPS } from "@repo/abalone-engine/board-setups"
 import { WINNING_SCORE } from "@repo/abalone-engine/config"
-import { HEADING_STEPS } from "@repo/abalone-engine/topology"
-import { cn } from "@repo/nativ/utils"
+import { cellNames, HEADING_STEPS } from "@repo/abalone-engine/topology"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import { Trans, useTranslation } from "react-i18next"
+import type { ManualChapter } from "@/components/manual/chapter"
+import { Chapter, ChapterBreak, Plate } from "@/components/manual/chapter"
+import { ManualHero, ManualPage } from "@/components/manual/manual-page"
 import { MarbleGlyph } from "@/components/marble-glyph"
 import { PlayBlock } from "@/components/play-block"
 import { RuleDiagram } from "@/components/rule-diagram"
-import { Card, Page, PageTitle } from "@/components/ui/page"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { COMPUTER_GAME } from "@/hooks/use-play-actions"
@@ -125,6 +127,19 @@ const COMPASS: Diagram = {
   })),
 }
 
+/**
+ * The whole board at the start of a standard game: the hero's picture of what
+ * the page is about. Read from the engine's own opening, so it cannot drift
+ * from the board a game starts on.
+ */
+const START: Diagram = {
+  cells: [...cellNames],
+  marbles: Object.fromEntries([
+    ...BOARD_SETUPS.standard.black.map(([r, q]) => [`${r},${q}`, "black"]),
+    ...BOARD_SETUPS.standard.white.map(([r, q]) => [`${r},${q}`, "white"]),
+  ]),
+}
+
 /** Bold inside a rule's text: the word the rule turns on. */
 const STRONG = <strong className="font-semibold text-white" />
 
@@ -134,56 +149,6 @@ const TEXT_LINK_CLASS =
 /** A rule's text, with the bold its copy marks. */
 function RuleText({ i18nKey }: { i18nKey: string }) {
   return <Trans i18nKey={i18nKey} components={{ strong: STRONG }} />
-}
-
-/**
- * One rule: what it says, and the board it says it about.
- *
- * Above `lg` the two sit side by side, the text on the left and the positions
- * on the right. Stacked, a rule is a paragraph and then a picture the length of
- * a screen below it, and by the time the picture is on screen the sentence it
- * illustrates is not.
- *
- * The text takes the smaller share: the diagrams are what a rule about shapes is
- * actually made of. A rule with no diagram has the whole card.
- *
- * `scroll-mt` so a link to the heading (/rules#sumito) does not land it flush
- * against the top of the scroller.
- */
-function Rule({
-  id,
-  title,
-  children,
-  diagrams,
-}: {
-  id: string
-  title: string
-  children: ReactNode
-  diagrams?: ReactNode
-}) {
-  return (
-    <Card className="lg:flex lg:items-start lg:gap-x-7">
-      {/* Alone on the card the text keeps a reading measure, not the card's. */}
-      <div
-        className={cn(
-          "min-w-0 max-w-[70ch]",
-          diagrams && "lg:w-[40%] lg:shrink-0",
-        )}
-      >
-        <h2
-          id={id}
-          className="scroll-mt-6 text-lg font-bold text-brand-light"
-        >
-          {title}
-        </h2>
-        <div className="mt-2 flex flex-col gap-y-2 text-sm leading-relaxed text-subtle">
-          {children}
-        </div>
-      </div>
-
-      {diagrams && <div className="min-w-0 lg:flex-1">{diagrams}</div>}
-    </Card>
-  )
 }
 
 /** The points of a rule that are a list in its copy. */
@@ -206,9 +171,7 @@ function Figure({
   marbleDesign: string
 }) {
   return (
-    //first in the right-hand column and so already level with the heading; the
-    //gap above it belongs to the paragraph it follows, which is no longer above
-    <figure className="mt-4 lg:first:mt-0">
+    <figure>
       <div className="overflow-hidden rounded-xl bg-well p-2">
         <RuleDiagram
           diagram={diagram}
@@ -216,12 +179,25 @@ function Figure({
           label={caption}
         />
       </div>
-      <figcaption className="mt-2 text-center text-xs text-faint">
+      <figcaption className="mt-2 text-sm leading-normal text-muted">
         {caption}
       </figcaption>
     </figure>
   )
 }
+
+/** The chapters in reading order: anchor, then the copy key of its title. */
+const CHAPTERS = [
+  ["goal", "goal"],
+  ["turns", "turns"],
+  ["directions", "directions"],
+  ["moving-groups", "move"],
+  ["sumito", "push"],
+  ["pushing-off", "capture"],
+  ["how-to-win", "win"],
+  ["starting-positions", "setups"],
+  ["faq", "faq"],
+] as const
 
 /** The three openings the page describes, each a link target of its own. */
 const DESCRIBED_SETUPS = [
@@ -238,17 +214,39 @@ function RulesPage() {
   // The diagrams are the player's own marbles, not a stock illustration.
   const [marbleDesign] = useMarbleDesign()
 
+  const chapters: ManualChapter[] = CHAPTERS.map(([id, key], index) => ({
+    id,
+    title: t(`game:rules.${key}.title`),
+    number: String(index + 1).padStart(2, "0"),
+  }))
+  const chapter = Object.fromEntries(
+    chapters.map((entry) => [entry.id, entry]),
+  ) as Record<(typeof CHAPTERS)[number][0], ManualChapter>
+
+  const playBlock = (
+    <PlayBlock
+      cta={t("game:rules.play.cta")}
+      more={t("game:rules.play.more")}
+    />
+  )
+
   return (
     <>
       {/* The page's own heading is on a phone too, so the bar's title is a
           label: one `<h1>` on the page, and it is the one a search shows. */}
       <SubpageHeader title={t("game:rules.title")} titleAs="p" />
 
-      <Page className="lg:max-w-[940px]">
-        <PageTitle
-          onPhone
-          description={
-            <span className="block max-w-[70ch]">
+      {/* One column of chapters, in order. The rules are a sequence — pushing
+          means nothing before moving does — and two columns would ask them to
+          be read down one side and then down the other. */}
+      <ManualPage
+        title={t("game:rules.title")}
+        chapters={chapters}
+        plates
+        hero={
+          <ManualHero
+            heading={t("game:rules.heading")}
+            intro={
               <Trans
                 i18nKey="game:rules.intro"
                 components={{
@@ -262,223 +260,218 @@ function RulesPage() {
                   ),
                 }}
               />
-            </span>
+            }
+            //a way to the board under the intro, halfway down and at the end,
+            //for whoever has read enough at any of the three
+            actions={playBlock}
+            //an image, not one of the captioned figures: the board the first
+            //chapter's words are about, before any of them
+            plate={
+              <Plate>
+                <RuleDiagram
+                  diagram={START}
+                  marbleDesign={marbleDesign}
+                  label={t("game:rules.setups.title")}
+                />
+              </Plate>
+            }
+          />
+        }
+      >
+        <Chapter
+          {...chapter.goal}
+          plate={
+            //the win condition at a glance: this is how many have to go
+            <Plate className="flex-row flex-wrap items-center justify-center gap-3 py-8 lg:py-10">
+              {Array.from({ length: WINNING_SCORE }, (_, i) => (
+                <MarbleGlyph
+                  // biome-ignore lint/suspicious/noArrayIndexKey: six identical marbles standing for a count, not a list of things.
+                  key={i}
+                  color="black"
+                  design={marbleDesign}
+                  size={32}
+                />
+              ))}
+            </Plate>
           }
         >
-          {t("game:rules.heading")}
-        </PageTitle>
+          <p>
+            <RuleText i18nKey="game:rules.goal.body" />
+          </p>
+        </Chapter>
 
-        {/* A way to the board under the intro, halfway down and at the end,
-            for whoever has read enough at any of the three. */}
-        <PlayBlock
-          cta={t("game:rules.play.cta")}
-          more={t("game:rules.play.more")}
-        />
+        <Chapter {...chapter.turns}>
+          <p>
+            <RuleText i18nKey="game:rules.turns.body" />
+          </p>
+        </Chapter>
 
-        {/* One column, in order. The rules are a sequence — pushing means
-            nothing before moving does — and two columns would ask them to be
-            read down one side and then down the other. */}
-        <div className="flex flex-col gap-y-4">
-          <Rule
-            id="goal"
-            title={t("game:rules.goal.title")}
-            diagrams={
-              //the win condition at a glance: this is how many have to go
-              <div className="flex items-center justify-center gap-2 rounded-xl bg-well py-4 max-lg:mt-4">
-                {Array.from({ length: WINNING_SCORE }, (_, i) => (
-                  <MarbleGlyph
-                    // biome-ignore lint/suspicious/noArrayIndexKey: six identical marbles standing for a count, not a list of things.
-                    key={i}
-                    color="black"
-                    design={marbleDesign}
-                    size={24}
-                  />
-                ))}
-              </div>
-            }
-          >
-            <p>
-              <RuleText i18nKey="game:rules.goal.body" />
-            </p>
-          </Rule>
-
-          <Rule id="turns" title={t("game:rules.turns.title")}>
-            <p>
-              <RuleText i18nKey="game:rules.turns.body" />
-            </p>
-          </Rule>
-
-          <Rule
-            id="directions"
-            title={t("game:rules.directions.title")}
-            diagrams={
+        <Chapter
+          {...chapter.directions}
+          plate={
+            <Plate>
               <Figure
                 diagram={COMPASS}
                 caption={t("game:rules.directions.caption")}
                 marbleDesign={marbleDesign}
               />
-            }
-          >
-            <p>
-              <RuleText i18nKey="game:rules.directions.body" />
-            </p>
-          </Rule>
+            </Plate>
+          }
+        >
+          <p>
+            <RuleText i18nKey="game:rules.directions.body" />
+          </p>
+        </Chapter>
 
-          <Rule
-            id="moving-groups"
-            title={t("game:rules.move.title")}
-            diagrams={
-              <>
-                <Figure
-                  diagram={INLINE}
-                  caption={t("game:rules.move.inline_caption")}
-                  marbleDesign={marbleDesign}
-                />
-                <Figure
-                  diagram={BROADSIDE}
-                  caption={t("game:rules.move.broadside_caption")}
-                  marbleDesign={marbleDesign}
-                />
-              </>
-            }
-          >
-            <p>
-              <RuleText i18nKey="game:rules.move.body" />
-            </p>
-            <RuleList>
-              <li>
-                <RuleText i18nKey="game:rules.move.inline" />
-              </li>
-              <li>
-                <RuleText i18nKey="game:rules.move.broadside" />
-              </li>
-            </RuleList>
-            <p>
-              <RuleText i18nKey="game:rules.move.limit" />
-            </p>
-          </Rule>
+        <Chapter
+          {...chapter["moving-groups"]}
+          plate={
+            <Plate>
+              <Figure
+                diagram={INLINE}
+                caption={t("game:rules.move.inline_caption")}
+                marbleDesign={marbleDesign}
+              />
+              <Figure
+                diagram={BROADSIDE}
+                caption={t("game:rules.move.broadside_caption")}
+                marbleDesign={marbleDesign}
+              />
+            </Plate>
+          }
+        >
+          <p>
+            <RuleText i18nKey="game:rules.move.body" />
+          </p>
+          <RuleList>
+            <li>
+              <RuleText i18nKey="game:rules.move.inline" />
+            </li>
+            <li>
+              <RuleText i18nKey="game:rules.move.broadside" />
+            </li>
+          </RuleList>
+          <p>
+            <RuleText i18nKey="game:rules.move.limit" />
+          </p>
+        </Chapter>
 
-          <Rule
-            id="sumito"
-            title={t("game:rules.push.title")}
-            diagrams={
-              <>
-                <Figure
-                  diagram={PUSH}
-                  caption={t("game:rules.push.ok_caption")}
-                  marbleDesign={marbleDesign}
-                />
-                <Figure
-                  diagram={BLOCKED}
-                  caption={t("game:rules.push.blocked_caption")}
-                  marbleDesign={marbleDesign}
-                />
-              </>
-            }
-          >
-            <p>
-              <RuleText i18nKey="game:rules.push.body" />
-            </p>
-            <RuleList>
-              <li>{t("game:rules.push.ratios.two_one")}</li>
-              <li>{t("game:rules.push.ratios.three_one")}</li>
-              <li>{t("game:rules.push.ratios.three_two")}</li>
-            </RuleList>
-            <p>
-              <RuleText i18nKey="game:rules.push.conditions" />
-            </p>
-          </Rule>
+        <Chapter
+          {...chapter.sumito}
+          plate={
+            <Plate>
+              <Figure
+                diagram={PUSH}
+                caption={t("game:rules.push.ok_caption")}
+                marbleDesign={marbleDesign}
+              />
+              <Figure
+                diagram={BLOCKED}
+                caption={t("game:rules.push.blocked_caption")}
+                marbleDesign={marbleDesign}
+              />
+            </Plate>
+          }
+        >
+          <p>
+            <RuleText i18nKey="game:rules.push.body" />
+          </p>
+          <RuleList>
+            <li>{t("game:rules.push.ratios.two_one")}</li>
+            <li>{t("game:rules.push.ratios.three_one")}</li>
+            <li>{t("game:rules.push.ratios.three_two")}</li>
+          </RuleList>
+          <p>
+            <RuleText i18nKey="game:rules.push.conditions" />
+          </p>
+        </Chapter>
 
-          <Rule
-            id="pushing-off"
-            title={t("game:rules.capture.title")}
-            diagrams={
+        <Chapter
+          {...chapter["pushing-off"]}
+          plate={
+            <Plate>
               <Figure
                 diagram={CAPTURE}
                 caption={t("game:rules.capture.caption")}
                 marbleDesign={marbleDesign}
               />
-            }
-          >
-            <p>
-              <RuleText i18nKey="game:rules.capture.body" />
-            </p>
-          </Rule>
+            </Plate>
+          }
+        >
+          <p>
+            <RuleText i18nKey="game:rules.capture.body" />
+          </p>
+        </Chapter>
 
-          <PlayBlock
-            cta={t("game:rules.play.cta")}
-            more={t("game:rules.play.more")}
-          />
+        <ChapterBreak>{playBlock}</ChapterBreak>
 
-          <Rule id="how-to-win" title={t("game:rules.win.title")}>
-            <p>
-              <RuleText i18nKey="game:rules.win.body" />
-            </p>
-          </Rule>
+        <Chapter {...chapter["how-to-win"]}>
+          <p>
+            <RuleText i18nKey="game:rules.win.body" />
+          </p>
+        </Chapter>
 
-          <Rule
-            id="starting-positions"
-            title={t("game:rules.setups.title")}
-          >
-            <p>{t("game:rules.setups.body")}</p>
-            <RuleList>
-              {DESCRIBED_SETUPS.map(([key, anchor]) => (
-                <li key={key}>
-                  <Trans
-                    i18nKey={`game:rules.setups.${key}`}
-                    components={{
-                      name: (
-                        <strong
-                          id={anchor}
-                          className="scroll-mt-6 font-semibold text-white"
-                        />
-                      ),
-                    }}
-                  />
-                </li>
-              ))}
-              <li>
-                <RuleText i18nKey="game:rules.setups.others" />
-              </li>
-            </RuleList>
-          </Rule>
-
-          <Rule id="faq" title={t("game:rules.faq.title")}>
-            <dl className="flex flex-col gap-y-3">
-              {FAQ_ITEMS.map((item) => (
-                <div key={item}>
-                  <dt className="font-semibold text-white">
-                    {t(`game:rules.faq.items.${item}.question`)}
-                  </dt>
-                  {/* A paragraph, because that is what an answer is: the
-                      strategy link in one is part of its sentence, the height
-                      of its line, not a control standing on its own. */}
-                  <dd className="mt-0.5">
-                    <p>
-                      <Trans
-                        i18nKey={`game:rules.faq.items.${item}.answer`}
-                        components={{
-                          strategy: (
-                            <Link
-                              to="/strategy"
-                              className={TEXT_LINK_CLASS}
-                            />
-                          ),
-                        }}
+        <Chapter {...chapter["starting-positions"]}>
+          <p>{t("game:rules.setups.body")}</p>
+          <RuleList>
+            {DESCRIBED_SETUPS.map(([key, anchor]) => (
+              <li key={key}>
+                <Trans
+                  i18nKey={`game:rules.setups.${key}`}
+                  components={{
+                    name: (
+                      <strong
+                        id={anchor}
+                        className="scroll-mt-6 font-semibold text-white"
                       />
-                    </p>
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </Rule>
-        </div>
+                    ),
+                  }}
+                />
+              </li>
+            ))}
+            <li>
+              <RuleText i18nKey="game:rules.setups.others" />
+            </li>
+          </RuleList>
+        </Chapter>
 
-        <PlayBlock
-          cta={t("game:rules.play.cta")}
-          more={t("game:rules.play.more")}
-        />
-      </Page>
+        <Chapter {...chapter.faq}>
+          <dl className="flex flex-col">
+            {FAQ_ITEMS.map((item) => (
+              <div
+                key={item}
+                className="border-t border-border py-4 first:border-t-0 first:pt-0 last:pb-0"
+              >
+                <dt className="text-[17px] font-semibold text-foreground">
+                  {t(`game:rules.faq.items.${item}.question`)}
+                </dt>
+                {/* A paragraph, because that is what an answer is: the
+                    strategy link in one is part of its sentence, the height
+                    of its line, not a control standing on its own. */}
+                <dd className="mt-1">
+                  <p>
+                    <Trans
+                      i18nKey={`game:rules.faq.items.${item}.answer`}
+                      components={{
+                        strategy: (
+                          <Link
+                            to="/strategy"
+                            className={TEXT_LINK_CLASS}
+                          />
+                        ),
+                      }}
+                    />
+                  </p>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </Chapter>
+
+        <div className="border-t border-border pt-10 lg:pt-16">
+          {playBlock}
+        </div>
+      </ManualPage>
     </>
   )
 }
