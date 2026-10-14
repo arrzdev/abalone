@@ -183,7 +183,7 @@ for (const [size, viewport] of Object.entries(VIEWPORTS)) {
 }
 
 // The links that offer a game against the computer from the two reading pages
-// lead to the same board on a first game. Each page has three play buttons
+// lead to the same board on a first game. Each page has two play buttons
 // (play-block.spec.ts); the first, under the intro, stands for them.
 const READING_PAGE_LINKS = [
   { path: "/rules", name: "Play against the computer" },
