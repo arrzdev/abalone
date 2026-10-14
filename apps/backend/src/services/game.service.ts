@@ -10,7 +10,7 @@ import type {
   Player,
 } from "@repo/abalone-engine/types"
 import tryCatch from "@repo/shared/try-catch"
-import { and, count, desc, eq, or } from "drizzle-orm"
+import { and, count, desc, eq, or, sql } from "drizzle-orm"
 import { alias } from "drizzle-orm/sqlite-core"
 import { user } from "@/database/auth.schema"
 import type { Db } from "@/database/client"
@@ -372,25 +372,13 @@ export class GameService {
     const nextIndex = row.moveCount + 1
     const now = new Date()
 
+    //the game is moved on only from the exact position that was read, and the
+    //ply takes its index from where that update left the game. if anything got
+    //there first (another move, or a resignation from the other seat), the
+    //update matches nothing, the ply lands on an index that is already taken,
+    //and the whole batch rolls back rather than writing over what happened.
     const [, writeError] = await tryCatch(() =>
       this.db.batch([
-        this.db.insert(gameMoves).values({
-          gameId,
-          moveIndex: nextIndex,
-          marbles,
-          destination,
-          isPush: outcome.isPush,
-          isCapture: outcome.isCapture,
-          shovedMarbles: outcome.shovedMarbles,
-          direction: outcome.direction,
-          blackCells,
-          whiteCells,
-          blackScore,
-          whiteScore,
-          currentTurn,
-          signature,
-          createdAt: now,
-        }),
         this.db
           .update(games)
           .set({
@@ -405,11 +393,35 @@ export class GameService {
             finishReason: ending.finishReason,
             updatedAt: now,
           })
-          .where(eq(games.id, gameId)),
+          .where(
+            and(
+              eq(games.id, gameId),
+              eq(games.status, "active"),
+              eq(games.moveCount, row.moveCount),
+            ),
+          ),
+        this.db.insert(gameMoves).values({
+          gameId,
+          moveIndex: sql`(select ${games.moveCount} from ${games} where ${games.id} = ${gameId})`,
+          marbles,
+          destination,
+          isPush: outcome.isPush,
+          isCapture: outcome.isCapture,
+          shovedMarbles: outcome.shovedMarbles,
+          direction: outcome.direction,
+          blackCells,
+          whiteCells,
+          blackScore,
+          whiteScore,
+          currentTurn,
+          signature,
+          createdAt: now,
+        }),
       ]),
     )
-    //the ply's composite key is the backstop: two requests that both passed the
-    //move_count check above cannot both land, and the loser arrives here
+    //the ply's composite key is what turns a lost race into an error: two
+    //requests that both passed the checks above cannot both land, and the
+    //loser arrives here
     if (writeError) throw new CustomError("move_conflict", writeError)
 
     //the write above landed whole, so the stored game is the row already read
