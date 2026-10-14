@@ -258,6 +258,7 @@
     "black": "Black"
   },
   "history": {
+    "title": "Moves",
     "empty": "No moves yet",
     "start": "Start",
     "position": "Move {{index}} of {{total}}",

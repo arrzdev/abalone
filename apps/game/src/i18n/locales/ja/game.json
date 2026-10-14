@@ -257,6 +257,7 @@
     "black": "黒"
   },
   "history": {
+    "title": "棋譜",
     "empty": "まだ手がありません",
     "start": "開始",
     "position": "{{total}}手中 {{index}}手目",

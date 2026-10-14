@@ -257,6 +257,7 @@
     "black": "黑方"
   },
   "history": {
+    "title": "棋步",
     "empty": "暂无棋步",
     "start": "开局",
     "position": "第 {{index}} 步 / 共 {{total}} 步",

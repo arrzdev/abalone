@@ -258,6 +258,7 @@
     "black": "Nero"
   },
   "history": {
+    "title": "Mosse",
     "empty": "Ancora nessuna mossa",
     "start": "Inizio",
     "position": "Mossa {{index}} di {{total}}",

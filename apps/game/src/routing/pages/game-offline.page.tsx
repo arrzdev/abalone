@@ -635,6 +635,7 @@ function GameOfflinePage() {
                 <SeatBar
                   seats={seatColors.map(seatFor)}
                   marbleDesign={marbleDesign}
+                  className="stacked:pt-2"
                   // Only a bot has anything to say, and it says it in the bottom
                   // of the card, under its own end of it.
                   note={
@@ -647,16 +648,18 @@ function GameOfflinePage() {
                         }
                   }
                 />
-                {/* The first thing under the scoreboard, at every size
-                    (TUD-973). Part of the head, so the panel's floor counts it
-                    and a short screen shrinks the board for it rather than
-                    clipping the actions under it. Never over the board: the
+                {/* The first thing under the scoreboard beside the board
+                    (TUD-973). Part of the head, so the panel's floor counts it.
+                    Stacked under the board it is a bar in the move history's
+                    slot instead (see `IngameControls`): as a card here it took
+                    its height from the board. Never over the board: the
                     presses it teaches land there. */}
                 {guide.step && (
                   <FirstGameGuide
                     step={guide.step}
                     onNext={guide.next}
                     onSkip={guide.skip}
+                    className="stacked:hidden"
                   />
                 )}
               </div>
@@ -707,6 +710,16 @@ function GameOfflinePage() {
                 onUndo={game.undoMove}
                 onResign={() => setResignOpen(true)}
                 onNewGame={isLocal ? undefined : game.handleNewBot}
+                guide={
+                  guide.step && (
+                    <FirstGameGuide
+                      layout="bar"
+                      step={guide.step}
+                      onNext={guide.next}
+                      onSkip={guide.skip}
+                    />
+                  )
+                }
               />
             )}
 

@@ -11,6 +11,12 @@ export type FirstGameGuideProps = {
   step: GuideStep
   onNext: () => void
   onSkip: () => void
+  /**
+   * `card` is the full card under the scoreboard beside the board. `bar` is
+   * the phone's: one row in the move history's slot, so the board keeps its
+   * size while the guide is open.
+   */
+  layout?: "card" | "bar"
   className?: string
 }
 
@@ -29,10 +35,63 @@ export function FirstGameGuide({
   step,
   onNext,
   onSkip,
+  layout = "card",
   className,
 }: FirstGameGuideProps) {
   const { t } = useTranslation()
   const isLast = guideStepNumber(step) === GUIDE_STEP_COUNT
+
+  const actions = (
+    <>
+      <Button variant="ghost" size="sm" onClick={onSkip}>
+        {t("game:guide.skip")}
+      </Button>
+      <Button
+        variant={isLast ? "primary" : "ghost"}
+        size="sm"
+        onClick={onNext}
+      >
+        {isLast ? t("game:guide.done") : t("game:guide.next")}
+      </Button>
+    </>
+  )
+
+  if (layout === "bar") {
+    return (
+      // The slot it stands in is the size container: the body line shows only
+      // when the slot already has the height for it, and never makes it taller.
+      // A slot that tall reads from the top, like the move list it stands in for.
+      <section
+        aria-label={t("game:guide.title")}
+        className={cn(
+          "flex min-w-0 flex-1 flex-col justify-center rounded-xl bg-surface-2 py-1 ps-3 pe-1",
+          "[@container(min-height:7.75rem)]:justify-start [@container(min-height:7.75rem)]:pt-2",
+          className,
+        )}
+      >
+        <div
+          key={step}
+          className="flex items-center gap-1 motion-safe:animate-guide-in"
+        >
+          <div className="min-w-0 flex-1 leading-tight">
+            <p className="truncate text-xs font-semibold text-brand-light">
+              {t("game:guide.step", {
+                current: guideStepNumber(step),
+                total: GUIDE_STEP_COUNT,
+              })}
+            </p>
+            <h2 className="truncate font-display text-sm font-semibold text-white">
+              {t(`game:guide.${step}_title`)}
+            </h2>
+          </div>
+          {actions}
+        </div>
+        <p className="mt-1 hidden pe-2 text-sm text-subtle [@container(min-height:7.75rem)]:line-clamp-3">
+          {t(`game:guide.${step}_body`)}
+        </p>
+      </section>
+    )
+  }
 
   return (
     <section
@@ -53,18 +112,7 @@ export function FirstGameGuide({
           {t(`game:guide.${step}_body`)}
         </p>
       </div>
-      <div className="mt-3 flex justify-end gap-2">
-        <Button variant="ghost" size="sm" onClick={onSkip}>
-          {t("game:guide.skip")}
-        </Button>
-        <Button
-          variant={isLast ? "primary" : "ghost"}
-          size="sm"
-          onClick={onNext}
-        >
-          {isLast ? t("game:guide.done") : t("game:guide.next")}
-        </Button>
-      </div>
+      <div className="mt-3 flex justify-end gap-2">{actions}</div>
     </section>
   )
 }

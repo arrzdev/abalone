@@ -258,6 +258,7 @@
     "black": "Pretas"
   },
   "history": {
+    "title": "Jogadas",
     "empty": "Ainda sem jogadas",
     "start": "Início",
     "position": "Jogada {{index}} de {{total}}",

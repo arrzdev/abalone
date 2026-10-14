@@ -258,6 +258,7 @@
     "black": "Zwart"
   },
   "history": {
+    "title": "Zetten",
     "empty": "Nog geen zetten",
     "start": "Start",
     "position": "Zet {{index}} van {{total}}",
