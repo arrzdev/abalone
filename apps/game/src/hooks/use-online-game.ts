@@ -25,13 +25,14 @@ import type { RefObject } from "react"
 import {
   useCallback,
   useEffect,
-  useLayoutEffect,
   useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
 } from "react"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import {
+  MoveRefusedError,
   playMoveMutationOptions,
   resignGameMutationOptions,
 } from "@/data/online/mutations"
@@ -46,7 +47,10 @@ import { useApiError } from "@/hooks/use-api-error"
 import { useAnimationsEnabled } from "@/hooks/use-app-preferences"
 import { useAuth } from "@/providers/auth-provider"
 import { useRealtime } from "@/providers/realtime-provider"
-import { TIMING } from "@/render/motion"
+import type { MoveFailure } from "@/utils/board-timeline"
+import { failedMoveVerdict } from "@/utils/board-timeline"
+import type { OnlineBoardLog } from "@/utils/online-board-store"
+import { OnlineBoardStore } from "@/utils/online-board-store"
 import { playFallSound, playMoveSound, primeSounds } from "@/utils/sound"
 import type { SyncState } from "@/utils/sync-state"
 import { syncStateOf } from "@/utils/sync-state"
@@ -61,14 +65,16 @@ import { syncStateOf } from "@/utils/sync-state"
 const POLL_WAITING_MS = 3_000
 const POLL_MY_TURN_MS = 15_000
 
-/** How long an arriving move is given to play out before it is given up on. */
-const ANIMATION_CEILING_MS = TIMING.MOVE * 4
-
 /** Which seat a player holds, or null when they are only watching. */
 function seatOf(game: Game, userId: string): Player | null {
   if (game.black.userId === userId) return "black"
   if (game.white.userId === userId) return "white"
   return null
+}
+
+/** Whether the row's ending, if it has one, is the ending of this ply. */
+function isResultAt(game: Game, index: number): boolean {
+  return game.status === "finished" && game.moveCount === index
 }
 
 /** One stored ply, as the engine's own history entry. */
@@ -116,17 +122,11 @@ export function toGameState(
   const moveHistory = moves.map(toHistoryEntry)
   const latest = Math.max(0, moveHistory.length - 1)
 
-  //the row and the plies are two requests, and the row is the quick one — so a
-  //game the opponent has just won says "finished" a whole round trip before the
-  //move that won it is here. Believed then, the result goes up over the position
-  //BEFORE the winning move, comes down when the plies land and the move plays
-  //out, and goes back up after it: the panel swapping to its postgame form and
-  //back, and the modal blinking, over a board that has not moved yet.
-  //
-  //the row carries the count its own ending was reached at, so it says when it
-  //is safe to believe. Until the history has caught up with that number, this
-  //is a game still in progress as far as anything reading it is concerned.
-  const settled = game.moveCount === latest
+  //the row's result belongs to the ply it was reached at, which the row names
+  //with its own `moveCount`: a game won by the move these plies do not hold yet
+  //is not over on this position. the same rule the board applies to the ply it
+  //shows (`isResultAt`), so a cut and a ply played out agree on it.
+  const endedHere = isResultAt(game, latest)
 
   const base: GameState = {
     ...createGameState(game.setupType, mySeat, "online"),
@@ -136,9 +136,9 @@ export function toGameState(
     setupType: game.setupType,
     mode: "online",
     shouldFlipBoard: mySeat === "white",
-    gameOver: settled && game.status === "finished",
-    gameOverReason: settled ? game.finishReason : null,
-    winner: settled ? game.winner : null,
+    gameOver: endedHere,
+    gameOverReason: endedHere ? game.finishReason : null,
+    winner: endedHere ? game.winner : null,
   }
 
   return goToMove(base, Math.min(viewIndex ?? latest, latest))
@@ -171,6 +171,9 @@ export type OnlineGame = {
   resign: () => void
 }
 
+/** What the board draws before the first ply has arrived. */
+const EMPTY_STATE = createGameState(undefined, "black", "online")
+
 /**
  * One correspondence game: what the server holds, and what this device can do
  * about it.
@@ -180,9 +183,9 @@ export type OnlineGame = {
  * none of which exist here — and the one thing they would share, the rules, is
  * the engine both of them already call.
  *
- * The server is the authority, so there is no rollback snapshot: a move that is
- * refused is not undone, it is simply never believed. The board goes back to
- * whatever the server says, because that is what the game actually is.
+ * The board and the panel read one thing: the ply the board shows, which only
+ * `OnlineBoardStore` moves (`docs/online-board.md`). The queries are its inputs.
+ * They decide when a ply is shown, never what is shown.
  */
 export function useOnlineGame(
   gameId: string,
@@ -229,18 +232,8 @@ export function useOnlineGame(
   }, [])
 
   const game = gameQuery.data
-  const moves = useMemo(() => movesQuery.data ?? [], [movesQuery.data])
+  const plies = movesQuery.data
   const mySeat = game ? seatOf(game, myUserId) : null
-
-  /**
-   * Whether the two halves of the game agree.
-   *
-   * The row and the plies are separate requests and the row is the quick one, so
-   * between the two there is a window where this device knows a move exists and
-   * cannot draw it. Nothing that speaks for the game as it stands is true in
-   * that window, which is why this is read in more than one place.
-   */
-  const caughtUp = !!game && game.moveCount === moves.length - 1
 
   /**
    * The poll notices; this fetches.
@@ -253,7 +246,9 @@ export function useOnlineGame(
    * would poll forever and never repaint.
    */
   const behind =
-    !!game && !movesQuery.isFetching && game.moveCount > moves.length - 1
+    !!game &&
+    !movesQuery.isFetching &&
+    game.moveCount > (plies?.length ?? 0) - 1
 
   useEffect(() => {
     if (!behind) return
@@ -282,149 +277,170 @@ export function useOnlineGame(
     }
   }, [isFinished, queryClient])
 
-  /**
-   * The move this device has played and the server has not confirmed.
-   *
-   * It stands until the move log catches up with it, then retires itself. That
-   * is what keeps the board still through the gap between the mutation
-   * answering and the refetched plies arriving, without anything having to
-   * remember to clear it.
-   */
-  const [pending, setPending] = useState<{
-    state: GameState
-    atIndex: number
-  } | null>(null)
-
   /** Which ply is being looked at. Null is the live one. */
   const [viewIndex, setViewIndex] = useState<number | null>(null)
 
+  //what the store reads at the moment it takes a step, rather than what it was
+  //built with. written here and nowhere else.
+  const liveRef = useRef({ animationsEnabled, viewIndex })
+  liveRef.current = { animationsEnabled, viewIndex }
+
+  //one per game: a store never carries a ply from one game into another
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `gameId` is the key a new store is made on, not something the store reads.
+  const store = useMemo(
+    () =>
+      new OnlineBoardStore({
+        canAnimate: () =>
+          liveRef.current.animationsEnabled &&
+          liveRef.current.viewIndex === null &&
+          !document.hidden &&
+          boardRef.current !== null,
+        animate: (move) =>
+          boardRef.current?.animateMove(move) ?? Promise.resolve(),
+        stopAnimation: () => boardRef.current?.stopAnimation(),
+        onPlayed: (outcome) => {
+          playMoveSound(outcome.movingMarbles.length)
+          if (outcome.isCapture) playFallSound()
+        },
+      }),
+    [gameId, boardRef],
+  )
+
+  useEffect(() => {
+    store.attach()
+    return () => store.detach()
+  }, [store])
+
+  //the server renders the store as made: no ply yet, the placeholder board
+  const board = useSyncExternalStore(
+    store.subscribe,
+    store.getSnapshot,
+    store.getSnapshot,
+  )
+
   /**
-   * The position held on screen while the move that leaves it plays out.
-   *
-   * An arriving ply is a whole move, not a new picture — the marbles slid, and
-   * on a push they took the other player's with them. Painting the position it
-   * ended in would throw all of that away, so the board is kept one ply behind
-   * until the animation that gets it there has finished.
+   * The server's log, as one snapshot. The last index, the move behind each ply
+   * and the position a cut lands on all come from the same plies, so a newer
+   * row is never mixed with older plies.
    */
-  const [replay, setReplay] = useState<GameState | null>(null)
+  const log = useMemo((): OnlineBoardLog | null => {
+    if (!game || !plies || plies.length === 0) return null
+    return {
+      latest: plies.length - 1,
+      moveAt: (index) => {
+        const ply = plies[index]
+        if (!ply?.marbles || !ply.destination) return undefined
+        return { marbles: ply.marbles, destination: ply.destination }
+      },
+      //the seat is laid over at read time: it is who is looking, not the game
+      stateAt: (index) =>
+        toGameState(game, plies.slice(0, index + 1), "black", null),
+    }
+  }, [game, plies])
 
-  //the last ply the board has actually shown. what makes an arriving move worth
-  //playing out is being exactly one past this: a longer jump is a cold start or
-  //a tab that was in the background, and a flurry of moves at once is not
-  //something anybody is watching.
-  const shownIndexRef = useRef(-1)
-  const viewIndexRef = useRef(viewIndex)
-  viewIndexRef.current = viewIndex
+  useEffect(() => {
+    if (log) store.setLog(log)
+  }, [store, log])
 
-  //the marbles picked up, and the square under the pointer. the only part of
-  //this screen that is this device's own — everything else belongs to the
-  //server, which is why it is held apart rather than written into the board.
-  const [selection, setSelection] = useState<CellName[]>([])
+  //the marbles picked up, and the square under the pointer: the only part of
+  //this screen that is this device's own. a selection belongs to the ply it was
+  //made on, so it is gone the moment the board shows another one.
+  const [selection, setSelection] = useState<{
+    at: number
+    cells: CellName[]
+  } | null>(null)
   const [hovered, setHovered] = useState<CellName | null>(null)
 
-  const serverState = useMemo(() => {
-    if (!game || moves.length === 0) {
-      return createGameState(undefined, "black", "online")
-    }
-    return toGameState(game, moves, mySeat ?? "black", viewIndex)
-  }, [game, moves, mySeat, viewIndex])
+  const shown = board.shown
+  const shownIndex = shown?.index ?? -1
 
-  const isPendingLive =
-    pending !== null && moves.length - 1 < pending.atIndex
-  const position = isPendingLive ? pending.state : (replay ?? serverState)
+  const state = useMemo((): GameState => {
+    if (!shown) return EMPTY_STATE
 
-  /**
-   * The opponent's move, played out rather than pasted in.
-   *
-   * The stored ply carries the marbles and where they went, which is what the
-   * engine needs to work out the rest — which marbles travel, a pushed line
-   * included, and in which direction. So the move is handed back to `makeMove`
-   * from the position before it, and the board is given the same thing it is
-   * given when this device plays: a set of marbles and a step to move them.
-   *
-   * Skipped while the game is being read back, while a tab is in the background
-   * (an animation nothing is painting would never finish, and would strand the
-   * board on the old position), and when animations are off.
-   *
-   * A *layout* effect, and that part is load-bearing. The plies arriving is what
-   * schedules this, so by the time it runs React has already committed a render
-   * holding the position the move ends in — the board drawn at its destination
-   * and the new move written into the record. Held back until after the paint,
-   * this would show that, take it away, and put it back when the animation
-   * finished: the move landing twice with a blink between. Running before the
-   * paint is what makes the whole thing one frame instead of three.
-   */
-  useLayoutEffect(() => {
-    const latest = moves.length - 1
-    if (!game || !mySeat || latest < 0 || replay) return
-
-    const shown = shownIndexRef.current
-    if (shown >= latest) return
-    shownIndexRef.current = latest
-
-    if (latest - shown !== 1) return
-    if (!animationsEnabled || viewIndexRef.current !== null) return
-    if (document.hidden) return
-
-    const ply = moves[latest]
-    const board = boardRef.current
-    if (!board || !ply?.marbles || !ply.destination) return
-
-    //the game as it stood one ply ago, and *only* that: the plies after it
-    //truncated rather than rewound, so the board does not announce that it is
-    //showing an old position, and the result cleared, so a game the arriving
-    //move ends does not put its modal up over the move that ends it
-    const before: GameState = {
-      ...toGameState(game, moves.slice(0, latest), mySeat, null),
-      gameOver: false,
-      gameOverReason: null,
-      winner: null,
-      lastMove: null,
+    const seat = mySeat ?? "black"
+    const seated: GameState = {
+      ...shown.state,
+      playerColor: seat,
+      shouldFlipBoard: seat === "white",
     }
 
-    const { result } = makeMove(before, ply.marbles, ply.destination)
-    if (!result) return
+    //the row's ending shows on the ply it was reached at. A resignation adds
+    //no ply, so it lands on the ply already on the board.
+    const live: GameState =
+      game && isResultAt(game, shown.index)
+        ? {
+            ...seated,
+            gameOver: true,
+            gameOverReason: game.finishReason,
+            winner: game.winner,
+          }
+        : seated
 
-    setReplay(before)
+    //reading the game back is a view on top of the board, never a move of it
+    const viewed =
+      viewIndex !== null && viewIndex < shown.index
+        ? goToMove(live, viewIndex)
+        : live
 
-    //the board is driven by requestAnimationFrame, which a browser stops
-    //serving to a tab nobody is looking at — so an animation that starts just
-    //as the tab goes away has no frame on which to finish, and the hold it is
-    //waiting on would keep the board a move behind until the tab came back.
-    //whichever settles first wins, and the ceiling is far enough past a move
-    //that reaching it means the frames stopped rather than that they were slow.
-    const settled = Promise.race([
-      board
-        .animateMove({
-          movingMarbles: result.movingMarbles,
-          direction: result.direction,
-        })
-        .then(() => {
-          playMoveSound(result.movingMarbles.length)
-          if (result.isCapture) playFallSound()
-        }),
-      new Promise((resolve) => setTimeout(resolve, ANIMATION_CEILING_MS)),
-    ])
-    void settled.finally(() => setReplay(null))
-  }, [moves, game, mySeat, replay, animationsEnabled, boardRef])
-
-  const state = useMemo(
-    () => ({
-      ...position,
-      selectedMarbles: selection,
+    return {
+      ...viewed,
+      selectedMarbles:
+        selection?.at === shown.index && viewed === live
+          ? selection.cells
+          : [],
       hoveredCell: hovered,
-    }),
-    [position, selection, hovered],
-  )
+    }
+  }, [shown, game, mySeat, viewIndex, selection, hovered])
 
   const stateRef = useRef(state)
   stateRef.current = state
-  const busyRef = useRef(false)
 
   const possibleMoves = useMemo(
     () =>
       getPossibleMoves(state, state.selectedMarbles, isBlackTurn(state)),
     [state],
+  )
+
+  /**
+   * A play request that failed is not a refusal on its own: its answer may
+   * have been lost after the server played the move. Only a domain error is
+   * one. Anything else asks the server for its log until the log has the move
+   * (`nextBoardStep` then confirms it, or cuts to a different one there) or
+   * `failedMoveVerdict` gives up on it.
+   */
+  const settleFailedMove = useCallback(
+    async (error: Error, index: number) => {
+      const failure: MoveFailure =
+        error instanceof MoveRefusedError ? "refused" : "unknown"
+
+      for (let refetches = 0; ; refetches++) {
+        const logged = queryClient.getQueryData(
+          gameMovesQueryOptions(gameId).queryKey,
+        )
+        const verdict = failedMoveVerdict({
+          failure,
+          index,
+          serverLatest: (logged?.length ?? 0) - 1,
+          refetches,
+        })
+        if (verdict === "settled") return
+        if (verdict === "refused") {
+          store.refuse(index, error)
+          //the game moved on, or the move was not legal on it: either way
+          //the row says where it stands now
+          void queryClient.invalidateQueries({
+            queryKey: onlineKeys.game(gameId),
+            exact: true,
+          })
+          return
+        }
+        //the row and its plies (the key is a prefix of the plies' key)
+        await queryClient.refetchQueries({
+          queryKey: onlineKeys.game(gameId),
+        })
+      }
+    },
+    [gameId, queryClient, store],
   )
 
   const play = useMutation({
@@ -433,45 +449,14 @@ export function useOnlineGame(
     //is in flight, the answer to it is the thing that will write the row, so
     //the echo announcing it is dropped rather than raced with.
     mutationKey: onlineKeys.write(gameId),
-    //this device has already watched this move: it played it, and the marbles
-    //have finished sliding by the time this runs. claiming the ply here rather
-    //than on the answer is what stops it being played out a second time — the
-    //other player's device is told the move landed at the same moment this one
-    //is, so its beacon can bring the plies back before the answer to this
-    //request has arrived. The board would then find a move one past the last it
-    //showed and slide the marbles back a ply to replay it: the snap.
-    onMutate: ({ moveIndex }) => {
-      const claimed = shownIndexRef.current
-      shownIndexRef.current = moveIndex + 1
-      return { claimed }
-    },
-    //the row and nothing else. writing a `moveCount` one ahead of the history is
-    //already the signal that the plies are worth asking for, and the effect
-    //below is what acts on it — for the opponent's move and for this one alike.
-    //Asking for them here as well is a second fetch of the same list, and
-    //`invalidateQueries` cancels the one in flight to start it: the plies land
-    //later than they would have, and the board holds its pending position for
-    //the length of a round trip that bought nothing.
+    //the row and nothing else. a `moveCount` one ahead of the plies is what asks
+    //for them (`behind`), and the plies are what confirm the move
     onSuccess: (row) => {
-      shownIndexRef.current = row.moveCount
       queryClient.setQueryData(onlineKeys.game(gameId), row)
       patchHubLists(queryClient, row)
     },
-    //believing the server is the whole rollback: dropping what this device
-    //played leaves the board showing the position the game is actually in, and
-    //the ply it claimed goes back to whoever holds it there.
-    //
-    //asking for the row too, because a failure here is not proof the move was
-    //refused — an answer lost on the way back is a move the server played and
-    //this device never saw. The beacon that would have said so was dropped as
-    //this write's own echo, so this is what is left to ask.
-    onError: (_error, _variables, context) => {
-      if (context) shownIndexRef.current = context.claimed
-      setPending(null)
-      void queryClient.invalidateQueries({
-        queryKey: onlineKeys.game(gameId),
-        exact: true,
-      })
+    onError: (error, { moveIndex }) => {
+      void settleFailedMove(error, moveIndex + 1)
     },
   })
 
@@ -487,78 +472,38 @@ export function useOnlineGame(
   const viewingHistory =
     state.currentMoveIndex < state.moveHistory.length - 1
 
+  //read off the shown ply and the store alone: the row arriving ahead of its
+  //plies cannot open the board early, and a move of ours waiting on the server
+  //keeps it shut until it is confirmed or refused
   const interactive =
-    !!game &&
-    game.status === "active" &&
+    shown !== null &&
     mySeat !== null &&
-    mySeat === game.currentTurn &&
+    !state.gameOver &&
+    state.currentTurn === mySeat &&
     !viewingHistory &&
-    //the row arrives a round trip ahead of the plies, so it says it is your turn
-    //while the board is still showing the position before their move. A tap in
-    //that gap reads its marbles off the old board and submits them against the
-    //new `moveCount`, which is a move nobody chose being played on a position
-    //nobody was shown.
-    caughtUp &&
-    //and then the same gap again on the other side of it, while their move is
-    //sliding across the board
-    replay === null &&
-    !play.isPending
+    board.optimistic === null &&
+    !board.animating
 
   const executeMove = useCallback(
-    async (selection: CellName[], destination: CellName) => {
+    (selected: CellName[], destination: CellName) => {
       const current = stateRef.current
-      const row = gameQuery.data
-      if (!row || busyRef.current) return
-
-      const { state: next, result } = makeMove(
-        current,
-        selection,
-        destination,
-      )
       //an illegal move never leaves the device. the server would refuse it
       //too, and a round trip to be told so is a round trip for nothing.
-      if (!result) return
+      if (!makeMove(current, selected, destination).result) return
 
-      busyRef.current = true
-      try {
-        //the tap that played this is the only moment a browser will let the
-        //audio device be woken, and it has to be taken before anything awaits
-        primeSounds()
+      const moveIndex = store.getSnapshot().shown?.index
+      if (moveIndex === undefined) return
+      if (!store.play({ marbles: selected, destination })) return
 
-        //the marbles are down and the last move's arrows are gone before the
-        //animation starts, so what plays out is this move rather than the one
-        //before it clearing up
-        setHovered(null)
-        setPending({
-          state: { ...current, lastMove: null },
-          atIndex: row.moveCount + 1,
-        })
+      //the tap that played this is the only moment a browser will let the
+      //audio device be woken, and it has to be taken before anything awaits
+      primeSounds()
+      setHovered(null)
+      setViewIndex(null)
 
-        if (animationsEnabled && boardRef.current) {
-          await boardRef.current.animateMove({
-            movingMarbles: result.movingMarbles,
-            direction: result.direction,
-          })
-        }
-
-        playMoveSound(result.movingMarbles.length)
-        if (result.isCapture) playFallSound()
-
-        setSelection([])
-        setPending({ state: next, atIndex: row.moveCount + 1 })
-        setViewIndex(null)
-
-        play.mutate({
-          gameId,
-          marbles: selection,
-          destination,
-          moveIndex: row.moveCount,
-        })
-      } finally {
-        busyRef.current = false
-      }
+      play.mutate({ gameId, marbles: selected, destination, moveIndex })
     },
-    [animationsEnabled, boardRef, gameId, gameQuery.data, play.mutate],
+    [gameId, play.mutate, store],
   )
 
   const setHoveredCell = useCallback(
@@ -569,7 +514,7 @@ export function useOnlineGame(
   const handleCellClick = useCallback(
     (pos: CellName) => {
       const current = stateRef.current
-      if (!interactive || busyRef.current) return
+      if (!interactive) return
 
       const moveTo = getPossibleMoves(
         current,
@@ -577,31 +522,32 @@ export function useOnlineGame(
         isBlackTurn(current),
       )
       if (moveTo.includes(pos)) {
-        void executeMove([...current.selectedMarbles], pos)
+        executeMove([...current.selectedMarbles], pos)
         return
       }
 
       const color = getMarbleAt(current, pos)
       if (!color) {
-        setSelection([])
+        setSelection(null)
         return
       }
       if (!isValidSelection(current, pos)) return
 
-      setSelection(
-        current.selectedMarbles.includes(pos)
+      setSelection({
+        at: shownIndex,
+        cells: current.selectedMarbles.includes(pos)
           ? deselectMarble(current.selectedMarbles, pos)
           : selectMarble(current, current.selectedMarbles, pos, color),
-      )
+      })
       setHovered(null)
     },
-    [executeMove, interactive],
+    [executeMove, interactive, shownIndex],
   )
 
   const handleDragSelect = useCallback(
     (anchor: CellName, pos: CellName) => {
       const current = stateRef.current
-      if (!interactive || busyRef.current) return 0
+      if (!interactive) return 0
       if (!isValidSelection(current, anchor)) return 0
 
       const run = selectRun(current, anchor, pos)
@@ -610,10 +556,10 @@ export function useOnlineGame(
       const same =
         current.selectedMarbles.length === run.length &&
         run.every((cell, index) => current.selectedMarbles[index] === cell)
-      if (!same) setSelection(run)
+      if (!same) setSelection({ at: shownIndex, cells: run })
       return run.length
     },
-    [interactive],
+    [interactive, shownIndex],
   )
 
   const latestIndex = state.moveHistory.length - 1
@@ -630,18 +576,17 @@ export function useOnlineGame(
    */
   const goToMoveIndex = useCallback(
     (index: number) => {
-      setSelection([])
+      setSelection(null)
       setHovered(null)
       //stepping through the game is opting out of watching the move that is
-      //arriving. the hold outranks the review, so leaving it in place would
-      //make the buttons do nothing until the marbles had finished moving.
-      setReplay(null)
+      //arriving: it lands at once instead
+      boardRef.current?.stopAnimation()
       setViewIndex(index >= latestIndex ? null : Math.max(0, index))
     },
-    [latestIndex],
+    [boardRef, latestIndex],
   )
 
-  const failure = play.error ?? resignGame.error ?? gameQuery.error
+  const failure = board.refusal ?? resignGame.error ?? gameQuery.error
 
   //the row is what says whether this device is looking at the game as it
   //stands, and the plies follow from it: a `moveCount` ahead of the history
