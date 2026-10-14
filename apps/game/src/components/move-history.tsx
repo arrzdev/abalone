@@ -10,6 +10,7 @@ import { Fragment, useEffect, useMemo, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { MarbleGlyph } from "@/components/marble-glyph"
 import { TapButton } from "@/components/ui/tap-button"
+import type { ScrollEdges } from "@/hooks/use-scroll-edges"
 import { useScrollEdges } from "@/hooks/use-scroll-edges"
 import type { ScrollAxis } from "@/hooks/use-sticky-end"
 import { useStickyEnd } from "@/hooks/use-sticky-end"
@@ -140,13 +141,15 @@ function StripContent({
  * by both of its renderings — the list runs down and the strip runs across, and
  * that is the whole of the difference between them here.
  *
- * Three things move it, and they are not the same kind of thing:
+ * Four things move it, and they are not the same kind of thing:
  *
- * A move is played. The record grows at its end, and it follows — but only for
- * a reader who was standing at that end. Someone who has gone back to look at
- * the opening is reading, and a game against a bot would otherwise drag them
- * out of it twice a minute. That is `useStickyEnd`, and it is the same bargain
- * a chat window makes.
+ * A move is played. The record grows at its end, and when the position on the
+ * board is the newest one, the record goes to its end with it — wherever the
+ * reader had scrolled. A move is the one thing on this screen that has just
+ * happened, and a record that lets it land out of sight leaves you checking the
+ * board to find out what the computer did. Someone reviewing an older position
+ * is a different case: the board is showing them that move, so the record keeps
+ * that one in view instead.
  *
  * The game ends. The result is written under the last move, and it is the one
  * line worth interrupting a reader for, so this one goes to the foot from
@@ -159,6 +162,14 @@ function StripContent({
  * Somewhere is asked for: a row tapped, a step back, a jump to the latest.
  * Nothing was added and nobody was interrupted; the reader asked to be
  * somewhere, and all this has to do is put it on screen.
+ *
+ * The box changes size. A record shown again after the guide gave its slot
+ * back was laid out at no size at all while it was hidden, so the follow that
+ * ran for each move then went nowhere; late fonts and marble glyphs widen the
+ * chips after the follow, and turning the phone changes everything. While the
+ * newest move is the current one and the reader is still at the end, each of
+ * those goes to the end again. A reader who has swiped back to read is left
+ * where they are until the next move.
  */
 function useRecordScroll(
   ref: RefObject<HTMLElement | null>,
@@ -179,6 +190,8 @@ function useRecordScroll(
   // It starts at nothing, which makes a fresh box a box that has just been
   // filled — and a record opened at its end is the right way round to open one.
   const seenRef = useRef({ entries: 0, ended: false })
+  // Read by the size watcher below, which outlives any one render.
+  const atNewestRef = useRef(true)
 
   useEffect(() => {
     const box = ref.current
@@ -186,12 +199,14 @@ function useRecordScroll(
 
     const seen = seenRef.current
     seenRef.current = { entries, ended }
+    const atNewest = current === entries - 1
+    atNewestRef.current = atNewest
 
     if (ended && !seen.ended) {
       follow()
-    } else if (entries !== seen.entries) {
-      followIfPinned()
-    } else if (ended && current === entries - 1) {
+    } else if (entries !== seen.entries && atNewest) {
+      follow()
+    } else if (ended && atNewest) {
       follow()
     } else {
       box.querySelector('[data-current="true"]')?.scrollIntoView({
@@ -200,7 +215,22 @@ function useRecordScroll(
         inline: axis === "x" ? "center" : "nearest",
       })
     }
-  }, [axis, current, ended, entries, follow, followIfPinned, ref])
+  }, [axis, current, ended, entries, follow, ref])
+
+  // The box and what is in it: a box resizes when it is shown or turned, and
+  // its content when the chips inside it take their final width. Observed
+  // again with every move, which is when the content gains a child.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: `entries` is a trigger — a new move is a new child to observe.
+  useEffect(() => {
+    const box = ref.current
+    if (!box || typeof ResizeObserver === "undefined") return
+    const observer = new ResizeObserver(() => {
+      if (atNewestRef.current) followIfPinned()
+    })
+    observer.observe(box)
+    for (const child of box.children) observer.observe(child)
+    return () => observer.disconnect()
+  }, [entries, followIfPinned, ref])
 }
 
 /**
@@ -237,6 +267,8 @@ export function MoveStrip({
     axis: "x",
   })
 
+  const edges = useScrollEdges(stripRef, moveHistory.length, "x")
+
   // A game can end before anyone has moved — resign on move one — and then the
   // result is the only thing the record has to say. It still has to say it.
   if (moves.length === 0 && !result) {
@@ -256,7 +288,7 @@ export function MoveStrip({
   return (
     <section
       aria-label={t("game:history.title")}
-      className={cn("overflow-hidden", className)}
+      className={cn("relative overflow-hidden", className)}
     >
       <div
         ref={stripRef}
@@ -323,6 +355,11 @@ export function MoveStrip({
           />
         )}
       </div>
+
+      {/* The list's fades, turned on their side: the older moves run off the
+          left, and the line fades there while there are any. */}
+      <EdgeFade axis="x" edge="start" visible={edges.start} />
+      <EdgeFade axis="x" edge="end" visible={edges.end} />
     </section>
   )
 }
@@ -485,7 +522,7 @@ export function MoveHistory({
     ended: Boolean(result),
   })
 
-  const edges = useScrollEdges(listRef, pairs.length)
+  const edges = useScrollEdges(listRef, pairs.length, "y")
 
   // See `MoveStrip`: a resignation on move one is a record with a result and
   // nothing else in it.
@@ -569,14 +606,30 @@ export function MoveHistory({
           After the list rather than before it. Both would paint over it — a
           positioned box outranks its in-flow siblings whatever the order — but
           the order they are read in should be the order they are drawn in. */}
-      <EdgeFade className="top-0 bg-linear-to-b" visible={edges.top} />
-      <EdgeFade
-        className="bottom-0 bg-linear-to-t"
-        visible={edges.bottom}
-      />
+      <EdgeFade axis="y" edge="start" visible={edges.start} />
+      <EdgeFade axis="y" edge="end" visible={edges.end} />
     </section>
   )
 }
+
+/**
+ * Where each fade lies, by the axis the box scrolls along and which end it is.
+ * Start is the older side: the top of the list, the left of the strip.
+ */
+const EDGE_FADES: Record<ScrollAxis, Record<ScrollEdge, string>> = {
+  y: {
+    start:
+      "inset-x-0 top-0 h-[clamp(0.875rem,12%,1.75rem)] bg-linear-to-b",
+    end: "inset-x-0 bottom-0 h-[clamp(0.875rem,12%,1.75rem)] bg-linear-to-t",
+  },
+  x: {
+    start:
+      "inset-y-0 left-0 w-[clamp(0.875rem,12%,1.75rem)] bg-linear-to-r",
+    end: "inset-y-0 right-0 w-[clamp(0.875rem,12%,1.75rem)] bg-linear-to-l",
+  },
+}
+
+type ScrollEdge = keyof ScrollEdges
 
 /**
  * One end of a scrolling box, fading out.
@@ -586,30 +639,37 @@ export function MoveHistory({
  * list under a haze. So it is 12% of whatever the box turns out to be, floored
  * at 14px — under that it stops reading as a fade and starts reading as a smudge
  * — and capped at 28px, which is about one row: past that it is a row you can't
- * read rather than an edge you can see over.
+ * read rather than an edge you can see over. Across the strip the same 28px is
+ * about one chip.
  *
- * It takes no layout — the list is the same size with it and without it — and no
- * taps: it lies over rows that are still there to be pressed.
+ * It takes no layout — the box is the same size with it and without it — and no
+ * taps or swipes: it lies over moves that are still there to be pressed.
+ * Opacity is the only thing that changes, so showing and hiding it is the
+ * compositor's job.
  *
  * `from-surface-2` is the box's own fill, which is what makes this read as the
  * content running under an edge rather than as a band drawn across it.
+ *
+ * `data-scroll-edge` names the end, `start` or `end`, the same for both axes.
  */
 function EdgeFade({
+  axis,
+  edge,
   visible,
-  className,
 }: {
+  axis: ScrollAxis
+  edge: ScrollEdge
   visible: boolean
-  className?: string
 }) {
   return (
     <div
       aria-hidden="true"
+      data-scroll-edge={edge}
       className={cn(
-        "pointer-events-none absolute inset-x-0 from-surface-2 to-transparent",
-        "h-[clamp(0.875rem,12%,1.75rem)]",
+        "pointer-events-none absolute from-surface-2 to-transparent",
         "transition-opacity duration-200",
         visible ? "opacity-100" : "opacity-0",
-        className,
+        EDGE_FADES[axis][edge],
       )}
     />
   )

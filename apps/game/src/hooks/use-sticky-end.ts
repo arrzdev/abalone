@@ -20,7 +20,8 @@ type AxisNames = {
   box: "clientHeight" | "clientWidth"
 }
 
-const AXES: Record<ScrollAxis, AxisNames> = {
+/** The scroll properties of one axis, by what they mean along it. */
+export const SCROLL_AXES: Record<ScrollAxis, AxisNames> = {
   y: { pos: "scrollTop", span: "scrollHeight", box: "clientHeight" },
   x: { pos: "scrollLeft", span: "scrollWidth", box: "clientWidth" },
 }
@@ -64,7 +65,7 @@ export function useStickyEnd(
   contentKey: unknown,
   axis: ScrollAxis = "y",
 ): StickyEnd {
-  const { pos, span, box } = AXES[axis]
+  const { pos, span, box } = SCROLL_AXES[axis]
   const pinned = useRef(true)
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: `contentKey` is a trigger, not something the effect reads — see above.
