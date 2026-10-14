@@ -1,7 +1,7 @@
 import type { Locator, Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
 import { startOfflineGame, startOnlineGame } from "./support/app"
-import { playMove } from "./support/board"
+import { moveList, playMove } from "./support/board"
 
 // On a phone the board is the game, so nothing else on the game screen may
 // take its room. The first-game guide used to sit under the scoreboard as a
@@ -211,7 +211,11 @@ function edgeFadeShows(page: Page, edge: "start" | "end") {
     .evaluate((element) => Number(getComputedStyle(element).opacity) > 0.5)
 }
 
-/** Plays your move against the computer and waits for its answer. */
+/**
+ * Plays your move against the computer and waits for its answer. Counted on
+ * the page rather than in the card: while the guide is open the card is not
+ * shown.
+ */
 async function playAgainstBot(
   page: Page,
   from: string,
@@ -219,7 +223,7 @@ async function playAgainstBot(
   movesAfter: number,
 ) {
   await playMove(page, from, to)
-  await expect(movePills(page)).toHaveCount(movesAfter, {
+  await expect(moveList(page)).toHaveCount(movesAfter, {
     timeout: 30_000,
   })
 }
