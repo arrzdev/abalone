@@ -2,6 +2,7 @@ import type { GameState } from "@repo/abalone-engine/game-state"
 import { makeMove } from "@repo/abalone-engine/game-state"
 import type { MoveOutcome } from "@repo/abalone-engine/rules"
 import type { MoveAnimation } from "@/components/game-canvas"
+import { recordBoardStep } from "@/test-support/board-steps"
 import type { OptimisticPly, PlyMove } from "@/utils/board-timeline"
 import { nextBoardStep } from "@/utils/board-timeline"
 
@@ -147,6 +148,7 @@ export class OnlineBoardStore {
         })
 
         if (step.kind === "idle") return
+        recordBoardStep({ kind: step.kind, index: step.index })
         if (step.kind === "confirm") {
           //the same state object stays: nothing on screen changes
           this.update({ optimistic: null })
@@ -198,9 +200,15 @@ export class OnlineBoardStore {
         },
         animating: true,
       })
+      const startedAt = performance.now()
       await this.effects.animate({
         movingMarbles: result.movingMarbles,
         direction: result.direction,
+      })
+      recordBoardStep({
+        kind: "landed",
+        index,
+        ms: Math.round(performance.now() - startedAt),
       })
       if (!this.attached) {
         this.update({ animating: false })

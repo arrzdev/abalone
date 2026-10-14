@@ -2,6 +2,7 @@ import type { Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
 import { startOnlineGame } from "./support/app"
 import { expectMarble, selectSquare, tapSquare } from "./support/board"
+import type { Frame } from "./support/frames"
 import {
   describeFrames,
   judgeMove,
@@ -64,16 +65,43 @@ async function playWatched(
   return {
     watcher: {
       reason: judgeMove(watched, { minMotionMs: MIN_MOTION_MS }),
-      frames: describeFrames(watched),
+      frames: await explain(watcher, watched),
     },
     mover: {
       reason: judgeMove(played, {
         minMotionMs: MIN_MOTION_MS,
         landingOnly: true,
       }),
-      frames: describeFrames(played),
+      frames: await explain(mover, played),
     },
   }
+}
+
+/**
+ * The frames as letters, then what a failure needs to say why: how long the
+ * board was in motion, when each frame around the move was painted, and the
+ * steps the board took (played out or cut in, and how long the slide ran).
+ * Diagnostics only: the verdict is `judgeMove`'s.
+ */
+async function explain(page: Page, frames: Frame[]): Promise<string> {
+  const letters = describeFrames(frames)
+  const left = Math.max(0, letters.search(/[^b]/) - 1)
+  const landed = letters.indexOf("a")
+  const motion =
+    landed >= 0
+      ? `${Math.round(frames[landed].at - frames[left].at)} ms`
+      : "?"
+  const around = frames
+    .slice(Math.max(0, left - 2), landed + 3)
+    .map((frame) => Math.round(frame.at))
+    .join(",")
+  const steps = await page.evaluate(() => {
+    const steps = window as Window & { __onlineBoardSteps?: unknown[] }
+    const taken = steps.__onlineBoardSteps ?? []
+    steps.__onlineBoardSteps = []
+    return taken
+  })
+  return `${letters} | motion ${motion} | frames at ${around} | steps ${JSON.stringify(steps)}`
 }
 
 /** Fails softly with the frames in the message, so a failure shows the flicker. */
