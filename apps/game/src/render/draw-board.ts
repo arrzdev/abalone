@@ -69,6 +69,8 @@ export type DrawBoardOptions = {
   reviewing?: boolean
   animation?: BoardAnimation | null
   fading?: Furrow[]
+  /** The cell the keyboard is on, ringed while the board has keyboard focus. */
+  focusCell?: CellName | null
 }
 
 const COLORS = {
@@ -84,6 +86,8 @@ const COLORS = {
   reviewing: "#a14e45",
   white: "#fff",
   black: "#333",
+  /** Keep in step with `--brand-light`, the focus ring everywhere else. */
+  focus: "#60a4d1",
 }
 
 const ROW_LABELS = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
@@ -146,6 +150,9 @@ function drawHexagon(
  * what the eye is meant to be counting, so it stays well inside them.
  */
 const FIELD = 0.36
+
+/** The keyboard focus ring's radius, as a share of a cell's: clear of a marble. */
+const FOCUS_RING = 0.97
 
 /**
  * Its outline is drawn at half the board's line width. Most of what made an
@@ -614,6 +621,7 @@ export function drawBoard(
     reviewing = false,
     animation = null,
     fading = [],
+    focusCell = null,
   }: DrawBoardOptions,
 ): void {
   const {
@@ -772,6 +780,18 @@ export function drawBoard(
       drawMoveIndicator(ctx, pos.x, pos.y, radius)
     }
   })
+
+  // The keyboard's cell, ringed clear of the marble on it in the app's focus
+  // blue, so it reads as "you are here" rather than as one more selection.
+  if (focusCell) {
+    const [r, q] = focusCell.split(",").map(Number)
+    const pos = hexCenter(r, q, centerX, centerY, spacing, flip)
+    ctx.beginPath()
+    ctx.arc(pos.x, pos.y, radius * FOCUS_RING, 0, Math.PI * 2)
+    ctx.lineWidth = baseLineWidth * 1.5
+    ctx.strokeStyle = COLORS.focus
+    ctx.stroke()
+  }
 
   // Pass 3: coordinate overlay on top of the marbles.
   if (showCoordinates) {

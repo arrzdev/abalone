@@ -272,7 +272,11 @@
     "position": "{{black}} {{blackCount}} canicas, {{white}} {{whiteCount}} canicas.",
     "turn": "Mueven {{side}}.",
     "last_move": "Última jugada: {{move}}.",
-    "no_moves": "Aún no hay jugadas."
+    "no_moves": "Aún no hay jugadas.",
+    "cell_black": "{{square}}, canica negra",
+    "cell_white": "{{square}}, canica blanca",
+    "cell_empty": "{{square}}, vacía",
+    "cell_selected": "{{cell}}, seleccionada"
   },
   "guide": {
     "title": "Cómo mover",

@@ -272,7 +272,11 @@
     "position": "{{black}} {{blackCount}} गोलियाँ, {{white}} {{whiteCount}} गोलियाँ।",
     "turn": "{{side}} की चाल।",
     "last_move": "पिछली चाल: {{move}}।",
-    "no_moves": "अभी कोई चाल नहीं।"
+    "no_moves": "अभी कोई चाल नहीं।",
+    "cell_black": "{{square}}, काली गोली",
+    "cell_white": "{{square}}, सफेद गोली",
+    "cell_empty": "{{square}}, खाली",
+    "cell_selected": "{{cell}}, चुनी गई"
   },
   "guide": {
     "title": "चाल कैसे चलें",
