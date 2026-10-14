@@ -80,7 +80,7 @@ export function TextField({
           aria-describedby={describedBy}
           className={cn(
             //text-base rather than text-sm: iOS zooms the page when a field
-            //smaller than 16px takes focus, and the app is not zoomable back out.
+            //smaller than 16px takes focus, and leaves it zoomed after blur.
             "h-[54px] w-full rounded-xl border border-transparent bg-surface-2 px-4 text-base text-white",
             //the outline rests in the ring's own blue. `transition` eases the
             //outline colour too, and from the default (the white text colour)
