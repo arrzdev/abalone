@@ -2,10 +2,13 @@ import { DEMO_GAME } from "@repo/abalone-engine/demo-game"
 import type { GameState } from "@repo/abalone-engine/game-state"
 import { createGameState, makeMove } from "@repo/abalone-engine/game-state"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import { GameCanvas } from "@/components/game-canvas"
+import { PauseIcon, PlayIcon } from "@/components/icons"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
 import type { MarbleDesign } from "@/render/marble-renderer"
+import { prefersReducedMotion } from "@/render/motion"
 
 /** Between the marbles landing and the next line setting off. */
 const MOVE_GAP_MS = 900
@@ -32,6 +35,11 @@ const newDemoState = () => createGameState("standard", "black", "local")
  * element is a phone's battery spent on nothing, and `requestAnimationFrame`
  * stalls in a hidden pane anyway — which would leave a move frozen half-played
  * and the rest of the game queued behind it.
+ *
+ * Pause stops it the same way scrolling away does, so Play picks up where it
+ * stopped. It starts paused for anyone whose system asks for less motion: a game
+ * that starts by itself and never ends is exactly the motion they asked not to
+ * get (WCAG 2.2.2).
  */
 export function DemoBoard() {
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -39,6 +47,14 @@ export function DemoBoard() {
   const [state, setState] = useState<GameState>(newDemoState)
   const [isOnScreen, setIsOnScreen] = useState(false)
   const [boardSize, setBoardSize] = useState<BoardSize | null>(null)
+  //paused until the client says otherwise: the server cannot read the media
+  //query, and a paused board is the opening position either way
+  const [isPaused, setIsPaused] = useState(true)
+  const isPlaying = isOnScreen && !isPaused
+
+  useEffect(() => {
+    setIsPaused(prefersReducedMotion())
+  }, [])
 
   useEffect(() => {
     const wrapper = wrapperRef.current
@@ -55,7 +71,7 @@ export function DemoBoard() {
   //a dependency would tear the game down and rebuild it on every move
   // biome-ignore lint/correctness/useExhaustiveDependencies: explained above.
   useEffect(() => {
-    if (!isOnScreen) return
+    if (!isPlaying) return
 
     let cancelled = false
     const timers = new Set<ReturnType<typeof setTimeout>>()
@@ -98,11 +114,12 @@ export function DemoBoard() {
           movingMarbles: result.movingMarbles,
           direction: result.direction,
         })
-        if (cancelled) return
-
+        //a move already under way lands even when the loop was stopped mid-way,
+        //so the board never snaps back to before it
         current = next
         index += 1
         setState(current)
+        if (cancelled) return
         await pause(MOVE_GAP_MS)
       }
     }
@@ -113,7 +130,7 @@ export function DemoBoard() {
       cancelled = true
       for (const timer of timers) clearTimeout(timer)
     }
-  }, [isOnScreen])
+  }, [isPlaying])
 
   return (
     //a plain flex column, not a `game-canvas-wrapper`: the canvas renders one of
@@ -134,7 +151,46 @@ export function DemoBoard() {
         onResize={(width, height) => setBoardSize({ width, height })}
       />
       {boardSize && <BoardShadow size={boardSize} />}
+      <DemoToggle
+        isPaused={isPaused}
+        onToggle={() => setIsPaused(!isPaused)}
+      />
     </div>
+  )
+}
+
+/**
+ * Pause and Play, over the board's bottom corner.
+ *
+ * Icon only, with the name on the button, and a 44 px square to press however
+ * small the glyph. A solid fill rather than a frosted one: a `backdrop-filter`
+ * over a canvas that redraws every frame is the cost `BoardShadow` exists to
+ * avoid (TUD-958).
+ */
+function DemoToggle({
+  isPaused,
+  onToggle,
+}: {
+  isPaused: boolean
+  onToggle: () => void
+}) {
+  const { t } = useTranslation()
+  const label = isPaused
+    ? t("common:home.play_demo")
+    : t("common:home.pause_demo")
+
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      title={label}
+      data-paused={isPaused}
+      onClick={onToggle}
+      className="absolute right-0 bottom-0 flex size-11 items-center justify-center rounded-full bg-black/40 text-white/80 transition-colors duration-200 ease-out hover:bg-black/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+    >
+      {isPaused && <PlayIcon size={18} />}
+      {!isPaused && <PauseIcon size={18} />}
+    </button>
   )
 }
 

@@ -28,7 +28,9 @@
     "online_hint": "Darmowe konto. Zaproś kogo chcesz.",
     "rules_link": "Zasady Abalone",
     "strategy_link": "Wskazówki strategiczne do Abalone",
-    "bots_caption": "Osiem botów, od Gusa do Magnusa"
+    "bots_caption": "Osiem botów, od Gusa do Magnusa",
+    "play_demo": "Odtwórz demo",
+    "pause_demo": "Wstrzymaj demo"
   },
   "auth": {
     "sign_in": "Zaloguj się",

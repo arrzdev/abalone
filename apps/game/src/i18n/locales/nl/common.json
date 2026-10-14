@@ -28,7 +28,9 @@
     "online_hint": "Gratis account. Nodig iedereen uit.",
     "rules_link": "Abalone-regels",
     "strategy_link": "Abalone-strategietips",
-    "bots_caption": "Acht bots, van Gus tot Magnus"
+    "bots_caption": "Acht bots, van Gus tot Magnus",
+    "play_demo": "Demo afspelen",
+    "pause_demo": "Demo pauzeren"
   },
   "auth": {
     "sign_in": "Inloggen",

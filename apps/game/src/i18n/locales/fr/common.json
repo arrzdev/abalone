@@ -28,7 +28,9 @@
     "online_hint": "Compte gratuit. Invite qui tu veux.",
     "rules_link": "Règles d'Abalone",
     "strategy_link": "Conseils de stratégie Abalone",
-    "bots_caption": "Huit bots, de Gus à Magnus"
+    "bots_caption": "Huit bots, de Gus à Magnus",
+    "play_demo": "Lire la démo",
+    "pause_demo": "Mettre la démo en pause"
   },
   "auth": {
     "sign_in": "Se connecter",
