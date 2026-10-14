@@ -116,6 +116,12 @@ export const acceptInviteMutationOptions = mutationOptions({
   },
 })
 
+/**
+ * The server answered a move with a domain error (a 4xx), so the move was never
+ * played. Any other failure of the request may be an answer lost after it was.
+ */
+export class MoveRefusedError extends Error {}
+
 /** Play a move. What comes back is the position the server settled on. */
 export const playMoveMutationOptions = mutationOptions({
   mutationFn: async ({
@@ -129,7 +135,13 @@ export const playMoveMutationOptions = mutationOptions({
       }),
     )
     const body = await response.json()
-    if (body.status !== "success") throw apiError(body.error_code)
+    if (body.status !== "success") {
+      const error = apiError(body.error_code)
+      //a 5xx says nothing about whether the move was stored before it broke
+      throw response.status < 500
+        ? new MoveRefusedError(error.message)
+        : error
+    }
     return body.data.game
   },
 })

@@ -59,7 +59,13 @@ export type MoveAnimation = {
 
 /** What the game above the board can ask of it. */
 export type GameCanvasHandle = {
+  /**
+   * Plays a move out. Always settles: when the marbles land, when the tab is
+   * hidden, when `stopAnimation` is called, and when the board unmounts.
+   */
   animateMove: (moveData: MoveAnimation) => Promise<void>
+  /** Cuts the move in flight short and settles its `animateMove`. */
+  stopAnimation: () => void
   redraw: () => void
 }
 
@@ -474,17 +480,60 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       keyboardFocus,
     ])
 
+    /**
+     * Ends the move in flight early and settles its promise.
+     *
+     * A caller awaiting `animateMove` must always get an answer: the browser
+     * stops serving frames to a hidden tab, and a board that unmounts or moves
+     * on to another game has no frame left to finish on. Null while nothing is
+     * moving.
+     */
+    const stopRef = useRef<(() => void) | null>(null)
+
     useEffect(
       () => () => {
+        stopRef.current?.()
         if (rafRef.current) cancelAnimationFrame(rafRef.current)
         if (fadeRafRef.current) cancelAnimationFrame(fadeRafRef.current)
       },
       [],
     )
 
+    const stopAnimation = useCallback(() => stopRef.current?.(), [])
+
     const animateMove = useCallback(
       (moveData: MoveAnimation) =>
         new Promise<void>((resolve) => {
+          //one move at a time: a new one settles whatever was still moving
+          stopRef.current?.()
+
+          const settle = () => {
+            document.removeEventListener("visibilitychange", onVisibility)
+            stopRef.current = null
+            resolve()
+          }
+
+          //cut short rather than finished: the marbles go back to the position
+          //the board was handed, and the caller commits whatever comes next
+          const stop = () => {
+            if (rafRef.current) cancelAnimationFrame(rafRef.current)
+            rafRef.current = null
+            animationRef.current = null
+            draw()
+            settle()
+          }
+
+          function onVisibility() {
+            if (document.hidden) stop()
+          }
+
+          if (document.hidden) {
+            resolve()
+            return
+          }
+          stopRef.current = stop
+          document.addEventListener("visibilitychange", onVisibility)
+
           const view = viewRef.current
           const flip = propsRef.current.state.shouldFlipBoard
 
@@ -513,10 +562,21 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
             }
           })
 
-          const start = performance.now()
+          //the clock starts on the first frame the move is painted on, not when
+          //it was asked for: a main thread busy in between (the commit that
+          //handed the board this move, a slow device) would otherwise spend
+          //the slide before anything was drawn, and the marbles would land in
+          //a frame or two. read off the clock rather than the frame's
+          //timestamp, which is when a late frame was due, not when it ran.
+          let start: number | null = null
 
-          const step = (now: number) => {
-            const rawProgress = Math.min((now - start) / TIMING.MOVE, 1)
+          const step = () => {
+            const now = performance.now()
+            start ??= now
+            const rawProgress = Math.min(
+              Math.max((now - start) / TIMING.MOVE, 0),
+              1,
+            )
             const eased = easeInOutCubic(rawProgress)
 
             const positions = new Map<
@@ -546,7 +606,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
               // React has not committed the post-move state yet, so that repaint
               // would put the marbles back where they started for the frames in
               // between — the flicker you see at the end of every move.
-              resolve()
+              settle()
             }
           }
 
@@ -555,10 +615,11 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       [draw],
     )
 
-    useImperativeHandle(ref, () => ({ animateMove, redraw: draw }), [
-      animateMove,
-      draw,
-    ])
+    useImperativeHandle(
+      ref,
+      () => ({ animateMove, stopAnimation, redraw: draw }),
+      [animateMove, stopAnimation, draw],
+    )
 
     // The e2e suite's way onto a board it cannot see into (test-support/
     // board-probe). Only in the e2e build (`vite build --mode e2e`), which
