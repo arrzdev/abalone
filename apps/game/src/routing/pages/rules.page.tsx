@@ -4,7 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import { Trans, useTranslation } from "react-i18next"
 import type { ManualChapter } from "@/components/manual/chapter"
-import { Chapter, ChapterBreak, Plate } from "@/components/manual/chapter"
+import { Chapter, Plate } from "@/components/manual/chapter"
 import { formatChapterNumber } from "@/components/manual/chapter-number"
 import { ManualHero, ManualPage } from "@/components/manual/manual-page"
 import { MarbleGlyph } from "@/components/marble-glyph"
@@ -249,8 +249,8 @@ function RulesPage() {
                 }}
               />
             }
-            //a way to the board under the intro, halfway down and at the end,
-            //for whoever has read enough at any of the three
+            //a way to the board under the intro and at the end; none halfway
+            //down, where it broke up the reading
             actions={playBlock}
             //the board the first chapter's words are about, before any of
             //them: a figure with no caption, its label is the whole of it
@@ -395,8 +395,6 @@ function RulesPage() {
             <RuleText i18nKey="game:rules.capture.body" />
           </p>
         </Chapter>
-
-        <ChapterBreak>{playBlock}</ChapterBreak>
 
         <Chapter {...chapter["how-to-win"]}>
           <p>

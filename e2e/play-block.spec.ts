@@ -3,8 +3,10 @@ import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 
 // A reader of /rules or /strategy who decides to play has a way to the board
-// under the intro, halfway down and at the end, and no "play" link on the page
-// sends them back to home (the `content-play-block` document on TUD-820, §8).
+// under the intro and at the end, and no "play" link on the page sends them
+// back to home (the `content-play-block` document on TUD-820, §8). Nothing
+// halfway down: a third block broke up the reading and made the page feel
+// pushy, so it went.
 //
 // "The computer game" is wherever home's vs Computer card goes. The served-HTML
 // checks name that URL; the browser check reads it off the card, so the two
@@ -30,20 +32,16 @@ const LOCALES = [
   "zh",
 ] as const
 
-/** Where each page's three blocks sit, as the section ids around them. */
+/** Where each page's two blocks sit, as the section ids around them. */
 const PAGES = {
   "/rules": {
-    // (b) after "Pushing marbles off the board", before "How to win"
-    middle: ["pushing-off", "how-to-win"],
-    // (c) after the FAQ, last on the page
+    // (b) after the FAQ, last on the page
     end: "faq",
     // the intro's own links, in reading order
     intro: ["play Abalone online", "try it against the computer"],
   },
   "/strategy": {
-    // (b) after "3. Stay away from the edge", before "4. Count before you push"
-    middle: ["edge", "count"],
-    // (c) inside "Practise"
+    // (b) inside "Practise"
     end: "practise",
     intro: ["free game against the computer", "Abalone rules"],
   },
@@ -93,12 +91,12 @@ test.describe("served HTML", () => {
         expect(html.length).toBeGreaterThan(0)
       })
 
-      // §8.1 + §8.2: three primaries, at the intro, mid-page and the end
-      test("has three ways to the computer game: under the intro, mid-page and at the end", () => {
+      // §8.1 + §8.2: two primaries, at the intro and the end
+      test("has two ways to the computer game: under the intro and at the end", () => {
         const primaries = linkOffsets(html, COMPUTER_GAME, CTA)
-        expect(primaries).toHaveLength(3)
+        expect(primaries).toHaveLength(2)
 
-        const [first, middle, end] = primaries
+        const [first, end] = primaries
         const page = PAGES[path]
         const firstSection = html.indexOf("<h2")
 
@@ -106,11 +104,7 @@ test.describe("served HTML", () => {
         expect(first).toBeGreaterThan(html.indexOf("</h1>"))
         expect(first).toBeLessThan(firstSection)
 
-        // (b) between the two sections it follows and precedes
-        expect(middle).toBeGreaterThan(headingOffset(html, page.middle[0]))
-        expect(middle).toBeLessThan(headingOffset(html, page.middle[1]))
-
-        // (c) after the last section it belongs to
+        // (b) after the last section it belongs to, so none mid-page
         expect(end).toBeGreaterThan(headingOffset(html, page.end))
       })
 
@@ -118,7 +112,7 @@ test.describe("served HTML", () => {
       test("pairs each one with a link to the other ways to play", () => {
         const primaries = linkOffsets(html, COMPUTER_GAME, CTA)
         const others = linkOffsets(html, "/", MORE)
-        expect(others).toHaveLength(3)
+        expect(others).toHaveLength(2)
 
         // each secondary is the next link after its primary
         for (const [index, primary] of primaries.entries()) {
@@ -263,16 +257,16 @@ test.describe("layout", () => {
       test.use({ viewport })
 
       for (const path of PATHS) {
-        test(`${path}: three blocks, each a button and a link`, async ({
+        test(`${path}: two blocks, each a button and a link`, async ({
           page,
         }) => {
           await openApp(page, path)
 
           // §8.1
-          await expect(primaries(page)).toHaveCount(3)
-          await expect(secondaries(page)).toHaveCount(3)
+          await expect(primaries(page)).toHaveCount(2)
+          await expect(secondaries(page)).toHaveCount(2)
 
-          for (let index = 0; index < 3; index++) {
+          for (let index = 0; index < 2; index++) {
             const primary = primaries(page).nth(index)
             const secondary = secondaries(page).nth(index)
             await primary.scrollIntoViewIfNeeded()
@@ -329,12 +323,12 @@ test.describe("layout", () => {
             links
               .filter((link) => link.href === "/")
               .map((link) => link.text),
-          ).toEqual([MORE, MORE, MORE])
+          ).toEqual([MORE, MORE])
 
           const promising = links.filter(
             (link) => /play|game/i.test(link.text) && link.text !== MORE,
           )
-          expect(promising.length).toBeGreaterThanOrEqual(4)
+          expect(promising.length).toBeGreaterThanOrEqual(3)
           for (const link of promising) {
             expect(link.href, link.text).toBe(COMPUTER_GAME)
           }
@@ -478,7 +472,7 @@ test.describe("in every shipped language", () => {
   // close to its timeout on a loaded machine
   for (const locale of LOCALES) {
     for (const path of PATHS) {
-      test(`${locale} ${path}: three blocks, every label whole`, async ({
+      test(`${locale} ${path}: two blocks, every label whole`, async ({
         browser,
       }) => {
         const page = await openInLocale(browser, locale, path)
@@ -493,7 +487,7 @@ test.describe("in every shipped language", () => {
               fits: link.scrollHeight <= link.clientHeight,
             })),
         )
-        expect(fits).toHaveLength(3)
+        expect(fits).toHaveLength(2)
         for (const { text, fits: whole } of fits) {
           expect(whole, `"${text}"`).toBe(true)
         }
