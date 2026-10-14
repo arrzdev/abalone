@@ -14,6 +14,11 @@ export default defineApp({
   defaultThemePreference: "dark",
   //no orientation lock — the board is square-ish and the panel moves beside it
   //above `lg` and under it below, so both ways round are real layouts.
+  //pinch zoom stays on (WCAG 1.4.4): someone who cannot read the clocks or the
+  //move list at their size must be able to enlarge them. the board itself
+  //claims its touches while it is playable (`touchAction` in game-canvas), so a
+  //drag across it is still a selection, not a zoom.
+  allowZoom: true,
   icons: "./public/favicons",
   styles: "./src/styles/main.css",
   sw: "./src/sw.ts",
