@@ -1,7 +1,11 @@
 import { MAX_LINE } from "@repo/abalone-engine/config"
 import type { GameState } from "@repo/abalone-engine/game-state"
-import { formatMoveAlgebraic } from "@repo/abalone-engine/notation"
+import {
+  formatMoveAlgebraic,
+  squareLabel,
+} from "@repo/abalone-engine/notation"
 import type { MovingMarble } from "@repo/abalone-engine/rules"
+import { cellAt, NOWHERE } from "@repo/abalone-engine/topology"
 import type {
   AxialStep,
   CellName,
@@ -9,14 +13,21 @@ import type {
 } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
 import type { TFunction } from "i18next"
-import type { MouseEvent, PointerEvent, ReactNode } from "react"
+import type {
+  KeyboardEvent,
+  MouseEvent,
+  PointerEvent,
+  ReactNode,
+} from "react"
 import {
   forwardRef,
   useCallback,
   useEffect,
+  useId,
   useImperativeHandle,
   useLayoutEffect,
   useRef,
+  useState,
 } from "react"
 import { useTranslation } from "react-i18next"
 import { TapButton } from "@/components/ui/tap-button"
@@ -111,6 +122,43 @@ function describeBoard(state: GameState, t: TFunction): string {
   return `${position} ${turn} ${lastMove}`
 }
 
+/** What the board says of the cell the keyboard is on, e.g. "c5, black marble". */
+function describeCell(
+  state: GameState,
+  cell: CellName,
+  t: TFunction,
+): string {
+  const square = squareLabel(cell)
+  let text = t("game:board.cell_empty", { square })
+  if (state.black.has(cell)) text = t("game:board.cell_black", { square })
+  if (state.white.has(cell)) text = t("game:board.cell_white", { square })
+  if (state.selectedMarbles.includes(cell)) {
+    text = t("game:board.cell_selected", { cell: text })
+  }
+  return text
+}
+
+/** Where the keyboard starts: the centre of the board. */
+const CENTRE: CellName = "0,0"
+
+/**
+ * The axial steps each arrow key tries, in order, on the board as it is drawn
+ * unflipped. Up and down have two cells in the row above or below; the second
+ * is the way round at the edge, where the first is off the board.
+ */
+const ARROW_STEPS: Record<string, AxialStep[]> = {
+  ArrowLeft: [[0, -1]],
+  ArrowRight: [[0, 1]],
+  ArrowUp: [
+    [-1, 1],
+    [-1, 0],
+  ],
+  ArrowDown: [
+    [1, -1],
+    [1, 0],
+  ],
+}
+
 /** A furrow on its way out, with the moment it started going. */
 type Ghost = Furrow & { since: number }
 
@@ -155,6 +203,12 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
     const wrapperRef = useRef<HTMLDivElement>(null)
     const rafRef = useRef<number | null>(null)
     const animationRef = useRef<BoardAnimation | null>(null)
+    const descriptionId = useId()
+
+    // The cell the keyboard is on, and whether the board has keyboard focus. The
+    // cell is only drawn while it does, so pointer play looks as it always has.
+    const [focusCell, setFocusCell] = useState<CellName>(CENTRE)
+    const [keyboardFocus, setKeyboardFocus] = useState(false)
 
     // Held in a ref so that `resize` keeps its identity: it is the ResizeObserver
     // callback, and re-creating it would tear the observer down on every render.
@@ -179,6 +233,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       showCoordinates,
       showLabels,
       reviewing: Boolean(notice),
+      focusCell: keyboardFocus ? focusCell : null,
     }
     const propsRef = useRef(latest)
     propsRef.current = latest
@@ -290,6 +345,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         showCoordinates: coords,
         showLabels: labels,
         reviewing,
+        focusCell: focused,
       } = propsRef.current
       const view = viewRef.current
       const animation = animationRef.current
@@ -310,6 +366,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         reviewing,
         animation,
         fading,
+        focusCell: focused,
       })
 
       // Nothing else is repainting on its own account, so a fade has to drive its
@@ -406,7 +463,16 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
     useLayoutEffect(() => {
       if (rafRef.current === null) animationRef.current = null
       draw()
-    }, [draw, state, possibleMoves, marbleDesign, showCoordinates, notice])
+    }, [
+      draw,
+      state,
+      possibleMoves,
+      marbleDesign,
+      showCoordinates,
+      notice,
+      focusCell,
+      keyboardFocus,
+    ])
 
     useEffect(
       () => () => {
@@ -678,6 +744,40 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       dragRef.current = null
     }, [])
 
+    /* ---------------------------------------------------------------- *
+     * Playing from the keyboard
+     *
+     * The arrows walk a focus cell over the board as it is drawn, so on a board
+     * turned round for the player opposite every step is turned round with it.
+     * Space and Enter are a tap on that cell, down the same path a tap takes.
+     * ---------------------------------------------------------------- */
+    const handleKeyDown = useCallback(
+      (event: KeyboardEvent<HTMLCanvasElement>) => {
+        if (!interactive) return
+        if (event.key === " " || event.key === "Enter") {
+          event.preventDefault()
+          setKeyboardFocus(true)
+          onCellClick?.(focusCell)
+          return
+        }
+        const steps = ARROW_STEPS[event.key]
+        if (!steps) return
+        // The page must not scroll under the arrows while the board has them.
+        event.preventDefault()
+        setKeyboardFocus(true)
+        const turn = state.shouldFlipBoard ? -1 : 1
+        const [r, q] = focusCell.split(",").map(Number)
+        for (const [dr, dq] of steps) {
+          const row = r + dr * turn
+          const col = q + dq * turn
+          if (cellAt(row, col) === NOWHERE) continue
+          setFocusCell(`${row},${col}`)
+          return
+        }
+      },
+      [focusCell, interactive, onCellClick, state.shouldFlipBoard],
+    )
+
     const hoveredPos = state.hoveredCell
     const cursor =
       interactive &&
@@ -695,8 +795,10 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         <div className="relative">
           <canvas
             ref={canvasRef}
-            role="img"
+            role={isPlayedOn ? "application" : "img"}
             aria-label={describeBoard(state, t)}
+            aria-describedby={interactive ? descriptionId : undefined}
+            tabIndex={interactive ? 0 : undefined}
             // Greyed and dimmed while reviewing, on top of the board's own change
             // of colour. The board is not accepting moves in this state, and a
             // washed-out board is what every other control on the screen does to
@@ -721,11 +823,30 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
             }}
             onMouseMove={handleMouseMove}
             onMouseLeave={() => interactive && onHover?.(null)}
-            onPointerDown={handlePointerDown}
+            onPointerDown={(event) => {
+              setKeyboardFocus(false)
+              handlePointerDown(event)
+            }}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
             onPointerCancel={handlePointerCancel}
+            onKeyDown={handleKeyDown}
+            onFocus={(event) =>
+              setKeyboardFocus(
+                event.currentTarget.matches(":focus-visible"),
+              )
+            }
+            onBlur={() => setKeyboardFocus(false)}
           />
+          {interactive && (
+            <span
+              id={descriptionId}
+              className="sr-only"
+              aria-live="polite"
+            >
+              {describeCell(state, focusCell, t)}
+            </span>
+          )}
 
           {/* The strip between the board's top edge and the first row of marbles
               is the one part of it with nothing drawn on, and this sits centred in

@@ -271,7 +271,11 @@
     "position": "{{black}} {{blackCount}}個、{{white}} {{whiteCount}}個。",
     "turn": "{{side}}の手番。",
     "last_move": "最後の手: {{move}}。",
-    "no_moves": "まだ手はありません。"
+    "no_moves": "まだ手はありません。",
+    "cell_black": "{{square}}、黒の玉",
+    "cell_white": "{{square}}、白の玉",
+    "cell_empty": "{{square}}、空き",
+    "cell_selected": "{{cell}}、選択中"
   },
   "guide": {
     "title": "動かし方",

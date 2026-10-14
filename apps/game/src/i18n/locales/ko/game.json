@@ -271,7 +271,11 @@
     "position": "{{black}} {{blackCount}}개, {{white}} {{whiteCount}}개.",
     "turn": "{{side}} 차례.",
     "last_move": "마지막 수: {{move}}.",
-    "no_moves": "아직 둔 수가 없습니다."
+    "no_moves": "아직 둔 수가 없습니다.",
+    "cell_black": "{{square}}, 흑 구슬",
+    "cell_white": "{{square}}, 백 구슬",
+    "cell_empty": "{{square}}, 빈 칸",
+    "cell_selected": "{{cell}}, 선택됨"
   },
   "guide": {
     "title": "움직이는 방법",

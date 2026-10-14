@@ -272,7 +272,11 @@
     "position": "{{black}} {{blackCount}} billes, {{white}} {{whiteCount}} billes.",
     "turn": "Aux {{side}} de jouer.",
     "last_move": "Dernier coup : {{move}}.",
-    "no_moves": "Aucun coup pour l’instant."
+    "no_moves": "Aucun coup pour l’instant.",
+    "cell_black": "{{square}}, bille noire",
+    "cell_white": "{{square}}, bille blanche",
+    "cell_empty": "{{square}}, vide",
+    "cell_selected": "{{cell}}, sélectionnée"
   },
   "guide": {
     "title": "Comment jouer un coup",
