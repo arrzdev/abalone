@@ -566,10 +566,12 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
           //it was asked for: a main thread busy in between (the commit that
           //handed the board this move, a slow device) would otherwise spend
           //the slide before anything was drawn, and the marbles would land in
-          //a frame or two
+          //a frame or two. read off the clock rather than the frame's
+          //timestamp, which is when a late frame was due, not when it ran.
           let start: number | null = null
 
-          const step = (now: number) => {
+          const step = () => {
+            const now = performance.now()
             start ??= now
             const rawProgress = Math.min(
               Math.max((now - start) / TIMING.MOVE, 0),
