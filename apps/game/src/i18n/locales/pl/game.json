@@ -259,6 +259,7 @@
     "black": "Czarne"
   },
   "history": {
+    "title": "Ruchy",
     "empty": "Brak ruchów",
     "start": "Początek",
     "position": "Ruch {{index}} z {{total}}",

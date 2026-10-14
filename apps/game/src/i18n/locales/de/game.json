@@ -258,6 +258,7 @@
     "black": "Schwarz"
   },
   "history": {
+    "title": "Züge",
     "empty": "Noch keine Züge",
     "start": "Start",
     "position": "Zug {{index}} von {{total}}",

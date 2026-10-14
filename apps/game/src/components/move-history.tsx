@@ -241,19 +241,23 @@ export function MoveStrip({
   // result is the only thing the record has to say. It still has to say it.
   if (moves.length === 0 && !result) {
     return (
-      <div
+      <section
+        aria-label={t("game:history.title")}
         className={cn(
           "flex items-center justify-center text-sm text-faint",
           className,
         )}
       >
         {t("game:history.empty")}
-      </div>
+      </section>
     )
   }
 
   return (
-    <div className={cn("overflow-hidden", className)}>
+    <section
+      aria-label={t("game:history.title")}
+      className={cn("overflow-hidden", className)}
+    >
       <div
         ref={stripRef}
         className="strip-scroll flex h-full items-center gap-1 overflow-x-auto"
@@ -319,7 +323,7 @@ export function MoveStrip({
           />
         )}
       </div>
-    </div>
+    </section>
   )
 }
 
@@ -487,14 +491,15 @@ export function MoveHistory({
   // nothing else in it.
   if (pairs.length === 0 && !result) {
     return (
-      <div
+      <section
+        aria-label={t("game:history.title")}
         className={cn(
           "flex items-center justify-center text-sm text-faint",
           className,
         )}
       >
         {t("game:history.empty")}
-      </div>
+      </section>
     )
   }
 
@@ -502,8 +507,17 @@ export function MoveHistory({
     // The caller's rounding sits on the outer box and the scrolling on the
     // inner one: an overlay scrollbar is painted over the corners of the
     // element it scrolls, squaring off the side it runs down.
-    <div className={cn("relative overflow-hidden", className)}>
-      <div ref={listRef} className="panel-scroll h-full overflow-y-auto">
+    <section
+      aria-label={t("game:history.title")}
+      className={cn("relative overflow-hidden", className)}
+    >
+      {/* The 8px above and below the rows is the reach of each move's tap
+          target (`hit-y-[8px]`). A box that clips at the rows themselves cuts
+          the first and last move's target, and the card around them with it. */}
+      <div
+        ref={listRef}
+        className="panel-scroll h-full overflow-y-auto py-2"
+      >
         <StartRow current={currentMoveIndex === 0} onGoTo={onGoTo} />
         {/* Every pair keeps its rule now that the result is what sits last, so
             the record is closed off by a line before the line that reads it. */}
@@ -560,7 +574,7 @@ export function MoveHistory({
         className="bottom-0 bg-linear-to-t"
         visible={edges.bottom}
       />
-    </div>
+    </section>
   )
 }
 

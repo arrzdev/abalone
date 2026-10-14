@@ -258,6 +258,7 @@
     "black": "Negras"
   },
   "history": {
+    "title": "Movimientos",
     "empty": "Aún no hay movimientos",
     "start": "Inicio",
     "position": "Jugada {{index}} de {{total}}",

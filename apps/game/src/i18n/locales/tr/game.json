@@ -257,6 +257,7 @@
     "black": "Siyah"
   },
   "history": {
+    "title": "Hamleler",
     "empty": "Henüz hamle yok",
     "start": "Başlangıç",
     "position": "{{total}} hamleden {{index}}.",

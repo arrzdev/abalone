@@ -7,16 +7,18 @@ import { useLayoutEffect, useState } from "react"
  * It is the list's break-even point, added up: the panel's own padding (24 — 8
  * at the top, which is the gap under the seats, and 16 at the bottom), the step
  * buttons (44), the action bar (63), the gaps between them (16), and three rows
- * of moves (84) — fewer than three and the list is a slot you scroll one move at
- * a time, which is worse than no list at all.
+ * of moves (84) with the 16 the list keeps above and below them for the reach of
+ * their tap targets — fewer than three and the list is a slot you scroll one
+ * move at a time, which is worse than no list at all.
  */
-const COMPACT_BELOW = 232
+const COMPACT_BELOW = 248
 
 /**
  * Height, in px, below which the history has to be the single-line strip: the
  * panel's padding (16), the gap (8), the row of actions along the bottom (64)
- * and two rows of moves (56). Under two rows a list is a slot you scroll one
- * move at a time, and the chips say more in the same space.
+ * and two rows of moves (56) with the list's own 16 above and below them. Under
+ * two rows a list is a slot you scroll one move at a time, and the chips say
+ * more in the same space.
  *
  * One number for the game and for the end of it, measured on the taller of the
  * two rows that sit down there — the in-game actions; the rematch buttons that
@@ -24,14 +26,18 @@ const COMPACT_BELOW = 232
  * the last move of the game: it appears and goes at one panel height, and the
  * game ending is not one of the things that can move it.
  */
-export const LIST_BELOW = 144
+export const LIST_BELOW = 160
 
 /**
  * The least the controls at the foot of the panel can be, in px, on top of
  * whatever the seat card above them turns out to be: the column's top padding
- * (8), the move strip (44, a thumb's height for each move in it), the gap (8), and the row of actions (64), plus the
- * 8 of the bottom padding that is not the safe-area inset. The inset is added in
- * CSS, where it can be read.
+ * (6 stacked, where this applies), the move strip (52: a thumb's height for each
+ * move in it, and the card's 4 above and below so the move is never cut), the
+ * gap (6), and the row of actions (64), plus the 8 of the bottom padding that is
+ * not the safe-area inset. The inset is added in CSS, where it can be read.
+ *
+ * The first-game guide is not in it: on a phone it is a bar in the strip's own
+ * slot, so the floor holds whichever of the two is showing.
  *
  * The strip and the action bar, because that is the shortest the foot of this
  * panel ever legitimately gets: the strip is the history's smallest rendering
@@ -47,7 +53,7 @@ export const LIST_BELOW = 144
  * into whatever box it is given, and the row of actions is not. So the panel
  * carries a floor and the board shrinks to clear it.
  */
-export const CONTROLS_FLOOR = 132
+export const CONTROLS_FLOOR = 136
 
 /**
  * The panel's floor as a CSS length: whatever its fixed head measures, plus

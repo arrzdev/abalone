@@ -257,6 +257,7 @@
     "black": "흑"
   },
   "history": {
+    "title": "기보",
     "empty": "아직 수가 없습니다",
     "start": "시작",
     "position": "{{total}}수 중 {{index}}수",

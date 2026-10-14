@@ -258,6 +258,7 @@
     "black": "Noirs"
   },
   "history": {
+    "title": "Coups",
     "empty": "Aucun coup pour l'instant",
     "start": "Début",
     "position": "Coup {{index}} sur {{total}}",

@@ -258,6 +258,7 @@
     "black": "काला"
   },
   "history": {
+    "title": "चालें",
     "empty": "अभी कोई चाल नहीं",
     "start": "शुरुआत",
     "position": "चाल {{index}} / {{total}}",
