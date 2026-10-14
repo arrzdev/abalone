@@ -327,6 +327,14 @@ for (const viewport of PHONES) {
       await expect.poll(() => edgeFadeShows(page, "start")).toBe(false)
       await expect.poll(() => edgeFadeShows(page, "end")).toBe(true)
       await expectNoPageScroll(page)
+
+      // Swiped away from the newest move, the next one still brings the card
+      // back to it: a new move is always shown, wherever the reader was.
+      const moves = 2 * LONG_BLACK_MOVES.length
+      await playMove(page, "a4", "b4")
+      await expectNewestMoveShown(page, moves + 1)
+      await expectNewestMoveShown(page, moves + 2)
+      await expect.poll(() => edgeFadeShows(page, "end")).toBe(false)
     })
 
     test("the guide keeps the board at 90% of its size or more and fits on screen", async ({
