@@ -27,14 +27,17 @@ test("a pass and play game takes moves from both sides and ends on a resignation
 })
 
 // The board is a canvas, so a screen reader hears only what its name says: how
-// many marbles each side has, whose turn it is, and the move just played.
+// many marbles each side has, whose turn it is, and the move just played. It is
+// an application rather than an image because it is played from the keyboard
+// too (keyboard-play.spec.ts), and a screen reader passes the arrow keys
+// through only to an application.
 test("the board names the position and the last move after every move", async ({
   page,
 }) => {
   await startOfflineGame(page, "Pass & Play")
 
   await playMove(page, "c5", "d5")
-  const board = page.getByRole("img", { name: /last move/i })
+  const board = page.getByRole("application", { name: /last move/i })
   await expect(board).toHaveAccessibleName(
     "Black 14 marbles, White 14 marbles. White to move. Last move: c5d5.",
   )
