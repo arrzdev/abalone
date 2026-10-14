@@ -162,9 +162,160 @@ async function expectHistoryRowInFull(page: Page) {
   ).toBeGreaterThanOrEqual(pillBox.height + 2 * CARD_PADDING - 0.5)
 }
 
+/** Every move in the history card, oldest first; "Start" is not one. */
+function movePills(page: Page) {
+  return history(page)
+    .getByRole("button")
+    .filter({ has: page.locator(".font-mono") })
+}
+
+/** A colour that paints nothing: no fill at all, or a fully clear one. */
+function isClear(colour: string): boolean {
+  return colour === "transparent" || /,\s*0\)$/.test(colour)
+}
+
+/**
+ * The newest move is the one marked current, it is lit, and it is shown whole
+ * inside the history card: the card scrolled to it by itself.
+ */
+async function expectNewestMoveShown(page: Page, moves: number) {
+  await expect(movePills(page)).toHaveCount(moves, { timeout: 30_000 })
+  const newest = movePills(page).last()
+  await expect(
+    newest,
+    "the newest move is the current one",
+  ).toHaveAttribute("aria-current", "true")
+  await expectShownInFull(newest, `move ${moves}, the newest`)
+
+  const fill = await newest.evaluate(
+    (element) => getComputedStyle(element).backgroundColor,
+  )
+  const cardFill = await history(page).evaluate(
+    (element) => getComputedStyle(element).backgroundColor,
+  )
+  expect(isClear(fill), `the newest move's fill (${fill}) paints`).toBe(
+    false,
+  )
+  expect(fill, "the newest move's fill is not the card's own").not.toBe(
+    cardFill,
+  )
+}
+
+/**
+ * The history card's fade at one end (`start` or `end`): whether it shows.
+ * Start is the oldest side, end the newest, for the strip and the list alike.
+ */
+function edgeFadeShows(page: Page, edge: "start" | "end") {
+  return history(page)
+    .locator(`[data-scroll-edge="${edge}"]`)
+    .evaluate((element) => Number(getComputedStyle(element).opacity) > 0.5)
+}
+
+/** Plays your move against the computer and waits for its answer. */
+async function playAgainstBot(
+  page: Page,
+  from: string,
+  to: string,
+  movesAfter: number,
+) {
+  await playMove(page, from, to)
+  await expect(movePills(page)).toHaveCount(movesAfter, {
+    timeout: 30_000,
+  })
+}
+
+/** Black's moves for a game against the computer: all far from its marbles. */
+const BLACK_MOVES: [string, string][] = [
+  ["c5", "d5"],
+  ["c4", "d4"],
+  ["c3", "d3"],
+  ["b6", "c6"],
+  ["b5", "c5"],
+]
+
 for (const viewport of PHONES) {
   test.describe(`at ${viewport.width}×${viewport.height}`, () => {
     test.use({ viewport })
+
+    // TUD-1107: against the computer the panel is short enough for the
+    // single-line strip, and the newest move ended up cut at its right edge,
+    // unlit, with nothing to say that the row scrolls.
+    test("against the computer the newest move is always shown whole and lit", async ({
+      page,
+    }) => {
+      await startOfflineGame(page, "vs Computer")
+      await guide(page).getByRole("button", { name: "Skip" }).click()
+      await expect(guide(page)).toHaveCount(0)
+
+      let moves = 0
+      for (const [from, to] of BLACK_MOVES) {
+        await playMove(page, from, to)
+        moves += 1
+        // Yours, straight after you play it.
+        await expectNewestMoveShown(page, moves)
+        moves += 1
+        // The computer's answer.
+        await expectNewestMoveShown(page, moves)
+      }
+
+      // The TUD-1084 checks hold with a full row of moves.
+      await expectHistoryRowInFull(page)
+      await expectActionsInView(page)
+      await expectNoPageScroll(page)
+    })
+
+    test("moves played with the guide open show the newest once it closes", async ({
+      page,
+    }) => {
+      await startOfflineGame(page, "vs Computer")
+      await expect(guide(page)).toBeVisible()
+      for (const [index, [from, to]] of BLACK_MOVES.entries())
+        await playAgainstBot(page, from, to, 2 * (index + 1))
+
+      // The guide gives the history its slot back.
+      if ((await guide(page).count()) > 0)
+        await guide(page)
+          .getByRole("button", { name: /Skip|Got it/ })
+          .first()
+          .click()
+      await expect(guide(page)).toHaveCount(0)
+
+      await expectNewestMoveShown(page, 2 * BLACK_MOVES.length)
+      await expectNoPageScroll(page)
+    })
+
+    test("older moves out of view are shown as more, and a swipe brings them back", async ({
+      page,
+    }) => {
+      await startOfflineGame(page, "vs Computer")
+      await guide(page).getByRole("button", { name: "Skip" }).click()
+      for (const [index, [from, to]] of BLACK_MOVES.entries())
+        await playAgainstBot(page, from, to, 2 * (index + 1))
+      await expectNewestMoveShown(page, 2 * BLACK_MOVES.length)
+
+      // At the newest move: older moves are past the start edge, which fades;
+      // nothing is past the end.
+      const start = history(page).getByRole("button", { name: "Start" })
+      expect(await clippedBy(start), "Start is out of view").not.toEqual(
+        [],
+      )
+      await expect.poll(() => edgeFadeShows(page, "start")).toBe(true)
+      await expect.poll(() => edgeFadeShows(page, "end")).toBe(false)
+
+      // A swipe back over the card reaches the start of the game.
+      const card = await history(page).boundingBox()
+      expect(card).not.toBeNull()
+      if (card === null) return
+      await page.mouse.move(
+        card.x + card.width / 2,
+        card.y + card.height / 2,
+      )
+      for (let i = 0; i < 10; i += 1) await page.mouse.wheel(-400, -400)
+      await expectShownInFull(start, "the Start of the record")
+      await expect.poll(() => edgeFadeShows(page, "start")).toBe(false)
+      await expect.poll(() => edgeFadeShows(page, "end")).toBe(true)
+      await expectNoPageScroll(page)
+    })
 
     test("the guide keeps the board at 90% of its size or more and fits on screen", async ({
       page,
@@ -284,6 +435,39 @@ test("at 375×667 an online game's history keeps a full row and the page does no
       hostPage.getByRole("button", { name: "Resign" }),
       "the Resign action",
     )
+    await expectNoPageScroll(hostPage)
+  } finally {
+    await host.close()
+    await guest.close()
+  }
+})
+
+// TUD-1107: a move that arrives from the other player scrolls the history to
+// it, the same as a move you play yourself.
+test("at 375×667 the other player's move is shown whole and lit when it arrives", async ({
+  browser,
+}) => {
+  test.slow(
+    browser.browserType().name() === "webkit",
+    "two WebKit pages paint in software",
+  )
+
+  const { host, guest, hostPage, guestPage } =
+    await startOnlineGame(browser)
+  const whiteMoves: [string, string][] = [
+    ["g5", "f5"],
+    ["g6", "f6"],
+    ["g7", "f7"],
+    ["h4", "g4"],
+  ]
+  try {
+    await hostPage.setViewportSize(PHONES[0])
+    for (const [index, [from, to]] of whiteMoves.entries()) {
+      const [blackFrom, blackTo] = BLACK_MOVES[index]
+      await playMove(hostPage, blackFrom, blackTo)
+      await playMove(guestPage, from, to)
+      await expectNewestMoveShown(hostPage, 2 * (index + 1))
+    }
     await expectNoPageScroll(hostPage)
   } finally {
     await host.close()
