@@ -63,3 +63,4 @@ if [ "$bad" -ne 0 ]; then
 fi
 [ "$bad" -eq 0 ] && [ "$bad_body" -eq 0 ] || exit 1
 echo "Commit identity: $count commit(s) in ${base:0:12}..${head:0:12}, all by the founder's account."
+
