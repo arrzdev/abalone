@@ -171,13 +171,16 @@ export function IngameControls({
     // strip of seats above it ends at its cards, and the space between them
     // should be the space between everything else stacked in here. Tighter on
     // a phone, where every pixel of it is a pixel off the board.
+    //
+    // Under the board the bottom is the larger of the home indicator's inset
+    // and the 8px above the scoreboard, not the two added: the inset is already
+    // empty space, and 8px more on top of it left the actions sitting on a gap
+    // far deeper than the one over the cards.
     <div
       ref={panelRef}
       className={cn(
         "flex min-h-0 flex-1 flex-col gap-2 px-4 pt-2 stacked:gap-1.5 stacked:pt-1.5",
-        compact
-          ? "pb-safe-offset-2"
-          : "pb-safe-offset-4 stacked:pb-safe-offset-2",
+        compact ? "pb-safe-or-2" : "pb-safe-offset-4 stacked:pb-safe-or-2",
       )}
     >
       {/* Nothing here says you are reviewing an earlier position. That notice
