@@ -75,6 +75,12 @@ export type IngameControlsProps = {
   onResign: () => void
   /** Back to the setup screen, leaving this game. Only against a bot. */
   onNewGame?: () => void
+  /**
+   * The first-game guide's bar, while it is open. Stacked under the board it
+   * takes the move history's slot; beside the board the guide is the full card
+   * under the scoreboard instead, and this is not shown.
+   */
+  guide?: ReactNode
 }
 
 /**
@@ -112,6 +118,7 @@ export function IngameControls({
   onUndo,
   onResign,
   onNewGame,
+  guide,
 }: IngameControlsProps) {
   const { t } = useTranslation()
   const panelRef = useRef<HTMLDivElement>(null)
@@ -124,22 +131,53 @@ export function IngameControls({
     onGoTo,
     marbleDesign,
   }
-  const list = (
+  // One line, and its own height rather than a share of the panel's: this is
+  // the layout for a panel with nothing to share.
+  const stripOnly = compact && !roomForList
+  const record = stripOnly ? (
+    <MoveStrip
+      {...history}
+      className="h-13 shrink-0 rounded-xl bg-surface-2 px-1 py-1"
+    />
+  ) : (
+    // At least one row of moves and the reach of its tap target, so the card
+    // never collapses to a sliver that cuts the move it marks as current.
     <MoveHistory
       {...history}
-      className="min-h-0 flex-1 rounded-xl bg-surface-2 p-1"
+      className="min-h-13 flex-1 rounded-xl bg-surface-2 px-1"
     />
+  )
+
+  // The guide's bar stands where the record stood and takes its exact box, so
+  // opening it moves nothing. The record comes back when the guide closes.
+  const slot = guide ? (
+    <>
+      <div className="contents stacked:hidden">{record}</div>
+      <div
+        className={cn(
+          "flex [container-type:size] beside:hidden",
+          stripOnly ? "h-13 shrink-0" : "min-h-13 flex-1",
+        )}
+      >
+        {guide}
+      </div>
+    </>
+  ) : (
+    record
   )
 
   return (
     // The top padding is this column's own gap, not a margin of its own: the
     // strip of seats above it ends at its cards, and the space between them
-    // should be the space between everything else stacked in here.
+    // should be the space between everything else stacked in here. Tighter on
+    // a phone, where every pixel of it is a pixel off the board.
     <div
       ref={panelRef}
       className={cn(
-        "flex min-h-0 flex-1 flex-col gap-2 px-4 pt-2",
-        compact ? "pb-safe-offset-2" : "pb-safe-offset-4",
+        "flex min-h-0 flex-1 flex-col gap-2 px-4 pt-2 stacked:gap-1.5 stacked:pt-1.5",
+        compact
+          ? "pb-safe-offset-2"
+          : "pb-safe-offset-4 stacked:pb-safe-offset-2",
       )}
     >
       {/* Nothing here says you are reviewing an earlier position. That notice
@@ -147,19 +185,10 @@ export function IngameControls({
           banner in this column appeared and vanished on every step through the
           history, resizing the move list under it both ways. */}
       {compact ? (
-        // One line, and its own height rather than a share of the panel's: this
-        // is the layout for a panel with nothing to share.
-        roomForList ? (
-          list
-        ) : (
-          <MoveStrip
-            {...history}
-            className="h-11 shrink-0 rounded-xl bg-surface-2 px-1"
-          />
-        )
+        slot
       ) : (
         <>
-          {list}
+          {slot}
 
           <div className="flex shrink-0 gap-2">
             <Button

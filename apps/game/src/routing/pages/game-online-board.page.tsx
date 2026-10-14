@@ -285,6 +285,7 @@ function GameOnlineBoardPage() {
               seats={(["black", "white"] as Player[]).map(seatFor)}
               record={headToHead}
               marbleDesign={marbleDesign}
+              className="stacked:pt-2"
               note={{
                 text: online.error ?? statusLine ?? null,
                 //the line names whoever the game is waiting for, so it is written
