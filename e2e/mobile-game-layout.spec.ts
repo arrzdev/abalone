@@ -245,6 +245,86 @@ const LONG_BLACK_MOVES: [string, string][] = [
   ["a5", "b5"],
 ]
 
+/** The space around and between the cards of the panel under the board, in px. */
+type PanelSpacing = {
+  /** From the top of the panel to the top of the scoreboard card. */
+  above: number
+  /** From the bottom of the actions card to the bottom of the screen. */
+  below: number
+  /** Scoreboard card to the history card (or the guide bar in its slot). */
+  scoreToMiddle: number
+  /** The history card (or the guide bar) to the actions card. */
+  middleToActions: number
+}
+
+/**
+ * Measures the phone's panel: the scoreboard card is the first painted box in
+ * it, the middle card is the history (or the guide bar standing in its slot),
+ * and the actions card is the box holding Resign. The safe-area inset is zero
+ * in these browsers, so the bottom of the screen is the safe-area edge.
+ */
+async function panelSpacing(page: Page): Promise<PanelSpacing> {
+  const middle = page
+    .getByRole("region", { name: /^(Moves|How to move)$/ })
+    .filter({ visible: true })
+    .first()
+  const middleBox = await middle.boundingBox()
+  const actionsBox = await page
+    .getByRole("button", { name: "Resign" })
+    .locator("..")
+    .boundingBox()
+  const panel = await page
+    .locator("aside")
+    .filter({ visible: true })
+    .first()
+    .evaluate((aside) => {
+      const isClear = (colour: string) =>
+        colour === "transparent" || /,\s*0\)$/.test(colour)
+      const score = Array.from(aside.querySelectorAll("*")).find(
+        (element) => !isClear(getComputedStyle(element).backgroundColor),
+      )
+      const scoreBox = score?.getBoundingClientRect()
+      return {
+        top: aside.getBoundingClientRect().top,
+        scoreTop: scoreBox?.top ?? Number.NaN,
+        scoreBottom: scoreBox?.bottom ?? Number.NaN,
+        screenBottom: innerHeight,
+      }
+    })
+  expect(middleBox).not.toBeNull()
+  expect(actionsBox).not.toBeNull()
+  if (middleBox === null || actionsBox === null)
+    throw new Error("the panel's cards are not on screen")
+  return {
+    above: panel.scoreTop - panel.top,
+    below: panel.screenBottom - (actionsBox.y + actionsBox.height),
+    scoreToMiddle: middleBox.y - panel.scoreBottom,
+    middleToActions: actionsBox.y - (middleBox.y + middleBox.height),
+  }
+}
+
+/**
+ * TUD-1107 (board): the panel's cards sit evenly in it. The space above the
+ * scoreboard and below the actions differ by 4px at most, and the two gaps
+ * between the cards are the same.
+ */
+async function expectEvenPanelSpacing(page: Page, what: string) {
+  await expect
+    .poll(
+      async () => {
+        const spacing = await panelSpacing(page)
+        return {
+          ...spacing,
+          evenEnds: Math.abs(spacing.above - spacing.below) <= 4,
+          evenGaps:
+            Math.abs(spacing.scoreToMiddle - spacing.middleToActions) <= 1,
+        }
+      },
+      { message: `${what}: the panel's spacing in px` },
+    )
+    .toMatchObject({ evenEnds: true, evenGaps: true })
+}
+
 for (const viewport of PHONES) {
   test.describe(`at ${viewport.width}×${viewport.height}`, () => {
     test.use({ viewport })
@@ -252,6 +332,23 @@ for (const viewport of PHONES) {
     // TUD-1107: against the computer the panel is short enough for the
     // single-line strip, and the newest move ended up cut at its right edge,
     // unlit, with nothing to say that the row scrolls.
+    test("the panel under the board is spaced evenly above, below and between its cards", async ({
+      page,
+    }) => {
+      await startOfflineGame(page, "vs Computer")
+      await expect(guide(page)).toBeVisible()
+      await expectEvenPanelSpacing(page, "with the guide open")
+
+      await guide(page).getByRole("button", { name: "Skip" }).click()
+      await expect(guide(page)).toHaveCount(0)
+      await expectEvenPanelSpacing(page, "before any move")
+
+      for (const [index, [from, to]] of BLACK_MOVES.slice(0, 2).entries())
+        await playAgainstBot(page, from, to, 2 * (index + 1))
+      await expectEvenPanelSpacing(page, "after four moves")
+      await expectNoPageScroll(page)
+    })
+
     test("against the computer the newest move is always shown whole and lit", async ({
       page,
     }) => {
