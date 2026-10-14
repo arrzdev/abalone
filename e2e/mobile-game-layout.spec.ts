@@ -251,17 +251,21 @@ type PanelSpacing = {
   above: number
   /** From the bottom of the actions card to the bottom of the screen. */
   below: number
-  /** Scoreboard card to the history card (or the guide bar in its slot). */
-  scoreToMiddle: number
-  /** The history card (or the guide bar) to the actions card. */
-  middleToActions: number
+  /**
+   * Every gap down the column, top to bottom: scoreboard card, the history
+   * card (or the guide bar in its slot), the ‹ › step row when the layout
+   * shows it, and the actions card.
+   */
+  between: number[]
 }
 
 /**
  * Measures the phone's panel: the scoreboard card is the first painted box in
  * it, the middle card is the history (or the guide bar standing in its slot),
- * and the actions card is the box holding Resign. The safe-area inset is zero
- * in these browsers, so the bottom of the screen is the safe-area edge.
+ * the step row is the box holding the previous-move button (only in the
+ * roomier layout), and the actions card is the box holding Resign. The
+ * safe-area inset is zero in these browsers, so the bottom of the screen is
+ * the safe-area edge.
  */
 async function panelSpacing(page: Page): Promise<PanelSpacing> {
   const middle = page
@@ -269,6 +273,14 @@ async function panelSpacing(page: Page): Promise<PanelSpacing> {
     .filter({ visible: true })
     .first()
   const middleBox = await middle.boundingBox()
+  const stepRow = page
+    .getByRole("button", { name: "Go to previous move" })
+    .filter({ visible: true })
+    .locator("..")
+  const stepRowBox =
+    (await stepRow.count()) > 0
+      ? await stepRow.first().boundingBox()
+      : null
   const actionsBox = await page
     .getByRole("button", { name: "Resign" })
     .locator("..")
@@ -295,18 +307,25 @@ async function panelSpacing(page: Page): Promise<PanelSpacing> {
   expect(actionsBox).not.toBeNull()
   if (middleBox === null || actionsBox === null)
     throw new Error("the panel's cards are not on screen")
+  const column = [middleBox, stepRowBox, actionsBox].filter(
+    (box) => box !== null,
+  )
+  const between = [column[0].y - panel.scoreBottom]
+  for (let index = 1; index < column.length; index += 1) {
+    const upper = column[index - 1]
+    between.push(column[index].y - (upper.y + upper.height))
+  }
   return {
     above: panel.scoreTop - panel.top,
     below: panel.screenBottom - (actionsBox.y + actionsBox.height),
-    scoreToMiddle: middleBox.y - panel.scoreBottom,
-    middleToActions: actionsBox.y - (middleBox.y + middleBox.height),
+    between,
   }
 }
 
 /**
  * TUD-1107 (board): the panel's cards sit evenly in it. The space above the
- * scoreboard and below the actions differ by 4px at most, and the two gaps
- * between the cards are the same.
+ * scoreboard and below the actions differ by 4px at most, and every gap
+ * between the boxes of the column is the same.
  */
 async function expectEvenPanelSpacing(page: Page, what: string) {
   await expect(async () => {
@@ -317,8 +336,8 @@ async function expectEvenPanelSpacing(page: Page, what: string) {
       `${measured}; above vs below the cards`,
     ).toBeLessThanOrEqual(4)
     expect(
-      Math.abs(spacing.scoreToMiddle - spacing.middleToActions),
-      `${measured}; the two gaps between the cards`,
+      Math.max(...spacing.between) - Math.min(...spacing.between),
+      `${measured}; the gaps between the cards`,
     ).toBeLessThanOrEqual(1)
   }).toPass({ timeout: 10_000 })
 }
@@ -409,15 +428,14 @@ for (const viewport of PHONES) {
       await expect.poll(() => edgeFadeShows(page, "start")).toBe(true)
       await expect.poll(() => edgeFadeShows(page, "end")).toBe(false)
 
-      // A swipe back over the card reaches the start of the game.
-      const card = await history(page).boundingBox()
-      expect(card).not.toBeNull()
-      if (card === null) return
-      await page.mouse.move(
-        card.x + card.width / 2,
-        card.y + card.height / 2,
-      )
-      for (let i = 0; i < 10; i += 1) await page.mouse.wheel(-400, -400)
+      // A swipe back over the card reaches the start of the game. Mobile
+      // WebKit has no mouse wheel, so scroll the box itself: the same scroll
+      // events a swipe fires.
+      await history(page)
+        .locator(".strip-scroll, .panel-scroll")
+        .filter({ visible: true })
+        .first()
+        .evaluate((box) => box.scrollBy({ left: -10_000, top: -10_000 }))
       await expectShownInFull(start, "the Start of the record")
       await expect.poll(() => edgeFadeShows(page, "start")).toBe(false)
       await expect.poll(() => edgeFadeShows(page, "end")).toBe(true)
