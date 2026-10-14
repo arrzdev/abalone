@@ -1,8 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { Fragment } from "react"
 import { Trans, useTranslation } from "react-i18next"
 import type { ManualChapter } from "@/components/manual/chapter"
-import { Chapter, ChapterBreak } from "@/components/manual/chapter"
+import { Chapter } from "@/components/manual/chapter"
 import {
   formatChapterNumber,
   splitChapterNumber,
@@ -37,9 +36,6 @@ const TIPS = [
   ["attack-as-a-group", "attack_as_a_group"],
   ["tempo", "tempo"],
 ] as const
-
-/** The tip the middle play block follows: halfway through the seven. */
-const MIDDLE_TIP = "edge"
 
 const MISTAKES = ["lone_edge", "split_three", "leave_hole"] as const
 
@@ -99,24 +95,21 @@ function StrategyPage() {
                 }}
               />
             }
-            //a way to the board under the intro, after the third tip and in
-            //"Practise", for whoever has read enough at any of the three
+            //a way to the board under the intro and in "Practise"; none
+            //between the tips, where it broke up the reading
             actions={playBlock}
           />
         }
       >
         {TIPS.map(([id, key], index) => (
-          <Fragment key={id}>
-            <Chapter {...chapters[index]}>
-              <p>
-                <Trans
-                  i18nKey={`game:strategy.tips.${key}.body`}
-                  components={{ strong: STRONG }}
-                />
-              </p>
-            </Chapter>
-            {id === MIDDLE_TIP && <ChapterBreak>{playBlock}</ChapterBreak>}
-          </Fragment>
+          <Chapter key={id} {...chapters[index]}>
+            <p>
+              <Trans
+                i18nKey={`game:strategy.tips.${key}.body`}
+                components={{ strong: STRONG }}
+              />
+            </p>
+          </Chapter>
         ))}
 
         <Chapter id="mistakes" title={t("game:strategy.mistakes.title")}>

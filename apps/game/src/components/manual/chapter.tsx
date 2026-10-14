@@ -118,12 +118,3 @@ export function Plate({ children, className }: PlateProps) {
     </div>
   )
 }
-
-/** A band between two chapters, for the play block in the middle of a page. */
-export function ChapterBreak({ children }: { children: ReactNode }) {
-  return (
-    <div className="mb-10 rounded-2xl bg-surface p-5 lg:mb-16 lg:p-8">
-      {children}
-    </div>
-  )
-}
