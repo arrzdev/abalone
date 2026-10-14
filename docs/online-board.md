@@ -37,7 +37,14 @@ fix covered one ordering.
   - `cut`: show a ply without animation.
 - **A loop applies the steps** until the answer is `idle`, one animation at a
   time. Network answers only change the inputs. They decide when a ply is
-  shown, never what is shown.
+  shown, never what is shown. The loop and the two things it writes (the shown
+  ply and our own optimistic ply) live in one store,
+  `apps/game/src/utils/online-board-store.ts`. Nothing else writes them.
+- **One snapshot of the plies per step.** The last index, the move behind each
+  ply and the position a `cut` lands on all come from the same fetched plies.
+  The row only adds its result, and only on the ply its own `moveCount` names.
+- **An animation always settles**: when the marbles land, when the tab is
+  hidden, when the board unmounts or moves to another game. There is no timer.
 
 ## Rules
 
@@ -55,13 +62,20 @@ fix covered one ordering.
    showing the move. If the server's log has the move, it is a `confirm` like
    any other. If the server says the move did not happen, the optimistic ply is
    marked refused and the board cuts back to the server's last ply, with the
-   error. This is the only time the board moves back.
-5. The game is over on screen when the shown ply is the server's last one and
+   error. This is the only time the board moves back. The server says so in
+   two ways only: a domain error (a 4xx answer to the play request), or a
+   different move logged at that index. A network error or a 5xx refetches the
+   log, and once more if it has not reached the move yet; only then is the
+   move refused (`failedMoveVerdict`).
+5. No second move while one is optimistic: the board takes no input until our
+   move is confirmed or refused. That lock reads the store, not the row.
+6. The game is over on screen when the shown ply is the server's last one and
    the row says finished.
 
 ## Tests
 
-- Unit: `apps/game/src/utils/board-timeline.test.ts` (the step rules).
+- Unit: `apps/game/src/utils/board-timeline.test.ts` (the step rules and the
+  refusal rule).
 - E2E: `e2e/online-board-motion.spec.ts` reads the canvas pixels on every frame
   of both boards. Four moves in a row: the watching board shows the old
   position, then the marble sliding, then the new position, with no step back,
