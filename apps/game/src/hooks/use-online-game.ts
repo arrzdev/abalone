@@ -311,7 +311,12 @@ export function useOnlineGame(
     return () => store.detach()
   }, [store])
 
-  const board = useSyncExternalStore(store.subscribe, store.getSnapshot)
+  //the server renders the store as made: no ply yet, the placeholder board
+  const board = useSyncExternalStore(
+    store.subscribe,
+    store.getSnapshot,
+    store.getSnapshot,
+  )
 
   /**
    * The server's log, as one snapshot. The last index, the move behind each ply
