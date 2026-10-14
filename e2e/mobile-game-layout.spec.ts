@@ -233,6 +233,14 @@ const BLACK_MOVES: [string, string][] = [
   ["b5", "c5"],
 ]
 
+/** A longer game, for a history that holds more than the card shows. */
+const LONG_BLACK_MOVES: [string, string][] = [
+  ...BLACK_MOVES,
+  ["b4", "c4"],
+  ["b3", "c3"],
+  ["a5", "b5"],
+]
+
 for (const viewport of PHONES) {
   test.describe(`at ${viewport.width}×${viewport.height}`, () => {
     test.use({ viewport })
@@ -289,9 +297,9 @@ for (const viewport of PHONES) {
     }) => {
       await startOfflineGame(page, "vs Computer")
       await guide(page).getByRole("button", { name: "Skip" }).click()
-      for (const [index, [from, to]] of BLACK_MOVES.entries())
+      for (const [index, [from, to]] of LONG_BLACK_MOVES.entries())
         await playAgainstBot(page, from, to, 2 * (index + 1))
-      await expectNewestMoveShown(page, 2 * BLACK_MOVES.length)
+      await expectNewestMoveShown(page, 2 * LONG_BLACK_MOVES.length)
 
       // At the newest move: older moves are past the start edge, which fades;
       // nothing is past the end.
