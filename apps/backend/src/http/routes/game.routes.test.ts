@@ -185,8 +185,8 @@ describe("game routes", () => {
       setupType: "belgian_daisy",
       side: "white",
       status: "pending",
-      from: { username: sender.username },
-      to: { username: recipient.username },
+      from: { name: sender.username },
+      to: { name: recipient.username },
     })
 
     const theirs = await call<{ invites: Invite[] }>(
@@ -336,8 +336,8 @@ describe("game routes", () => {
       winner: null,
       finishReason: null,
       //the sender asked for white, so the recipient takes black
-      black: { username: recipient.username },
-      white: { username: sender.username },
+      black: { name: recipient.username },
+      white: { name: sender.username },
     })
 
     const left = await call<{ invites: Invite[] }>(
@@ -688,6 +688,37 @@ describe("game routes", () => {
     expect(listed.body.data?.games[0]?.black).toMatchObject({
       name: sender.shouted,
     })
+  })
+
+  it("hands out a player as an id, a name and a face, nothing more", async () => {
+    const sender = await signUpShouting()
+    const recipient = await signUp("recipient")
+    const sent = await invite(sender.token, recipient.username)
+    const invites = await call<{ invites: Invite[] }>(
+      "GET",
+      "/invites",
+      recipient.token,
+    )
+    const opened = await accept(recipient.token, sent.id)
+    const { body } = await call<{ game: Game }>(
+      "GET",
+      `/games/${opened.id}`,
+      recipient.token,
+    )
+
+    const envelopes = [
+      body.data?.game.black,
+      body.data?.game.white,
+      invites.body.data?.invites[0]?.from,
+      invites.body.data?.invites[0]?.to,
+    ]
+    for (const player of envelopes) {
+      expect(Object.keys(player ?? {}).sort()).toEqual([
+        "avatarUrl",
+        "name",
+        "userId",
+      ])
+    }
   })
 
   it("names both sides of an invite the same way", async () => {

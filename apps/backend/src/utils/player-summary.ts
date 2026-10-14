@@ -11,10 +11,6 @@ export type PlayerSummary = {
   userId: string
   /** The handle as its owner typed it, the one name a screen shows. */
   name: string
-  //BACKWARD_COMPAT 2026-10-13: installed clients still read these two until
-  //the contract deploy drops them; new code reads `name`
-  username: string | null
-  displayUsername: string | null
   avatarUrl: string | null
 }
 
@@ -43,8 +39,6 @@ export function toPlayerSummary(row: PlayerRow): PlayerSummary {
   return {
     userId: row.userId,
     name: playerName(row),
-    username: row.username,
-    displayUsername: row.displayUsername,
     avatarUrl: avatarUrl(row.avatarKey),
   }
 }
