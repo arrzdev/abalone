@@ -56,6 +56,11 @@
   overflow-x: auto;
   overflow-y: hidden;
   touch-action: pan-x;
+  /* pan-x alone excludes pinch-zoom, and touch-action intersects up to the
+   * root — so in a zoomable app the page couldn't be pinched from a scroller */
+  html[data-allow-zoom] & {
+    touch-action: pan-x pinch-zoom;
+  }
   /* keep the local rubber-band, but never chain the overscroll to the page —
    * lets iOS bounce natively without the JS boundary lock bleeding to the shell */
   overscroll-behavior-x: contain;
@@ -66,6 +71,11 @@
   overflow-y: auto;
   overflow-x: hidden;
   touch-action: pan-y;
+  /* pan-y alone excludes pinch-zoom, and touch-action intersects up to the
+   * root — so in a zoomable app the page couldn't be pinched from a scroller */
+  html[data-allow-zoom] & {
+    touch-action: pan-y pinch-zoom;
+  }
   overscroll-behavior-y: contain;
   @apply hardware-boosted;
 }

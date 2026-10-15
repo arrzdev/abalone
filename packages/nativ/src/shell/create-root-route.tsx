@@ -149,6 +149,7 @@ export function createRootRoute(
       lang,
       htmlClassName,
       htmlAttrs,
+      allowZoom: headConfig.allowZoom,
       criticalCss: getCriticalShellCss(themeColorLight, themeColorDark),
       headInitScript:
         getUiThemeInitScript({

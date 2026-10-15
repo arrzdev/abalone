@@ -19,6 +19,12 @@ import { cn } from "#nativ/utils/cn"
 
 const DOCUMENT_SHELL_CLASS = "m-0 h-dvh touch-none overscroll-none"
 
+//effective touch-action is the intersection of the target and every ancestor, and
+//pinch zoom belongs to the root, so a zoomable app can't lock html/body to `none`.
+//`manipulation` keeps pan + pinch and still drops double-tap zoom
+const ZOOMABLE_DOCUMENT_SHELL_CLASS =
+  "m-0 h-dvh touch-manipulation overscroll-none"
+
 const APP_SHELL_CLASS =
   "box-border flex min-h-0 min-w-0 w-full flex-col overflow-hidden h-dvh app:h-screen"
 
@@ -57,6 +63,8 @@ type RootDocumentOptions = {
   criticalCss?: string
   /** Blocking theme init script rendered before `<HeadContent/>` (runs pre-paint). */
   headInitScript?: string
+  /** Lets pinch zoom through the document shell and the `scrollable-*` utilities. */
+  allowZoom?: boolean
 }
 
 function DefaultRootDocument({
@@ -66,11 +74,18 @@ function DefaultRootDocument({
   htmlAttrs,
   criticalCss,
   headInitScript,
+  allowZoom = false,
 }: RootDocumentProps & RootDocumentOptions) {
+  const documentShellClass = allowZoom
+    ? ZOOMABLE_DOCUMENT_SHELL_CLASS
+    : DOCUMENT_SHELL_CLASS
+
   return (
     <html
       lang={lang}
-      className={cn(DOCUMENT_SHELL_CLASS, htmlClassName)}
+      className={cn(documentShellClass, htmlClassName)}
+      //the hook `scrollable-x` / `scrollable-y` read to add `pinch-zoom`
+      data-allow-zoom={allowZoom || undefined}
       suppressHydrationWarning
       {...htmlAttrs}
     >
@@ -86,7 +101,7 @@ function DefaultRootDocument({
         )}
         <HeadContent />
       </head>
-      <body className={DOCUMENT_SHELL_CLASS} suppressHydrationWarning>
+      <body className={documentShellClass} suppressHydrationWarning>
         {children}
         <Scripts />
       </body>
