@@ -46,17 +46,22 @@ test("the board keeps every gesture, so a drag across it stays a move", async ({
   await expect(board).toHaveCSS("touch-action", "none")
 })
 
-test("a drawer's handle keeps every gesture, so the sheet can still be dragged", async ({
-  page,
-}) => {
-  await openApp(page, "/")
-  await page
-    .getByRole("button", { name: "Settings" })
-    .filter({ visible: true })
-    .first()
-    .click()
-  const drawer = page.locator("[data-pwa-drawer][data-open='true']")
-  await expect(drawer).toBeVisible()
-  const handle = drawer.locator(".touch-none").first()
-  await expect(handle).toHaveCSS("touch-action", "none")
+//settings only opens as a drawer on a phone
+test.describe("on a 375x667 phone", () => {
+  test.use({ viewport: { width: 375, height: 667 } })
+
+  test("a drawer's handle keeps every gesture, so the sheet can still be dragged", async ({
+    page,
+  }) => {
+    await openApp(page, "/")
+    await page
+      .getByRole("button", { name: "Settings" })
+      .filter({ visible: true })
+      .first()
+      .click()
+    const drawer = page.locator("[data-pwa-drawer][data-open='true']")
+    await expect(drawer).toBeVisible()
+    const handle = drawer.locator(".touch-none").first()
+    await expect(handle).toHaveCSS("touch-action", "none")
+  })
 })
