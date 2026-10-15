@@ -261,12 +261,17 @@ const BLACK_MOVES: [string, string][] = [
   ["b5", "c5"],
 ]
 
-/** A longer game, for a history that holds more than the card shows. */
+/** A longer game, for a history that holds more than the card shows even on
+ * the widest phone: the last moves shuttle one marble. */
 const LONG_BLACK_MOVES: [string, string][] = [
   ...BLACK_MOVES,
   ["b4", "c4"],
   ["b3", "c3"],
   ["a5", "b5"],
+  ["c6", "b6"],
+  ["b6", "c6"],
+  ["c6", "b6"],
+  ["b6", "c6"],
 ]
 
 /** White's answers to LONG_BLACK_MOVES, the board turned half a turn. */
@@ -279,6 +284,10 @@ const LONG_WHITE_MOVES: [string, string][] = [
   ["h6", "g6"],
   ["h7", "g7"],
   ["i5", "h5"],
+  ["g4", "h4"],
+  ["h4", "g4"],
+  ["g4", "h4"],
+  ["h4", "g4"],
 ]
 
 /** The space around and between the cards of the panel under the board, in px. */
