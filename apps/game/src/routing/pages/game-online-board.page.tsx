@@ -274,6 +274,10 @@ function GameOnlineBoardPage() {
           style={{ "--panel-floor": panelFloor } as CSSProperties}
           className={cn(
             "flex w-full flex-col overflow-hidden bg-surface",
+            //in play, spare height is shared above the seat card and under the
+            //actions — see the same style, and why it is auto margins, on the
+            //offline board
+            !isOver && "[&>:first-child]:mt-auto [&>:last-child]:mb-auto",
             "max-lg:rounded-none max-lg:border-0",
             "stacked:min-h-[var(--panel-floor)] stacked:flex-1",
             "beside:min-h-0 beside:w-[min(380px,50%)] beside:shrink-0",

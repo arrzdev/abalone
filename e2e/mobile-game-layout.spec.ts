@@ -726,3 +726,83 @@ test("at 375×667 the other player's move is shown whole and lit when it arrives
     await guest.close()
   }
 })
+
+// TUD-1138: the online board's panel shares its spare height the same way as
+// the offline one. Its seat card is taller, so the single-line move strip
+// starts at a shorter phone: 375×667 has height left over, while at 390×700 and
+// 402×710 the list fills the column and this guards that it stays even.
+for (const viewport of PHONES.slice(0, 3)) {
+  test(`at ${viewport.width}×${viewport.height} an online game's panel shares its spare height above and below its cards`, async ({
+    browser,
+  }) => {
+    test.slow(
+      browser.browserType().name() === "webkit",
+      "two WebKit pages paint in software",
+    )
+
+    const { host, guest, hostPage, guestPage } =
+      await startOnlineGame(browser)
+    try {
+      await hostPage.setViewportSize(viewport)
+      await playMove(hostPage, "c5", "d5")
+      await playMove(guestPage, "g5", "f5")
+      await expect(movePills(hostPage)).toHaveCount(2, { timeout: 30_000 })
+
+      await expect(async () => {
+        const spacing = await panelSpacing(hostPage)
+        expect(
+          Math.abs(spacing.above - spacing.below),
+          `spacing in px: ${JSON.stringify(spacing)}; above vs below the cards`,
+        ).toBeLessThanOrEqual(4)
+      }).toPass({ timeout: 10_000 })
+      await expectNoPageScroll(hostPage)
+    } finally {
+      await host.close()
+      await guest.close()
+    }
+  })
+}
+
+// The same check online: sideways, the panel beside the board is taller than
+// the screen, and sharing the spare height must not share that shortfall.
+test("at 844×390 an online game's panel beside the board starts with its seat card whole", async ({
+  browser,
+}) => {
+  test.slow(
+    browser.browserType().name() === "webkit",
+    "two WebKit pages paint in software",
+  )
+
+  const { host, guest, hostPage } = await startOnlineGame(browser)
+  try {
+    await hostPage.setViewportSize({ width: 844, height: 390 })
+    await expect(
+      hostPage.getByRole("button", { name: "Resign" }),
+    ).toBeAttached()
+    await expect(async () => {
+      const placement = await hostPage
+        .locator("aside")
+        .filter({ visible: true })
+        .first()
+        .evaluate((aside) => {
+          const isClear = (colour: string) =>
+            colour === "transparent" || /,\s*0\)$/.test(colour)
+          const seat = Array.from(aside.querySelectorAll("*")).find(
+            (element) =>
+              !isClear(getComputedStyle(element).backgroundColor),
+          )
+          return {
+            asideTop: aside.getBoundingClientRect().top,
+            seatTop: seat?.getBoundingClientRect().top ?? Number.NaN,
+          }
+        })
+      expect(
+        placement.seatTop,
+        `the seat card's top against the panel's: ${JSON.stringify(placement)}`,
+      ).toBeGreaterThanOrEqual(placement.asideTop - 0.5)
+    }).toPass({ timeout: 10_000 })
+  } finally {
+    await host.close()
+    await guest.close()
+  }
+})
