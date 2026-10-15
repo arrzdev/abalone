@@ -463,6 +463,7 @@ for (const viewport of PHONES) {
       const moves = 2 * LONG_BLACK_MOVES.length
       await playMove(page, "a4", "b4")
       await expectNewestMoveShown(page, moves + 1)
+      await playMove(page, "i6", "h6")
       await expectNewestMoveShown(page, moves + 2)
       await expect.poll(() => edgeFadeShows(page, "end")).toBe(false)
     })
