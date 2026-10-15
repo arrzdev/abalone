@@ -58,6 +58,24 @@ binding = "AVATARS"
 # config-derived dev signal as CORS rather than on a build flag.
 bucket_name = "abalone-avatars-dev"
 
+# Cloudflare's own counters, shared by every isolate in a location, for the two
+# limiters a guess is worth making through: sign-in and the invite-link accept.
+# The in-memory limiter in src/http/middlewares/rate-limit.ts counts per isolate,
+# so behind enough isolates it barely limits at all. `limit` mirrors that file's
+# `max` for the preset, and `period` its 60 s window (the binding allows 10 or
+# 60). `namespace_id` is any positive integer, unique per limiter in the account.
+# Local mode emulates these in miniflare, so dev and the test suite need no
+# account either.
+[[ratelimits]]
+name = "AUTH_RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 60, period = 60 }
+
+[[ratelimits]]
+name = "INVITE_LINK_RATE_LIMITER"
+namespace_id = "1002"
+simple = { limit = 20, period = 60 }
+
 # ---- production ----------------------------------------------------
 # Bindings are NON-inheritable in wrangler, so this block redeclares the full set
 # rather than patching the one above. `name` is set explicitly too: a named env
@@ -99,3 +117,13 @@ binding = "AVATARS"
 # to it in the dashboard (R2 → bucket → Settings → Public access → Custom domain).
 # There is no wrangler equivalent for that step.
 bucket_name = "abalone-avatars"
+
+[[env.production.ratelimits]]
+name = "AUTH_RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 60, period = 60 }
+
+[[env.production.ratelimits]]
+name = "INVITE_LINK_RATE_LIMITER"
+namespace_id = "1002"
+simple = { limit = 20, period = 60 }
