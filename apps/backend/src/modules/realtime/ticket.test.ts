@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest"
-import { mintTicket, verifyTicket } from "@/modules/realtime/ticket"
+import {
+  mintTicket,
+  ticketFromProtocols,
+  verifyTicket,
+} from "@/modules/realtime/ticket"
 
 //the ticket is the only thing standing between a url and a subscription, so
 //what these cover is the two halves of that: a good ticket says exactly who and
@@ -138,6 +142,27 @@ describe("realtime tickets", () => {
   it("refuses anything that is not a ticket", async () => {
     for (const junk of ["", ".", "nonsense", "a.b.c", "onlyonepart"]) {
       expect(await verifyTicket(SECRET, junk)).toBeNull()
+    }
+  })
+
+  //---- the transport ----------------
+
+  it("reads the ticket out of the offered subprotocols", () => {
+    expect(ticketFromProtocols("ticket, abc.def")).toBe("abc.def")
+    expect(ticketFromProtocols("ticket,abc.def")).toBe("abc.def")
+  })
+
+  it("reads nothing out of any other subprotocol list", () => {
+    for (const header of [
+      undefined,
+      "",
+      "ticket",
+      "abc.def",
+      "abc.def, ticket",
+      "chat, abc.def",
+      "ticket, abc.def, extra",
+    ]) {
+      expect(ticketFromProtocols(header)).toBeNull()
     }
   })
 

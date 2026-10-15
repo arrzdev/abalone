@@ -21,12 +21,25 @@ import { toBase64Url } from "@/utils/base64url"
  * channel the request names. There is no code path by which a client chooses
  * its own channel, so a ticket is worth exactly one channel for thirty seconds.
  * Any change that reads a channel off the request is a security regression.
+ *
+ * THE TICKET RIDES IN THE SUBPROTOCOL LIST, NOT THE URL. The client opens
+ * `new WebSocket(url, ["ticket", t])`, so the ticket arrives in
+ * `Sec-WebSocket-Protocol` and never lands in an access log, a proxy log or the
+ * browser's history. The subscribe route reads it from there and nowhere else.
+ *
+ * ACCEPTED RISK: a ticket is reusable. Anyone holding one can open a socket on
+ * its channel as many times as they like until it expires, thirty seconds after
+ * it was minted (an open socket outlives that; expiry only gates the connect).
+ * That is acceptable only while beacons carry no board or profile data: today a
+ * beacon says "something changed, go and ask", and the asking is authorized.
+ * If a beacon ever carries the data itself, make tickets single-use with a
+ * nonce held in the user's `PubSub` durable object.
  */
 
 /** How long a minted ticket stays redeemable. */
 const TICKET_TTL_MS = 30_000
 
-/** Short keys because the whole thing rides in a url. */
+/** Short keys because the whole thing rides in a request header. */
 type TicketClaims = {
   /** who it was minted for */
   u: string
@@ -49,8 +62,8 @@ export type TicketClaim = {
 }
 
 //---- encoding ----------------
-//base64url rather than base64: the ticket is a query parameter, and `+` and `/`
-//would need escaping on every hop that touches the url.
+//base64url rather than base64: a subprotocol must be an http token, and `+`,
+//`/` and `=` are not token characters.
 
 const encoder = new TextEncoder()
 const decoder = new TextDecoder()
@@ -116,6 +129,30 @@ function signingKey(secret: string): Promise<CryptoKey> {
   const key = deriveSigningKey(secret)
   keyCache.set(secret, key)
   return key
+}
+
+//---- transport ----------------
+
+/**
+ * The subprotocol the client offers first and the server echoes back. A browser
+ * fails any handshake that offered subprotocols and got none echoed, so the
+ * upgrade response must name this one.
+ */
+export const TICKET_SUBPROTOCOL = "ticket"
+
+/**
+ * The ticket out of a `Sec-WebSocket-Protocol` header, or null if the client
+ * did not offer one the way it should: exactly `ticket, <ticket>`.
+ */
+export function ticketFromProtocols(
+  header: string | undefined,
+): string | null {
+  const [marker, ticket, ...rest] = (header ?? "")
+    .split(",")
+    .map((protocol) => protocol.trim())
+  if (marker !== TICKET_SUBPROTOCOL || !ticket || rest.length > 0)
+    return null
+  return ticket
 }
 
 //---- mint ----------------

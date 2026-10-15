@@ -2,6 +2,7 @@ import { DurableObject } from "cloudflare:workers"
 import { Logger } from "@repo/shared/logging"
 import tryCatch from "@repo/shared/try-catch"
 import type { RealtimeEvent } from "@/modules/realtime/events"
+import { TICKET_SUBPROTOCOL } from "@/modules/realtime/ticket"
 
 const log = new Logger("pubsub")
 
@@ -50,7 +51,14 @@ export class PubSub extends DurableObject {
     //object hibernate while the connection stays open
     this.ctx.acceptWebSocket(server)
 
-    return new Response(null, { status: 101, webSocket: client })
+    //the client offered `ticket, <ticket>` as its subprotocols, and a browser
+    //drops a handshake that offered some and had none echoed. only the marker is
+    //echoed: the ticket itself has no business in a response header.
+    return new Response(null, {
+      status: 101,
+      webSocket: client,
+      headers: { "sec-websocket-protocol": TICKET_SUBPROTOCOL },
+    })
   }
 
   //---- publish ----------------
