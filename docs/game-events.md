@@ -125,6 +125,28 @@ group by day
 order by day desc;
 ```
 
+### Weekly games started
+
+The north-star number, read at Monday planning: games started per mode per
+week. Weeks start on Monday (UTC); `%W` numbers them, so `2026-W41` is the week
+of Monday 2026-10-12. The filter for our own checks went live with the deploy
+that finished 2026-10-12 12:46:49 UTC (`1791809209000`), so that week starts
+mid-week and earlier weeks are left out. The current week is partial.
+
+```sql
+select strftime('%Y-W%W', created_at / 1000, 'unixepoch') as week,
+       mode,
+       count(*) as started
+from game_events
+where kind = 'start' and created_at >= 1791809209000
+group by week, mode
+order by week desc, mode;
+```
+
+`ai` is vs Computer, `local` is Pass & Play, `online` is online. Rows count
+games, not people: there is no user id to count people by, and one person can
+start many games. Visitors are in Web Analytics ([web-analytics.md](web-analytics.md)).
+
 Games started and finished per mode per day:
 
 ```sql
