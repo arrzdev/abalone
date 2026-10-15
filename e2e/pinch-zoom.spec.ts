@@ -74,7 +74,8 @@ test("a drawer's handle keeps every gesture, so the sheet still follows a drag",
   await page.mouse.move(x, y)
   await page.mouse.down()
   await page.mouse.move(x, y + 60, { steps: 6 })
-  const dragged = (await drawer.boundingBox())?.y ?? 0
-  expect(dragged).toBeGreaterThan(resting + 20)
+  await expect
+    .poll(async () => ((await drawer.boundingBox())?.y ?? 0) - resting)
+    .toBeGreaterThan(20)
   await page.mouse.up()
 })
