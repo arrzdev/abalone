@@ -598,6 +598,37 @@ for (const language of ["en", "pt"] as const) {
   })
 }
 
+// TUD-1127 QA: a phone held sideways has the panel beside the board, and it is
+// taller than the screen there. Sharing the spare height evenly must not share
+// a shortfall: the scoreboard stays whole at the top of the panel, under the
+// header, as it is on main.
+test("at 844×390 the panel beside the board starts with its scoreboard whole", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 844, height: 390 })
+  await startOfflineGame(page, "vs Computer")
+  await expect(guide(page)).toBeVisible()
+  const placement = await page
+    .locator("aside")
+    .filter({ visible: true })
+    .first()
+    .evaluate((aside) => {
+      const isClear = (colour: string) =>
+        colour === "transparent" || /,\s*0\)$/.test(colour)
+      const score = Array.from(aside.querySelectorAll("*")).find(
+        (element) => !isClear(getComputedStyle(element).backgroundColor),
+      )
+      return {
+        asideTop: aside.getBoundingClientRect().top,
+        scoreTop: score?.getBoundingClientRect().top ?? Number.NaN,
+      }
+    })
+  expect(
+    placement.scoreTop,
+    `the scoreboard's top against the panel's: ${JSON.stringify(placement)}`,
+  ).toBeGreaterThanOrEqual(placement.asideTop - 0.5)
+})
+
 // Online games share the panel: the same history card under the same rules on
 // the smallest phone.
 test("at 375×667 an online game's history keeps a full row and the page does not scroll", async ({
