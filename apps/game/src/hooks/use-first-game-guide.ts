@@ -26,6 +26,11 @@ export type FirstGameGuideInput = {
   /** The bot's colour, or null when both sides are people at this device. */
   botColor: Player | null
   gameOver: boolean
+  /**
+   * Whether the panel is beside the board. Under it, on a phone upright, there
+   * is no guide: a step's whole title and text would take the board's room.
+   */
+  besideBoard: boolean
 }
 
 export type FirstGameGuide = {
@@ -47,6 +52,7 @@ export function useFirstGameGuide({
   currentTurn,
   botColor,
   gameOver,
+  besideBoard,
 }: FirstGameGuideInput): FirstGameGuide {
   //done until the flag is read: the page is prerendered, and a flag read during
   //the first render would be a hydration mismatch (React #418)
@@ -63,7 +69,9 @@ export function useFirstGameGuide({
     })
   }, [])
 
-  const active = shouldGuide(mode, done) && progress !== "done"
+  //a game on a phone upright is not one the guide saw, so it does not finish it
+  const active =
+    besideBoard && shouldGuide(mode, done) && progress !== "done"
   const visible = active && phase === "ingame"
 
   const dispatch = useCallback((event: GuideEvent) => {

@@ -35,6 +35,7 @@ import {
 import { TapButton } from "@/components/ui/tap-button"
 import { useProfile } from "@/data/profile/queries"
 import { useAbaloneGame } from "@/hooks/use-abalone-game"
+import { useBesideBoard } from "@/hooks/use-beside-board"
 import { useBotChatter } from "@/hooks/use-bot-chatter"
 import { usePanelFloor } from "@/hooks/use-compact-panel"
 import { useDocumentTitle } from "@/hooks/use-document-title"
@@ -206,6 +207,7 @@ function GameOfflinePage() {
     state,
   })
 
+  const besideBoard = useBesideBoard()
   const guide = useFirstGameGuide({
     mode,
     phase,
@@ -214,6 +216,7 @@ function GameOfflinePage() {
     currentTurn: state.currentTurn,
     botColor: isLocal ? null : aiColor,
     gameOver: state.gameOver,
+    besideBoard,
   })
 
   /**
@@ -444,7 +447,8 @@ function GameOfflinePage() {
    * board's top-right corner, which the hexagon leaves empty, rather than a
    * slot in the action bar: it is help about the board, not a move in the game.
    * A small glyph in a thumb-sized box. The board listening for the reset shows
-   * the guide from step 1 on the game in progress.
+   * the guide from step 1 on the game in progress. Only beside the board, the
+   * one layout with a guide to call up.
    */
   const howToMoveButton = (
     <TapButton
@@ -551,7 +555,9 @@ function GameOfflinePage() {
                 onDragSelect={game.handleDragSelect}
                 onHover={game.setHoveredCell}
                 onResize={handleBoardResize}
-                corner={phase === "ingame" && howToMoveButton}
+                corner={
+                  phase === "ingame" && besideBoard && howToMoveButton
+                }
               />
             </div>
 
@@ -606,6 +612,11 @@ function GameOfflinePage() {
           <aside
             className={cn(
               "flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-surface",
+              // In play, a panel short enough for the single-line move strip
+              // is only as tall as its contents, and what it leaves over is
+              // shared above the scoreboard and under the actions. Taller, the
+              // controls fill the column and this changes nothing.
+              phase === "ingame" && "justify-center",
               // A floating card only makes sense with room around it. Below `lg`
               // — stacked under the board, or beside it on a phone held sideways
               // — it runs to the edges of what it has, so it drops its corners
@@ -650,16 +661,14 @@ function GameOfflinePage() {
                 />
                 {/* The first thing under the scoreboard beside the board
                     (TUD-973). Part of the head, so the panel's floor counts it.
-                    Stacked under the board it is a bar in the move history's
-                    slot instead (see `IngameControls`): as a card here it took
-                    its height from the board. Never over the board: the
+                    Never under the board: there its whole text took its
+                    height from the board. Never over the board either: the
                     presses it teaches land there. */}
                 {guide.step && (
                   <FirstGameGuide
                     step={guide.step}
                     onNext={guide.next}
                     onSkip={guide.skip}
-                    className="stacked:hidden"
                   />
                 )}
               </div>
@@ -710,16 +719,6 @@ function GameOfflinePage() {
                 onUndo={game.undoMove}
                 onResign={() => setResignOpen(true)}
                 onNewGame={isLocal ? undefined : game.handleNewBot}
-                guide={
-                  guide.step && (
-                    <FirstGameGuide
-                      layout="bar"
-                      step={guide.step}
-                      onNext={guide.next}
-                      onSkip={guide.skip}
-                    />
-                  )
-                }
               />
             )}
 

@@ -36,8 +36,7 @@ export const LIST_BELOW = 160
  * gap (6), and the row of actions (64), plus the 8 of the bottom padding that is
  * not the safe-area inset. The inset is added in CSS, where it can be read.
  *
- * The first-game guide is not in it: on a phone it is a bar in the strip's own
- * slot, so the floor holds whichever of the two is showing.
+ * The first-game guide is not in it: under the board there is none.
  *
  * The strip and the action bar, because that is the shortest the foot of this
  * panel ever legitimately gets: the strip is the history's smallest rendering
@@ -112,15 +111,34 @@ export function usePanelFloor(): {
 }
 
 /**
- * Whether the panel is at least this tall — the measurement everything else
- * here is made of.
+ * The height, in px, the panel has to stand in: its parent's, less everything
+ * else in it (the seat card above it).
+ *
+ * The room rather than the panel's own box, because the panel is not always the
+ * room's size. In the single-line strip layout it is only as tall as its strip
+ * and actions, and the column centres it with the seat card above it, so what
+ * it leaves over is shared above and below rather than all left at the bottom.
+ */
+function roomFor(element: HTMLElement): number {
+  const parent = element.parentElement
+  if (!parent) return element.getBoundingClientRect().height
+  let room = parent.getBoundingClientRect().height
+  for (const sibling of parent.children)
+    if (sibling !== element) room -= sibling.getBoundingClientRect().height
+  return room
+}
+
+/**
+ * Whether the panel has at least this much room — the measurement everything
+ * else here is made of.
  *
  * Measuring is safe, and this is the one thing worth checking before changing
- * any of it: the panel never sizes itself from its contents. Below `lg` it is a
- * `flex-1` item with a zero basis, taking whatever the header and the board
- * leave over; beside the board it is a column in a row and takes the full
- * height. Either way, swapping one layout for another cannot change the number
- * this reads — so no two layouts can oscillate.
+ * any of it: the room never depends on the panel's contents. Below `lg` the
+ * column is a `flex-1` item taking whatever the header and the board leave
+ * over; beside the board it is a column in a row and takes the full height.
+ * The seat card above the panel sizes itself from its own contents. Either way,
+ * swapping one layout for another cannot change the number this reads — so no
+ * two layouts can oscillate.
  *
  * It starts out saying yes, so the first render is the roomy one and a panel
  * that turns out to be short is corrected before the browser paints.
@@ -135,8 +153,7 @@ export function usePanelFits(
     const element = ref.current
     if (!element) return
 
-    const measure = () =>
-      setFits(element.getBoundingClientRect().height >= minHeight)
+    const measure = () => setFits(roomFor(element) >= minHeight)
     measure()
 
     if (typeof ResizeObserver === "undefined") {
@@ -144,7 +161,9 @@ export function usePanelFits(
       return () => window.removeEventListener("resize", measure)
     }
     const observer = new ResizeObserver(measure)
-    observer.observe(element)
+    observer.observe(element.parentElement ?? element)
+    for (const sibling of element.parentElement?.children ?? [])
+      if (sibling !== element) observer.observe(sibling)
     return () => observer.disconnect()
   }, [ref, minHeight])
 

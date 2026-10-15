@@ -75,12 +75,6 @@ export type IngameControlsProps = {
   onResign: () => void
   /** Back to the setup screen, leaving this game. Only against a bot. */
   onNewGame?: () => void
-  /**
-   * The first-game guide's bar, while it is open. Stacked under the board it
-   * takes the move history's slot; beside the board the guide is the full card
-   * under the scoreboard instead, and this is not shown.
-   */
-  guide?: ReactNode
 }
 
 /**
@@ -98,7 +92,10 @@ export type IngameControlsProps = {
  * only a little: the list in the middle layout is a `flex-1`, so whatever the
  * board leaves over goes into moves you can see. That is the whole reason the
  * middle one exists — one line of chips over a hand's breadth of empty panel was
- * the alternative.
+ * the alternative. In the last one the panel is only as tall as its contents,
+ * and the column centres it with the seat card above it: the little it leaves
+ * over goes half above the scoreboard and half under the actions, not all of it
+ * under the actions.
  */
 
 export function IngameControls({
@@ -118,7 +115,6 @@ export function IngameControls({
   onUndo,
   onResign,
   onNewGame,
-  guide,
 }: IngameControlsProps) {
   const { t } = useTranslation()
   const panelRef = useRef<HTMLDivElement>(null)
@@ -148,24 +144,6 @@ export function IngameControls({
     />
   )
 
-  // The guide's bar stands where the record stood and takes its exact box, so
-  // opening it moves nothing. The record comes back when the guide closes.
-  const slot = guide ? (
-    <>
-      <div className="contents stacked:hidden">{record}</div>
-      <div
-        className={cn(
-          "flex [container-type:size] beside:hidden",
-          stripOnly ? "h-13 shrink-0" : "min-h-13 flex-1",
-        )}
-      >
-        {guide}
-      </div>
-    </>
-  ) : (
-    record
-  )
-
   return (
     // The top padding is this column's own gap, not a margin of its own: the
     // strip of seats above it ends at its cards, and the space between them
@@ -179,8 +157,9 @@ export function IngameControls({
     <div
       ref={panelRef}
       className={cn(
-        "flex min-h-0 flex-1 flex-col gap-2 px-4 pt-2 stacked:gap-1.5 stacked:pt-1.5",
+        "flex min-h-0 flex-col gap-2 px-4 pt-2 stacked:gap-1.5 stacked:pt-1.5",
         compact ? "pb-safe-or-2" : "pb-safe-offset-4 stacked:pb-safe-or-2",
+        stripOnly ? "shrink-0" : "flex-1",
       )}
     >
       {/* Nothing here says you are reviewing an earlier position. That notice
@@ -188,10 +167,10 @@ export function IngameControls({
           banner in this column appeared and vanished on every step through the
           history, resizing the move list under it both ways. */}
       {compact ? (
-        slot
+        record
       ) : (
         <>
-          {slot}
+          {record}
 
           <div className="flex shrink-0 gap-2">
             <Button
