@@ -262,16 +262,16 @@ const BLACK_MOVES: [string, string][] = [
 ]
 
 /** A longer game, for a history that holds more than the card shows even on
- * the widest phone: the last moves shuttle one marble. */
+ * the widest phone. No position comes twice, so it never ends in a draw. */
 const LONG_BLACK_MOVES: [string, string][] = [
   ...BLACK_MOVES,
   ["b4", "c4"],
   ["b3", "c3"],
   ["a5", "b5"],
-  ["c6", "b6"],
-  ["b6", "c6"],
-  ["c6", "b6"],
-  ["b6", "c6"],
+  ["d5", "e5"],
+  ["d4", "e4"],
+  ["d3", "e3"],
+  ["c6", "d6"],
 ]
 
 /** White's answers to LONG_BLACK_MOVES, the board turned half a turn. */
@@ -284,10 +284,10 @@ const LONG_WHITE_MOVES: [string, string][] = [
   ["h6", "g6"],
   ["h7", "g7"],
   ["i5", "h5"],
-  ["g4", "h4"],
-  ["h4", "g4"],
-  ["g4", "h4"],
-  ["h4", "g4"],
+  ["f6", "e6"],
+  ["f7", "e7"],
+  ["g4", "f4"],
+  ["g6", "f6"],
 ]
 
 /** The space around and between the cards of the panel under the board, in px. */
