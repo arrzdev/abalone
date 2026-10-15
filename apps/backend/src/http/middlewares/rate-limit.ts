@@ -1,4 +1,5 @@
 import type { Context, Next } from "hono"
+import type { CloudflareBindings } from "@/env/registry"
 import { env } from "@/env/registry"
 import { error } from "@/http/envelope"
 import { CustomError } from "@/http/errors"
@@ -8,13 +9,20 @@ const RATE_LIMIT_WINDOW_MS = 60_000
 //one preset per traffic shape, not per route: a chatty sync surface and a
 //sign-in form want different ceilings, two read endpoints don't. add a key
 //when a domain's shape genuinely differs from `api`.
-const RATE_LIMITS: Record<string, { max: number }> = {
+//`binding` names a Workers Rate Limiting binding in wrangler.toml whose `limit`
+//equals `max`. a preset with one is counted by cloudflare, shared across every
+//isolate in a location; the rest are counted per isolate below. only the
+//presets a guess is tried through have one.
+const RATE_LIMITS: Record<
+  string,
+  { max: number; binding?: keyof RateLimitBindings }
+> = {
   //ordinary request/response endpoints
   api: { max: 120 },
   //sign-in/up/out and get-session. tighter than `api` because a password guess
   //is the one request worth making a million of, and this surface is the whole
   //better-auth handler behind one wildcard.
-  auth: { max: 60 },
+  auth: { max: 60, binding: "AUTH_RATE_LIMITER" },
   //avatar uploads. each one is a hash plus an R2 write of up to half a megabyte,
   //and a player changes their picture a handful of times ever.
   upload: { max: 10 },
@@ -28,8 +36,13 @@ const RATE_LIMITS: Record<string, { max: number }> = {
   events: { max: 30 },
   //making an invite link and accepting one. a player sends a few links a day,
   //and the accept is the door a guessed token would be tried through.
-  "invite-link": { max: 20 },
+  "invite-link": { max: 20, binding: "INVITE_LINK_RATE_LIMITER" },
 }
+
+type RateLimitBindings = Pick<
+  CloudflareBindings,
+  "AUTH_RATE_LIMITER" | "INVITE_LINK_RATE_LIMITER"
+>
 
 //best-effort limiter: per-isolate on cloudflare workers, not shared across
 //isolates, so callers must not assume global enforcement
@@ -76,6 +89,18 @@ export function rateLimit(code: string) {
 
     const ip = getClientIp(c)
     const bucketKey = `${ip}:${options.key}`
+
+    //a bare Hono app in a test has no bindings, so a preset with one still
+    //falls back to the per-isolate count there
+    const binding = preset.binding
+      ? (c.env as RateLimitBindings | undefined)?.[preset.binding]
+      : undefined
+    if (binding) {
+      const outcome = await binding.limit({ key: bucketKey })
+      if (!outcome.success) return error(c, "rate_limit_exceeded")
+      return next()
+    }
+
     const now = Date.now()
     const pruned = pruneExpired(
       buckets.get(bucketKey) ?? [],
