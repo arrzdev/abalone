@@ -7,7 +7,11 @@ import { requireAuth } from "@/http/middlewares/auth"
 import { rateLimit } from "@/http/middlewares/rate-limit"
 import { isAllowedFrontendOrigin } from "@/http/network-policy"
 import { userChannel } from "@/modules/realtime/channel"
-import { mintTicket, verifyTicket } from "@/modules/realtime/ticket"
+import {
+  mintTicket,
+  ticketFromProtocols,
+  verifyTicket,
+} from "@/modules/realtime/ticket"
 
 //---- routes ----------------
 //two halves of one act. the ticket half is an ordinary authenticated json
@@ -50,7 +54,12 @@ export const realtimeRoutes = newEndpoint<Env, AuthedVariables>()
     if (origin && !isAllowedFrontendOrigin(origin))
       throw new CustomError("unauthorized")
 
-    const ticket = c.req.query("ticket")
+    //the ticket rides in the subprotocol list and only there. a `?ticket=` is
+    //not read at all: a url ends up in logs, and a ticket in a log is a ticket
+    //anyone with the log can redeem for the next thirty seconds.
+    const ticket = ticketFromProtocols(
+      c.req.header("sec-websocket-protocol"),
+    )
     if (!ticket) throw new CustomError("unauthorized")
 
     const claim = await verifyTicket(c.env.BETTER_AUTH_SECRET, ticket)

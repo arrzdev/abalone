@@ -1037,10 +1037,11 @@ describe("game routes", () => {
       userChannel(userId),
     )
     const response = await fetchWorker(
-      new Request(`http://example.com/api/v1/realtime?ticket=${ticket}`, {
+      new Request("http://example.com/api/v1/realtime", {
         headers: {
           upgrade: "websocket",
           origin: "http://example.com",
+          "sec-websocket-protocol": `ticket, ${ticket}`,
           "x-test-bypass": "true",
         },
       }),

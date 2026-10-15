@@ -77,14 +77,17 @@ describe("realtime routes", () => {
     }
   }
 
-  function subscribe(query: string) {
+  /** Opens the socket the way the browser does: the ticket as a subprotocol. */
+  function subscribe(ticket: string | undefined, query = "") {
+    const headers: Record<string, string> = {
+      upgrade: "websocket",
+      origin: "http://example.com",
+      "x-test-bypass": "true",
+    }
+    if (ticket) headers["sec-websocket-protocol"] = `ticket, ${ticket}`
     return fetchWorker(
       new Request(`http://example.com/api/v1/realtime?${query}`, {
-        headers: {
-          upgrade: "websocket",
-          origin: "http://example.com",
-          "x-test-bypass": "true",
-        },
+        headers,
       }),
     )
   }
@@ -141,24 +144,40 @@ describe("realtime routes", () => {
     const { body } = await buyTicket(player.token)
 
     const response = await fetchWorker(
-      new Request(
-        `http://example.com/api/v1/realtime?ticket=${body.data?.ticket}`,
-        { headers: { "x-test-bypass": "true" } },
-      ),
+      new Request("http://example.com/api/v1/realtime", {
+        headers: {
+          "sec-websocket-protocol": `ticket, ${body.data?.ticket}`,
+          "x-test-bypass": "true",
+        },
+      }),
     )
 
     expect(response.status).toBe(400)
   })
 
   it("refuses an upgrade with no ticket", async () => {
-    const response = await subscribe("")
+    const response = await subscribe(undefined)
+
+    expect(response.status).toBe(401)
+    expect(response.webSocket).toBeNull()
+  })
+
+  it("refuses a good ticket sent only in the query", async () => {
+    //the url is the one place a ticket must never be, because urls get logged
+    const player = await signUp()
+    const { body } = await buyTicket(player.token)
+
+    const response = await subscribe(
+      undefined,
+      `ticket=${body.data?.ticket}`,
+    )
 
     expect(response.status).toBe(401)
     expect(response.webSocket).toBeNull()
   })
 
   it("refuses a forged ticket", async () => {
-    const response = await subscribe("ticket=not.aticket")
+    const response = await subscribe("not.aticket")
 
     expect(response.status).toBe(401)
   })
@@ -169,7 +188,7 @@ describe("realtime routes", () => {
       "player-a",
       "user:player-a",
     )
-    const response = await subscribe(`ticket=${ticket}`)
+    const response = await subscribe(ticket)
 
     expect(response.status).toBe(401)
   })
@@ -179,16 +198,14 @@ describe("realtime routes", () => {
     const { body } = await buyTicket(player.token)
 
     const response = await fetchWorker(
-      new Request(
-        `http://example.com/api/v1/realtime?ticket=${body.data?.ticket}`,
-        {
-          headers: {
-            upgrade: "websocket",
-            origin: "http://attacker.example.net",
-            "x-test-bypass": "true",
-          },
+      new Request("http://example.com/api/v1/realtime", {
+        headers: {
+          upgrade: "websocket",
+          origin: "http://attacker.example.net",
+          "sec-websocket-protocol": `ticket, ${body.data?.ticket}`,
+          "x-test-bypass": "true",
         },
-      ),
+      }),
     )
 
     expect(response.status).toBe(401)
@@ -198,8 +215,11 @@ describe("realtime routes", () => {
     const player = await signUp()
     const { body } = await buyTicket(player.token)
 
-    const response = await subscribe(`ticket=${body.data?.ticket}`)
+    const response = await subscribe(body.data?.ticket)
     expect(response.status).toBe(101)
+    //a browser drops a handshake whose offered subprotocol is not echoed, and
+    //the ticket itself is never echoed back
+    expect(response.headers.get("sec-websocket-protocol")).toBe("ticket")
 
     const socket = response.webSocket
     if (!socket) throw new Error("no socket on the 101")
@@ -223,9 +243,8 @@ describe("realtime routes", () => {
 
     //every shape a hopeful client might try, all at once
     const response = await subscribe(
-      `ticket=${body.data?.ticket}` +
-        `&channel=user:${intruder.userId}` +
-        `&c=user:${intruder.userId}`,
+      body.data?.ticket,
+      `channel=user:${intruder.userId}` + `&c=user:${intruder.userId}`,
     )
     expect(response.status).toBe(101)
 

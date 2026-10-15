@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from "vitest"
-import { mintTicket, verifyTicket } from "@/modules/realtime/ticket"
+import {
+  mintTicket,
+  ticketFromProtocols,
+  verifyTicket,
+} from "@/modules/realtime/ticket"
 
 //the ticket is the only thing standing between a url and a subscription, so
 //what these cover is the two halves of that: a good ticket says exactly who and
@@ -90,6 +94,37 @@ describe("realtime tickets", () => {
     expect(await verifyTicket(SECRET, ticket)).toBeNull()
   })
 
+  it("refuses a ticket signed with the raw auth secret", async () => {
+    //the key is derived from the secret, so a ticket that something else
+    //signed with the secret itself is not a ticket
+    const { ticket } = await mintTicket(
+      SECRET,
+      "player-a",
+      "user:player-a",
+    )
+    const [payload] = ticket.split(".")
+    const rawKey = await crypto.subtle.importKey(
+      "raw",
+      new TextEncoder().encode(SECRET),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"],
+    )
+    const rawSignature = await crypto.subtle.sign(
+      "HMAC",
+      rawKey,
+      new TextEncoder().encode(payload),
+    )
+    const encoded = btoa(
+      String.fromCharCode(...new Uint8Array(rawSignature)),
+    )
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "")
+
+    expect(await verifyTicket(SECRET, `${payload}.${encoded}`)).toBeNull()
+  })
+
   it("refuses a ticket whose signature was edited", async () => {
     const { ticket } = await mintTicket(
       SECRET,
@@ -107,6 +142,27 @@ describe("realtime tickets", () => {
   it("refuses anything that is not a ticket", async () => {
     for (const junk of ["", ".", "nonsense", "a.b.c", "onlyonepart"]) {
       expect(await verifyTicket(SECRET, junk)).toBeNull()
+    }
+  })
+
+  //---- the transport ----------------
+
+  it("reads the ticket out of the offered subprotocols", () => {
+    expect(ticketFromProtocols("ticket, abc.def")).toBe("abc.def")
+    expect(ticketFromProtocols("ticket,abc.def")).toBe("abc.def")
+  })
+
+  it("reads nothing out of any other subprotocol list", () => {
+    for (const header of [
+      undefined,
+      "",
+      "ticket",
+      "abc.def",
+      "abc.def, ticket",
+      "chat, abc.def",
+      "ticket, abc.def, extra",
+    ]) {
+      expect(ticketFromProtocols(header)).toBeNull()
     }
   })
 

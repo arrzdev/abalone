@@ -59,12 +59,12 @@ export function openRealtimeChannel(
   handlers: RealtimeHandlers,
 ): () => void {
   const socket = new ReconnectingWebSocket(
-    //an async url provider, so every connect AND every reconnect mints its own
-    //ticket. a thirty-second ticket cannot survive a reconnect, and this is
-    //what means nothing else has to remember that.
-    async () =>
-      `${realtimeUrl}?ticket=${encodeURIComponent(await mintTicket())}`,
-    undefined,
+    realtimeUrl,
+    //the ticket rides as a subprotocol rather than in the url, so it never
+    //lands in a log. an async provider, so every connect AND every reconnect
+    //mints its own: a thirty-second ticket cannot survive a reconnect, and this
+    //is what means nothing else has to remember that.
+    async () => ["ticket", await mintTicket()],
     //nothing this socket sends is worth replaying: a keepalive that missed its
     //window is not one the next connection needs to deliver late
     { maxEnqueuedMessages: 0 },
