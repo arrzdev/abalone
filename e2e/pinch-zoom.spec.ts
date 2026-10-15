@@ -46,7 +46,7 @@ test("the board keeps every gesture, so a drag across it stays a move", async ({
   await expect(board).toHaveCSS("touch-action", "none")
 })
 
-test("a drawer's handle keeps every gesture, so a drag on it still moves the sheet", async ({
+test("a drawer's handle keeps every gesture, so the sheet can still be dragged", async ({
   page,
 }) => {
   await openApp(page, "/")
