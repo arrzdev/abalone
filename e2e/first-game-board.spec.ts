@@ -102,6 +102,15 @@ function homeComputerButton(page: Page) {
     .first()
 }
 
+/**
+ * Whether this screen shows the first-game guide: only with the panel beside
+ * the board. Under it, on a phone, there is no room for a step's whole text
+ * (TUD-1127). 1024px is where the panel goes beside the board on a desktop.
+ */
+function showsGuide(page: Page): boolean {
+  return (page.viewportSize()?.width ?? 0) >= 1024
+}
+
 /** The opponent's seat names the bot, so the board says who you are playing. */
 async function expectBoardAgainstGus(page: Page): Promise<void> {
   await expect(page.getByRole("button", { name: "Resign" })).toBeVisible()
@@ -112,8 +121,12 @@ async function expectBoardAgainstGus(page: Page): Promise<void> {
       .filter({ visible: true })
       .first(),
   ).toBeVisible()
-  await expect(guide(page)).toBeVisible()
-  await expect(guide(page)).toContainText("Step 1 of 3")
+  if (showsGuide(page)) {
+    await expect(guide(page)).toBeVisible()
+    await expect(guide(page)).toContainText("Step 1 of 3")
+  } else {
+    await expect(guide(page)).toHaveCount(0)
+  }
   // The standard layout, with the player on black: black's c5 is theirs to
   // move, and black moves first.
   expect(await marbleOn(page, "c5")).toBe("black")
@@ -144,13 +157,14 @@ for (const [size, viewport] of Object.entries(VIEWPORTS)) {
       await tapSquare(page, "d5")
       await expect(moveList(page).first()).toHaveText("c5d5")
 
-      // One game started, counted once, against Gus, with the guide showing.
+      // One game started, counted once, against Gus, guided where the
+      // guide shows.
       await expect.poll(() => starts(events).length).toBe(1)
       expect(starts(events)[0]).toMatchObject({
         kind: "start",
         mode: "ai",
         botLevel: 1,
-        guided: true,
+        guided: showsGuide(page),
       })
       // Nothing more once the bot has answered: still the one start.
       await expect(moveList(page)).toHaveCount(2, { timeout: 30_000 })

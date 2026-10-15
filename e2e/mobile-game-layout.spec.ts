@@ -1,14 +1,17 @@
+import { readFileSync } from "node:fs"
 import type { Locator, Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
-import { startOfflineGame, startOnlineGame } from "./support/app"
-import { moveList, playMove } from "./support/board"
+import { openApp, startOfflineGame, startOnlineGame } from "./support/app"
+import { moveList, playMove, selectSquare } from "./support/board"
 
 // On a phone the board is the game, so nothing else on the game screen may
 // take its room. The first-game guide used to sit under the scoreboard as a
 // full card, and the panel's floor shrank the board to about half its width to
-// make space for it. On a phone the guide is now a compact step bar in the
-// move history's slot: the board keeps its size, the bar fits in the space the
-// history had. The move history itself keeps a reserved height of at least one
+// make space for it. Then it was a one-line bar in the move history's slot,
+// which cut every step's title and hid its text. A step's whole title and text
+// need about twice the height that slot has on a short phone, and every pixel
+// of it would come out of the board, so a phone shows no guide at all (TUD-1127,
+// the board's call). The move history keeps a reserved height of at least one
 // row, and the move it marks as current is never cut off by the card around it.
 // All of it fits a 375×667 screen without the page scrolling.
 //
@@ -17,12 +20,37 @@ import { moveList, playMove } from "./support/board"
 // No service worker: see first-game-guide.spec.ts.
 test.use({ serviceWorkers: "block" })
 
+// 402×874 is an iPhone 16 Pro, and 402×750 and 390×700 are what Safari's
+// toolbars leave of an iPhone screen. Safari also lays the page under the status
+// bar, which these browsers do not, so a 402pt-wide iPhone in Safari has the
+// board and panel of 402×710 here. 390×700 and 402×710 are short enough for the
+// single-line move strip, the layout that left height over: on a real iPhone it
+// all went under the actions (TUD-1127). The other sizes have room for the list.
 const PHONES = [
   { width: 375, height: 667 },
+  { width: 390, height: 700 },
+  { width: 402, height: 710 },
+  { width: 402, height: 750 },
   { width: 390, height: 844 },
+  { width: 402, height: 874 },
   { width: 430, height: 932 },
 ]
 const DESKTOP = { width: 1440, height: 900 }
+
+/** Whether each game start the page sends from now on says it was guided. */
+function recordGuidedStarts(page: Page): unknown[] {
+  const guided: unknown[] = []
+  page.on("request", (request) => {
+    if (request.method() !== "POST") return
+    if (!request.url().endsWith("/api/v1/events/game")) return
+    const event = JSON.parse(request.postData() ?? "{}") as {
+      kind?: string
+      guided?: unknown
+    }
+    if (event.kind === "start") guided.push(event.guided)
+  })
+  return guided
+}
 
 /** One move row: a 28px pill (20px of text, 4px above and below it). */
 const MOVE_ROW = 28
@@ -211,11 +239,7 @@ function edgeFadeShows(page: Page, edge: "start" | "end") {
     .evaluate((element) => Number(getComputedStyle(element).opacity) > 0.5)
 }
 
-/**
- * Plays your move against the computer and waits for its answer. Counted on
- * the page rather than in the card: while the guide is open the card is not
- * shown.
- */
+/** Plays your move against the computer and waits for its answer. */
 async function playAgainstBot(
   page: Page,
   from: string,
@@ -346,18 +370,13 @@ for (const viewport of PHONES) {
   test.describe(`at ${viewport.width}×${viewport.height}`, () => {
     test.use({ viewport })
 
-    // TUD-1107: against the computer the panel is short enough for the
-    // single-line strip, and the newest move ended up cut at its right edge,
-    // unlit, with nothing to say that the row scrolls.
+    // TUD-1107 and TUD-1127: whatever height the panel has left over is
+    // shared above the scoreboard and below the actions, not left at the
+    // bottom.
     test("the panel under the board is spaced evenly above, below and between its cards", async ({
       page,
     }) => {
       await startOfflineGame(page, "vs Computer")
-      await expect(guide(page)).toBeVisible()
-      await expectEvenPanelSpacing(page, "with the guide open")
-
-      await guide(page).getByRole("button", { name: "Skip" }).click()
-      await expect(guide(page)).toHaveCount(0)
       await expectEvenPanelSpacing(page, "before any move")
 
       for (const [index, [from, to]] of BLACK_MOVES.slice(0, 2).entries())
@@ -370,8 +389,6 @@ for (const viewport of PHONES) {
       page,
     }) => {
       await startOfflineGame(page, "vs Computer")
-      await guide(page).getByRole("button", { name: "Skip" }).click()
-      await expect(guide(page)).toHaveCount(0)
 
       let moves = 0
       for (const [from, to] of BLACK_MOVES) {
@@ -390,31 +407,10 @@ for (const viewport of PHONES) {
       await expectNoPageScroll(page)
     })
 
-    test("moves played with the guide open show the newest once it closes", async ({
-      page,
-    }) => {
-      await startOfflineGame(page, "vs Computer")
-      await expect(guide(page)).toBeVisible()
-      for (const [index, [from, to]] of BLACK_MOVES.entries())
-        await playAgainstBot(page, from, to, 2 * (index + 1))
-
-      // The guide gives the history its slot back.
-      if ((await guide(page).count()) > 0)
-        await guide(page)
-          .getByRole("button", { name: /Skip|Got it/ })
-          .first()
-          .click()
-      await expect(guide(page)).toHaveCount(0)
-
-      await expectNewestMoveShown(page, 2 * BLACK_MOVES.length)
-      await expectNoPageScroll(page)
-    })
-
     test("older moves out of view are shown as more, and a swipe brings them back", async ({
       page,
     }) => {
       await startOfflineGame(page, "vs Computer")
-      await guide(page).getByRole("button", { name: "Skip" }).click()
       for (const [index, [from, to]] of LONG_BLACK_MOVES.entries())
         await playAgainstBot(page, from, to, 2 * (index + 1))
       await expectNewestMoveShown(page, 2 * LONG_BLACK_MOVES.length)
@@ -450,43 +446,32 @@ for (const viewport of PHONES) {
       await expect.poll(() => edgeFadeShows(page, "end")).toBe(false)
     })
 
-    test("the guide keeps the board at 90% of its size or more and fits on screen", async ({
+    // TUD-1127: the guide cut to one line ("Push 6 off to ...") taught
+    // nothing, and the whole of it does not fit a short phone without taking
+    // the board's room. A first game on a phone opens with no guide, no way
+    // to call it up, and is not counted as guided.
+    test("a first game shows no guide, and the board has its full room", async ({
       page,
     }) => {
+      const guidedStarts = recordGuidedStarts(page)
       await startOfflineGame(page, "vs Computer")
-      await expect(guide(page)).toContainText("Step 1 of 3")
-      const withGuide = await settledBoardWidth(page)
-
-      // The bar keeps the guide's content and its two ways on.
-      await expect(guide(page)).toContainText("Pick your marbles")
-      await expectShownInFull(guide(page), "the guide")
-      await expectShownInFull(
-        guide(page).getByRole("button", { name: "Skip" }),
-        "Skip",
-      )
-      await expectShownInFull(
-        guide(page).getByRole("button", { name: "Next" }),
-        "Next",
-      )
+      await expect.poll(() => guidedStarts).toEqual([false])
+      // The board takes input by now, so the guide had its chance to show.
+      await selectSquare(page, "c5")
+      await expect(guide(page)).toHaveCount(0)
+      await expect(
+        page.getByRole("button", { name: "How to move" }),
+        "the ? that calls the guide up",
+      ).toHaveCount(0)
+      await expect(history(page)).toBeVisible()
       await expectActionsInView(page)
       await expectNoPageScroll(page)
-
-      await guide(page).getByRole("button", { name: "Skip" }).click()
-      await expect(guide(page)).toHaveCount(0)
-      const withoutGuide = await settledBoardWidth(page)
-
-      expect(
-        withGuide / withoutGuide,
-        `board width with the guide (${withGuide}px) over without it (${withoutGuide}px)`,
-      ).toBeGreaterThanOrEqual(0.9)
     })
 
     test("the move history keeps a full row and never cuts the current move", async ({
       page,
     }) => {
       await startOfflineGame(page, "Pass & Play")
-      await guide(page).getByRole("button", { name: "Skip" }).click()
-      await expect(guide(page)).toHaveCount(0)
 
       // Before any move the card still holds its row.
       const empty = await history(page).boundingBox()
@@ -540,6 +525,78 @@ test.describe("at 1440×900", () => {
     await expectNoPageScroll(page)
   })
 })
+
+type GuideCopy = Record<string, string>
+
+/** The guide's copy in one language, read from the app's own strings. */
+function guideCopy(language: "en" | "pt"): GuideCopy {
+  const path = `apps/game/src/i18n/locales/${language}/game.json`
+  return JSON.parse(readFileSync(path, "utf8")).guide
+}
+
+/** The game screen's own labels in one language, for starting a game. */
+function controlsCopy(language: "en" | "pt"): Record<string, string> {
+  const path = `apps/game/src/i18n/locales/${language}/game.json`
+  return JSON.parse(readFileSync(path, "utf8")).controls
+}
+
+/**
+ * The text is all there and all shown: nothing in the element is cut to an
+ * ellipsis or clamped to fewer lines than it needs.
+ */
+async function expectWholeText(
+  locator: Locator,
+  text: string,
+  what: string,
+) {
+  await expect(locator, what).toHaveText(text)
+  const cut = await locator.evaluate(
+    (element) =>
+      element.scrollWidth > element.clientWidth + 0.5 ||
+      element.scrollHeight > element.clientHeight + 0.5,
+  )
+  expect(cut, `${what} is cut short`).toBe(false)
+}
+
+// TUD-1127: every step of the desktop guide shows its whole title and text, in
+// English and in Portuguese, the longest of the three titles.
+for (const language of ["en", "pt"] as const) {
+  test(`at 1440×900 each guide step shows its whole title and text in ${language}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(DESKTOP)
+    await page.addInitScript((code) => {
+      localStorage.setItem("abalone_language", code)
+    }, language)
+    const copy = guideCopy(language)
+    const controls = controlsCopy(language)
+    await openApp(page, "/offline")
+    await page.getByRole("tab", { name: controls.mode_ai }).click()
+    await page
+      .getByRole("button", { name: controls.play_button, exact: true })
+      .click()
+
+    const panel = page.getByRole("region", { name: copy.title })
+    const steps: [string, () => Promise<void>][] = [
+      ["select", async () => {}],
+      ["direction", () => selectSquare(page, "c5")],
+      ["win", () => playMove(page, "c5", "d5")],
+    ]
+    for (const [step, reach] of steps) {
+      await reach()
+      await expectWholeText(
+        panel.getByRole("heading"),
+        copy[`${step}_title`],
+        `the ${step} step's title`,
+      )
+      await expectWholeText(
+        panel.getByText(copy[`${step}_body`], { exact: true }),
+        copy[`${step}_body`],
+        `the ${step} step's text`,
+      )
+    }
+  })
+}
 
 // Online games share the panel: the same history card under the same rules on
 // the smallest phone.
