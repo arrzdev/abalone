@@ -73,22 +73,47 @@ function fromBase64Url(value: string): Uint8Array | null {
 }
 
 //---- signing key ----------------
+//tickets are not signed with the auth secret itself but with a key derived from
+//it for this one purpose, so a ticket can never be mistaken for anything else
+//better-auth signs with that secret, and no new secret has to be provisioned.
 //cached per secret, per isolate, for the same reason the better-auth instance
-//is: importKey on every mint and every reconnect is work with one answer.
+//is: two importKeys and a sign on every mint and every reconnect is work with
+//one answer.
+
+/** Domain-separation label for the derived key. Bump it to void every ticket. */
+const KEY_PURPOSE = "realtime-ticket/v1"
 
 const keyCache = new Map<string, Promise<CryptoKey>>()
+
+function importHmacKey(
+  material: BufferSource,
+  usages: ("sign" | "verify")[],
+): Promise<CryptoKey> {
+  return crypto.subtle.importKey(
+    "raw",
+    material,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    usages,
+  )
+}
+
+/** HMAC-SHA256(secret, KEY_PURPOSE), imported as the ticket key. */
+async function deriveSigningKey(secret: string): Promise<CryptoKey> {
+  const rootKey = await importHmacKey(encoder.encode(secret), ["sign"])
+  const derived = await crypto.subtle.sign(
+    "HMAC",
+    rootKey,
+    encoder.encode(KEY_PURPOSE),
+  )
+  return importHmacKey(derived, ["sign", "verify"])
+}
 
 function signingKey(secret: string): Promise<CryptoKey> {
   const cached = keyCache.get(secret)
   if (cached) return cached
 
-  const key = crypto.subtle.importKey(
-    "raw",
-    encoder.encode(secret),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign", "verify"],
-  )
+  const key = deriveSigningKey(secret)
   keyCache.set(secret, key)
   return key
 }
