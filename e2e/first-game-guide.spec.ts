@@ -19,7 +19,14 @@ import { playMove, selectedSquares, selectSquare } from "./support/board"
 // page in another test's context. That page's own install then looks like an
 // update, and the app reloads it in the middle of a game. The guide does not
 // depend on the worker.
-test.use({ serviceWorkers: "block" })
+//
+// The guide is a desktop's, and a phone held sideways: with the panel beside
+// the board. A phone upright shows none (TUD-1127, mobile-game-layout.spec.ts),
+// so every test here runs on a desktop-sized screen.
+test.use({
+  serviceWorkers: "block",
+  viewport: { width: 1440, height: 900 },
+})
 
 const GUIDE_KEY = "abalone.guide.v1"
 
@@ -218,8 +225,9 @@ test("Next on step 1 never shows step 2 without a selection", async ({
   expect(await selectedSquares(page)).toEqual([])
 })
 
+// A phone held sideways has the panel beside the board, so it keeps the guide.
 const PHONE_AND_DESKTOP = [
-  { width: 390, height: 844 },
+  { width: 844, height: 390 },
   { width: 1440, height: 900 },
 ]
 

@@ -95,7 +95,8 @@ test("every control in a bot game, its move list and its drawers is a 44px tap t
   page,
 }) => {
   await startOfflineGame(page, "vs Computer")
-  // The first game's guide, with its Skip button, is part of the screen.
+  // A phone shows no first-game guide (TUD-1127); its buttons are checked on a
+  // desktop in first-game-guide.spec.ts.
   await expectThumbSized(body(page), "game")
 
   await playMove(page, "c5", "d5")

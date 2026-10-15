@@ -38,6 +38,7 @@ import {
   useShowCoordinates,
   useShowEvalBar,
 } from "@/hooks/use-app-preferences"
+import { isBesideBoard } from "@/hooks/use-beside-board"
 import type { GamePhase } from "@/hooks/use-bot-chatter"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { usePersistentState } from "@/hooks/use-persistent-state"
@@ -412,10 +413,11 @@ export function useAbaloneGame(
             ? { gameRef, mode: "ai", botLevel: nextDifficulty }
             : { gameRef, mode: "local" }
         countedGameRef.current = game
+        //a phone upright shows no guide, so its game is not a guided one
         reportGameEvent({
           ...game,
           kind: "start",
-          guided: isGuidedStart(nextMode),
+          guided: isGuidedStart(nextMode) && isBesideBoard(),
           entry: landedEntry(),
         })
       }
