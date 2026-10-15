@@ -45,3 +45,36 @@ test("the board keeps every gesture, so a drag across it stays a move", async ({
   const board = page.getByRole("application")
   await expect(board).toHaveCSS("touch-action", "none")
 })
+
+test("a drawer's handle keeps every gesture, so the sheet still follows a drag", async ({
+  page,
+}) => {
+  await openApp(page, "/")
+  await page
+    .getByRole("button", { name: "Settings" })
+    .filter({ visible: true })
+    .first()
+    .click()
+  const drawer = page.locator("[data-pwa-drawer][data-open='true']")
+  await expect(drawer).toBeVisible()
+  const handle = drawer.locator(".touch-none").first()
+  await expect(handle).toHaveCSS("touch-action", "none")
+
+  // The sheet rests, then a drag down on its handle moves it down with the finger.
+  await expect
+    .poll(() =>
+      drawer.evaluate((element) => element.getAnimations().length),
+    )
+    .toBe(0)
+  const resting = (await drawer.boundingBox())?.y ?? 0
+  const grip = await handle.boundingBox()
+  if (!grip) throw new Error("the drawer handle has no box")
+  const x = grip.x + grip.width / 2
+  const y = grip.y + grip.height / 2
+  await page.mouse.move(x, y)
+  await page.mouse.down()
+  await page.mouse.move(x, y + 60, { steps: 6 })
+  const dragged = (await drawer.boundingBox())?.y ?? 0
+  expect(dragged).toBeGreaterThan(resting + 20)
+  await page.mouse.up()
+})
