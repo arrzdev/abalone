@@ -8,4 +8,8 @@ export const envSchema = z.object({
   //anything. a production build ignores it and calls /api on its own origin
   //(see src/data/backend-client.ts), which is why it is optional.
   VITE_BACKEND_URL: z.url().optional(),
+  //the cloudflare web analytics site token for the beacon (docs/web-analytics.md).
+  //public by design, it ships in every page. unset or empty in dev, e2e and ci,
+  //which turns the beacon off; production reads it from the github environment
+  VITE_CF_WEB_ANALYTICS_TOKEN: z.string().optional(),
 })
