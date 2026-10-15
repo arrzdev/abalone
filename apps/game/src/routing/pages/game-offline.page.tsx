@@ -616,7 +616,14 @@ function GameOfflinePage() {
               // is only as tall as its contents, and what it leaves over is
               // shared above the scoreboard and under the actions. Taller, the
               // controls fill the column and this changes nothing.
-              phase === "ingame" && "justify-center",
+              //
+              // Auto margins rather than `justify-center`: a column taller than
+              // the screen (a phone held sideways) has a shortfall, not spare
+              // height, and centring shared that too, pushing the scoreboard up
+              // under the header. Auto margins never go below zero, so the
+              // overflow stays at the bottom.
+              phase === "ingame" &&
+                "[&>:first-child]:mt-auto [&>:last-child]:mb-auto",
               // A floating card only makes sense with room around it. Below `lg`
               // — stacked under the board, or beside it on a phone held sideways
               // — it runs to the edges of what it has, so it drops its corners
