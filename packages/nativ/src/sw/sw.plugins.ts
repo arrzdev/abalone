@@ -4,7 +4,7 @@ import type { WorkboxPlugin } from "workbox-core/types"
 export function createCacheOkResponsesPlugin(): WorkboxPlugin {
   return {
     cacheWillUpdate: async ({ response }) => {
-      if (!response || response.status !== 200) return null
+      if (response?.status !== 200) return null
       return response
     },
   }

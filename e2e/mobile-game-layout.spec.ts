@@ -261,12 +261,33 @@ const BLACK_MOVES: [string, string][] = [
   ["b5", "c5"],
 ]
 
-/** A longer game, for a history that holds more than the card shows. */
+/** A longer game, for a history that holds more than the card shows even on
+ * the widest phone. No position comes twice, so it never ends in a draw. */
 const LONG_BLACK_MOVES: [string, string][] = [
   ...BLACK_MOVES,
   ["b4", "c4"],
   ["b3", "c3"],
   ["a5", "b5"],
+  ["d5", "e5"],
+  ["d4", "e4"],
+  ["d3", "e3"],
+  ["c6", "d6"],
+]
+
+/** White's answers to LONG_BLACK_MOVES, the board turned half a turn. */
+const LONG_WHITE_MOVES: [string, string][] = [
+  ["g5", "f5"],
+  ["g6", "f6"],
+  ["g7", "f7"],
+  ["h4", "g4"],
+  ["h5", "g5"],
+  ["h6", "g6"],
+  ["h7", "g7"],
+  ["i5", "h5"],
+  ["f6", "e6"],
+  ["f7", "e7"],
+  ["g4", "f4"],
+  ["g6", "f6"],
 ]
 
 /** The space around and between the cards of the panel under the board, in px. */
@@ -410,9 +431,18 @@ for (const viewport of PHONES) {
     test("older moves out of view are shown as more, and a swipe brings them back", async ({
       page,
     }) => {
-      await startOfflineGame(page, "vs Computer")
-      for (const [index, [from, to]] of LONG_BLACK_MOVES.entries())
-        await playAgainstBot(page, from, to, 2 * (index + 1))
+      // Both sides are played by the test: the computer picks its moves at
+      // random, and one that lands in the way makes a scripted move illegal.
+      await startOfflineGame(page, "Pass & Play")
+      for (const [index, black] of LONG_BLACK_MOVES.entries()) {
+        await playMove(page, black[0], black[1])
+        await playMove(
+          page,
+          LONG_WHITE_MOVES[index][0],
+          LONG_WHITE_MOVES[index][1],
+        )
+        await expect(moveList(page)).toHaveCount(2 * (index + 1))
+      }
       await expectNewestMoveShown(page, 2 * LONG_BLACK_MOVES.length)
 
       // At the newest move: older moves are past the start edge, which fades;
@@ -442,6 +472,7 @@ for (const viewport of PHONES) {
       const moves = 2 * LONG_BLACK_MOVES.length
       await playMove(page, "a4", "b4")
       await expectNewestMoveShown(page, moves + 1)
+      await playMove(page, "i6", "h6")
       await expectNewestMoveShown(page, moves + 2)
       await expect.poll(() => edgeFadeShows(page, "end")).toBe(false)
     })
