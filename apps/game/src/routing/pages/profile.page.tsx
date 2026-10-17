@@ -15,6 +15,7 @@ import {
 } from "@/components/icons"
 import { Avatar } from "@/components/ui/avatar"
 import { Panel } from "@/components/ui/panel"
+import { Reserved } from "@/components/ui/reserved"
 import { StatusLine } from "@/components/ui/status-line"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { TapButton } from "@/components/ui/tap-button"
@@ -265,8 +266,17 @@ function Identity({
         className="hidden h-11 shrink-0 items-center gap-2.5 rounded-[11px] bg-surface px-[18px] font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:flex"
       >
         <ImageIcon size={19} />
-        {isUploading && t("common:profile.uploading")}
-        {!isUploading && t("common:profile.change_picture")}
+        {/* Both labels in one cell, so the button keeps the width of the
+            longer one and the name beside it does not move while it says
+            it is uploading. */}
+        <Reserved className="text-start">
+          <span className={cn(!isUploading && "invisible")}>
+            {t("common:profile.uploading")}
+          </span>
+          <span className={cn(isUploading && "invisible")}>
+            {t("common:profile.change_picture")}
+          </span>
+        </Reserved>
       </TapButton>
     </div>
   )
