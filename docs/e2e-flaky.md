@@ -9,7 +9,7 @@ it with an owner.
 | `manual-layout.spec.ts` rail click scrolls smoothly | The glide is timed by the page clock; a stalled main thread jumped past it, so frame sampling saw 3 positions, not 4 (TUD-916, TUD-920) | Fixed (TUD-932): the test owns the clock with `page.clock` and steps 16 ms per frame |
 | `manual-layout.spec.ts` nothing overflows sideways 320..2880 | Read once right after `setViewportSize`, before layout caught up (CI run 38331065877) | Fixed (TUD-932): polls the overflow until it settles |
 | `text-contrast.spec.ts` phone: four pages in one test on `webkit-iphone` | The four screens shared one 60 s budget; under load the test timed out in 10 of 10 runs (TUD-923) | Fixed (TUD-932): one test per screen. The later timeout and page crash on `/` came from a CSS `drop-shadow` over the animated demo canvas (TUD-958, TUD-960) and no longer show up in the baseline below |
-| `text-contrast.spec.ts` `/ text is readable` (desktop and phone variants) on `webkit-iphone` | axe reads the colors of the home cards and demo caption while they are still fading in, so text measures 3.5 to 4.1:1 instead of 4.5:1 (foreground colors differ between failures, e.g. `#cacaca` and `#b9b9b9` for the same `text-white/90`). Not a timeout | Open: 3 failures in 10 runs, task TUD-1314 (Miguel Santos) |
+| `text-contrast.spec.ts` `/ text is readable` (desktop and phone variants) on `webkit-iphone` | axe reads the colors of the home cards and demo caption while they are still fading in, so text measures 3.5 to 4.1:1 instead of 4.5:1 (foreground colors differ between failures, e.g. `#cacaca` and `#b9b9b9` for the same `text-white/90`). Not a timeout | Open: 3 failures in 10 runs, task TUD-1314 |
 
 ## Baseline (2026-10-17, 32 GB PC)
 
