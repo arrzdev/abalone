@@ -237,7 +237,7 @@
     "intro": "The first few moves of an Abalone game set up the fight that follows. This page covers the starting position, which opening moves are safe, and how the daisy layouts change the first turns. Not sure how a push works? Read the <rules>Abalone rules</rules> first, then try these ideas in a <offline>free game against the computer</offline>. Once the opening feels familiar, read the <strategy>Abalone strategy tips</strategy>.",
     "start": {
       "title": "The starting position",
-      "body": "In the standard layout each player has 14 marbles on their two nearest rows, plus three in the middle of the third row. Black sits at the bottom, white at the top, and <strong>black moves first</strong>. The armies face each other across three empty rows, so nobody can push on move one."
+      "body": "In the standard layout each player has 14 marbles: their two nearest rows (five and six marbles) plus three in the middle of the third row. Black sits at the bottom, white at the top, and <strong>black moves first</strong>. The armies face each other across three empty rows, so nobody can push on move one."
     },
     "safe": {
       "title": "Safe first moves",
@@ -249,7 +249,7 @@
     },
     "daisy": {
       "title": "Opening on a daisy layout",
-      "body": "In the <strong>Belgian daisy</strong> the armies start in four flower-shaped clusters and touch from the first move, so a sumito can come early. Look for a push you can make, and for the cluster you could lose a marble from. The <strong>German daisy</strong> uses the same colours but starts the clusters further apart, which gives you a few quiet moves first."
+      "body": "In the <strong>Belgian daisy</strong> the armies start in four flower-shaped clusters and touch from the first move, so a sumito can come early. Look for a push you can make, and for the cluster you could lose a marble from. The <strong>German daisy</strong> has the same four clusters but starts them further apart, which gives you a few quiet moves first."
     },
     "others": {
       "title": "Other starting layouts",
@@ -259,7 +259,7 @@
       "title": "Opening mistakes to avoid",
       "items": {
         "lone_runner": "Sending one marble to the middle on its own, where it can be surrounded.",
-        "rush_edge": "Moving toward the edge early, where a single push can end a marble.",
+        "rush_edge": "Moving toward the edge early, where a single push can knock a marble off.",
         "ignore_daisy": "Playing a daisy layout like the standard one and missing an early sumito."
       }
     },
