@@ -159,6 +159,19 @@
       "note": "The board is a canvas driven by rAF, not a DOM tree — the compositor rules in core-animation-performance apply to what wraps it, not to what it paints."
     },
     {
+      "name": "UI quality gate",
+      "globs": [
+        "apps/**/*.tsx",
+        "apps/**/*.css",
+        "packages/**/*.tsx",
+        "packages/**/*.css"
+      ],
+      "skills": [
+        "core-ui-quality-gate"
+      ],
+      "note": "Every UI change runs the pre-PR checklist: no layout shift, no clipped text, modals never scroll, 375x667 / 402x710 / desktop in Chromium + WebKit."
+    },
+    {
       "name": "environment and config",
       "globs": [
         "apps/*/env/**",
