@@ -43,6 +43,19 @@ Every vitest config **aliases the package's own `#<slug>` self-import** to `src/
 - **Kept out of the per-app `test` task and out of CI by default** (needs a dev server up) — opt-in via the root script. Add a dedicated CI job only if the human wants gated E2E.
 - Ad-hoc agent self-testing (not committed) → the **Playwright MCP** in `.mcp.json`; see `stack-debugging` → "Self-test in an isolated browser first".
 
+## UI quality checks (enforce `core-ui-quality-gate`)
+
+Every new or changed UI spec runs these on the screen it covers, at 375x667, 402x710 and the project's desktop size, in both projects (`chromium`, `webkit-iphone`):
+
+| Check | Where | Status |
+|---|---|---|
+| No layout shift on an action — `expectNoLayoutShift(page, action)`: bounding boxes of the dialog and its children are identical before and after | `e2e/support/` (shared helper) | **landing with the invite-modal fix**; until it merges, compare `boundingBox()` before and after the action in the spec |
+| No clipped text — `expectNoClippedText(locator)`: no `scrollWidth > clientWidth` without `text-overflow: ellipsis`, no text box outside the container's visible rect | `e2e/support/` (shared helper) | same as above |
+| Focus ring width and contrast on every Tab stop | `e2e/focus-ring.spec.ts` (`readFocusRing`) | in place |
+| 44x44 touch targets | `e2e/hit-areas.spec.ts` (`tooSmall`) | in place |
+
+Once the helpers exist, import them; never copy the measuring code into a spec. Grep `e2e/support/` for the exact names before writing a new one.
+
 ## What CI actually runs
 
 `pnpm exec turbo run test` — so a member with no `test` script contributes nothing, and `--passWithNoTests` means an empty suite is green. **A green `pnpm test` does not prove your area is covered.** Check the table above for whether a runner even exists where you changed code.
