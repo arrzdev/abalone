@@ -84,9 +84,14 @@ export function SetupCarousel({
       </div>
 
       {/* Flex and a fixed height, because the board sizes itself from the box
-          it is given: it stretches to this one and scales to fit. */}
+          it is given: it stretches to this one and scales to fit.
+
+          On the dialog shape only. A phone sheet has the height of the screen
+          and no more, and with the board in it the sheet's own button falls
+          below the fold; the name on the row above says which opening it is,
+          as it does in the pregame panel. */}
       {preview && (
-        <div className="flex h-[120px] items-center justify-center border-t border-border-subtle bg-well p-2 lg:h-32">
+        <div className="hidden h-32 items-center justify-center border-t border-border-subtle bg-well p-2 lg:flex">
           {preview}
         </div>
       )}

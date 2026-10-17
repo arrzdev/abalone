@@ -70,6 +70,7 @@
     "body": "Die ziet de uitnodiging zodra de app weer opengaat.",
     "username": "Tegen wie speel je?",
     "username_placeholder": "Naam van de tegenstander",
+    "username_hint": "De naam waarmee ze inloggen.",
     "setup": "Opstelling",
     "side": "Jouw kant",
     "send": "Uitnodiging sturen",
@@ -96,7 +97,7 @@
     "invite_by_name": "Uitnodigen via gebruikersnaam"
   },
   "link": {
-    "heading": "Of stuur een link",
+    "hint": "Wie als eerste accepteert, speelt tegen je. De link is 7 dagen geldig.",
     "create": "Uitnodigen met een link",
     "creating": "Link maken",
     "field": "Uitnodigingslink",

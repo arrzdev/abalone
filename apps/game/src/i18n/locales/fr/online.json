@@ -70,6 +70,7 @@
     "body": "L'invitation l'attend à sa prochaine ouverture de l'app.",
     "username": "Contre qui joues-tu ?",
     "username_placeholder": "Son nom",
+    "username_hint": "Le nom avec lequel la personne se connecte.",
     "setup": "Ouverture",
     "side": "Ton camp",
     "send": "Envoyer l'invitation",
@@ -96,7 +97,7 @@
     "invite_by_name": "Inviter par nom d'utilisateur"
   },
   "link": {
-    "heading": "Ou envoyez un lien",
+    "hint": "La première personne qui accepte joue contre toi. Le lien dure 7 jours.",
     "create": "Inviter avec un lien",
     "creating": "Création du lien",
     "field": "Lien d'invitation",

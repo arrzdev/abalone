@@ -69,6 +69,7 @@
     "body": "They'll see the invite next time they open the app.",
     "username": "Who are you playing?",
     "username_placeholder": "Their name",
+    "username_hint": "The name they sign in with.",
     "setup": "Opening",
     "side": "Your side",
     "send": "Send invite",
@@ -95,7 +96,7 @@
     "invite_by_name": "Invite by username"
   },
   "link": {
-    "heading": "Or send a link",
+    "hint": "The first person to accept it plays you. It lasts 7 days.",
     "create": "Invite with a link",
     "creating": "Making a link",
     "field": "Invite link",

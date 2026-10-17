@@ -70,6 +70,7 @@
     "body": "A pessoa vê o convite da próxima vez que abrir a app.",
     "username": "Contra quem vais jogar?",
     "username_placeholder": "Nome do adversário",
+    "username_hint": "O nome com que iniciam sessão.",
     "setup": "Abertura",
     "side": "O teu lado",
     "send": "Enviar convite",
@@ -96,7 +97,7 @@
     "invite_by_name": "Convidar por nome de utilizador"
   },
   "link": {
-    "heading": "Ou envia um link",
+    "hint": "Quem aceitar primeiro joga contigo. O link dura 7 dias.",
     "create": "Convidar com um link",
     "creating": "A criar o link",
     "field": "Link do convite",

@@ -107,45 +107,52 @@ export function GameOverModal({
 
   return (
     <Sheet open={open} onClose={onClose} className="lg:max-w-[456px]">
-      <div className="text-center">
-        <span
-          className={cn(
-            "font-display text-xs font-bold tracking-[0.22em] uppercase",
-            EYEBROWS[resultKind],
-          )}
-        >
-          {t("game:modal.game_over")}
-        </span>
+      {/* The three blocks a section apart, and the lines of the result 8px
+          apart. A container's gap rather than a margin on each block: the
+          dialog shape does not space its body for us the way the sheet does. */}
+      <div className="flex flex-col gap-y-5">
+        <div className="flex flex-col gap-y-2 text-center">
+          <span
+            className={cn(
+              "block font-display text-xs font-bold tracking-[0.22em] uppercase",
+              EYEBROWS[resultKind],
+            )}
+          >
+            {t("game:modal.game_over")}
+          </span>
 
-        <p className="mt-2.5 font-display text-4xl leading-none font-extrabold tracking-[-0.035em] text-white lg:mt-3 lg:text-[44px]">
-          {heading}
-        </p>
+          <p className="font-display text-4xl leading-none font-extrabold tracking-[-0.035em] text-white lg:text-[44px]">
+            {heading}
+          </p>
 
-        <p className="mt-2 text-sm text-muted lg:text-[15px]">{subtext}</p>
-      </div>
+          <p className="text-sm text-muted lg:text-[15px]">{subtext}</p>
+        </div>
 
-      {summary && <ResultCard summary={summary} resultKind={resultKind} />}
+        {summary && (
+          <ResultCard summary={summary} resultKind={resultKind} />
+        )}
 
-      <div className="mt-5 flex gap-2.5 lg:mt-[18px]">
-        <Button
-          variant="primary"
-          className="h-[50px] flex-1 rounded-xl font-display text-base"
-          onClick={onRematch}
-        >
-          <RematchIcon size={18} />
-          {rematchLabel ??
-            (mode === "local"
-              ? t("game:controls.rematch")
-              : t("game:modal.rematch_button"))}
-        </Button>
-        <Button
-          variant="outline"
-          className="h-[50px] flex-1 rounded-xl font-display text-base text-subtle hover:text-white"
-          onClick={onNewBot}
-        >
-          <PlusIcon size={18} />
-          {newGameLabel}
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            variant="primary"
+            className="h-[50px] flex-1 rounded-xl font-display text-base"
+            onClick={onRematch}
+          >
+            <RematchIcon size={18} />
+            {rematchLabel ??
+              (mode === "local"
+                ? t("game:controls.rematch")
+                : t("game:modal.rematch_button"))}
+          </Button>
+          <Button
+            variant="outline"
+            className="h-[50px] flex-1 rounded-xl font-display text-base text-subtle hover:text-white"
+            onClick={onNewBot}
+          >
+            <PlusIcon size={18} />
+            {newGameLabel}
+          </Button>
+        </div>
       </div>
     </Sheet>
   )
@@ -171,7 +178,7 @@ function ResultCard({
     : [yourScore, theirScore]
 
   return (
-    <div className="mt-6 flex items-center gap-3.5 rounded-[14px] bg-well px-4 py-3.5 lg:mt-[22px]">
+    <div className="flex items-center gap-3.5 rounded-[14px] bg-well px-4 py-3.5">
       <span className="flex size-11 shrink-0 items-center justify-center overflow-hidden rounded-[10px] bg-avatar-well">
         {avatar}
       </span>

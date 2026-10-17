@@ -15,6 +15,8 @@ import {
 } from "@/components/icons"
 import { Avatar } from "@/components/ui/avatar"
 import { Panel } from "@/components/ui/panel"
+import { Reserved } from "@/components/ui/reserved"
+import { StatusLine } from "@/components/ui/status-line"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { TapButton } from "@/components/ui/tap-button"
 import { gamesQueryOptions } from "@/data/online/queries"
@@ -110,14 +112,9 @@ function ProfilePage() {
               name={user?.displayUsername ?? ""}
               isBusy={isBusy}
               isUploading={picker.isUploading}
+              uploadFailed={picker.hasFailed}
               onPickPicture={picker.open}
             />
-
-            {picker.hasFailed && (
-              <p role="alert" className="text-sm text-loss">
-                {t("common:profile.upload_failed")}
-              </p>
-            )}
 
             <Panel className="flex">
               <Stat
@@ -197,6 +194,8 @@ type IdentityProps = {
   name: string
   isBusy: boolean
   isUploading: boolean
+  /** The last picture did not upload; said in place of the line under the name. */
+  uploadFailed: boolean
   onPickPicture: () => void
 }
 
@@ -212,6 +211,7 @@ function Identity({
   name,
   isBusy,
   isUploading,
+  uploadFailed,
   onPickPicture,
 }: IdentityProps) {
   const { t } = useTranslation()
@@ -244,9 +244,20 @@ function Identity({
         <h1 className="max-w-full truncate font-display text-2xl font-bold tracking-[-0.02em] text-white lg:text-[34px] lg:font-extrabold lg:tracking-[-0.03em]">
           {name}
         </h1>
-        <p className="mt-1.5 text-sm text-faint">
-          {t("common:profile.username_hint")}
-        </p>
+        {/* A picture that did not upload says so here, in place of the line
+            under the name, rather than in a line of its own that turns up
+            between the name and the record and pushes the record down. */}
+        <StatusLine
+          role="alert"
+          message={
+            uploadFailed ? t("common:profile.upload_failed") : undefined
+          }
+          messageClassName="text-loss"
+          hint={t("common:profile.username_hint")}
+          hintClassName="text-faint"
+          reserve={[t("common:profile.upload_failed")]}
+          className="mt-1.5 text-center text-sm lg:text-start"
+        />
       </div>
 
       <TapButton
@@ -255,8 +266,17 @@ function Identity({
         className="hidden h-11 shrink-0 items-center gap-2.5 rounded-[11px] bg-surface px-[18px] font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:flex"
       >
         <ImageIcon size={19} />
-        {isUploading && t("common:profile.uploading")}
-        {!isUploading && t("common:profile.change_picture")}
+        {/* Both labels in one cell, so the button keeps the width of the
+            longer one and the name beside it does not move while it says
+            it is uploading. */}
+        <Reserved className="text-start">
+          <span className={cn(!isUploading && "invisible")}>
+            {t("common:profile.uploading")}
+          </span>
+          <span className={cn(isUploading && "invisible")}>
+            {t("common:profile.change_picture")}
+          </span>
+        </Reserved>
       </TapButton>
     </div>
   )

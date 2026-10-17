@@ -99,7 +99,7 @@ export function Sheet({
         >
           <Drawer.Handle className="bg-surface-4" />
 
-          <Drawer.Shell className="gap-y-4 px-safe-offset-5 pb-1">
+          <Drawer.Shell className="gap-y-5 px-safe-offset-5 pb-1">
             {/* `sr-only` is absolutely positioned, so it leaves the flex flow
                 entirely — the shell's gap never opens for a heading that is not
                 on the screen. */}
@@ -110,7 +110,7 @@ export function Sheet({
             )}
 
             {!hideTitle && (title || description) && (
-              <div className="flex flex-col gap-y-1">
+              <div className="flex flex-col gap-y-2">
                 {title && (
                   <Drawer.Title
                     id={titleId}
@@ -129,6 +129,8 @@ export function Sheet({
             {children}
           </Drawer.Shell>
 
+          {/* pt-4 on top of the shell's pb-1: the section gap, 20px, from the
+              last block to the actions, as in the dialog shape */}
           {footer && (
             <Drawer.Footer className="flex-row gap-3 px-safe-offset-5 pt-4 pb-safe-or-5">
               {footer}

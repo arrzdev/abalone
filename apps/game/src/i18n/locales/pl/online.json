@@ -73,6 +73,7 @@
     "body": "Zobaczy zaproszenie przy następnym otwarciu aplikacji.",
     "username": "Z kim grasz?",
     "username_placeholder": "Nazwa przeciwnika",
+    "username_hint": "Nazwa, której używają do logowania.",
     "setup": "Ustawienie",
     "side": "Twoja strona",
     "send": "Wyślij zaproszenie",
@@ -99,7 +100,7 @@
     "invite_by_name": "Zaproś po nazwie użytkownika"
   },
   "link": {
-    "heading": "Albo wyślij link",
+    "hint": "Gra z tobą pierwsza osoba, która go przyjmie. Link działa 7 dni.",
     "create": "Zaproś linkiem",
     "creating": "Tworzenie linku",
     "field": "Link z zaproszeniem",

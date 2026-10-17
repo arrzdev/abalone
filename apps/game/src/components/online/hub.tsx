@@ -12,6 +12,7 @@ import {
   SentInviteRow,
 } from "@/components/online/invite-row"
 import { Panel, PanelHeader, PanelRows } from "@/components/ui/panel"
+import { StatusLine } from "@/components/ui/status-line"
 import { SyncNotice } from "@/components/ui/sync-notice"
 import { TapButton } from "@/components/ui/tap-button"
 import type { Game } from "@/data/online/queries"
@@ -94,19 +95,12 @@ export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
 
   return (
     <div className="mx-auto flex w-full min-h-0 max-w-[1200px] flex-col gap-4 px-3.5 pt-4.5 pb-safe-offset-6 lg:gap-5 lg:px-14 lg:pt-[30px] lg:pb-[34px]">
-      {/* Red text and nothing behind it: a tinted panel makes the one thing
-          that went wrong the brightest block on the screen. */}
-      {online.error && (
-        <p role="alert" className="text-sm leading-5 text-loss">
-          {online.error}
-        </p>
-      )}
-
       <SyncNotice state={online.sync} className="text-left" />
 
       <HubHeading
         groups={groups}
         finishedCount={online.finishedGames.length}
+        error={online.error}
         onCompose={onCompose}
       />
 
@@ -218,8 +212,21 @@ export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
 type HubHeadingProps = {
   groups: ReturnType<typeof hubGroupsOf>
   finishedCount: number
+  /** What just failed, already translated. Said in place of the count. */
+  error?: string
   onCompose: () => void
 }
+
+/** What the hub's requests can come back with, for the line to hold room for. */
+const HUB_ERRORS = [
+  "errors:api_not_found",
+  "errors:api_game_not_active",
+  "errors:api_rate_limit_exceeded",
+  "errors:api_service_unavailable",
+  "errors:api_internal_server_error",
+  "errors:network_unreachable",
+  "errors:unknown",
+] as const
 
 /**
  * What this account is being asked for, in one line, and the one way to start
@@ -233,6 +240,7 @@ type HubHeadingProps = {
 function HubHeading({
   groups,
   finishedCount,
+  error,
   onCompose,
 }: HubHeadingProps) {
   const { t } = useTranslation()
@@ -265,10 +273,24 @@ function HubHeading({
             groups.theirMove.length === 0 &&
             t("online:hub.none")}
         </h1>
-        <p className="mt-1.5 text-[13px] text-muted lg:text-sm">
-          {parts.length > 0 && parts.join(" · ")}
-          {parts.length === 0 && t("online:hub.nothing_else")}
-        </p>
+        {/* What failed takes the place of the count under the heading,
+            rather than a line of its own above it: a line that turns up at
+            the top of the page pushes every card under it down, and one held
+            open for it is a hole there the rest of the time. Red text and
+            nothing behind it: a tinted panel makes the one thing that went
+            wrong the brightest block on the screen. */}
+        <StatusLine
+          role="alert"
+          message={error}
+          messageClassName="text-loss"
+          hint={
+            parts.length > 0
+              ? parts.join(" · ")
+              : t("online:hub.nothing_else")
+          }
+          reserve={HUB_ERRORS.map((key) => t(key))}
+          className="mt-1.5 lg:text-sm"
+        />
       </div>
 
       {/* The word does not fit beside a heading on a phone, and a control this
@@ -401,9 +423,11 @@ function EmptyHub({ sync }: { sync: SyncState }) {
         {/* `min-h` rather than a fixed height, and room at the ends: these
             labels are two words in English and four in German, and a button
             that cannot grow spills its second line over its own edges. The
-            link's own error line sits between the two buttons, which is where
-            the gap would be anyway. */}
-        <div className="mt-6 flex w-full flex-col gap-0.5">
+            link's own status line sits between the two buttons, with a hint
+            in it until there is news, and holds room for the longest thing it
+            can say, so neither making the link nor copying it moves the
+            buttons under it. */}
+        <div className="mt-6 flex w-full flex-col gap-y-2">
           <InviteLinkMaker setupType={DEFAULT_SETUP} side="random" lead />
 
           <TapButton

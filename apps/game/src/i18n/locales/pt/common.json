@@ -46,6 +46,7 @@
     "prompt_body": "Os jogos online precisam de uma conta.",
     "signup_title": "Escolhe um nome",
     "signup_body": "Os adversários convidam-te através do teu nome de utilizador, por isso escolhe um que seja fácil de escrever.",
+    "form_hint": "Não é preciso email, só um nome e uma palavra-passe.",
     "errors": {
       "username_taken": "Esse nome já está ocupado.",
       "username_invalid": "3 a 20 letras, números, pontos ou underscores.",

@@ -1,5 +1,5 @@
 import tryCatch from "@repo/shared/try-catch"
-import { useId, useState } from "react"
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import type { ButtonProps } from "@/components/ui/button"
 import { Button } from "@/components/ui/button"
@@ -14,13 +14,10 @@ export type ShareLinkButtonProps = Omit<
   url: string
   /** The line a share sheet puts with the link. */
   text: string
-  /**
-   * The line under the button, for a caller that hands the link on itself as
-   * well (the empty online page, which shares it the moment it exists). Left
-   * out, the button keeps its own.
-   */
-  status?: HandOffStatus
-  onStatusChange?: (status: HandOffStatus) => void
+  /** How the hand-off went, for the status line the caller puts under it. */
+  onStatusChange: (status: HandOffStatus) => void
+  /** Id of that status line, for `aria-describedby`. */
+  statusId?: string
 }
 
 /** Whether this browser has a share sheet to hand a link to. */
@@ -59,53 +56,29 @@ export async function handOffLink(
  * gets decided once, on mount of the button, from whether `navigator.share`
  * exists at all.
  *
- * The confirmation for a copy is a line under the button rather than a new
- * label on it: the button keeps its name for a screen reader and for a second
- * press, and the line is a live region that says it happened.
+ * The confirmation for a copy is a line the caller keeps under the button
+ * rather than a new label on it: the button keeps its name for a screen reader
+ * and for a second press. The line is the caller's because it is in the layout
+ * before this button is, and says other things while there is no link yet.
  */
 export function ShareLinkButton({
   url,
   text,
-  status: statusProp,
   onStatusChange,
-  className,
+  statusId,
   ...props
 }: ShareLinkButtonProps) {
   const { t } = useTranslation()
-  const statusId = useId()
   const [canShare] = useState(canShareLinks)
-  const [ownStatus, setOwnStatus] = useState<HandOffStatus>("idle")
-
-  const status = statusProp ?? ownStatus
 
   async function handlePress() {
-    const next = await handOffLink(url, text)
-    setOwnStatus(next)
-    onStatusChange?.(next)
+    onStatusChange(await handOffLink(url, text))
   }
 
   return (
-    <div className="flex flex-col">
-      <Button
-        {...props}
-        className={className}
-        aria-describedby={statusId}
-        onClick={handlePress}
-      >
-        {canShare && t("online:link.share")}
-        {!canShare && t("online:link.copy")}
-      </Button>
-
-      {/* Always in the layout, so the line arriving does not push anything
-          under the thumb. */}
-      <p
-        id={statusId}
-        role="status"
-        className="mt-2 min-h-5 text-[13px] leading-5 text-muted"
-      >
-        {status === "copied" && t("online:link.copied")}
-        {status === "failed" && t("online:link.copy_failed")}
-      </p>
-    </div>
+    <Button {...props} aria-describedby={statusId} onClick={handlePress}>
+      {canShare && t("online:link.share")}
+      {!canShare && t("online:link.copy")}
+    </Button>
   )
 }

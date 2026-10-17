@@ -50,19 +50,20 @@ export function VolumeSlider({
   const id = useId()
 
   return (
-    <div className="space-y-3">
+    <div className="flex flex-col gap-y-2">
       <label htmlFor={id} className="block cursor-pointer select-none">
         <span className="block text-sm font-medium text-white">
           {label}
         </span>
         {description && (
-          <span className="mt-0.5 block text-xs text-muted">
-            {description}
-          </span>
+          <span className="block text-xs text-muted">{description}</span>
         )}
       </label>
 
-      <div className="flex items-center gap-3">
+      {/* The mute button's tap area hangs 7px past its fill on every side;
+          the padding gives it that room, so the row is as tall as what it
+          draws and the gaps around it measure true. */}
+      <div className="flex items-center gap-3 py-[7px]">
         <TapButton
           onClick={() => onMutedChange(!muted)}
           aria-pressed={muted}

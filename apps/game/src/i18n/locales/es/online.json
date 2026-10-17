@@ -70,6 +70,7 @@
     "body": "Verá la invitación la próxima vez que abra la app.",
     "username": "¿Contra quién juegas?",
     "username_placeholder": "Su nombre",
+    "username_hint": "El nombre con el que inician sesión.",
     "setup": "Apertura",
     "side": "Tu lado",
     "send": "Enviar invitación",
@@ -96,7 +97,7 @@
     "invite_by_name": "Invitar por nombre de usuario"
   },
   "link": {
-    "heading": "O envía un enlace",
+    "hint": "Quien acepte primero juega contigo. El enlace dura 7 días.",
     "create": "Invitar con un enlace",
     "creating": "Creando el enlace",
     "field": "Enlace de invitación",

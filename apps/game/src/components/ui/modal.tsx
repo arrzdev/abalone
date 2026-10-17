@@ -76,7 +76,7 @@ export function Modal({
         </TapButton>
 
         {(title || description) && (
-          <div className="mb-[22px] shrink-0 pr-10">
+          <div className="mb-5 shrink-0 pr-10">
             {title && (
               <h3 className="font-display text-2xl font-bold tracking-[-0.02em] text-white">
                 {title}
@@ -99,7 +99,7 @@ export function Modal({
           {children}
         </div>
         {footer && (
-          <div className="mt-6 flex shrink-0 gap-3">{footer}</div>
+          <div className="mt-5 flex shrink-0 gap-3">{footer}</div>
         )}
       </div>
     </div>

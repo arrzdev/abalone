@@ -33,5 +33,9 @@ test("a signed-in player changes their picture", async ({ page }) => {
       picture.evaluate((image: HTMLImageElement) => image.naturalWidth),
     )
     .toBeGreaterThan(0)
-  await expect(page.getByRole("alert")).toHaveCount(0)
+  // The line under the name is an alert that is always there, saying nothing
+  // until an upload fails; it must still be saying nothing.
+  await expect(
+    page.getByRole("alert").filter({ hasText: /\S/ }),
+  ).toHaveCount(0)
 })

@@ -46,6 +46,7 @@
     "prompt_body": "Çevrimiçi oyunlar için hesap gerekir.",
     "signup_title": "Bir ad seç",
     "signup_body": "Rakipler seni kullanıcı adınla davet eder, o yüzden yazması kolay bir ad seç.",
+    "form_hint": "E-posta gerekmez, bir ad ve parola yeter.",
     "errors": {
       "username_taken": "Bu ad zaten alınmış.",
       "username_invalid": "3 ile 20 arası harf, rakam, nokta veya alt çizgi.",

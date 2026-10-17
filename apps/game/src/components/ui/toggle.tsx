@@ -22,16 +22,17 @@ export function Toggle({
 
   return (
     <div
-      className={cn("flex items-center justify-between gap-4", className)}
+      className={cn(
+        "flex min-h-11 items-center justify-between gap-4",
+        className,
+      )}
     >
       <label htmlFor={id} className="cursor-pointer select-none">
         <span className="block text-sm font-medium text-white">
           {label}
         </span>
         {description && (
-          <span className="mt-0.5 block text-xs text-muted">
-            {description}
-          </span>
+          <span className="block text-xs text-muted">{description}</span>
         )}
       </label>
       <TapButton
@@ -48,7 +49,7 @@ export function Toggle({
         // with the track drawn inside it. The track is not the box: given the
         // box's height as a transparent border, its round ends took the
         // border's radius too and it drew as an ellipse (TUD-973).
-        className="-my-2.5 flex h-11 w-11 shrink-0 items-center rounded-full"
+        className="flex h-11 w-11 shrink-0 items-center rounded-full"
       >
         <span
           className={cn(
