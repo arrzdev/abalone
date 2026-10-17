@@ -424,6 +424,16 @@ function RulesPage() {
               <RuleText i18nKey="game:rules.setups.others" />
             </li>
           </RuleList>
+          <p>
+            <Trans
+              i18nKey="game:rules.setups.openings"
+              components={{
+                openings: (
+                  <Link to="/opening-moves" className={TEXT_LINK_CLASS} />
+                ),
+              }}
+            />
+          </p>
         </Chapter>
 
         <Chapter {...chapter.faq}>

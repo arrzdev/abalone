@@ -154,7 +154,8 @@
       "standard": "<name>Standard:</name> każda strona zaczyna na swoich dwóch najbliższych rzędach (czarne na dole, białe na górze), z trzema kulami pośrodku trzeciego rzędu. Armie stoją naprzeciw siebie i w pierwszym ruchu nie da się wypychać. Najlepszy do nauki.",
       "belgian_daisy": "<name>Belgian daisy:</name> kule zaczynają w czterech skupiskach w kształcie kwiatu, po jednym w każdym rogu. Czarne i białe występują na przemian wokół planszy (białe w lewym górnym i prawym dolnym rogu, czarne w prawym górnym i lewym dolnym). Armie stykają się już w pierwszym ruchu, więc gra jest szybka i taktyczna. Popularny na turniejach, bo jest uczciwszy niż układ standardowy.",
       "german_daisy": "<name>German daisy:</name> znowu cztery skupiska w kształcie kwiatu, w tych samych kolorach co Belgian daisy (białe w lewym górnym i prawym dolnym rogu, czarne w prawym górnym i lewym dolnym), ale odsunięte od rogów w stronę boków. Skupiska zaczynają dalej od siebie, więc otwarcie jest swobodniejsze.",
-      "others": "<strong>Inne w grze:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration i The Wall. Wybierz jeden, zaczynając partię."
+      "others": "<strong>Inne w grze:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration i The Wall. Wybierz jeden, zaczynając partię.",
+      "openings": "Chcesz zacząć bezpiecznie? Zobacz <openings>otwarcia w Abalone dla początkujących</openings>."
     },
     "faq": {
       "title": "Częste pytania",
@@ -205,7 +206,7 @@
       },
       "opening": {
         "title": "5. Wybierz otwarcie świadomie",
-        "body": "W układzie standardowym nikt nie może wypychać w pierwszym ruchu, więc rozwijaj się ku środkowi małymi krokami i trzymaj rzędy po trzy kule. W <strong>Belgian daisy</strong> armie stykają się od razu: szukaj pierwszego sumito i broń swojego najsłabszego skupiska. Wypróbuj każdy układ z komputerem, by zobaczyć, co się zmienia."
+        "body": "W układzie standardowym nikt nie może wypychać w pierwszym ruchu, więc rozwijaj się ku środkowi małymi krokami i trzymaj rzędy po trzy kule. W <strong>Belgian daisy</strong> armie stykają się od razu: szukaj pierwszego sumito i broń swojego najsłabszego skupiska. Wypróbuj każdy układ z komputerem, by zobaczyć, co się zmienia. Potrzebujesz bezpiecznego pierwszego ruchu? Zobacz <openings>otwarcia w Abalone</openings>."
       },
       "attack_as_a_group": {
         "title": "6. Atakuj grupą, nie jako bohater",

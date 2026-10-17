@@ -152,7 +152,8 @@
       "standard": "<name>Standard:</name> her taraf kendine en yakın iki sırada başlar (siyah altta, beyaz üstte), üçüncü sıranın ortasında üç bilye bulunur. Ordular karşı karşıya durur ve ilk hamlede itme mümkün değildir. Öğrenmek için en iyisi.",
       "belgian_daisy": "<name>Belgian daisy:</name> bilyeler, her köşede bir tane olmak üzere çiçek biçiminde dört kümede başlar. Siyah ve beyaz tahtanın çevresinde dönüşümlü durur (beyaz sol üst ve sağ alt, siyah sağ üst ve sol alt). Ordular ilk hamlede birbirine değer, bu yüzden oyun hızlı ve taktikseldir. Standart dizilimden daha adil olduğu için turnuvalarda sevilir.",
       "german_daisy": "<name>German daisy:</name> yine çiçek biçiminde dört küme var, renkler Belgian daisy ile aynı (beyaz sol üst ve sağ alt, siyah sağ üst ve sol alt), ama köşelerden kenarlara doğru içeri alınmıştır. Kümeler birbirinden daha uzak başlar, bu yüzden açılış daha açıktır.",
-      "others": "<strong>Oyundaki diğerleri:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration ve The Wall. Oyuna başlarken birini seç."
+      "others": "<strong>Oyundaki diğerleri:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration ve The Wall. Oyuna başlarken birini seç.",
+      "openings": "Güvenli başlamak ister misin? <openings>Yeni başlayanlar için Abalone açılış hamleleri</openings> sayfasına bak."
     },
     "faq": {
       "title": "Sık sorulanlar",
@@ -203,7 +204,7 @@
       },
       "opening": {
         "title": "5. Açılışını bilerek seç",
-        "body": "Standart dizilimde ilk hamlede kimse itemez, bu yüzden küçük adımlarla merkeze doğru ilerle ve üçlü sıralarını koru. <strong>Belgian daisy</strong> dizilişinde ordular hemen temas eder: ilk sumito fırsatını ara ve en zayıf kümeni savun. Neyin değiştiğini görmek için her dizilimi bilgisayara karşı dene."
+        "body": "Standart dizilimde ilk hamlede kimse itemez, bu yüzden küçük adımlarla merkeze doğru ilerle ve üçlü sıralarını koru. <strong>Belgian daisy</strong> dizilişinde ordular hemen temas eder: ilk sumito fırsatını ara ve en zayıf kümeni savun. Neyin değiştiğini görmek için her dizilimi bilgisayara karşı dene. Güvenli bir ilk hamle mi lazım? <openings>Abalone açılış hamleleri</openings> sayfasına bak."
       },
       "attack_as_a_group": {
         "title": "6. Kahraman gibi değil, grup olarak saldır",
