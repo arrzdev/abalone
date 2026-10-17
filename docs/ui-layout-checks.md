@@ -25,6 +25,9 @@ How to keep it:
   counts it as a gap). Give it resting text that the message replaces (a hint
   under a field, a line under a button), or put it where empty space is not
   between two blocks.
+- `StatusLine` (`apps/game/src/components/ui/status-line.tsx`) does both: the
+  hint, the live region and every message it can say, stacked with `Reserved`
+  (`apps/game/src/components/ui/reserved.tsx`).
 - A control that is replaced by another (a "make a link" button by the link
   and its copy button) is replaced by something of the same height.
 - Suggestions and lists that open from a field open over the content
