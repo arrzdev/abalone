@@ -36,17 +36,15 @@ export function ResignModal({
       open={open}
       onClose={onClose}
       title={t("game:modal.resign_title")}
+      description={t("game:modal.resign_body")}
     >
-      <p className="text-sm leading-relaxed text-muted">
-        {t("game:modal.resign_body")}
-      </p>
-
       {/* `flex-col-reverse` rather than a second pair of buttons: keeping
           playing stays first in the document, so a keyboard and a screen reader
           reach the safe answer first on both shapes. Equal widths only in the
           row: in the column a zero flex basis beats the height, and the buttons
-          shrank to their line of text. */}
-      <div className="mt-6 flex flex-col-reverse gap-2.5 lg:flex-row lg:gap-2.5">
+          shrank to their line of text. The sheet's own gap sits above the
+          row, and 8px between the two buttons, stacked or side by side. */}
+      <div className="flex flex-col-reverse gap-2 lg:flex-row">
         <Button
           variant="secondary"
           className="h-13 lg:h-12 lg:flex-1"

@@ -96,7 +96,7 @@ export function AppSettingsSheet({
           />
         </div>
 
-        <div className="flex flex-col gap-y-4 border-t border-border pt-5">
+        <div className="flex flex-col gap-y-2 border-t border-border pt-5">
           <Toggle
             label={t("game:controls.show_coordinates")}
             description={t("game:controls.show_coordinates_hint")}
