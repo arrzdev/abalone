@@ -21,6 +21,10 @@ How to keep it:
   line is sized by the longest message in the current language and at the
   current width. A `min-h` of one line is not enough: a message that wraps
   grows it.
+- A reserved line is never an empty block in the middle of a dialog (rule 3
+  counts it as a gap). Give it resting text that the message replaces (a hint
+  under a field, a line under a button), or put it where empty space is not
+  between two blocks.
 - A control that is replaced by another (a "make a link" button by the link
   and its copy button) is replaced by something of the same height.
 - Suggestions and lists that open from a field open over the content

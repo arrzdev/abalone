@@ -278,8 +278,9 @@ export type Rhythm = {
  * What counts as content: a box with its own text, a control (button, field,
  * radio, switch, tab), a picture (canvas, svg, img), and a box with a
  * background or a shadow. A box with only a top or bottom border counts as
- * that line. What is `aria-hidden` and outside such a box (a sheet's grabber,
- * a spacer) does not count. Overlapping and touching boxes form one band.
+ * that line. What is `aria-hidden` or positioned out of the flow, and outside
+ * such a box (a sheet's grabber, a spacer, a close button in the corner), does
+ * not count. Overlapping and touching boxes form one band.
  *
  * `sizes` holds the gaps to the house tokens as well, so every region keeps the
  * same rhythm and not only one of its own. Returns what it measured.
@@ -310,6 +311,10 @@ export async function expectEvenRhythm(
       const style = getComputedStyle(element)
       if (style.display === "none" || style.visibility === "hidden") return
       if (element.getAttribute("aria-hidden") === "true") return
+      //out of the flow (a dialog's close button in its corner): it sits over
+      //the rhythm rather than in it
+      if (style.position === "absolute" || style.position === "fixed")
+        return
 
       const box = element.getBoundingClientRect()
       if (box.width <= 1 || box.height <= 1) {
