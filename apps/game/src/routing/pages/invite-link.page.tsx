@@ -10,10 +10,13 @@ import {
   Link as RouterLink,
   useNavigate,
 } from "@tanstack/react-router"
+import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Logo } from "@/components/logo"
+import type { HandOffStatus } from "@/components/online/share-link-button"
 import { ShareLinkButton } from "@/components/online/share-link-button"
 import { Button, buttonClassName } from "@/components/ui/button"
+import { StatusLine } from "@/components/ui/status-line"
 import { acceptInviteLinkMutationOptions } from "@/data/online/mutations"
 import { inviteLinkQueryOptions, onlineKeys } from "@/data/online/queries"
 import { useApiError } from "@/hooks/use-api-error"
@@ -51,6 +54,17 @@ export const Route = createFileRoute("/_subpage/invite/$linkId")({
 })
 
 const ACTION_CLASS = "w-full"
+
+/** What a press on Accept can come back with, for its line to hold room for. */
+const ACCEPT_ERRORS = [
+  "errors:api_invite_link_own",
+  "errors:api_invite_link_used",
+  "errors:api_invite_link_expired",
+  "errors:api_rate_limit_exceeded",
+  "errors:api_service_unavailable",
+  "errors:network_unreachable",
+  "errors:unknown",
+] as const
 
 //`break-words`: a name is one unbroken word, and twenty characters of it at
 //this size is wider than a small phone
@@ -93,6 +107,8 @@ function InviteLinkPage() {
   const { linkId } = Route.useParams()
   const { user, isPending: isAuthPending } = useAuth()
   const { requireAuth } = useAuthPrompt()
+  const handOffId = useId()
+  const [handOff, setHandOff] = useState<HandOffStatus>("idle")
 
   const link = useQuery(inviteLinkQueryOptions(linkId))
 
@@ -111,6 +127,11 @@ function InviteLinkPage() {
         queryKey: onlineKeys.inviteLink(linkId),
       }),
   })
+
+  let handOffMessage: string | undefined
+  if (handOff === "copied") handOffMessage = t("online:link.copied")
+  else if (handOff === "failed")
+    handOffMessage = t("online:link.copy_failed")
 
   const askForAccount = () =>
     requireAuth({ redirect: `/invite/${linkId}` })
@@ -222,12 +243,20 @@ function InviteLinkPage() {
                     {accept.isPending && t("online:invite_link.accepting")}
                     {!accept.isPending && t("online:invite_link.accept")}
                   </Button>
-                  <p
+                  {/* The last thing on the page, so it may rest empty; it
+                      holds room for the longest thing it can say, so a
+                      refusal that wraps pushes nothing. */}
+                  <StatusLine
                     role="alert"
-                    className="mt-2 min-h-5 text-[13px] leading-5 text-loss"
-                  >
-                    {accept.error && translateError(accept.error)}
-                  </p>
+                    message={
+                      accept.error
+                        ? translateError(accept.error)
+                        : undefined
+                    }
+                    messageClassName="text-loss"
+                    reserve={ACCEPT_ERRORS.map((key) => t(key))}
+                    className="mt-2"
+                  />
                 </div>
               </>
             )}
@@ -246,9 +275,22 @@ function InviteLinkPage() {
               <ShareLinkButton
                 url={`${window.location.origin}/invite/${linkId}`}
                 text={t("online:link.share_text")}
+                onStatusChange={setHandOff}
+                statusId={handOffId}
                 variant="primary"
                 size="lg"
                 className={ACTION_CLASS}
+              />
+              <StatusLine
+                id={handOffId}
+                role="status"
+                message={handOffMessage}
+                messageClassName="text-muted"
+                reserve={[
+                  t("online:link.copied"),
+                  t("online:link.copy_failed"),
+                ]}
+                className="mt-2"
               />
             </div>
           </>

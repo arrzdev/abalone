@@ -70,6 +70,7 @@
     "body": "Die Einladung wartet beim nächsten Öffnen der App.",
     "username": "Gegen wen spielst du?",
     "username_placeholder": "Name des Gegners",
+    "username_hint": "Der Name, mit dem sie sich anmelden.",
     "setup": "Aufstellung",
     "side": "Deine Seite",
     "send": "Einladung senden",
@@ -96,7 +97,7 @@
     "invite_by_name": "Per Benutzername einladen"
   },
   "link": {
-    "heading": "Oder einen Link senden",
+    "hint": "Wer zuerst annimmt, spielt gegen dich. Der Link gilt 7 Tage.",
     "create": "Mit Link einladen",
     "creating": "Link wird erstellt",
     "field": "Einladungslink",

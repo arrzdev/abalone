@@ -24,6 +24,14 @@ export type TextFieldProps = Omit<
    * downstream has to strip it back off.
    */
   prefix?: string
+  /**
+   * Keep the label for screen readers and take it off the screen, for a field
+   * whose row already says what it is (the invite link, in place of the button
+   * that made it).
+   */
+  hideLabel?: boolean
+  /** Extra classes for the box around the label and the field, for a row that sizes it. */
+  containerClassName?: string
 }
 
 /**
@@ -43,6 +51,8 @@ export function TextField({
   invalid = false,
   describedBy,
   prefix,
+  hideLabel = false,
+  containerClassName,
   id,
   className,
   type,
@@ -58,8 +68,11 @@ export function TextField({
   return (
     //no `gap`: the label belongs to the box under it and nothing else, so the
     //spacing between one field and the next is the caller's to set
-    <div className="flex flex-col">
-      <label htmlFor={fieldId} className="field-label mb-2">
+    <div className={cn("flex flex-col", containerClassName)}>
+      <label
+        htmlFor={fieldId}
+        className={cn("field-label mb-2", hideLabel && "sr-only")}
+      >
         {label}
       </label>
 

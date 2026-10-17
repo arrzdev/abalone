@@ -69,6 +69,7 @@
     "body": "Daveti, uygulamayı bir dahaki açışında görecek.",
     "username": "Kiminle oynuyorsun?",
     "username_placeholder": "Adı",
+    "username_hint": "Giriş yaparken kullandıkları ad.",
     "setup": "Açılış",
     "side": "Senin tarafın",
     "send": "Daveti gönder",
@@ -95,7 +96,7 @@
     "invite_by_name": "Kullanıcı adıyla davet et"
   },
   "link": {
-    "heading": "Ya da bağlantı gönder",
+    "hint": "İlk kabul eden seninle oynar. Bağlantı 7 gün geçerli.",
     "create": "Bağlantıyla davet et",
     "creating": "Bağlantı oluşturuluyor",
     "field": "Davet bağlantısı",

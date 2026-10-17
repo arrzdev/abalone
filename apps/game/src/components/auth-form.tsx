@@ -1,10 +1,11 @@
 import { cn } from "@repo/nativ/utils"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import type { FormEvent, ReactNode } from "react"
+import type { FormEvent } from "react"
 import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
+import { Reserved } from "@/components/ui/reserved"
 import { SegmentedControl } from "@/components/ui/segmented-control"
 import { TextField } from "@/components/ui/text-field"
 import type { AuthErrorCode, Credentials } from "@/data/auth/mutations"
@@ -55,29 +56,6 @@ const TITLE_CLASS =
 
 const BODY_CLASS =
   "text-sm leading-relaxed text-muted lg:text-center lg:text-[15px] lg:text-balance"
-
-/**
- * Every variant in one grid cell: as tall as the tallest of them, whichever one
- * is showing.
- *
- * The alternative is a height per block, and that height is a different number
- * in every language — "Sign in to play online" is one line and its German is
- * two, and the same is true of all five error messages. A stack measures itself,
- * at whatever width and in whatever language it is handed.
- */
-function Reserved({
-  className,
-  children,
-}: {
-  className?: string
-  children: ReactNode
-}) {
-  return (
-    <div className={cn("grid *:col-start-1 *:row-start-1", className)}>
-      {children}
-    </div>
-  )
-}
 
 export type AuthFormProps = {
   /** Called once the player is signed in, by either route. */
@@ -181,16 +159,13 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
   return (
     //Four blocks, not nine controls: the masthead, the switch, the pair of
-    //fields, and the button. 20px between blocks and 18px inside the pair, so
-    //the two fields read as one thing you fill in rather than as two more rows
-    //in a stack.
-    //
-    //Between the pair and the button there is one slot held open for a
-    //failure, so the button carries no margin of its own. Measure from the
-    //boxes, not from the elements.
+    //fields with the line under them, and the button. 20px between blocks and
+    //between the two fields; 8px from a field to its label and from the
+    //password to the line under it. The form's gap sets the blocks apart, so
+    //no block carries a margin of its own.
     <form
       onSubmit={handleSubmit}
-      className={cn("flex flex-col", className)}
+      className={cn("flex flex-col gap-y-5", className)}
       noValidate
     >
       {/* The heading follows the tab rather than whatever sent you here. Which
@@ -202,29 +177,33 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           the screen behind the overlay, so a logo inside it is the app's name
           twice; a dialog dims everything it covers, and the mark is what says
           whose dialog this is. */}
-      <div className="flex flex-col gap-y-1.5 pb-5 lg:items-center lg:gap-y-3 lg:pb-6">
+      <div className="flex flex-col gap-y-5 lg:items-center">
         <Logo className="hidden size-11 lg:block" />
 
-        <Reserved>
-          <h1 className={TITLE_CLASS}>{title}</h1>
-          <span
-            aria-hidden="true"
-            className={cn(TITLE_CLASS, "invisible")}
-          >
-            {otherTitle}
-          </span>
-        </Reserved>
+        <div className="flex flex-col gap-y-2 lg:items-center">
+          <Reserved>
+            <h1 className={TITLE_CLASS}>{title}</h1>
+            <span
+              aria-hidden="true"
+              className={cn(TITLE_CLASS, "invisible")}
+            >
+              {otherTitle}
+            </span>
+          </Reserved>
 
-        <Reserved className="lg:max-w-[404px]">
-          <p className={BODY_CLASS}>{body}</p>
-          <span aria-hidden="true" className={cn(BODY_CLASS, "invisible")}>
-            {otherBody}
-          </span>
-        </Reserved>
+          <Reserved className="lg:max-w-[404px]">
+            <p className={BODY_CLASS}>{body}</p>
+            <span
+              aria-hidden="true"
+              className={cn(BODY_CLASS, "invisible")}
+            >
+              {otherBody}
+            </span>
+          </Reserved>
+        </div>
       </div>
 
       <SegmentedControl
-        className="mb-5"
         size="lg"
         value={mode}
         onChange={switchMode}
@@ -234,7 +213,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
         ]}
       />
 
-      <div className="flex flex-col gap-y-[18px]">
+      <div className="flex flex-col gap-y-5">
         <TextField
           name="username"
           label={t("common:auth.username")}
@@ -249,53 +228,69 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
           describedBy={errorCode ? errorId : undefined}
         />
 
-        <TextField
-          name="password"
-          type="password"
-          label={t("common:auth.password")}
-          placeholder={t("common:auth.password_placeholder", {
-            count: MIN_PASSWORD_LENGTH,
-          })}
-          autoComplete={isSignUp ? "new-password" : "current-password"}
-          disabled={mutation.isPending}
-          invalid={errorField === "password"}
-          describedBy={errorCode ? errorId : undefined}
-        />
+        <div className="flex flex-col gap-y-2">
+          <TextField
+            name="password"
+            type="password"
+            label={t("common:auth.password")}
+            placeholder={t("common:auth.password_placeholder", {
+              count: MIN_PASSWORD_LENGTH,
+            })}
+            autoComplete={isSignUp ? "new-password" : "current-password"}
+            disabled={mutation.isPending}
+            invalid={errorField === "password"}
+            describedBy={errorCode ? errorId : undefined}
+          />
+
+          {/* One line under the fields, for whatever went wrong, and a hint
+              in it while nothing has.
+
+              The height is every message stacked, so nothing moves when one of
+              them turns up, nor when the longer of two languages does. Only
+              one is drawn; the rest are there to be measured. The hint is
+              what keeps the line from being an empty block between the fields
+              and the button: it says something true about the form until there
+              is something else to say.
+
+              Red text and nothing behind it. A tinted box with a glyph in it
+              makes the one thing that went wrong the loudest block on a screen
+              whose next control is the button you came to press.
+
+              `fieldFor` sorts every failure into exactly one bucket, so a slot
+              under each field as well would be two thirds dead air on a form
+              that is doing nothing wrong. The offending box turns red; this
+              says what happened. */}
+          <Reserved className="lg:text-center">
+            <p
+              id={errorId}
+              role="alert"
+              className="text-sm leading-5 text-loss"
+            >
+              {errorText}
+            </p>
+
+            <span
+              aria-hidden={errorText ? "true" : undefined}
+              className={cn(
+                "text-sm leading-5 text-muted",
+                errorText && "invisible",
+              )}
+            >
+              {t("common:auth.form_hint")}
+            </span>
+
+            {ERROR_CODES.map((code) => (
+              <span
+                key={code}
+                aria-hidden="true"
+                className="invisible text-sm leading-5"
+              >
+                {t(`common:auth.errors.${code}`)}
+              </span>
+            ))}
+          </Reserved>
+        </div>
       </div>
-
-      {/* One slot between the fields and the button, for whatever went wrong.
-
-          The height is every message stacked, so nothing moves when one of them
-          turns up, nor when the longer of two languages does. Only the line on
-          top is drawn; the rest are there to be measured.
-
-          Red text and nothing behind it. A tinted box with a glyph in it makes
-          the one thing that went wrong the loudest block on a screen whose next
-          control is the button you came to press.
-
-          `fieldFor` sorts every failure into exactly one bucket, so a slot
-          under each field as well would be two thirds dead air on a form that
-          is doing nothing wrong. The offending box turns red; this says what
-          happened. */}
-      <Reserved className="items-center pt-4 pb-5">
-        <p
-          id={errorId}
-          role="alert"
-          className="text-center text-sm leading-5 text-loss"
-        >
-          {errorText}
-        </p>
-
-        {ERROR_CODES.map((code) => (
-          <span
-            key={code}
-            aria-hidden="true"
-            className="invisible text-center text-sm leading-5"
-          >
-            {t(`common:auth.errors.${code}`)}
-          </span>
-        ))}
-      </Reserved>
 
       {/* `lg` because the fields are 56px too: a button taller or shorter than
           the two boxes above it reads as two controls that were drawn on

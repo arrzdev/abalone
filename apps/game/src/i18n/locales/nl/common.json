@@ -46,6 +46,7 @@
     "prompt_body": "Online partijen hebben een account nodig.",
     "signup_title": "Kies een naam",
     "signup_body": "Tegenstanders nodigen je uit met je gebruikersnaam, dus kies er een die makkelijk te typen is.",
+    "form_hint": "Geen e-mail nodig, alleen een naam en een wachtwoord.",
     "errors": {
       "username_taken": "Die naam is al bezet.",
       "username_invalid": "3 tot 20 letters, cijfers, punten of liggende streepjes.",

@@ -1,3 +1,4 @@
+import { cn } from "@repo/nativ/utils"
 import { useMutation } from "@tanstack/react-query"
 import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -7,10 +8,21 @@ import {
   ShareLinkButton,
 } from "@/components/online/share-link-button"
 import { Button } from "@/components/ui/button"
+import { Reserved } from "@/components/ui/reserved"
+import { StatusLine } from "@/components/ui/status-line"
 import { TextField } from "@/components/ui/text-field"
 import type { CreateInviteLinkInput } from "@/data/online/mutations"
 import { createInviteLinkMutationOptions } from "@/data/online/mutations"
 import { useApiError } from "@/hooks/use-api-error"
+
+/** What a request for a link can come back with, for the status line to hold room for. */
+const LINK_ERRORS = [
+  "errors:api_rate_limit_exceeded",
+  "errors:api_service_unavailable",
+  "errors:api_internal_server_error",
+  "errors:network_unreachable",
+  "errors:unknown",
+] as const
 
 export type InviteLinkMakerProps = CreateInviteLinkInput & {
   /** Called once the server hands the link back. */
@@ -46,19 +58,27 @@ export function InviteLinkMaker({
   lead = false,
 }: InviteLinkMakerProps) {
   const { t } = useTranslation()
-  const errorId = useId()
+  const statusId = useId()
   const translateError = useApiError()
   const create = useMutation(createInviteLinkMutationOptions)
   const [status, setStatus] = useState<HandOffStatus>("idle")
 
   const url = create.data?.url
+  const shareText = t("online:link.share_text")
+
   //as the lead, `min-h` rather than the size's fixed height: the label is three
   //words in English and five in German, and a button that cannot grow spills
   //its second line over its own edges
   const buttonClassName = lead
-    ? "h-auto min-h-[54px] w-full py-3 text-balance"
-    : "w-full"
-  const shareText = t("online:link.share_text")
+    ? "h-auto min-h-[54px] py-3 text-balance"
+    : ""
+  const variant = lead ? "primary" : "outline"
+  const size = lead ? "lg" : "md"
+
+  let message: string | undefined
+  if (create.error) message = translateError(create.error)
+  else if (status === "copied") message = t("online:link.copied")
+  else if (status === "failed") message = t("online:link.copy_failed")
 
   function handleCreate() {
     create.mutate(
@@ -75,53 +95,64 @@ export function InviteLinkMaker({
   }
 
   return (
-    <div className="flex flex-col">
-      {!url && (
-        <>
-          {!lead && (
-            <p className="field-label mb-2">{t("online:link.heading")}</p>
-          )}
-          <Button
-            variant={lead ? "primary" : "outline"}
-            size={lead ? "lg" : "md"}
-            className={buttonClassName}
-            disabled={create.isPending}
-            aria-describedby={errorId}
-            onClick={handleCreate}
-          >
-            {create.isPending && t("online:link.creating")}
-            {!create.isPending && t("online:link.create")}
-          </Button>
+    <div className="flex flex-col gap-y-2">
+      {/* The button and the link it makes share one cell, so the row is the
+          height of the taller of the two from the first render, and making a
+          link swaps one for the other without moving anything under it. The
+          one not in use is `invisible`: there to be measured, not reached. */}
+      <Reserved>
+        <Button
+          variant={variant}
+          size={size}
+          className={cn("w-full", buttonClassName, url && "invisible")}
+          disabled={create.isPending}
+          aria-describedby={statusId}
+          onClick={handleCreate}
+        >
+          {create.isPending && t("online:link.creating")}
+          {!create.isPending && t("online:link.create")}
+        </Button>
 
-          <p
-            id={errorId}
-            role="alert"
-            className="mt-2 min-h-5 text-[13px] leading-5 text-loss"
-          >
-            {create.error && translateError(create.error)}
-          </p>
-        </>
-      )}
-
-      {url && (
-        <div className="flex flex-col gap-y-3 text-start">
+        {/* The field ends in an ellipsis where the link is longer than the
+            room, and the whole link is still its value, to select or copy. */}
+        <div
+          className={cn("flex items-center gap-2", !url && "invisible")}
+        >
           <TextField
             label={t("online:link.field")}
-            value={url}
+            hideLabel
+            value={url ?? ""}
             readOnly
+            tabIndex={url ? undefined : -1}
             onFocus={(event) => event.currentTarget.select()}
+            className={cn("text-ellipsis", lead ? "h-[54px]" : "h-11")}
+            containerClassName="min-w-0 flex-1"
           />
           <ShareLinkButton
-            url={url}
+            url={url ?? ""}
             text={shareText}
-            status={status}
             onStatusChange={setStatus}
-            variant={lead ? "primary" : "outline"}
-            size={lead ? "lg" : "md"}
-            className={buttonClassName}
+            statusId={statusId}
+            variant={variant}
+            size={size}
+            className="shrink-0"
           />
         </div>
-      )}
+      </Reserved>
+
+      <StatusLine
+        id={statusId}
+        role="status"
+        message={message}
+        messageClassName={create.error ? "text-loss" : "text-muted"}
+        hint={t("online:link.hint")}
+        reserve={[
+          t("online:link.copied"),
+          t("online:link.copy_failed"),
+          ...LINK_ERRORS.map((key) => t(key)),
+        ]}
+        className={cn(lead && "text-center")}
+      />
     </div>
   )
 }

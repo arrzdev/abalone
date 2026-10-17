@@ -13,9 +13,22 @@ import { InviteLinkMaker } from "@/components/online/invite-link-maker"
 import { SetupCarousel } from "@/components/setup-carousel"
 import { Button } from "@/components/ui/button"
 import { Sheet } from "@/components/ui/sheet"
+import { StatusLine } from "@/components/ui/status-line"
 import { TextField } from "@/components/ui/text-field"
 import type { SendInviteInput } from "@/data/online/mutations"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
+
+/** What the server can say about a name, for its line to hold room for. */
+const SEND_ERRORS = [
+  "errors:api_player_not_found",
+  "errors:api_invite_self",
+  "errors:api_invite_exists",
+  "errors:api_invalid_input",
+  "errors:api_rate_limit_exceeded",
+  "errors:api_service_unavailable",
+  "errors:network_unreachable",
+  "errors:unknown",
+] as const
 
 export type InviteComposerProps = {
   open: boolean
@@ -94,7 +107,7 @@ export function InviteComposer({
       }
     >
       <div className="flex flex-col gap-y-5">
-        <div>
+        <div className="flex flex-col gap-y-2">
           <TextField
             label={t("online:compose.username")}
             placeholder={t("online:compose.username_placeholder")}
@@ -107,27 +120,28 @@ export function InviteComposer({
             spellCheck={false}
             maxLength={20}
             invalid={Boolean(error)}
-            describedBy={error ? errorId : undefined}
+            describedBy={errorId}
           />
 
           {/* The name is the only thing here that can be wrong, so the line
               belongs to it rather than to the sheet.
 
-              Two lines of it, always in the layout. What can land here is
-              anything the server says about a name, and a message that arrives
-              into no space of its own pushes the board preview down and grows
-              the sheet — a press on Send that moves the thing under the thumb. */}
-          <p
+              Always in the layout, with a hint in it until the server has
+              something to say about the name. A message that arrives into no
+              space of its own pushes the board preview down and grows the
+              sheet: a press on Send that moves the thing under the thumb. */}
+          <StatusLine
             id={errorId}
             role="alert"
-            className="mt-2 min-h-10 text-[13px] leading-5 text-loss"
-          >
-            {error}
-          </p>
+            message={error}
+            messageClassName="text-loss"
+            hint={t("online:compose.username_hint")}
+            reserve={SEND_ERRORS.map((key) => t(key))}
+          />
         </div>
 
-        <div>
-          <p className="field-label mb-2">{t("online:compose.setup")}</p>
+        <div className="flex flex-col gap-y-2">
+          <p className="field-label">{t("online:compose.setup")}</p>
           {/* the carousel is typed on every setup there is, and only ever
               offers the playable ones. the guard is what says so out loud. */}
           <SetupCarousel
@@ -148,8 +162,8 @@ export function InviteComposer({
           />
         </div>
 
-        <div>
-          <p className="field-label mb-2">{t("online:compose.side")}</p>
+        <div className="flex flex-col gap-y-2">
+          <p className="field-label">{t("online:compose.side")}</p>
           <ColorChoice
             value={side}
             onChange={setSide}

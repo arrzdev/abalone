@@ -46,6 +46,7 @@
     "prompt_body": "Las partidas en línea necesitan una cuenta.",
     "signup_title": "Elige un nombre",
     "signup_body": "Los rivales te invitan por tu nombre de usuario, así que elige uno fácil de escribir.",
+    "form_hint": "No hace falta correo, solo un nombre y una contraseña.",
     "errors": {
       "username_taken": "Ese nombre ya está ocupado.",
       "username_invalid": "3 a 20 letras, números, puntos o guiones bajos.",

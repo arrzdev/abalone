@@ -69,6 +69,7 @@
     "body": "对方下次打开应用就会看到邀请。",
     "username": "和谁下？",
     "username_placeholder": "对方的名字",
+    "username_hint": "对方登录时用的名字。",
     "setup": "开局",
     "side": "你执哪方",
     "send": "发送邀请",
@@ -95,7 +96,7 @@
     "invite_by_name": "按用户名邀请"
   },
   "link": {
-    "heading": "或者发送链接",
+    "hint": "第一个接受的人和你对局。链接 7 天内有效。",
     "create": "用链接邀请",
     "creating": "正在生成链接",
     "field": "邀请链接",

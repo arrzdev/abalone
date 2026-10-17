@@ -15,6 +15,7 @@ import {
 } from "@/components/icons"
 import { Avatar } from "@/components/ui/avatar"
 import { Panel } from "@/components/ui/panel"
+import { StatusLine } from "@/components/ui/status-line"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { TapButton } from "@/components/ui/tap-button"
 import { gamesQueryOptions } from "@/data/online/queries"
@@ -110,14 +111,9 @@ function ProfilePage() {
               name={user?.displayUsername ?? ""}
               isBusy={isBusy}
               isUploading={picker.isUploading}
+              uploadFailed={picker.hasFailed}
               onPickPicture={picker.open}
             />
-
-            {picker.hasFailed && (
-              <p role="alert" className="text-sm text-loss">
-                {t("common:profile.upload_failed")}
-              </p>
-            )}
 
             <Panel className="flex">
               <Stat
@@ -197,6 +193,8 @@ type IdentityProps = {
   name: string
   isBusy: boolean
   isUploading: boolean
+  /** The last picture did not upload; said in place of the line under the name. */
+  uploadFailed: boolean
   onPickPicture: () => void
 }
 
@@ -212,6 +210,7 @@ function Identity({
   name,
   isBusy,
   isUploading,
+  uploadFailed,
   onPickPicture,
 }: IdentityProps) {
   const { t } = useTranslation()
@@ -244,9 +243,20 @@ function Identity({
         <h1 className="max-w-full truncate font-display text-2xl font-bold tracking-[-0.02em] text-white lg:text-[34px] lg:font-extrabold lg:tracking-[-0.03em]">
           {name}
         </h1>
-        <p className="mt-1.5 text-sm text-faint">
-          {t("common:profile.username_hint")}
-        </p>
+        {/* A picture that did not upload says so here, in place of the line
+            under the name, rather than in a line of its own that turns up
+            between the name and the record and pushes the record down. */}
+        <StatusLine
+          role="alert"
+          message={
+            uploadFailed ? t("common:profile.upload_failed") : undefined
+          }
+          messageClassName="text-loss"
+          hint={t("common:profile.username_hint")}
+          hintClassName="text-faint"
+          reserve={[t("common:profile.upload_failed")]}
+          className="mt-1.5 text-center text-sm lg:text-start"
+        />
       </div>
 
       <TapButton
