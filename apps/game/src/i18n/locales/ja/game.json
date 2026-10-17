@@ -152,7 +152,8 @@
       "standard": "<name>Standard：</name>各プレイヤーは自分に近い2列から始まります（黒が下、白が上）。3列目の中央に3個ずつ置きます。両軍は向かい合い、最初の1手では押し出しができません。覚えるのに最適です。",
       "belgian_daisy": "<name>Belgian daisy：</name>ボールは花の形の4つのかたまりになり、四隅に1つずつ置かれます。黒と白は盤の周りで交互になります（白が左上と右下、黒が右上と左下）。最初の手から両軍が接するので、展開が速く戦術的です。標準配置より公平なため、大会でよく使われます。",
       "german_daisy": "<name>German daisy：</name>こちらも花の形の4つのかたまりで、色の配置はBelgian daisyと同じです（白が左上と右下、黒が右上と左下）。ただし、隅から辺のほうへずらして置きます。かたまり同士が離れているので、序盤は広く展開します。",
-      "others": "<strong>ほかの配置：</strong>Dutch daisy、Swiss daisy、Alien、Domination、Infiltration、The Wall。ゲーム開始時に選べます。"
+      "others": "<strong>ほかの配置：</strong>Dutch daisy、Swiss daisy、Alien、Domination、Infiltration、The Wall。ゲーム開始時に選べます。",
+      "openings": "安全に始めたいなら、<openings>初心者向けのアバロンの序盤の指し方</openings>をどうぞ。"
     },
     "faq": {
       "title": "よくある質問",
@@ -203,7 +204,7 @@
       },
       "opening": {
         "title": "5. 配置に合わせて序盤を選ぶ",
-        "body": "Standardでは最初の1手で押せないので、小さな歩幅で中央へ展開し、3個の列を保ちましょう。<strong>Belgian daisy</strong>では両軍がすぐ接するので、最初のスミートを探しつつ、いちばん弱いかたまりを守りましょう。各配置をコンピューターと試すと、何が変わるかがわかります。"
+        "body": "Standardでは最初の1手で押せないので、小さな歩幅で中央へ展開し、3個の列を保ちましょう。<strong>Belgian daisy</strong>では両軍がすぐ接するので、最初のスミートを探しつつ、いちばん弱いかたまりを守りましょう。各配置をコンピューターと試すと、何が変わるかがわかります。安全な最初の一手は、<openings>アバロンの序盤の指し方</openings>を参照。"
       },
       "attack_as_a_group": {
         "title": "6. 一人ではなく、組で攻める",

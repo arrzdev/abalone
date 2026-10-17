@@ -153,7 +153,8 @@
       "standard": "<name>Standard:</name> ogni lato parte dalle sue due file più vicine (nero in basso, bianco in alto), con tre biglie al centro della terza fila. Gli eserciti si fronteggiano e alla prima mossa non si può spingere. Ideale per imparare.",
       "belgian_daisy": "<name>Belgian daisy:</name> le biglie partono in quattro gruppi a forma di fiore, uno per angolo. Nero e bianco si alternano intorno al tabellone (bianco in alto a sinistra e in basso a destra, nero in alto a destra e in basso a sinistra). Gli eserciti si toccano già alla prima mossa, quindi il gioco è veloce e tattico. È molto usata nei tornei perché è più equa della disposizione standard.",
       "german_daisy": "<name>German daisy:</name> ancora quattro gruppi a forma di fiore, con gli stessi colori della Belgian daisy (bianco in alto a sinistra e in basso a destra, nero in alto a destra e in basso a sinistra), ma spostati dagli angoli verso i lati. I gruppi partono più lontani, quindi l'apertura è più libera.",
-      "others": "<strong>Altre nel gioco:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration e The Wall. Scegline una quando avvii una partita."
+      "others": "<strong>Altre nel gioco:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration e The Wall. Scegline una quando avvii una partita.",
+      "openings": "Vuoi iniziare sul sicuro? Leggi le <openings>mosse di apertura di Abalone per principianti</openings>."
     },
     "faq": {
       "title": "Domande frequenti",
@@ -204,7 +205,7 @@
       },
       "opening": {
         "title": "5. Scegli l'apertura di proposito",
-        "body": "Nella disposizione standard nessuno può spingere alla prima mossa, quindi avanza verso il centro a piccoli passi e mantieni le tue file da tre. In una <strong>Belgian daisy</strong> gli eserciti si toccano subito: cerca il primo sumito e difendi il tuo gruppo più debole. Prova ogni disposizione contro il computer per capire cosa cambia."
+        "body": "Nella disposizione standard nessuno può spingere alla prima mossa, quindi avanza verso il centro a piccoli passi e mantieni le tue file da tre. In una <strong>Belgian daisy</strong> gli eserciti si toccano subito: cerca il primo sumito e difendi il tuo gruppo più debole. Prova ogni disposizione contro il computer per capire cosa cambia. Ti serve una prima mossa sicura? Leggi le <openings>mosse di apertura di Abalone</openings>."
       },
       "attack_as_a_group": {
         "title": "6. Attacca in gruppo, non da eroe",

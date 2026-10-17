@@ -153,7 +153,8 @@
       "standard": "<name>Standard:</name> each side starts on its two nearest rows (black at the bottom, white at the top), with three marbles in the middle of the third row. The armies face each other and no pushing is possible on move one. Best for learning.",
       "belgian_daisy": "<name>Belgian daisy:</name> marbles start in four flower-shaped clusters, one in each corner. Black and white alternate around the board (white top-left and bottom-right, black top-right and bottom-left). The armies touch on the first move, so play is fast and tactical. Popular in tournaments because it is fairer than the standard layout.",
       "german_daisy": "<name>German daisy:</name> four flower-shaped clusters again, with the same colours as the Belgian daisy (white upper left and lower right, black upper right and lower left), but set in from the corners toward the sides. The clusters start further apart, so the opening is more open.",
-      "others": "<strong>Others in the game:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration and The Wall. Choose one when you start a game."
+      "others": "<strong>Others in the game:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration and The Wall. Choose one when you start a game.",
+      "openings": "Want a safe start? See our <openings>Abalone opening moves for beginners</openings>."
     },
     "faq": {
       "title": "Frequently asked",
@@ -204,7 +205,7 @@
       },
       "opening": {
         "title": "5. Choose your opening on purpose",
-        "body": "In the standard layout, nobody can push on move one, so develop toward the center in small steps and keep your three-marble rows. In a <strong>Belgian daisy</strong> the armies touch at once: look for the first sumito and defend your weakest cluster. Try each layout against the computer to learn what changes."
+        "body": "In the standard layout, nobody can push on move one, so develop toward the center in small steps and keep your three-marble rows. In a <strong>Belgian daisy</strong> the armies touch at once: look for the first sumito and defend your weakest cluster. Try each layout against the computer to learn what changes. Need a safe first move? See the <openings>Abalone opening moves</openings>."
       },
       "attack_as_a_group": {
         "title": "6. Attack as a group, not as a hero",

@@ -106,7 +106,15 @@ function StrategyPage() {
             <p>
               <Trans
                 i18nKey={`game:strategy.tips.${key}.body`}
-                components={{ strong: STRONG }}
+                components={{
+                  strong: STRONG,
+                  openings: (
+                    <Link
+                      to="/opening-moves"
+                      className={TEXT_LINK_CLASS}
+                    />
+                  ),
+                }}
               />
             </p>
           </Chapter>

@@ -153,7 +153,8 @@
       "standard": "<name>Standard:</name> cada bando empieza en sus dos filas más cercanas (negras abajo, blancas arriba), con tres bolas en el centro de la tercera fila. Los ejércitos se miran de frente y en el primer movimiento no es posible empujar. Ideal para aprender.",
       "belgian_daisy": "<name>Belgian daisy:</name> las bolas empiezan en cuatro grupos con forma de flor, uno en cada esquina. Negras y blancas se alternan alrededor del tablero (blancas arriba a la izquierda y abajo a la derecha, negras arriba a la derecha y abajo a la izquierda). Los ejércitos se tocan en el primer movimiento, así que el juego es rápido y táctico. Es popular en torneos porque es más justa que la disposición estándar.",
       "german_daisy": "<name>German daisy:</name> otra vez cuatro grupos con forma de flor y los mismos colores que la Belgian daisy (blancas arriba a la izquierda y abajo a la derecha, negras arriba a la derecha y abajo a la izquierda), pero desplazados de las esquinas hacia los lados. Los grupos empiezan más separados, así que la apertura es más abierta.",
-      "others": "<strong>Otras en el juego:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration y The Wall. Elige una al empezar una partida."
+      "others": "<strong>Otras en el juego:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration y The Wall. Elige una al empezar una partida.",
+      "openings": "¿Quieres empezar sin riesgos? Mira las <openings>aperturas de Abalone para principiantes</openings>."
     },
     "faq": {
       "title": "Preguntas frecuentes",
@@ -204,7 +205,7 @@
       },
       "opening": {
         "title": "5. Elige tu apertura a propósito",
-        "body": "En la disposición estándar nadie puede empujar en el primer movimiento, así que avanza hacia el centro con pasos cortos y conserva tus filas de tres. En una <strong>Belgian daisy</strong> los ejércitos se tocan de inmediato: busca el primer sumito y defiende tu grupo más débil. Prueba cada disposición contra el ordenador para ver qué cambia."
+        "body": "En la disposición estándar nadie puede empujar en el primer movimiento, así que avanza hacia el centro con pasos cortos y conserva tus filas de tres. En una <strong>Belgian daisy</strong> los ejércitos se tocan de inmediato: busca el primer sumito y defiende tu grupo más débil. Prueba cada disposición contra el ordenador para ver qué cambia. ¿Necesitas una primera jugada segura? Mira las <openings>aperturas de Abalone</openings>."
       },
       "attack_as_a_group": {
         "title": "6. Ataca en grupo, no como un héroe",
