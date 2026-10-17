@@ -23,6 +23,9 @@ const ORGANIZATION = { "@type": "Organization", name: "TUDU" }
 /** The day /strategy went live; an article's date is when it was published. */
 const STRATEGY_PUBLISHED = "2026-10-11"
 
+/** The day /opening-moves went live. */
+const OPENING_MOVES_PUBLISHED = "2026-10-17"
+
 /**
  * The rule sections that are steps of playing, in page order: the section's
  * anchor, its title, and the paragraph its step quotes.
@@ -91,16 +94,22 @@ function rulesHowTo(): Json {
   }
 }
 
-function strategyArticle(description: string, image: string): Json {
+function article(
+  path: "/strategy" | "/opening-moves",
+  headline: string,
+  datePublished: string,
+  description: string,
+  image: string,
+): Json {
   return {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: enGame.strategy.heading,
+    headline,
     description,
-    url: siteUrl("/strategy"),
-    mainEntityOfPage: siteUrl("/strategy"),
+    url: siteUrl(path),
+    mainEntityOfPage: siteUrl(path),
     image,
-    datePublished: STRATEGY_PUBLISHED,
+    datePublished,
     author: ORGANIZATION,
     publisher: ORGANIZATION,
   }
@@ -130,7 +139,31 @@ export function structuredDataScripts(
   if (path === "/rules") return [toScript(rulesHowTo())]
   if (path === "/strategy") {
     const image = siteUrl(`/images/social/og-${page.image}.jpg`)
-    return [toScript(strategyArticle(page.description, image))]
+    return [
+      toScript(
+        article(
+          path,
+          enGame.strategy.heading,
+          STRATEGY_PUBLISHED,
+          page.description,
+          image,
+        ),
+      ),
+    ]
+  }
+  if (path === "/opening-moves") {
+    const image = siteUrl(`/images/social/og-${page.image}.jpg`)
+    return [
+      toScript(
+        article(
+          path,
+          enGame.openings.heading,
+          OPENING_MOVES_PUBLISHED,
+          page.description,
+          image,
+        ),
+      ),
+    ]
   }
   return []
 }

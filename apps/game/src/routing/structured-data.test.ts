@@ -93,6 +93,24 @@ describe("structured data", () => {
     ])
   })
 
+  it("describes the opening moves page as an article by TUDU", () => {
+    expect(structuredData("/opening-moves")).toEqual([
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: "Abalone opening moves for beginners",
+        description:
+          "Abalone opening moves for beginners: the starting position, safe first moves, side steps and how the daisy layouts change the opening. Try them free.",
+        url: `${ORIGIN}/opening-moves`,
+        mainEntityOfPage: `${ORIGIN}/opening-moves`,
+        image: `${ORIGIN}/images/social/og-rules.jpg`,
+        datePublished: "2026-10-17",
+        author: { "@type": "Organization", name: "TUDU" },
+        publisher: { "@type": "Organization", name: "TUDU" },
+      },
+    ])
+  })
+
   //the game screen is a tool, not a document; it has nothing for rich results
   it("gives the offline game none", () => {
     expect(structuredData("/offline")).toEqual([])

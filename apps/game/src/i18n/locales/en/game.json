@@ -231,6 +231,46 @@
       "more": "Other ways to play"
     }
   },
+  "openings": {
+    "title": "Opening moves",
+    "heading": "Abalone opening moves for beginners",
+    "intro": "The first few moves of an Abalone game set up the fight that follows. This page covers the starting position, which opening moves are safe, and how the daisy layouts change the first turns. Not sure how a push works? Read the <rules>Abalone rules</rules> first, then try these ideas in a <offline>free game against the computer</offline>. Once the opening feels familiar, read the <strategy>Abalone strategy tips</strategy>.",
+    "start": {
+      "title": "The starting position",
+      "body": "In the standard layout each player has 14 marbles: their two nearest rows (five and six marbles) plus three in the middle of the third row. Black sits at the bottom, white at the top, and <strong>black moves first</strong>. The armies face each other across three empty rows, so nobody can push on move one."
+    },
+    "safe": {
+      "title": "Safe first moves",
+      "body": "With no push possible yet, use the opening to build, not to attack. Step a marble or a short row from the front toward the center in small moves, and keep your marbles touching. A group of three in a line can push two and is hard to push, so a tight formation is a good start. Do not send one marble alone ahead of the rest."
+    },
+    "sidestep": {
+      "title": "Side steps and in-line moves",
+      "body": "Early on, a side step (a broadside move) lets a row slide sideways while staying together. An in-line move advances the row the way it points. Both are legal on turn one; the difference is what they leave behind. Before you move, check that you are not opening a gap your opponent can use."
+    },
+    "daisy": {
+      "title": "Opening on a daisy layout",
+      "body": "In the <strong>Belgian daisy</strong> the armies start in four flower-shaped clusters and touch from the first move, so a sumito can come early. Look for a push you can make, and for the cluster you could lose a marble from. The <strong>German daisy</strong> has the same four clusters but starts them further apart, which gives you a few quiet moves first."
+    },
+    "others": {
+      "title": "Other starting layouts",
+      "body": "The game also has the Dutch daisy, Swiss daisy, Alien, Domination, Infiltration and The Wall. Each changes which marbles touch at the start. Pick one when you start a game, and play the same layout a few times to learn its first moves."
+    },
+    "mistakes": {
+      "title": "Opening mistakes to avoid",
+      "items": {
+        "lone_runner": "Sending one marble to the middle on its own, where it can be surrounded.",
+        "rush_edge": "Moving toward the edge early, where a single push can knock a marble off.",
+        "ignore_daisy": "Playing a daisy layout like the standard one and missing an early sumito."
+      }
+    },
+    "practise": {
+      "title": "Practise the opening"
+    },
+    "play": {
+      "cta": "Play against the computer",
+      "more": "Other ways to play"
+    }
+  },
   "messages": {
     "select_marble": "Select a marble to move",
     "select_destination": "Select where to move",

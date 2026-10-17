@@ -21,6 +21,11 @@ const EXPECTED_COPY = {
     description:
       "Seven Abalone strategy tips: control the center, keep groups of three, pick a safe opening and push at the right moment. Try them against the computer.",
   },
+  "/opening-moves": {
+    title: "Abalone opening moves: a guide for beginners",
+    description:
+      "Abalone opening moves for beginners: the starting position, safe first moves, side steps and how the daisy layouts change the opening. Try them free.",
+  },
   "/offline": {
     title: "Play Abalone vs the computer or a friend on one device",
     description:
