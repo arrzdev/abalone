@@ -23,7 +23,7 @@ export type SeoPage = {
 }
 
 export const SEO_PAGES: Record<
-  "/" | "/rules" | "/strategy" | "/offline",
+  "/" | "/rules" | "/strategy" | "/opening-moves" | "/offline",
   SeoPage
 > = {
   "/": {
@@ -42,6 +42,12 @@ export const SEO_PAGES: Record<
     title: "Abalone strategy: 7 tips to win more games",
     description:
       "Seven Abalone strategy tips: control the center, keep groups of three, pick a safe opening and push at the right moment. Try them against the computer.",
+    image: "rules",
+  },
+  "/opening-moves": {
+    title: "Abalone opening moves: a beginner's guide",
+    description:
+      "Abalone opening moves for beginners: the starting position, safe first moves, side steps and how the daisy layouts change the opening. Try them free.",
     image: "rules",
   },
   "/offline": {
