@@ -15,7 +15,7 @@ const INDEXABLE = {
   "/rules": "Abalone rules: how to play, moves, sumito and winning",
   "/offline": "Play Abalone vs the computer or a friend on one device",
   "/strategy": "Abalone strategy: 7 tips to win more games",
-  "/opening-moves": "Abalone opening moves: a beginner's guide",
+  "/opening-moves": "Abalone opening moves: a guide for beginners",
 } as const
 
 // Behind sign-in, or one account's own screen: nothing for a search result.
