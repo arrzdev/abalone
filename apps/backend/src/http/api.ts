@@ -2,6 +2,7 @@ import { newEndpoint } from "@repo/shared/http"
 import type { Env } from "@/env/registry"
 import { error, ok } from "@/http/envelope"
 import { errorCatcher } from "@/http/middlewares/error-catcher"
+import { requestLog } from "@/http/middlewares/request-log"
 import { buildShaPlugin, versionRoute } from "@/http/plugins/build-sha"
 import { corsPlugin } from "@/http/plugins/cors"
 import { v1Routes } from "@/http/routes"
@@ -10,6 +11,7 @@ import { v1Routes } from "@/http/routes"
 //version, v1 routes, not-found. the worker entrypoint just bootstraps env and
 //delegates to api.fetch.
 export const api = newEndpoint<Env>()
+  .use("*", requestLog()) //first: request id + one request log line
   .use("*", buildShaPlugin()) //x-build-sha on every response
   .use("*", corsPlugin()) //setup cors plugin
   .onError(errorCatcher) //catch + envelope unhandled throws
