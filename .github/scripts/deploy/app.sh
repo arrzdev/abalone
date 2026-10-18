@@ -21,6 +21,13 @@
 # builds with no Cloudflare credentials in the environment, and uploads it to
 # the Worker as secrets on every path.
 #
+# Every deploy is stamped with the commit it ships: GITHUB_SHA in Actions,
+# HEAD locally. A Worker version gets `--tag <sha>`, `--message "<sha> <subject>"`
+# (read back from the versions API) and `--var BUILD_SHA:<sha>` (the backend
+# serves it at GET /api/version and as `x-build-sha`). The game build writes
+# /version.json from BUILD_SHA. A dirty tree is refused: the SHA would not
+# describe what ships.
+#
 # DRY_RUN=1 prints the wrangler commands without running anything (still reads the config).
 set -euo pipefail
 
@@ -29,6 +36,22 @@ target="${2:?usage: app.sh <app-path> <target>}"
 
 # absolute path to this script's directory, captured before any `cd` so the helper resolves
 script_dir="$(cd "$(dirname "$0")" && pwd)"
+
+sha="${GITHUB_SHA:-$(git rev-parse HEAD)}"
+if [ -n "$(git status --porcelain)" ]; then
+  if [ "${DRY_RUN:-}" = "1" ]; then
+    echo "::warning::${app_path}: the working tree is dirty; a real deploy would refuse"
+  else
+    echo "::error::${app_path}: the working tree is dirty, refusing to deploy ${sha} (commit or stash first)"
+    git status --short
+    exit 1
+  fi
+fi
+subject="$(git log -1 --format=%s "$sha" 2>/dev/null || true)"
+# Read by the game build (version.json).
+export BUILD_SHA="$sha"
+# Worker version annotations (tag max 100 bytes, message max 1000) and the var.
+stamp_flag=(--tag "$sha" --message "$(printf '%s %s' "$sha" "$subject" | cut -c1-200)" --var "BUILD_SHA:${sha}")
 
 if [ "${DRY_RUN:-}" != "1" ]; then
   # Enforce env presence HERE, at deploy time, with the real values. A missing
@@ -71,8 +94,8 @@ env_name() {
 
 summary_line() {
   [ -z "${GITHUB_STEP_SUMMARY:-}" ] ||
-    echo "- \`${app_path}\` → **${1}** (${target}) version \`${2:-n/a}\`" >> "$GITHUB_STEP_SUMMARY"
-  echo "deployed ${app_path} → ${1} (${target}) version ${2:-n/a}"
+    echo "- \`${app_path}\` → **${1}** (${target}) version \`${2:-n/a}\` commit \`${sha}\`" >> "$GITHUB_STEP_SUMMARY"
+  echo "deployed ${app_path} → ${1} (${target}) version ${2:-n/a} commit ${sha}"
 }
 
 # Version id of what is live now, for the summary (and so a rollback target is
@@ -88,7 +111,7 @@ if [ -f dist/server/wrangler.json ]; then
   # [env.<target>] in, and the generated file has no environments to select, so
   # this one call takes no --env.
   worker="$(node -p 'require("./dist/server/wrangler.json").name')"
-  wr deploy --config dist/server/wrangler.json "${secrets_flag[@]}"
+  wr deploy --config dist/server/wrangler.json "${secrets_flag[@]}" "${stamp_flag[@]}"
   summary_line "$worker" "$(live_version --config dist/server/wrangler.json)"
   exit 0
 fi
@@ -146,7 +169,7 @@ if grep -q 'd1_databases' wrangler.toml; then
     if printf '%s' "$probe" | grep -q 'code: 10007'; then
       echo "::notice::${app_path}: no Worker ${worker} on the account yet, creating it"
       migrate_all
-      wr deploy "${env_flag[@]}" "${secrets_flag[@]}"
+      wr deploy "${env_flag[@]}" "${secrets_flag[@]}" "${stamp_flag[@]}"
     fi
   fi
 
@@ -154,14 +177,14 @@ if grep -q 'd1_databases' wrangler.toml; then
   promoted=""
 
   if [ "${DRY_RUN:-}" = "1" ]; then
-    wr versions upload "${env_flag[@]}" "${secrets_flag[@]}"
+    wr versions upload "${env_flag[@]}" "${secrets_flag[@]}" "${stamp_flag[@]}"
     vid="<version-id>"
   else
-    echo "+ wrangler versions upload ${env_flag[*]} ${secrets_flag[*]}"
+    echo "+ wrangler versions upload ${env_flag[*]} ${secrets_flag[*]} --tag ${sha} --var BUILD_SHA:${sha}"
     # Capture output without letting `set -e` abort before it is printed, so a
     # failed upload never leaves a blank log.
     set +e
-    upload="$(pnpm exec wrangler versions upload "${env_flag[@]}" "${secrets_flag[@]}" 2>&1)"
+    upload="$(pnpm exec wrangler versions upload "${env_flag[@]}" "${secrets_flag[@]}" "${stamp_flag[@]}" 2>&1)"
     rc=$?
     set -e
     printf '%s\n' "$upload"
@@ -176,7 +199,7 @@ if grep -q 'd1_databases' wrangler.toml; then
       printf '%s' "$upload" | grep -qi 'migration'; then
       echo "::notice::${app_path}: version upload cannot carry a Durable Object migration, deploying directly"
       migrate_all
-      wr deploy "${env_flag[@]}" "${secrets_flag[@]}"
+      wr deploy "${env_flag[@]}" "${secrets_flag[@]}" "${stamp_flag[@]}"
       promoted=1
       vid=""
     else
@@ -212,6 +235,6 @@ else
   # first-deploy handling. `--env` is not optional even with `--name`: without
   # it wrangler reads the top-level (dev) block and ships those bindings under
   # this name, green.
-  wr deploy --name "$worker" "${env_flag[@]}" "${secrets_flag[@]}"
+  wr deploy --name "$worker" "${env_flag[@]}" "${secrets_flag[@]}" "${stamp_flag[@]}"
   summary_line "$worker" "$(live_version --name "$worker" "${env_flag[@]}")"
 fi
