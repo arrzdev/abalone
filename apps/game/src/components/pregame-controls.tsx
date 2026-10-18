@@ -187,7 +187,9 @@ export function PregameControls({
                       // their portrait once the game has started, so an opponent
                       // is introduced the same way in both places.
                       title={`${who}\n${t(blurbKey(level))}`}
-                      aria-label={`${who} — ${t("game:controls.level", { level })}`}
+                      // The visible text is the level and then the name, and the accessible
+                      // name has to start with it for voice control.
+                      aria-label={`${level} ${who}`}
                       aria-pressed={selected}
                       onClick={() => onDifficultyChange(level)}
                       className={cn(
@@ -224,6 +226,9 @@ export function PregameControls({
                           {level}
                         </span>
                       </span>
+                      {/* The space is for voice control: the level and the name
+                        are separate blocks, and without it the visible text
+                        reads "2Milo" against the accessible name "2 Milo". */}{" "}
                       {/* Two lines, always: the names run from "Sharp Sam" to
                         "Grandmaster Gus" and the row must not jump when the
                         longer ones wrap. */}
