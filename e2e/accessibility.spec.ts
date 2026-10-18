@@ -114,7 +114,9 @@ test("/online keeps one h1 with the sign-in overlay open", async ({
   }
   await expect(dialog).toBeVisible()
   await expect(
-    dialog.getByRole("heading", { name: "Sign in to play online" }),
+    dialog
+      .locator("form")
+      .getByRole("heading", { name: "Sign in to play online" }),
   ).toBeVisible()
   await expect(page.locator("h1")).toHaveCount(1)
 })
