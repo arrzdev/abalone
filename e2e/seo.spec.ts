@@ -18,6 +18,16 @@ const INDEXABLE = {
   "/opening-moves": "Abalone opening moves: a guide for beginners",
 } as const
 
+// What sitemap.xml lists, and the day each page's text last changed. /offline
+// stays indexable but is left out: it is the board itself, and home is the
+// page that answers "play abalone".
+const SITEMAP = {
+  "/": "2026-10-12",
+  "/rules": "2026-10-18",
+  "/strategy": "2026-10-18",
+  "/opening-moves": "2026-10-17",
+} as const
+
 // Behind sign-in, or one account's own screen: nothing for a search result.
 const PRIVATE = [
   "/online",
@@ -126,7 +136,7 @@ test("llms.txt is plain text that links every indexable page", async ({
   )
 })
 
-test("sitemap.xml lists every indexable page on the canonical host", async ({
+test("sitemap.xml lists the search entry pages on the canonical host", async ({
   request,
 }) => {
   const response = await request.get("/sitemap.xml")
@@ -141,18 +151,22 @@ test("sitemap.xml lists every indexable page on the canonical host", async ({
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
   )
 
-  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1])
-  expect(locs.sort()).toEqual(
-    Object.keys(INDEXABLE)
-      .map((path) => `${CANONICAL_ORIGIN}${path}`)
-      .sort(),
+  const entries = [
+    ...xml.matchAll(
+      /<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g,
+    ),
+  ].map((match) => [match[1], match[2]])
+  // each page carries the day it last changed, not the day of the build
+  expect(Object.fromEntries(entries)).toEqual(
+    Object.fromEntries(
+      Object.entries(SITEMAP).map(([path, date]) => [
+        `${CANONICAL_ORIGIN}${path}`,
+        date,
+      ]),
+    ),
   )
-
-  const lastmods = [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)]
-  expect(lastmods).toHaveLength(locs.length)
-  for (const [, date] of lastmods) {
-    expect(date).toMatch(/^\d{4}-\d{2}-\d{2}$/)
-  }
+  const locs = entries.map(([loc]) => loc)
+  expect(xml.match(/<url>/g)).toHaveLength(locs.length)
 
   // every entry answers, and names itself as canonical
   for (const loc of locs) {

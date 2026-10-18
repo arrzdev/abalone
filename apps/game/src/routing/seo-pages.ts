@@ -10,8 +10,10 @@ import { structuredDataScripts } from "@/routing/structured-data"
  * the line a search result shows, so the brand is part of the sentence rather
  * than a suffix.
  *
- * The sitemap and `llms.txt` are built from this table at build time
+ * `llms.txt` is built from this table at build time
  * (`scripts/crawler-files.plugin.ts`), so a page added here is listed there too.
+ * The sitemap is built from `SITEMAP` below; a page added here must be dated
+ * there too, or left out by name.
  */
 export type SeoPage = {
   /** ≤ 60 characters, shown as is. */
@@ -59,6 +61,24 @@ export const SEO_PAGES: Record<
 }
 
 export type IndexablePath = keyof typeof SEO_PAGES
+
+/**
+ * The pages `sitemap.xml` lists, each with the day its text last changed
+ * (`YYYY-MM-DD`). Google trusts a `lastmod` only while it tracks real changes,
+ * so bump a date when that page's copy changes, not on a layout fix.
+ *
+ * `/offline` is the board itself: it stays indexable, but home is the page that
+ * answers "play abalone", so it is no sitemap entry.
+ */
+export const SITEMAP: Record<
+  Exclude<IndexablePath, "/offline">,
+  string
+> = {
+  "/": "2026-10-12",
+  "/rules": "2026-10-18",
+  "/strategy": "2026-10-18",
+  "/opening-moves": "2026-10-17",
+}
 
 /** The route `head` for one indexable page, with its JSON-LD. */
 export function seoPageHead(path: IndexablePath) {
