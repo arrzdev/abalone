@@ -96,7 +96,12 @@ export function PlayPoster() {
           <Link to="/strategy" className={TEXT_LINK_CLASS}>
             {t("common:home.strategy_link")}
           </Link>
-          <span aria-hidden="true">·</span>
+          {/* its own line on a phone, so a wrap never leaves the dot
+              dangling at the end of the first */}
+          <span aria-hidden="true" className="max-lg:hidden">
+            ·
+          </span>
+          <span aria-hidden="true" className="basis-full lg:hidden" />
           <Link to="/play-online" className={TEXT_LINK_CLASS}>
             {t("common:home.play_online_link")}
           </Link>
