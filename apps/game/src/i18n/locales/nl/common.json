@@ -1,6 +1,7 @@
 {
   "nav": {
     "primary": "Hoofdnavigatie",
+    "skip_to_content": "Naar inhoud",
     "back": "Terug",
     "new_game": "Nieuw spel",
     "rules": "Regels",

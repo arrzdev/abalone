@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router"
 import { AppHeader } from "@/components/app-header"
+import { MAIN_CONTENT_ID, SkipLink } from "@/components/skip-link"
 
 export const Route = createFileRoute("/_shell")({
   component: ShellLayout,
@@ -23,9 +24,14 @@ export const Route = createFileRoute("/_shell")({
 function ShellLayout() {
   return (
     <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-ground">
+      <SkipLink />
       <AppHeader />
 
-      <main className="relative flex min-h-0 min-w-0 flex-1 flex-col">
+      <main
+        id={MAIN_CONTENT_ID}
+        tabIndex={-1}
+        className="relative flex min-h-0 min-w-0 flex-1 flex-col"
+      >
         <Outlet />
       </main>
     </div>

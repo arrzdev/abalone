@@ -8,9 +8,11 @@ import { playMove } from "./support/board"
 // a control drawn smaller than that grows its box with padding, and keeps its
 // look.
 //
-// Two things are not controls on their own. A visually hidden input is pressed
-// through its label, so the label is what has to fit a thumb. A link inside a
-// paragraph is part of a line of text, and stays the height of that line.
+// Three things are not controls on their own. A visually hidden input is
+// pressed through its label, so the label is what has to fit a thumb. Any other
+// visually hidden control, like the skip link that only shows on keyboard
+// focus, has nothing to tap. A link inside a paragraph is part of a line of
+// text, and stays the height of that line.
 
 const TAP_TARGET = 44
 
@@ -30,10 +32,8 @@ function tooSmall(scope: Locator): Promise<string[]> {
 
       let target: HTMLElement = control
       const box = control.getBoundingClientRect()
-      if (
-        control instanceof HTMLInputElement &&
-        (box.width <= 1 || box.height <= 1)
-      ) {
+      if (box.width <= 1 || box.height <= 1) {
+        if (!(control instanceof HTMLInputElement)) continue
         const label = control.labels?.[0]
         if (label === undefined) continue
         target = label

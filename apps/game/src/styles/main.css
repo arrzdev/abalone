@@ -356,6 +356,14 @@
 }
 
 /*
+ * The skip link lands focus on <main>, which is not a control: an outline round
+ * the whole page says nothing the next Tab will not.
+ */
+:root main[tabindex="-1"]:focus-visible {
+  outline: none;
+}
+
+/*
  * A control drawn smaller than a thumb, given a 44px box without moving or
  * redrawing it (TUD-722). The box grows by a transparent border its fill does
  * not paint under, and an equal negative margin hands the room back to the

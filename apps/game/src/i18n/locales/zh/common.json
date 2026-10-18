@@ -1,6 +1,7 @@
 {
   "nav": {
     "primary": "主导航",
+    "skip_to_content": "跳到主要内容",
     "back": "返回",
     "new_game": "新对局",
     "rules": "规则",

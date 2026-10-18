@@ -1,6 +1,7 @@
 {
   "nav": {
     "primary": "Nawigacja główna",
+    "skip_to_content": "Przejdź do treści",
     "back": "Wstecz",
     "new_game": "Nowa gra",
     "rules": "Zasady",
