@@ -183,9 +183,8 @@ describe("publishToUsers", () => {
       game_id: "g1",
       error: { message: "object unreachable" },
     })
-    expect(String((lines[0]?.error as { stack: string }).stack)).toContain(
-      "object unreachable",
-    )
+    const error = lines[0]?.error as { stack?: string } | undefined
+    expect(error?.stack).toContain("object unreachable")
   })
 })
 

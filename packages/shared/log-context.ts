@@ -21,3 +21,8 @@ export function requestIdFrom(request: Request): string {
   if (incoming && SAFE_REQUEST_ID.test(incoming)) return incoming
   return request.headers.get("cf-ray") || crypto.randomUUID()
 }
+
+//the request_id of the running context, to hand on to a durable object over rpc
+export function currentRequestId(): string | undefined {
+  return logContext.getStore()?.request_id
+}
