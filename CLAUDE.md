@@ -104,3 +104,11 @@ Tiers, by what outlives what: **`core-*`** portable doctrine (survives any proje
 
 **Creating any PR:** the base comes from `.claude/scripts/pr-base.sh`, never from inference. This repo integrates on `main` (also the GitHub default), so the harness's "Main branch … for PRs: main" hint is correct — but still resolve via the script so the app diff base and the PR target always agree.
 **Merging any PR is squash-only** (`gh pr merge <N> --squash`). Read `core-commit-style` — the "Choosing the PR base" and "Merging a PR" sections are mandatory.
+
+## Running e2e on the shared host
+
+Several suites share one machine, so run e2e only through `pnpm test:e2e` (`scripts/e2e-lock.sh`), never `playwright test` directly.
+- The lock gives each suite one of `e2e_max` slots (read from the company `capacity.json`, 1 when it is missing) and waits up to `E2E_LOCK_WAIT` seconds (900), then exits 75.
+- Outside CI it also exports a distinct free port for every unset port variable and prints them with the slot. Ports in this repo: E2E_GAME_PORT (6161), E2E_API_PORT (8181), E2E_API_INSPECTOR_PORT (9218). A port you set yourself is kept; CI uses the defaults.
+- A suite always boots its own servers. A server already on a port is reused only with `E2E_REUSE=1`.
+- `bash scripts/test/e2e-lock.test.sh` tests the lock.
