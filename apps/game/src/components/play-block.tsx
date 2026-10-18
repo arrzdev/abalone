@@ -11,6 +11,12 @@ export type PlayBlockProps = {
   cta: string
   /** The link's label: it goes home, to the choice of ways to play. */
   more: string
+  /**
+   * What the button does instead of opening the computer game. Online play
+   * asks for an account first, so it is an action (the sign-in gate), not a
+   * link to a hub a visitor would be sent back from.
+   */
+  onPlay?: () => void
 }
 
 /**
@@ -26,18 +32,24 @@ export type PlayBlockProps = {
  * `sm` the two are a row under the text they follow. A longer label in some
  * languages takes two lines: the height grows with it rather than clipping it.
  */
-export function PlayBlock({ cta, more }: PlayBlockProps) {
+export function PlayBlock({ cta, more, onPlay }: PlayBlockProps) {
+  const ctaClassName = cn(
+    buttonClassName("primary", "lg"),
+    "h-auto min-h-[54px] w-full py-3 text-center text-balance sm:w-auto sm:px-8",
+  )
+
   return (
     <div className="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-6">
-      <Link
-        {...COMPUTER_GAME}
-        className={cn(
-          buttonClassName("primary", "lg"),
-          "h-auto min-h-[54px] w-full py-3 text-center text-balance sm:w-auto sm:px-8",
-        )}
-      >
-        {cta}
-      </Link>
+      {onPlay && (
+        <button type="button" onClick={onPlay} className={ctaClassName}>
+          {cta}
+        </button>
+      )}
+      {!onPlay && (
+        <Link {...COMPUTER_GAME} className={ctaClassName}>
+          {cta}
+        </Link>
+      )}
       <Link
         to="/"
         className={cn(
