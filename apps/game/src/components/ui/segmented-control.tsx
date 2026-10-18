@@ -64,7 +64,12 @@ export function SegmentedControl<T extends string>({
       //sunken rather than raised: a track the same shade as the controls
       //beside it reads as another one of them, and what makes a switch a switch
       //is that the thing you picked stands out of a groove
-      className={cn("relative flex rounded-xl bg-well p-1", className)}
+      //a container, so the segments can drop their icons when the track itself
+      //is narrow, whatever the viewport around it
+      className={cn(
+        "@container relative flex rounded-xl bg-well p-1",
+        className,
+      )}
     >
       {activeIndex >= 0 && (
         <span
@@ -96,14 +101,18 @@ export function SegmentedControl<T extends string>({
               active ? "text-white" : "text-muted hover:text-white",
             )}
           >
+            {/* On the narrowest phones the icon is what pushes the label out
+                of its segment, and the label is the part that says something. */}
             {option.icon && (
-              <span className="shrink-0">{option.icon}</span>
+              <span className="shrink-0 @max-xs:hidden">
+                {option.icon}
+              </span>
             )}
-            {/* Labels vary a lot in length between languages. Wrapping would
-                make the control taller and the two segments uneven, so a long
-                one stays on its line and truncates — the full text is in the
-                tooltip and the accessible name. */}
-            <span className="truncate whitespace-nowrap">
+            {/* Labels vary a lot in length between languages. One that does
+                not fit its line wraps to a second rather than being cut off:
+                the segments have a fixed height, so the control stays the same
+                size and the two segments stay even. */}
+            <span className="line-clamp-2 min-w-0 text-center leading-tight text-balance">
               {option.label}
             </span>
           </TapButton>
