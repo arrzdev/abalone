@@ -66,7 +66,6 @@
   },
   "compose": {
     "title": "새 초대",
-    "body": "상대가 앱을 다시 열면 초대가 보입니다.",
     "username": "누구와 두시겠어요?",
     "username_placeholder": "상대 이름",
     "username_hint": "상대가 로그인할 때 쓰는 이름이에요.",

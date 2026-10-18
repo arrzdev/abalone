@@ -87,7 +87,6 @@ export function InviteComposer({
       open={open}
       onClose={onClose}
       title={t("online:compose.title")}
-      description={t("online:compose.body")}
       className="lg:max-w-[476px]"
       footer={
         <Button

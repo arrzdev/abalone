@@ -67,7 +67,6 @@
   },
   "compose": {
     "title": "Nieuwe uitnodiging",
-    "body": "Die ziet de uitnodiging zodra de app weer opengaat.",
     "username": "Tegen wie speel je?",
     "username_placeholder": "Naam van de tegenstander",
     "username_hint": "De naam waarmee ze inloggen.",

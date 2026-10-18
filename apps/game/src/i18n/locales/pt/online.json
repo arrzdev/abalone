@@ -67,7 +67,6 @@
   },
   "compose": {
     "title": "Novo convite",
-    "body": "A pessoa vê o convite da próxima vez que abrir a app.",
     "username": "Contra quem vais jogar?",
     "username_placeholder": "Nome do adversário",
     "username_hint": "O nome com que iniciam sessão.",
