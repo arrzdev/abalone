@@ -25,7 +25,12 @@ export type SeoPage = {
 }
 
 export const SEO_PAGES: Record<
-  "/" | "/rules" | "/strategy" | "/opening-moves" | "/offline",
+  | "/"
+  | "/rules"
+  | "/strategy"
+  | "/opening-moves"
+  | "/offline"
+  | "/play-online",
   SeoPage
 > = {
   "/": {
@@ -58,6 +63,12 @@ export const SEO_PAGES: Record<
       "Play Abalone against the computer or pass the device to a friend. Pick the standard layout or a daisy opening and start a free game in your browser.",
     image: "game",
   },
+  "/play-online": {
+    title: "Play Abalone Online Free with Friends | Private Invite Link",
+    description:
+      "Play Abalone online in your browser, free. Make a private invite link, send it to a friend and play at your own pace. Free account, no download.",
+    image: "game",
+  },
 }
 
 export type IndexablePath = keyof typeof SEO_PAGES
@@ -78,6 +89,7 @@ export const SITEMAP: Record<
   "/rules": "2026-10-18",
   "/strategy": "2026-10-18",
   "/opening-moves": "2026-10-17",
+  "/play-online": "2026-10-18",
 }
 
 /** The route `head` for one indexable page, with its JSON-LD. */

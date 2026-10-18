@@ -325,6 +325,48 @@
       "more": "Other ways to play"
     }
   },
+  "playOnline": {
+    "heading": "Play Abalone online, free",
+    "intro": "You can play Abalone online with a friend for free, right in your browser. Create a free account (a username and a password), make a private invite link, and send it to whoever you want to play. The game starts when they open the link and accept, and you each take your turn whenever you like. Links work once and expire after 7 days.",
+    "steps": {
+      "title": "How to play Abalone with a friend online",
+      "items": {
+        "account": "Create a free account.",
+        "invite": "Choose a board setup and your side, then tap \"Invite with a link\".",
+        "send": "Send the link.",
+        "accept": "Your friend opens it, creates an account or signs in, and taps \"Accept and play\"."
+      }
+    },
+    "faq": {
+      "items": {
+        "free": {
+          "question": "Is online Abalone free?",
+          "answer": "Yes. Playing online costs nothing. You need a free account."
+        },
+        "sign_up": {
+          "question": "Do I need to sign up?",
+          "answer": "Yes, online games need an account, a username and a password. To play without one, <offline>play the computer or pass and play</offline>."
+        },
+        "friend": {
+          "question": "How do I play Abalone with a friend?",
+          "answer": "Make an invite link from the Online page and send it. They accept and the game starts. You can also invite a friend by username."
+        },
+        "private": {
+          "question": "Is the invite link private?",
+          "answer": "Only whoever has the link can accept it, and only one person can. It expires after 7 days."
+        },
+        "same_time": {
+          "question": "Do we have to be online at the same time?",
+          "answer": "No. Take your turns whenever you like."
+        },
+        "code": {
+          "question": "Is there a game code?",
+          "answer": "No, you share a link instead."
+        }
+      }
+    },
+    "rules_link": "Play a friend online"
+  },
   "messages": {
     "select_marble": "Select a marble to move",
     "select_destination": "Select where to move",
