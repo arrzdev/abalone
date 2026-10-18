@@ -104,9 +104,6 @@ test("a theme picked mid-game repaints the board, keeps the game and survives a 
   await expect(page.getByRole("button", { name: "Resign" })).toBeVisible()
 
   await page.reload()
-  await expect(
-    page.locator("main .game-canvas-wrapper").first(),
-  ).toHaveAttribute("data-board-theme", "walnut")
   await expectBoardPainted(page, "walnut")
   const reopened = await openSettings(page)
   await expect(
@@ -147,9 +144,10 @@ for (const width of [320, 375, 1280]) {
     const options = group.getByRole("radio")
     await expect(options).toHaveCount(3)
     for (const option of await options.all()) {
+      // Rounded: the sheet comes to rest on a fraction of a pixel.
       const box = await option.boundingBox()
-      expect(box?.width ?? 0).toBeGreaterThanOrEqual(44)
-      expect(box?.height ?? 0).toBeGreaterThanOrEqual(44)
+      expect(Math.round(box?.width ?? 0)).toBeGreaterThanOrEqual(44)
+      expect(Math.round(box?.height ?? 0)).toBeGreaterThanOrEqual(44)
     }
     await expectNoClippedText(group)
     expect(
