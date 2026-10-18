@@ -1,7 +1,8 @@
 // Build the deploy matrix from .github/deploy-units.jsonc — the source of truth
 // for WHAT deploys and how it's grouped. An app deploys only if it's listed here;
-// a unit's apps deploy together, in order, fail-stop. Only apps changed in this
-// push deploy (turbo --affected; set TURBO_SCM_BASE/HEAD). A wrangler.toml that
+// a unit's apps deploy together, in order, fail-stop. Only apps changed since the
+// last successful Deploy run deploy (turbo --affected; the workflow sets
+// TURBO_SCM_BASE to that run's commit and TURBO_SCM_HEAD). A wrangler.toml that
 // isn't listed is warned about (so you don't forget one) but never deployed.
 // Emits GITHUB_OUTPUT `units` (matrix of units with >=1 changed app) and `any`.
 //

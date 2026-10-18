@@ -1,7 +1,9 @@
 name: Deploy
 
 # Production only: `main` deploys to the `production` GitHub Environment
-# (changed units; every unit on a `force_all` dispatch). There is no staging.
+# (units changed since the last successful Deploy run, not since the previous
+# push, so a failed run's changes ship with the next one; every unit on a
+# `force_all` dispatch). There is no staging.
 # Any other ref fails in `discover`, and the Environment's deployment branch
 # policy (`main` only) enforces the same on GitHub's side. What ships is
 # .github/deploy-units.jsonc; the gate checks the whole repo regardless.
@@ -53,6 +55,7 @@ jobs:
       target: ${{ steps.ref.outputs.target }}
       units: ${{ steps.d.outputs.units }}
       any: ${{ steps.d.outputs.any }}
+      base: ${{ steps.base.outputs.base }}
     steps:
       - name: Map ref to environment
         id: ref
@@ -87,7 +90,35 @@ jobs:
         if: steps.tip.outputs.latest == 'true'
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         with:
-          fetch-depth: 0 # turbo --affected needs history back to the previous tip
+          fetch-depth: 0 # turbo --affected needs history back to the last deployed commit
+
+      # What a push deploys is everything changed since the last Deploy run
+      # that really got through discovery, not since the previous push: a run
+      # that failed or was superseded deployed nothing, and its changes would
+      # otherwise never ship. Runs skipped as superseded do not count (their
+      # "Discover deploy units" step is skipped). With no usable run, or a base
+      # that is not in the history, every unit deploys.
+      - name: Resolve diff base
+        id: base
+        if: steps.tip.outputs.latest == 'true' && github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          base=""
+          for run_id in $(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/deploy.yml/runs?branch=main&status=success&per_page=20" --jq '.workflow_runs[].id'); do
+            if [ "$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/jobs" --jq '[.jobs[] | select(.name == "discover") | .steps[] | select(.name == "Discover deploy units" and .conclusion == "success")] | length')" = "1" ]; then
+              candidate="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}" --jq '.head_sha')"
+              if git cat-file -e "${candidate}^{commit}" 2>/dev/null; then
+                base="$candidate"
+                echo "::notice::Diff base: ${base} (last successful Deploy run ${run_id})"
+              fi
+              break
+            fi
+          done
+          if [ -z "$base" ]; then
+            echo "::warning::No successful Deploy run to diff against, deploying every unit"
+          fi
+          echo "base=$base" >> "$GITHUB_OUTPUT"
 
       - name: Setup
         if: steps.tip.outputs.latest == 'true'
@@ -97,8 +128,8 @@ jobs:
         id: d
         if: steps.tip.outputs.latest == 'true'
         env:
-          FORCE_ALL: ${{ github.event_name == 'workflow_dispatch' && inputs.force_all }}
-          TURBO_SCM_BASE: ${{ github.event.before }}
+          FORCE_ALL: ${{ (github.event_name == 'workflow_dispatch' && inputs.force_all) || (github.event_name == 'push' && steps.base.outputs.base == '') }}
+          TURBO_SCM_BASE: ${{ steps.base.outputs.base }}
           TURBO_SCM_HEAD: ${{ github.sha }}
         run: node .github/scripts/deploy/discover.mjs
 
@@ -121,9 +152,9 @@ jobs:
         uses: ./.github/actions/gate
         with:
           mode: full
-          # Empty on dispatch: migration safety then diffs against origin/main;
-          # all zeros on a branch's first push: it scans every migration.
-          base: ${{ github.event.before }}
+          # Empty on dispatch or when no earlier deploy exists: migration safety
+          # then diffs against origin/main. Else the last deployed commit.
+          base: ${{ needs.discover.outputs.base }}
           e2e: "false"
 
   # The e2e suite as two parallel shards, part of the same post-merge gate.
