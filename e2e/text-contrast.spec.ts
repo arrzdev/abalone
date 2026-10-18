@@ -92,6 +92,18 @@ function measureContrast(
 }
 
 async function expectReadableText(page: Page, screen: string) {
+  // Sections fade in only once they scroll into view, so a fade can start
+  // after any check for running ones. Bring each into view first.
+  await page.evaluate(async () => {
+    for (const section of document.querySelectorAll(
+      "[data-shown=false]",
+    )) {
+      section.scrollIntoView({ block: "center" })
+      await new Promise((resolve) => requestAnimationFrame(resolve))
+    }
+    window.scrollTo(0, 0)
+  })
+  await expect(page.locator("[data-shown=false]")).toHaveCount(0)
   // A fade still running paints a colour on its way somewhere; read the one it
   // settles on. Endless ones (a spinner) never settle, so they are left out.
   await page.waitForFunction(() =>
