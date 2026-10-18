@@ -11,6 +11,7 @@ import {
   expectEvenRhythm,
   expectNoClippedText,
   expectNoLayoutShift,
+  expectNoScrolling,
   waitForRest,
 } from "./support/layout"
 
@@ -93,6 +94,7 @@ for (const viewport of VIEWPORTS) {
         { until: () => expect(spokenAlert(composer)).toBeVisible() },
       )
       await expectNoClippedText(composer)
+      await expectNoScrolling(composer)
 
       await expectNoLayoutShift(
         composer,
@@ -235,3 +237,37 @@ for (const viewport of VIEWPORTS) {
     })
   })
 }
+
+// German runs among the longest of the translations, and its refusal of a name
+// is longer than the English one. On the smallest phone the composer has to fit
+// that too, without its content scrolling under the sheet's bottom fade.
+test.describe("in German on a 375x667 phone", () => {
+  test.use({ viewport: { width: 375, height: 667 } })
+
+  test("the invite composer shows all its text with a refused name, without scrolling", async ({
+    page,
+  }) => {
+    await signUp(page, uniqueUsername("german"))
+    // What the language switch in settings stores, and a reload keeps
+    // (language.spec.ts).
+    await page.evaluate(() =>
+      localStorage.setItem("abalone_language", "de"),
+    )
+    await openApp(page, "/online?invite=new")
+    const composer = await openDialog(page)
+    await expectNoClippedText(composer)
+
+    await composer
+      .getByLabel("Gegen wen spielst du?")
+      .fill(uniqueUsername("nobody"))
+    await composer
+      .getByRole("button", { name: "Einladung senden" })
+      .click()
+    await expect(spokenAlert(composer)).toHaveText(
+      "Unter diesem Namen spielt niemand.",
+    )
+    await waitForRest(composer)
+    await expectNoClippedText(composer)
+    await expectNoScrolling(composer)
+  })
+})

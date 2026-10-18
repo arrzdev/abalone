@@ -67,7 +67,6 @@
   },
   "compose": {
     "title": "Nouvelle invitation",
-    "body": "L'invitation l'attend à sa prochaine ouverture de l'app.",
     "username": "Contre qui joues-tu ?",
     "username_placeholder": "Son nom",
     "username_hint": "Le nom avec lequel la personne se connecte.",

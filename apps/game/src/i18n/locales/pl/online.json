@@ -70,7 +70,6 @@
   },
   "compose": {
     "title": "Nowe zaproszenie",
-    "body": "Zobaczy zaproszenie przy następnym otwarciu aplikacji.",
     "username": "Z kim grasz?",
     "username_placeholder": "Nazwa przeciwnika",
     "username_hint": "Nazwa, której używają do logowania.",

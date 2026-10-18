@@ -67,7 +67,6 @@
   },
   "compose": {
     "title": "Neue Einladung",
-    "body": "Die Einladung wartet beim nächsten Öffnen der App.",
     "username": "Gegen wen spielst du?",
     "username_placeholder": "Name des Gegners",
     "username_hint": "Der Name, mit dem sie sich anmelden.",
