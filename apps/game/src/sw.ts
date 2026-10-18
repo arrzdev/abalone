@@ -43,6 +43,7 @@ registerInstallRouteWarmer({
     "/strategy",
     "/opening-moves",
     "/play-online",
+    "/starting-positions",
     "/offline",
   ],
 })

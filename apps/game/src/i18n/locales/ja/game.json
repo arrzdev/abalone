@@ -158,6 +158,7 @@
       "belgian_daisy": "<name>Belgian daisy：</name>ボールは花の形の4つのかたまりになり、四隅に1つずつ置かれます。黒と白は盤の周りで交互になります（白が左上と右下、黒が右上と左下）。最初の手から両軍が接するので、展開が速く戦術的です。標準配置より公平なため、大会でよく使われます。",
       "german_daisy": "<name>German daisy：</name>こちらも花の形の4つのかたまりで、色の配置はBelgian daisyと同じです（白が左上と右下、黒が右上と左下）。ただし、隅から辺のほうへずらして置きます。かたまり同士が離れているので、序盤は広く展開します。",
       "others": "<strong>ほかの配置：</strong>Dutch daisy、Swiss daisy、Alien、Domination、Infiltration、The Wall。ゲーム開始時に選べます。",
+      "compare": "詳しい比較はこちら：<positions>Abalone の初期配置</positions>。",
       "openings": "安全に始めたいなら、<openings>初心者向けのアバロンの序盤の指し方</openings>をどうぞ。"
     },
     "faq": {

@@ -17,6 +17,8 @@ const INDEXABLE = {
   "/strategy": "Abalone strategy: 7 tips to win more games",
   "/opening-moves": "Abalone opening moves: a guide for beginners",
   "/play-online": "Play Abalone Online With Friends: Invite by Link",
+  "/starting-positions":
+    "Abalone starting positions: standard and daisy layouts",
 } as const
 
 // What sitemap.xml lists, and the day each page's text last changed. /offline
@@ -26,8 +28,9 @@ const SITEMAP = {
   "/": "2026-10-18",
   "/rules": "2026-10-18",
   "/strategy": "2026-10-18",
-  "/opening-moves": "2026-10-17",
   "/play-online": "2026-10-18",
+  "/opening-moves": "2026-10-18",
+  "/starting-positions": "2026-10-18",
 } as const
 
 // Behind sign-in, or one account's own screen: nothing for a search result.
@@ -78,6 +81,7 @@ test.describe("indexable pages", () => {
     "/strategy": "Abalone strategy: 7 tips to win",
     "/opening-moves": "Abalone opening moves for beginners",
     "/play-online": "Play Abalone online with a friend",
+    "/starting-positions": "Abalone starting positions",
   } as const
 
   for (const [path, h1] of Object.entries(H1)) {

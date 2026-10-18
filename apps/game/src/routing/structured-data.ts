@@ -26,6 +26,9 @@ const STRATEGY_PUBLISHED = "2026-10-11"
 /** The day /opening-moves went live. */
 const OPENING_MOVES_PUBLISHED = "2026-10-17"
 
+/** The day /starting-positions went live. */
+const STARTING_POSITIONS_PUBLISHED = "2026-10-18"
+
 /**
  * The rule sections that are steps of playing, in page order: the section's
  * anchor, its title, and the paragraph its step quotes.
@@ -111,7 +114,7 @@ function faqPage(
 }
 
 function article(
-  path: "/strategy" | "/opening-moves",
+  path: "/strategy" | "/opening-moves" | "/starting-positions",
   headline: string,
   datePublished: string,
   description: string,
@@ -188,6 +191,21 @@ export function structuredDataScripts(
   }
   if (path === "/play-online")
     return [toScript(faqPage(enGame.playOnline.faq.items))]
+  if (path === "/starting-positions") {
+    const image = siteUrl(`/images/social/og-${page.image}.jpg`)
+    return [
+      toScript(
+        article(
+          path,
+          enGame.positions.heading,
+          STARTING_POSITIONS_PUBLISHED,
+          page.description,
+          image,
+        ),
+      ),
+      toScript(faqPage(enGame.positions.faq.items)),
+    ]
+  }
   //the one path left: /offline
   return [toScript(faqPage(enGame.offline.faq.items))]
 }

@@ -159,6 +159,7 @@
       "belgian_daisy": "<name>Belgian daisy:</name> le biglie partono in quattro gruppi a forma di fiore, uno per angolo. Nero e bianco si alternano intorno al tabellone (bianco in alto a sinistra e in basso a destra, nero in alto a destra e in basso a sinistra). Gli eserciti si toccano già alla prima mossa, quindi il gioco è veloce e tattico. È molto usata nei tornei perché è più equa della disposizione standard.",
       "german_daisy": "<name>German daisy:</name> ancora quattro gruppi a forma di fiore, con gli stessi colori della Belgian daisy (bianco in alto a sinistra e in basso a destra, nero in alto a destra e in basso a sinistra), ma spostati dagli angoli verso i lati. I gruppi partono più lontani, quindi l'apertura è più libera.",
       "others": "<strong>Altre nel gioco:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration e The Wall. Scegline una quando avvii una partita.",
+      "compare": "Confrontale nel dettaglio: <positions>posizioni iniziali di Abalone</positions>.",
       "openings": "Vuoi iniziare sul sicuro? Leggi le <openings>mosse di apertura di Abalone per principianti</openings>."
     },
     "faq": {

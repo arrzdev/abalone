@@ -158,6 +158,7 @@
       "belgian_daisy": "<name>Belgian daisy:</name> 구슬이 꽃 모양의 네 덩어리로 모여 각 모서리에 하나씩 놓입니다. 검은 구슬과 흰 구슬이 판을 돌며 번갈아 놓입니다(흰 구슬은 왼쪽 위와 오른쪽 아래, 검은 구슬은 오른쪽 위와 왼쪽 아래). 첫 수부터 두 군대가 맞닿아 진행이 빠르고 전술적입니다. 표준 배치보다 공정해서 대회에서 인기가 있습니다.",
       "german_daisy": "<name>German daisy:</name> 이번에도 꽃 모양의 네 덩어리이고 색 배치는 Belgian daisy와 같지만(흰 구슬은 왼쪽 위와 오른쪽 아래, 검은 구슬은 오른쪽 위와 왼쪽 아래), 모서리에서 변 쪽으로 옮겨 놓습니다. 덩어리끼리 더 멀리 떨어져 시작하므로 초반이 더 트여 있습니다.",
       "others": "<strong>게임 속 다른 배치:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration, The Wall. 게임을 시작할 때 고를 수 있습니다.",
+      "compare": "자세한 비교: <positions>Abalone 시작 배치</positions>.",
       "openings": "안전하게 시작하고 싶다면 <openings>초보자를 위한 아발론 오프닝 수</openings>를 보세요."
     },
     "faq": {

@@ -159,6 +159,7 @@
       "belgian_daisy": "<name>Belgian daisy:</name> Die Kugeln starten in vier blumenförmigen Gruppen, eine in jeder Ecke. Schwarz und Weiß wechseln sich rund um das Brett ab (Weiß oben links und unten rechts, Schwarz oben rechts und unten links). Die Armeen berühren sich schon im ersten Zug, das Spiel ist schnell und taktisch. Bei Turnieren beliebt, weil es fairer ist als die Standardaufstellung.",
       "german_daisy": "<name>German daisy:</name> Wieder vier blumenförmige Gruppen mit denselben Farben wie bei der Belgian daisy (Weiß oben links und unten rechts, Schwarz oben rechts und unten links), aber von den Ecken weg zu den Seiten versetzt. Die Gruppen starten weiter auseinander, die Eröffnung ist offener.",
       "others": "<strong>Weitere im Spiel:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration und The Wall. Wähle eine beim Start einer Partie.",
+      "compare": "Im Detail verglichen: <positions>Abalone-Startaufstellungen</positions>.",
       "openings": "Du willst sicher starten? Lies die <openings>Abalone-Eröffnungszüge für Anfänger</openings>."
     },
     "faq": {

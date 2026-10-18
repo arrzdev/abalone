@@ -130,6 +130,29 @@ test("strategy is also a FAQPage that says what its FAQ section says", async ({
   }
 })
 
+test("starting positions is an Article and a FAQPage the page shows", async ({
+  request,
+}) => {
+  const { html, blocks } = await served(request, "/starting-positions")
+
+  expect(blocks.map((block) => block["@type"])).toEqual([
+    "Article",
+    "FAQPage",
+  ])
+  const [article, faq] = blocks
+  expect(article.headline).toBe(h1Of(html))
+  expect(article.url).toBe(`${ORIGIN}/starting-positions`)
+
+  const text = visibleText(html)
+  const questions = faq.mainEntity as Json[]
+  expect(questions).toHaveLength(6)
+  for (const question of questions) {
+    const answer = question.acceptedAnswer as Json
+    expect(text).toContain(question.name as string)
+    expect(text).toContain(answer.text as string)
+  }
+})
+
 test("the offline game is a FAQPage that says what its setup panel says", async ({
   request,
 }) => {

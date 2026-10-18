@@ -159,6 +159,7 @@
       "belgian_daisy": "<name>Belgian daisy:</name> las bolas empiezan en cuatro grupos con forma de flor, uno en cada esquina. Negras y blancas se alternan alrededor del tablero (blancas arriba a la izquierda y abajo a la derecha, negras arriba a la derecha y abajo a la izquierda). Los ejércitos se tocan en el primer movimiento, así que el juego es rápido y táctico. Es popular en torneos porque es más justa que la disposición estándar.",
       "german_daisy": "<name>German daisy:</name> otra vez cuatro grupos con forma de flor y los mismos colores que la Belgian daisy (blancas arriba a la izquierda y abajo a la derecha, negras arriba a la derecha y abajo a la izquierda), pero desplazados de las esquinas hacia los lados. Los grupos empiezan más separados, así que la apertura es más abierta.",
       "others": "<strong>Otras en el juego:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration y The Wall. Elige una al empezar una partida.",
+      "compare": "Compáralas en detalle: <positions>posiciones iniciales de Abalone</positions>.",
       "openings": "¿Quieres empezar sin riesgos? Mira las <openings>aperturas de Abalone para principiantes</openings>."
     },
     "faq": {

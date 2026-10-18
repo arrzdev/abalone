@@ -434,6 +434,19 @@ function RulesPage() {
           </RuleList>
           <p>
             <Trans
+              i18nKey="game:rules.setups.compare"
+              components={{
+                positions: (
+                  <Link
+                    to="/starting-positions"
+                    className={TEXT_LINK_CLASS}
+                  />
+                ),
+              }}
+            />
+          </p>
+          <p>
+            <Trans
               i18nKey="game:rules.setups.openings"
               components={{
                 openings: (

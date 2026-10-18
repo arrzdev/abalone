@@ -28,6 +28,7 @@ export const routes = rootRoute([
     route("/strategy", "pages/strategy.page.tsx"),
     route("/opening-moves", "pages/opening-moves.page.tsx"),
     route("/play-online", "pages/play-online.page.tsx"),
+    route("/starting-positions", "pages/starting-positions.page.tsx"),
     route("/profile", "pages/profile.page.tsx"),
     route("/offline", "pages/game-offline.page.tsx"),
     route("/online/history", "pages/online-history.page.tsx"),

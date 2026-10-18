@@ -35,6 +35,10 @@ const STRONG = <strong className="font-semibold text-white" />
 const TEXT_LINK_CLASS =
   "font-semibold text-brand-light underline underline-offset-2 hover:text-white"
 
+const POSITIONS_LINK = (
+  <Link to="/starting-positions" className={TEXT_LINK_CLASS} />
+)
+
 function OpeningMovesPage() {
   const { t } = useTranslation()
 
@@ -78,6 +82,7 @@ function OpeningMovesPage() {
                   strategy: (
                     <Link to="/strategy" className={TEXT_LINK_CLASS} />
                   ),
+                  positions: POSITIONS_LINK,
                 }}
               />
             }
@@ -92,7 +97,7 @@ function OpeningMovesPage() {
             <p>
               <Trans
                 i18nKey={`game:openings.${key}.body`}
-                components={{ strong: STRONG }}
+                components={{ strong: STRONG, positions: POSITIONS_LINK }}
               />
             </p>
           </Chapter>
