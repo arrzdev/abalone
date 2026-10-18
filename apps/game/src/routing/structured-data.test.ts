@@ -43,8 +43,16 @@ describe("structured data", () => {
     expect(rest).toEqual([])
     expect(faq["@type"]).toBe("FAQPage")
     const questions = faq.mainEntity as Json[]
-    expect(questions).toHaveLength(4)
-    expect(questions[1]).toEqual({
+    expect(questions.map((question) => question.name)).toEqual([
+      "Who goes first in Abalone?",
+      "Can I move marbles diagonally?",
+      "Can a single marble push?",
+      "What if my push is blocked by my own marble?",
+      "Can you push your own marbles?",
+      "Can Abalone end in a draw?",
+      "Is Abalone solved?",
+    ])
+    expect(questions[2]).toEqual({
       "@type": "Question",
       name: "Can a single marble push?",
       acceptedAnswer: {
@@ -86,8 +94,32 @@ describe("structured data", () => {
     )
   })
 
-  it("describes the strategy page as an article by TUDU", () => {
-    expect(structuredData("/strategy")).toEqual([
+  it("describes the strategy page as an article by TUDU, with its FAQ", () => {
+    const [article, faq, ...rest] = structuredData("/strategy")
+    expect(rest).toEqual([])
+    expect(faq).toEqual({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Is Abalone solved?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "No. Only very small versions of the board have been solved. The full board of 61 cells has no known perfect strategy, so the tips above still decide most games.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is the best first move?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "It depends on the layout. See Abalone opening moves.",
+          },
+        },
+      ],
+    })
+    expect([article]).toEqual([
       {
         "@context": "https://schema.org",
         "@type": "Article",

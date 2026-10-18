@@ -164,6 +164,10 @@
     "faq": {
       "title": "Domande frequenti",
       "items": {
+        "first": {
+          "question": "Chi inizia ad Abalone?",
+          "answer": "Inizia il nero, poi i giocatori muovono a turno. Non si può passare."
+        },
         "diagonal": {
           "question": "Posso muovere le biglie in diagonale?",
           "answer": "Ogni direzione della griglia esagonale è una delle sei direzioni. Non esiste un altro tipo di diagonale."
@@ -175,6 +179,14 @@
         "own_block": {
           "question": "E se la mia spinta è bloccata da una mia biglia?",
           "answer": "Allora la mossa non è valida."
+        },
+        "own_push": {
+          "question": "Si possono spingere le proprie biglie?",
+          "answer": "No. Una spinta muove solo biglie avversarie. Se una tua biglia è in mezzo, la mossa non è valida."
+        },
+        "draw": {
+          "question": "Abalone può finire in pareggio?",
+          "answer": "Sì. In questo gioco, se la stessa posizione si ripete per la terza volta con lo stesso giocatore al tratto, è pareggio."
         },
         "solved": {
           "question": "Abalone è un gioco risolto?",
@@ -227,6 +239,19 @@
         "lone_edge": "Spostare una biglia da sola sul bordo per «minacciare» qualcosa.",
         "split_three": "Dividere un tre in due coppie poco prima che arrivi il tre dell'avversario.",
         "leave_hole": "Spingere lasciando un buco in cui l'avversario si infila."
+      }
+    },
+    "faq": {
+      "title": "Domande frequenti",
+      "items": {
+        "solved": {
+          "question": "Abalone è un gioco risolto?",
+          "answer": "No. Sono state risolte solo versioni molto piccole della scacchiera. Per la scacchiera completa da 61 caselle non si conosce una strategia perfetta, quindi i consigli qui sopra decidono ancora la maggior parte delle partite."
+        },
+        "first_move": {
+          "question": "Qual è la prima mossa migliore?",
+          "answer": "Dipende dalla disposizione. Leggi le <openings>mosse di apertura di Abalone</openings>."
+        }
       }
     },
     "practise": {

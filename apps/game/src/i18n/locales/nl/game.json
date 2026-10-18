@@ -164,6 +164,10 @@
     "faq": {
       "title": "Veelgestelde vragen",
       "items": {
+        "first": {
+          "question": "Wie begint bij Abalone?",
+          "answer": "Zwart begint, daarna zijn de spelers om de beurt aan zet. Passen mag niet."
+        },
         "diagonal": {
           "question": "Mag ik ballen diagonaal verplaatsen?",
           "answer": "Elke richting op het zeshoekige raster is een van de zes richtingen. Een ander soort diagonaal bestaat niet."
@@ -175,6 +179,14 @@
         "own_block": {
           "question": "Wat als mijn duw wordt geblokkeerd door mijn eigen bal?",
           "answer": "Dan is de zet niet toegestaan."
+        },
+        "own_push": {
+          "question": "Kun je je eigen ballen duwen?",
+          "answer": "Nee. Een duw verplaatst alleen ballen van de tegenstander. Staat een eigen bal in de weg, dan is de zet niet toegestaan."
+        },
+        "draw": {
+          "question": "Kan Abalone in een gelijkspel eindigen?",
+          "answer": "Ja. In dit spel is het gelijkspel als dezelfde stelling voor de derde keer ontstaat met dezelfde speler aan zet."
         },
         "solved": {
           "question": "Is Abalone opgelost?",
@@ -227,6 +239,19 @@
         "lone_edge": "Een bal alleen naar de rand brengen om iets te \"bedreigen\".",
         "split_three": "Een drie splitsen in twee tweetallen vlak voordat de drie van je tegenstander arriveert.",
         "leave_hole": "Duwen terwijl er een gat achterblijft waar je tegenstander in stapt."
+      }
+    },
+    "faq": {
+      "title": "Veelgestelde vragen",
+      "items": {
+        "solved": {
+          "question": "Is Abalone opgelost?",
+          "answer": "Nee. Alleen heel kleine versies van het bord zijn opgelost. Voor het volledige bord van 61 velden is geen perfecte strategie bekend, dus de tips hierboven beslissen nog steeds de meeste partijen."
+        },
+        "first_move": {
+          "question": "Wat is de beste eerste zet?",
+          "answer": "Dat hangt af van de opstelling. Bekijk de <openings>openingszetten van Abalone</openings>."
+        }
       }
     },
     "practise": {

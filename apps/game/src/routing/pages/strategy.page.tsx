@@ -6,6 +6,7 @@ import {
   formatChapterNumber,
   splitChapterNumber,
 } from "@/components/manual/chapter-number"
+import { FaqList } from "@/components/manual/faq-list"
 import { ManualHero, ManualPage } from "@/components/manual/manual-page"
 import { PlayBlock } from "@/components/play-block"
 import { SubpageHeader } from "@/components/ui/subpage-header"
@@ -39,6 +40,8 @@ const TIPS = [
 
 const MISTAKES = ["lone_edge", "split_three", "leave_hole"] as const
 
+const FAQ_ITEMS = ["solved", "first_move"] as const
+
 const STRONG = <strong className="font-semibold text-white" />
 
 const TEXT_LINK_CLASS =
@@ -59,6 +62,7 @@ function StrategyPage() {
       }
     }),
     { id: "mistakes", title: t("game:strategy.mistakes.title") },
+    { id: "faq", title: t("game:strategy.faq.title") },
     { id: "practise", title: t("game:strategy.practise.title") },
   ]
 
@@ -128,6 +132,28 @@ function StrategyPage() {
               </li>
             ))}
           </ul>
+        </Chapter>
+
+        <Chapter id="faq" title={t("game:strategy.faq.title")}>
+          <FaqList
+            items={FAQ_ITEMS.map((item) => ({
+              id: item,
+              question: t(`game:strategy.faq.items.${item}.question`),
+              answer: (
+                <Trans
+                  i18nKey={`game:strategy.faq.items.${item}.answer`}
+                  components={{
+                    openings: (
+                      <Link
+                        to="/opening-moves"
+                        className={TEXT_LINK_CLASS}
+                      />
+                    ),
+                  }}
+                />
+              ),
+            }))}
+          />
         </Chapter>
 
         <Chapter id="practise" title={t("game:strategy.practise.title")}>

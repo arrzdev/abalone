@@ -164,6 +164,10 @@
     "faq": {
       "title": "Questions fréquentes",
       "items": {
+        "first": {
+          "question": "Qui commence à l'Abalone ?",
+          "answer": "Les noirs commencent, puis les joueurs jouent à tour de rôle. On ne peut pas passer."
+        },
         "diagonal": {
           "question": "Puis-je déplacer les billes en diagonale ?",
           "answer": "Chaque direction de la grille hexagonale compte comme l'une des six directions. Il n'existe pas d'autre sorte de diagonale."
@@ -175,6 +179,14 @@
         "own_block": {
           "question": "Et si ma poussée est bloquée par une de mes billes ?",
           "answer": "Alors ce n'est pas un coup légal."
+        },
+        "own_push": {
+          "question": "Peut-on pousser ses propres billes ?",
+          "answer": "Non. Une poussée ne déplace que les billes adverses. Si une de tes billes est sur le chemin, le coup n'est pas légal."
+        },
+        "draw": {
+          "question": "Une partie d'Abalone peut-elle finir en match nul ?",
+          "answer": "Oui. Dans ce jeu, si la même position revient une troisième fois avec le même joueur au trait, la partie est nulle."
         },
         "solved": {
           "question": "Abalone est-il résolu ?",
@@ -227,6 +239,19 @@
         "lone_edge": "Envoyer une bille seule au bord pour « menacer » quelque chose.",
         "split_three": "Casser un trois en deux paires juste avant l'arrivée du trois adverse.",
         "leave_hole": "Pousser en laissant un trou dans lequel ton adversaire s'engouffre."
+      }
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "items": {
+        "solved": {
+          "question": "Abalone est-il résolu ?",
+          "answer": "Non. Seules de très petites versions du plateau ont été résolues. Pour le plateau complet de 61 cases, aucune stratégie parfaite n'est connue : les conseils ci-dessus décident donc encore la plupart des parties."
+        },
+        "first_move": {
+          "question": "Quel est le meilleur premier coup ?",
+          "answer": "Cela dépend de la disposition. Voir les <openings>premiers coups d'Abalone</openings>."
+        }
       }
     },
     "practise": {

@@ -163,6 +163,10 @@
     "faq": {
       "title": "常见问题",
       "items": {
+        "first": {
+          "question": "Abalone 谁先走？",
+          "answer": "黑方先走，之后双方轮流走棋。不能跳过。"
+        },
         "diagonal": {
           "question": "棋子可以斜着走吗？",
           "answer": "六边形棋盘上的每个方向都算六个方向之一，没有别的斜向。"
@@ -174,6 +178,14 @@
         "own_block": {
           "question": "如果我的推挤被自己的棋子挡住怎么办？",
           "answer": "那就不是合法的走法。"
+        },
+        "own_push": {
+          "question": "可以推自己的棋子吗？",
+          "answer": "不可以。推挤只能推动对方的棋子。如果自己的棋子挡在路上，这步棋就不合法。"
+        },
+        "draw": {
+          "question": "Abalone 会有平局吗？",
+          "answer": "会。在本游戏中，同一局面在同一方走棋时第三次出现，即为平局。"
         },
         "solved": {
           "question": "Abalone 已经被破解了吗？",
@@ -226,6 +238,19 @@
         "lone_edge": "为了“威胁”什么，把一颗棋子单独走到边上。",
         "split_three": "在对手的三颗棋子到来之前，把三颗一组拆成两个两颗。",
         "leave_hole": "推完之后留下一个空洞，被对手钻进来。"
+      }
+    },
+    "faq": {
+      "title": "常见问题",
+      "items": {
+        "solved": {
+          "question": "Abalone 已经被破解了吗？",
+          "answer": "没有。目前只破解了非常小的棋盘。61 格的完整棋盘没有已知的完美策略，所以上面的技巧仍然决定着大多数对局。"
+        },
+        "first_move": {
+          "question": "最好的第一步是什么？",
+          "answer": "取决于布局。看看 <openings>Abalone 开局走法</openings>。"
+        }
       }
     },
     "practise": {

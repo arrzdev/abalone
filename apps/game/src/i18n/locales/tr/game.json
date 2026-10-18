@@ -163,6 +163,10 @@
     "faq": {
       "title": "Sık sorulanlar",
       "items": {
+        "first": {
+          "question": "Abalone'da kim başlar?",
+          "answer": "Siyah başlar, sonra oyuncular sırayla oynar. Pas geçilemez."
+        },
         "diagonal": {
           "question": "Bilyeleri çapraz oynatabilir miyim?",
           "answer": "Altıgen ızgaradaki her yön, altı yönden biri sayılır. Başka bir çapraz yoktur."
@@ -174,6 +178,14 @@
         "own_block": {
           "question": "İtmem kendi bilyem tarafından engellenirse ne olur?",
           "answer": "O zaman bu geçerli bir hamle değildir."
+        },
+        "own_push": {
+          "question": "Kendi bilyelerini itebilir misin?",
+          "answer": "Hayır. İtme yalnızca rakibin bilyelerini hareket ettirir. Yolda kendi bilyen varsa hamle geçerli değildir."
+        },
+        "draw": {
+          "question": "Abalone berabere bitebilir mi?",
+          "answer": "Evet. Bu oyunda aynı pozisyon, sıra aynı oyuncudayken üçüncü kez oluşursa oyun berabere biter."
         },
         "solved": {
           "question": "Abalone çözüldü mü?",
@@ -226,6 +238,19 @@
         "lone_edge": "Bir şeyi \"tehdit etmek\" için tek bir bilyeyi kenara götürmek.",
         "split_three": "Rakibin üçlüsü gelmeden hemen önce üçlüyü iki ikiliye bölmek.",
         "leave_hole": "Rakibinin girebileceği bir boşluk bırakacak şekilde itmek."
+      }
+    },
+    "faq": {
+      "title": "Sık sorulanlar",
+      "items": {
+        "solved": {
+          "question": "Abalone çözüldü mü?",
+          "answer": "Hayır. Yalnızca tahtanın çok küçük sürümleri çözüldü. 61 hücreli tam tahta için bilinen kusursuz bir strateji yok, bu yüzden oyunların çoğunu hâlâ yukarıdaki ipuçları belirler."
+        },
+        "first_move": {
+          "question": "En iyi ilk hamle hangisi?",
+          "answer": "Dizilişe bağlı. <openings>Abalone açılış hamleleri</openings> sayfasına bak."
+        }
       }
     },
     "practise": {
