@@ -176,10 +176,6 @@
           "question": "Una biglia da sola può spingere?",
           "answer": "No. Per spingere servono almeno due biglie contro una."
         },
-        "own_block": {
-          "question": "E se la mia spinta è bloccata da una mia biglia?",
-          "answer": "Allora la mossa non è valida."
-        },
         "own_push": {
           "question": "Si possono spingere le proprie biglie?",
           "answer": "No. Una spinta muove solo biglie avversarie. Se una tua biglia è in mezzo, la mossa non è valida."

@@ -47,7 +47,6 @@ describe("structured data", () => {
       "Who goes first in Abalone?",
       "Can I move marbles diagonally?",
       "Can a single marble push?",
-      "What if my push is blocked by my own marble?",
       "Can you push your own marbles?",
       "Can Abalone end in a draw?",
       "Is Abalone solved?",

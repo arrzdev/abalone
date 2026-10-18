@@ -177,10 +177,6 @@
           "question": "Czy jedna kula może wypychać?",
           "answer": "Nie. Wypchnięcie wymaga co najmniej dwóch kul przeciw jednej."
         },
-        "own_block": {
-          "question": "Co jeśli moje wypchnięcie blokuje własna kula?",
-          "answer": "Wtedy ten ruch jest niedozwolony."
-        },
         "own_push": {
           "question": "Czy można wypchnąć własne kule?",
           "answer": "Nie. Wypchnięcie przesuwa tylko kule przeciwnika. Jeśli na drodze stoi twoja kula, ruch jest niedozwolony."

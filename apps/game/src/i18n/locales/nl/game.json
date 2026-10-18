@@ -176,10 +176,6 @@
           "question": "Kan één bal duwen?",
           "answer": "Nee. Voor een duw heb je minstens twee ballen tegen één nodig."
         },
-        "own_block": {
-          "question": "Wat als mijn duw wordt geblokkeerd door mijn eigen bal?",
-          "answer": "Dan is de zet niet toegestaan."
-        },
         "own_push": {
           "question": "Kun je je eigen ballen duwen?",
           "answer": "Nee. Een duw verplaatst alleen ballen van de tegenstander. Staat een eigen bal in de weg, dan is de zet niet toegestaan."

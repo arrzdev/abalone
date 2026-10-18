@@ -176,10 +176,6 @@
           "question": "Uma bola sozinha pode empurrar?",
           "answer": "Não. Um empurrão precisa de pelo menos duas bolas contra uma."
         },
-        "own_block": {
-          "question": "E se o meu empurrão for bloqueado por uma bola minha?",
-          "answer": "Então a jogada não é válida."
-        },
         "own_push": {
           "question": "Podes empurrar as tuas próprias bolas?",
           "answer": "Não. Um empurrão só move bolas do adversário. Se uma bola tua estiver no caminho, a jogada não é válida."

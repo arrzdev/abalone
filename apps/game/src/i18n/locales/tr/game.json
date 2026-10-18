@@ -175,10 +175,6 @@
           "question": "Tek bir bilye itebilir mi?",
           "answer": "Hayır. İtmek için en az ikiye bir olmalı."
         },
-        "own_block": {
-          "question": "İtmem kendi bilyem tarafından engellenirse ne olur?",
-          "answer": "O zaman bu geçerli bir hamle değildir."
-        },
         "own_push": {
           "question": "Kendi bilyelerini itebilir misin?",
           "answer": "Hayır. İtme yalnızca rakibin bilyelerini hareket ettirir. Yolda kendi bilyen varsa hamle geçerli değildir."

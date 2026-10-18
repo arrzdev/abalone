@@ -229,10 +229,6 @@
           "question": "Can a single marble push?",
           "answer": "No. A push needs at least two marbles against one."
         },
-        "own_block": {
-          "question": "What if my push is blocked by my own marble?",
-          "answer": "Then it is not a legal move."
-        },
         "own_push": {
           "question": "Can you push your own marbles?",
           "answer": "No. A push only moves your opponent's marbles. If your own marble is in the way, the move is not legal."

@@ -176,10 +176,6 @@
           "question": "Une seule bille peut-elle pousser ?",
           "answer": "Non. Une poussée demande au moins deux billes contre une."
         },
-        "own_block": {
-          "question": "Et si ma poussée est bloquée par une de mes billes ?",
-          "answer": "Alors ce n'est pas un coup légal."
-        },
         "own_push": {
           "question": "Peut-on pousser ses propres billes ?",
           "answer": "Non. Une poussée ne déplace que les billes adverses. Si une de tes billes est sur le chemin, le coup n'est pas légal."

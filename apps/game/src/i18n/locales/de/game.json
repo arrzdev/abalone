@@ -176,10 +176,6 @@
           "question": "Kann eine einzelne Kugel schieben?",
           "answer": "Nein. Für einen Schub braucht es mindestens zwei Kugeln gegen eine."
         },
-        "own_block": {
-          "question": "Was, wenn meine eigene Kugel den Schub blockiert?",
-          "answer": "Dann ist der Zug nicht erlaubt."
-        },
         "own_push": {
           "question": "Kann man eigene Kugeln schieben?",
           "answer": "Nein. Ein Schub bewegt nur Kugeln des Gegners. Steht eine eigene Kugel im Weg, ist der Zug nicht erlaubt."

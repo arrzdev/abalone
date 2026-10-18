@@ -200,7 +200,6 @@ const FAQ_ITEMS = [
   "first",
   "diagonal",
   "single",
-  "own_block",
   "own_push",
   "draw",
   "solved",

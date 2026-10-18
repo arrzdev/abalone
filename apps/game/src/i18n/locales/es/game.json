@@ -176,10 +176,6 @@
           "question": "¿Puede empujar una sola bola?",
           "answer": "No. Un empuje necesita al menos dos bolas contra una."
         },
-        "own_block": {
-          "question": "¿Y si mi empuje lo bloquea una bola mía?",
-          "answer": "Entonces no es un movimiento legal."
-        },
         "own_push": {
           "question": "¿Puedes empujar tus propias bolas?",
           "answer": "No. Un empuje solo mueve bolas del rival. Si una bola tuya está en medio, el movimiento no es legal."
