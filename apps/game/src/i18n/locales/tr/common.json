@@ -22,8 +22,12 @@
   },
   "home": {
     "heading": "Abalone'u çevrimiçi, ücretsiz oyna",
+    "trust": "",
     "lede": "Rakibinin altı bilyesini tahtadan dışarı it. Bilgisayara karşı oyna, cihazı elden ele geçir ya da bir arkadaşını davet et.",
+    "play_now": "Bilgisayara karşı",
+    "play_now_hint": "Sekiz bot, kolaydan zora.",
     "play_online": "Çevrimiçi oyna",
+    "online_title": "Çevrimiçi oyna",
     "bot_hint": "Sekiz bot, kolaydan zora.",
     "local_hint": "İkiniz, tek cihaz.",
     "online_hint": "Ücretsiz hesap. Herkesi davet et.",

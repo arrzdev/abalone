@@ -11,7 +11,7 @@ import {
 // A first-time visitor's first game against the computer opens on the board:
 // Gus, the standard layout, black, and the guide's first step. The setup screen
 // is one press away ("New game") for whoever wants another bot, layout or side.
-// Once the guide is finished or skipped, "vs Computer" opens the setup screen
+// Once the guide is finished or skipped, home's Play now opens the setup screen
 // as it always did. Pass & Play is not touched: its setup asks for the names.
 //
 // Every test starts from a fresh browser context, so from empty storage: a
@@ -94,12 +94,9 @@ function sawSetupScreen(page: Page): Promise<boolean> {
   )
 }
 
-/** Home's "vs Computer" card. */
+/** Home's Play now, the computer game. */
 function homeComputerButton(page: Page) {
-  return page
-    .getByRole("button", { name: /vs Computer/ })
-    .filter({ visible: true })
-    .first()
+  return page.getByRole("main").getByRole("link", { name: /^Play now/ })
 }
 
 /**

@@ -22,8 +22,12 @@
   },
   "home": {
     "heading": "Speel Abalone online, gratis",
+    "trust": "",
     "lede": "Duw zes ballen van je tegenstander van het bord. Speel tegen de computer, geef het apparaat door of nodig een vriend uit.",
+    "play_now": "Tegen computer",
+    "play_now_hint": "Acht bots, makkelijk tot moeilijk.",
     "play_online": "Online spelen",
+    "online_title": "Online spelen",
     "bot_hint": "Acht bots, makkelijk tot moeilijk.",
     "local_hint": "Jullie twee, één apparaat.",
     "online_hint": "Gratis account. Nodig iedereen uit.",

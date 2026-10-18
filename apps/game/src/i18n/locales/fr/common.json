@@ -22,8 +22,12 @@
   },
   "home": {
     "heading": "Jouer à Abalone en ligne, gratuitement",
+    "trust": "",
     "lede": "Poussez six billes adverses hors du plateau. Jouez contre l'ordinateur, passez l'appareil ou invitez un ami.",
+    "play_now": "vs ordinateur",
+    "play_now_hint": "Huit bots, du facile au difficile.",
     "play_online": "Jouer en ligne",
+    "online_title": "Jouer en ligne",
     "bot_hint": "Huit bots, du facile au difficile.",
     "local_hint": "Vous deux, un seul appareil.",
     "online_hint": "Compte gratuit. Invite qui tu veux.",

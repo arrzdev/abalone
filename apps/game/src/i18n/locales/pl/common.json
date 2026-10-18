@@ -22,8 +22,12 @@
   },
   "home": {
     "heading": "Graj w Abalone online, za darmo",
+    "trust": "",
     "lede": "Wypchnij sześć kul przeciwnika poza planszę. Graj z komputerem, podaj dalej urządzenie albo zaproś znajomego.",
+    "play_now": "Z komputerem",
+    "play_now_hint": "Osiem botów, od łatwych do trudnych.",
     "play_online": "Graj online",
+    "online_title": "Graj online",
     "bot_hint": "Osiem botów, od łatwych do trudnych.",
     "local_hint": "Was dwoje, jedno urządzenie.",
     "online_hint": "Darmowe konto. Zaproś kogo chcesz.",

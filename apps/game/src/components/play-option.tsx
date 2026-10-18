@@ -1,5 +1,7 @@
 import { cn } from "@repo/nativ/utils"
-import type { ComponentType } from "react"
+import type { LinkProps } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
+import type { ComponentType, ReactNode } from "react"
 import type { IconProps } from "@/components/icons"
 import { TapButton } from "@/components/ui/tap-button"
 
@@ -42,6 +44,25 @@ const SIZES = {
     title: "text-[15px]",
     hint: "text-xs",
   },
+  /**
+   * The quieter pair under the front door's one filled row (TUD-2287 §3).
+   * Shorter than the row on purpose: the row is the offer, and these two are
+   * the other ways in. On a phone half a row is narrower than its line, so the
+   * line wraps instead of cutting off the word that says what it needs.
+   */
+  pair: {
+    box: "min-h-14 gap-2 rounded-2xl px-3 py-2 min-[375px]:gap-2.5 min-[375px]:px-3.5 lg:gap-3 lg:px-4",
+    icon: 18,
+    title: "text-[15px] leading-tight",
+    hint: "text-xs leading-snug",
+  },
+}
+
+//the row and the tile keep one line each, the pair wraps (see `pair`)
+const WRAPS: Record<keyof typeof SIZES, boolean> = {
+  row: false,
+  tile: false,
+  pair: true,
 }
 
 export type PlayOptionProps = {
@@ -51,7 +72,14 @@ export type PlayOptionProps = {
   hint: string
   tone?: keyof typeof TONES
   size?: keyof typeof SIZES
-  onClick: () => void
+  /** What a press does, for the ways in that ask something first. */
+  onClick?: () => void
+  /**
+   * Where the row goes, for a way in that asks for nothing: a real link, so it
+   * opens before the page has hydrated and a crawler follows it. Wins over
+   * `onClick`.
+   */
+  link?: LinkProps
   className?: string
 }
 
@@ -76,43 +104,63 @@ export function PlayOption({
   tone = "neutral",
   size = "row",
   onClick,
+  link,
   className,
 }: PlayOptionProps) {
   const style = TONES[tone]
   const scale = SIZES[size]
+  const lineClassName = WRAPS[size] ? "text-pretty" : "truncate"
 
-  return (
-    //no arrow. these are a set to choose from rather than a list of
-    //departures, and the one that carries the colour is already the loudest
-    //thing on the screen — an arrow on the end of it is a second way of saying
-    //press me. what an arrow does still belong to is the rules link under
-    //them, which really is somewhere else to go.
-    <TapButton
-      onClick={onClick}
-      className={cn(
-        "flex w-full items-center text-left transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground",
-        scale.box,
-        style.row,
-        className,
-      )}
-    >
+  const boxClassName = cn(
+    "flex w-full items-center text-left transition-colors duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-ground",
+    scale.box,
+    style.row,
+    className,
+  )
+
+  //no arrow. these are a set to choose from rather than a list of
+  //departures, and the one that carries the colour is already the loudest
+  //thing on the screen — an arrow on the end of it is a second way of saying
+  //press me. what an arrow does still belong to is the rules link under
+  //them, which really is somewhere else to go.
+  const content: ReactNode = (
+    <>
       <Icon size={scale.icon} className={cn("shrink-0", style.icon)} />
 
       <span className="min-w-0 flex-1">
         <span
           className={cn(
-            "block truncate font-display font-bold text-white",
+            "block font-display font-bold text-white",
+            lineClassName,
             scale.title,
           )}
         >
           {title}
         </span>
         <span
-          className={cn("mt-0.5 block truncate", scale.hint, style.hint)}
+          className={cn(
+            "mt-0.5 block",
+            lineClassName,
+            scale.hint,
+            style.hint,
+          )}
         >
           {hint}
         </span>
       </span>
+    </>
+  )
+
+  if (link !== undefined)
+    return (
+      <Link {...link} className={boxClassName}>
+        {content}
+      </Link>
+    )
+
+  return (
+    <TapButton onClick={onClick} className={boxClassName}>
+      {content}
     </TapButton>
   )
 }

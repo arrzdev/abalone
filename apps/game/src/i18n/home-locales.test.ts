@@ -16,9 +16,21 @@ const LOCALES = import.meta.glob<{ home: Record<string, unknown> }>(
 describe.each(Object.keys(LOCALES))("%s home cards", (path) => {
   const home = LOCALES[path].home
 
-  it.each(["bot_hint", "local_hint", "online_hint"])("has %s", (key) => {
+  it.each([
+    "play_now",
+    "play_now_hint",
+    "local_hint",
+    "online_title",
+    "online_hint",
+  ])("has %s", (key) => {
     expect(home[key]).toEqual(expect.any(String))
     expect(home[key]).not.toBe("")
+  })
+
+  //the phone's line under the heading (TUD-2287 §3): empty until the
+  //language has its own, so a translated front door never shows english
+  it("has a trust line, empty or its own", () => {
+    expect(home.trust).toEqual(expect.any(String))
   })
 
   it("has no line kept for one size only", () => {
@@ -31,9 +43,17 @@ describe.each(Object.keys(LOCALES))("%s home cards", (path) => {
 describe("english home cards", () => {
   const home = LOCALES["./locales/en/common.json"].home
 
+  //the `play-free-copy` document on TUD-2298
   it("say what each mode needs", () => {
-    expect(home.bot_hint).toBe("Eight bots, easy to hard.")
+    expect(home.play_now).toBe("Play now")
+    expect(home.play_now_hint).toBe("vs the computer · free")
     expect(home.local_hint).toBe("Two of you, one device.")
-    expect(home.online_hint).toBe("Free account. Invite anyone.")
+    expect(home.online_title).toBe("Friend online")
+    expect(home.online_hint).toBe("Needs a free account")
+  })
+
+  it("says free and no account above them", () => {
+    expect(home.heading).toBe("Play Abalone free, no account")
+    expect(home.trust).toBe("Free board game. No sign-up, no download.")
   })
 })

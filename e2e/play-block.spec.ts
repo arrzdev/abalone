@@ -8,7 +8,7 @@ import { openApp } from "./support/app"
 // halfway down: a third block broke up the reading and made the page feel
 // pushy, so it went.
 //
-// "The computer game" is wherever home's vs Computer card goes. The served-HTML
+// "The computer game" is wherever home's Play now goes. The served-HTML
 // checks name that URL; the browser check reads it off the card, so the two
 // cannot drift apart without a test saying so.
 
@@ -184,18 +184,17 @@ async function expectComputerGame(page: Page): Promise<void> {
   ).toBeVisible()
 }
 
-// §8.2: the button and home's vs Computer card go to the same place, and that
+// §8.2: the button and home's Play now go to the same place, and that
 // place is the computer game.
 test.describe("in a fresh browser", () => {
   for (const path of PATHS) {
-    test(`${path}: the first button opens the same game as home's vs Computer card`, async ({
+    test(`${path}: the first button opens the same game as home's Play now`, async ({
       page,
     }) => {
       await openApp(page, "/")
       await page
-        .getByRole("button", { name: /vs Computer/ })
-        .filter({ visible: true })
-        .first()
+        .getByRole("main")
+        .getByRole("link", { name: /^Play now/ })
         .click()
       // the URL the card settles on, once /offline has made its own replace
       await expect(page).toHaveURL(
