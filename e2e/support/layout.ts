@@ -258,6 +258,37 @@ export async function expectNoClippedText(scope: Locator): Promise<void> {
   expect(clipped, "text that is cut off").toEqual([])
 }
 
+/**
+ * Checks that `scope` fits on the screen as it is: no box in it (the scope
+ * itself included) that scrolls has more than it shows. A sheet's scroller
+ * that has a few pixels more also fades its bottom edge over the last control,
+ * which `expectNoClippedText` does not see, since the text is still inside it.
+ */
+export async function expectNoScrolling(scope: Locator): Promise<void> {
+  const scrolling = await scope.evaluate((root) => {
+    const found: string[] = []
+    const slack = 1
+    for (const element of [root, ...root.querySelectorAll("*")]) {
+      const style = getComputedStyle(element)
+      const scrolls = (overflow: string): boolean =>
+        overflow === "auto" || overflow === "scroll"
+      if (!scrolls(style.overflowY) && !scrolls(style.overflowX)) continue
+      const extraY = element.scrollHeight - element.clientHeight
+      const extraX = element.scrollWidth - element.clientWidth
+      if (extraY <= slack && extraX <= slack) continue
+      const text = (element.textContent ?? "")
+        .trim()
+        .replace(/\s+/g, " ")
+        .slice(0, 50)
+      found.push(
+        `<${element.tagName.toLowerCase()}> "${text}" needs ${element.scrollWidth}x${element.scrollHeight} and shows ${element.clientWidth}x${element.clientHeight}`,
+      )
+    }
+    return found
+  })
+  expect(scrolling, "boxes that scroll").toEqual([])
+}
+
 /** The vertical gaps inside a region, and the bands of content between them. */
 export type Rhythm = {
   /** Each band of content, top to bottom, named by its first text. */

@@ -11,6 +11,7 @@ import {
   expectEvenRhythm,
   expectNoClippedText,
   expectNoLayoutShift,
+  expectNoScrolling,
   waitForRest,
 } from "./support/layout"
 
@@ -93,6 +94,7 @@ for (const viewport of VIEWPORTS) {
         { until: () => expect(spokenAlert(composer)).toBeVisible() },
       )
       await expectNoClippedText(composer)
+      await expectNoScrolling(composer)
 
       await expectNoLayoutShift(
         composer,
@@ -242,7 +244,7 @@ for (const viewport of VIEWPORTS) {
 test.describe("in German on a 375x667 phone", () => {
   test.use({ viewport: { width: 375, height: 667 } })
 
-  test("the invite composer shows all its text with a refused name", async ({
+  test("the invite composer shows all its text with a refused name, without scrolling", async ({
     page,
   }) => {
     await signUp(page, uniqueUsername("german"))
@@ -266,5 +268,6 @@ test.describe("in German on a 375x667 phone", () => {
     )
     await waitForRest(composer)
     await expectNoClippedText(composer)
+    await expectNoScrolling(composer)
   })
 })

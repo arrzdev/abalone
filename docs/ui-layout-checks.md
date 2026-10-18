@@ -46,6 +46,10 @@ How to keep it:
   ellipsis (`text-ellipsis`); the full value stays the field's value, so it
   can still be selected and copied.
 - A dialog fits the smallest supported screen (375x667) without scrolling.
+  `expectNoScrolling(scope)` checks it: a sheet's scroller that has even a few
+  pixels more fades its bottom edge over the primary action. Count every line
+  as if it wraps once: WebKit wraps a line that Chromium fits, and a
+  translation can be half as long again as the English.
 
 ## 3. One vertical rhythm
 
