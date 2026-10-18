@@ -3,7 +3,7 @@ import { nativ } from "@repo/nativ/vite"
 import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "vite"
 import { PORTS } from "./ports"
-import { sitemap } from "./scripts/sitemap.plugin"
+import { crawlerFiles } from "./scripts/crawler-files.plugin"
 
 const { appPort, supervisorPort } = PORTS
 
@@ -45,8 +45,8 @@ export default defineConfig({
     //the service worker — all driven by nativ.config.ts, the single source of truth
     nativ(),
     tailwindcss(),
-    //sitemap.xml from SEO_PAGES, dated the day of the build
-    sitemap(),
+    //sitemap.xml and llms.txt from SEO_PAGES
+    crawlerFiles(),
   ],
   worker: {
     //the minimax opponent is a module worker; vite's classic-worker default

@@ -10,8 +10,8 @@ import { structuredDataScripts } from "@/routing/structured-data"
  * the line a search result shows, so the brand is part of the sentence rather
  * than a suffix.
  *
- * The sitemap is built from this table's keys at build time
- * (`scripts/sitemap.plugin.ts`), so a page added here is listed there too.
+ * The sitemap and `llms.txt` are built from this table at build time
+ * (`scripts/crawler-files.plugin.ts`), so a page added here is listed there too.
  */
 export type SeoPage = {
   /** ≤ 60 characters, shown as is. */

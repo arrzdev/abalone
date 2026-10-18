@@ -105,6 +105,27 @@ test("robots.txt is a real file that points at the sitemap", async ({
   expect(body).not.toMatch(/^Disallow:/m)
 })
 
+test("llms.txt is plain text that links every indexable page", async ({
+  request,
+}) => {
+  const response = await request.get("/llms.txt")
+
+  expect(response.status()).toBe(200)
+  expect(response.headers()["content-type"]).toMatch(/^text\/plain/)
+  const body = await response.text()
+  expect(body).toMatch(/^# Abalone$/m)
+  expect(body).toContain(`> ${INDEXABLE["/"]}`)
+
+  const links = [...body.matchAll(/^- \[[^\]]+\]\(([^)]+)\)/gm)].map(
+    (m) => m[1],
+  )
+  expect(links.sort()).toEqual(
+    Object.keys(INDEXABLE)
+      .map((path) => `${CANONICAL_ORIGIN}${path}`)
+      .sort(),
+  )
+})
+
 test("sitemap.xml lists every indexable page on the canonical host", async ({
   request,
 }) => {
