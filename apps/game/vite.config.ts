@@ -60,5 +60,21 @@ export default defineConfig({
   build: {
     //the search tables make one chunk larger than vite's default warning
     chunkSizeWarningLimit: 900,
+    rolldownOptions: {
+      output: {
+        codeSplitting: {
+          groups: [
+            //zod and its jitless switch share one chunk, so the switch runs
+            //as soon as zod does. left to itself, the bundler puts the switch
+            //in the entry chunk, which runs after the chunks it imports, and
+            //those build schemas (src/utils/zod-jitless.ts)
+            {
+              name: "zod",
+              test: /[\\/]node_modules[\\/]zod[\\/]|[\\/]src[\\/]utils[\\/]zod-jitless\.ts$/,
+            },
+          ],
+        },
+      },
+    },
   },
 })
