@@ -6,8 +6,10 @@ import { defineConfig, devices } from "@playwright/test"
 //
 // The committed dev ports are the default, which is what CI uses. On a machine
 // where something else already holds them, move the whole suite with
-// E2E_GAME_PORT / E2E_API_PORT. Outside CI a server already up on the chosen
-// ports is reused, which is what makes a second local run quick.
+// E2E_GAME_PORT / E2E_API_PORT / E2E_API_INSPECTOR_PORT; scripts/e2e-lock.sh
+// (pnpm test:e2e) picks free ones outside CI. A server already up on the chosen
+// ports is reused only with E2E_REUSE=1: without it a suite could silently test
+// another checkout's server.
 const gamePort = Number(process.env.E2E_GAME_PORT ?? 6161)
 const apiPort = Number(process.env.E2E_API_PORT ?? 8181)
 const inspectorPort = Number(process.env.E2E_API_INSPECTOR_PORT ?? 9218)
@@ -15,6 +17,8 @@ const inspectorPort = Number(process.env.E2E_API_INSPECTOR_PORT ?? 9218)
 const baseURL = `http://localhost:${gamePort}`
 // The backend's health route, at its root, answers 200 once it is up.
 const apiURL = `http://localhost:${apiPort}`
+
+const reuseExistingServer = process.env.E2E_REUSE === "1"
 
 const serverEnv = {
   E2E_GAME_PORT: String(gamePort),
@@ -55,14 +59,14 @@ export default defineConfig({
       env: serverEnv,
       // Its request log, so a failed run shows what the api answered.
       stdout: "pipe",
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer,
       timeout: 120_000,
     },
     {
       command: "bash e2e/support/serve-game.sh",
       url: baseURL,
       env: serverEnv,
-      reuseExistingServer: !process.env.CI,
+      reuseExistingServer,
       timeout: 180_000,
     },
   ],
