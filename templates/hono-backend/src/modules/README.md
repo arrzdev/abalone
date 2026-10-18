@@ -1,0 +1,1 @@
+A module lands here the moment a service needs a 2nd source file of its own: `modules/{domain}/index.ts` plus bare-role files, called exactly like a service (see `.claude/skills/core-repository-layout`).

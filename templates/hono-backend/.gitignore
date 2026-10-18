@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+
+# Real env values; only the example is committed (see env/.env.example)
+env/.env
+env/.env.*
+!env/.env.example
+
+# Wrangler local state (miniflare D1, rate limiters) and build output
+.wrangler/
+dist/
+*.tsbuildinfo
+.tsbuild/
+
+# Logs
+*.log

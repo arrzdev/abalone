@@ -1,0 +1,112 @@
+# The top-level block is DEV. `wrangler dev` reads it, and the placeholder ids
+# below never reach Cloudflare because local mode never calls the API. Staging
+# and production live in [env.staging] / [env.production] below, and a deploy
+# passes `--env <name>` — without that flag it would ship this block.
+#
+# Routing: this API worker is reached ONLY through a Worker route on the
+# product hostname under /api/* (`example.com/api/*`, `staging.example.com/api/*`).
+# The website worker owns the custom domain for that hostname; a route beats a
+# custom domain on the same host, so these patterns are all it takes and every
+# other path stays the website's. Never publish the API on an api.* or
+# backend.* hostname: the browser then calls it same-origin, and there is no
+# second hostname to secure. A website worker that must call the API from its
+# own server code uses a service binding to this worker, not fetch() — a
+# same-zone subrequest skips Worker routes and would land on the website again.
+name = "hono-backend-dev"
+main = "entrypoint/worker.ts"
+compatibility_date = "2026-03-17"
+compatibility_flags = ["nodejs_compat"]
+minify = true
+upload_source_maps = false
+workers_dev = false
+
+# Runtime env (FRONTEND_URLS) is deliberately NOT declared here. `wrangler dev`
+# loads it from env/.env (--env-file), and a deploy uploads the same file onto
+# the Worker as secrets (`wrangler versions upload --secrets-file env/.env`), so
+# env is driven by the deploy, never the CF dashboard.
+
+[dev]
+ip = "0.0.0.0"
+port = 8181
+inspector_port = 9218
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[[d1_databases]]
+binding = "DB"
+database_name = "hono-backend-db-dev"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "src/database/migrations"
+
+# Cloudflare's own counters, shared by every isolate in a location, for the
+# public health probe. The in-memory limiter in src/http/middlewares/rate-limit.ts
+# counts per isolate, so behind enough isolates it barely limits at all.
+# `limit` mirrors that file's `max` for the preset, and `period` its 60 s window
+# (the binding allows 10 or 60). `namespace_id` is any positive integer, unique
+# per limiter in the account. Local mode emulates these in miniflare, so dev and
+# the test suite need no account either.
+#
+# The public /api/v1/health probe: unauthenticated and it reads D1, so it gets
+# a ceiling of its own, far above any monitor's once-a-minute cadence.
+[[ratelimits]]
+name = "HEALTH_RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 60, period = 60 }
+
+# ---- staging -------------------------------------------------------
+# Bindings are NON-inheritable in wrangler, so each named env redeclares the full
+# set rather than patching the block above. `name` is set explicitly too: a
+# named env otherwise deploys as `<top-level-name>-<env>`.
+
+[env.staging]
+name = "hono-backend-staging"
+# Pinned off, and pinned rather than left out: a second public hostname in front
+# of the api is not something to publish by omission.
+workers_dev = false
+routes = [{ pattern = "staging.example.com/api/*", zone_name = "example.com" }]
+
+# Workers Logs. Named envs do not inherit it reliably, so every env repeats it.
+[env.staging.observability]
+enabled = true
+head_sampling_rate = 1
+
+[[env.staging.d1_databases]]
+binding = "DB"
+# Created once with `wrangler d1 create hono-backend-db-staging`. The id is not
+# a secret (it names a database only a bound Worker can reach), so it lives here
+# and the deploy has no lookup step.
+database_name = "hono-backend-db-staging"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "src/database/migrations"
+
+[[env.staging.ratelimits]]
+name = "HEALTH_RATE_LIMITER"
+# Its own namespace: staging and production usually share one account, and a
+# shared namespace_id would make them share one count.
+namespace_id = "2001"
+simple = { limit = 60, period = 60 }
+
+# ---- production ----------------------------------------------------
+
+[env.production]
+name = "hono-backend"
+workers_dev = false
+routes = [{ pattern = "example.com/api/*", zone_name = "example.com" }]
+
+[env.production.observability]
+enabled = true
+head_sampling_rate = 1
+
+[[env.production.d1_databases]]
+binding = "DB"
+# `wrangler d1 create hono-backend-db`, then paste the id it prints here.
+database_name = "hono-backend-db"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "src/database/migrations"
+
+[[env.production.ratelimits]]
+name = "HEALTH_RATE_LIMITER"
+namespace_id = "1001"
+simple = { limit = 60, period = 60 }
