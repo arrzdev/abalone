@@ -1,8 +1,8 @@
 import { useNavigate } from "@tanstack/react-router"
 import type { ReactNode } from "react"
-import { useEffect } from "react"
+import { useEffect, useSyncExternalStore } from "react"
+import { subscribeToToken } from "@/data/auth/token"
 import { useAuthPrompt } from "@/providers/auth-prompt-provider"
-import { useAuth } from "@/providers/auth-provider"
 import { needsSignIn } from "@/routing/auth-guard"
 import type { ReturnTo } from "@/routing/return-to"
 
@@ -21,6 +21,18 @@ import type { ReturnTo } from "@/routing/return-to"
 //twice, and the `beforeLoad` half had to name a screen to send a desktop to.
 //there is no such screen now: signing in is an overlay over whatever you were
 //looking at, which is a thing only a mounted component can open.
+//
+//the verdict is read through `useSyncExternalStore` with the server's answer
+//as the hydration snapshot. the worker cannot see the token, so it always
+//renders the screen; a guest whose first client render said `null` instead
+//handed react a tree that did not match the html, and that is error #418.
+//hydrating the server's answer first and re-rendering with the device's one
+//straight after keeps the two in step.
+
+/** What the document request was answered with: the worker never asks. */
+function serverVerdict(): boolean {
+  return false
+}
 
 type SignedInOnlyProps = {
   /** Where to send them back to once they have signed in. */
@@ -43,12 +55,13 @@ type SignedInOnlyProps = {
 export function SignedInOnly({ returnTo, children }: SignedInOnlyProps) {
   const navigate = useNavigate()
   const { requireAuth } = useAuthPrompt()
-  //subscribed to on purpose. the guard reads a store that notifies nobody, so
-  //signing in through the overlay has to re-render this some other way, and the
-  //session arriving is that moment.
-  useAuth()
-
-  const mustAsk = needsSignIn()
+  //subscribed to the token, so signing in through the overlay (or a refused
+  //request dropping the token) re-renders this with the new verdict
+  const mustAsk = useSyncExternalStore(
+    subscribeToToken,
+    needsSignIn,
+    serverVerdict,
+  )
 
   useEffect(() => {
     if (!mustAsk) return
