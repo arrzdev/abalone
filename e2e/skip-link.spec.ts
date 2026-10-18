@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test"
-import { openApp } from "./support/app"
+import { openApp, signUp, uniqueUsername } from "./support/app"
 
 // A keyboard user reaches the page without walking the header: the first Tab
 // on every page offers "Skip to content", it shows while focused, and pressing
@@ -19,7 +19,15 @@ for (const path of [
   test(`${path}: the first Tab skips the header to the page`, async ({
     page,
   }) => {
+    // Signed out, /online opens the sign-in dialog, and an open dialog keeps
+    // focus inside itself (dialog-focus.spec.ts); the page is for players.
+    if (path === "/online") await signUp(page, uniqueUsername("skip"))
     await openApp(page, path)
+    // The hub has nothing to Tab to until the account's games load.
+    if (path === "/online")
+      await expect(
+        page.getByRole("heading", { name: "Nothing here yet" }),
+      ).toBeVisible()
 
     await page.keyboard.press("Tab")
     const skipLink = page.getByRole("link", { name: "Skip to content" })
