@@ -3,13 +3,13 @@ import { pageHead } from "@/routing/page-head"
 import { SEO_PAGES, SITEMAP, seoPageHead } from "@/routing/seo-pages"
 
 //the copy every indexable page ships with, word for word from the `page-copy`
-//document on TUD-626. a search result quotes these, so a test pins them rather
+//document on TUD-626 (home and /play-online: `play-free-copy` on TUD-2298). a search result quotes these, so a test pins them rather
 //than trusting a later edit to keep them in step
 const EXPECTED_COPY = {
   "/": {
-    title: "Abalone: play the board game online, free",
+    title: "Abalone Online Free: Play the Board Game, No Account",
     description:
-      "Play Abalone free online. Challenge the computer, share a screen with a friend or invite someone to a live game. No download, no sign-up needed to start.",
+      "Play Abalone online free, no account. Beat the computer, share one screen with a friend or invite someone to a live game. No download needed.",
   },
   "/rules": {
     title: "Abalone rules: how to play, moves, sumito and winning",
@@ -33,9 +33,9 @@ const EXPECTED_COPY = {
   },
   //the `audit` document on TUD-1688
   "/play-online": {
-    title: "Play Abalone Online Free with Friends | Private Invite Link",
+    title: "Play Abalone Online With Friends: Invite by Link",
     description:
-      "Play Abalone online in your browser, free. Make a private invite link, send it to a friend and play at your own pace. Free account, no download.",
+      "Play Abalone online with friends. Create a free account, send an invite link and play a live game. Prefer no account? Play the computer instantly.",
   },
 } as const
 
@@ -94,7 +94,7 @@ describe("SITEMAP", () => {
   //on every page says nothing about which page moved
   it("dates each page by the day its text last changed", () => {
     expect(SITEMAP).toEqual({
-      "/": "2026-10-12",
+      "/": "2026-10-18",
       "/rules": "2026-10-18",
       "/strategy": "2026-10-18",
       "/opening-moves": "2026-10-17",

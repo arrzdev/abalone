@@ -11,20 +11,19 @@ const CANONICAL_ORIGIN = "https://abalone.tudu.dev"
 // The copy is pinned word for word in apps/game/src/routing/seo-pages.test.ts;
 // here only the title, to prove the head reached the served HTML.
 const INDEXABLE = {
-  "/": "Abalone: play the board game online, free",
+  "/": "Abalone Online Free: Play the Board Game, No Account",
   "/rules": "Abalone rules: how to play, moves, sumito and winning",
   "/offline": "Play Abalone vs the computer or a friend on one device",
   "/strategy": "Abalone strategy: 7 tips to win more games",
   "/opening-moves": "Abalone opening moves: a guide for beginners",
-  "/play-online":
-    "Play Abalone Online Free with Friends | Private Invite Link",
+  "/play-online": "Play Abalone Online With Friends: Invite by Link",
 } as const
 
 // What sitemap.xml lists, and the day each page's text last changed. /offline
 // stays indexable but is left out: it is the board itself, and home is the
 // page that answers "play abalone".
 const SITEMAP = {
-  "/": "2026-10-12",
+  "/": "2026-10-18",
   "/rules": "2026-10-18",
   "/strategy": "2026-10-18",
   "/opening-moves": "2026-10-17",
@@ -73,12 +72,12 @@ test.describe("indexable pages", () => {
   // The H1 each indexable page is served with, word for word from page-copy:
   // exactly one per page, so the page states one topic.
   const H1 = {
-    "/": "Play Abalone online, free",
+    "/": "Play Abalone free, no account",
     "/rules": "Abalone rules: how to play",
     "/offline": "Play Abalone vs the computer or a friend",
     "/strategy": "Abalone strategy: 7 tips to win",
     "/opening-moves": "Abalone opening moves for beginners",
-    "/play-online": "Play Abalone online, free",
+    "/play-online": "Play Abalone online with a friend",
   } as const
 
   for (const [path, h1] of Object.entries(H1)) {

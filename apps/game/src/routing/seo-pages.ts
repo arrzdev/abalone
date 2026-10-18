@@ -34,9 +34,9 @@ export const SEO_PAGES: Record<
   SeoPage
 > = {
   "/": {
-    title: "Abalone: play the board game online, free",
+    title: "Abalone Online Free: Play the Board Game, No Account",
     description:
-      "Play Abalone free online. Challenge the computer, share a screen with a friend or invite someone to a live game. No download, no sign-up needed to start.",
+      "Play Abalone online free, no account. Beat the computer, share one screen with a friend or invite someone to a live game. No download needed.",
     image: "home",
   },
   "/rules": {
@@ -64,9 +64,9 @@ export const SEO_PAGES: Record<
     image: "game",
   },
   "/play-online": {
-    title: "Play Abalone Online Free with Friends | Private Invite Link",
+    title: "Play Abalone Online With Friends: Invite by Link",
     description:
-      "Play Abalone online in your browser, free. Make a private invite link, send it to a friend and play at your own pace. Free account, no download.",
+      "Play Abalone online with friends. Create a free account, send an invite link and play a live game. Prefer no account? Play the computer instantly.",
     image: "game",
   },
 }
@@ -85,7 +85,7 @@ export const SITEMAP: Record<
   Exclude<IndexablePath, "/offline">,
   string
 > = {
-  "/": "2026-10-12",
+  "/": "2026-10-18",
   "/rules": "2026-10-18",
   "/strategy": "2026-10-18",
   "/opening-moves": "2026-10-17",
