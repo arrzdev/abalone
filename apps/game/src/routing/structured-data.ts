@@ -94,6 +94,20 @@ function rulesHowTo(): Json {
   }
 }
 
+/** The FAQ items as the page shows them, answers without their link markup. */
+function rulesFaq(): Json {
+  const items = Object.values(enGame.rules.faq.items)
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: plainText(item.answer) },
+    })),
+  }
+}
+
 function article(
   path: "/strategy" | "/opening-moves",
   headline: string,
@@ -136,7 +150,8 @@ export function structuredDataScripts(
   page: SeoPage,
 ): StructuredDataScript[] {
   if (path === "/") return [toScript(videoGame())]
-  if (path === "/rules") return [toScript(rulesHowTo())]
+  if (path === "/rules")
+    return [toScript(rulesHowTo()), toScript(rulesFaq())]
   if (path === "/strategy") {
     const image = siteUrl(`/images/social/og-${page.image}.jpg`)
     return [
