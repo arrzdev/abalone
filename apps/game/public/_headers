@@ -1,0 +1,14 @@
+# Workers static assets read this file at deploy; it is not served.
+# Security headers on every static file. Keep equal to SECURITY_HEADERS in
+# src/server/security-headers.ts, which sets them on the Worker's own
+# responses; security-headers.test.ts checks both. No Cache-Control here:
+# two matching rules join their values with a comma.
+/*
+  Strict-Transport-Security: max-age=31536000
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+
+# Build files carry a content hash in the name, so they never go stale.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
