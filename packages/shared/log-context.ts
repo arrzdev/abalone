@@ -11,3 +11,13 @@ setLogContextReader(() => logContext.getStore())
 export function withLogContext<T>(context: LogContext, fn: () => T): T {
   return logContext.run({ ...logContext.getStore(), ...context }, fn)
 }
+
+//any caller can send x-request-id and it is echoed in logs, a header and error bodies
+const SAFE_REQUEST_ID = /^[A-Za-z0-9._:-]{1,128}$/
+
+//a caller's id (a service binding, a retry) wins, then the edge's cf-ray, then a new one
+export function requestIdFrom(request: Request): string {
+  const incoming = request.headers.get("x-request-id")
+  if (incoming && SAFE_REQUEST_ID.test(incoming)) return incoming
+  return request.headers.get("cf-ray") || crypto.randomUUID()
+}

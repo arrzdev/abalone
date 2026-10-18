@@ -9,11 +9,20 @@ compatibility_flags = ["nodejs_compat"]
 upload_source_maps = false
 workers_dev = false
 
+# Workers Logs. Named envs do not inherit it reliably, so production repeats it.
+[observability]
+enabled = true
+head_sampling_rate = 1
+
 # The build selects this env with CLOUDFLARE_ENV (.github/scripts/deploy/app.sh)
 # and bakes it into dist/server/wrangler.json. Named envs do not inherit `name`.
 [env.production]
 name = "abalone-game"
 workers_dev = false
+
+[env.production.observability]
+enabled = true
+head_sampling_rate = 1
 
 # The backend's public invite read, for the card an invite link unfurls into
 # (src/server.ts). A fetch to abalone.tudu.dev/api from this Worker is a

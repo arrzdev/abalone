@@ -95,6 +95,11 @@ routes = [
   { pattern = "babaluje.tudu.dev/api/*", zone_name = "tudu.dev" },
 ]
 
+# Workers Logs. Named envs do not inherit it reliably, so production repeats it.
+[env.production.observability]
+enabled = true
+head_sampling_rate = 1
+
 [[env.production.d1_databases]]
 binding = "DB"
 # The deploy reads this through wrangler's own config parser

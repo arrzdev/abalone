@@ -6,7 +6,8 @@
  * the page, so the card naming the sender has to be in the HTML this Worker
  * returns. Every other request goes to Start untouched. Design:
  * `docs/invite-links.md`, "The link preview". Every response leaves with the
- * security and cache headers (`@/server/security-headers`).
+ * security and cache headers (`@/server/security-headers`), an `x-request-id`,
+ * and one `request` log line (`@/server/request-log`).
  */
 
 import { env as bindings } from "cloudflare:workers"
@@ -19,6 +20,7 @@ import {
   inviteLinkIdFromPath,
   serveInvitePage,
 } from "@/server/invite-page"
+import { withRequestLog } from "@/server/request-log"
 import { withSecurityHeaders } from "@/server/security-headers"
 import { SITE_ORIGIN } from "@/utils/site"
 
@@ -34,11 +36,16 @@ type GameBindings = {
 
 export default createServerEntry({
   async fetch(request) {
-    return withSecurityHeaders(await respond(request))
+    return withRequestLog(request, async (requestId) =>
+      withSecurityHeaders(await respond(request, requestId)),
+    )
   },
 })
 
-async function respond(request: Request): Promise<Response> {
+async function respond(
+  request: Request,
+  requestId: string,
+): Promise<Response> {
   const linkId =
     request.method === "GET"
       ? inviteLinkIdFromPath(new URL(request.url).pathname)
@@ -48,21 +55,25 @@ async function respond(request: Request): Promise<Response> {
   return serveInvitePage({
     linkId,
     shell: await handler.fetch(request),
-    readLink: (id) => readInviteLink(id, request),
+    readLink: (id) => readInviteLink(id, request, requestId),
   })
 }
 
 /**
  * The backend's public read, `GET /api/v1/invite-links/:id`, on the visitor's
  * behalf: their address goes along, so the rate limit counts them rather than
- * this Worker.
+ * this Worker. So does the request id, so both Workers' lines share it.
  */
 async function readInviteLink(
   linkId: string,
   visitor: Request,
+  requestId: string,
 ): Promise<InviteLinkSummary | null> {
   const path = `/api/v1/invite-links/${encodeURIComponent(linkId)}`
-  const headers = new Headers({ accept: "application/json" })
+  const headers = new Headers({
+    accept: "application/json",
+    "x-request-id": requestId,
+  })
   const visitorIp = visitor.headers.get("cf-connecting-ip")
   if (visitorIp) headers.set("cf-connecting-ip", visitorIp)
   const init = { headers, signal: AbortSignal.timeout(READ_TIMEOUT_MS) }
