@@ -8,6 +8,7 @@
   },
   "exports": {
     "./http": "./http.ts",
+    "./log-context": "./log-context.ts",
     "./logging": "./logging.ts",
     "./try-catch": "./try-catch.ts"
   },
@@ -16,6 +17,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@types/node": "22.19.17",
     "hono": "4.13.13",
     "typescript": "5.9.3",
     "zod": "4.6.5"
