@@ -13,6 +13,11 @@ inputs:
     description: "Commit to diff against (migration safety, affected tests)"
     required: true
 
+  e2e:
+    description: "true runs the e2e suite inside the gate; the workflows pass false and run it as parallel shards (.github/actions/e2e)"
+    required: false
+    default: "true"
+
 runs:
   using: composite
   steps:
@@ -95,17 +100,8 @@ runs:
     # databases), so the gate only supplies the browsers. Full mode only: it is
     # the slowest step, and a draft does not merge.
     - name: E2E
-      if: inputs.mode == 'full'
-      shell: bash
-      run: |
-        if ! jq -e '.scripts["test:e2e"]' package.json >/dev/null; then
-          echo "No test:e2e script, skipping."
-          exit 0
-        fi
-        echo "::group::Install browsers"
-        pnpm exec playwright install --with-deps chromium webkit
-        echo "::endgroup::"
-        pnpm test:e2e
+      if: inputs.mode == 'full' && inputs.e2e == 'true'
+      uses: ./.github/actions/e2e
 
     # Draft PRs: only the packages the change affects. A draft cannot merge, and
     # marking it ready re-runs the full gate on the same head commit.

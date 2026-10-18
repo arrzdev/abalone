@@ -1,0 +1,43 @@
+name: E2E
+description: >
+  The e2e suite in real browsers, optionally one shard of it. Expects a
+  checked-out repo; sets up and seeds the build env itself so a shard job
+  starts from nothing. Skips when the repo has no `test:e2e` script.
+
+inputs:
+  shard:
+    description: "Playwright shard as N/M (e.g. 1/2); empty runs the whole suite"
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Setup
+      uses: ./.github/actions/setup
+
+    # Same seeding as the gate: the e2e build bakes VITE_* in at build time.
+    - name: Seed build env from committed examples
+      shell: bash
+      run: |
+        for app in apps/*/; do
+          [ -f "${app}env/.env.example" ] && cp "${app}env/.env.example" "${app}env/.env"
+        done
+
+    - name: Run
+      shell: bash
+      env:
+        SHARD: ${{ inputs.shard }}
+      run: |
+        if ! jq -e '.scripts["test:e2e"]' package.json >/dev/null; then
+          echo "No test:e2e script, skipping."
+          exit 0
+        fi
+        echo "::group::Install browsers"
+        pnpm exec playwright install --with-deps chromium webkit
+        echo "::endgroup::"
+        if [ -n "$SHARD" ]; then
+          pnpm test:e2e --shard="$SHARD"
+        else
+          pnpm test:e2e
+        fi

@@ -124,13 +124,33 @@ jobs:
           # Empty on dispatch: migration safety then diffs against origin/main;
           # all zeros on a branch's first push: it scans every migration.
           base: ${{ github.event.before }}
+          e2e: "false"
+
+  # The e2e suite as two parallel shards, part of the same post-merge gate.
+  e2e:
+    needs: discover
+    if: needs.discover.outputs.any == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: ["1/2", "2/2"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: E2E (shard ${{ matrix.shard }})
+        uses: ./.github/actions/e2e
+        with:
+          shard: ${{ matrix.shard }}
 
   # One generic job, matrixed over deploy units. Each unit deploys its changed
   # apps in order, fail-stop (unit.sh -> app.sh). Units run in parallel and one
   # unit's failure does not cancel another.
   deploy:
-    needs: [discover, verify]
-    if: needs.verify.result == 'success'
+    needs: [discover, verify, e2e]
+    if: needs.verify.result == 'success' && needs.e2e.result == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment: ${{ needs.discover.outputs.target }}
