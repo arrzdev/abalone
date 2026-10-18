@@ -21,20 +21,6 @@ function resolveRequestId(request: Request): string {
   return request.headers.get("cf-ray") || crypto.randomUUID()
 }
 
-function setResponseHeader(
-  c: { res: Response },
-  name: string,
-  value: string,
-) {
-  try {
-    c.res.headers.set(name, value)
-  } catch {
-    //a passed-through fetch() response has immutable headers
-    c.res = new Response(c.res.body, c.res)
-    c.res.headers.set(name, value)
-  }
-}
-
 //first in the chain: gives the request an id, puts it on every log line written while
 //handling it and on the response, then writes one "request" line per request.
 //the route is the matched pattern, never the raw url (no ids, query strings or tokens)
@@ -49,7 +35,11 @@ export function requestLog() {
     await withLogContext({ request_id: requestId }, async () => {
       await next()
 
-      setResponseHeader(c, "x-request-id", requestId)
+      //c.header() re-wraps a finalized response, as in the build-sha plugin. a
+      //websocket upgrade is left untouched: the durable object's 101 carries the
+      //socket itself, and a copy of it drops the socket (see the cors plugin)
+      if (c.req.header("upgrade")?.toLowerCase() !== "websocket")
+        c.header("x-request-id", requestId)
       const status = c.res.status
       const fields = {
         method: c.req.method,
