@@ -67,7 +67,14 @@ async function scan(page: Page, path: string) {
   ).toEqual([])
 }
 
-for (const path of ["/", "/rules", "/strategy", "/offline", "/online"]) {
+for (const path of [
+  "/",
+  "/rules",
+  "/strategy",
+  "/opening-moves",
+  "/offline",
+  "/online",
+]) {
   test(`${path} has no accessibility violations`, async ({ page }) => {
     await openApp(page, path)
     await scan(page, path)
