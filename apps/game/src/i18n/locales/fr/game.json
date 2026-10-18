@@ -159,6 +159,7 @@
       "belgian_daisy": "<name>Belgian daisy :</name> les billes commencent en quatre groupes en forme de fleur, un dans chaque coin. Noirs et blancs alternent autour du plateau (blancs en haut à gauche et en bas à droite, noirs en haut à droite et en bas à gauche). Les armées se touchent dès le premier coup, le jeu est donc rapide et tactique. Très utilisée en tournoi, car plus équitable que la disposition standard.",
       "german_daisy": "<name>German daisy :</name> de nouveau quatre groupes en forme de fleur, avec les mêmes couleurs que la Belgian daisy (blancs en haut à gauche et en bas à droite, noirs en haut à droite et en bas à gauche), mais décalés des coins vers les côtés. Les groupes commencent plus éloignés, l'ouverture est donc plus libre.",
       "others": "<strong>Autres dans le jeu :</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration et The Wall. Choisis-en une au début d'une partie.",
+      "compare": "Comparez-les en détail : <positions>positions de départ d'Abalone</positions>.",
       "openings": "Envie d'un départ sûr ? Voir les <openings>premiers coups d'Abalone pour débutants</openings>."
     },
     "faq": {
