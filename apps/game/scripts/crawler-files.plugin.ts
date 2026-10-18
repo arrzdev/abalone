@@ -4,7 +4,8 @@ import { runnerImport } from "vite"
 
 /**
  * Writes the files crawlers read into the client assets: `sitemap.xml`, one
- * entry per page in `SEO_PAGES` dated the day of the build, and `llms.txt`.
+ * entry per page in `SITEMAP` dated the day that page last changed, and
+ * `llms.txt`.
  *
  * The table lives in the app and imports through the `@/` alias, which the
  * config bundler does not resolve; `runnerImport` loads it through Vite itself,
@@ -33,9 +34,9 @@ const RUNNER_CONFIG = {
   resolve: { tsconfigPaths: true },
 } as const
 
-function sitemapXml(paths: string[], lastmod: string): string {
-  const entries = paths.map(
-    (path) =>
+function sitemapXml(pages: Record<string, string>): string {
+  const entries = Object.entries(pages).map(
+    ([path, lastmod]) =>
       `  <url>\n    <loc>${SITE_ORIGIN}${path}</loc>\n    <lastmod>${lastmod}</lastmod>\n  </url>`,
   )
   return [
@@ -57,12 +58,10 @@ export function crawlerFiles(): Plugin {
         runnerImport<SeoPagesModule>(SEO_PAGES_MODULE, RUNNER_CONFIG),
         runnerImport<LlmsTxtModule>(LLMS_TXT_MODULE, RUNNER_CONFIG),
       ])
-      const lastmod = new Date().toISOString().slice(0, 10)
-
       this.emitFile({
         type: "asset",
         fileName: "sitemap.xml",
-        source: sitemapXml(Object.keys(seoPages.SEO_PAGES), lastmod),
+        source: sitemapXml(seoPages.SITEMAP),
       })
       this.emitFile({
         type: "asset",

@@ -45,7 +45,8 @@ export default defineConfig({
     //the service worker — all driven by nativ.config.ts, the single source of truth
     nativ(),
     tailwindcss(),
-    //sitemap.xml and llms.txt from SEO_PAGES
+    //sitemap.xml from SITEMAP, each page dated the day it last changed, and
+    //llms.txt from SEO_PAGES
     crawlerFiles(),
   ],
   worker: {
