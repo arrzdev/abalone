@@ -183,10 +183,6 @@
         "draw": {
           "question": "Kann Abalone unentschieden enden?",
           "answer": "Ja. In diesem Spiel ist es unentschieden, wenn dieselbe Stellung zum dritten Mal entsteht und derselbe Spieler am Zug ist."
-        },
-        "solved": {
-          "question": "Ist Abalone gelöst?",
-          "answer": "Nein. Es ist ein tiefgründiges Spiel mit viel zu entdecken. Probiere die Strategietipps: <strategy>Abalone-Strategie: 7 Tipps</strategy>."
         }
       }
     },

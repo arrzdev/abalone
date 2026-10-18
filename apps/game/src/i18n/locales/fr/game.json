@@ -183,10 +183,6 @@
         "draw": {
           "question": "Une partie d'Abalone peut-elle finir en match nul ?",
           "answer": "Oui. Dans ce jeu, si la même position revient une troisième fois avec le même joueur au trait, la partie est nulle."
-        },
-        "solved": {
-          "question": "Abalone est-il résolu ?",
-          "answer": "Non. C'est un jeu profond, avec beaucoup à apprendre. Essaie les conseils de stratégie : <strategy>Stratégie Abalone : 7 conseils</strategy>."
         }
       }
     },

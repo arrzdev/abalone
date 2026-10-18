@@ -137,10 +137,11 @@ test.describe("served HTML", () => {
       "Can I move marbles diagonally?",
       "Can a single marble push?",
       "Can you push your own marbles?",
-      "Is Abalone solved?",
     ]) {
       expect(text).toContain(question)
     }
+    // one answer per question across the site: /strategy answers this one
+    expect(text).not.toContain("Is Abalone solved?")
     // one answer per fact: the own-marble push is asked once
     expect(text).not.toContain(
       "What if my push is blocked by my own marble?",

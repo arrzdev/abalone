@@ -182,10 +182,6 @@
         "draw": {
           "question": "Abalone 会有平局吗？",
           "answer": "会。在本游戏中，同一局面在同一方走棋时第三次出现，即为平局。"
-        },
-        "solved": {
-          "question": "Abalone 已经被破解了吗？",
-          "answer": "没有。它是一款有深度的游戏，值得慢慢学。可以看看策略技巧：<strategy>Abalone 策略：取胜的 7 个技巧</strategy>。"
         }
       }
     },

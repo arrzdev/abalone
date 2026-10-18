@@ -182,10 +182,6 @@
         "draw": {
           "question": "Abalone berabere bitebilir mi?",
           "answer": "Evet. Bu oyunda aynı pozisyon, sıra aynı oyuncudayken üçüncü kez oluşursa oyun berabere biter."
-        },
-        "solved": {
-          "question": "Abalone çözüldü mü?",
-          "answer": "Hayır. Öğrenecek çok şeyi olan derin bir oyundur. Strateji ipuçlarına göz at: <strategy>Abalone stratejisi: 7 ipucu</strategy>."
         }
       }
     },

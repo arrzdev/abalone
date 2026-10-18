@@ -183,10 +183,6 @@
         "draw": {
           "question": "Abalone può finire in pareggio?",
           "answer": "Sì. In questo gioco, se la stessa posizione si ripete per la terza volta con lo stesso giocatore al tratto, è pareggio."
-        },
-        "solved": {
-          "question": "Abalone è un gioco risolto?",
-          "answer": "No. È un gioco profondo, con molto da imparare. Prova i consigli di strategia: <strategy>Strategia di Abalone: 7 consigli</strategy>."
         }
       }
     },

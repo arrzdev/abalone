@@ -183,10 +183,6 @@
         "draw": {
           "question": "Kan Abalone in een gelijkspel eindigen?",
           "answer": "Ja. In dit spel is het gelijkspel als dezelfde stelling voor de derde keer ontstaat met dezelfde speler aan zet."
-        },
-        "solved": {
-          "question": "Is Abalone opgelost?",
-          "answer": "Nee. Het is een diep spel met veel te leren. Probeer de strategietips: <strategy>Abalone-strategie: 7 tips</strategy>."
         }
       }
     },

@@ -49,7 +49,6 @@ describe("structured data", () => {
       "Can a single marble push?",
       "Can you push your own marbles?",
       "Can Abalone end in a draw?",
-      "Is Abalone solved?",
     ])
     expect(questions[2]).toEqual({
       "@type": "Question",

@@ -202,7 +202,6 @@ const FAQ_ITEMS = [
   "single",
   "own_push",
   "draw",
-  "solved",
 ] as const
 
 function RulesPage() {
@@ -451,14 +450,7 @@ function RulesPage() {
               id: item,
               question: t(`game:rules.faq.items.${item}.question`),
               answer: (
-                <Trans
-                  i18nKey={`game:rules.faq.items.${item}.answer`}
-                  components={{
-                    strategy: (
-                      <Link to="/strategy" className={TEXT_LINK_CLASS} />
-                    ),
-                  }}
-                />
+                <Trans i18nKey={`game:rules.faq.items.${item}.answer`} />
               ),
             }))}
           />
