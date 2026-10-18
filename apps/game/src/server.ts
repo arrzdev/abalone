@@ -5,7 +5,8 @@
  * An invite link pasted into a chat app is read by a machine that never runs
  * the page, so the card naming the sender has to be in the HTML this Worker
  * returns. Every other request goes to Start untouched. Design:
- * `docs/invite-links.md`, "The link preview".
+ * `docs/invite-links.md`, "The link preview". Every response leaves with the
+ * security and cache headers (`@/server/security-headers`).
  */
 
 import { env as bindings } from "cloudflare:workers"
@@ -18,6 +19,7 @@ import {
   inviteLinkIdFromPath,
   serveInvitePage,
 } from "@/server/invite-page"
+import { withSecurityHeaders } from "@/server/security-headers"
 import { SITE_ORIGIN } from "@/utils/site"
 
 //past this the card goes generic: a chat app waits a few seconds for the whole
@@ -32,19 +34,23 @@ type GameBindings = {
 
 export default createServerEntry({
   async fetch(request) {
-    const linkId =
-      request.method === "GET"
-        ? inviteLinkIdFromPath(new URL(request.url).pathname)
-        : null
-    if (!linkId) return handler.fetch(request)
-
-    return serveInvitePage({
-      linkId,
-      shell: await handler.fetch(request),
-      readLink: (id) => readInviteLink(id, request),
-    })
+    return withSecurityHeaders(await respond(request))
   },
 })
+
+async function respond(request: Request): Promise<Response> {
+  const linkId =
+    request.method === "GET"
+      ? inviteLinkIdFromPath(new URL(request.url).pathname)
+      : null
+  if (!linkId) return handler.fetch(request)
+
+  return serveInvitePage({
+    linkId,
+    shell: await handler.fetch(request),
+    readLink: (id) => readInviteLink(id, request),
+  })
+}
 
 /**
  * The backend's public read, `GET /api/v1/invite-links/:id`, on the visitor's
