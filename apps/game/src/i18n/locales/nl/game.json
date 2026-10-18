@@ -184,7 +184,8 @@
           "question": "Kan Abalone in een gelijkspel eindigen?",
           "answer": "Ja. In dit spel is het gelijkspel als dezelfde stelling voor de derde keer ontstaat met dezelfde speler aan zet."
         }
-      }
+      },
+      "strategy_link": "Probeer de strategietips: <strategy>Abalone-strategie: 7 tips</strategy>."
     },
     "play": {
       "cta": "Speel tegen de computer",

@@ -454,6 +454,16 @@ function RulesPage() {
               ),
             }))}
           />
+          <p>
+            <Trans
+              i18nKey="game:rules.faq.strategy_link"
+              components={{
+                strategy: (
+                  <Link to="/strategy" className={TEXT_LINK_CLASS} />
+                ),
+              }}
+            />
+          </p>
           {/* Somewhere to play a friend, for whoever read this far: the page
               that says how, not the hub a visitor would be bounced from. */}
           <p>

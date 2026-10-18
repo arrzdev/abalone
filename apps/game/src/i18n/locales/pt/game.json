@@ -184,7 +184,8 @@
           "question": "O Abalone pode acabar empatado?",
           "answer": "Sim. Neste jogo, se a mesma posição surgir pela terceira vez com o mesmo jogador a jogar, é empate."
         }
-      }
+      },
+      "strategy_link": "Experimenta as dicas de estratégia: <strategy>Estratégia de Abalone: 7 dicas</strategy>."
     },
     "play": {
       "cta": "Jogar contra o computador",

@@ -237,7 +237,8 @@
           "question": "Can Abalone end in a draw?",
           "answer": "Yes. In this game, if the same position comes up a third time with the same player to move, it is a draw."
         }
-      }
+      },
+      "strategy_link": "Try the strategy tips: <strategy>Abalone strategy: 7 tips</strategy>."
     },
     "play": {
       "cta": "Play against the computer",

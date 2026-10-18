@@ -184,7 +184,8 @@
           "question": "¿Puede terminar Abalone en empate?",
           "answer": "Sí. En este juego, si la misma posición aparece por tercera vez con el mismo jugador al turno, es empate."
         }
-      }
+      },
+      "strategy_link": "Prueba los consejos de estrategia: <strategy>Estrategia de Abalone: 7 consejos</strategy>."
     },
     "play": {
       "cta": "Jugar contra el ordenador",

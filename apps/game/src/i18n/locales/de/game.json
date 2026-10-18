@@ -184,7 +184,8 @@
           "question": "Kann Abalone unentschieden enden?",
           "answer": "Ja. In diesem Spiel ist es unentschieden, wenn dieselbe Stellung zum dritten Mal entsteht und derselbe Spieler am Zug ist."
         }
-      }
+      },
+      "strategy_link": "Probiere die Strategietipps: <strategy>Abalone-Strategie: 7 Tipps</strategy>."
     },
     "play": {
       "cta": "Gegen den Computer spielen",

@@ -185,7 +185,8 @@
           "question": "Czy Abalone może skończyć się remisem?",
           "answer": "Tak. W tej grze, jeśli ta sama pozycja pojawi się po raz trzeci przy ruchu tego samego gracza, jest remis."
         }
-      }
+      },
+      "strategy_link": "Wypróbuj wskazówki strategiczne: <strategy>Strategia Abalone: 7 wskazówek</strategy>."
     },
     "play": {
       "cta": "Zagraj z komputerem",
