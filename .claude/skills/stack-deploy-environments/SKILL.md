@@ -60,6 +60,16 @@ check:env → build with CLOUDFLARE_ENV=<target>, no Cloudflare credentials →
   every call: --env <target> (except --config), --secrets-file env/.env when not empty
 ```
 
+### Every deploy carries its commit
+
+`app.sh` reads the SHA once (`GITHUB_SHA`, or `HEAD` locally) and refuses a dirty tree (`DRY_RUN=1` only warns). Every `wrangler deploy` / `versions upload` gets `--tag <sha>`, `--message "<sha> <subject>"` and `--var BUILD_SHA:<sha>`; the game build writes `/version.json` from the exported `BUILD_SHA` (part of its turbo hash, so a cached build cannot replay an older one). To check what is live:
+
+- `curl https://abalone.tudu.dev/api/version` → `{"sha":"<sha>"}`; every backend response also carries `x-build-sha`. It is `/api/version`, not `/version`, because production only routes `/api/*` to the backend.
+- `https://abalone.tudu.dev/version.json` → `{"sha":"<sha>"}` (the game Worker's assets).
+- `GET /accounts/{id}/workers/scripts/{name}/versions` shows the tag (`annotations["workers/tag"]`) with a read-only token.
+
+The SHA is a var on the version, so after a rollback `/api/version` reports the commit that is live again.
+
 ### A version does not carry triggers
 
 `versions upload` + `versions deploy` push only what lives **inside** a version: code, bindings, secrets. **Queue consumers, cron schedules and routes are script-level**, written solely by wrangler's internal `triggersDeploy()` — reached from `wrangler deploy` and `wrangler triggers deploy`, **never** from the versioned path. So the versioned branch (and only that branch — the other two call `wrangler deploy`, which already does it) must end with `wrangler triggers deploy`.

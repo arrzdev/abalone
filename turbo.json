@@ -20,7 +20,7 @@
         "src/routing/layouts/__root.gen.tsx"
       ],
       "inputs": ["$TURBO_DEFAULT$", "env/.env", "env/schema.ts"],
-      "env": ["GITHUB_SHA"]
+      "env": ["GITHUB_SHA", "BUILD_SHA"]
     },
     "@repo/backend#build": {
       "dependsOn": ["^build"],

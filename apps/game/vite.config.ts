@@ -3,6 +3,7 @@ import { nativ } from "@repo/nativ/vite"
 import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "vite"
 import { PORTS } from "./ports"
+import { buildShaFile } from "./scripts/build-sha-file.plugin"
 import { crawlerFiles } from "./scripts/crawler-files.plugin"
 
 const { appPort, supervisorPort } = PORTS
@@ -48,6 +49,8 @@ export default defineConfig({
     //sitemap.xml from SITEMAP, each page dated the day it last changed, and
     //llms.txt from SEO_PAGES
     crawlerFiles(),
+    //version.json, the commit this build is from, for drift checks
+    buildShaFile(),
   ],
   worker: {
     //the minimax opponent is a module worker; vite's classic-worker default
