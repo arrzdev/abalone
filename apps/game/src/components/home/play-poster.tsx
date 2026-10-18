@@ -96,6 +96,10 @@ export function PlayPoster() {
           <Link to="/strategy" className={TEXT_LINK_CLASS}>
             {t("common:home.strategy_link")}
           </Link>
+          <span aria-hidden="true">·</span>
+          <Link to="/play-online" className={TEXT_LINK_CLASS}>
+            {t("common:home.play_online_link")}
+          </Link>
         </p>
       </Reveal>
 

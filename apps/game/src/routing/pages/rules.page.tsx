@@ -1,5 +1,6 @@
 import { WINNING_SCORE } from "@repo/abalone-engine/config"
 import { HEADING_STEPS } from "@repo/abalone-engine/topology"
+import { cn } from "@repo/nativ/utils"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import { Trans, useTranslation } from "react-i18next"
@@ -467,6 +468,19 @@ function RulesPage() {
               </div>
             ))}
           </dl>
+          {/* Somewhere to play a friend, for whoever read this far: the page
+              that says how, not the hub a visitor would be bounced from. */}
+          <p>
+            <Link
+              to="/play-online"
+              className={cn(
+                TEXT_LINK_CLASS,
+                "inline-flex min-h-11 items-center",
+              )}
+            >
+              {t("game:playOnline.rules_link")}
+            </Link>
+          </p>
         </Chapter>
 
         <div className="border-t border-border pt-10 lg:pt-16">
