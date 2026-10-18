@@ -1,3 +1,5 @@
+//first: zod reads its config when a schema is built (utils/zod-jitless)
+import "@/utils/zod-jitless"
 import { StartClient } from "@tanstack/react-start/client"
 import { StrictMode, startTransition } from "react"
 import { hydrateRoot } from "react-dom/client"
