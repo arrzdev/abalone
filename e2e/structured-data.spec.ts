@@ -71,7 +71,7 @@ test("rules is a HowTo whose steps are sections on the page", async ({
 }) => {
   const { html, blocks } = await served(request, "/rules")
 
-  expect(blocks).toHaveLength(1)
+  expect(blocks).toHaveLength(2)
   const [howTo] = blocks
   expect(howTo["@type"]).toBe("HowTo")
   expect(howTo.url).toBe(`${ORIGIN}/rules`)
@@ -85,6 +85,22 @@ test("rules is a HowTo whose steps are sections on the page", async ({
     expect(h2ById(html, anchor), anchor).toBe(step.name)
     // and says what that section says
     expect(text, anchor).toContain(step.text as string)
+  }
+})
+
+test("rules is also a FAQPage that says what the FAQ section says", async ({
+  request,
+}) => {
+  const { html, blocks } = await served(request, "/rules")
+
+  const faq = blocks.find((block) => block["@type"] === "FAQPage")
+  const text = visibleText(html)
+  const questions = (faq?.mainEntity ?? []) as Json[]
+  expect(questions).toHaveLength(4)
+  for (const question of questions) {
+    const answer = question.acceptedAnswer as Json
+    expect(text).toContain(question.name as string)
+    expect(text).toContain(answer.text as string)
   }
 })
 
