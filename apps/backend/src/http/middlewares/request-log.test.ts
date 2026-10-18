@@ -48,9 +48,17 @@ async function app() {
   })
   keys.post("/:keyId", (c) => c.json({ ok: true }))
   server.route("/v1/keys", keys)
+  //what the realtime route does: hand back the durable object's 101 untouched
+  server.get("/v1/realtime", () => upgradeResponse)
   server.all("*", (c) => c.json({ error: "not_found" }, 404))
   return server
 }
+
+//a 101 carries its socket on a non-standard property; a copy loses it
+const upgradeResponse = new Response(null, {
+  status: 101,
+  webSocket: new WebSocketPair()[1],
+})
 
 function requestLines(lines: LogLine[]): LogLine[] {
   return lines.filter((line) => line.message === "request")
@@ -198,6 +206,22 @@ describe("requestLog", () => {
       status: "error",
       error_code: "internal_server_error",
       request_id: "req-4",
+    })
+  })
+
+  it("passes a websocket upgrade through as the same response, still logged", async () => {
+    const lines = captureLines()
+    const res = await (await app()).request("/v1/realtime", {
+      headers: { upgrade: "websocket", "x-request-id": "req-ws" },
+    })
+    //the durable object's 101 has immutable headers: nothing may be written to it
+    expect(res).toBe(upgradeResponse)
+    expect(res.webSocket).not.toBeNull()
+    expect(res.headers.get("x-request-id")).toBeNull()
+    expect(requestLines(lines)[0]).toMatchObject({
+      request_id: "req-ws",
+      route: "/v1/realtime",
+      status: 101,
     })
   })
 
