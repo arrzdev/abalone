@@ -48,15 +48,17 @@ jobs:
             fi
           }
 
-          # The health route must also report `data.status: "ok"`.
+          # The health route must also report every resource ok: its body is
+          # one entry per resource (`data: {database: "ok", r2: "ok"}`), and a
+          # 503 names the one that is down in the same shape.
           check_health() {
             local url="$1"
-            local body status
-            body=$(curl --silent --fail --retry 2 --retry-all-errors --max-time 15 "$url" || true)
-            status=$(echo "$body" | jq -r '.data.status // empty' 2>/dev/null || true)
-            echo "health=${status:-none} $url"
-            if [ "$status" != "ok" ]; then
-              failures+="- \`$url\` did not report \`data.status: ok\` (got \`${status:-no answer}\`)"$'\n'
+            local body report
+            body=$(curl --silent --retry 2 --retry-all-errors --max-time 15 "$url" || true)
+            report=$(echo "$body" | jq -r 'if .status == "success" and (.data | length > 0) and all(.data[]; . == "ok") then "ok" else (.data // {} | to_entries | map("\(.key)=\(.value)") | join(",")) end' 2>/dev/null || true)
+            echo "health=${report:-none} $url"
+            if [ "$report" != "ok" ]; then
+              failures+="- \`$url\` did not report every resource ok (got \`${report:-no answer}\`)"$'\n'
             fi
           }
 
