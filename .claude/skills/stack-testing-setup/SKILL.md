@@ -49,12 +49,12 @@ Every new or changed UI spec runs these on the screen it covers, at 375x667, 402
 
 | Check | Where | Status |
 |---|---|---|
-| No layout shift on an action — `expectNoLayoutShift(page, action)`: bounding boxes of the dialog and its children are identical before and after | `e2e/support/` (shared helper) | **landing with the invite-modal fix**; until it merges, compare `boundingBox()` before and after the action in the spec |
-| No clipped text — `expectNoClippedText(locator)`: no `scrollWidth > clientWidth` without `text-overflow: ellipsis`, no text box outside the container's visible rect | `e2e/support/` (shared helper) | same as above |
+| No layout shift on an action — `expectNoLayoutShift(scope, action, { until })`: bounding boxes of the scope (usually the dialog) and its children are identical before and after | `e2e/support/layout.ts` (see `docs/ui-layout-checks.md`) | in place |
+| No clipped text — `expectNoClippedText(locator)`: no `scrollWidth > clientWidth` without `text-overflow: ellipsis`, no text box outside the container's visible rect | `e2e/support/layout.ts` | in place |
 | Focus ring width and contrast on every Tab stop | `e2e/focus-ring.spec.ts` (`readFocusRing`) | in place |
 | 44x44 touch targets | `e2e/hit-areas.spec.ts` (`tooSmall`) | in place |
 
-Once the helpers exist, import them; never copy the measuring code into a spec. Grep `e2e/support/` for the exact names before writing a new one.
+Import them; never copy the measuring code into a spec. Grep `e2e/support/` for the exact names before writing a new one.
 
 ## What CI actually runs
 
