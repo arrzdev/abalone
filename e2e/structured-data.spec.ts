@@ -96,7 +96,7 @@ test("rules is also a FAQPage that says what the FAQ section says", async ({
   const faq = blocks.find((block) => block["@type"] === "FAQPage")
   const text = visibleText(html)
   const questions = (faq?.mainEntity ?? []) as Json[]
-  expect(questions).toHaveLength(7)
+  expect(questions).toHaveLength(6)
   for (const question of questions) {
     const answer = question.acceptedAnswer as Json
     expect(text).toContain(question.name as string)
