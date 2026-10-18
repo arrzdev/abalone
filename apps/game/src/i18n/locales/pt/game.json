@@ -279,11 +279,13 @@
     "position": "{{black}} {{blackCount}} berlindes, {{white}} {{whiteCount}} berlindes.",
     "turn": "Jogam as {{side}}.",
     "last_move": "Última jogada: {{move}}.",
+    "moved": "As {{side}} jogam de {{from}} para {{to}}.",
     "no_moves": "Ainda sem jogadas.",
     "cell_black": "{{square}}, berlinde preto",
     "cell_white": "{{square}}, berlinde branco",
     "cell_empty": "{{square}}, vazio",
-    "cell_selected": "{{cell}}, selecionado"
+    "cell_selected": "{{cell}}, selecionado",
+    "cell_reachable": "{{cell}}, pode jogar aqui"
   },
   "guide": {
     "title": "Como jogar",

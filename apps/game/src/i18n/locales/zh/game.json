@@ -278,11 +278,13 @@
     "position": "{{black}} {{blackCount}} 颗，{{white}} {{whiteCount}} 颗。",
     "turn": "轮到{{side}}。",
     "last_move": "上一步：{{move}}。",
+    "moved": "{{side}}从{{from}}走到{{to}}。",
     "no_moves": "尚无走子。",
     "cell_black": "{{square}}，黑子",
     "cell_white": "{{square}}，白子",
     "cell_empty": "{{square}}，空",
-    "cell_selected": "{{cell}}，已选中"
+    "cell_selected": "{{cell}}，已选中",
+    "cell_reachable": "{{cell}}，可以走到这里"
   },
   "guide": {
     "title": "如何走棋",

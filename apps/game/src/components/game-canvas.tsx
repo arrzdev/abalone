@@ -105,23 +105,13 @@ export type GameCanvasProps = {
  * move that led here.
  */
 function describeBoard(state: GameState, t: TFunction): string {
-  const black = t("game:colors.black")
-  const white = t("game:colors.white")
   const position = t("game:board.position", {
-    black,
-    white,
+    black: t("game:colors.black"),
+    white: t("game:colors.white"),
     blackCount: state.black.size,
     whiteCount: state.white.size,
   })
-
-  let turn = t("game:board.turn", {
-    side: state.currentTurn === "black" ? black : white,
-  })
-  if (state.gameOver) {
-    turn = state.winner
-      ? t(`game:result.${state.winner}_wins`)
-      : t("game:result.draw")
-  }
+  const turn = describeTurn(state, t)
 
   const move = state.lastMove
     ? formatMoveAlgebraic(
@@ -136,10 +126,49 @@ function describeBoard(state: GameState, t: TFunction): string {
   return `${position} ${turn} ${lastMove}`
 }
 
+/** Whose turn it is, e.g. "White to move.", or who won once the game is over. */
+function describeTurn(state: GameState, t: TFunction): string {
+  if (state.gameOver) {
+    return state.winner
+      ? t(`game:result.${state.winner}_wins`)
+      : t("game:result.draw")
+  }
+  return t("game:board.turn", {
+    side: t(`game:colors.${state.currentTurn}`),
+  })
+}
+
+/**
+ * The move just played in words and the turn it leaves, e.g. "Black moved c3
+ * to d4. White to move." Empty before the first move. It is what the status
+ * line under the board reads out, so the computer's reply is heard as well as
+ * your own move.
+ */
+function describeMove(state: GameState, t: TFunction): string {
+  const lastMove = state.lastMove
+  if (!lastMove) return ""
+  const move = formatMoveAlgebraic(
+    lastMove.fromMarbles,
+    lastMove.destination,
+  )
+  if (!move) return ""
+
+  // `marbles` is where the line arrived, so its colour is the side that moved.
+  const mover = state.black.has(lastMove.marbles[0]) ? "black" : "white"
+  // Every square's label is a letter and a digit, so the notation splits in two.
+  const moved = t("game:board.moved", {
+    side: t(`game:colors.${mover}`),
+    from: move.slice(0, 2),
+    to: move.slice(2),
+  })
+  return `${moved} ${describeTurn(state, t)}`
+}
+
 /** What the board says of the cell the keyboard is on, e.g. "c5, black marble". */
 function describeCell(
   state: GameState,
   cell: CellName,
+  possibleMoves: CellName[],
   t: TFunction,
 ): string {
   const square = squareLabel(cell)
@@ -148,6 +177,9 @@ function describeCell(
   if (state.white.has(cell)) text = t("game:board.cell_white", { square })
   if (state.selectedMarbles.includes(cell)) {
     text = t("game:board.cell_selected", { cell: text })
+  }
+  if (possibleMoves.includes(cell)) {
+    text = t("game:board.cell_reachable", { cell: text })
   }
   return text
 }
@@ -920,7 +952,15 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
               className="sr-only"
               aria-live="polite"
             >
-              {describeCell(state, focusCell, t)}
+              {describeCell(state, focusCell, possibleMoves, t)}
+            </span>
+          )}
+          {/* Outside `interactive`, which goes false while the computer thinks:
+              a live region has to be in the page before its text changes, or
+              the reply it exists for is never read out. */}
+          {isPlayedOn && (
+            <span role="status" className="sr-only">
+              {describeMove(state, t)}
             </span>
           )}
 
