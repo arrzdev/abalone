@@ -1,3 +1,4 @@
+import { useId } from "react"
 import { useTranslation } from "react-i18next"
 import { BoardThemePicker } from "@/components/board-theme-picker"
 import { LanguageSelect } from "@/components/language-select"
@@ -47,6 +48,7 @@ export function AppSettingsSheet({
   const { t } = useTranslation()
   const [marbleDesign, setMarbleDesign] = useMarbleDesign()
   const [boardTheme, setBoardTheme] = useBoardTheme()
+  const themeHintId = useId()
   const [animationsEnabled, setAnimationsEnabled] = useAnimationsEnabled()
   const [showCoordinates, setShowCoordinates] = useShowCoordinates()
   const [showEvalBar, setShowEvalBar] = useShowEvalBar()
@@ -66,31 +68,41 @@ export function AppSettingsSheet({
       className="lg:max-w-[476px]"
     >
       <div className="flex flex-col gap-y-5">
-        <div>
-          <span className="mb-2 block text-sm font-semibold text-white">
-            {t("common:language.select")}
-          </span>
-          <LanguageSelect />
-        </div>
+        {/* Side by side, so the board theme below fits without the sheet
+            scrolling on a 375x667 phone. Both are short values in a select. */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="min-w-0">
+            <span className="mb-2 block truncate text-sm font-semibold text-white">
+              {t("common:language.select")}
+            </span>
+            <LanguageSelect />
+          </div>
 
-        <div>
-          <span className="mb-2 block text-sm font-semibold text-white">
-            {t("game:controls.marble_design")}
-          </span>
-          <Select
-            label={t("game:controls.marble_design")}
-            value={marbleDesign}
-            onChange={setMarbleDesign}
-            options={designOptions}
-          />
+          <div className="min-w-0">
+            <span className="mb-2 block truncate text-sm font-semibold text-white">
+              {t("game:controls.marble_design")}
+            </span>
+            <Select
+              label={t("game:controls.marble_design")}
+              value={marbleDesign}
+              onChange={setMarbleDesign}
+              options={designOptions}
+            />
+          </div>
         </div>
 
         <div>
           <span className="mb-2 block text-sm font-semibold text-white">
             {t("game:controls.board_theme")}
           </span>
-          <BoardThemePicker value={boardTheme} onChange={setBoardTheme} />
-          <span className="mt-1.5 block text-xs text-muted">
+          <BoardThemePicker
+            value={boardTheme}
+            onChange={setBoardTheme}
+            describedBy={themeHintId}
+          />
+          {/* Read with the group rather than shown: there is no line to spare
+              in the sheet, and the tiles already show what changes. */}
+          <span id={themeHintId} className="sr-only">
             {t("game:controls.board_theme_hint")}
           </span>
         </div>

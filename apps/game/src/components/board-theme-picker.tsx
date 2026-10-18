@@ -32,6 +32,8 @@ const STEPS: Record<string, number> = {
 export type BoardThemePickerProps = {
   value: BoardTheme
   onChange: (value: BoardTheme) => void
+  /** The id of the line that says what a theme changes. */
+  describedBy?: string
 }
 
 /**
@@ -41,10 +43,15 @@ export type BoardThemePickerProps = {
  * move the choice along the row and the focus with it, as a native group of
  * radios does. The checked tile says so with a border and a check mark, so it is
  * not left to colour alone, which is the one thing these tiles are about.
+ *
+ * Each tile is one 44px row, the board beside its name rather than above it:
+ * the settings sheet fits a 375x667 phone without scrolling, and it had no
+ * room left for a taller group.
  */
 export function BoardThemePicker({
   value,
   onChange,
+  describedBy,
 }: BoardThemePickerProps) {
   const { t } = useTranslation()
   const tiles = useRef<(HTMLButtonElement | null)[]>([])
@@ -70,6 +77,7 @@ export function BoardThemePicker({
     <div
       role="radiogroup"
       aria-label={t("game:controls.board_theme")}
+      aria-describedby={describedBy}
       onKeyDown={handleKeyDown}
       className="flex gap-2 lg:gap-3"
     >
@@ -87,7 +95,7 @@ export function BoardThemePicker({
             data-board-theme={theme}
             onClick={() => onChange(theme)}
             className={cn(
-              "relative flex min-h-11 min-w-11 flex-1 flex-col items-center gap-1 rounded-xl border-2 bg-surface-2 px-2 py-2 transition",
+              "relative flex min-h-11 min-w-11 flex-1 items-center justify-center gap-1.5 rounded-xl border-2 bg-surface-2 px-1.5 transition",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
               checked
                 ? "border-brand-lighter"
@@ -98,7 +106,7 @@ export function BoardThemePicker({
               blackCells={STANDARD.black}
               whiteCells={STANDARD.white}
               theme={theme}
-              className="h-12 lg:h-16"
+              className="h-7 w-8 shrink-0"
             />
             <span
               className={cn(
@@ -112,7 +120,7 @@ export function BoardThemePicker({
               <CheckIcon
                 size={16}
                 strokeWidth={3}
-                className="absolute top-1 right-1 rounded-full bg-brand-lighter p-0.5 text-surface"
+                className="absolute -top-1 -right-1 rounded-full bg-brand-lighter p-0.5 text-surface"
               />
             )}
           </TapButton>

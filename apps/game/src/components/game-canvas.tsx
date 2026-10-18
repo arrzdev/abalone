@@ -865,11 +865,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         : "default"
 
     return (
-      <div
-        className="game-canvas-wrapper"
-        ref={wrapperRef}
-        data-board-theme={theme}
-      >
+      <div className="game-canvas-wrapper" ref={wrapperRef}>
         {/* This box hugs the canvas, so the notice is placed against the board
             rather than against the letterboxed space the board is centred in. */}
         <div className="relative">
