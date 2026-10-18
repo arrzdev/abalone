@@ -103,7 +103,7 @@
   "rules": {
     "title": "How to play",
     "heading": "Abalone rules: how to play",
-    "intro": "You play Abalone by taking turns to move one, two or three of your marbles one space. A group of marbles can push a smaller group of your opponent's. The first player to push six of the opponent's 14 marbles off the board wins. This page explains every rule. When you are ready, <online>play Abalone online</online> or <offline>try it against the computer</offline>.",
+    "intro": "You play Abalone by taking turns to move up to three marbles one space. A bigger group can push a smaller one. Push six of your opponent's marbles off the board to win. When you are ready, <online>play Abalone online</online> or <offline>try it against the computer</offline>.",
     "goal": {
       "title": "The goal",
       "body": "Push <strong>six</strong> of your opponent's marbles off the edge of the board. The first player to do it wins. You cannot win by trapping marbles, only by pushing them out."
