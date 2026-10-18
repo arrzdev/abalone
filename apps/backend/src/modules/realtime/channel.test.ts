@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest"
+import { withLogContext } from "@repo/shared/log-context"
+import { afterEach, describe, expect, it, vi } from "vitest"
 import { publishToUsers, userChannel } from "@/modules/realtime/channel"
 import type { PubSub } from "@/modules/realtime/pubsub.do"
 
@@ -23,7 +24,11 @@ function newRpcCall(settled: Promise<void>) {
   })
 }
 
-type Recorded = { names: string[]; delivered: string[] }
+type Recorded = {
+  names: string[]
+  delivered: string[]
+  args?: unknown[][]
+}
 
 function newNamespace(
   recorded: Recorded,
@@ -35,7 +40,10 @@ function newNamespace(
       return name as unknown as DurableObjectId
     },
     get: (id: DurableObjectId) => ({
-      publish: () => newRpcCall(publish(String(id))),
+      publish: (...args: unknown[]) => {
+        recorded.args?.push(args)
+        return newRpcCall(publish(String(id)))
+      },
     }),
   } as unknown as DurableObjectNamespace<PubSub>
 }
@@ -130,4 +138,55 @@ describe("publishToUsers", () => {
     ).resolves.toBeUndefined()
     expect(recorded.delivered).toEqual(["user:white"])
   })
+
+  it("hands the object its channel and the request id", async () => {
+    const recorded: Recorded = { names: [], delivered: [], args: [] }
+    await withLogContext({ request_id: "req-1" }, () =>
+      publishToUsers(
+        newNamespace(recorded, landsImmediately(recorded)),
+        ["black"],
+        { event: "invites-changed" },
+      ),
+    )
+    expect(recorded.args).toEqual([
+      [
+        { event: "invites-changed" },
+        { channel: "user:black", request_id: "req-1" },
+      ],
+    ])
+  })
+
+  it("logs a failed publish with channel, event, game id, request id and stack", async () => {
+    const lines: Record<string, unknown>[] = []
+    vi.spyOn(console, "error").mockImplementation((line: unknown) => {
+      lines.push(JSON.parse(String(line)))
+    })
+    const recorded: Recorded = { names: [], delivered: [] }
+    const namespace = newNamespace(recorded, async () => {
+      throw new Error("object unreachable")
+    })
+
+    await withLogContext({ request_id: "req-2" }, () =>
+      publishToUsers(namespace, ["black"], {
+        event: "game-updated",
+        meta: { gameId: "g1", updatedAt: 1 },
+      }),
+    )
+
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toMatchObject({
+      level: "error",
+      message: "realtime_publish_failed",
+      request_id: "req-2",
+      channel: "user:black",
+      event: "game-updated",
+      game_id: "g1",
+      error: { message: "object unreachable" },
+    })
+    expect(String((lines[0]?.error as { stack: string }).stack)).toContain(
+      "object unreachable",
+    )
+  })
 })
+
+afterEach(() => vi.restoreAllMocks())
