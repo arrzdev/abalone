@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next"
+import { BoardThemePicker } from "@/components/board-theme-picker"
 import { LanguageSelect } from "@/components/language-select"
 import type { SelectOption } from "@/components/ui/select"
 import { Select } from "@/components/ui/select"
@@ -12,6 +13,7 @@ import {
   useShowEvalBar,
   useSoundPreferences,
 } from "@/hooks/use-app-preferences"
+import { useBoardTheme } from "@/hooks/use-board-theme"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import type { MarbleDesign } from "@/render/marble-renderer"
 
@@ -44,6 +46,7 @@ export function AppSettingsSheet({
 }: AppSettingsSheetProps) {
   const { t } = useTranslation()
   const [marbleDesign, setMarbleDesign] = useMarbleDesign()
+  const [boardTheme, setBoardTheme] = useBoardTheme()
   const [animationsEnabled, setAnimationsEnabled] = useAnimationsEnabled()
   const [showCoordinates, setShowCoordinates] = useShowCoordinates()
   const [showEvalBar, setShowEvalBar] = useShowEvalBar()
@@ -80,6 +83,16 @@ export function AppSettingsSheet({
             onChange={setMarbleDesign}
             options={designOptions}
           />
+        </div>
+
+        <div>
+          <span className="mb-2 block text-sm font-semibold text-white">
+            {t("game:controls.board_theme")}
+          </span>
+          <BoardThemePicker value={boardTheme} onChange={setBoardTheme} />
+          <span className="mt-1.5 block text-xs text-muted">
+            {t("game:controls.board_theme_hint")}
+          </span>
         </div>
 
         <div className="border-t border-border pt-5">
