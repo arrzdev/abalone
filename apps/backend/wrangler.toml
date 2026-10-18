@@ -59,7 +59,8 @@ binding = "AVATARS"
 bucket_name = "abalone-avatars-dev"
 
 # Cloudflare's own counters, shared by every isolate in a location, for the two
-# limiters a guess is worth making through: sign-in and the invite-link accept.
+# limiters a guess is worth making through: sign-in and the invite-link accept,
+# and for the public health probe.
 # The in-memory limiter in src/http/middlewares/rate-limit.ts counts per isolate,
 # so behind enough isolates it barely limits at all. `limit` mirrors that file's
 # `max` for the preset, and `period` its 60 s window (the binding allows 10 or
@@ -75,6 +76,13 @@ simple = { limit = 60, period = 60 }
 name = "INVITE_LINK_RATE_LIMITER"
 namespace_id = "1002"
 simple = { limit = 20, period = 60 }
+
+# The public /api/v1/health probe: unauthenticated and it reads D1 and R2, so
+# it gets a ceiling of its own, far above any monitor's once-a-minute cadence.
+[[ratelimits]]
+name = "HEALTH_RATE_LIMITER"
+namespace_id = "1003"
+simple = { limit = 60, period = 60 }
 
 # ---- production ----------------------------------------------------
 # Bindings are NON-inheritable in wrangler, so this block redeclares the full set
@@ -132,3 +140,8 @@ simple = { limit = 60, period = 60 }
 name = "INVITE_LINK_RATE_LIMITER"
 namespace_id = "1002"
 simple = { limit = 20, period = 60 }
+
+[[env.production.ratelimits]]
+name = "HEALTH_RATE_LIMITER"
+namespace_id = "1003"
+simple = { limit = 60, period = 60 }

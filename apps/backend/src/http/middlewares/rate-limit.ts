@@ -12,7 +12,7 @@ const RATE_LIMIT_WINDOW_MS = 60_000
 //`binding` names a Workers Rate Limiting binding in wrangler.toml whose `limit`
 //equals `max`. a preset with one is counted by cloudflare, shared across every
 //isolate in a location; the rest are counted per isolate below. only the
-//presets a guess is tried through have one.
+//presets a guess is tried through have one, and the public health probe.
 const RATE_LIMITS: Record<
   string,
   { max: number; binding?: keyof RateLimitBindings }
@@ -37,11 +37,15 @@ const RATE_LIMITS: Record<
   //making an invite link and accepting one. a player sends a few links a day,
   //and the accept is the door a guessed token would be tried through.
   "invite-link": { max: 20, binding: "INVITE_LINK_RATE_LIMITER" },
+  //the public health probe. a monitor asks once a minute or so; sixty is that
+  //with room for a few retries, and every hit past it would be a D1 query and
+  //an R2 read made on someone else's behalf.
+  health: { max: 60, binding: "HEALTH_RATE_LIMITER" },
 }
 
 type RateLimitBindings = Pick<
   CloudflareBindings,
-  "AUTH_RATE_LIMITER" | "INVITE_LINK_RATE_LIMITER"
+  "AUTH_RATE_LIMITER" | "INVITE_LINK_RATE_LIMITER" | "HEALTH_RATE_LIMITER"
 >
 
 //best-effort limiter: per-isolate on cloudflare workers, not shared across
