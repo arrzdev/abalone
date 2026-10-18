@@ -70,9 +70,13 @@ test("a keyboard alone moves a marble from c5 to d5", async ({ page }) => {
 
   // c5 → d6 → d5
   await page.keyboard.press("ArrowUp")
-  await expect(board).toHaveAccessibleDescription("d6, empty")
+  await expect(board).toHaveAccessibleDescription(
+    "d6, empty, you can move here",
+  )
   await page.keyboard.press("ArrowLeft")
-  await expect(board).toHaveAccessibleDescription("d5, empty")
+  await expect(board).toHaveAccessibleDescription(
+    "d5, empty, you can move here",
+  )
 
   await page.keyboard.press("Enter")
 
@@ -81,6 +85,42 @@ test("a keyboard alone moves a marble from c5 to d5", async ({ page }) => {
   // The board keeps focus, so the next player carries on from the same cell.
   await expect(board).toBeFocused()
   await expect(board).toHaveAccessibleDescription("d5, black marble")
+})
+
+// A screen reader hears nothing of the canvas, so a status line under it says
+// each move in words and whose turn it is next, the computer's reply included.
+// An empty cell the selection can move to says so, where it used to read the
+// same as one it cannot reach.
+test("a screen reader hears each move and the turn after it", async ({
+  page,
+}) => {
+  await startOfflineGame(page, "vs Computer")
+  const board = page.getByRole("application", { name: /to move/i })
+  const status = page.getByRole("status").filter({ hasText: /to move/ })
+
+  await tabToBoard(page)
+
+  // e5 → d4 → c3, then up to d4
+  await page.keyboard.press("ArrowDown")
+  await page.keyboard.press("ArrowDown")
+  await expect(board).toHaveAccessibleDescription("c3, black marble")
+  await page.keyboard.press("Enter")
+  await page.keyboard.press("ArrowUp")
+  await expect(board).toHaveAccessibleDescription(
+    "d4, empty, you can move here",
+  )
+  // Out of reach of the selection: two rows up.
+  await page.keyboard.press("ArrowUp")
+  await expect(board).toHaveAccessibleDescription("e5, empty")
+  await page.keyboard.press("ArrowDown")
+
+  await page.keyboard.press("Enter")
+  await expect(status).toHaveText("Black moved c3 to d4. White to move.")
+
+  await expect(moveList(page)).toHaveCount(2, { timeout: 30_000 })
+  await expect(status).toHaveText(
+    /^White moved [a-i][1-9] to [a-i][1-9]\. Black to move\.$/,
+  )
 })
 
 test("the arrow keys stop at the edge of the board", async ({ page }) => {
