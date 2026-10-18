@@ -4,6 +4,12 @@
   "overrides": {
     "esbuild": "0.27.3"
   },
+  "pnpm": {
+    "overrides": {
+      "sharp": "^0.35.5",
+      "undici": "^7.29.1"
+    }
+  },
   "scripts": {
     "prepare": "husky",
     "dev": "turbo run dev --ui=tui",
