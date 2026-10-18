@@ -91,6 +91,34 @@ test.describe("indexable pages", () => {
   }
 })
 
+// The board page answers "abalone vs computer" in text a crawler gets without
+// running anything (the `offline-copy` document on TUD-1690): the answer first,
+// then the sections, under the options in the setup panel.
+test("/offline is served with its vs-computer copy", async ({
+  request,
+}) => {
+  const html = await (await request.get("/offline")).text()
+  const headings = [...html.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map(
+    (match) => match[1].replace(/<[^>]+>/g, "").trim(),
+  )
+
+  expect(html).toContain(
+    "Play Abalone against the computer or with a friend on the same device, free in your browser.",
+  )
+  expect(headings).toEqual(
+    expect.arrayContaining([
+      "How strong is the computer?",
+      "How to beat the Abalone computer",
+      "Two players on one device (Pass &amp; Play)",
+      "Frequently asked",
+    ]),
+  )
+  expect(html).toMatch(/<a[^>]*href="\/strategy"[^>]*>strategy tips<\/a>/)
+  expect(html).toMatch(
+    /<a[^>]*href="\/opening-moves"[^>]*>opening moves<\/a>/,
+  )
+})
+
 test.describe("private pages", () => {
   for (const path of PRIVATE) {
     test(`${path} is served with noindex`, async ({ request }) => {

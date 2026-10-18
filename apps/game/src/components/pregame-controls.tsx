@@ -48,6 +48,8 @@ export type PregameControlsProps = {
   marbleDesign?: string
   onPlay: () => void
   preview?: ReactNode
+  /** Reading for whoever scrolls past the options, before the pinned Play. */
+  about?: ReactNode
 }
 
 /**
@@ -71,6 +73,7 @@ export function PregameControls({
   marbleDesign,
   onPlay,
   preview,
+  about,
 }: PregameControlsProps) {
   const { t } = useTranslation()
   const isLocal = mode === "local"
@@ -251,6 +254,7 @@ export function PregameControls({
         {/* The three-bullet summary that used to sit here said too little to
           teach the game and took up the panel's whole tail doing it. The rules
           have their own illustrated page now, linked from the home screen. */}
+        {about}
       </div>
 
       {/* Pinned under the options rather than at their end: on a phone the
