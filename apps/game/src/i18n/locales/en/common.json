@@ -1,6 +1,7 @@
 {
   "nav": {
     "primary": "Main navigation",
+    "skip_to_content": "Skip to content",
     "back": "Back",
     "new_game": "New game",
     "rules": "Rules",

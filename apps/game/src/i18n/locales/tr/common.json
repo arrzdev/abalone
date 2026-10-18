@@ -1,6 +1,7 @@
 {
   "nav": {
     "primary": "Ana gezinme",
+    "skip_to_content": "İçeriğe geç",
     "back": "Geri",
     "new_game": "Yeni oyun",
     "rules": "Kurallar",

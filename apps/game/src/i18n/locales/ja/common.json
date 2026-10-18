@@ -1,6 +1,7 @@
 {
   "nav": {
     "primary": "メインナビゲーション",
+    "skip_to_content": "コンテンツへスキップ",
     "back": "戻る",
     "new_game": "新しい対局",
     "rules": "ルール",

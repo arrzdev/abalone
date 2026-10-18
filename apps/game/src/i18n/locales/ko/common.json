@@ -1,6 +1,7 @@
 {
   "nav": {
     "primary": "기본 탐색",
+    "skip_to_content": "본문으로 건너뛰기",
     "back": "뒤로",
     "new_game": "새 게임",
     "rules": "규칙",
