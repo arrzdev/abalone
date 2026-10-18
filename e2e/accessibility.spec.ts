@@ -73,6 +73,7 @@ for (const path of [
   "/strategy",
   "/opening-moves",
   "/play-online",
+  "/starting-positions",
   "/offline",
   "/online",
 ]) {

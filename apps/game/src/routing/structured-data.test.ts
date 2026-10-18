@@ -152,6 +152,32 @@ describe("structured data", () => {
     ])
   })
 
+  it("describes the starting positions page as an article with its FAQ", () => {
+    const [article, faq, ...rest] = structuredData("/starting-positions")
+    expect(rest).toEqual([])
+    expect(article).toEqual({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: "Abalone starting positions",
+      description:
+        "Abalone starting positions explained: the standard layout, Belgian daisy and German daisy, how they differ and which to pick. Try each one free.",
+      url: `${ORIGIN}/starting-positions`,
+      mainEntityOfPage: `${ORIGIN}/starting-positions`,
+      image: `${ORIGIN}/images/social/og-rules.jpg`,
+      datePublished: "2026-10-18",
+      author: { "@type": "Organization", name: "TUDU" },
+      publisher: { "@type": "Organization", name: "TUDU" },
+    })
+    expect(faq["@type"]).toBe("FAQPage")
+    const questions = faq.mainEntity as Json[]
+    expect(questions).toHaveLength(6)
+    expect(questions[1]).toEqual({
+      "@type": "Question",
+      name: "Who moves first in Abalone?",
+      acceptedAnswer: { "@type": "Answer", text: "Black moves first." },
+    })
+  })
+
   //the game screen is a tool, not a document: only the FAQ its setup panel shows
   it("gives the offline game the FAQ its setup panel shows", () => {
     const [faq, ...rest] = structuredData("/offline")

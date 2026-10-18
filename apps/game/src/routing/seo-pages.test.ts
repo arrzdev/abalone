@@ -26,6 +26,11 @@ const EXPECTED_COPY = {
     description:
       "Abalone opening moves for beginners: the starting position, safe first moves, side steps and how the daisy layouts change the opening. Try them free.",
   },
+  "/starting-positions": {
+    title: "Abalone starting positions: standard and daisy layouts",
+    description:
+      "Abalone starting positions explained: the standard layout, Belgian daisy and German daisy, how they differ and which to pick. Try each one free.",
+  },
   "/offline": {
     title: "Play Abalone vs the computer or a friend on one device",
     description:
@@ -85,6 +90,7 @@ describe("SITEMAP", () => {
         "/opening-moves",
         "/play-online",
         "/rules",
+        "/starting-positions",
         "/strategy",
       ].sort(),
     )
@@ -97,8 +103,9 @@ describe("SITEMAP", () => {
       "/": "2026-10-18",
       "/rules": "2026-10-18",
       "/strategy": "2026-10-18",
-      "/opening-moves": "2026-10-17",
       "/play-online": "2026-10-18",
+      "/opening-moves": "2026-10-18",
+      "/starting-positions": "2026-10-18",
     })
   })
 })

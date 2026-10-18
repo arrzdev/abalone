@@ -29,6 +29,7 @@ export const SEO_PAGES: Record<
   | "/rules"
   | "/strategy"
   | "/opening-moves"
+  | "/starting-positions"
   | "/offline"
   | "/play-online",
   SeoPage
@@ -55,6 +56,12 @@ export const SEO_PAGES: Record<
     title: "Abalone opening moves: a guide for beginners",
     description:
       "Abalone opening moves for beginners: the starting position, safe first moves, side steps and how the daisy layouts change the opening. Try them free.",
+    image: "rules",
+  },
+  "/starting-positions": {
+    title: "Abalone starting positions: standard and daisy layouts",
+    description:
+      "Abalone starting positions explained: the standard layout, Belgian daisy and German daisy, how they differ and which to pick. Try each one free.",
     image: "rules",
   },
   "/offline": {
@@ -88,8 +95,9 @@ export const SITEMAP: Record<
   "/": "2026-10-18",
   "/rules": "2026-10-18",
   "/strategy": "2026-10-18",
-  "/opening-moves": "2026-10-17",
   "/play-online": "2026-10-18",
+  "/opening-moves": "2026-10-18",
+  "/starting-positions": "2026-10-18",
 }
 
 /** The route `head` for one indexable page, with its JSON-LD. */
