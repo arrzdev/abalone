@@ -138,7 +138,10 @@ test.describe("served HTML", () => {
     expect(html).toMatch(linkPattern("/rules", "Abalone rules"))
     expect(html).toMatch(linkPattern("/strategy", "Abalone strategy tips"))
     expect(html).toMatch(linkPattern("/", MORE))
-    expect(html).not.toMatch(/<a[^>]*href="\/online"/)
+    // the page's own content: the desktop header's nav links /online on
+    // every page and asks for sign-in itself
+    const content = html.replace(/<nav[\s\S]*?<\/nav>/g, "")
+    expect(content).not.toMatch(/<a[^>]*href="\/online"/)
   })
 
   // the CTA is a button that runs the sign-in gate, not a link to the hub
