@@ -44,7 +44,11 @@ export function withSecurityHeaders(response: Response): Response {
   const headers = new Headers(response.headers)
   for (const [name, value] of Object.entries(SECURITY_HEADERS))
     headers.set(name, value)
-  if (response.headers.has("Set-Cookie"))
+  //a page that already forbids caching (the invite card) stays uncached
+  if (
+    response.headers.has("Set-Cookie") ||
+    response.headers.get("Cache-Control")?.includes("no-store")
+  )
     headers.set("Cache-Control", CACHE_PRIVATE)
   else if (response.headers.get("Content-Type")?.includes("text/html"))
     headers.set("Cache-Control", CACHE_PUBLIC_HTML)

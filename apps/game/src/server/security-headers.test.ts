@@ -70,7 +70,6 @@ describe("withSecurityHeaders", () => {
 
   it("lets a public page be cached briefly by a shared cache", () => {
     expect(serve().get("Cache-Control")).toBe(CACHE_PUBLIC_HTML)
-    expect(serve().get("Cache-Control")).toBe(CACHE_PUBLIC_HTML)
     expect(CACHE_PUBLIC_HTML).toBe(
       "public, max-age=0, s-maxage=60, must-revalidate",
     )
@@ -87,6 +86,20 @@ describe("withSecurityHeaders", () => {
       }).get("Cache-Control"),
     ).toBe(CACHE_PRIVATE)
     expect(CACHE_PRIVATE).toBe("private, no-store")
+  })
+
+  //the invite card names its sender until the link is used (invite-page.ts)
+  it("keeps a page that already forbids caching uncached", () => {
+    expect(
+      serve({ headers: { "Cache-Control": "private, no-store" } }).get(
+        "Cache-Control",
+      ),
+    ).toBe(CACHE_PRIVATE)
+    expect(
+      serve({ headers: { "Cache-Control": "no-store" } }).get(
+        "Cache-Control",
+      ),
+    ).toBe(CACHE_PRIVATE)
   })
 
   it("leaves the cache policy of other responses alone", () => {
