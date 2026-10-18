@@ -10,7 +10,7 @@
   "api_unsupported_media_type": "Usa una imagen PNG, JPEG o WebP.",
   "api_player_not_found": "Nadie juega con ese nombre.",
   "api_invite_self": "No puedes invitarte a ti mismo.",
-  "api_invite_exists": "Ya tienes una invitación pendiente con él.",
+  "api_invite_exists": "Ya le enviaste una invitación.",
   "api_game_not_active": "Esa partida ya terminó.",
   "api_not_your_turn": "Todavía no es tu turno.",
   "api_illegal_move": "Ese movimiento no es legal.",
