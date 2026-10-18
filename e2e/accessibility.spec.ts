@@ -98,6 +98,27 @@ for (const overlay of ["Settings", "Sign in"]) {
   })
 }
 
+// The sign-in overlay sits over the page, so its title is a heading under the
+// page's own h1, not a second one.
+test("/online keeps one h1 with the sign-in overlay open", async ({
+  page,
+}) => {
+  await openApp(page, "/online")
+  const dialog = page.getByRole("dialog")
+  if (!(await dialog.isVisible())) {
+    await page
+      .getByRole("button", { name: "Sign in" })
+      .filter({ visible: true })
+      .first()
+      .click()
+  }
+  await expect(dialog).toBeVisible()
+  await expect(
+    dialog.getByRole("heading", { name: "Sign in to play online" }),
+  ).toBeVisible()
+  await expect(page.locator("h1")).toHaveCount(1)
+})
+
 test("a game in progress has no accessibility violations", async ({
   page,
 }) => {
