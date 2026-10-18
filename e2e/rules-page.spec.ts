@@ -73,10 +73,10 @@ test.describe("served HTML", () => {
   })
 
   // both intro links open the computer game (content-play-block §4, TUD-820)
-  test("opens with what the game is, and links to the computer game", () => {
+  test("opens with how to play, and links to the computer game", () => {
     const text = visibleText(html)
     expect(text).toContain(
-      "Abalone is a two-player strategy game on a hexagonal board. Each player has 14 marbles. You win by pushing six of your opponent's marbles off the board.",
+      "You play Abalone by taking turns to move up to three marbles one space. A bigger group can push a smaller one. Push six of your opponent's marbles off the board to win.",
     )
     expect(html).toMatch(
       /<a[^>]*href="\/offline\?mode=ai"[^>]*>play Abalone online<\/a>/,

@@ -84,7 +84,7 @@ test.describe("served HTML", () => {
     }) => {
       const html = await servedHtml(request, "/strategy")
       expect(visibleText(html)).toContain(
-        "Abalone looks simple and is not. These seven habits take most beginners from losing marbles to winning pushes.",
+        "To win at Abalone, keep your marbles together near the center and count before every push. Push six of your opponent's marbles off the board.",
       )
       expect(html).toMatch(
         linkPattern(

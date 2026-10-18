@@ -39,8 +39,19 @@ describe("structured data", () => {
   })
 
   it("describes the rules as five steps, each pointing at its section", () => {
-    const [howTo, ...rest] = structuredData("/rules")
+    const [howTo, faq, ...rest] = structuredData("/rules")
     expect(rest).toEqual([])
+    expect(faq["@type"]).toBe("FAQPage")
+    const questions = faq.mainEntity as Json[]
+    expect(questions).toHaveLength(4)
+    expect(questions[1]).toEqual({
+      "@type": "Question",
+      name: "Can a single marble push?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. A push needs at least two marbles against one.",
+      },
+    })
     expect(howTo["@context"]).toBe("https://schema.org")
     expect(howTo["@type"]).toBe("HowTo")
     expect(howTo.name).toBe("How to play Abalone")
