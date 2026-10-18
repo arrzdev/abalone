@@ -1,4 +1,4 @@
-import { withLogContext } from "@repo/shared/log-context"
+import { requestIdFrom, withLogContext } from "@repo/shared/log-context"
 import { Logger } from "@repo/shared/logging"
 import { createMiddleware } from "hono/factory"
 import type { AuthedVariables } from "@/http/middlewares/auth"
@@ -10,17 +10,6 @@ export type RequestLogVariables = {
 
 const log = new Logger("request")
 
-//any caller can send x-request-id and it is echoed in logs, the header and error bodies
-const SAFE_REQUEST_ID = /^[A-Za-z0-9._:-]{1,128}$/
-
-//a caller's id (the game's service binding, a retry) wins, then the edge's cf-ray,
-//then a new one
-function resolveRequestId(request: Request): string {
-  const incoming = request.headers.get("x-request-id")
-  if (incoming && SAFE_REQUEST_ID.test(incoming)) return incoming
-  return request.headers.get("cf-ray") || crypto.randomUUID()
-}
-
 //first in the chain: gives the request an id, puts it on every log line written while
 //handling it and on the response, then writes one "request" line per request.
 //the route is the matched pattern, never the raw url (no ids, query strings or tokens)
@@ -28,7 +17,7 @@ export function requestLog() {
   return createMiddleware<{
     Variables: RequestLogVariables & Partial<AuthedVariables>
   }>(async (c, next) => {
-    const requestId = resolveRequestId(c.req.raw)
+    const requestId = requestIdFrom(c.req.raw)
     const startedAt = Date.now()
     c.set("requestId", requestId)
 
