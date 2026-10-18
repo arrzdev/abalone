@@ -23,8 +23,8 @@ const INDEXABLE = {
 // page that answers "play abalone".
 const SITEMAP = {
   "/": "2026-10-12",
-  "/rules": "2026-10-14",
-  "/strategy": "2026-10-14",
+  "/rules": "2026-10-18",
+  "/strategy": "2026-10-18",
   "/opening-moves": "2026-10-17",
 } as const
 

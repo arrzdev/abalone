@@ -83,8 +83,8 @@ describe("SITEMAP", () => {
   it("dates each page by the day its text last changed", () => {
     expect(SITEMAP).toEqual({
       "/": "2026-10-12",
-      "/rules": "2026-10-14",
-      "/strategy": "2026-10-14",
+      "/rules": "2026-10-18",
+      "/strategy": "2026-10-18",
       "/opening-moves": "2026-10-17",
     })
   })
