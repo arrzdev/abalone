@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest"
 import { pageHead } from "@/routing/page-head"
-import { SEO_PAGES, seoPageHead } from "@/routing/seo-pages"
+import { SEO_PAGES, SITEMAP, seoPageHead } from "@/routing/seo-pages"
 
 //the copy every indexable page ships with, word for word from the `page-copy`
 //document on TUD-626. a search result quotes these, so a test pins them rather
@@ -67,6 +67,27 @@ describe("SEO_PAGES", () => {
       expect(page.description.length).toBeLessThanOrEqual(155)
     },
   )
+})
+
+describe("SITEMAP", () => {
+  //the board at /offline stays indexable but is no search entry: home answers
+  //"play abalone", and a sitemap of the pages worth landing on reads cleaner
+  it("lists the search entry pages, without the board", () => {
+    expect(Object.keys(SITEMAP).sort()).toEqual(
+      ["/", "/opening-moves", "/rules", "/strategy"].sort(),
+    )
+  })
+
+  //google trusts a lastmod only while it matches real changes; one build date
+  //on every page says nothing about which page moved
+  it("dates each page by the day its text last changed", () => {
+    expect(SITEMAP).toEqual({
+      "/": "2026-10-12",
+      "/rules": "2026-10-14",
+      "/strategy": "2026-10-14",
+      "/opening-moves": "2026-10-17",
+    })
+  })
 })
 
 describe("seoPageHead", () => {
