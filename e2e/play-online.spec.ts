@@ -14,7 +14,7 @@ const CTA = "Play Online"
 const MORE = "Other ways to play"
 
 const INTRO =
-  "You can play Abalone online with a friend for free, right in your browser. Create a free account (a username and a password), make a private invite link, and send it to whoever you want to play. The game starts when they open the link and accept, and you each take your turn whenever you like. Links work once and expire after 7 days."
+  "You can play Abalone online with a friend for free, right in your browser. Create a free account, make a private invite link, and send it to whoever you want to play. The game starts when they open the link and accept, and you each take your turn whenever you like."
 
 const STEPS_HEADING = "How to play Abalone with a friend online"
 const STEPS = [
