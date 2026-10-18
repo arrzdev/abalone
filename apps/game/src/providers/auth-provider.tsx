@@ -5,6 +5,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useSyncExternalStore,
 } from "react"
 import type { AuthSessionUser } from "@/data/auth/client"
 import { useSessionState } from "@/data/auth/client"
@@ -56,19 +57,25 @@ const AuthContext = createContext<AuthContextValue>({
   isPending: true,
 })
 
+/** The token as the worker that renders the document sees it: none. */
+function serverToken(): string {
+  return ""
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { user: liveUser, isPending: rawIsPending } = useSessionState()
 
   //subscribed rather than read once: the token is written from outside react —
   //an auth reply lands on it, and so does a request the server refused, which is
-  //the one write nobody on screen asked for
-  const [token, setToken] = useState(getBearerToken)
-  useEffect(() => {
-    //re-read on the way in: a write between the first render and this effect
-    //would otherwise be missed
-    setToken(getBearerToken())
-    return subscribeToToken(() => setToken(getBearerToken()))
-  }, [])
+  //the one write nobody on screen asked for. hydration reads the worker's
+  //answer, which is always a guest: it has no `localStorage`, and a signed-in
+  //first render would not match its html (react error #418). the device's
+  //token takes over in the render straight after.
+  const token = useSyncExternalStore(
+    subscribeToToken,
+    getBearerToken,
+    serverToken,
+  )
 
   //read once — a snapshot is only ever about the first paint
   const [snapshot] = useState(readSessionSnapshot)
