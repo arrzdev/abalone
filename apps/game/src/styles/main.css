@@ -102,7 +102,9 @@
   --brand-fill-hover: #4070a0;
 
   /* The quiet member of the family: far less saturated than the accent, which
-     is what lets 61 marbles sit on it without the board competing. */
+     is what lets 61 marbles sit on it without the board competing. This is
+     Slate, the default theme; a board the player can retheme carries
+     `data-board-theme`, and the rules below repaint it. */
   --board: #627384;
 
   --marble-black: #333333;
@@ -179,6 +181,18 @@
    */
   --font-sans: "Segoe UI", Tahoma, Verdana, sans-serif;
   --font-display: Sora, var(--font-sans);
+}
+
+/* The other board themes, for the markup that paints a board. The canvas reads
+   the same colours from `render/board-themes.ts`; keep the two in step. Pages
+   that keep one look (the home poster, the rules diagrams) carry no attribute
+   and stay Slate. */
+[data-board-theme="walnut"] {
+  --board: #a07a52;
+}
+
+[data-board-theme="felt"] {
+  --board: #5f8c6e;
 }
 
 /*

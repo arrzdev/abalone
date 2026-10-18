@@ -95,8 +95,10 @@ function rulesHowTo(): Json {
 }
 
 /** The FAQ items as the page shows them, answers without their link markup. */
-function rulesFaq(): Json {
-  const items = Object.values(enGame.rules.faq.items)
+function faqPage(
+  faq: Record<string, { question: string; answer: string }>,
+): Json {
+  const items = Object.values(faq)
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -142,8 +144,8 @@ function toScript(data: Json): StructuredDataScript {
 }
 
 /**
- * The JSON-LD for one indexable page. None for the game screen: it is a tool,
- * not a document, and has nothing for a rich result.
+ * The JSON-LD for one indexable page. The game screen is a tool, not a
+ * document, so it carries only the FAQ its setup panel shows.
  */
 export function structuredDataScripts(
   path: IndexablePath,
@@ -151,7 +153,10 @@ export function structuredDataScripts(
 ): StructuredDataScript[] {
   if (path === "/") return [toScript(videoGame())]
   if (path === "/rules")
-    return [toScript(rulesHowTo()), toScript(rulesFaq())]
+    return [
+      toScript(rulesHowTo()),
+      toScript(faqPage(enGame.rules.faq.items)),
+    ]
   if (path === "/strategy") {
     const image = siteUrl(`/images/social/og-${page.image}.jpg`)
     return [
@@ -180,5 +185,6 @@ export function structuredDataScripts(
       ),
     ]
   }
-  return []
+  //the one path left: /offline
+  return [toScript(faqPage(enGame.offline.faq.items))]
 }

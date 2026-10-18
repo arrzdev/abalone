@@ -14,7 +14,60 @@
     }
   },
   "offline": {
-    "heading": "Play Abalone vs the computer or a friend"
+    "heading": "Play Abalone vs the computer or a friend",
+    "intro": "Play Abalone against the computer or with a friend on the same device, free in your browser. Pick one of eight bots, from Gus (level 1) to Magnus (level 8), or choose Pass & Play and hand the screen back and forth. No download, no account.",
+    "strength": {
+      "title": "How strong is the computer?",
+      "intro": "The eight bots are one player at different strengths, not one good player made to blunder.",
+      "low": "<strong>Levels 1 to 4 (Gus, Milo, Nora, Theo)</strong> look one move ahead and have habits you can use. Gus and Milo chase your marbles, push forward without a plan and sometimes sit near the rim. Gus also plays a random move about 1 time in 7. The habits fade level by level, and none of the four ever plans a push.",
+      "middle": "<strong>Levels 5 and 6 (Iris, Victor)</strong> still look one move ahead but start lining up pushes and crowding marbles near the edge. Victor cares much more about the center.",
+      "high": "<strong>Levels 7 and 8 (Clara, Magnus)</strong> play like Victor but look two and three moves ahead, so they see your reply coming."
+    },
+    "beat": {
+      "title": "How to beat the Abalone computer",
+      "tips": {
+        "center": "<strong>Take the center first.</strong> Every bot values the middle. Hold it and you hold the pushes.",
+        "touching": "<strong>Keep your marbles touching.</strong> Against the low levels, a lone marble is the one thing they can reach. Do not leave one.",
+        "rim": "<strong>Do not trust the rim.</strong> Bots from level 5 up look for marbles near the edge. Keep yours one row in.",
+        "overextend": "<strong>Wait for the weak bots to overextend.</strong> Levels 1 and 2 charge forward. Let them arrive broken up, then push.",
+        "ahead": "<strong>Against levels 7 and 8, think two moves ahead.</strong> They see your reply, so set up a push they cannot stop with a single move.",
+        "learn": "<strong>Use Hint and Undo to learn.</strong> Both are in the game, and the eval bar shows who is ahead."
+      },
+      "more": "The plan behind these is in the <strategy>strategy tips</strategy> and the <openings>opening moves</openings>."
+    },
+    "local": {
+      "title": "Two players on one device (Pass & Play)",
+      "body": "Choose Pass & Play, set up the board and take turns on the same screen. Black moves first. Same rules as against the computer, and Undo works too. Hint and the eval bar are only in games against the computer. To play across two devices, <online>play online</online>."
+    },
+    "faq": {
+      "title": "Frequently asked",
+      "items": {
+        "free": {
+          "question": "Can I play Abalone against the computer for free?",
+          "answer": "Yes. Choose vs Computer, pick one of eight bots and start. It runs in your browser with no download and no account."
+        },
+        "beat": {
+          "question": "How do I beat the Abalone AI?",
+          "answer": "Hold the center, keep your marbles in touching groups and stay off the edge row. Weak bots chase and overextend. Strong ones look several moves ahead, so build a push they cannot stop with a single move."
+        },
+        "levels": {
+          "question": "How many difficulty levels does the computer have?",
+          "answer": "Eight, from Gus at level 1 to Magnus at level 8. The first four have habits you can use against them. Levels 1 to 6 look one move ahead, Clara two and Magnus three."
+        },
+        "same_device": {
+          "question": "Can two people play Abalone on the same device?",
+          "answer": "Yes. Choose Pass & Play and take turns on one screen. Black moves first."
+        },
+        "random": {
+          "question": "Does the computer ever play randomly?",
+          "answer": "The weaker bots sometimes do. Gus ignores its own search about 15% of the time, Milo 10%, Nora 8% and Theo 5%. From level 5 up the bot always plays its best move."
+        },
+        "offline": {
+          "question": "Can I play without an internet connection?",
+          "answer": "Yes, once the page has loaded. The computer runs on your device, so a game against it or a Pass & Play game keeps going with no connection. Only online games and your account need the internet."
+        }
+      }
+    }
   },
   "players": {
     "you": "You",
@@ -25,6 +78,11 @@
     "marble_design": "Marble Design",
     "marble_design_classic": "Minimalist",
     "marble_design_3d": "Realist",
+    "board_theme": "Board Theme",
+    "board_theme_slate": "Slate",
+    "board_theme_walnut": "Walnut",
+    "board_theme_felt": "Felt",
+    "board_theme_hint": "Changes only how the board looks. Your game keeps going.",
     "play_as": "I play as",
     "play_button": "Play",
     "show_coordinates": "Show coordinates",

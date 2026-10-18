@@ -114,10 +114,26 @@ test("strategy is an Article headed by its H1", async ({ request }) => {
   expect(article.url).toBe(`${ORIGIN}/strategy`)
 })
 
-test("the offline game and private pages carry none", async ({
+test("the offline game is a FAQPage that says what its setup panel says", async ({
   request,
 }) => {
-  for (const path of ["/offline", "/online", "/profile"]) {
+  const { html, blocks } = await served(request, "/offline")
+
+  expect(blocks).toHaveLength(1)
+  const [faq] = blocks
+  expect(faq["@type"]).toBe("FAQPage")
+  const text = visibleText(html)
+  const questions = (faq.mainEntity ?? []) as Json[]
+  expect(questions).toHaveLength(6)
+  for (const question of questions) {
+    const answer = question.acceptedAnswer as Json
+    expect(text).toContain(question.name as string)
+    expect(text).toContain(answer.text as string)
+  }
+})
+
+test("private pages carry none", async ({ request }) => {
+  for (const path of ["/online", "/profile"]) {
     const { blocks } = await served(request, path)
     expect(blocks, path).toEqual([])
   }

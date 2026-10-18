@@ -7,6 +7,8 @@ import {
 } from "@repo/abalone-engine/topology"
 import type { CellName } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
+import { useBoardTheme } from "@/hooks/use-board-theme"
+import type { BoardTheme } from "@/render/board-themes"
 import { hexCenter } from "@/render/hex-grid"
 
 //---- geometry ----------------
@@ -40,6 +42,8 @@ function cellsOf(names: CellName[]) {
 export type BoardThumbProps = {
   blackCells: CellName[]
   whiteCells: CellName[]
+  /** The board's colours; left out, the player's own saved theme. */
+  theme?: BoardTheme
   className?: string
 }
 
@@ -55,19 +59,23 @@ export type BoardThumbProps = {
  * resize observers and eight contexts for a picture that never animates. This is
  * markup, so it costs a paint.
  *
- * The palette is the board's, with two deliberate exceptions. At this size a
- * `#333` marble on a `#444` hole is the same grey, and every position reads
- * alike — so the empty cells come up to a light slate and the black marbles go
- * almost to black. It is a thumbnail's contrast, not the board's.
+ * The palette is the board's, in the player's theme, with two deliberate
+ * exceptions. At this size a `#333` marble on a `#444` hole is the same grey,
+ * and every position reads alike — so the empty cells come up to a light slate
+ * and the black marbles go almost to black. It is a thumbnail's contrast, not
+ * the board's.
  */
 export function BoardThumb({
   blackCells,
   whiteCells,
+  theme,
   className,
 }: BoardThumbProps) {
+  const [savedTheme] = useBoardTheme()
   return (
     <svg
       viewBox="0 0 800 700"
+      data-board-theme={theme ?? savedTheme}
       preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
       focusable="false"

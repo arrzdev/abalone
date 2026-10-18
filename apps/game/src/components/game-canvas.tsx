@@ -31,7 +31,9 @@ import {
 } from "react"
 import { useTranslation } from "react-i18next"
 import { TapButton } from "@/components/ui/tap-button"
+import { useBoardTheme } from "@/hooks/use-board-theme"
 import { markTapHandled, TAP_SLOP } from "@/hooks/use-click-fix"
+import type { BoardTheme } from "@/render/board-themes"
 import type {
   BoardAnimation,
   BoardView,
@@ -73,6 +75,12 @@ export type GameCanvasProps = {
   state: GameState
   possibleMoves: CellName[]
   marbleDesign?: string
+  /**
+   * The colours to paint the board in. Left out, it is the player's own saved
+   * theme, which is what every board they play on or set up wants; a board that
+   * is part of a page's look rather than a game passes one.
+   */
+  boardTheme?: BoardTheme
   showCoordinates?: boolean
   /** The rank and file down the edges. Off for a board nobody plays on. */
   showLabels?: boolean
@@ -190,6 +198,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       state,
       possibleMoves,
       marbleDesign,
+      boardTheme,
       showCoordinates,
       showLabels,
       notice = null,
@@ -205,6 +214,8 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
     ref,
   ) {
     const { t } = useTranslation()
+    const [savedTheme] = useBoardTheme()
+    const theme = boardTheme ?? savedTheme
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const wrapperRef = useRef<HTMLDivElement>(null)
     const rafRef = useRef<number | null>(null)
@@ -236,6 +247,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       state,
       possibleMoves,
       marbleDesign,
+      theme,
       showCoordinates,
       showLabels,
       reviewing: Boolean(notice),
@@ -348,6 +360,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         state: s,
         possibleMoves: moves,
         marbleDesign: design,
+        theme: paint,
         showCoordinates: coords,
         showLabels: labels,
         reviewing,
@@ -367,6 +380,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         state: s,
         possibleMoves: moves,
         marbleDesign: design,
+        boardTheme: paint,
         showCoordinates: coords,
         showLabels: labels,
         reviewing,
@@ -474,6 +488,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       state,
       possibleMoves,
       marbleDesign,
+      theme,
       showCoordinates,
       notice,
       focusCell,

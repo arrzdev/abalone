@@ -16,15 +16,17 @@ export type MarbleRenderer = (
   isSelected: boolean,
   isHovered: boolean,
   baseLineWidth: number,
+  highlight: string,
 ) => void
 
 /**
- * The ring a marble wears when it is picked up or under the pointer.
+ * The ring a marble wears when it is picked up or under the pointer, on a board
+ * that names no colour of its own.
  *
  * It has to read against three different backdrops at once — the slate board,
  * a near-black marble and a white one — so it is the palest, most saturated
  * member of the accent family rather than the accent itself. Keep in step with
- * `--color-brand-lighter`.
+ * `--color-brand-lighter` and Slate's ring in `board-themes.ts`.
  */
 const HIGHLIGHT = "#7ec2e1"
 
@@ -36,15 +38,16 @@ function strokeMarbleOutline(
   isSelected: boolean,
   isHovered: boolean,
   baseLineWidth: number,
+  highlight: string,
   defaultStroke: { color: string; widthFactor: number },
 ): void {
   ctx.beginPath()
   ctx.arc(x, y, radius, 0, Math.PI * 2)
   if (isSelected) {
-    ctx.strokeStyle = HIGHLIGHT
+    ctx.strokeStyle = highlight
     ctx.lineWidth = baseLineWidth * 2
   } else if (isHovered) {
-    ctx.strokeStyle = HIGHLIGHT
+    ctx.strokeStyle = highlight
     ctx.lineWidth = baseLineWidth * 1.5
   } else {
     ctx.strokeStyle = defaultStroke.color
@@ -62,6 +65,7 @@ const renderDefaultMarble: MarbleRenderer = (
   isSelected,
   isHovered,
   baseLineWidth,
+  highlight,
 ) => {
   ctx.beginPath()
   ctx.arc(x, y, radius, 0, Math.PI * 2)
@@ -76,6 +80,7 @@ const renderDefaultMarble: MarbleRenderer = (
     isSelected,
     isHovered,
     baseLineWidth,
+    highlight,
     { color: "#000", widthFactor: 1 },
   )
 }
@@ -380,6 +385,7 @@ const render3DMarble: MarbleRenderer = (
   isSelected,
   isHovered,
   baseLineWidth,
+  highlight,
 ) => {
   const body =
     color === "#fff" || color === "white" ? BODIES.white : BODIES.black
@@ -414,6 +420,7 @@ const render3DMarble: MarbleRenderer = (
     isSelected,
     isHovered,
     baseLineWidth,
+    highlight,
     { color: body.outline, widthFactor: 0.9 },
   )
 }
@@ -442,11 +449,22 @@ export function renderMarble(
   isSelected: boolean,
   isHovered: boolean,
   baseLineWidth: number,
+  highlight = HIGHLIGHT,
 ): void {
   const render = hasDesign(designName)
     ? MARBLE_DESIGNS[designName]
     : MARBLE_DESIGNS.default
-  render(ctx, x, y, radius, color, isSelected, isHovered, baseLineWidth)
+  render(
+    ctx,
+    x,
+    y,
+    radius,
+    color,
+    isSelected,
+    isHovered,
+    baseLineWidth,
+    highlight,
+  )
 }
 
 /**
