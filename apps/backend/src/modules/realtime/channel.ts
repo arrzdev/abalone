@@ -1,3 +1,4 @@
+import { currentRequestId } from "@repo/shared/log-context"
 import { Logger } from "@repo/shared/logging"
 import tryCatch from "@repo/shared/try-catch"
 import type { RealtimeEvent } from "@/modules/realtime/events"
@@ -58,12 +59,20 @@ export async function publishToUsers(
       //locally the isolate lingers long enough that it lands anyway, which is
       //exactly why every test and every dev run said this worked.
       const [, publishError] = await tryCatch(async () => {
-        await stub.publish(payload)
+        await stub.publish(payload, {
+          channel,
+          request_id: currentRequestId(),
+        })
       })
       if (publishError) {
-        log.error("realtime_publish_failed", publishError, {
+        log.error("realtime_publish_failed", {
           channel,
           event: payload.event,
+          game_id:
+            payload.event === "game-updated"
+              ? payload.meta.gameId
+              : undefined,
+          error: publishError,
         })
       }
     }),

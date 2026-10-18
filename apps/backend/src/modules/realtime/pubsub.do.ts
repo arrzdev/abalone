@@ -1,6 +1,8 @@
 import { DurableObject } from "cloudflare:workers"
 import { Logger } from "@repo/shared/logging"
 import tryCatch from "@repo/shared/try-catch"
+import type { PublishContext } from "@/modules/realtime/broadcast"
+import { broadcast } from "@/modules/realtime/broadcast"
 import type { RealtimeEvent } from "@/modules/realtime/events"
 import { TICKET_SUBPROTOCOL } from "@/modules/realtime/ticket"
 
@@ -64,14 +66,11 @@ export class PubSub extends DurableObject {
   //---- publish ----------------
 
   /** Sends one beacon to everyone listening on this channel. */
-  async publish(payload: RealtimeEvent): Promise<void> {
-    const frame = JSON.stringify(payload)
-
-    for (const socket of this.ctx.getWebSockets()) {
-      //a socket the runtime has already given up on must not cost the rest of
-      //the channel its beacon, so each send stands on its own
-      tryCatch(() => socket.send(frame))
-    }
+  async publish(
+    payload: RealtimeEvent,
+    context: PublishContext,
+  ): Promise<void> {
+    await broadcast(this.ctx.getWebSockets(), payload, context)
   }
 
   //---- socket lifecycle ----------------
@@ -99,10 +98,11 @@ export class PubSub extends DurableObject {
     _ws: WebSocket,
     error: unknown,
   ): Promise<void> {
-    log.error(
-      "pubsub_socket_error",
-      error instanceof Error ? error : undefined,
-      { subscribers: this.ctx.getWebSockets().length },
-    )
+    //no channel or request here: the runtime raises this on its own, outside any
+    //publish, and the object cannot read its own name
+    log.error("pubsub_socket_error", {
+      subscribers: this.ctx.getWebSockets().length,
+      error,
+    })
   }
 }

@@ -94,7 +94,7 @@ describe("realtime routes", () => {
 
   function publishTo(channel: string, payload: RealtimeEvent) {
     const stub = env.PUBSUB.get(env.PUBSUB.idFromName(channel))
-    return stub.publish(payload)
+    return stub.publish(payload, { channel })
   }
 
   /** The socket, and everything it has been told so far. */
