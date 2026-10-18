@@ -164,6 +164,10 @@
     "faq": {
       "title": "Preguntas frecuentes",
       "items": {
+        "first": {
+          "question": "¿Quién empieza en Abalone?",
+          "answer": "Empiezan las negras y luego los jugadores se turnan. No se puede pasar."
+        },
         "diagonal": {
           "question": "¿Puedo mover las bolas en diagonal?",
           "answer": "Cada dirección de la cuadrícula hexagonal cuenta como una de las seis direcciones. No existe otro tipo de diagonal."
@@ -172,15 +176,16 @@
           "question": "¿Puede empujar una sola bola?",
           "answer": "No. Un empuje necesita al menos dos bolas contra una."
         },
-        "own_block": {
-          "question": "¿Y si mi empuje lo bloquea una bola mía?",
-          "answer": "Entonces no es un movimiento legal."
+        "own_push": {
+          "question": "¿Puedes empujar tus propias bolas?",
+          "answer": "No. Un empuje solo mueve bolas del rival. Si una bola tuya está en medio, el movimiento no es legal."
         },
-        "solved": {
-          "question": "¿Está resuelto Abalone?",
-          "answer": "No. Es un juego profundo con mucho que aprender. Prueba los consejos de estrategia: <strategy>Estrategia de Abalone: 7 consejos</strategy>."
+        "draw": {
+          "question": "¿Puede terminar Abalone en empate?",
+          "answer": "Sí. En este juego, si la misma posición aparece por tercera vez con el mismo jugador al turno, es empate."
         }
-      }
+      },
+      "strategy_link": "Prueba los consejos de estrategia: <strategy>Estrategia de Abalone: 7 consejos</strategy>."
     },
     "play": {
       "cta": "Jugar contra el ordenador",
@@ -227,6 +232,19 @@
         "lone_edge": "Mover una bola sola al borde para «amenazar» algo.",
         "split_three": "Partir un tres en dos pares justo antes de que llegue el tres del rival.",
         "leave_hole": "Empujar dejando un hueco en el que se cuela tu rival."
+      }
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "items": {
+        "solved": {
+          "question": "¿Está resuelto Abalone?",
+          "answer": "No. Solo se han resuelto versiones muy pequeñas del tablero. Para el tablero completo de 61 casillas no se conoce una estrategia perfecta, así que los consejos de arriba siguen decidiendo la mayoría de las partidas."
+        },
+        "first_move": {
+          "question": "¿Cuál es la mejor primera jugada?",
+          "answer": "Depende de la disposición. Mira las <openings>aperturas de Abalone</openings>."
+        }
       }
     },
     "practise": {

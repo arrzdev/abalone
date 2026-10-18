@@ -136,11 +136,16 @@ test.describe("served HTML", () => {
     for (const question of [
       "Can I move marbles diagonally?",
       "Can a single marble push?",
-      "What if my push is blocked by my own marble?",
-      "Is Abalone solved?",
+      "Can you push your own marbles?",
     ]) {
       expect(text).toContain(question)
     }
+    // one answer per question across the site: /strategy answers this one
+    expect(text).not.toContain("Is Abalone solved?")
+    // one answer per fact: the own-marble push is asked once
+    expect(text).not.toContain(
+      "What if my push is blocked by my own marble?",
+    )
   })
 
   // the end buttons are the last play block (e2e/play-block.spec.ts)

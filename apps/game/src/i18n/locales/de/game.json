@@ -164,6 +164,10 @@
     "faq": {
       "title": "Häufige Fragen",
       "items": {
+        "first": {
+          "question": "Wer beginnt bei Abalone?",
+          "answer": "Schwarz beginnt, danach sind die Spieler abwechselnd dran. Passen geht nicht."
+        },
         "diagonal": {
           "question": "Kann ich Kugeln diagonal bewegen?",
           "answer": "Jede Richtung im Sechsfeldgitter zählt als eine von sechs Richtungen. Eine andere Art von Diagonale gibt es nicht."
@@ -172,15 +176,16 @@
           "question": "Kann eine einzelne Kugel schieben?",
           "answer": "Nein. Für einen Schub braucht es mindestens zwei Kugeln gegen eine."
         },
-        "own_block": {
-          "question": "Was, wenn meine eigene Kugel den Schub blockiert?",
-          "answer": "Dann ist der Zug nicht erlaubt."
+        "own_push": {
+          "question": "Kann man eigene Kugeln schieben?",
+          "answer": "Nein. Ein Schub bewegt nur Kugeln des Gegners. Steht eine eigene Kugel im Weg, ist der Zug nicht erlaubt."
         },
-        "solved": {
-          "question": "Ist Abalone gelöst?",
-          "answer": "Nein. Es ist ein tiefgründiges Spiel mit viel zu entdecken. Probiere die Strategietipps: <strategy>Abalone-Strategie: 7 Tipps</strategy>."
+        "draw": {
+          "question": "Kann Abalone unentschieden enden?",
+          "answer": "Ja. In diesem Spiel ist es unentschieden, wenn dieselbe Stellung zum dritten Mal entsteht und derselbe Spieler am Zug ist."
         }
-      }
+      },
+      "strategy_link": "Probiere die Strategietipps: <strategy>Abalone-Strategie: 7 Tipps</strategy>."
     },
     "play": {
       "cta": "Gegen den Computer spielen",
@@ -227,6 +232,19 @@
         "lone_edge": "Eine Kugel allein an den Rand ziehen, um etwas zu „bedrohen“.",
         "split_three": "Eine Dreiergruppe in zwei Zweiergruppen teilen, kurz bevor der Dreier des Gegners ankommt.",
         "leave_hole": "Schieben, obwohl dadurch eine Lücke entsteht, in die dein Gegner zieht."
+      }
+    },
+    "faq": {
+      "title": "Häufige Fragen",
+      "items": {
+        "solved": {
+          "question": "Ist Abalone gelöst?",
+          "answer": "Nein. Gelöst sind nur sehr kleine Versionen des Bretts. Für das volle Brett mit 61 Feldern ist keine perfekte Strategie bekannt, also entscheiden die Tipps oben die meisten Partien."
+        },
+        "first_move": {
+          "question": "Was ist der beste erste Zug?",
+          "answer": "Das hängt von der Aufstellung ab. Lies die <openings>Abalone-Eröffnungszüge</openings>."
+        }
       }
     },
     "practise": {

@@ -102,7 +102,7 @@ function faqPage(
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: items.map((item) => ({
+    mainEntity: Object.values(items).map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: { "@type": "Answer", text: plainText(item.answer) },
@@ -169,6 +169,7 @@ export function structuredDataScripts(
           image,
         ),
       ),
+      toScript(faqPage(enGame.strategy.faq.items)),
     ]
   }
   if (path === "/opening-moves") {

@@ -96,7 +96,7 @@ test("rules is also a FAQPage that says what the FAQ section says", async ({
   const faq = blocks.find((block) => block["@type"] === "FAQPage")
   const text = visibleText(html)
   const questions = (faq?.mainEntity ?? []) as Json[]
-  expect(questions).toHaveLength(4)
+  expect(questions).toHaveLength(5)
   for (const question of questions) {
     const answer = question.acceptedAnswer as Json
     expect(text).toContain(question.name as string)
@@ -107,11 +107,27 @@ test("rules is also a FAQPage that says what the FAQ section says", async ({
 test("strategy is an Article headed by its H1", async ({ request }) => {
   const { html, blocks } = await served(request, "/strategy")
 
-  expect(blocks).toHaveLength(1)
+  expect(blocks).toHaveLength(2)
   const [article] = blocks
   expect(article["@type"]).toBe("Article")
   expect(article.headline).toBe(h1Of(html))
   expect(article.url).toBe(`${ORIGIN}/strategy`)
+})
+
+test("strategy is also a FAQPage that says what its FAQ section says", async ({
+  request,
+}) => {
+  const { html, blocks } = await served(request, "/strategy")
+
+  const faq = blocks.find((block) => block["@type"] === "FAQPage")
+  const text = visibleText(html)
+  const questions = (faq?.mainEntity ?? []) as Json[]
+  expect(questions).toHaveLength(2)
+  for (const question of questions) {
+    const answer = question.acceptedAnswer as Json
+    expect(text).toContain(question.name as string)
+    expect(text).toContain(answer.text as string)
+  }
 })
 
 test("the offline game is a FAQPage that says what its setup panel says", async ({

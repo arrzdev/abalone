@@ -217,6 +217,10 @@
     "faq": {
       "title": "Frequently asked",
       "items": {
+        "first": {
+          "question": "Who goes first in Abalone?",
+          "answer": "Black goes first, then players take turns. You cannot pass."
+        },
         "diagonal": {
           "question": "Can I move marbles diagonally?",
           "answer": "Every direction on the hexagon grid counts as one of six directions; there is no other kind of diagonal."
@@ -225,15 +229,16 @@
           "question": "Can a single marble push?",
           "answer": "No. A push needs at least two marbles against one."
         },
-        "own_block": {
-          "question": "What if my push is blocked by my own marble?",
-          "answer": "Then it is not a legal move."
+        "own_push": {
+          "question": "Can you push your own marbles?",
+          "answer": "No. A push only moves your opponent's marbles. If your own marble is in the way, the move is not legal."
         },
-        "solved": {
-          "question": "Is Abalone solved?",
-          "answer": "No. It is a deep game with plenty to learn. Try the strategy tips: <strategy>Abalone strategy: 7 tips</strategy>."
+        "draw": {
+          "question": "Can Abalone end in a draw?",
+          "answer": "Yes. In this game, if the same position comes up a third time with the same player to move, it is a draw."
         }
-      }
+      },
+      "strategy_link": "Try the strategy tips: <strategy>Abalone strategy: 7 tips</strategy>."
     },
     "play": {
       "cta": "Play against the computer",
@@ -280,6 +285,19 @@
         "lone_edge": "Moving a marble alone to the edge to \"threaten\" something.",
         "split_three": "Splitting a three into two twos just before the opponent's three arrives.",
         "leave_hole": "Pushing when it leaves a hole your opponent steps into."
+      }
+    },
+    "faq": {
+      "title": "Frequently asked",
+      "items": {
+        "solved": {
+          "question": "Is Abalone solved?",
+          "answer": "No. Only very small versions of the board have been solved. The full board of 61 cells has no known perfect strategy, so the tips above still decide most games."
+        },
+        "first_move": {
+          "question": "What is the best first move?",
+          "answer": "It depends on the layout. See <openings>Abalone opening moves</openings>."
+        }
       }
     },
     "practise": {

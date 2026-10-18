@@ -21,6 +21,7 @@ const SECTIONS = [
   ["attack-as-a-group", "Attack as a group, not as a hero"],
   ["tempo", "Win the tempo, not the marble"],
   ["mistakes", "Common mistakes"],
+  ["faq", "Frequently asked"],
   ["practise", "Practise"],
 ] as const
 

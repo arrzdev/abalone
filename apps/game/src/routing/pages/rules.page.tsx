@@ -7,6 +7,7 @@ import { Trans, useTranslation } from "react-i18next"
 import type { ManualChapter } from "@/components/manual/chapter"
 import { Chapter, Plate } from "@/components/manual/chapter"
 import { formatChapterNumber } from "@/components/manual/chapter-number"
+import { FaqList } from "@/components/manual/faq-list"
 import { ManualHero, ManualPage } from "@/components/manual/manual-page"
 import { MarbleGlyph } from "@/components/marble-glyph"
 import { PlayBlock } from "@/components/play-block"
@@ -195,7 +196,13 @@ const DESCRIBED_SETUPS = [
   ["german_daisy", "german-daisy"],
 ] as const
 
-const FAQ_ITEMS = ["diagonal", "single", "own_block", "solved"] as const
+const FAQ_ITEMS = [
+  "first",
+  "diagonal",
+  "single",
+  "own_push",
+  "draw",
+] as const
 
 function RulesPage() {
   const { t } = useTranslation()
@@ -438,36 +445,25 @@ function RulesPage() {
         </Chapter>
 
         <Chapter {...chapter.faq}>
-          <dl className="flex flex-col">
-            {FAQ_ITEMS.map((item) => (
-              <div
-                key={item}
-                className="border-t border-border py-4 first:border-t-0 first:pt-0 last:pb-0"
-              >
-                <dt className="text-[17px] font-semibold text-foreground">
-                  {t(`game:rules.faq.items.${item}.question`)}
-                </dt>
-                {/* A paragraph, because that is what an answer is: the
-                    strategy link in one is part of its sentence, the height
-                    of its line, not a control standing on its own. */}
-                <dd className="mt-1">
-                  <p>
-                    <Trans
-                      i18nKey={`game:rules.faq.items.${item}.answer`}
-                      components={{
-                        strategy: (
-                          <Link
-                            to="/strategy"
-                            className={TEXT_LINK_CLASS}
-                          />
-                        ),
-                      }}
-                    />
-                  </p>
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <FaqList
+            items={FAQ_ITEMS.map((item) => ({
+              id: item,
+              question: t(`game:rules.faq.items.${item}.question`),
+              answer: (
+                <Trans i18nKey={`game:rules.faq.items.${item}.answer`} />
+              ),
+            }))}
+          />
+          <p>
+            <Trans
+              i18nKey="game:rules.faq.strategy_link"
+              components={{
+                strategy: (
+                  <Link to="/strategy" className={TEXT_LINK_CLASS} />
+                ),
+              }}
+            />
+          </p>
           {/* Somewhere to play a friend, for whoever read this far: the page
               that says how, not the hub a visitor would be bounced from. */}
           <p>
