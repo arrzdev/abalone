@@ -138,4 +138,28 @@ describe("structured data", () => {
       },
     })
   })
+
+  //the public landing for online play: the FAQ it shows, links taken out
+  it("gives the play online page the FAQ it shows", () => {
+    const [faq, ...rest] = structuredData("/play-online")
+    expect(rest).toEqual([])
+    expect(faq["@type"]).toBe("FAQPage")
+    const questions = faq.mainEntity as Json[]
+    expect(questions.map((question) => question.name)).toEqual([
+      "Is online Abalone free?",
+      "Do I need to sign up?",
+      "How do I play Abalone with a friend?",
+      "Is the invite link private?",
+      "Do we have to be online at the same time?",
+      "Is there a game code?",
+    ])
+    expect(questions[1]).toEqual({
+      "@type": "Question",
+      name: "Do I need to sign up?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes, online games need an account, a username and a password. To play without one, play the computer or pass and play.",
+      },
+    })
+  })
 })

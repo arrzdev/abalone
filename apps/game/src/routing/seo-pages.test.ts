@@ -31,6 +31,12 @@ const EXPECTED_COPY = {
     description:
       "Play Abalone against the computer or pass the device to a friend. Pick the standard layout or a daisy opening and start a free game in your browser.",
   },
+  //the `audit` document on TUD-1688
+  "/play-online": {
+    title: "Play Abalone Online Free with Friends | Private Invite Link",
+    description:
+      "Play Abalone online in your browser, free. Make a private invite link, send it to a friend and play at your own pace. Free account, no download.",
+  },
 } as const
 
 type Head = ReturnType<typeof pageHead>
@@ -74,7 +80,13 @@ describe("SITEMAP", () => {
   //"play abalone", and a sitemap of the pages worth landing on reads cleaner
   it("lists the search entry pages, without the board", () => {
     expect(Object.keys(SITEMAP).sort()).toEqual(
-      ["/", "/opening-moves", "/rules", "/strategy"].sort(),
+      [
+        "/",
+        "/opening-moves",
+        "/play-online",
+        "/rules",
+        "/strategy",
+      ].sort(),
     )
   })
 
@@ -86,6 +98,7 @@ describe("SITEMAP", () => {
       "/rules": "2026-10-18",
       "/strategy": "2026-10-18",
       "/opening-moves": "2026-10-17",
+      "/play-online": "2026-10-18",
     })
   })
 })

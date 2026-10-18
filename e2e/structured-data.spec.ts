@@ -132,6 +132,24 @@ test("the offline game is a FAQPage that says what its setup panel says", async 
   }
 })
 
+test("play online is a FAQPage that says what its FAQ says", async ({
+  request,
+}) => {
+  const { html, blocks } = await served(request, "/play-online")
+
+  expect(blocks).toHaveLength(1)
+  const [faq] = blocks
+  expect(faq["@type"]).toBe("FAQPage")
+  const text = visibleText(html)
+  const questions = (faq.mainEntity ?? []) as Json[]
+  expect(questions).toHaveLength(6)
+  for (const question of questions) {
+    const answer = question.acceptedAnswer as Json
+    expect(text).toContain(question.name as string)
+    expect(text).toContain(answer.text as string)
+  }
+})
+
 test("private pages carry none", async ({ request }) => {
   for (const path of ["/online", "/profile"]) {
     const { blocks } = await served(request, path)

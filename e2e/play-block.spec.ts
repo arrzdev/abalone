@@ -131,7 +131,11 @@ test.describe("served HTML", () => {
 
       test("no longer has the links that went home or to setup", () => {
         expect(html).not.toContain("Play now")
-        expect(html).not.toContain("Play a friend online")
+        // the label lives on as the /rules link to the play online page, a
+        // page about playing a friend, not home or setup
+        expect(html).not.toMatch(
+          /<a[^>]*href="(?!\/play-online")[^"]*"[^>]*>(?:\s|<[^>]+>)*Play a friend online/,
+        )
         expect(html).not.toContain("Play Abalone against the computer")
         expect(html).not.toMatch(/<a[^>]*href="\/offline"[^>]*>/)
       })
@@ -325,8 +329,13 @@ test.describe("layout", () => {
               .map((link) => link.text),
           ).toEqual([MORE, MORE])
 
+          //the play online page says how to play a friend; it is no game
+          //that a reader expects to start
           const promising = links.filter(
-            (link) => /play|game/i.test(link.text) && link.text !== MORE,
+            (link) =>
+              /play|game/i.test(link.text) &&
+              link.text !== MORE &&
+              link.href !== "/play-online",
           )
           expect(promising.length).toBeGreaterThanOrEqual(3)
           for (const link of promising) {

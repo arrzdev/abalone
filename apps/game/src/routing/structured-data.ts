@@ -185,6 +185,8 @@ export function structuredDataScripts(
       ),
     ]
   }
+  if (path === "/play-online")
+    return [toScript(faqPage(enGame.playOnline.faq.items))]
   //the one path left: /offline
   return [toScript(faqPage(enGame.offline.faq.items))]
 }

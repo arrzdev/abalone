@@ -15,6 +15,8 @@ export type ManualPageProps = {
   chapters: ManualChapter[]
   /** Whether the chapters carry diagrams, which earns them a plate column. */
   plates?: boolean
+  /** Extra classes on the page column, for a page that needs its own spacing. */
+  className?: string
   children: ReactNode
 }
 
@@ -31,6 +33,7 @@ export function ManualPage({
   hero,
   chapters,
   plates = false,
+  className,
   children,
 }: ManualPageProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -48,7 +51,10 @@ export function ManualPage({
       >
         <div
           data-plates={plates}
-          className="group/manual mx-auto flex w-full max-w-[960px] px-5 pt-6 pb-safe-offset-10 data-[plates=true]:max-w-[1200px] md:px-8 lg:gap-x-12 lg:px-12 lg:pt-12"
+          className={cn(
+            "group/manual mx-auto flex w-full max-w-[960px] px-5 pt-6 pb-safe-offset-10 data-[plates=true]:max-w-[1200px] md:px-8 lg:gap-x-12 lg:px-12 lg:pt-12",
+            className,
+          )}
         >
           <aside className="hidden w-[200px] shrink-0 lg:block">
             <ChapterRail
@@ -83,6 +89,8 @@ export type ManualHeroProps = {
   plate?: ReactNode
   /** Where the plate shows; a board too small to read on a phone stays off it. */
   plateClassName?: string
+  /** Extra classes on the column of heading, intro and actions. */
+  className?: string
 }
 
 /** The page's one `<h1>`, what the page is for, and the way to the board. */
@@ -92,6 +100,7 @@ export function ManualHero({
   actions,
   plate,
   plateClassName,
+  className,
 }: ManualHeroProps) {
   return (
     <div
@@ -100,7 +109,12 @@ export function ManualHero({
         MANUAL_GRID_CLASS,
       )}
     >
-      <div className="flex min-w-0 max-w-[62ch] flex-col gap-y-6">
+      <div
+        className={cn(
+          "flex min-w-0 max-w-[62ch] flex-col gap-y-6",
+          className,
+        )}
+      >
         <div className="flex flex-col gap-y-3">
           <h1 className="font-display text-[clamp(1.875rem,1.25rem+3vw,2.5rem)] leading-[1.1] font-extrabold tracking-tight text-balance text-foreground lg:text-[clamp(2.5rem,1rem+2.4vw,3.5rem)]">
             {heading}
