@@ -1,4 +1,5 @@
 import { cn } from "@repo/nativ/utils"
+import type { LinkProps } from "@tanstack/react-router"
 import { Link } from "@tanstack/react-router"
 import { buttonClassName } from "@/components/ui/button"
 import { COMPUTER_GAME } from "@/hooks/use-play-actions"
@@ -11,6 +12,11 @@ export type PlayBlockProps = {
   cta: string
   /** The link's label: it goes home, to the choice of ways to play. */
   more: string
+  /**
+   * Where the link goes instead of home. Online play's page sends a visitor
+   * without an account to the computer game, the one way in that needs none.
+   */
+  moreLink?: LinkProps
   /**
    * What the button does instead of opening the computer game. Online play
    * asks for an account first, so it is an action (the sign-in gate), not a
@@ -32,7 +38,12 @@ export type PlayBlockProps = {
  * `sm` the two are a row under the text they follow. A longer label in some
  * languages takes two lines: the height grows with it rather than clipping it.
  */
-export function PlayBlock({ cta, more, onPlay }: PlayBlockProps) {
+export function PlayBlock({
+  cta,
+  more,
+  moreLink = { to: "/" },
+  onPlay,
+}: PlayBlockProps) {
   const ctaClassName = cn(
     buttonClassName("primary", "lg"),
     "h-auto min-h-[54px] w-full py-3 text-center text-balance sm:w-auto sm:px-8",
@@ -51,7 +62,7 @@ export function PlayBlock({ cta, more, onPlay }: PlayBlockProps) {
         </Link>
       )}
       <Link
-        to="/"
+        {...moreLink}
         className={cn(
           TEXT_LINK_CLASS,
           "inline-flex min-h-11 items-center self-center sm:self-auto",

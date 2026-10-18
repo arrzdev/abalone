@@ -4,9 +4,10 @@ import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 
 // Each offline mode has one name, and a player meets it in the same words on
-// the home card, the setup tab, the game header and the browser tab (TUD-853).
-// The computer mode used to be "vs Computer" on home, "Play Bots" in the game
-// and "Play Offline" in the nav.
+// the setup tab, the game header and the browser tab (TUD-853). The computer
+// mode used to be "vs Computer" on home, "Play Bots" in the game and "Play
+// Offline" in the nav. Home names the action now, "Play now" (TUD-2287 C3), and
+// the game it opens still has the mode's name.
 //
 // The game header is the phone's: above `lg` the app header replaces it, so on
 // a desktop the tab title is the place that names the game.
@@ -44,7 +45,14 @@ function gameHeader(page: Page, backLabel = "Back") {
   return page.locator("header").filter({ has: back }).locator("p").first()
 }
 
-/** A home card, a row on a phone and a tile on a desktop. */
+/** Home's Play now, the computer game: a link, by its title in the locale. */
+function homePlayNow(page: Page, title = "Play now") {
+  return page
+    .getByRole("main")
+    .getByRole("link", { name: new RegExp(`^${escapeRegExp(title)}`) })
+}
+
+/** A home card, a tile under Play now. */
 function homeCard(page: Page, name: string) {
   return page
     .getByRole("button", { name: new RegExp(escapeRegExp(name)) })
@@ -58,11 +66,11 @@ for (const [size, viewport] of Object.entries(VIEWPORTS)) {
   test.describe(`on a ${size}`, () => {
     test.use({ viewport })
 
-    test("home → vs Computer: the game is called vs Computer", async ({
+    test("home → Play now: the game is called vs Computer", async ({
       page,
     }) => {
       await openApp(page, "/")
-      await homeCard(page, "vs Computer").click()
+      await homePlayNow(page).click()
       await expect(
         page.getByRole("button", { name: "Resign" }),
       ).toBeVisible()
@@ -79,7 +87,7 @@ for (const [size, viewport] of Object.entries(VIEWPORTS)) {
         localStorage.setItem(key, "done")
       }, GUIDE_KEY)
       await openApp(page, "/")
-      await homeCard(page, "vs Computer").click()
+      await homePlayNow(page).click()
 
       await expect(
         page.getByRole("tab", { name: "vs Computer", selected: true }),
@@ -125,7 +133,7 @@ for (const [size, viewport] of Object.entries(VIEWPORTS)) {
         [LANGUAGE_KEY, "pt"],
       )
       await openApp(page, "/")
-      await homeCard(page, computer).click()
+      await homePlayNow(page, computer).click()
       await expect(
         page.getByRole("button", { name: "Desistir" }),
       ).toBeVisible()

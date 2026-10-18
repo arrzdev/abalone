@@ -22,8 +22,12 @@
   },
   "home": {
     "heading": "Juega a Abalone en línea, gratis",
+    "trust": "",
     "lede": "Empuja seis bolas del rival fuera del tablero. Juega contra el ordenador, pasa el dispositivo o invita a un amigo.",
+    "play_now": "vs ordenador",
+    "play_now_hint": "Ocho bots, de fácil a difícil.",
     "play_online": "Jugar en línea",
+    "online_title": "Jugar en línea",
     "bot_hint": "Ocho bots, de fácil a difícil.",
     "local_hint": "Dos personas, un dispositivo.",
     "online_hint": "Cuenta gratis. Invita a quien sea.",

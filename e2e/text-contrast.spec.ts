@@ -180,12 +180,15 @@ test.describe("at 1440px under the pointer", () => {
   test.use({ viewport: { width: 1440, height: 900 } })
   test.skip(({ hasTouch }) => hasTouch, "a touch screen has no hover")
 
-  test("the vs Computer row stays readable while hovered", async ({
+  test("the Play now row stays readable while hovered", async ({
     page,
   }) => {
     await openApp(page, "/")
-    await page.getByRole("button", { name: /^vs Computer/ }).hover()
-    await expectReadableText(page, "hovered vs Computer")
+    await page
+      .getByRole("main")
+      .getByRole("link", { name: /^Play now/ })
+      .hover()
+    await expectReadableText(page, "hovered Play now")
   })
 
   test("the Play button stays readable while hovered", async ({

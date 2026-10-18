@@ -155,10 +155,12 @@ export async function expectNoClippedText(scope: Locator): Promise<void> {
         current = current.parentElement
       ) {
         if (Number(getComputedStyle(current).opacity) === 0) return false
+        //`sr-only`: a 1px box that clips everything in it, its own text and
+        //any element inside it, which keeps a box of its own
+        const box = current.getBoundingClientRect()
+        if (box.width <= 1 && box.height <= 1) return false
       }
-      const box = element.getBoundingClientRect()
-      //`sr-only`: a 1px box that clips everything in it
-      return box.width > 1 && box.height > 1
+      return true
     }
 
     /** Every box between `element` and the screen that cuts off what spills out of it. */
@@ -243,8 +245,23 @@ export async function expectNoClippedText(scope: Locator): Promise<void> {
           lines.push(...range.getClientRects())
         }
       }
+      //what an ellipsis cuts is meant to go: WebKit still reports the whole
+      //line, so measure only the part inside the box that ends it
+      const ownBox = element.getBoundingClientRect()
+      const drawn =
+        endsInEllipsis(style) && style.overflowX !== "visible"
+          ? lines.map(
+              (line) =>
+                new DOMRect(
+                  line.left,
+                  line.top,
+                  Math.min(line.right, ownBox.right) - line.left,
+                  line.height,
+                ),
+            )
+          : lines
       const clips = clippingBoxes(element)
-      const cut = lines.find((line) =>
+      const cut = drawn.find((line) =>
         clips.some((clip) => outside(line, clip)),
       )
       if (cut) {

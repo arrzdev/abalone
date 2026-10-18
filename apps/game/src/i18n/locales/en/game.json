@@ -331,8 +331,9 @@
     }
   },
   "playOnline": {
-    "heading": "Play Abalone online, free",
+    "heading": "Play Abalone online with a friend",
     "intro": "You can play Abalone online with a friend for free, right in your browser. Create a free account, make a private invite link, and send it to whoever you want to play. The game starts when they open the link and accept, and you each take your turn whenever you like.",
+    "no_account": "No account? Play the computer now",
     "steps": {
       "title": "How to play Abalone with a friend online",
       "items": {

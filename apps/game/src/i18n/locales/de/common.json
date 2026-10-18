@@ -22,8 +22,12 @@
   },
   "home": {
     "heading": "Abalone online spielen, kostenlos",
+    "trust": "",
     "lede": "Schiebe sechs gegnerische Kugeln vom Brett. Spiel gegen den Computer, reich das Gerät weiter oder lade einen Freund ein.",
+    "play_now": "Gegen Computer",
+    "play_now_hint": "Acht Bots, leicht bis schwer.",
     "play_online": "Online spielen",
+    "online_title": "Online spielen",
     "bot_hint": "Acht Bots, leicht bis schwer.",
     "local_hint": "Ihr zwei, ein Gerät.",
     "online_hint": "Gratis-Konto. Lade jeden ein.",

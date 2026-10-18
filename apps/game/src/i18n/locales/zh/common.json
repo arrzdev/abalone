@@ -22,8 +22,12 @@
   },
   "home": {
     "heading": "在线免费玩 Abalone",
+    "trust": "",
     "lede": "把对手的六颗棋子推出棋盘。可以和电脑对战，也可以轮流用同一台设备，或者邀请朋友。",
+    "play_now": "对战电脑",
+    "play_now_hint": "八个机器人，由易到难。",
     "play_online": "在线对战",
+    "online_title": "在线对战",
     "bot_hint": "八个机器人，由易到难。",
     "local_hint": "两个人，一台设备。",
     "online_hint": "免费账号，邀请任何人。",

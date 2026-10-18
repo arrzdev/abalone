@@ -7,7 +7,7 @@ import { openApp } from "./support/app"
 // crawler gets on its first pass.
 
 const STRATEGY_H1 = "Abalone strategy: 7 tips to win"
-const HOME_H1 = "Play Abalone online, free"
+const HOME_H1 = "Play Abalone free, no account"
 
 // The tips in reading order; each id is a link target (/strategy#center). The
 // heading keeps the words; the tip's number is printed once, beside it, as the
@@ -143,7 +143,7 @@ test.describe("served HTML", () => {
         HOME_H1,
       ])
       expect(visibleText(html)).toContain(
-        "Push six of your opponent's marbles off the board. Play the computer, pass the device, or invite a friend.",
+        "Push six of your opponent's marbles off the board. Free to play, no sign-up and no download.",
       )
     })
 
