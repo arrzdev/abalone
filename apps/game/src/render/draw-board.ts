@@ -9,6 +9,7 @@ import type {
   CellName,
   Point,
 } from "@repo/abalone-engine/types"
+import { boardPalette } from "@/render/board-themes"
 import { cellFromPoint, hexCenter, STEP } from "@/render/hex-grid"
 import { renderMarble, renderMarbleShadow } from "@/render/marble-renderer"
 
@@ -58,6 +59,8 @@ export type DrawBoardOptions = {
   state: GameState
   possibleMoves?: CellName[]
   marbleDesign?: string
+  /** A name from `BOARD_THEMES`; anything else paints Slate. */
+  boardTheme?: string
   showCoordinates?: boolean
   /**
    * The rank and file down the edges. On by default, and off for a board that
@@ -73,9 +76,8 @@ export type DrawBoardOptions = {
   focusCell?: CellName | null
 }
 
+/** The board's own fill, its labels and its ring come from the theme. */
 const COLORS = {
-  /** Keep in step with `--color-board`, which the rest of the UI draws from. */
-  board: "#627384",
   /**
    * The board while you are looking at a position the game has already left
    * behind. Same lightness as the board's own colour, so the marbles read
@@ -194,6 +196,7 @@ function drawMoveIndicator(
 function drawCoordinateLabels(
   ctx: CanvasRenderingContext2D,
   view: BoardView,
+  ink: string,
 ): void {
   const { centerX, centerY, radius, spacing } = view
   const size = radius * 0.44
@@ -202,8 +205,8 @@ function drawCoordinateLabels(
   ctx.font = `${size}px ${LABEL_FACE}`
   ctx.textAlign = "center"
   ctx.textBaseline = "middle"
-  ctx.fillStyle = "#fff"
-  ctx.strokeStyle = "#fff"
+  ctx.fillStyle = ink
+  ctx.strokeStyle = ink
   ctx.lineWidth = size * LABEL_WEIGHT
   ctx.lineJoin = "round"
   const label = (text: string, x: number, y: number) => {
@@ -616,6 +619,7 @@ export function drawBoard(
     state,
     possibleMoves = [],
     marbleDesign = "default",
+    boardTheme,
     showCoordinates = false,
     showLabels = true,
     reviewing = false,
@@ -635,6 +639,7 @@ export function drawBoard(
   } = view
   const flip = state.shouldFlipBoard
   const isAnimating = Boolean(animation)
+  const palette = boardPalette(boardTheme)
 
   ctx.clearRect(0, 0, width, height)
 
@@ -656,11 +661,11 @@ export function drawBoard(
     centerX,
     centerY,
     radius * 10 - baseLineWidth * 2,
-    reviewing ? COLORS.reviewing : COLORS.board,
+    reviewing ? COLORS.reviewing : palette.board,
   )
   ctx.stroke()
 
-  if (showLabels) drawCoordinateLabels(ctx, view)
+  if (showLabels) drawCoordinateLabels(ctx, view, palette.ink)
 
   // Pass 1: the fixed grid of empty cells.
   forEachCell((r, q) => {
@@ -743,6 +748,7 @@ export function drawBoard(
         isSelected,
         isHovered,
         baseLineWidth,
+        palette.ring,
       )
     } else if (state.black.has(coordKey)) {
       renderMarbleShadow(marbleDesign, ctx, pos.x, pos.y, radius * MARBLE)
@@ -756,6 +762,7 @@ export function drawBoard(
         isSelected,
         isHovered,
         baseLineWidth,
+        palette.ring,
       )
     } else if (state.white.has(coordKey)) {
       renderMarbleShadow(marbleDesign, ctx, pos.x, pos.y, radius * MARBLE)
@@ -769,6 +776,7 @@ export function drawBoard(
         isSelected,
         isHovered,
         baseLineWidth,
+        palette.ring,
       )
     }
 

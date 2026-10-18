@@ -7,6 +7,7 @@ import type { GameCanvasHandle } from "@/components/game-canvas"
 import { GameCanvas } from "@/components/game-canvas"
 import { PauseIcon, PlayIcon } from "@/components/icons"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
+import type { BoardTheme } from "@/render/board-themes"
 import type { MarbleDesign } from "@/render/marble-renderer"
 import { prefersReducedMotion } from "@/render/motion"
 
@@ -18,6 +19,9 @@ const REPLAY_GAP_MS = 2600
 
 /** The marbles this board is shown with, whatever the player has set. */
 const SHOWCASE_DESIGN: MarbleDesign = "3d"
+
+/** And the board: the home page keeps one look, whatever theme is set. */
+const SHOWCASE_THEME: BoardTheme = "slate"
 
 type BoardSize = { width: number; height: number }
 
@@ -145,6 +149,7 @@ export function DemoBoard() {
         state={state}
         possibleMoves={[]}
         marbleDesign={SHOWCASE_DESIGN}
+        boardTheme={SHOWCASE_THEME}
         showCoordinates={false}
         showLabels={false}
         interactive={false}
