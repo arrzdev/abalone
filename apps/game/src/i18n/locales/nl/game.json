@@ -279,11 +279,13 @@
     "position": "{{black}} {{blackCount}} knikkers, {{white}} {{whiteCount}} knikkers.",
     "turn": "{{side}} is aan zet.",
     "last_move": "Laatste zet: {{move}}.",
+    "moved": "{{side}} zet van {{from}} naar {{to}}.",
     "no_moves": "Nog geen zetten.",
     "cell_black": "{{square}}, zwarte knikker",
     "cell_white": "{{square}}, witte knikker",
     "cell_empty": "{{square}}, leeg",
-    "cell_selected": "{{cell}}, geselecteerd"
+    "cell_selected": "{{cell}}, geselecteerd",
+    "cell_reachable": "{{cell}}, hier kun je heen"
   },
   "guide": {
     "title": "Zo zet je",

@@ -70,9 +70,13 @@ test("a keyboard alone moves a marble from c5 to d5", async ({ page }) => {
 
   // c5 → d6 → d5
   await page.keyboard.press("ArrowUp")
-  await expect(board).toHaveAccessibleDescription("d6, empty")
+  await expect(board).toHaveAccessibleDescription(
+    "d6, empty, you can move here",
+  )
   await page.keyboard.press("ArrowLeft")
-  await expect(board).toHaveAccessibleDescription("d5, empty")
+  await expect(board).toHaveAccessibleDescription(
+    "d5, empty, you can move here",
+  )
 
   await page.keyboard.press("Enter")
 
@@ -81,6 +85,65 @@ test("a keyboard alone moves a marble from c5 to d5", async ({ page }) => {
   // The board keeps focus, so the next player carries on from the same cell.
   await expect(board).toBeFocused()
   await expect(board).toHaveAccessibleDescription("d5, black marble")
+})
+
+// A screen reader hears nothing of the canvas, so a status line under it says
+// each move in words and whose turn it is next, the computer's reply included.
+// An empty cell the selection can move to says so, where it used to read the
+// same as one it cannot reach.
+test("a screen reader hears each move and the turn after it", async ({
+  page,
+}) => {
+  await startOfflineGame(page, "vs Computer")
+  const board = page.getByRole("application", { name: /to move/i })
+  // The status line sits beside the canvas, and is empty before the first move.
+  const status = board.locator("xpath=..").getByRole("status")
+
+  await tabToBoard(page)
+
+  // e5 → d4 → c3, then up to d4
+  await page.keyboard.press("ArrowDown")
+  await page.keyboard.press("ArrowDown")
+  await expect(board).toHaveAccessibleDescription("c3, black marble")
+  await page.keyboard.press("Enter")
+  await page.keyboard.press("ArrowUp")
+  await expect(board).toHaveAccessibleDescription(
+    "d4, empty, you can move here",
+  )
+  // Out of reach of the selection: two rows up.
+  await page.keyboard.press("ArrowUp")
+  await expect(board).toHaveAccessibleDescription("e5, empty")
+  await page.keyboard.press("ArrowDown")
+
+  // The computer can answer before a poll sees the first line, so every text
+  // the status line takes is recorded as it changes.
+  await status.evaluate((element) => {
+    const said: string[] = []
+    Object.assign(window, { said })
+    new MutationObserver(() =>
+      said.push(element.textContent ?? ""),
+    ).observe(element, {
+      childList: true,
+      characterData: true,
+      subtree: true,
+    })
+  })
+
+  await page.keyboard.press("Enter")
+  await expect(moveList(page)).toHaveCount(2, { timeout: 30_000 })
+
+  const spoken = () =>
+    page.evaluate(() => {
+      const { said } = window as unknown as { said: string[] }
+      return said.filter((line, index) => line && line !== said[index - 1])
+    })
+  await expect.poll(async () => (await spoken()).length).toBe(2)
+  const lines = await spoken()
+  expect(lines[0]).toBe("Black moved c3 to d4. White to move.")
+  expect(lines[1]).toMatch(
+    /^White moved [a-i][1-9] to [a-i][1-9]\. Black to move\.$/,
+  )
+  await expect(status).toHaveText(lines[1])
 })
 
 test("the arrow keys stop at the edge of the board", async ({ page }) => {

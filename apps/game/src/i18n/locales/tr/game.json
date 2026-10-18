@@ -278,11 +278,13 @@
     "position": "{{black}} {{blackCount}} bilye, {{white}} {{whiteCount}} bilye.",
     "turn": "Sıra {{side}} oyuncuda.",
     "last_move": "Son hamle: {{move}}.",
+    "moved": "{{side}}, {{from}} karesinden {{to}} karesine oynadı.",
     "no_moves": "Henüz hamle yok.",
     "cell_black": "{{square}}, siyah bilye",
     "cell_white": "{{square}}, beyaz bilye",
     "cell_empty": "{{square}}, boş",
-    "cell_selected": "{{cell}}, seçili"
+    "cell_selected": "{{cell}}, seçili",
+    "cell_reachable": "{{cell}}, buraya oynayabilirsin"
   },
   "guide": {
     "title": "Nasıl hamle yapılır",

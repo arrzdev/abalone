@@ -279,11 +279,13 @@
     "position": "{{black}} {{blackCount}} Kugeln, {{white}} {{whiteCount}} Kugeln.",
     "turn": "{{side}} ist am Zug.",
     "last_move": "Letzter Zug: {{move}}.",
+    "moved": "{{side}} zieht von {{from}} nach {{to}}.",
     "no_moves": "Noch keine Züge.",
     "cell_black": "{{square}}, schwarze Kugel",
     "cell_white": "{{square}}, weiße Kugel",
     "cell_empty": "{{square}}, leer",
-    "cell_selected": "{{cell}}, ausgewählt"
+    "cell_selected": "{{cell}}, ausgewählt",
+    "cell_reachable": "{{cell}}, hierhin kannst du ziehen"
   },
   "guide": {
     "title": "So ziehst du",

@@ -372,11 +372,13 @@
     "position": "{{black}} {{blackCount}} marbles, {{white}} {{whiteCount}} marbles.",
     "turn": "{{side}} to move.",
     "last_move": "Last move: {{move}}.",
+    "moved": "{{side}} moved {{from}} to {{to}}.",
     "no_moves": "No moves yet.",
     "cell_black": "{{square}}, black marble",
     "cell_white": "{{square}}, white marble",
     "cell_empty": "{{square}}, empty",
-    "cell_selected": "{{cell}}, selected"
+    "cell_selected": "{{cell}}, selected",
+    "cell_reachable": "{{cell}}, you can move here"
   },
   "guide": {
     "title": "How to move",
