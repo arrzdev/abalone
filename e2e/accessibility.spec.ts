@@ -105,6 +105,26 @@ test("a game in progress has no accessibility violations", async ({
   await scan(page, "/game/offline")
 })
 
+// WCAG 2.5.3, label in name: axe files the rule under "experimental", so the
+// default scan above does not rate it blocking. Voice control says what it sees, so a bot tile
+// whose visible text is "1 Gus" must be named "1 Gus ...".
+for (const width of [1280, 390, 320]) {
+  test(`/offline names each control by its visible text at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 800 })
+    await openApp(page, "/offline")
+    const results = await new AxeBuilder({ page })
+      .withRules(["label-content-name-mismatch"])
+      .analyze()
+    expect(
+      results.violations.flatMap((violation) =>
+        violation.nodes.map((node) => node.target.join(" ")),
+      ),
+    ).toEqual([])
+  })
+}
+
 test("an invite page has no accessibility violations", async ({
   browser,
 }) => {
