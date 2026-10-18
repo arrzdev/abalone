@@ -9,9 +9,9 @@ import { openApp, signUp, uniqueUsername } from "./support/app"
 // is no game code, a link lasts 7 days), so the text is pinned word for word.
 
 const PATH = "/play-online"
-const H1 = "Play Abalone online, free"
+const H1 = "Play Abalone online with a friend"
 const CTA = "Play Online"
-const MORE = "Other ways to play"
+const NO_ACCOUNT = "No account? Play the computer now"
 
 const INTRO =
   "You can play Abalone online with a friend for free, right in your browser. Create a free account, make a private invite link, and send it to whoever you want to play. The game starts when they open the link and accept, and you each take your turn whenever you like."
@@ -126,7 +126,7 @@ test.describe("served HTML", () => {
 
   // a signed-out reader sent to /online is bounced home, so the page names
   // the Online page without linking it, and sends the no-account reader to
-  // the offline board
+  // the offline board: beside each button, the computer game (TUD-2287 §3.4)
   test("links where a signed-out reader can go, and not to /online", async ({
     request,
   }) => {
@@ -137,7 +137,15 @@ test.describe("served HTML", () => {
     )
     expect(html).toMatch(linkPattern("/rules", "Abalone rules"))
     expect(html).toMatch(linkPattern("/strategy", "Abalone strategy tips"))
-    expect(html).toMatch(linkPattern("/", MORE))
+    expect(
+      [
+        ...html.matchAll(
+          new RegExp(linkPattern("/offline?mode=ai", NO_ACCOUNT), "g"),
+        ),
+      ],
+      "the no-account link beside both buttons",
+    ).toHaveLength(2)
+    expect(html).not.toContain("Other ways to play")
     // the page's own content: the desktop header's nav links /online on
     // every page and asks for sign-in itself
     const content = html.replace(/<nav[\s\S]*?<\/nav>/g, "")

@@ -5,7 +5,7 @@ import { Chapter } from "@/components/manual/chapter"
 import { ManualHero, ManualPage } from "@/components/manual/manual-page"
 import { PlayBlock } from "@/components/play-block"
 import { SubpageHeader } from "@/components/ui/subpage-header"
-import { usePlayActions } from "@/hooks/use-play-actions"
+import { COMPUTER_GAME, usePlayActions } from "@/hooks/use-play-actions"
 import { seoPageHead } from "@/routing/seo-pages"
 
 export const Route = createFileRoute("/_subpage/play-online")({
@@ -24,7 +24,9 @@ export const Route = createFileRoute("/_subpage/play-online")({
  *
  * The button is the sign-in gate, not a link to `/online`: a visitor sent there
  * signed out is bounced home. For the same reason the FAQ names the Online page
- * without linking it.
+ * without linking it. The link beside it is the way out of that gate for
+ * somebody who came to play and not to sign up: the computer game, no account
+ * (TUD-2287 §3.4).
  */
 
 const STEPS = ["account", "invite", "send", "accept"] as const
@@ -57,7 +59,8 @@ function PlayOnlinePage() {
   const playBlock = (
     <PlayBlock
       cta={t("common:home.play_online")}
-      more={t("game:rules.play.more")}
+      more={t("game:playOnline.no_account")}
+      moreLink={COMPUTER_GAME}
       onPlay={playOnline}
     />
   )
@@ -70,7 +73,9 @@ function PlayOnlinePage() {
 
       {/* 16px less above the hero and between its rows under 375, so the
           button ends inside a 320x460 first screen (TUD-1820 §3). This page
-          only: its intro is the longest of the manuals. */}
+          only: its intro is the longest of the manuals. And a smaller
+          heading there, which keeps "with a friend" to two lines rather than
+          three (TUD-2287 §4). */}
       <ManualPage
         title={t("common:home.play_online")}
         chapters={chapters}
@@ -81,6 +86,7 @@ function PlayOnlinePage() {
             intro={t("game:playOnline.intro")}
             actions={playBlock}
             className="max-[374px]:gap-y-5"
+            headingClassName="max-[374px]:text-[26px]"
           />
         }
       >

@@ -91,6 +91,8 @@ export type ManualHeroProps = {
   plateClassName?: string
   /** Extra classes on the column of heading, intro and actions. */
   className?: string
+  /** Extra classes on the `<h1>`: a page whose heading is longer than most. */
+  headingClassName?: string
 }
 
 /** The page's one `<h1>`, what the page is for, and the way to the board. */
@@ -101,6 +103,7 @@ export function ManualHero({
   plate,
   plateClassName,
   className,
+  headingClassName,
 }: ManualHeroProps) {
   return (
     <div
@@ -116,7 +119,12 @@ export function ManualHero({
         )}
       >
         <div className="flex flex-col gap-y-3">
-          <h1 className="font-display text-[clamp(1.875rem,1.25rem+3vw,2.5rem)] leading-[1.1] font-extrabold tracking-tight text-balance text-foreground lg:text-[clamp(2.5rem,1rem+2.4vw,3.5rem)]">
+          <h1
+            className={cn(
+              "font-display text-[clamp(1.875rem,1.25rem+3vw,2.5rem)] leading-[1.1] font-extrabold tracking-tight text-balance text-foreground lg:text-[clamp(2.5rem,1rem+2.4vw,3.5rem)]",
+              headingClassName,
+            )}
+          >
             {heading}
           </h1>
           {/* 16px under 375, so the way to the board still ends inside a
