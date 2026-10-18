@@ -28,7 +28,7 @@ import { brandName } from "@/utils/brand"
  * action, and the page's action belongs to the page.
  */
 const CHROME_BUTTON_CLASS =
-  "flex size-11 hit-[3px] items-center justify-center rounded-[12px] text-muted transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:size-10 lg:hit-[0px] lg:rounded-[10px]"
+  "flex size-11 hit-[3px] items-center justify-center rounded-[12px] text-muted transition-colors duration-200 ease-out hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hit-[0px] lg:rounded-[10px]"
 
 /**
  * A destination, spelled out.
@@ -197,7 +197,7 @@ function ActiveBar() {
 }
 
 const ACCOUNT_BUTTON_CLASS =
-  "h-9 gap-2 rounded-[9px] bg-surface ps-1.5 pe-2.5 font-display text-sm font-semibold text-white hover:bg-surface-2 lg:h-10 lg:gap-2.5 lg:rounded-[10px] lg:pe-3"
+  "h-9 gap-2 rounded-[9px] bg-surface ps-1.5 pe-2.5 font-display text-sm font-semibold text-white hover:bg-surface-2 lg:h-11 lg:gap-2.5 lg:rounded-[10px] lg:pe-3"
 
 /**
  * Who you are, in the corner.
@@ -225,7 +225,7 @@ function AccountControl() {
     return (
       <TapButton
         onClick={() => requireAuth({})}
-        className="inline-flex h-11 hit-[3px] items-center rounded-[12px] bg-surface px-3.5 font-display text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:h-10 lg:hit-[0px] lg:rounded-[10px] lg:bg-transparent lg:px-4 lg:text-[15px] lg:text-subtle lg:hover:bg-white/10 lg:hover:text-white"
+        className="inline-flex h-11 hit-[3px] items-center rounded-[12px] bg-surface px-3.5 font-display text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hit-[0px] lg:rounded-[10px] lg:bg-transparent lg:px-4 lg:text-[15px] lg:text-subtle lg:hover:bg-white/10 lg:hover:text-white"
       >
         {t("common:auth.sign_in")}
       </TapButton>

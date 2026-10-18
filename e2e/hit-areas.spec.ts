@@ -127,3 +127,27 @@ test("every control in the home Settings drawer is a 44px tap target", async ({
   const settings = await openSettings(page)
   await expectThumbSized(settings, "home Settings drawer")
 })
+
+// A desktop is pointed at with a mouse, but a laptop with a touch screen is
+// not, so the header and the manual's contents keep the thumb size there too.
+for (const width of [1024, 1280, 1440]) {
+  test(`the header controls are 44px tap targets at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await openApp(page, "/")
+    await expectThumbSized(page.locator("header"), `header at ${width}px`)
+  })
+}
+
+for (const path of ["/rules", "/strategy", "/opening-moves"]) {
+  test(`every contents link on ${path} is a 44px tap target on a desktop`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await openApp(page, path)
+    const rail = page.locator("[data-manual-rail]")
+    await expect(rail).toBeVisible()
+    await expectThumbSized(rail, `${path} contents`)
+  })
+}

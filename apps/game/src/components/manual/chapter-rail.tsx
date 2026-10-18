@@ -72,7 +72,7 @@ export function ChapterRail({
                 event.preventDefault()
                 onJump(chapter.id)
               }}
-              className="flex min-h-9 items-baseline gap-x-3 py-2 pl-4 text-[15px] leading-[1.4] text-balance text-muted transition-colors hover:text-subtle data-[active=true]:text-foreground"
+              className="flex min-h-11 items-baseline gap-x-3 py-[11.5px] pl-4 text-[15px] leading-[1.4] text-balance text-muted transition-colors hover:text-subtle data-[active=true]:text-foreground"
             >
               {chapter.number && (
                 <span
