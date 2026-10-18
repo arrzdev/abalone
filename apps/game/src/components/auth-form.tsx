@@ -182,7 +182,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
         <div className="flex flex-col gap-y-2 lg:items-center">
           <Reserved>
-            <h1 className={TITLE_CLASS}>{title}</h1>
+            <h2 className={TITLE_CLASS}>{title}</h2>
             <span
               aria-hidden="true"
               className={cn(TITLE_CLASS, "invisible")}
