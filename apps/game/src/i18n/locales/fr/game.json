@@ -153,7 +153,8 @@
       "standard": "<name>Standard :</name> chaque camp commence sur ses deux rangées les plus proches (noirs en bas, blancs en haut), avec trois billes au milieu de la troisième rangée. Les armées se font face et aucune poussée n'est possible au premier coup. Idéal pour apprendre.",
       "belgian_daisy": "<name>Belgian daisy :</name> les billes commencent en quatre groupes en forme de fleur, un dans chaque coin. Noirs et blancs alternent autour du plateau (blancs en haut à gauche et en bas à droite, noirs en haut à droite et en bas à gauche). Les armées se touchent dès le premier coup, le jeu est donc rapide et tactique. Très utilisée en tournoi, car plus équitable que la disposition standard.",
       "german_daisy": "<name>German daisy :</name> de nouveau quatre groupes en forme de fleur, avec les mêmes couleurs que la Belgian daisy (blancs en haut à gauche et en bas à droite, noirs en haut à droite et en bas à gauche), mais décalés des coins vers les côtés. Les groupes commencent plus éloignés, l'ouverture est donc plus libre.",
-      "others": "<strong>Autres dans le jeu :</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration et The Wall. Choisis-en une au début d'une partie."
+      "others": "<strong>Autres dans le jeu :</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration et The Wall. Choisis-en une au début d'une partie.",
+      "openings": "Envie d'un départ sûr ? Voir les <openings>premiers coups d'Abalone pour débutants</openings>."
     },
     "faq": {
       "title": "Questions fréquentes",
@@ -204,7 +205,7 @@
       },
       "opening": {
         "title": "5. Choisis ton ouverture exprès",
-        "body": "Dans la disposition standard, personne ne peut pousser au premier coup : avance donc vers le centre à petits pas et garde tes rangées de trois. Dans une <strong>Belgian daisy</strong>, les armées se touchent tout de suite : cherche le premier sumito et défends ton groupe le plus faible. Essaie chaque disposition contre l'ordinateur pour voir ce qui change."
+        "body": "Dans la disposition standard, personne ne peut pousser au premier coup : avance donc vers le centre à petits pas et garde tes rangées de trois. Dans une <strong>Belgian daisy</strong>, les armées se touchent tout de suite : cherche le premier sumito et défends ton groupe le plus faible. Essaie chaque disposition contre l'ordinateur pour voir ce qui change. Besoin d'un premier coup sûr ? Voir les <openings>premiers coups d'Abalone</openings>."
       },
       "attack_as_a_group": {
         "title": "6. Attaque en groupe, pas en héros",

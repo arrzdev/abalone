@@ -152,7 +152,8 @@
       "standard": "<name>Standard:</name>每一方从离自己最近的两排开始（黑方在下，白方在上），第三排中间再放三颗棋子。双方正面相对，第一步无法推挤。最适合学习。",
       "belgian_daisy": "<name>Belgian daisy:</name>棋子从四个花朵形的棋群开始，每个角一个。黑白两色绕棋盘交替排列（白方在左上和右下，黑方在右上和左下）。双方第一步就接触，所以节奏快、战术性强。它比标准布局更公平，因此在比赛中很受欢迎。",
       "german_daisy": "<name>German daisy:</name>同样是四个花朵形的棋群，颜色与 Belgian daisy 相同（白方在左上和右下，黑方在右上和左下），但从角落向边上内移。棋群一开始离得更远，所以开局更开阔。",
-      "others": "<strong>游戏中的其他布局：</strong>Dutch daisy、Swiss daisy、Alien、Domination、Infiltration 和 The Wall。开始游戏时任选一个。"
+      "others": "<strong>游戏中的其他布局：</strong>Dutch daisy、Swiss daisy、Alien、Domination、Infiltration 和 The Wall。开始游戏时任选一个。",
+      "openings": "想稳妥开局？看看<openings>适合新手的 Abalone 开局走法</openings>。"
     },
     "faq": {
       "title": "常见问题",
@@ -203,7 +204,7 @@
       },
       "opening": {
         "title": "5. 有意识地选择开局",
-        "body": "在标准布局里，第一步没人能推，所以要小步向中心展开，保住三颗一排的阵型。在 <strong>Belgian daisy</strong> 里双方一开始就贴在一起：要找出第一次 sumito，同时守住你最弱的那一群。每种布局都和电脑试一试，就知道有什么不同。"
+        "body": "在标准布局里，第一步没人能推，所以要小步向中心展开，保住三颗一排的阵型。在 <strong>Belgian daisy</strong> 里双方一开始就贴在一起：要找出第一次 sumito，同时守住你最弱的那一群。每种布局都和电脑试一试，就知道有什么不同。需要安全的第一步？看看 <openings>Abalone 开局走法</openings>。"
       },
       "attack_as_a_group": {
         "title": "6. 成组进攻，不要孤军奋战",
