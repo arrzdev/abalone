@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    //the same strictness as abalone's tsconfig.base.json, inlined so the
+    //template typechecks on its own. in a monorepo, extend the base instead
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/entrypoint": ["./entrypoint/worker.ts"],
+      "@/env/*": ["./env/*"],
+      "@/*": ["./src/*"],
+      //the kernel abalone keeps in packages/shared and packages/env-validation,
+      //vendored under shared/ so the template runs alone. the specifiers are
+      //the packages' own, so moving shared/ into packages/ changes no import
+      "@repo/shared/*": ["./shared/*"],
+      "@repo/env-validation/*": ["./shared/env-validation/*"],
+      //the kernel's self-imports, as the packages' package.json `imports` map
+      //them. env-validation keeps its files under src/ there, hence the prefix
+      "#shared/*": ["./shared/*"],
+      "#env-validation/src/*": ["./shared/env-validation/*"]
+    },
+    "types": [
+      "@cloudflare/workers-types",
+      "@cloudflare/vitest-pool-workers/types",
+      "@types/node"
+    ]
+  },
+  "include": [
+    "entrypoint/**/*",
+    "env/**/*",
+    "shared/**/*",
+    "src/**/*",
+    "vitest.config.ts"
+  ],
+  "exclude": ["node_modules"]
+}
