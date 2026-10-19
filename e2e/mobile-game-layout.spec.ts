@@ -538,7 +538,9 @@ test.describe("at 1440×900", () => {
     await startOfflineGame(page, "vs Computer")
     await expect(guide(page)).toContainText("Step 1 of 3")
     await expect(guide(page)).toContainText("Pick your marbles")
-    await expect(guide(page)).toContainText("Tap one of your marbles.")
+    await expect(guide(page)).toContainText(
+      "Tap up to three marbles in a line.",
+    )
     await expect(
       page.locator("aside").getByRole("region", { name: "How to move" }),
     ).toBeVisible()
@@ -620,9 +622,12 @@ for (const language of ["en", "pt"] as const) {
         copy[`${step}_title`],
         `the ${step} step's title`,
       )
+      //the last step's title is the whole rule and has no text under it
+      const body = copy[`${step}_body`]
+      if (body === undefined) continue
       await expectWholeText(
-        panel.getByText(copy[`${step}_body`], { exact: true }),
-        copy[`${step}_body`],
+        panel.getByText(body, { exact: true }),
+        body,
         `the ${step} step's text`,
       )
     }

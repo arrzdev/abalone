@@ -48,9 +48,12 @@ export function FirstGameGuide({
         <h2 className="mt-1 font-display text-base font-semibold text-white">
           {t(`game:guide.${step}_title`)}
         </h2>
-        <p className="mt-1 text-sm text-subtle">
-          {t(`game:guide.${step}_body`)}
-        </p>
+        {/* The last step's title is the whole rule, so it has no line under it. */}
+        {step !== "win" && (
+          <p className="mt-1 text-sm text-subtle">
+            {t(`game:guide.${step}_body`)}
+          </p>
+        )}
       </div>
       <div className="mt-3 flex justify-end gap-2">
         <Button variant="ghost" size="sm" onClick={onSkip}>

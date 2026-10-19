@@ -70,8 +70,8 @@
   },
   "compose": {
     "title": "Nowe zaproszenie",
-    "username": "Z kim grasz?",
-    "username_placeholder": "Nazwa przeciwnika",
+    "username": "Przeciwnik",
+    "username_placeholder": "Nazwa użytkownika",
     "username_hint": "Nazwa, której używają do logowania.",
     "setup": "Ustawienie",
     "side": "Twoja strona",
@@ -93,7 +93,7 @@
   },
   "empty": {
     "title": "Jeszcze nic tu nie ma",
-    "link_body": "Wyślij znajomemu link. Gra zacznie się, gdy go otworzy i zaakceptuje.",
+    "link_body": "Wyślij znajomemu link.",
     "play_bot": "Zagraj z botem",
     "invite_by_name": "Zaproś po nazwie użytkownika"
   },
@@ -103,8 +103,8 @@
     "field": "Link z zaproszeniem",
     "share": "Udostępnij link",
     "copy": "Kopiuj link",
-    "copied": "Link skopiowany. Wyślij go osobie, z którą chcesz zagrać.",
-    "copy_failed": "Nie udało się skopiować linku. Zaznacz go i skopiuj samodzielnie.",
+    "copied": "Link skopiowany",
+    "copy_failed": "Nie udało się skopiować. Zaznacz link i skopiuj go.",
     "share_text": "Partyjka Abalone? Otwórz ten link, żeby zagrać ze mną."
   },
   "invite_link": {
@@ -113,17 +113,16 @@
     "retry": "Spróbuj ponownie",
     "go_home": "Strona główna",
     "title": "{{name}} zaprasza cię do gry w {{brand}}",
-    "body_signed_out": "Załóż konto albo zaloguj się, żeby przyjąć. Potem od razu wrócisz tutaj.",
-    "body_signed_in": "Przyjmij, a gra zacznie się od razu.",
+    "body_signed_out": "Zaloguj się albo załóż konto, żeby przyjąć.",
     "accept": "Przyjmij i graj",
     "own_title": "To twój link z zaproszeniem",
-    "own_body": "Wyślij go osobie, z którą chcesz zagrać. Gra zacznie się, gdy przyjmie zaproszenie.",
+    "own_body": "Wyślij go znajomemu, żeby zagrać.",
     "used_title": "To zaproszenie zostało już wykorzystane",
-    "used_body": "Ktoś inny przyjął je pierwszy. Poproś {{name}} o nowy link.",
+    "used_body": "Poproś {{name}} o nowy link.",
     "expired_title": "To zaproszenie wygasło",
-    "expired_body": "Linki z zaproszeniem są ważne 7 dni. Poproś osobę, która go wysłała, o nowy.",
+    "expired_body": "Poproś nadawcę o nowy link.",
     "broken_title": "Ten link z zaproszeniem nie działa",
-    "broken_body": "Sprawdź, czy wklejono cały link, albo poproś osobę, która go wysłała, o nowy.",
+    "broken_body": "Poproś nadawcę o nowy link.",
     "play_computer": "Zagraj z komputerem"
   }
 }

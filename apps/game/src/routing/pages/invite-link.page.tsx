@@ -228,36 +228,29 @@ function InviteLinkPage() {
             )}
 
             {user && (
-              <>
-                <p className={BODY_CLASS}>
-                  {t("online:invite_link.body_signed_in")}
-                </p>
-                <div className="mt-8 flex w-full flex-col">
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    className={ACTION_CLASS}
-                    pending={accept.isPending}
-                    onClick={() => accept.mutate(linkId)}
-                  >
-                    {t("online:invite_link.accept")}
-                  </Button>
-                  {/* The last thing on the page, so it may rest empty; it
-                      holds room for the longest thing it can say, so a
-                      refusal that wraps pushes nothing. */}
-                  <StatusLine
-                    role="alert"
-                    message={
-                      accept.error
-                        ? translateError(accept.error)
-                        : undefined
-                    }
-                    messageClassName="text-loss"
-                    reserve={ACCEPT_ERRORS.map((key) => t(key))}
-                    className="mt-2"
-                  />
-                </div>
-              </>
+              <div className="mt-8 flex w-full flex-col">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className={ACTION_CLASS}
+                  pending={accept.isPending}
+                  onClick={() => accept.mutate(linkId)}
+                >
+                  {t("online:invite_link.accept")}
+                </Button>
+                {/* The last thing on the page, so it may rest empty; it
+                    holds room for the longest thing it can say, so a
+                    refusal that wraps pushes nothing. */}
+                <StatusLine
+                  role="alert"
+                  message={
+                    accept.error ? translateError(accept.error) : undefined
+                  }
+                  messageClassName="text-loss"
+                  reserve={ACCEPT_ERRORS.map((key) => t(key))}
+                  className="mt-2"
+                />
+              </div>
             )}
           </>
         )}

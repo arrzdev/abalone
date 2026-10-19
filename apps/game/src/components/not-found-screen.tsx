@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next"
  * It leads with the number. "404" is the one thing on this screen that says
  * what happened without being read — anybody who has used the web knows it on
  * sight, in any language — and at this size it is also the only decoration the
- * screen needs. The sentence underneath is for whoever wants the words.
+ * screen needs. The title and the way back are all the words it needs.
  *
  * The texture is turned inside out here: on every other screen it fades away at
  * the edges, and on a screen whose content is a single block in the middle that
@@ -30,10 +30,6 @@ export function NotFoundScreen() {
       <h1 className="relative mt-[18px] font-display text-[21px] font-bold tracking-[-0.02em] text-white/80">
         {t("common:not_found.title")}
       </h1>
-
-      <p className="relative mt-2.5 max-w-[340px] text-[15px] leading-relaxed text-balance text-muted">
-        {t("common:not_found.body")}
-      </p>
 
       <Link
         to="/"

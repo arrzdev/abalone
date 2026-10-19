@@ -115,7 +115,9 @@ for (const viewport of VIEWPORTS) {
       await signUp(page, uniqueUsername("hub"))
       await openApp(page, "/online?invite=new")
       const composer = page.getByRole("dialog")
-      await composer.getByLabel("Who are you playing?").fill(friendName)
+      await composer
+        .getByLabel("Opponent", { exact: true })
+        .fill(friendName)
       await composer.getByRole("button", { name: "Send invite" }).click()
       await expect(composer).toBeHidden()
 
