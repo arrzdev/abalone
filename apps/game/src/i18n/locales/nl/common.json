@@ -40,7 +40,7 @@
   "auth": {
     "sign_in": "Inloggen",
     "sign_out": "Uitloggen",
-    "create_account": "Account aanmaken",
+    "create_account": "Registreren",
     "username": "Gebruikersnaam",
     "username_placeholder": "Kies een naam",
     "password": "Wachtwoord",
