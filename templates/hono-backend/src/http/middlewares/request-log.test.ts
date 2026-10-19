@@ -20,6 +20,10 @@ async function app() {
   const { requestLog } = await import("@/http/middlewares/request-log")
   const { errorCatcher } = await import("@/http/middlewares/error-catcher")
   const { Logger } = await import("@repo/shared/logging")
+  const { addLogFields, addTiming } = await import(
+    "@repo/shared/log-context"
+  )
+  const { CustomError } = await import("@/http/errors")
   const handlerLog = new Logger("handler")
 
   const server = new Hono()
@@ -35,7 +39,36 @@ async function app() {
     return c.json({ ok: true })
   })
   server.get("/v1/boom", () => {
-    throw new Error("boom")
+    throw new Error("boom", { cause: new Error("root") })
+  })
+  server.get("/v1/odd-throw", () => {
+    throw "not an error"
+  })
+  server.get("/v1/games/:gameId/move", () => {
+    throw new CustomError("not_found")
+  })
+  server.get("/v1/unavailable", () => {
+    throw new CustomError("service_unavailable", new Error("d1 timeout"))
+  })
+  //what a service and a facade do: add facts and timings to the request line
+  server.get("/v1/plans/:planId", async (c) => {
+    addLogFields({ plan: "pro", cache_hit: true })
+    await Promise.resolve()
+    addTiming("d1", 4)
+    addTiming("stripe", 230)
+    addTiming("d1", 6)
+    return c.json({ ok: true })
+  })
+  //added fields never overwrite what the middleware measured
+  server.get("/v1/spoof", (c) => {
+    addLogFields({
+      status: 200,
+      route: "/elsewhere",
+      level: "info",
+      message: "spoofed",
+      request_id: "spoofed",
+    })
+    return c.json({ error: "nope" }, 503)
   })
 
   //a guard that answers before the endpoint runs, like auth or a rate limit
@@ -133,11 +166,13 @@ describe("requestLog", () => {
       method: "POST",
       headers: { "x-test-guard": "crash" },
     })
-    const crash = lines.find(
-      (entry) => entry.message === "api_unhandled_exception",
-    )
-    expect(crash?.route).toBe("/v1/keys/:keyId")
-    expect(requestLines(lines)[0]?.route).toBe("/v1/keys/:keyId")
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toMatchObject({
+      message: "request",
+      route: "/v1/keys/:keyId",
+      status: 500,
+      error: { message: "guard" },
+    })
   })
 
   it("logs one request line with the route pattern, status and duration", async () => {
@@ -174,7 +209,7 @@ describe("requestLog", () => {
     expect(requestLines(lines)[0]?.user_id).toBe("user-1")
   })
 
-  it("logs a 5xx at error level, with the stack line carrying the same request_id", async () => {
+  it("logs an unexpected error on the one request line, at error level", async () => {
     const lines = captureLines()
     const res = await (await app()).request("/v1/boom", {
       headers: { "x-request-id": "req-3" },
@@ -182,19 +217,112 @@ describe("requestLog", () => {
     expect(res.status).toBe(500)
     expect(res.headers.get("x-request-id")).toBe("req-3")
 
-    const [line] = requestLines(lines)
+    //the error catcher writes no line of its own
+    expect(lines).toHaveLength(1)
+    const [line] = lines
     expect(line).toMatchObject({
       console: "error",
       level: "error",
+      message: "request",
+      request_id: "req-3",
       route: "/v1/boom",
       status: 500,
+      error_code: "internal_server_error",
+      error: {
+        name: "Error",
+        message: "boom",
+        cause: { message: "root" },
+      },
     })
-
-    const crash = lines.find(
-      (entry) => entry.message === "api_unhandled_exception",
+    const error = line?.error as { stack?: string } | undefined
+    expect(error?.stack).toContain("boom")
+    expect(lines.map((entry) => entry.message)).not.toContain(
+      "api_unhandled_exception",
     )
-    expect(crash?.request_id).toBe("req-3")
-    expect(JSON.stringify(crash)).toContain("boom")
+  })
+
+  it("logs a thrown non-Error value as the error", async () => {
+    const lines = captureLines()
+    const res = await (await app()).request("/v1/odd-throw")
+    expect(res.status).toBe(500)
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toMatchObject({
+      level: "error",
+      error_code: "internal_server_error",
+      error: { message: "not an error" },
+    })
+  })
+
+  it("logs a CustomError 4xx at info level with its error_code and no error", async () => {
+    const lines = captureLines()
+    const res = await (await app()).request("/v1/games/g1/move")
+    expect(res.status).toBe(404)
+    expect(await res.json()).toEqual({
+      status: "error",
+      error_code: "not_found",
+    })
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toMatchObject({
+      console: "log",
+      level: "info",
+      message: "request",
+      route: "/v1/games/:gameId/move",
+      status: 404,
+      error_code: "not_found",
+    })
+    expect(lines[0]).not.toHaveProperty("error")
+  })
+
+  it("logs a CustomError 5xx at error level with its error_code and no error", async () => {
+    const lines = captureLines()
+    const res = await (await app()).request("/v1/unavailable")
+    expect(res.status).toBe(503)
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toMatchObject({
+      console: "error",
+      level: "error",
+      status: 503,
+      error_code: "service_unavailable",
+    })
+    expect(lines[0]).not.toHaveProperty("error")
+  })
+
+  it("carries the fields and timings added while handling the request", async () => {
+    const lines = captureLines()
+    await (await app()).request("/v1/plans/p1")
+    expect(lines).toHaveLength(1)
+    expect(lines[0]).toMatchObject({
+      message: "request",
+      route: "/v1/plans/:planId",
+      status: 200,
+      plan: "pro",
+      cache_hit: true,
+      timings: { d1: 10, stripe: 230 },
+    })
+  })
+
+  it("never lets added fields overwrite the measured ones", async () => {
+    const lines = captureLines()
+    await (await app()).request("/v1/spoof", {
+      headers: { "x-request-id": "req-real" },
+    })
+    expect(lines[0]).toMatchObject({
+      level: "error",
+      message: "request",
+      request_id: "req-real",
+      route: "/v1/spoof",
+      status: 503,
+    })
+  })
+
+  it("starts every request with an empty event", async () => {
+    const lines = captureLines()
+    const server = await app()
+    await server.request("/v1/plans/p1")
+    await server.request("/v1/jobs/j1")
+    const [, second] = requestLines(lines)
+    expect(second).not.toHaveProperty("plan")
+    expect(second).not.toHaveProperty("timings")
   })
 
   it("returns the request_id in the body of an unexpected error", async () => {

@@ -1,6 +1,22 @@
 // biome-ignore-all lint/suspicious/noExplicitAny: spread args forwarded to console, any applies
 
-type Level = "info" | "warn" | "error"
+export type Level = "debug" | "info" | "warn" | "error"
+
+//set once per isolate at the entrypoint (worker fetch, durable object
+//constructor): the level threshold and the fields every line carries
+export type LoggingConfig = {
+  //LOG_LEVEL; anything but debug|info|warn|error means info
+  level?: string
+  service?: string
+  env?: string
+  build_sha?: string
+}
+
+//TODO(logging-standard): implemented by the build task, tests in
+//apps/backend/src/utils/logging.test.ts
+export function configureLogging(_config: LoggingConfig): void {
+  throw new Error("not implemented: configureLogging")
+}
 
 //fields every line written inside withLogContext() carries (request_id, …)
 export type LogContext = Record<string, string>
@@ -64,6 +80,10 @@ export class Logger {
     if (level === "error") console.error(line)
     else if (level === "warn") console.warn(line)
     else console.log(line)
+  }
+
+  debug(_message: string, ..._args: any[]) {
+    throw new Error("not implemented: Logger.debug")
   }
 
   info(message: string, ...args: any[]) {

@@ -26,3 +26,34 @@ export function requestIdFrom(request: Request): string {
 export function currentRequestId(): string | undefined {
   return logContext.getStore()?.request_id
 }
+
+//---- wide event (logging standard §4) ----------------
+//TODO(logging-standard): implemented by the build task, tests in
+//apps/backend/src/utils/log-event.test.ts
+
+//fields and timings collected during one unit of work, for its single line
+export type LogEvent = Record<string, unknown> & {
+  timings?: Record<string, number>
+}
+
+//opens a unit of work (request, queue message, cron tick, rpc call): context is
+//added to every line like withLogContext, and addLogFields/addTiming inside fn
+//write to a fresh event that logEventFields() reads back
+export function withLogEvent<T>(_context: LogContext, _fn: () => T): T {
+  throw new Error("not implemented: withLogEvent")
+}
+
+//facts for the current unit of work's line; a no-op outside withLogEvent
+export function addLogFields(_fields: Record<string, unknown>): void {
+  throw new Error("not implemented: addLogFields")
+}
+
+//milliseconds spent on a named dependency; repeated calls add up
+export function addTiming(_name: string, _ms: number): void {
+  throw new Error("not implemented: addTiming")
+}
+
+//what the current unit of work collected, timings included when any were added
+export function logEventFields(): LogEvent {
+  throw new Error("not implemented: logEventFields")
+}
