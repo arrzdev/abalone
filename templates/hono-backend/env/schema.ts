@@ -54,4 +54,8 @@ export const envSchema = z.object({
       (raw) => parseOriginList(raw).length > 0,
       "must be one or more absolute URLs separated by commas",
     ),
+
+  //the lowest level written: debug, info, warn or error. optional so a deploy
+  //environment without it still ships, at info
+  LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
 })
