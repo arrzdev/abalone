@@ -1,13 +1,21 @@
 # Actions are pinned by commit SHA (a tag can be moved, and the deploy job holds
 # the Cloudflare token). Dependabot proposes the bumps.
+# Monthly, one grouped PR per ecosystem: Dependabot PRs get no Actions run, so
+# each one needs a local check, and one PR a month is one check.
 version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
-  # npm: minor and patch bumps land together in one weekly PR; each major gets
-  # its own PR, because a major can change behaviour. @repo/nativ is out of scope.
+      interval: monthly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+  # npm: all bumps (majors included) land together in one monthly PR, and all
+  # security updates in one more. A major that breaks the build is dropped from
+  # the PR by hand (or added to ignore) so it does not hold the rest back.
+  # @repo/nativ is out of scope.
   # Biome stays out of the group: its minors add recommended lint rules, so a
   # Biome bump needs code and config changes and would block every other bump.
   # The ignore list is what @repo/nativ pins as peers. Bumping them only in the
@@ -16,16 +24,19 @@ updates:
   - package-ecosystem: npm
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
     exclude-paths:
       - packages/nativ/**
     groups:
-      minor-and-patch:
-        update-types:
-          - minor
-          - patch
+      npm:
+        patterns:
+          - "*"
         exclude-patterns:
           - "@biomejs/*"
+      npm-security:
+        applies-to: security-updates
+        patterns:
+          - "*"
     ignore:
       - dependency-name: "@tanstack/react-router"
       - dependency-name: "@tanstack/react-start"
