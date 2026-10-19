@@ -71,8 +71,7 @@
     "username_hint": "相手がサインインに使う名前です。",
     "setup": "初期配置",
     "side": "あなたの手番",
-    "send": "招待を送る",
-    "sending": "送信中"
+    "send": "招待を送る"
   },
   "board": {
     "against": "対 {{name}}",
@@ -84,7 +83,7 @@
     "result_loss": "負け",
     "result_draw": "引き分け",
     "review": "対局を見る",
-    "back_to_games": "対局一覧へ",
+    "games": "対局一覧",
     "head_to_head": "これまでの勝利",
     "head_to_head_detail": "この対局まで: {{left}} {{leftWins}}、{{right}} {{rightWins}}"
   },
@@ -97,7 +96,6 @@
   "link": {
     "hint": "最初に承諾した人と対局になります。リンクは7日間有効です。",
     "create": "リンクで招待",
-    "creating": "リンクを作成中",
     "field": "招待リンク",
     "share": "リンクを共有",
     "copy": "リンクをコピー",
@@ -114,7 +112,6 @@
     "body_signed_out": "承諾するにはアカウントを作成するかサインインしてください。そのあとこのページに戻ります。",
     "body_signed_in": "承諾するとすぐに対戦が始まります。",
     "accept": "承諾して対戦",
-    "accepting": "対戦を開いています",
     "own_title": "これはあなたの招待リンクです",
     "own_body": "対戦したい相手に送ってください。相手が承諾すると対戦が始まります。",
     "used_title": "この招待はすでに使われています",

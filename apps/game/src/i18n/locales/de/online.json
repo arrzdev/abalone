@@ -72,8 +72,7 @@
     "username_hint": "Der Name, mit dem sie sich anmelden.",
     "setup": "Aufstellung",
     "side": "Deine Seite",
-    "send": "Einladung senden",
-    "sending": "Wird gesendet"
+    "send": "Einladung senden"
   },
   "board": {
     "against": "gegen {{name}}",
@@ -85,7 +84,7 @@
     "result_loss": "Verloren",
     "result_draw": "Unentschieden",
     "review": "Partie ansehen",
-    "back_to_games": "Zurück zu den Partien",
+    "games": "Partien",
     "head_to_head": "Bisherige Siege",
     "head_to_head_detail": "Vor diesem Spiel: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
@@ -98,7 +97,6 @@
   "link": {
     "hint": "Wer zuerst annimmt, spielt gegen dich. Der Link gilt 7 Tage.",
     "create": "Mit Link einladen",
-    "creating": "Link wird erstellt",
     "field": "Einladungslink",
     "share": "Link teilen",
     "copy": "Link kopieren",
@@ -115,7 +113,6 @@
     "body_signed_out": "Erstelle ein Konto oder melde dich an, um anzunehmen. Danach landest du direkt wieder hier.",
     "body_signed_in": "Nimm an und die Partie beginnt sofort.",
     "accept": "Annehmen und spielen",
-    "accepting": "Partie wird geöffnet",
     "own_title": "Das ist dein Einladungslink",
     "own_body": "Schick ihn der Person, mit der du spielen willst. Die Partie beginnt, sobald sie annimmt.",
     "used_title": "Diese Einladung wurde bereits genutzt",

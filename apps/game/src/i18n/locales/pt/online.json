@@ -72,8 +72,7 @@
     "username_hint": "O nome com que iniciam sessão.",
     "setup": "Abertura",
     "side": "O teu lado",
-    "send": "Enviar convite",
-    "sending": "A enviar"
+    "send": "Enviar convite"
   },
   "board": {
     "against": "contra {{name}}",
@@ -85,7 +84,7 @@
     "result_loss": "Perdeste",
     "result_draw": "Empate",
     "review": "Rever jogo",
-    "back_to_games": "Voltar aos jogos",
+    "games": "Jogos",
     "head_to_head": "Vitórias anteriores",
     "head_to_head_detail": "Antes deste jogo: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
@@ -98,7 +97,6 @@
   "link": {
     "hint": "Quem aceitar primeiro joga contigo. O link dura 7 dias.",
     "create": "Convidar com um link",
-    "creating": "A criar o link",
     "field": "Link do convite",
     "share": "Partilhar link",
     "copy": "Copiar link",
@@ -115,7 +113,6 @@
     "body_signed_out": "Cria uma conta ou inicia sessão para aceitar. Voltas logo a esta página.",
     "body_signed_in": "Aceita e a partida começa logo.",
     "accept": "Aceitar e jogar",
-    "accepting": "A abrir a partida",
     "own_title": "Este é o teu link de convite",
     "own_body": "Envia-o à pessoa com quem queres jogar. A partida começa quando ela aceitar.",
     "used_title": "Este convite já foi usado",

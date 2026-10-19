@@ -300,7 +300,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
         variant="primary"
         size="lg"
         className="w-full rounded-xl"
-        disabled={mutation.isPending}
+        pending={mutation.isPending}
       >
         {submitLabel}
       </Button>

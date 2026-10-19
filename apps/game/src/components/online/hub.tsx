@@ -71,6 +71,12 @@ export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
 
   const groups = hubGroupsOf(online.activeGames, online.received, myUserId)
 
+  //the one answer waiting on the server, on the row it was given on
+  const pendingFor = (inviteId: string) =>
+    online.pendingInvite?.inviteId === inviteId
+      ? online.pendingInvite.action
+      : undefined
+
   const hasNothing =
     online.activeGames.length === 0 &&
     online.received.length === 0 &&
@@ -125,6 +131,7 @@ export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
               key={invite.id}
               invite={invite}
               busy={online.isBusy}
+              pending={pendingFor(invite.id)}
               onAccept={onAccept}
               onDecline={online.decline}
             />
@@ -169,6 +176,7 @@ export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
                     invite={invite}
                     dense={groups.panelInvites.length > 1}
                     busy={online.isBusy}
+                    pending={pendingFor(invite.id)}
                     onAccept={onAccept}
                     onDecline={online.decline}
                   />
@@ -188,6 +196,7 @@ export function Hub({ online, myUserId, onCompose, onAccept }: HubProps) {
                       key={invite.id}
                       invite={invite}
                       busy={online.isBusy}
+                      pending={pendingFor(invite.id) === "remove"}
                       onRemove={online.remove}
                     />
                   ))}

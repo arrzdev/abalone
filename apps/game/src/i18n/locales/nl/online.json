@@ -72,8 +72,7 @@
     "username_hint": "De naam waarmee ze inloggen.",
     "setup": "Opstelling",
     "side": "Jouw kant",
-    "send": "Uitnodiging sturen",
-    "sending": "Versturen"
+    "send": "Uitnodiging sturen"
   },
   "board": {
     "against": "tegen {{name}}",
@@ -85,7 +84,7 @@
     "result_loss": "Verloren",
     "result_draw": "Remise",
     "review": "Partij bekijken",
-    "back_to_games": "Terug naar partijen",
+    "games": "Partijen",
     "head_to_head": "Eerdere winsten",
     "head_to_head_detail": "Voor dit spel: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
@@ -98,7 +97,6 @@
   "link": {
     "hint": "Wie als eerste accepteert, speelt tegen je. De link is 7 dagen geldig.",
     "create": "Uitnodigen met een link",
-    "creating": "Link maken",
     "field": "Uitnodigingslink",
     "share": "Link delen",
     "copy": "Link kopiëren",
@@ -115,7 +113,6 @@
     "body_signed_out": "Maak een account of log in om te accepteren. Je komt daarna meteen hier terug.",
     "body_signed_in": "Accepteer en het spel begint meteen.",
     "accept": "Accepteren en spelen",
-    "accepting": "Spel openen",
     "own_title": "Dit is jouw uitnodigingslink",
     "own_body": "Stuur hem naar wie je wilt spelen. Het spel begint zodra die accepteert.",
     "used_title": "Deze uitnodiging is al gebruikt",

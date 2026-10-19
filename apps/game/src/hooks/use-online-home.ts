@@ -30,6 +30,8 @@ export type OnlineHome = {
   sent: Invite[]
   /** A row action is in flight, so the rows are not worth pressing again. */
   isBusy: boolean
+  /** Which row action is in flight, so that one button can show it is waiting. */
+  pendingInvite: PendingInvite | null
   isSending: boolean
   /** How current the lists are. See `SyncState`. */
   sync: SyncState
@@ -42,6 +44,12 @@ export type OnlineHome = {
   decline: (inviteId: string) => void
   remove: (inviteId: string) => void
   send: (input: SendInviteInput, onSent: () => void) => void
+}
+
+/** A row action waiting on the server: which invite, and which answer to it. */
+export type PendingInvite = {
+  inviteId: string
+  action: "accept" | "decline" | "remove"
 }
 
 /**
@@ -139,6 +147,7 @@ export function useOnlineHome(queryClient: QueryClient): OnlineHome {
     received,
     sent,
     isBusy: accept.isPending || decline.isPending || remove.isPending,
+    pendingInvite: pendingInviteOf({ accept, decline, remove }),
     isSending: send.isPending,
     sync,
     error: failure ? translateError(failure) : undefined,
@@ -149,4 +158,17 @@ export function useOnlineHome(queryClient: QueryClient): OnlineHome {
     remove: (inviteId) => remove.mutate(inviteId),
     send: (input, onSent) => send.mutate(input, { onSuccess: onSent }),
   }
+}
+
+type RowMutation = { isPending: boolean; variables: string | undefined }
+
+/** The row action in flight, read off the three mutations a row can start. */
+function pendingInviteOf(
+  mutations: Record<PendingInvite["action"], RowMutation>,
+): PendingInvite | null {
+  for (const action of ["accept", "decline", "remove"] as const) {
+    const { isPending, variables } = mutations[action]
+    if (isPending && variables) return { inviteId: variables, action }
+  }
+  return null
 }

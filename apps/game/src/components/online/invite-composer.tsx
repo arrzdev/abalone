@@ -96,12 +96,11 @@ export function InviteComposer({
           //an empty field is the only thing this can rule out on its own. how
           //short a name may be is the server's rule, and pre-empting it here
           //means a button that will not press and will not say why
-          disabled={pending || handle.length === 0}
+          disabled={handle.length === 0}
+          pending={pending}
           onClick={() => onSend({ username: handle, setupType, side })}
         >
-          {pending
-            ? t("online:compose.sending")
-            : t("online:compose.send")}
+          {t("online:compose.send")}
         </Button>
       }
     >

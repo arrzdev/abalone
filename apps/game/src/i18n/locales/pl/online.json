@@ -75,8 +75,7 @@
     "username_hint": "Nazwa, której używają do logowania.",
     "setup": "Ustawienie",
     "side": "Twoja strona",
-    "send": "Wyślij zaproszenie",
-    "sending": "Wysyłanie"
+    "send": "Wyślij zaproszenie"
   },
   "board": {
     "against": "przeciw {{name}}",
@@ -88,7 +87,7 @@
     "result_loss": "Przegrana",
     "result_draw": "Remis",
     "review": "Obejrzyj partię",
-    "back_to_games": "Wróć do partii",
+    "games": "Partie",
     "head_to_head": "Wcześniejsze wygrane",
     "head_to_head_detail": "Przed tą grą: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
@@ -101,7 +100,6 @@
   "link": {
     "hint": "Gra z tobą pierwsza osoba, która go przyjmie. Link działa 7 dni.",
     "create": "Zaproś linkiem",
-    "creating": "Tworzenie linku",
     "field": "Link z zaproszeniem",
     "share": "Udostępnij link",
     "copy": "Kopiuj link",
@@ -118,7 +116,6 @@
     "body_signed_out": "Załóż konto albo zaloguj się, żeby przyjąć. Potem od razu wrócisz tutaj.",
     "body_signed_in": "Przyjmij, a gra zacznie się od razu.",
     "accept": "Przyjmij i graj",
-    "accepting": "Otwieranie gry",
     "own_title": "To twój link z zaproszeniem",
     "own_body": "Wyślij go osobie, z którą chcesz zagrać. Gra zacznie się, gdy przyjmie zaproszenie.",
     "used_title": "To zaproszenie zostało już wykorzystane",

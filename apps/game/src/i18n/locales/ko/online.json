@@ -71,8 +71,7 @@
     "username_hint": "상대가 로그인할 때 쓰는 이름이에요.",
     "setup": "시작 배치",
     "side": "당신의 진영",
-    "send": "초대 보내기",
-    "sending": "보내는 중"
+    "send": "초대 보내기"
   },
   "board": {
     "against": "{{name}} 님과의 대국",
@@ -84,7 +83,7 @@
     "result_loss": "패배",
     "result_draw": "무승부",
     "review": "대국 복기",
-    "back_to_games": "대국 목록으로",
+    "games": "대국 목록",
     "head_to_head": "이전 승리",
     "head_to_head_detail": "이 대국 전까지: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
@@ -97,7 +96,6 @@
   "link": {
     "hint": "먼저 수락한 사람과 대국해요. 링크는 7일 동안 유효해요.",
     "create": "링크로 초대",
-    "creating": "링크 만드는 중",
     "field": "초대 링크",
     "share": "링크 공유",
     "copy": "링크 복사",
@@ -114,7 +112,6 @@
     "body_signed_out": "수락하려면 계정을 만들거나 로그인하세요. 그다음 바로 여기로 돌아와요.",
     "body_signed_in": "수락하면 바로 게임이 시작돼요.",
     "accept": "수락하고 플레이",
-    "accepting": "게임을 여는 중",
     "own_title": "내 초대 링크예요",
     "own_body": "함께 플레이할 사람에게 보내세요. 상대가 수락하면 게임이 시작돼요.",
     "used_title": "이미 사용된 초대예요",

@@ -71,8 +71,7 @@
     "username_hint": "对方登录时用的名字。",
     "setup": "开局",
     "side": "你执哪方",
-    "send": "发送邀请",
-    "sending": "发送中"
+    "send": "发送邀请"
   },
   "board": {
     "against": "对阵 {{name}}",
@@ -84,7 +83,7 @@
     "result_loss": "你输了",
     "result_draw": "和棋",
     "review": "复盘",
-    "back_to_games": "返回对局列表",
+    "games": "对局列表",
     "head_to_head": "此前胜场",
     "head_to_head_detail": "本局之前：{{left}} {{leftWins}}，{{right}} {{rightWins}}"
   },
@@ -97,7 +96,6 @@
   "link": {
     "hint": "第一个接受的人和你对局。链接 7 天内有效。",
     "create": "用链接邀请",
-    "creating": "正在生成链接",
     "field": "邀请链接",
     "share": "分享链接",
     "copy": "复制链接",
@@ -114,7 +112,6 @@
     "body_signed_out": "创建账号或登录后即可接受。完成后会直接回到这里。",
     "body_signed_in": "接受后对局立即开始。",
     "accept": "接受并开始",
-    "accepting": "正在打开对局",
     "own_title": "这是你的邀请链接",
     "own_body": "把它发给你想对战的人。对方接受后对局就会开始。",
     "used_title": "这个邀请已被使用",
