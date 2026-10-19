@@ -12,10 +12,30 @@ export type LoggingConfig = {
   build_sha?: string
 }
 
-//TODO(logging-standard): implemented by the build task, tests in
-//apps/backend/src/utils/logging.test.ts
-export function configureLogging(_config: LoggingConfig): void {
-  throw new Error("not implemented: configureLogging")
+//lower numbers are chattier; a line is written when its level reaches the threshold
+const LEVEL_RANK: Record<Level, number> = {
+  debug: 10,
+  info: 20,
+  warn: 30,
+  error: 40,
+}
+
+function isLevel(value: unknown): value is Level {
+  return typeof value === "string" && Object.hasOwn(LEVEL_RANK, value)
+}
+
+let threshold = LEVEL_RANK.info
+let serviceFields: Omit<LoggingConfig, "level"> = {}
+
+//module state, so call it with the isolate's env before the first line. env is
+//constant per isolate, so a second call with the same env changes nothing
+export function configureLogging(config: LoggingConfig): void {
+  threshold = LEVEL_RANK[isLevel(config.level) ? config.level : "info"]
+  serviceFields = {
+    service: config.service,
+    env: config.env,
+    build_sha: config.build_sha,
+  }
 }
 
 //fields every line written inside withLogContext() carries (request_id, …)
@@ -29,12 +49,59 @@ export function setLogContextReader(reader: () => LogContext | undefined) {
   readLogContext = reader
 }
 
-//credentials never reach the log store, at any depth
-const REDACTED_KEYS = new Set(["authorization", "cookie", "set-cookie"])
+//credentials and personal data never reach the log store, at any depth (logging
+//standard §6). keys match after lowercasing and dropping - and _, and only whole
+//keys match: token_count and passed stay
+const REDACTED_KEYS = new Set([
+  "authorization",
+  "cookie",
+  "setcookie",
+  "password",
+  "pass",
+  "secret",
+  "token",
+  "accesstoken",
+  "refreshtoken",
+  "idtoken",
+  "apikey",
+  "keyhash",
+  "session",
+  "sessionid",
+  "card",
+  "cardnumber",
+  "cvc",
+  "iban",
+  "phone",
+  "body",
+  "rawbody",
+])
 
-//Errors stringify to {} by default; this keeps them at any depth
+//credentials that end up inside free text: an error message, a stack, a note
+const SECRET_PATTERN =
+  /Bearer\s+\S+|eyJ[\w-]+\.[\w-]+\.[\w-]+|(?:sk|rk)_(?:live|test)_\w+|whsec_\w+/g
+
+const EMAIL_ADDRESS = /^([^@\s])[^@\s]*@([^@\s]+)$/
+
+function normalizedKey(key: string): string {
+  return key.toLowerCase().replace(/[-_]/g, "")
+}
+
+//first letter and domain: enough to tell two users apart, not to contact one
+function maskedEmail(value: unknown): string {
+  const match =
+    typeof value === "string" ? EMAIL_ADDRESS.exec(value) : null
+  if (!match) return "[redacted]"
+  return `${match[1]}***@${match[2]}`
+}
+
+//Errors stringify to {} by default; this keeps them at any depth, as plain
+//objects so their message, stack and cause go through the same redaction
 function replacer(key: string, value: unknown): unknown {
-  if (REDACTED_KEYS.has(key.toLowerCase())) return "[redacted]"
+  const normalized = normalizedKey(key)
+  if (REDACTED_KEYS.has(normalized)) return "[redacted]"
+  if (normalized.endsWith("email")) return maskedEmail(value)
+  if (typeof value === "string")
+    return value.replace(SECRET_PATTERN, "[redacted]")
   if (value instanceof Error)
     return {
       name: value.name,
@@ -57,14 +124,23 @@ export class Logger {
   constructor(private context: string) {}
 
   private write(level: Level, message: string, args: any[]) {
-    const head = { level, context: this.context, message }
+    if (LEVEL_RANK[level] < threshold) return
+    //service fields sit with the head: a call field never overwrites them either
+    const head = {
+      level,
+      context: this.context,
+      message,
+      time: new Date().toISOString(),
+      ...serviceFields,
+    }
     const fields =
       args.length === 1 && isPlainObject(args[0])
         ? args[0]
         : args.length > 0
           ? { args }
           : {}
-    //context and head last: a field never overwrites level, message or request_id
+    //context and head last: a field never overwrites level, message, time,
+    //service or request_id
     const entry = { ...fields, ...readLogContext(), ...head }
     const line = (() => {
       try {
@@ -82,8 +158,8 @@ export class Logger {
     else console.log(line)
   }
 
-  debug(_message: string, ..._args: any[]) {
-    throw new Error("not implemented: Logger.debug")
+  debug(message: string, ...args: any[]) {
+    this.write("debug", message, args)
   }
 
   info(message: string, ...args: any[]) {
