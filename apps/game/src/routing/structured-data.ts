@@ -148,7 +148,7 @@ function toScript(data: Json): StructuredDataScript {
 
 /**
  * The JSON-LD for one indexable page. The game screen is a tool, not a
- * document, so it carries only the FAQ its setup panel shows.
+ * document, so it carries none.
  */
 export function structuredDataScripts(
   path: IndexablePath,
@@ -207,5 +207,5 @@ export function structuredDataScripts(
     ]
   }
   //the one path left: /offline
-  return [toScript(faqPage(enGame.offline.faq.items))]
+  return []
 }

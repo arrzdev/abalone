@@ -184,6 +184,14 @@
         "draw": {
           "question": "Kan Abalone in een gelijkspel eindigen?",
           "answer": "Ja. In dit spel is het gelijkspel als dezelfde stelling voor de derde keer ontstaat met dezelfde speler aan zet."
+        },
+        "same_device": {
+          "question": "Kunnen twee mensen Abalone op hetzelfde apparaat spelen?",
+          "answer": "Ja. Kies Twee spelers en speel om de beurt op hetzelfde scherm."
+        },
+        "offline": {
+          "question": "Kan ik spelen zonder internetverbinding?",
+          "answer": "Ja, zodra de pagina geladen is. De computer draait op je apparaat, dus een partij tegen hem of met z'n tweeën gaat door zonder verbinding. Alleen online partijen en je account hebben internet nodig."
         }
       },
       "strategy_link": "Probeer de strategietips: <strategy>Abalone-strategie: 7 tips</strategy>."
@@ -235,6 +243,13 @@
         "leave_hole": "Duwen terwijl er een gat achterblijft waar je tegenstander in stapt."
       }
     },
+    "computer": {
+      "title": "Hoe sterk is de computer?",
+      "intro": "De acht bots zijn één speler op verschillende sterktes, niet één goede speler die expres blundert.",
+      "low": "<strong>Niveau 1 tot 4 (Gus, Milo, Nora, Theo)</strong> kijken één zet vooruit en hebben gewoontes waar je gebruik van kunt maken. Gus en Milo jagen op je ballen, rukken op zonder plan en staan soms dicht bij de rand. Gus speelt ook ongeveer 1 op de 7 keer een willekeurige zet. De gewoontes verdwijnen niveau na niveau, en geen van de vier plant ooit een duw.",
+      "middle": "<strong>Niveau 5 en 6 (Iris, Victor)</strong> kijken nog steeds één zet vooruit, maar zetten al duwen klaar en drukken ballen tegen de rand. Victor hecht veel meer aan het midden.",
+      "high": "<strong>Niveau 7 en 8 (Clara, Magnus)</strong> spelen zoals Victor, maar kijken twee en drie zetten vooruit, dus ze zien je antwoord aankomen."
+    },
     "faq": {
       "title": "Veelgestelde vragen",
       "items": {
@@ -245,6 +260,10 @@
         "first_move": {
           "question": "Wat is de beste eerste zet?",
           "answer": "Dat hangt af van de opstelling. Bekijk de <openings>openingszetten van Abalone</openings>."
+        },
+        "levels": {
+          "question": "Hoeveel moeilijkheidsniveaus heeft de computer?",
+          "answer": "Acht, van Gus op niveau 1 tot Magnus op niveau 8. De eerste vier hebben gewoontes die je tegen ze kunt gebruiken. Niveau 1 tot 6 kijken één zet vooruit, Clara twee en Magnus drie."
         }
       }
     },

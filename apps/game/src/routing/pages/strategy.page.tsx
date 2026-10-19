@@ -40,7 +40,10 @@ const TIPS = [
 
 const MISTAKES = ["lone_edge", "split_three", "leave_hole"] as const
 
-const FAQ_ITEMS = ["solved", "first_move"] as const
+/** The bots from weakest to strongest; each band maps to `ai/profiles.ts`. */
+const BOT_BANDS = ["low", "middle", "high"] as const
+
+const FAQ_ITEMS = ["solved", "first_move", "levels"] as const
 
 const STRONG = <strong className="font-semibold text-white" />
 
@@ -62,6 +65,7 @@ function StrategyPage() {
       }
     }),
     { id: "mistakes", title: t("game:strategy.mistakes.title") },
+    { id: "computer", title: t("game:strategy.computer.title") },
     { id: "faq", title: t("game:strategy.faq.title") },
     { id: "practise", title: t("game:strategy.practise.title") },
   ]
@@ -129,6 +133,23 @@ function StrategyPage() {
             {MISTAKES.map((item) => (
               <li key={item}>
                 {t(`game:strategy.mistakes.items.${item}`)}
+              </li>
+            ))}
+          </ul>
+        </Chapter>
+
+        {/* Who the tips are tried against. Every claim about a bot maps to a
+            trait in `ai/profiles.ts`; change one and this copy is the other
+            place to change. */}
+        <Chapter id="computer" title={t("game:strategy.computer.title")}>
+          <p>{t("game:strategy.computer.intro")}</p>
+          <ul className="mt-2 flex list-disc flex-col gap-y-1.5 pl-5 marker:text-faint">
+            {BOT_BANDS.map((band) => (
+              <li key={band}>
+                <Trans
+                  i18nKey={`game:strategy.computer.${band}`}
+                  components={{ strong: STRONG }}
+                />
               </li>
             ))}
           </ul>

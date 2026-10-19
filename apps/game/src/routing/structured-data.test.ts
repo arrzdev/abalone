@@ -49,6 +49,8 @@ describe("structured data", () => {
       "Can a single marble push?",
       "Can you push your own marbles?",
       "Can Abalone end in a draw?",
+      "Can two people play Abalone on the same device?",
+      "Can I play without an internet connection?",
     ])
     expect(questions[2]).toEqual({
       "@type": "Question",
@@ -115,6 +117,14 @@ describe("structured data", () => {
             text: "It depends on the layout. See Abalone opening moves.",
           },
         },
+        {
+          "@type": "Question",
+          name: "How many difficulty levels does the computer have?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Eight, from Gus at level 1 to Magnus at level 8. The first four have habits you can use against them. Levels 1 to 6 look one move ahead, Clara two and Magnus three.",
+          },
+        },
       ],
     })
     expect([article]).toEqual([
@@ -178,21 +188,10 @@ describe("structured data", () => {
     })
   })
 
-  //the game screen is a tool, not a document: only the FAQ its setup panel shows
-  it("gives the offline game the FAQ its setup panel shows", () => {
-    const [faq, ...rest] = structuredData("/offline")
-    expect(rest).toEqual([])
-    expect(faq["@type"]).toBe("FAQPage")
-    const questions = faq.mainEntity as Json[]
-    expect(questions).toHaveLength(6)
-    expect(questions[2]).toEqual({
-      "@type": "Question",
-      name: "How many difficulty levels does the computer have?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Eight, from Gus at level 1 to Magnus at level 8. The first four have habits you can use against them. Levels 1 to 6 look one move ahead, Clara two and Magnus three.",
-      },
-    })
+  //the game screen is a tool, not a document: its setup panel shows options
+  //only, so there is no FAQ to describe
+  it("gives the offline game no structured data", () => {
+    expect(structuredData("/offline")).toEqual([])
   })
 
   //the public landing for online play: the FAQ it shows, links taken out

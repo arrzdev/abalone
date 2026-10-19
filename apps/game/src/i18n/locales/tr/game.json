@@ -183,6 +183,14 @@
         "draw": {
           "question": "Abalone berabere bitebilir mi?",
           "answer": "Evet. Bu oyunda aynı pozisyon, sıra aynı oyuncudayken üçüncü kez oluşursa oyun berabere biter."
+        },
+        "same_device": {
+          "question": "İki kişi aynı cihazda Abalone oynayabilir mi?",
+          "answer": "Evet. İki oyuncu modunu seç ve aynı ekranda sırayla oynayın."
+        },
+        "offline": {
+          "question": "İnternet bağlantısı olmadan oynayabilir miyim?",
+          "answer": "Evet, sayfa yüklendikten sonra. Bilgisayar senin cihazında çalışır, bu yüzden ona karşı ya da iki kişilik bir oyun bağlantı olmadan sürer. Yalnızca çevrimiçi oyunlar ve hesabın internet ister."
         }
       },
       "strategy_link": "Strateji ipuçlarına göz at: <strategy>Abalone stratejisi: 7 ipucu</strategy>."
@@ -234,6 +242,13 @@
         "leave_hole": "Rakibinin girebileceği bir boşluk bırakacak şekilde itmek."
       }
     },
+    "computer": {
+      "title": "Bilgisayar ne kadar güçlü?",
+      "intro": "Sekiz bot, farklı güçlerdeki tek bir oyuncudur; hata yapmaya zorlanan iyi bir oyuncu değil.",
+      "low": "<strong>Seviye 1–4 (Gus, Milo, Nora, Theo)</strong> bir hamle ilerisini görür ve kullanabileceğin alışkanlıkları vardır. Gus ve Milo bilyelerinin peşine düşer, plansız ilerler ve bazen kenara yakın durur. Gus ayrıca yaklaşık 7 hamlede 1 rastgele oynar. Alışkanlıklar seviye seviye kaybolur ve dördünden hiçbiri bir itişi önceden planlamaz.",
+      "middle": "<strong>Seviye 5 ve 6 (Iris, Victor)</strong> hâlâ bir hamle ilerisini görür ama itişler hazırlamaya ve bilyeleri kenara sıkıştırmaya başlar. Victor merkeze çok daha fazla önem verir.",
+      "high": "<strong>Seviye 7 ve 8 (Clara, Magnus)</strong> Victor gibi oynar ama iki ve üç hamle ilerisini görür, yani cevabını önceden görür."
+    },
     "faq": {
       "title": "Sık sorulanlar",
       "items": {
@@ -244,6 +259,10 @@
         "first_move": {
           "question": "En iyi ilk hamle hangisi?",
           "answer": "Dizilişe bağlı. <openings>Abalone açılış hamleleri</openings> sayfasına bak."
+        },
+        "levels": {
+          "question": "Bilgisayarın kaç zorluk seviyesi var?",
+          "answer": "Sekiz: 1. seviyede Gus'tan 8. seviyede Magnus'a kadar. İlk dördünün onlara karşı kullanabileceğin alışkanlıkları var. Seviye 1–6 bir hamle ilerisini, Clara iki, Magnus üç hamle ilerisini görür."
         }
       }
     },

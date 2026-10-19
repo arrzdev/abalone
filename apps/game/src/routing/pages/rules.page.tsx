@@ -202,6 +202,8 @@ const FAQ_ITEMS = [
   "single",
   "own_push",
   "draw",
+  "same_device",
+  "offline",
 ] as const
 
 function RulesPage() {

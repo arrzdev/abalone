@@ -25,9 +25,9 @@ const INDEXABLE = {
 // stays indexable but is left out: it is the board itself, and home is the
 // page that answers "play abalone".
 const SITEMAP = {
-  "/": "2026-10-18",
-  "/rules": "2026-10-18",
-  "/strategy": "2026-10-18",
+  "/": "2026-10-19",
+  "/rules": "2026-10-19",
+  "/strategy": "2026-10-19",
   "/play-online": "2026-10-18",
   "/opening-moves": "2026-10-18",
   "/starting-positions": "2026-10-18",
@@ -98,32 +98,34 @@ test.describe("indexable pages", () => {
   }
 })
 
-// The board page answers "abalone vs computer" in text a crawler gets without
-// running anything (the `offline-copy` document on TUD-1690): the answer first,
-// then the sections, under the options in the setup panel.
-test("/offline is served with its vs-computer copy", async ({
+function h2s(html: string): string[] {
+  return [...html.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map((match) =>
+    match[1].replace(/<[^>]+>/g, "").trim(),
+  )
+}
+
+// The setup panel holds the modes and nothing to read: what used to sit under
+// the options (the `offline-copy` document on TUD-1690) now lives on the
+// content pages, the bots on /strategy and the device questions on /rules.
+test("/offline is served with options only, its reading on /strategy and /rules", async ({
   request,
 }) => {
-  const html = await (await request.get("/offline")).text()
-  const headings = [...html.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>/g)].map(
-    (match) => match[1].replace(/<[^>]+>/g, "").trim(),
+  const offline = await (await request.get("/offline")).text()
+  expect(h2s(offline)).not.toContain("How strong is the computer?")
+  expect(h2s(offline)).not.toContain("Frequently asked")
+  expect(offline).not.toContain('"FAQPage"')
+
+  const strategy = await (await request.get("/strategy")).text()
+  expect(h2s(strategy)).toContain("How strong is the computer?")
+  expect(strategy).toContain(
+    "How many difficulty levels does the computer have?",
   )
 
-  expect(html).toContain(
-    "Play Abalone against the computer or with a friend on the same device, free in your browser.",
+  const rules = await (await request.get("/rules")).text()
+  expect(rules).toContain(
+    "Can two people play Abalone on the same device?",
   )
-  expect(headings).toEqual(
-    expect.arrayContaining([
-      "How strong is the computer?",
-      "How to beat the Abalone computer",
-      "Two players on one device (Pass &amp; Play)",
-      "Frequently asked",
-    ]),
-  )
-  expect(html).toMatch(/<a[^>]*href="\/strategy"[^>]*>strategy tips<\/a>/)
-  expect(html).toMatch(
-    /<a[^>]*href="\/opening-moves"[^>]*>opening moves<\/a>/,
-  )
+  expect(rules).toContain("Can I play without an internet connection?")
 })
 
 test.describe("private pages", () => {
