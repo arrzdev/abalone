@@ -9,6 +9,7 @@ declare namespace Cloudflare {
     >
     AUTH_RATE_LIMITER: RateLimit
     INVITE_LINK_RATE_LIMITER: RateLimit
+    HEALTH_RATE_LIMITER: RateLimit
     TEST_MIGRATIONS: Array<{ name: string; queries: string[] }>
     RATE_LIMIT_ALLOW_TEST_BYPASS: string
     FRONTEND_URLS: string

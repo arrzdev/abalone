@@ -23,14 +23,16 @@ test("app shell boots and mounts", async ({ page }) => {
 })
 
 // The probe production uptime checks hit: under /api, the only prefix routed to
-// the backend Worker, and it reaches D1 before it answers.
-test("api health check answers ok", async ({ request }) => {
+// the backend Worker, and it asks D1 and R2 before it answers.
+test("api health check reports every resource ok", async ({ request }) => {
   const apiPort = process.env.E2E_API_PORT ?? 8181
   const response = await request.get(
     `http://localhost:${apiPort}/api/v1/health`,
   )
 
   expect(response.status()).toBe(200)
-  const body = (await response.json()) as { data?: { status?: string } }
-  expect(body.data?.status).toBe("ok")
+  expect(await response.json()).toEqual({
+    status: "success",
+    data: { database: "ok", r2: "ok" },
+  })
 })
