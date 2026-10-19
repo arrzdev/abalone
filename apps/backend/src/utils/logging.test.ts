@@ -5,6 +5,24 @@ const capture = (method: "log" | "warn" | "error") => {
   return () => JSON.parse(spy.mock.calls[0]?.[0] as string)
 }
 
+const ISO_TIME = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
+
+//every line a capture saw, parsed
+const captureAll = () => {
+  const lines: Record<string, unknown>[] = []
+  for (const method of ["log", "warn", "error"] as const) {
+    vi.spyOn(console, method).mockImplementation((line: unknown) => {
+      lines.push(JSON.parse(String(line)))
+    })
+  }
+  return lines
+}
+
+const freshModule = async () => {
+  vi.resetModules()
+  return await import("@repo/shared/logging")
+}
+
 //a reset import gives each test a fresh logger module
 const freshLogger = async (context: string) => {
   vi.resetModules()
@@ -32,6 +50,7 @@ describe("Logger", () => {
       level: "info",
       context: "jobs",
       message: "started",
+      time: expect.stringMatching(ISO_TIME),
     })
   })
 
@@ -70,6 +89,7 @@ describe("Logger", () => {
       level: "info",
       context: "jobs",
       message: "job_done",
+      time: expect.stringMatching(ISO_TIME),
       job_id: "j1",
       duration_ms: 12,
     })
@@ -131,5 +151,228 @@ describe("Logger", () => {
     loop.self = loop
     logger.error("failed", loop)
     expect(read().args).toBe("[unserializable]")
+  })
+})
+
+describe("Logger levels (LOG_LEVEL)", () => {
+  afterEach(() => vi.restoreAllMocks())
+
+  it("drops debug lines at the default level, info", async () => {
+    const lines = captureAll()
+    const { Logger } = await freshModule()
+    const logger = new Logger("x")
+    logger.debug("detail")
+    logger.info("kept")
+    expect(lines.map((line) => line.message)).toEqual(["kept"])
+  })
+
+  it("writes debug lines through console.log when the level is debug", async () => {
+    const read = capture("log")
+    const { Logger, configureLogging } = await freshModule()
+    configureLogging({ level: "debug" })
+    new Logger("x").debug("plan.resolved", { plan: "pro" })
+    expect(read()).toMatchObject({
+      level: "debug",
+      message: "plan.resolved",
+      plan: "pro",
+    })
+  })
+
+  it.each([
+    ["info", ["info", "warn", "error"]],
+    ["warn", ["warn", "error"]],
+    ["error", ["error"]],
+  ])("at %s writes only %j", async (level, written) => {
+    const lines = captureAll()
+    const { Logger, configureLogging } = await freshModule()
+    configureLogging({ level })
+    const logger = new Logger("x")
+    logger.debug("debug")
+    logger.info("info")
+    logger.warn("warn")
+    logger.error("error")
+    expect(lines.map((line) => line.level)).toEqual(written)
+  })
+
+  it("treats an unknown or missing level as info", async () => {
+    const lines = captureAll()
+    const { Logger, configureLogging } = await freshModule()
+    configureLogging({ level: "verbose" })
+    new Logger("x").debug("dropped")
+    configureLogging({})
+    new Logger("x").debug("dropped too")
+    new Logger("x").info("kept")
+    expect(lines.map((line) => line.message)).toEqual(["kept"])
+  })
+})
+
+describe("Logger service fields", () => {
+  afterEach(() => vi.restoreAllMocks())
+
+  it("puts service, env and build_sha on every line once configured", async () => {
+    const lines = captureAll()
+    const { Logger, configureLogging } = await freshModule()
+    configureLogging({
+      service: "abalone-backend",
+      env: "production",
+      build_sha: "abc1234",
+    })
+    const logger = new Logger("x")
+    logger.info("a")
+    logger.error("b", { service: "spoofed" })
+    for (const line of lines)
+      expect(line).toMatchObject({
+        service: "abalone-backend",
+        env: "production",
+        build_sha: "abc1234",
+        time: expect.stringMatching(ISO_TIME),
+      })
+  })
+})
+
+describe("Logger redaction (logging standard §6)", () => {
+  afterEach(() => vi.restoreAllMocks())
+
+  async function written(fields: Record<string, unknown>) {
+    const read = capture("log")
+    const logger = await freshLogger("x")
+    logger.info("redaction", fields)
+    return read()
+  }
+
+  it.each([
+    "authorization",
+    "cookie",
+    "set-cookie",
+    "password",
+    "pass",
+    "secret",
+    "token",
+    "access_token",
+    "refresh_token",
+    "id_token",
+    "api_key",
+    "apikey",
+    "key_hash",
+    "session",
+    "session_id",
+    "card",
+    "card_number",
+    "cvc",
+    "iban",
+    "phone",
+    "body",
+    "raw_body",
+  ])("redacts the %s key", async (key) => {
+    const line = await written({ [key]: "s3cr3t-value" })
+    expect(line[key]).toBe("[redacted]")
+    expect(JSON.stringify(line)).not.toContain("s3cr3t-value")
+  })
+
+  it("matches deny-listed keys whatever their case, - or _", async () => {
+    const line = await written({
+      "Api-Key": "v1",
+      ACCESS_TOKEN: "v2",
+      refreshToken: "v3",
+      Set_Cookie: "v4",
+      rawBody: "v5",
+    })
+    expect(line).toMatchObject({
+      "Api-Key": "[redacted]",
+      ACCESS_TOKEN: "[redacted]",
+      refreshToken: "[redacted]",
+      Set_Cookie: "[redacted]",
+      rawBody: "[redacted]",
+    })
+  })
+
+  it("keeps keys that only contain a deny-listed word", async () => {
+    const line = await written({
+      token_count: 3,
+      passed: true,
+      user_id: "u1",
+    })
+    expect(line).toMatchObject({
+      token_count: 3,
+      passed: true,
+      user_id: "u1",
+    })
+  })
+
+  it("masks any key ending in email to first letter and domain", async () => {
+    const line = await written({
+      email: "ana.silva@example.com",
+      user_email: "bruno@tudu.dev",
+      contactEmail: "carla@example.org",
+    })
+    expect(line).toMatchObject({
+      email: "a***@example.com",
+      user_email: "b***@tudu.dev",
+      contactEmail: "c***@example.org",
+    })
+  })
+
+  it("redacts an email value that is not an address", async () => {
+    const line = await written({ email: "not-an-address" })
+    expect(line.email).toBe("[redacted]")
+  })
+
+  it("redacts a Bearer credential in any string", async () => {
+    const line = await written({ note: "Bearer vl_abc.def-123" })
+    expect(line.note).toBe("[redacted]")
+  })
+
+  it("redacts a JWT inside a longer string", async () => {
+    const jwt =
+      "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1MSJ9.sflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    const line = await written({ note: `rejected ${jwt} at the edge` })
+    expect(line.note).toBe("rejected [redacted] at the edge")
+  })
+
+  it.each([
+    "sk_live_51Habcdef0123",
+    "sk_test_51Habcdef0123",
+    "rk_live_51Habcdef0123",
+    "whsec_abcdef0123",
+  ])("redacts the Stripe key %s", async (key) => {
+    const line = await written({ note: `key ${key} failed` })
+    expect(line.note).toBe("key [redacted] failed")
+  })
+
+  it("keeps Stripe object ids, which are allowed", async () => {
+    const line = await written({ payment_intent: "pi_3Pabc123" })
+    expect(line.payment_intent).toBe("pi_3Pabc123")
+  })
+
+  it("redacts at any depth, arrays included", async () => {
+    const line = await written({
+      request: {
+        headers: { Authorization: "Bearer x", accept: "*/*" },
+        user: { id: "u1", email: "dora@example.com" },
+      },
+      attempts: [{ token: "t1" }, { note: "sk_live_abc123" }],
+    })
+    expect(line.request).toEqual({
+      headers: { Authorization: "[redacted]", accept: "*/*" },
+      user: { id: "u1", email: "d***@example.com" },
+    })
+    expect(line.attempts).toEqual([
+      { token: "[redacted]" },
+      { note: "[redacted]" },
+    ])
+  })
+
+  it("redacts a token inside an Error message, its stack and its cause", async () => {
+    const jwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1MSJ9.c2lnbmF0dXJl"
+    const line = await written({
+      error: new Error(`upstream refused ${jwt}`, {
+        cause: new Error("Bearer abc123"),
+      }),
+    })
+    const error = line.error as Record<string, unknown>
+    expect(error.message).toBe("upstream refused [redacted]")
+    expect(JSON.stringify(line)).not.toContain(jwt)
+    expect(JSON.stringify(line)).not.toContain("abc123")
+    expect(error.name).toBe("Error")
   })
 })

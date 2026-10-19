@@ -25,6 +25,12 @@ workers_dev = false
 # the Worker as secrets (`wrangler versions upload --secrets-file env/.env`), so
 # env is driven by the deploy, never the CF dashboard.
 
+# The environment name on every log line (src/utils/logging-config.ts). Vars are
+# not inherited, so each env block below sets its own. Not in the env schema, so
+# it never meets the secrets file the deploy uploads.
+[vars]
+DEPLOY_ENV = "local"
+
 [dev]
 ip = "0.0.0.0"
 port = 8181
@@ -67,6 +73,9 @@ name = "hono-backend-staging"
 workers_dev = false
 routes = [{ pattern = "staging.example.com/api/*", zone_name = "example.com" }]
 
+[env.staging.vars]
+DEPLOY_ENV = "staging"
+
 # Workers Logs. Named envs do not inherit it reliably, so every env repeats it.
 [env.staging.observability]
 enabled = true
@@ -94,6 +103,9 @@ simple = { limit = 60, period = 60 }
 name = "hono-backend"
 workers_dev = false
 routes = [{ pattern = "example.com/api/*", zone_name = "example.com" }]
+
+[env.production.vars]
+DEPLOY_ENV = "production"
 
 [env.production.observability]
 enabled = true

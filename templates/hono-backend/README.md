@@ -108,6 +108,22 @@ No source file changes.
 `GET /` liveness → `/api/version` → `/api/v1` routes → `.all("*")`
 `endpoint_not_found`.
 
+## Logging
+
+- One `request` line per request, written by `requestLog`: `method`, `route`
+  (the matched pattern), `status`, `duration_ms`, `user_id`, `colo`,
+  `request_id`, plus whatever the request added with `addLogFields()` and
+  `addTiming()` (`@repo/shared/log-context`). `error` level from 500, `info`
+  below. The error catcher writes no line: `error()` puts the `error_code` on
+  this one, and an unexpected throw adds `error` too.
+- Every line carries `time`, `service`, `env` (`DEPLOY_ENV` in each wrangler
+  block) and `build_sha` (the deploy's `--var BUILD_SHA`, `local` otherwise).
+- `LOG_LEVEL` (`env/.env`, optional, `info` by default) drops lines below it.
+  Production leaves it unset; the staging GitHub Environment sets
+  `LOG_LEVEL=debug`.
+- Credentials, tokens and emails are redacted by the logger itself
+  (`shared/logging.ts`), at any depth.
+
 ## Health contract
 
 `GET /api/v1/health` (the probe reachable from outside; `GET /` is local

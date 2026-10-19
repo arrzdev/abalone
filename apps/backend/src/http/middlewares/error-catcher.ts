@@ -1,36 +1,27 @@
-import { Logger } from "@repo/shared/logging"
+import { addLogFields } from "@repo/shared/log-context"
 import type { Context } from "hono"
 import { error } from "@/http/envelope"
 import { CustomError, ERROR_CODES } from "@/http/errors"
-import { endpointPattern } from "@/http/utils/endpoint-pattern"
 
-const log = new Logger("error-catcher")
-
-//global catcher: log unexpected failures once, reply with the mapped error code.
-//domain CustomErrors bubble here by design and are not logged. the crash line gets
-//the request_id from the log context; the body repeats it so a player's report can
-//be traced to the line.
+//global catcher: reply with the mapped error code, and write no line of its own.
+//the request log writes the one line per request; this adds the error_code (through
+//error()) and, for an unexpected failure, the error itself to it. the body repeats
+//the request_id so a user's report can be traced to that line.
 export function errorCatcher(caught: unknown, c: Context) {
   if (caught instanceof CustomError) return error(c, caught.errorCode)
 
   const errorCode = "internal_server_error"
-  const trace =
-    caught instanceof Error
-      ? {
-          name: caught.name,
-          message: caught.message,
-          stack: caught.stack,
-          ...(caught.cause !== undefined ? { cause: caught.cause } : {}),
-        }
-      : { type: typeof caught, value: caught }
-
-  //the stack lives only in trace (one copy). route is the matched pattern: the
-  //raw path would put game and user ids in the log
-  log.error("api_unhandled_exception", {
+  addLogFields({
     error_code: errorCode,
-    method: c.req.method,
-    route: endpointPattern(c),
-    trace,
+    error:
+      caught instanceof Error
+        ? {
+            name: caught.name,
+            message: caught.message,
+            stack: caught.stack,
+            cause: caught.cause,
+          }
+        : { name: typeof caught, message: String(caught) },
   })
 
   return c.json(

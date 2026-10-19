@@ -16,6 +16,12 @@ workers_dev = false
 # see .github/scripts/deploy/app.sh — so env is driven entirely by the GitHub
 # environment's secrets/vars, never the CF dashboard.
 
+# The environment name on every log line (src/utils/logging-config.ts). Vars are
+# not inherited, so each env block below sets its own. Not in the env schema, so
+# it never meets the secrets file the deploy uploads.
+[vars]
+DEPLOY_ENV = "local"
+
 [dev]
 ip = "0.0.0.0"
 port = 8181
@@ -102,6 +108,9 @@ routes = [
   { pattern = "abalone.tudu.dev/api/*", zone_name = "tudu.dev" },
   { pattern = "babaluje.tudu.dev/api/*", zone_name = "tudu.dev" },
 ]
+
+[env.production.vars]
+DEPLOY_ENV = "production"
 
 # Workers Logs. Named envs do not inherit it reliably, so production repeats it.
 [env.production.observability]

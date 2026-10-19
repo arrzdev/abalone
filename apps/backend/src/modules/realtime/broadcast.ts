@@ -14,18 +14,20 @@ export type PublishContext = {
 }
 
 /**
- * Sends one beacon to every subscriber. A socket the runtime has already given up
- * on must not cost the rest of the channel its beacon, so each send stands on its
- * own; the failures are logged once, with the channel and the request behind it.
+ * Sends one beacon to every subscriber, then writes one `pubsub.publish` line for
+ * the publish. A socket the runtime has already given up on must not cost the rest
+ * of the channel its beacon, so each send stands on its own; the failures go on
+ * that one line, with the channel and the request behind it.
  */
 export async function broadcast(
   sockets: WebSocket[],
   payload: RealtimeEvent,
   context: PublishContext,
 ): Promise<void> {
+  const startedAt = Date.now()
   const frame = JSON.stringify(payload)
   let failed = 0
-  let lastError: Error | null = null
+  let lastError: Error | undefined
 
   for (const socket of sockets) {
     const [, sendError] = tryCatch(() => socket.send(frame))
@@ -34,20 +36,23 @@ export async function broadcast(
       lastError = sendError
     }
   }
-  if (failed === 0) return
 
-  const fields: LogContext = context.request_id
+  const fields = {
+    outcome: failed === 0 ? "ok" : "partial",
+    channel: context.channel,
+    event: payload.event,
+    game_id:
+      payload.event === "game-updated" ? payload.meta.gameId : undefined,
+    subscribers: sockets.length,
+    failed,
+    duration_ms: Date.now() - startedAt,
+    error: lastError,
+  }
+  const lineContext: LogContext = context.request_id
     ? { request_id: context.request_id }
     : {}
-  withLogContext(fields, () =>
-    log.warn("pubsub_send_failed", {
-      channel: context.channel,
-      event: payload.event,
-      game_id:
-        payload.event === "game-updated" ? payload.meta.gameId : undefined,
-      failed,
-      subscribers: sockets.length,
-      error: lastError,
-    }),
-  )
+  withLogContext(lineContext, () => {
+    if (failed === 0) log.info("pubsub.publish", fields)
+    else log.warn("pubsub.publish", fields)
+  })
 }
