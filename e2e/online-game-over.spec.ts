@@ -52,6 +52,8 @@ async function expectPostgameButtonsFit(
     .getByRole("button")
     .filter({ hasText: /\S/ })
     .filter({ visible: true })
+    // The move list's rows are labelled buttons too, and draw no icon.
+    .filter({ has: page.locator("svg") })
   await expect(buttons, `${where}: two labelled buttons`).toHaveCount(2)
 
   for (const button of await buttons.all()) {
@@ -65,8 +67,10 @@ async function expectPostgameButtonsFit(
       button.locator("svg.lucide-plus"),
       `${where}: "${label}" is not a new game, so no +`,
     ).toHaveCount(0)
+    // The button, not the panel: the move list above scrolls to its end, and
+    // the row it scrolled past is cut by its own scroller on purpose.
+    await expectNoClippedText(button)
   }
-  await expectNoClippedText(panel)
 }
 
 // The result sheet is news once. Opening a finished game again goes straight

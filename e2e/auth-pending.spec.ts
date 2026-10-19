@@ -34,7 +34,9 @@ test("the sign-in button shows it is working and takes one press", async ({
   await page.waitForTimeout(500)
   expect(held).toHaveLength(1)
 
-  await page.unroute("**/sign-in/username**")
+  // Before the unroute: it settles any route still held, and a route is
+  // answered once.
   for (const route of held) await route.continue()
+  await page.unroute("**/sign-in/username**")
   await expect(form).toBeHidden({ timeout: 30_000 })
 })
