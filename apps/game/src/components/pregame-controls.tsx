@@ -48,8 +48,6 @@ export type PregameControlsProps = {
   marbleDesign?: string
   onPlay: () => void
   preview?: ReactNode
-  /** Reading for whoever scrolls past the options, before the pinned Play. */
-  about?: ReactNode
 }
 
 /**
@@ -73,7 +71,6 @@ export function PregameControls({
   marbleDesign,
   onPlay,
   preview,
-  about,
 }: PregameControlsProps) {
   const { t } = useTranslation()
   const isLocal = mode === "local"
@@ -251,10 +248,9 @@ export function PregameControls({
           </>
         )}
 
-        {/* The three-bullet summary that used to sit here said too little to
-          teach the game and took up the panel's whole tail doing it. The rules
-          have their own illustrated page now, linked from the home screen. */}
-        {about}
+        {/* Options only: the panel is where a game is set up, not where it is
+          explained. What there is to read about the bots and the modes is on
+          /strategy and /rules. */}
       </div>
 
       {/* Pinned under the options rather than at their end: on a phone the

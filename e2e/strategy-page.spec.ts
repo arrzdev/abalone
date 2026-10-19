@@ -21,6 +21,7 @@ const SECTIONS = [
   ["attack-as-a-group", "Attack as a group, not as a hero"],
   ["tempo", "Win the tempo, not the marble"],
   ["mistakes", "Common mistakes"],
+  ["computer", "How strong is the computer?"],
   ["faq", "Frequently asked"],
   ["practise", "Practise"],
 ] as const
@@ -148,15 +149,14 @@ test.describe("served HTML", () => {
       )
     })
 
-    // descriptive anchors, so the link tells a crawler what the page is about
+    // one-word anchors on home, so the pair fits one line on a phone; the
+    // descriptive ones are on /play-online and the content pages
     test("links to the rules, the strategy tips and the offline game", async ({
       request,
     }) => {
       const html = await servedHtml(request, "/")
-      expect(html).toMatch(linkPattern("/rules", "Abalone rules"))
-      expect(html).toMatch(
-        linkPattern("/strategy", "Abalone strategy tips"),
-      )
+      expect(html).toMatch(linkPattern("/rules", "Rules"))
+      expect(html).toMatch(linkPattern("/strategy", "Strategy"))
       expect(html).toMatch(/<a[^>]*href="\/offline"/)
     })
   })

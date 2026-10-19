@@ -92,9 +92,9 @@ export const SITEMAP: Record<
   Exclude<IndexablePath, "/offline">,
   string
 > = {
-  "/": "2026-10-18",
-  "/rules": "2026-10-18",
-  "/strategy": "2026-10-18",
+  "/": "2026-10-19",
+  "/rules": "2026-10-19",
+  "/strategy": "2026-10-19",
   "/play-online": "2026-10-18",
   "/opening-moves": "2026-10-18",
   "/starting-positions": "2026-10-18",

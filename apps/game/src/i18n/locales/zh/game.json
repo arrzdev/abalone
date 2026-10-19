@@ -183,6 +183,14 @@
         "draw": {
           "question": "Abalone 会有平局吗？",
           "answer": "会。在本游戏中，同一局面在同一方走棋时第三次出现，即为平局。"
+        },
+        "same_device": {
+          "question": "两个人可以在同一台设备上玩 Abalone 吗？",
+          "answer": "可以。选择双人对战，在同一块屏幕上轮流走棋。"
+        },
+        "offline": {
+          "question": "没有网络也能玩吗？",
+          "answer": "可以，只要页面已经加载。电脑在你的设备上运行，所以对战电脑或双人对战在断网时也能继续。只有在线对局和你的账号需要联网。"
         }
       },
       "strategy_link": "可以看看策略技巧：<strategy>Abalone 策略：取胜的 7 个技巧</strategy>。"
@@ -234,6 +242,13 @@
         "leave_hole": "推完之后留下一个空洞，被对手钻进来。"
       }
     },
+    "computer": {
+      "title": "电脑有多强？",
+      "intro": "八个机器人是同一个棋手的不同强度，而不是一个高手被迫犯错。",
+      "low": "<strong>1 到 4 级（Gus、Milo、Nora、Theo）</strong>只看一步，并且有你可以利用的习惯。Gus 和 Milo 会追着你的棋子跑，没有计划地往前冲，有时还停在边缘附近。Gus 大约每 7 步还会随机走 1 步。这些习惯随等级逐级减弱，而这四个都从不谋划推挤。",
+      "middle": "<strong>5 级和 6 级（Iris、Victor）</strong>仍然只看一步，但开始布置推挤，把棋子逼向边缘。Victor 更加重视中心。",
+      "high": "<strong>7 级和 8 级（Clara、Magnus）</strong>下法和 Victor 一样，但会看两步和三步，所以能预见你的应对。"
+    },
     "faq": {
       "title": "常见问题",
       "items": {
@@ -244,6 +259,10 @@
         "first_move": {
           "question": "最好的第一步是什么？",
           "answer": "取决于布局。看看 <openings>Abalone 开局走法</openings>。"
+        },
+        "levels": {
+          "question": "电脑有几个难度等级？",
+          "answer": "八个，从 1 级的 Gus 到 8 级的 Magnus。前四个有你可以反过来利用的习惯。1 到 6 级看一步，Clara 看两步，Magnus 看三步。"
         }
       }
     },

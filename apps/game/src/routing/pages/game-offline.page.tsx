@@ -23,7 +23,6 @@ import { GameOverModal } from "@/components/game-over-modal"
 import { PlusIcon, SettingsIcon } from "@/components/icons"
 import { IngameControls } from "@/components/ingame-controls"
 import type { GameResult } from "@/components/move-history"
-import { OfflineAbout } from "@/components/offline-about"
 import { PostgameControls } from "@/components/postgame-controls"
 import { PregameControls } from "@/components/pregame-controls"
 import { ResignModal } from "@/components/resign-modal"
@@ -710,7 +709,6 @@ function GameOfflinePage() {
                     interactive={false}
                   />
                 }
-                about={<OfflineAbout />}
               />
             )}
 

@@ -20,15 +20,14 @@ import { BOT_LEVELS } from "@/i18n/bots"
  *
  * It answers the two questions a search for "play abalone free" brings, before
  * anything is pressed: is it free, and do I need an account (the
- * `play-free-first-screen` document on TUD-2287). The heading says both, on a
- * phone too, and the line under it says there is nothing to sign up for or
- * download.
+ * `play-free-first-screen` document on TUD-2287). The heading says both. On a
+ * phone it is there for a search engine and a screen reader only: the board
+ * takes its room, and the tiles say the rest.
  *
  * Then one way in that asks for nothing, named as the action rather than the
  * opponent: Play now, against the computer. It is a link, so it opens a game
- * before the page has hydrated. The other two are a quieter pair under it: one
- * needs somebody sitting next to you, and one needs an account and says so on
- * its own line, so nobody learns that from a sign-in wall.
+ * before the page has hydrated. The other two are a quieter pair under it, each
+ * saying in one line what the mode is: somebody next to you, or friends online.
  *
  * The board is the smaller half on purpose. It is the argument, not the offer:
  * given the whole width it reads as a game already in progress that you are
@@ -38,15 +37,11 @@ import { BOT_LEVELS } from "@/i18n/bots"
  * board too small to read.
  */
 const TEXT_LINK_CLASS =
-  "inline-flex min-h-11 items-center rounded-sm px-2.5 text-brand-lighter underline underline-offset-[3px] transition-colors duration-200 ease-out hover:text-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+  "inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm px-1.5 lg:px-2.5 text-brand-lighter underline underline-offset-[3px] transition-colors duration-200 ease-out hover:text-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
 
 export function PlayPoster() {
   const { t } = useTranslation()
   const { playOnline, playOffline } = usePlayActions()
-  //a language without the line yet keeps an empty one: no line beats an
-  //english one in the middle of a translated page
-  const trust = t("common:home.trust")
-
   //the eight faces are eight pictures, and a phone never shows them: mounted
   //behind `hidden` they are eight requests spent on nothing
   const isDesktop = useIsDesktop()
@@ -58,18 +53,13 @@ export function PlayPoster() {
     //down the left, centred together, and the board on the right
     <div className="relative mx-auto flex w-full min-h-0 max-w-[1264px] flex-1 flex-col px-4 pt-3.5 pb-safe-offset-4 lg:grid lg:grid-cols-[minmax(0,1fr)_540px] lg:grid-rows-[1fr_auto_auto_1fr] lg:gap-x-14 lg:px-12 lg:py-8">
       <Reveal className="flex min-w-0 shrink-0 flex-col items-stretch lg:row-start-2 lg:items-start">
-        {/* What the page is, in the words a search result shows, at every
-            width: free and no account are what a phone searcher came to
-            check. The paragraph is the desktop's; a phone gets one short line
-            in its place, and the paragraph stays for a screen reader. */}
-        <h1 className="font-display leading-[0.98] font-extrabold tracking-[-0.035em] text-balance text-white max-lg:text-[28px] max-[374px]:text-[26px] lg:text-[clamp(2.75rem,1rem+3.2vw,4.25rem)]">
+        {/* What the page is, in the words a search result shows. Drawn on a
+            desktop only: on a phone the board gets the room, and the heading
+            and the paragraph stay in the document for a crawler and a screen
+            reader. */}
+        <h1 className="font-display leading-[0.98] font-extrabold tracking-[-0.035em] text-balance text-white max-lg:sr-only lg:text-[clamp(2.75rem,1rem+3.2vw,4.25rem)]">
           {t("common:home.heading")}
         </h1>
-        {trust !== "" && (
-          <p className="mt-2 text-[15px] leading-snug text-pretty text-white/70 lg:hidden">
-            {trust}
-          </p>
-        )}
         {/* the no sign-up words brighter than the rest, so they read first */}
         <p className="max-w-[500px] text-[17px] leading-relaxed text-pretty text-muted max-lg:sr-only lg:mt-5">
           <Trans
@@ -112,17 +102,22 @@ export function PlayPoster() {
             searched for. A line rather than a row: the rows above are the
             offer, and giving the rules the same box makes it a fourth way to
             play. On a desktop too, where the header has the rules but not
-            the tips. */}
-        <p className="flex flex-wrap items-center justify-center text-sm text-faint lg:mt-4 lg:-ms-2.5 lg:justify-start">
+            the tips.
+
+            The one-word names, so the pair is one tight group on one line in
+            every language at 320px, with more room above it than between the
+            two. One label per link rather than a short and a long one swapped
+            by width: both would be in the served text. */}
+        <p className="flex flex-wrap items-center justify-center text-sm text-faint max-lg:mt-2 lg:mt-4 lg:-ms-2.5 lg:justify-start">
           <Link to="/rules" className={TEXT_LINK_CLASS}>
-            {t("common:home.rules_link")}
+            {t("common:nav.rules")}
           </Link>
           <span aria-hidden="true">·</span>
           <Link to="/strategy" className={TEXT_LINK_CLASS}>
-            {t("common:home.strategy_link")}
+            {t("common:nav.strategy")}
           </Link>
           {/* desktop only: on a phone the Friend online tile right above
-              goes the same way, and its line is the room the heading needs */}
+              goes the same way */}
           <span aria-hidden="true" className="max-lg:hidden">
             ·
           </span>
@@ -137,8 +132,7 @@ export function PlayPoster() {
 
       {/* Last in the document: the rows are what somebody came for, and the
           board is the argument for them. On a phone the slot is a size
-          container, what is left of the screen between the heading and the
-          rows, and it holds the board only when that is a board's worth
+          container, what is left of the screen above the rows, and it holds the board only when that is a board's worth
           (140px). Under it a board is a blob that reads as a broken picture,
           so the slot stays empty. CSS rather than a measurement, so the
           prerendered page is already right. */}

@@ -100,9 +100,9 @@ describe("SITEMAP", () => {
   //on every page says nothing about which page moved
   it("dates each page by the day its text last changed", () => {
     expect(SITEMAP).toEqual({
-      "/": "2026-10-18",
-      "/rules": "2026-10-18",
-      "/strategy": "2026-10-18",
+      "/": "2026-10-19",
+      "/rules": "2026-10-19",
+      "/strategy": "2026-10-19",
       "/play-online": "2026-10-18",
       "/opening-moves": "2026-10-18",
       "/starting-positions": "2026-10-18",

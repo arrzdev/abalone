@@ -185,6 +185,14 @@
         "draw": {
           "question": "Czy Abalone może skończyć się remisem?",
           "answer": "Tak. W tej grze, jeśli ta sama pozycja pojawi się po raz trzeci przy ruchu tego samego gracza, jest remis."
+        },
+        "same_device": {
+          "question": "Czy dwie osoby mogą grać w Abalone na jednym urządzeniu?",
+          "answer": "Tak. Wybierz Dwóch graczy i grajcie na zmianę na jednym ekranie."
+        },
+        "offline": {
+          "question": "Czy mogę grać bez połączenia z internetem?",
+          "answer": "Tak, gdy strona się załaduje. Komputer działa na twoim urządzeniu, więc gra z nim lub we dwoje toczy się dalej bez połączenia. Internetu potrzebują tylko gry online i twoje konto."
         }
       },
       "strategy_link": "Wypróbuj wskazówki strategiczne: <strategy>Strategia Abalone: 7 wskazówek</strategy>."
@@ -236,6 +244,13 @@
         "leave_hole": "Wypychanie, gdy zostawia to dziurę, w którą wchodzi przeciwnik."
       }
     },
+    "computer": {
+      "title": "Jak silny jest komputer?",
+      "intro": "Osiem botów to jeden gracz na różnych poziomach siły, a nie dobry gracz zmuszany do błędów.",
+      "low": "<strong>Poziomy 1–4 (Gus, Milo, Nora, Theo)</strong> patrzą jeden ruch do przodu i mają nawyki, które możesz wykorzystać. Gus i Milo gonią twoje kule, idą naprzód bez planu i czasem stoją blisko krawędzi. Gus gra też losowy ruch mniej więcej raz na 7. Nawyki znikają z każdym poziomem i żaden z tej czwórki nie planuje wypchnięcia.",
+      "middle": "<strong>Poziomy 5 i 6 (Iris, Victor)</strong> nadal patrzą tylko jeden ruch do przodu, ale już szykują wypchnięcia i spychają kule pod krawędź. Victor znacznie bardziej dba o środek.",
+      "high": "<strong>Poziomy 7 i 8 (Clara, Magnus)</strong> grają jak Victor, ale patrzą dwa i trzy ruchy do przodu, więc widzą twoją odpowiedź z wyprzedzeniem."
+    },
     "faq": {
       "title": "Częste pytania",
       "items": {
@@ -246,6 +261,10 @@
         "first_move": {
           "question": "Jaki jest najlepszy pierwszy ruch?",
           "answer": "To zależy od ustawienia. Zobacz <openings>otwarcia w Abalone</openings>."
+        },
+        "levels": {
+          "question": "Ile poziomów trudności ma komputer?",
+          "answer": "Osiem, od Gusa na poziomie 1 do Magnusa na poziomie 8. Pierwsza czwórka ma nawyki, które możesz obrócić przeciwko nim. Poziomy 1–6 patrzą jeden ruch do przodu, Clara dwa, a Magnus trzy."
         }
       }
     },

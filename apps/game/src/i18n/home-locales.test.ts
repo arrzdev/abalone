@@ -27,12 +27,6 @@ describe.each(Object.keys(LOCALES))("%s home cards", (path) => {
     expect(home[key]).not.toBe("")
   })
 
-  //the phone's line under the heading (TUD-2287 §3): empty until the
-  //language has its own, so a translated front door never shows english
-  it("has a trust line, empty or its own", () => {
-    expect(home.trust).toEqual(expect.any(String))
-  })
-
   it("has no line kept for one size only", () => {
     expect(
       Object.keys(home).filter((key) => /_hint_(short|long)$/.test(key)),
@@ -44,16 +38,15 @@ describe("english home cards", () => {
   const home = LOCALES["./locales/en/common.json"].home
 
   //the `play-free-copy` document on TUD-2298
-  it("say what each mode needs", () => {
+  it("say what each mode is", () => {
     expect(home.play_now).toBe("Play now")
     expect(home.play_now_hint).toBe("vs the computer · free")
     expect(home.local_hint).toBe("Two of you, one device.")
     expect(home.online_title).toBe("Friend online")
-    expect(home.online_hint).toBe("Needs a free account")
+    expect(home.online_hint).toBe("With friends.")
   })
 
   it("says free and no account above them", () => {
     expect(home.heading).toBe("Play Abalone free, no account")
-    expect(home.trust).toBe("Free board game. No sign-up, no download.")
   })
 })

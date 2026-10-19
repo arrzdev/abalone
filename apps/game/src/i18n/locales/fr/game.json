@@ -184,6 +184,14 @@
         "draw": {
           "question": "Une partie d'Abalone peut-elle finir en match nul ?",
           "answer": "Oui. Dans ce jeu, si la même position revient une troisième fois avec le même joueur au trait, la partie est nulle."
+        },
+        "same_device": {
+          "question": "Peut-on jouer à Abalone à deux sur le même appareil ?",
+          "answer": "Oui. Choisis Deux joueurs et jouez chacun votre tour sur le même écran."
+        },
+        "offline": {
+          "question": "Puis-je jouer sans connexion internet ?",
+          "answer": "Oui, une fois la page chargée. L'ordinateur tourne sur ton appareil, donc une partie contre lui ou à deux continue sans connexion. Seules les parties en ligne et ton compte ont besoin d'internet."
         }
       },
       "strategy_link": "Essaie les conseils de stratégie : <strategy>Stratégie Abalone : 7 conseils</strategy>."
@@ -235,6 +243,13 @@
         "leave_hole": "Pousser en laissant un trou dans lequel ton adversaire s'engouffre."
       }
     },
+    "computer": {
+      "title": "Quel est le niveau de l'ordinateur ?",
+      "intro": "Les huit bots sont un même joueur à des forces différentes, pas un bon joueur forcé de se tromper.",
+      "low": "<strong>Niveaux 1 à 4 (Gus, Milo, Nora, Theo)</strong> voient un coup à l'avance et ont des habitudes que tu peux exploiter. Gus et Milo chassent tes billes, avancent sans plan et restent parfois près du bord. Gus joue aussi un coup au hasard environ 1 fois sur 7. Les habitudes s'effacent niveau après niveau, et aucun des quatre ne prépare de poussée.",
+      "middle": "<strong>Niveaux 5 et 6 (Iris, Victor)</strong> voient toujours un seul coup à l'avance, mais préparent déjà des poussées et coincent des billes contre le bord. Victor tient beaucoup plus au centre.",
+      "high": "<strong>Niveaux 7 et 8 (Clara, Magnus)</strong> jouent comme Victor, mais voient deux et trois coups à l'avance : ils voient venir ta réponse."
+    },
     "faq": {
       "title": "Questions fréquentes",
       "items": {
@@ -245,6 +260,10 @@
         "first_move": {
           "question": "Quel est le meilleur premier coup ?",
           "answer": "Cela dépend de la disposition. Voir les <openings>premiers coups d'Abalone</openings>."
+        },
+        "levels": {
+          "question": "Combien de niveaux de difficulté a l'ordinateur ?",
+          "answer": "Huit, de Gus au niveau 1 à Magnus au niveau 8. Les quatre premiers ont des habitudes que tu peux retourner contre eux. Les niveaux 1 à 6 voient un coup à l'avance, Clara deux et Magnus trois."
         }
       }
     },

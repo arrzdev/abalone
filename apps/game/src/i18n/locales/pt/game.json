@@ -184,6 +184,14 @@
         "draw": {
           "question": "O Abalone pode acabar empatado?",
           "answer": "Sim. Neste jogo, se a mesma posição surgir pela terceira vez com o mesmo jogador a jogar, é empate."
+        },
+        "same_device": {
+          "question": "Duas pessoas podem jogar Abalone no mesmo dispositivo?",
+          "answer": "Sim. Escolhe Dois jogadores e joguem à vez no mesmo ecrã."
+        },
+        "offline": {
+          "question": "Posso jogar sem ligação à internet?",
+          "answer": "Sim, depois de a página carregar. O computador corre no teu dispositivo, por isso um jogo contra ele ou a dois continua sem ligação. Só os jogos online e a tua conta precisam de internet."
         }
       },
       "strategy_link": "Experimenta as dicas de estratégia: <strategy>Estratégia de Abalone: 7 dicas</strategy>."
@@ -235,6 +243,13 @@
         "leave_hole": "Empurrar quando isso deixa um buraco onde o adversário entra."
       }
     },
+    "computer": {
+      "title": "Quão forte é o computador?",
+      "intro": "Os oito bots são o mesmo jogador com forças diferentes, não um bom jogador obrigado a errar.",
+      "low": "<strong>Níveis 1 a 4 (Gus, Milo, Nora, Theo)</strong> veem uma jogada à frente e têm hábitos que podes aproveitar. O Gus e o Milo perseguem as tuas bolas, avançam sem plano e às vezes ficam perto da borda. O Gus também faz uma jogada ao acaso cerca de 1 vez em 7. Os hábitos desaparecem nível a nível, e nenhum dos quatro prepara um empurrão.",
+      "middle": "<strong>Níveis 5 e 6 (Iris, Victor)</strong> continuam a ver só uma jogada à frente, mas já preparam empurrões e encostam bolas à borda. O Victor dá muito mais valor ao centro.",
+      "high": "<strong>Níveis 7 e 8 (Clara, Magnus)</strong> jogam como o Victor, mas veem duas e três jogadas à frente, por isso contam com a tua resposta."
+    },
     "faq": {
       "title": "Perguntas frequentes",
       "items": {
@@ -245,6 +260,10 @@
         "first_move": {
           "question": "Qual é a melhor primeira jogada?",
           "answer": "Depende da disposição. Vê as <openings>aberturas de Abalone</openings>."
+        },
+        "levels": {
+          "question": "Quantos níveis de dificuldade tem o computador?",
+          "answer": "Oito, do Gus no nível 1 ao Magnus no nível 8. Os quatro primeiros têm hábitos que podes usar contra eles. Os níveis 1 a 6 veem uma jogada à frente, a Clara duas e o Magnus três."
         }
       }
     },

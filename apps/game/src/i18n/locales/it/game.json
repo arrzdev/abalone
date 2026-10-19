@@ -184,6 +184,14 @@
         "draw": {
           "question": "Abalone può finire in pareggio?",
           "answer": "Sì. In questo gioco, se la stessa posizione si ripete per la terza volta con lo stesso giocatore al tratto, è pareggio."
+        },
+        "same_device": {
+          "question": "Si può giocare ad Abalone in due sullo stesso dispositivo?",
+          "answer": "Sì. Scegli Due giocatori e giocate a turno sullo stesso schermo."
+        },
+        "offline": {
+          "question": "Posso giocare senza connessione internet?",
+          "answer": "Sì, una volta caricata la pagina. Il computer gira sul tuo dispositivo, quindi una partita contro di lui o in due continua senza connessione. Solo le partite online e il tuo account hanno bisogno di internet."
         }
       },
       "strategy_link": "Prova i consigli di strategia: <strategy>Strategia di Abalone: 7 consigli</strategy>."
@@ -235,6 +243,13 @@
         "leave_hole": "Spingere lasciando un buco in cui l'avversario si infila."
       }
     },
+    "computer": {
+      "title": "Quanto è forte il computer?",
+      "intro": "Gli otto bot sono un solo giocatore a forze diverse, non un buon giocatore costretto a sbagliare.",
+      "low": "<strong>Livelli da 1 a 4 (Gus, Milo, Nora, Theo)</strong> guardano una mossa avanti e hanno abitudini che puoi sfruttare. Gus e Milo inseguono le tue biglie, avanzano senza un piano e a volte restano vicino al bordo. Gus gioca anche una mossa a caso circa 1 volta su 7. Le abitudini svaniscono livello dopo livello, e nessuno dei quattro prepara mai una spinta.",
+      "middle": "<strong>Livelli 5 e 6 (Iris, Victor)</strong> guardano ancora una sola mossa avanti, ma iniziano a preparare spinte e a schiacciare biglie contro il bordo. Victor tiene molto di più al centro.",
+      "high": "<strong>Livelli 7 e 8 (Clara, Magnus)</strong> giocano come Victor, ma guardano due e tre mosse avanti, quindi vedono arrivare la tua risposta."
+    },
     "faq": {
       "title": "Domande frequenti",
       "items": {
@@ -245,6 +260,10 @@
         "first_move": {
           "question": "Qual è la prima mossa migliore?",
           "answer": "Dipende dalla disposizione. Leggi le <openings>mosse di apertura di Abalone</openings>."
+        },
+        "levels": {
+          "question": "Quanti livelli di difficoltà ha il computer?",
+          "answer": "Otto, da Gus al livello 1 a Magnus al livello 8. I primi quattro hanno abitudini che puoi usare contro di loro. I livelli da 1 a 6 guardano una mossa avanti, Clara due e Magnus tre."
         }
       }
     },
