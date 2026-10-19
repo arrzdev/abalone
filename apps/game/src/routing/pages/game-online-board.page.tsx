@@ -2,7 +2,7 @@ import type { Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
 import { createFileRoute, useNavigate } from "@tanstack/react-router"
 import type { CSSProperties, ReactNode } from "react"
-import { useCallback, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import type { GameCanvasHandle } from "@/components/game-canvas"
@@ -12,7 +12,7 @@ import type {
   ResultKind,
 } from "@/components/game-over-modal"
 import { GameOverModal } from "@/components/game-over-modal"
-import { SettingsIcon } from "@/components/icons"
+import { GamesIcon, HistoryIcon, SettingsIcon } from "@/components/icons"
 import { IngameControls } from "@/components/ingame-controls"
 import type { GameResult } from "@/components/move-history"
 import { PostgameControls } from "@/components/postgame-controls"
@@ -34,6 +34,7 @@ import { useOnlineGame } from "@/hooks/use-online-game"
 import { getSetupName } from "@/i18n/game-text"
 import { pageHead } from "@/routing/page-head"
 import { SignedInOnly } from "@/routing/signed-in-only"
+import { hasSeenGameOver, markGameOverSeen } from "@/utils/game-over-seen"
 
 export const Route = createFileRoute("/_subpage/online/$gameId")({
   head: () =>
@@ -67,7 +68,7 @@ function GameOnlineBoardPage() {
   const { ref: panelHeadRef, floor: panelFloor } = usePanelFloor()
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [resignOpen, setResignOpen] = useState(false)
-  const [resultDismissed, setResultDismissed] = useState(false)
+  const [resultOpen, setResultOpen] = useState(false)
   const [marbleDesign] = useMarbleDesign()
   const [showCoordinates] = useShowCoordinates()
 
@@ -89,6 +90,10 @@ function GameOnlineBoardPage() {
   const { game, state, mySeat } = online
 
   const backToList = () => navigate({ to: "/online" })
+  //a new game online is an invite the other player answers, so a rematch is the
+  //composer, open over the list
+  const inviteAgain = () =>
+    navigate({ to: "/online", search: { invite: "new" } })
 
   const opponent = game
     ? mySeat === "black"
@@ -129,6 +134,15 @@ function GameOnlineBoardPage() {
     : undefined
 
   const isOver = state.gameOver
+
+  //the result is news once: the first time this device sees the game finished,
+  //live or on opening it. marked as it opens, so a reload with the sheet still
+  //up goes to the board, and so does every later visit
+  useEffect(() => {
+    if (!isOver || hasSeenGameOver(gameId)) return
+    markGameOverSeen(gameId)
+    setResultOpen(true)
+  }, [gameId, isOver])
 
   let resultKind: ResultKind = "draw"
   if (state.winner) resultKind = state.winner === mySeat ? "win" : "loss"
@@ -320,11 +334,10 @@ function GameOnlineBoardPage() {
               onNext={online.goNextMove}
               onSkipToLatest={online.goToLatestMove}
               onGoTo={online.goToMoveIndex}
-              //there is no rematch button to press here: a new game needs an
-              //invite the other player answers, and both of these lead there
-              onRematch={backToList}
+              onRematch={inviteAgain}
               onNewBot={backToList}
-              newGameLabel={t("online:board.back_to_games")}
+              newGameLabel={t("online:board.games")}
+              newGameIcon={<GamesIcon size={20} />}
             />
           ) : (
             <IngameControls
@@ -350,28 +363,30 @@ function GameOnlineBoardPage() {
         </aside>
       </div>
 
+      {/* Open until the server has answered, so the press shows it is
+          waiting rather than closing on a game that has not ended yet. */}
       <ResignModal
-        open={resignOpen}
+        open={resignOpen && !isOver}
+        pending={online.isResigning}
         onClose={() => setResignOpen(false)}
-        onConfirm={() => {
-          setResignOpen(false)
-          online.resign()
-        }}
+        onConfirm={() => online.resign(() => setResignOpen(false))}
       />
 
       {/* No rematch button: another game needs an invite the other player
           answers, so the two ways out of here are reading this one back and
           going to the list where a new one is offered. */}
       <GameOverModal
-        open={isOver && !resultDismissed}
+        open={isOver && resultOpen}
         state={state}
         resultKind={resultKind}
         title={resultTitle}
         summary={resultSummary}
         rematchLabel={t("online:board.review")}
-        newGameLabel={t("online:board.back_to_games")}
-        onClose={() => setResultDismissed(true)}
-        onRematch={() => setResultDismissed(true)}
+        rematchIcon={<HistoryIcon size={18} />}
+        newGameLabel={t("online:board.games")}
+        newGameIcon={<GamesIcon size={18} />}
+        onClose={() => setResultOpen(false)}
+        onRematch={() => setResultOpen(false)}
         onNewBot={backToList}
       />
 

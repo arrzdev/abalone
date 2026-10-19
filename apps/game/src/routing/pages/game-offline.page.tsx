@@ -20,7 +20,7 @@ import type {
   ResultKind,
 } from "@/components/game-over-modal"
 import { GameOverModal } from "@/components/game-over-modal"
-import { SettingsIcon } from "@/components/icons"
+import { PlusIcon, SettingsIcon } from "@/components/icons"
 import { IngameControls } from "@/components/ingame-controls"
 import type { GameResult } from "@/components/move-history"
 import { OfflineAbout } from "@/components/offline-about"
@@ -404,6 +404,10 @@ function GameOfflinePage() {
   const newGameLabel = isLocal
     ? t("game:controls.new_game")
     : t("game:controls.new_bot")
+  //"New Bot" alone does not say a game starts; "New Game" does
+  const newGameAriaLabel = isLocal
+    ? undefined
+    : t("game:controls.new_bot_aria")
   // In pregame the board is a preview of the chosen setup, not something to
   // play on — the Play button is what starts the game.
   const boardInteractive =
@@ -746,6 +750,9 @@ function GameOfflinePage() {
                 onRematch={game.handleRematch}
                 onNewBot={game.handleNewBot}
                 newGameLabel={newGameLabel}
+                newGameIcon={<PlusIcon size={20} />}
+                rematchAriaLabel={t("game:controls.rematch_aria")}
+                newGameAriaLabel={newGameAriaLabel}
               />
             )}
           </aside>
@@ -768,6 +775,7 @@ function GameOfflinePage() {
         title={resultTitle}
         summary={resultSummary}
         newGameLabel={newGameLabel}
+        newGameIcon={<PlusIcon size={18} />}
         onClose={game.closeGameOverModal}
         onRematch={game.handleRematch}
         onNewBot={game.handleNewBot}

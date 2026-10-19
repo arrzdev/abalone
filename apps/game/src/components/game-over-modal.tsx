@@ -2,7 +2,7 @@ import type { GameState } from "@repo/abalone-engine/game-state"
 import { cn } from "@repo/nativ/utils"
 import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
-import { PlusIcon, RematchIcon } from "@/components/icons"
+import { RematchIcon } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { Sheet } from "@/components/ui/sheet"
 import { getGameOverMessage } from "@/i18n/game-text"
@@ -47,10 +47,14 @@ export type GameOverModalProps = {
   summary?: GameOverSummary
   /** What the first button says. The bot game's "Rematch", by default. */
   rematchLabel?: string
+  /** What the first button is drawn with. The bot game's rematch arrows, by default. */
+  rematchIcon?: ReactNode
   onClose: () => void
   onRematch: () => void
   onNewBot: () => void
   newGameLabel: string
+  /** What the second button is drawn with: a `+` for a new game, a list for the way back to one. */
+  newGameIcon: ReactNode
 }
 
 /**
@@ -69,10 +73,12 @@ export function GameOverModal({
   title,
   summary,
   rematchLabel,
+  rematchIcon = <RematchIcon size={18} />,
   onClose,
   onRematch,
   onNewBot,
   newGameLabel,
+  newGameIcon,
 }: GameOverModalProps) {
   const { t } = useTranslation()
   if (!open) return null
@@ -138,7 +144,7 @@ export function GameOverModal({
             className="h-[50px] flex-1 rounded-xl font-display text-base"
             onClick={onRematch}
           >
-            <RematchIcon size={18} />
+            {rematchIcon}
             {rematchLabel ??
               (mode === "local"
                 ? t("game:controls.rematch")
@@ -149,7 +155,7 @@ export function GameOverModal({
             className="h-[50px] flex-1 rounded-xl font-display text-base text-subtle hover:text-white"
             onClick={onNewBot}
           >
-            <PlusIcon size={18} />
+            {newGameIcon}
             {newGameLabel}
           </Button>
         </div>
