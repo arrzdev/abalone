@@ -432,6 +432,11 @@ export const MARBLE_DESIGNS = {
 
 export type MarbleDesign = keyof typeof MARBLE_DESIGNS
 
+/** Every design, in the order the settings show them. */
+export const MARBLE_DESIGN_NAMES = Object.keys(
+  MARBLE_DESIGNS,
+) as MarbleDesign[]
+
 /** Which designs are lit, and so have something to cast a shadow with. */
 const LIT = new Set<string>(["3d"])
 

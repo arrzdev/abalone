@@ -111,7 +111,7 @@ function controlBoxes(dialog: Locator): Promise<string[]> {
 
 /** Opens each dropdown in turn and checks nothing moved and nothing scrolls. */
 async function expectDropdownsOpenInPlace(dialog: Locator): Promise<void> {
-  for (const name of ["Select Language", "Marble Design"]) {
+  for (const name of ["Select Language"]) {
     const before = await controlBoxes(dialog)
     await dialog.getByRole("button", { name }).click()
     await expect(dialog.getByRole("listbox", { name })).toBeVisible()

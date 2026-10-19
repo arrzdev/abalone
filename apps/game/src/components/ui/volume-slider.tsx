@@ -48,22 +48,25 @@ export function VolumeSlider({
   onMutedChange,
 }: VolumeSliderProps) {
   const id = useId()
+  const descriptionId = useId()
 
+  // One row, the label beside the slider, so the settings sheet fits a
+  // 375x667 phone. The description is read with the slider rather than shown.
   return (
-    <div className="flex flex-col gap-y-2">
-      <label htmlFor={id} className="block cursor-pointer select-none">
-        <span className="block text-sm font-medium text-white">
-          {label}
-        </span>
-        {description && (
-          <span className="block text-xs text-muted">{description}</span>
-        )}
+    <div className="flex items-center gap-3 py-[7px]">
+      <label
+        htmlFor={id}
+        className="shrink-0 cursor-pointer text-sm font-medium text-white select-none"
+      >
+        {label}
       </label>
+      {description && (
+        <span id={descriptionId} className="sr-only">
+          {description}
+        </span>
+      )}
 
-      {/* The mute button's tap area hangs 7px past its fill on every side;
-          the padding gives it that room, so the row is as tall as what it
-          draws and the gaps around it measure true. */}
-      <div className="flex items-center gap-3 py-[7px]">
+      <div className="flex flex-1 items-center gap-3">
         <TapButton
           onClick={() => onMutedChange(!muted)}
           aria-pressed={muted}
@@ -101,6 +104,7 @@ export function VolumeSlider({
             if (MOVES_IT.has(event.key)) playMoveSound(1)
           }}
           aria-label={label}
+          aria-describedby={description ? descriptionId : undefined}
           // Where the track changes colour. The gradient that reads it lives in
           // the stylesheet — see `.volume-range`.
           style={{ "--fill": `${volume * 100}%` } as CSSProperties}
