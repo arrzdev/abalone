@@ -1,12 +1,12 @@
 import type { GameState } from "@repo/abalone-engine/game-state"
 import { cn } from "@repo/nativ/utils"
+import type { ReactNode } from "react"
 import { useRef } from "react"
 import { useTranslation } from "react-i18next"
 import {
   ChevronDoubleRightIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  PlusIcon,
   RematchIcon,
 } from "@/components/icons"
 import type { GameResult } from "@/components/move-history"
@@ -32,6 +32,11 @@ export type PostgameControlsProps = {
   onRematch: () => void
   onNewBot: () => void
   newGameLabel: string
+  /** What the second button is drawn with: a `+` for a new game, a list for the way back to one. */
+  newGameIcon: ReactNode
+  /** Only where the label leaves out what the button does. Read in place of it. */
+  rematchAriaLabel?: string
+  newGameAriaLabel?: string
 }
 
 /**
@@ -64,6 +69,9 @@ export function PostgameControls({
   onRematch,
   onNewBot,
   newGameLabel,
+  newGameIcon,
+  rematchAriaLabel,
+  newGameAriaLabel,
 }: PostgameControlsProps) {
   const { t } = useTranslation()
   const panelRef = useRef<HTMLDivElement>(null)
@@ -164,7 +172,7 @@ export function PostgameControls({
           variant="primary"
           size={compact ? "fill" : "md"}
           className="flex-1"
-          aria-label={t("game:controls.rematch_aria")}
+          aria-label={rematchAriaLabel}
           onClick={onRematch}
         >
           <RematchIcon size={20} />
@@ -174,10 +182,10 @@ export function PostgameControls({
           variant="secondary"
           size={compact ? "fill" : "md"}
           className="flex-1"
-          aria-label={t("game:controls.new_bot_aria")}
+          aria-label={newGameAriaLabel}
           onClick={onNewBot}
         >
-          <PlusIcon size={20} />
+          {newGameIcon}
           {newGameLabel}
         </Button>
       </div>

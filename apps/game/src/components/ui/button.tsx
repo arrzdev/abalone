@@ -1,5 +1,6 @@
 import { cn } from "@repo/nativ/utils"
-import type { ComponentProps } from "react"
+import type { ComponentProps, ReactNode } from "react"
+import { SpinnerIcon } from "@/components/icons"
 import type { TapHandler } from "@/hooks/use-click-fix"
 import { useClickFix } from "@/hooks/use-click-fix"
 
@@ -58,6 +59,8 @@ export type ButtonProps = Omit<ComponentProps<"button">, "onClick"> & {
   variant?: ButtonVariant
   size?: ButtonSize
   onClick?: TapHandler
+  /** Waiting on the network: a spinner in place of the label, busy, and disabled. */
+  pending?: boolean
 }
 
 /**
@@ -65,6 +68,11 @@ export type ButtonProps = Omit<ComponentProps<"button">, "onClick"> & {
  * the release of the tap that pressed it rather than on the click that follows.
  * The step buttons under the move list are the reason: they are the pair most
  * likely to be tapped several times in a row, which is the pattern iOS mistimes.
+ *
+ * `pending` is for a press that waits on the network. A button that looks the
+ * same while its request is out reads as frozen and gets pressed again, so it
+ * spins, says it is busy, and takes no second press. The label stays where it
+ * was, only see-through, so the button keeps its width and its accessible name.
  */
 export function Button({
   variant = "secondary",
@@ -72,15 +80,65 @@ export function Button({
   className,
   type = "button",
   onClick,
+  pending = false,
+  disabled,
+  children,
   ...props
 }: ButtonProps) {
   const tap = useClickFix(onClick)
   return (
     <button
       type={type}
-      className={cn(buttonClassName(variant, size), className)}
+      className={cn(
+        buttonClassName(variant, size),
+        pending && "relative disabled:opacity-100",
+        className,
+      )}
+      disabled={disabled || pending}
+      aria-busy={pending || undefined}
       {...tap}
       {...props}
-    />
+    >
+      <PendingContent
+        pending={pending}
+        spinnerSize={size === "sm" ? 16 : 18}
+      >
+        {children}
+      </PendingContent>
+    </button>
+  )
+}
+
+export type PendingContentProps = {
+  pending: boolean
+  spinnerSize?: number
+  children: ReactNode
+}
+
+/**
+ * The inside of a button while it waits: the label see-through and in place, so
+ * nothing moves, and a spinner over it. For the few buttons drawn by hand
+ * rather than with `Button`; the button itself still needs `relative`,
+ * `aria-busy` and `disabled`.
+ */
+export function PendingContent({
+  pending,
+  spinnerSize = 18,
+  children,
+}: PendingContentProps) {
+  if (!pending) return children
+  return (
+    <>
+      <span className="inline-flex items-center justify-center gap-[inherit] opacity-0">
+        {children}
+      </span>
+      <span
+        data-spinner
+        aria-hidden="true"
+        className="absolute inset-0 flex items-center justify-center"
+      >
+        <SpinnerIcon size={spinnerSize} className="animate-spin" />
+      </span>
+    </>
   )
 }

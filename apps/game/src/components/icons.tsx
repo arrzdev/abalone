@@ -16,6 +16,8 @@ import {
   Image as ImageGlyph,
   Info,
   Lightbulb,
+  List,
+  LoaderCircle,
   LogIn,
   LogOut,
   Pause,
@@ -72,6 +74,12 @@ export const BackIcon = glyph(ChevronLeft)
 export const FlagIcon = glyph(Flag)
 export const RematchIcon = glyph(RefreshCw)
 export const PlusIcon = glyph(Plus)
+
+/** The list of games: the way back to it, never a new one. */
+export const GamesIcon = glyph(List)
+
+/** Inside a button that is waiting on the network. Turned by the button. */
+export const SpinnerIcon = glyph(LoaderCircle)
 export const SettingsIcon = glyph(Settings)
 export const RobotIcon = glyph(Bot)
 export const PersonIcon = glyph(User)

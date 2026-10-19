@@ -237,11 +237,10 @@ function InviteLinkPage() {
                     variant="primary"
                     size="lg"
                     className={ACTION_CLASS}
-                    disabled={accept.isPending}
+                    pending={accept.isPending}
                     onClick={() => accept.mutate(linkId)}
                   >
-                    {accept.isPending && t("online:invite_link.accepting")}
-                    {!accept.isPending && t("online:invite_link.accept")}
+                    {t("online:invite_link.accept")}
                   </Button>
                   {/* The last thing on the page, so it may rest empty; it
                       holds room for the longest thing it can say, so a

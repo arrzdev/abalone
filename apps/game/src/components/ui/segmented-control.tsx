@@ -23,11 +23,15 @@ export type SegmentedOption<T extends string> = {
  * `md` is the default. `row` is level with the 48px rows a panel is built from —
  * a 40px control in a padded track, which is what the setup carousel under it
  * is too. `lg` is for the top of a form, read against a column of 54px fields.
+ *
+ * The two larger ones step down to `md`'s type and padding in a track under
+ * 24rem, which is every phone: at 16px "Create account" and most of its
+ * translations wrap in a 320px drawer, and at 14px they fit on one line.
  */
 const SIZES = {
   md: "h-11 -my-1 px-2 text-sm",
-  row: "h-11 -my-0.5 px-3 text-base",
-  lg: "h-12 px-3 text-base",
+  row: "h-11 -my-0.5 px-3 text-base @max-sm:px-2 @max-sm:text-sm",
+  lg: "h-12 px-3 text-base @max-sm:px-2 @max-sm:text-sm",
 }
 
 export type SegmentedControlProps<T extends string> = {
@@ -108,8 +112,9 @@ export function SegmentedControl<T extends string>({
                 {option.icon}
               </span>
             )}
-            {/* Labels vary a lot in length between languages. One that does
-                not fit its line wraps to a second rather than being cut off:
+            {/* Labels vary a lot in length between languages. Every one fits a
+                line at 320 today; one that stops fitting wraps to a second
+                rather than being cut off:
                 the segments have a fixed height, so the control stays the same
                 size and the two segments stay even. */}
             <span className="line-clamp-2 min-w-0 text-center leading-tight text-balance">

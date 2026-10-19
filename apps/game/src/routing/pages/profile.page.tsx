@@ -12,6 +12,7 @@ import {
   ImageIcon,
   LogoutIcon,
   SettingsIcon,
+  SpinnerIcon,
 } from "@/components/icons"
 import { Avatar } from "@/components/ui/avatar"
 import { Panel } from "@/components/ui/panel"
@@ -168,10 +169,21 @@ function ProfilePage() {
             <Panel>
               <TapButton
                 disabled={isBusy}
+                aria-busy={signOut.isPending || undefined}
                 onClick={() => signOut.mutate()}
                 className={cn(ROW_CLASS, "text-loss hover:bg-loss/10")}
               >
-                <LogoutIcon size={19} className="shrink-0" />
+                {/* The spinner in the icon's place: same size, so the label
+                    beside it stays where it is. */}
+                {signOut.isPending ? (
+                  <SpinnerIcon
+                    data-spinner
+                    size={19}
+                    className="shrink-0 animate-spin"
+                  />
+                ) : (
+                  <LogoutIcon size={19} className="shrink-0" />
+                )}
                 <span className="min-w-0 flex-1 font-display text-[15px] font-semibold">
                   {t("common:auth.sign_out")}
                 </span>
@@ -220,6 +232,7 @@ function Identity({
     <div className="flex flex-col items-center gap-3 pt-2 lg:flex-row lg:gap-6 lg:pt-0">
       <TapButton
         disabled={isBusy}
+        aria-busy={isUploading || undefined}
         onClick={onPickPicture}
         aria-label={t("common:profile.change_picture")}
         className="relative shrink-0 rounded-[21px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:pointer-events-none lg:rounded-3xl"
@@ -236,7 +249,11 @@ function Identity({
           aria-hidden="true"
           className="absolute -right-1 -bottom-1 flex size-[34px] items-center justify-center rounded-full bg-brand-fill text-white outline-[3px] outline-ground lg:hidden"
         >
-          <CameraIcon size={17} />
+          {isUploading ? (
+            <SpinnerIcon data-spinner size={17} className="animate-spin" />
+          ) : (
+            <CameraIcon size={17} />
+          )}
         </span>
       </TapButton>
 
@@ -262,10 +279,15 @@ function Identity({
 
       <TapButton
         disabled={isBusy}
+        aria-busy={isUploading || undefined}
         onClick={onPickPicture}
         className="hidden h-11 shrink-0 items-center gap-2.5 rounded-[11px] bg-surface px-[18px] font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:flex"
       >
-        <ImageIcon size={19} />
+        {isUploading ? (
+          <SpinnerIcon data-spinner size={19} className="animate-spin" />
+        ) : (
+          <ImageIcon size={19} />
+        )}
         {/* Both labels in one cell, so the button keeps the width of the
             longer one and the name beside it does not move while it says
             it is uploading. */}

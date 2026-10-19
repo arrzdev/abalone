@@ -71,8 +71,7 @@
     "username_hint": "The name they sign in with.",
     "setup": "Opening",
     "side": "Your side",
-    "send": "Send invite",
-    "sending": "Sending"
+    "send": "Send invite"
   },
   "board": {
     "against": "vs {{name}}",
@@ -84,7 +83,7 @@
     "result_loss": "You lost",
     "result_draw": "Draw",
     "review": "Review game",
-    "back_to_games": "Back to games",
+    "games": "Games",
     "head_to_head": "Past wins",
     "head_to_head_detail": "Before this game: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
@@ -97,7 +96,6 @@
   "link": {
     "hint": "The first person to accept it plays you. It lasts 7 days.",
     "create": "Invite with a link",
-    "creating": "Making a link",
     "field": "Invite link",
     "share": "Share link",
     "copy": "Copy link",
@@ -114,7 +112,6 @@
     "body_signed_out": "Create an account or sign in to accept. You'll come straight back here.",
     "body_signed_in": "Accept and the game starts right away.",
     "accept": "Accept and play",
-    "accepting": "Opening the game",
     "own_title": "This is your invite link",
     "own_body": "Send it to the person you want to play. The game starts when they accept.",
     "used_title": "This invite has already been used",

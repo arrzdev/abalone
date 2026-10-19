@@ -72,8 +72,7 @@
     "username_hint": "Le nom avec lequel la personne se connecte.",
     "setup": "Ouverture",
     "side": "Ton camp",
-    "send": "Envoyer l'invitation",
-    "sending": "Envoi en cours"
+    "send": "Envoyer l'invitation"
   },
   "board": {
     "against": "contre {{name}}",
@@ -85,7 +84,7 @@
     "result_loss": "Tu as perdu",
     "result_draw": "Nulle",
     "review": "Revoir la partie",
-    "back_to_games": "Retour aux parties",
+    "games": "Parties",
     "head_to_head": "Victoires passées",
     "head_to_head_detail": "Avant cette partie : {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
@@ -98,7 +97,6 @@
   "link": {
     "hint": "La première personne qui accepte joue contre toi. Le lien dure 7 jours.",
     "create": "Inviter avec un lien",
-    "creating": "Création du lien",
     "field": "Lien d'invitation",
     "share": "Partager le lien",
     "copy": "Copier le lien",
@@ -115,7 +113,6 @@
     "body_signed_out": "Créez un compte ou connectez-vous pour accepter. Vous reviendrez directement ici.",
     "body_signed_in": "Acceptez et la partie commence tout de suite.",
     "accept": "Accepter et jouer",
-    "accepting": "Ouverture de la partie",
     "own_title": "C'est votre lien d'invitation",
     "own_body": "Envoyez-le à la personne avec qui vous voulez jouer. La partie commence quand elle accepte.",
     "used_title": "Cette invitation a déjà été utilisée",

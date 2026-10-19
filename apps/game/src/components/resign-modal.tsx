@@ -7,6 +7,8 @@ export type ResignModalProps = {
   open: boolean
   onClose: () => void
   onConfirm: () => void
+  /** The resignation is on its way to the server: the red button says so. */
+  pending?: boolean
 }
 
 /**
@@ -28,6 +30,7 @@ export function ResignModal({
   open,
   onClose,
   onConfirm,
+  pending = false,
 }: ResignModalProps) {
   const { t } = useTranslation()
 
@@ -55,6 +58,7 @@ export function ResignModal({
         <Button
           variant="danger"
           className="h-13 lg:h-12 lg:flex-1"
+          pending={pending}
           onClick={onConfirm}
         >
           <FlagIcon size={20} />

@@ -2,7 +2,9 @@ import { cn } from "@repo/nativ/utils"
 import { useTranslation } from "react-i18next"
 import { CloseIcon } from "@/components/icons"
 import { Avatar } from "@/components/ui/avatar"
+import { PendingContent } from "@/components/ui/button"
 import type { Invite } from "@/data/online/queries"
+import type { PendingInvite } from "@/hooks/use-online-home"
 import { getSetupName } from "@/i18n/game-text"
 
 export type ReceivedInviteRowProps = {
@@ -13,6 +15,8 @@ export type ReceivedInviteRowProps = {
    */
   dense?: boolean
   busy: boolean
+  /** The answer to this invite that is waiting on the server, if any. */
+  pending?: PendingInvite["action"]
   onAccept: (inviteId: string) => void
   onDecline: (inviteId: string) => void
 }
@@ -49,6 +53,7 @@ export function ReceivedInviteRow({
   invite,
   dense = false,
   busy,
+  pending,
   onAccept,
   onDecline,
 }: ReceivedInviteRowProps) {
@@ -74,21 +79,33 @@ export function ReceivedInviteRow({
           <button
             type="button"
             disabled={busy}
+            aria-busy={pending === "accept" || undefined}
             onClick={() => onAccept(invite.id)}
-            className="inline-flex h-[34px] items-center rounded-[9px] bg-brand-fill px-3.5 font-display text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
+            className="relative inline-flex h-[34px] items-center rounded-[9px] bg-brand-fill px-3.5 font-display text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
           >
-            {t("online:invites.accept")}
+            <PendingContent
+              pending={pending === "accept"}
+              spinnerSize={16}
+            >
+              {t("online:invites.accept")}
+            </PendingContent>
           </button>
 
           <button
             type="button"
             disabled={busy}
+            aria-busy={pending === "decline" || undefined}
             aria-label={t("online:invites.decline")}
             title={t("online:invites.decline")}
             onClick={() => onDecline(invite.id)}
-            className="inline-flex size-[34px] items-center justify-center rounded-[9px] text-faint transition-colors duration-200 ease-out hover:bg-surface-3 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
+            className="relative inline-flex size-[34px] items-center justify-center rounded-[9px] text-faint transition-colors duration-200 ease-out hover:bg-surface-3 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
           >
-            <CloseIcon size={17} strokeWidth={2.2} />
+            <PendingContent
+              pending={pending === "decline"}
+              spinnerSize={16}
+            >
+              <CloseIcon size={17} strokeWidth={2.2} />
+            </PendingContent>
           </button>
         </span>
       </div>
@@ -114,19 +131,25 @@ export function ReceivedInviteRow({
         <button
           type="button"
           disabled={busy}
+          aria-busy={pending === "accept" || undefined}
           onClick={() => onAccept(invite.id)}
-          className="inline-flex h-[42px] flex-1 items-center justify-center rounded-[10px] bg-brand-fill font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
+          className="relative inline-flex h-[42px] flex-1 items-center justify-center rounded-[10px] bg-brand-fill font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
         >
-          {t("online:invites.accept")}
+          <PendingContent pending={pending === "accept"}>
+            {t("online:invites.accept")}
+          </PendingContent>
         </button>
 
         <button
           type="button"
           disabled={busy}
+          aria-busy={pending === "decline" || undefined}
           onClick={() => onDecline(invite.id)}
-          className="inline-flex h-[42px] items-center justify-center rounded-[10px] px-4 font-display text-[15px] font-semibold text-muted transition-colors duration-200 ease-out hover:bg-surface-2 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
+          className="relative inline-flex h-[42px] items-center justify-center rounded-[10px] px-4 font-display text-[15px] font-semibold text-muted transition-colors duration-200 ease-out hover:bg-surface-2 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
         >
-          {t("online:invites.decline")}
+          <PendingContent pending={pending === "decline"}>
+            {t("online:invites.decline")}
+          </PendingContent>
         </button>
       </div>
     </div>
@@ -136,6 +159,8 @@ export function ReceivedInviteRow({
 export type SentInviteRowProps = {
   invite: Invite
   busy: boolean
+  /** Set while taking this invite back is waiting on the server. */
+  pending?: boolean
   onRemove: (inviteId: string) => void
 }
 
@@ -159,6 +184,7 @@ const JUST_SENT_MS = 90_000
 export function SentInviteRow({
   invite,
   busy,
+  pending = false,
   onRemove,
 }: SentInviteRowProps) {
   const { t } = useTranslation()
@@ -198,12 +224,15 @@ export function SentInviteRow({
       <button
         type="button"
         disabled={busy}
+        aria-busy={pending || undefined}
         onClick={() => onRemove(invite.id)}
-        className="inline-flex h-[34px] shrink-0 items-center rounded-[9px] px-3 font-display text-[13px] font-semibold text-faint transition-colors duration-200 ease-out hover:bg-surface-2 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
+        className="relative inline-flex h-[34px] shrink-0 items-center rounded-[9px] px-3 font-display text-[13px] font-semibold text-faint transition-colors duration-200 ease-out hover:bg-surface-2 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45"
       >
-        {isDeclined
-          ? t("online:invites.dismiss")
-          : t("online:invites.cancel")}
+        <PendingContent pending={pending} spinnerSize={16}>
+          {isDeclined
+            ? t("online:invites.dismiss")
+            : t("online:invites.cancel")}
+        </PendingContent>
       </button>
     </div>
   )
@@ -212,6 +241,8 @@ export function SentInviteRow({
 export type LeadInviteRowProps = {
   invite: Invite
   busy: boolean
+  /** The answer to this invite that is waiting on the server, if any. */
+  pending?: PendingInvite["action"]
   onAccept: (inviteId: string) => void
   onDecline: (inviteId: string) => void
 }
@@ -231,6 +262,7 @@ export type LeadInviteRowProps = {
 export function LeadInviteRow({
   invite,
   busy,
+  pending,
   onAccept,
   onDecline,
 }: LeadInviteRowProps) {
@@ -257,19 +289,25 @@ export function LeadInviteRow({
         <button
           type="button"
           disabled={busy}
+          aria-busy={pending === "accept" || undefined}
           onClick={() => onAccept(invite.id)}
-          className="inline-flex h-11 flex-1 shrink-0 items-center justify-center rounded-[11px] bg-brand-fill font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45 lg:h-[42px] lg:flex-none lg:px-[22px]"
+          className="relative inline-flex h-11 flex-1 shrink-0 items-center justify-center rounded-[11px] bg-brand-fill font-display text-[15px] font-semibold text-white transition-colors duration-200 ease-out hover:bg-brand-fill-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45 lg:h-[42px] lg:flex-none lg:px-[22px]"
         >
-          {t("online:invites.accept")}
+          <PendingContent pending={pending === "accept"}>
+            {t("online:invites.accept")}
+          </PendingContent>
         </button>
 
         <button
           type="button"
           disabled={busy}
+          aria-busy={pending === "decline" || undefined}
           onClick={() => onDecline(invite.id)}
-          className="inline-flex h-11 shrink-0 items-center justify-center rounded-[11px] px-4 font-display text-[15px] font-semibold text-muted transition-colors duration-200 ease-out hover:bg-surface-3 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45 lg:h-[42px]"
+          className="relative inline-flex h-11 shrink-0 items-center justify-center rounded-[11px] px-4 font-display text-[15px] font-semibold text-muted transition-colors duration-200 ease-out hover:bg-surface-3 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:cursor-not-allowed disabled:opacity-45 lg:h-[42px]"
         >
-          {t("online:invites.decline")}
+          <PendingContent pending={pending === "decline"}>
+            {t("online:invites.decline")}
+          </PendingContent>
         </button>
       </div>
     </div>

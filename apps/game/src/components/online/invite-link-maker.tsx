@@ -105,12 +105,11 @@ export function InviteLinkMaker({
           variant={variant}
           size={size}
           className={cn("w-full", buttonClassName, url && "invisible")}
-          disabled={create.isPending}
+          pending={create.isPending}
           aria-describedby={statusId}
           onClick={handleCreate}
         >
-          {create.isPending && t("online:link.creating")}
-          {!create.isPending && t("online:link.create")}
+          {t("online:link.create")}
         </Button>
 
         {/* The field ends in an ellipsis where the link is longer than the

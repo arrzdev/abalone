@@ -72,8 +72,7 @@
     "username_hint": "Il nome con cui accedono.",
     "setup": "Apertura",
     "side": "Il tuo lato",
-    "send": "Invia invito",
-    "sending": "Invio in corso"
+    "send": "Invia invito"
   },
   "board": {
     "against": "contro {{name}}",
@@ -85,7 +84,7 @@
     "result_loss": "Hai perso",
     "result_draw": "Patta",
     "review": "Rivedi la partita",
-    "back_to_games": "Torna alle partite",
+    "games": "Partite",
     "head_to_head": "Vittorie precedenti",
     "head_to_head_detail": "Prima di questa partita: {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
@@ -98,7 +97,6 @@
   "link": {
     "hint": "Chi accetta per primo gioca con te. Il link dura 7 giorni.",
     "create": "Invita con un link",
-    "creating": "Creazione del link",
     "field": "Link di invito",
     "share": "Condividi link",
     "copy": "Copia link",
@@ -115,7 +113,6 @@
     "body_signed_out": "Crea un account o accedi per accettare. Tornerai subito qui.",
     "body_signed_in": "Accetta e la partita inizia subito.",
     "accept": "Accetta e gioca",
-    "accepting": "Apertura della partita",
     "own_title": "Questo è il tuo link di invito",
     "own_body": "Invialo alla persona con cui vuoi giocare. La partita inizia quando accetta.",
     "used_title": "Questo invito è già stato usato",

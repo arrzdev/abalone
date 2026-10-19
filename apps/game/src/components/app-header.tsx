@@ -225,7 +225,7 @@ function AccountControl() {
     return (
       <TapButton
         onClick={() => requireAuth({})}
-        className="inline-flex h-11 hit-[3px] items-center rounded-[12px] bg-surface px-3.5 font-display text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hit-[0px] lg:rounded-[10px] lg:bg-transparent lg:px-4 lg:text-[15px] lg:text-subtle lg:hover:bg-white/10 lg:hover:text-white"
+        className="inline-flex h-11 hit-[3px] items-center rounded-[12px] bg-surface px-3.5 font-display whitespace-nowrap max-sm:px-2.5 text-sm font-semibold text-white transition-colors duration-200 ease-out hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand lg:hit-[0px] lg:rounded-[10px] lg:bg-transparent lg:px-4 lg:text-[15px] lg:text-subtle lg:hover:bg-white/10 lg:hover:text-white"
       >
         {t("common:auth.sign_in")}
       </TapButton>

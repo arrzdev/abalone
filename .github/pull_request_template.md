@@ -13,5 +13,7 @@
 - [ ] Focus ring fully visible on every control (not cut by overflow)
 - [ ] Touch targets ≥ 44x44 on phone
 - [ ] Empty, loading and error states exist and look designed
+- [ ] Every network action shows a pending state: spinner, busy, disabled, one submit
+- [ ] Button labels stay on one line at 320 in the longest locale
 - [ ] Checked at 375x667, 402x710 and desktop, Chromium + WebKit
 - [ ] New UI spec uses the shift and clipped-text helpers

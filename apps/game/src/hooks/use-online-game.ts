@@ -168,7 +168,8 @@ export type OnlineGame = {
   goNextMove: () => void
   goToMoveIndex: (index: number) => void
   goToLatestMove: () => void
-  resign: () => void
+  /** Gives up, then calls `onSettled` once the server has answered either way. */
+  resign: (onSettled?: () => void) => void
 }
 
 /** What the board draws before the first ply has arrived. */
@@ -614,6 +615,6 @@ export function useOnlineGame(
     goNextMove: () => goToMoveIndex(state.currentMoveIndex + 1),
     goToMoveIndex,
     goToLatestMove: () => goToMoveIndex(latestIndex),
-    resign: () => resignGame.mutate(gameId),
+    resign: (onSettled) => resignGame.mutate(gameId, { onSettled }),
   }
 }
