@@ -261,7 +261,7 @@ test.describe("in German on a 375x667 phone", () => {
     await expectNoClippedText(composer)
 
     await composer
-      .getByLabel("Gegen wen spielst du?")
+      .getByLabel("Gegner", { exact: true })
       .fill(uniqueUsername("nobody"))
     await composer
       .getByRole("button", { name: "Einladung senden" })
