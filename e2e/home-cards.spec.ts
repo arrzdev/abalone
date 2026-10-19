@@ -294,10 +294,12 @@ test.describe("first screen", () => {
     })
   }
 
-  //the room the phone heading took is the board's now (TUD-2781), so even
-  //the smallest first screen has a board's worth of it
+  //the room the phone heading took is the board's now (TUD-2781), so a
+  //phone's first screen has a board's worth of it. Smaller screens sit on
+  //the 140px line, where WebKit's taller text tips it to no board: the
+  //board-or-nothing check above covers them
   for (const viewport of [
-    { width: 320, height: 460 },
+    { width: 375, height: 667 },
     { width: 390, height: 664 },
   ]) {
     test.describe(`${viewport.width}×${viewport.height}`, () => {
