@@ -85,7 +85,7 @@ for (const viewport of VIEWPORTS) {
 
       // A name nobody has: the answer lands in space that was already there.
       await composer
-        .getByLabel("Who are you playing?")
+        .getByLabel("Opponent", { exact: true })
         .fill(uniqueUsername("nobody"))
       await expectNoLayoutShift(
         composer,

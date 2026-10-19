@@ -67,8 +67,8 @@
   },
   "compose": {
     "title": "Neue Einladung",
-    "username": "Gegen wen spielst du?",
-    "username_placeholder": "Name des Gegners",
+    "username": "Gegner",
+    "username_placeholder": "Benutzername",
     "username_hint": "Der Name, mit dem sie sich anmelden.",
     "setup": "Aufstellung",
     "side": "Deine Seite",
@@ -90,7 +90,7 @@
   },
   "empty": {
     "title": "Hier ist noch nichts",
-    "link_body": "Schick jemandem einen Link. Die Partie beginnt, sobald der Link geöffnet und angenommen wird.",
+    "link_body": "Schick jemandem einen Link.",
     "play_bot": "Gegen einen Bot spielen",
     "invite_by_name": "Per Benutzername einladen"
   },
@@ -100,8 +100,8 @@
     "field": "Einladungslink",
     "share": "Link teilen",
     "copy": "Link kopieren",
-    "copied": "Link kopiert. Schick ihn der Person, mit der du spielen willst.",
-    "copy_failed": "Der Link konnte nicht kopiert werden. Markiere ihn und kopiere ihn selbst.",
+    "copied": "Link kopiert",
+    "copy_failed": "Kopieren hat nicht geklappt. Markiere den Link und kopiere ihn.",
     "share_text": "Lust auf eine Partie Abalone? Öffne diesen Link und spiel gegen mich."
   },
   "invite_link": {
@@ -110,17 +110,16 @@
     "retry": "Erneut versuchen",
     "go_home": "Zur Startseite",
     "title": "{{name}} hat dich zu einer Partie {{brand}} eingeladen",
-    "body_signed_out": "Erstelle ein Konto oder melde dich an, um anzunehmen. Danach landest du direkt wieder hier.",
-    "body_signed_in": "Nimm an und die Partie beginnt sofort.",
+    "body_signed_out": "Melde dich an oder erstelle ein Konto, um anzunehmen.",
     "accept": "Annehmen und spielen",
     "own_title": "Das ist dein Einladungslink",
-    "own_body": "Schick ihn der Person, mit der du spielen willst. Die Partie beginnt, sobald sie annimmt.",
+    "own_body": "Schick ihn jemandem, um zu spielen.",
     "used_title": "Diese Einladung wurde bereits genutzt",
-    "used_body": "Jemand anderes hat sie zuerst angenommen. Bitte {{name}} um einen neuen Link.",
+    "used_body": "Bitte {{name}} um einen neuen Link.",
     "expired_title": "Diese Einladung ist abgelaufen",
-    "expired_body": "Einladungslinks gelten 7 Tage. Bitte die Person, die ihn geschickt hat, um einen neuen.",
+    "expired_body": "Bitte den Absender um einen neuen Link.",
     "broken_title": "Dieser Einladungslink funktioniert nicht",
-    "broken_body": "Prüfe, ob du den ganzen Link eingefügt hast, oder bitte den Absender um einen neuen.",
+    "broken_body": "Bitte den Absender um einen neuen Link.",
     "play_computer": "Gegen den Computer spielen"
   }
 }

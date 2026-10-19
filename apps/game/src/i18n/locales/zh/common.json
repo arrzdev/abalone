@@ -28,7 +28,7 @@
     "play_now_hint": "八个机器人，由易到难。",
     "play_online": "在线对战",
     "online_title": "在线对战",
-    "bot_hint": "八个机器人，由易到难。",
+    "bot_hint": "8 个等级",
     "local_hint": "两个人，一台设备。",
     "online_hint": "和朋友对战。",
     "rules_link": "Abalone 规则",
@@ -61,11 +61,9 @@
     "username_hint": "对手通过这个名字邀请你。名字无法更改。",
     "change_picture": "更换头像",
     "uploading": "上传中",
-    "picture_hint": "支持 PNG、JPEG 或 WebP。图片会裁剪为正方形。",
     "upload_failed": "头像未能上传。请重试。",
     "playing": "进行中",
-    "best_streak": "最佳连胜",
-    "settings_hint": "语言、棋子样式和声音"
+    "best_streak": "最佳连胜"
   },
   "actions": {
     "close": "关闭",
@@ -73,12 +71,11 @@
   },
   "sync": {
     "updating": "正在更新",
-    "offline": "你处于离线状态，内容可能不是最新的。",
-    "unreachable": "刷新失败，内容可能不是最新的。"
+    "offline": "你处于离线状态",
+    "unreachable": "刷新失败"
   },
   "not_found": {
     "title": "这一格上什么都没有",
-    "body": "这个地址哪里也去不了。",
     "action": "回到棋盘"
   }
 }

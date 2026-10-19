@@ -3,7 +3,7 @@
   "api_internal_server_error": "Algo salió mal por nuestra parte.",
   "api_endpoint_not_found": "Esa página no existe.",
   "api_rate_limit_exceeded": "Demasiadas solicitudes. Espera un momento.",
-  "api_service_unavailable": "El servidor no responde. Prueba en un rato.",
+  "api_service_unavailable": "Servidor no disponible. Prueba en un rato.",
   "api_not_found": "No encontramos eso.",
   "api_unauthorized": "Necesitas iniciar sesión para eso.",
   "api_file_too_large": "Ese archivo es demasiado grande.",
@@ -17,7 +17,7 @@
   "api_move_conflict": "La partida avanzó mientras jugabas.",
   "network_unreachable": "No pudimos conectar con el servidor.",
   "unknown": "Algo salió mal.",
-  "api_invite_link_own": "Este es tu propio enlace. Envíalo a otra persona para jugar.",
+  "api_invite_link_own": "Es tu propio enlace. Envíalo a un amigo.",
   "api_invite_link_used": "Otra persona ya ha aceptado esta invitación.",
   "api_invite_link_expired": "Esta invitación ha caducado. Pide un enlace nuevo."
 }

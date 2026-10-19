@@ -28,7 +28,7 @@
     "play_now_hint": "vs the computer · free",
     "play_online": "Play Online",
     "online_title": "Friend online",
-    "bot_hint": "Eight bots, easy to hard.",
+    "bot_hint": "8 levels",
     "local_hint": "Two of you, one device.",
     "online_hint": "With friends.",
     "rules_link": "Abalone rules",
@@ -62,11 +62,9 @@
     "username_hint": "Opponents invite you by this name. It can't be changed.",
     "change_picture": "Change picture",
     "uploading": "Uploading",
-    "picture_hint": "PNG, JPEG or WebP. It is cropped to a square.",
     "upload_failed": "That picture didn't upload. Try again.",
     "playing": "Playing",
-    "best_streak": "Best streak",
-    "settings_hint": "Language, marbles and sound"
+    "best_streak": "Best streak"
   },
   "actions": {
     "close": "Close",
@@ -74,12 +72,11 @@
   },
   "sync": {
     "updating": "Updating",
-    "offline": "You're offline, so this may be out of date.",
-    "unreachable": "Couldn't refresh, so this may be out of date."
+    "offline": "You're offline",
+    "unreachable": "Couldn't refresh"
   },
   "not_found": {
     "title": "Nothing on this square",
-    "body": "That address doesn't lead anywhere.",
     "action": "Back to the board"
   }
 }

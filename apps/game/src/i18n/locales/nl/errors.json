@@ -2,8 +2,8 @@
   "api_invalid_input": "Daar klopt iets niet.",
   "api_internal_server_error": "Er ging iets mis aan onze kant.",
   "api_endpoint_not_found": "Die pagina bestaat niet.",
-  "api_rate_limit_exceeded": "Te veel verzoeken tegelijk. Wacht even.",
-  "api_service_unavailable": "De server is onbereikbaar. Probeer het zo weer.",
+  "api_rate_limit_exceeded": "Te veel verzoeken. Wacht even.",
+  "api_service_unavailable": "Server onbereikbaar. Probeer het zo weer.",
   "api_not_found": "We konden dat niet vinden.",
   "api_unauthorized": "Hiervoor moet je ingelogd zijn.",
   "api_file_too_large": "Dit bestand is te groot.",
@@ -17,7 +17,7 @@
   "api_move_conflict": "De partij ging verder terwijl je speelde.",
   "network_unreachable": "We konden de server niet bereiken.",
   "unknown": "Er ging iets mis.",
-  "api_invite_link_own": "Dit is je eigen link. Stuur hem naar iemand anders om te spelen.",
+  "api_invite_link_own": "Dit is je eigen link. Stuur hem naar een vriend.",
   "api_invite_link_used": "Iemand anders heeft deze uitnodiging al geaccepteerd.",
   "api_invite_link_expired": "Deze uitnodiging is verlopen. Vraag om een nieuwe link."
 }

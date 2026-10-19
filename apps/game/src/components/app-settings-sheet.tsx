@@ -110,7 +110,6 @@ export function AppSettingsSheet({
         <div className="border-t border-border pt-5">
           <VolumeSlider
             label={t("game:controls.sound")}
-            description={t("game:controls.sound_hint")}
             muteLabel={t(
               sound.muted ? "game:controls.unmute" : "game:controls.mute",
             )}
@@ -124,7 +123,6 @@ export function AppSettingsSheet({
         <div className="flex flex-col gap-y-2 border-t border-border pt-5">
           <Toggle
             label={t("game:controls.show_coordinates")}
-            description={t("game:controls.show_coordinates_hint")}
             checked={showCoordinates}
             onChange={setShowCoordinates}
           />
@@ -150,7 +148,6 @@ export function AppSettingsSheet({
 
           <Toggle
             label={t("game:controls.move_animations")}
-            description={t("game:controls.move_animations_hint")}
             checked={animationsEnabled}
             onChange={setAnimationsEnabled}
           />
