@@ -6,9 +6,10 @@ import { expectNoClippedText } from "./support/layout"
 // The ways in on home (the `play-free-first-screen` document on TUD-2287, copy
 // from `play-free-copy` on TUD-2298): Play now first, alone and the only filled
 // row, a link to the computer game. Under it Pass & Play and Friend online as
-// one row of two, the online one saying it needs an account before anyone taps
-// it. Above them, at every width, the heading and the line that say the game is
-// free and asks for no account.
+// one row of two, each saying in one line what the mode is. Above them on a
+// desktop the heading and the lede that say the game is free and asks for no
+// account; on a phone the board has that room, and the heading is there for a
+// crawler and a screen reader only (TUD-2781).
 
 const PRIMARY = {
   title: "Play now",
@@ -16,11 +17,10 @@ const PRIMARY = {
 } as const
 const PAIR = [
   { title: "Pass & Play", hint: "Two of you, one device." },
-  { title: "Friend online", hint: "Needs a free account" },
+  { title: "Friend online", hint: "With friends." },
 ] as const
 
 const H1 = "Play Abalone free, no account"
-const TRUST = "Free board game. No sign-up, no download."
 const LEDE_TRUST = "Free to play, no sign-up and no download."
 const FRIEND_LINK = "Play Abalone online with a friend"
 
@@ -88,7 +88,7 @@ function backgrounds(card: Locator) {
  * ground (§7). Read through a probe, since each engine reports a Tailwind
  * colour in its own notation.
  */
-function trustColors(text: Locator) {
+function ledeColors(text: Locator) {
   return text.evaluate((element) => {
     const probe = document.createElement("span")
     probe.className = "text-white/70"
@@ -138,7 +138,7 @@ for (const viewport of VIEWPORTS) {
   test.describe(`home at ${viewport.width}×${viewport.height}`, () => {
     test.use({ viewport })
 
-    test("says free and no account above the ways in", async ({
+    test(`says free and no account ${isPhone ? "to a screen reader only" : "above the ways in"}`, async ({
       page,
     }) => {
       await openApp(page, "/")
@@ -146,27 +146,21 @@ for (const viewport of VIEWPORTS) {
       const heading = page.getByRole("heading", { level: 1 })
       await expect(heading).toHaveCount(1)
       await expect(heading).toHaveText(H1)
-      //not `sr-only`, which Playwright still counts as visible at one pixel
       const headingBox = await box(heading)
+      if (isPhone) {
+        //`sr-only`: one pixel, which Playwright still counts as visible
+        expect(headingBox.height).toBeLessThanOrEqual(1)
+        return
+      }
       expect(headingBox.height).toBeGreaterThan(20)
       expect(headingBox.y + headingBox.height).toBeLessThanOrEqual(
         (await box(playNow(page))).y,
       )
-
-      const trust = page.getByText(TRUST, { exact: true })
-      if (!isPhone) {
-        //the desktop says it in the lede, brighter than the rest of it
-        await expect(trust).toBeHidden()
-        const lede = await trustColors(
-          page.getByText(LEDE_TRUST, { exact: true }),
-        )
-        expect(lede.own).toBe(lede.white70)
-        return
-      }
-      await expect(trust).toBeVisible()
-      expect((await box(trust)).height).toBeGreaterThan(10)
-      const line = await trustColors(trust)
-      expect(line.own).toBe(line.white70)
+      //the lede says it too, brighter than the rest of it
+      const lede = await ledeColors(
+        page.getByText(LEDE_TRUST, { exact: true }),
+      )
+      expect(lede.own).toBe(lede.white70)
     })
 
     test("Play now alone on top, then Pass & Play and Friend online side by side", async ({
@@ -300,26 +294,21 @@ test.describe("first screen", () => {
     })
   }
 
-  test.describe("320×460", () => {
-    test.use({ viewport: { width: 320, height: 460 } })
+  //the room the phone heading took is the board's now (TUD-2781), so even
+  //the smallest first screen has a board's worth of it
+  for (const viewport of [
+    { width: 320, height: 460 },
+    { width: 390, height: 664 },
+  ]) {
+    test.describe(`${viewport.width}×${viewport.height}`, () => {
+      test.use({ viewport })
 
-    test("has no board and no blob", async ({ page }) => {
-      await openApp(page, "/")
-      await expect(demoBoard(page)).toBeHidden()
-      await expect(
-        page.getByRole("button", { name: "Pause demo" }),
-      ).toBeHidden()
+      test("keeps the board", async ({ page }) => {
+        await openApp(page, "/")
+        await expect(demoBoard(page)).toBeVisible()
+      })
     })
-  })
-
-  test.describe("390×664", () => {
-    test.use({ viewport: { width: 390, height: 664 } })
-
-    test("keeps the board", async ({ page }) => {
-      await openApp(page, "/")
-      await expect(demoBoard(page)).toBeVisible()
-    })
-  })
+  }
 })
 
 // C6: it opens a game before the page hydrates, and a crawler follows it
@@ -375,7 +364,7 @@ test("Tab reaches the ways in in the order they are drawn, then the rules", asyn
   const wanted = [
     PRIMARY.title,
     ...PAIR.map(({ title }) => title),
-    "Abalone rules",
+    "Rules",
   ]
   const reached: string[] = []
 
@@ -395,8 +384,7 @@ test("Tab reaches the ways in in the order they are drawn, then the rules", asyn
   expect(reached).toEqual(wanted)
 })
 
-// The other languages keep their own words for now (no trust line yet), and
-// their longer lines still have to fit the smallest first screen
+// The other languages keep their own words, and their longer lines still have to fit the smallest first screen
 const LANGUAGES = [
   "de",
   "fr",
@@ -431,5 +419,91 @@ for (const language of LANGUAGES) {
       expect(await hasSidewaysScroll(page)).toBe(false)
       await expectNoClippedText(page.getByRole("main"))
     })
+
+    //what the mode is, in one line even on the narrowest phone (TUD-2781)
+    test("the online tile says what it is in one line", async ({
+      page,
+    }) => {
+      await page.addInitScript((value) => {
+        localStorage.setItem("abalone_language", value)
+      }, language)
+      await openApp(page, "/")
+      await expect(page.locator("html")).toHaveAttribute("lang", language)
+
+      //the online tile is the second of the pair
+      const lines = await page
+        .locator("main .grid > button")
+        .last()
+        .evaluate((tile) => {
+          const hint = tile.querySelector("span > span:last-child")
+          if (hint === null) throw new Error("no hint line")
+          const lineHeight = Number.parseFloat(
+            getComputedStyle(hint).lineHeight,
+          )
+          return hint.getBoundingClientRect().height / lineHeight
+        })
+      expect(lines).toBeLessThan(1.5)
+    })
   })
+}
+
+// The Rules and Strategy links under the tiles (TUD-2781): one tight group on
+// one line, no separator left at a line end, and more room between the tiles
+// and the pair than between the two links.
+//tr has the longest pair
+const LINK_LANGUAGES = ["en", "pt", "tr"] as const
+const LINK_WIDTHS = [320, 375, 402] as const
+
+for (const language of LINK_LANGUAGES) {
+  for (const width of LINK_WIDTHS) {
+    test.describe(`rules and strategy links in ${language} at ${width}px`, () => {
+      test.use({ viewport: { width, height: 710 } })
+
+      test("one line, closer to each other than to the tiles", async ({
+        page,
+      }) => {
+        await page.addInitScript((value) => {
+          localStorage.setItem("abalone_language", value)
+        }, language)
+        await openApp(page, "/")
+        await expect(page.locator("html")).toHaveAttribute(
+          "lang",
+          language,
+        )
+
+        const main = page.getByRole("main")
+        const rules = await box(main.locator('a[href="/rules"]'))
+        const strategy = await box(main.locator('a[href="/strategy"]'))
+        expect(Math.abs(rules.y - strategy.y), "on one line").toBeLessThan(
+          1,
+        )
+
+        //the words, not the 44px tap boxes around them, against the tiles
+        //right above the line
+        const gaps = await main
+          .locator('a[href="/rules"]')
+          .evaluate((rulesLink) => {
+            const words = (link: Element) => {
+              const range = document.createRange()
+              range.selectNodeContents(link)
+              return range.getBoundingClientRect()
+            }
+            const line = rulesLink.parentElement
+            const tiles = line?.previousElementSibling
+            const strategyLink = line?.querySelector('a[href="/strategy"]')
+            if (tiles == null || strategyLink == null)
+              throw new Error("no tiles or no strategy link")
+            const first = words(rulesLink)
+            return {
+              above: first.top - tiles.getBoundingClientRect().bottom,
+              between: words(strategyLink).left - first.right,
+            }
+          })
+        const { above, between } = gaps
+        expect(above, "more room above than between").toBeGreaterThan(
+          between,
+        )
+      })
+    })
+  }
 }
