@@ -1,6 +1,7 @@
 import type { CloudflareBindings } from "@/env/registry"
 import { envRegistry } from "@/env/registry"
 import { api } from "@/http/api"
+import { configureLoggingFrom } from "@/utils/logging-config"
 
 //a durable object class has to be exported from the worker's main module for
 //wrangler to find it, so the realtime channel is re-exported here rather than
@@ -14,6 +15,7 @@ export default {
     ctx: ExecutionContext,
   ): Promise<Response> {
     envRegistry.setEnv(env)
+    configureLoggingFrom(env)
     return await api.fetch(request, env, ctx)
   },
 }

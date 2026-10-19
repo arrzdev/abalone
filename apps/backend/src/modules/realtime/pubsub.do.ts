@@ -5,6 +5,7 @@ import type { PublishContext } from "@/modules/realtime/broadcast"
 import { broadcast } from "@/modules/realtime/broadcast"
 import type { RealtimeEvent } from "@/modules/realtime/events"
 import { TICKET_SUBPROTOCOL } from "@/modules/realtime/ticket"
+import { configureLoggingFrom } from "@/utils/logging-config"
 
 const log = new Logger("pubsub")
 
@@ -24,6 +25,9 @@ const log = new Logger("pubsub")
 export class PubSub extends DurableObject {
   constructor(ctx: DurableObjectState, env: Cloudflare.Env) {
     super(ctx, env)
+    //the object runs in its own isolate, apart from the worker that configured
+    //the logger for its requests
+    configureLoggingFrom(env)
 
     //answered by the runtime without waking this object. an app-level keepalive
     //is what holds a connection open through a carrier proxy, and this is how

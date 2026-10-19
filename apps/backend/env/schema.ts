@@ -79,4 +79,8 @@ export const envSchema = z.object({
   //passthrough route, because wrangler emulates the R2 binding but not public
   //bucket access.
   AVATAR_PUBLIC_URL: z.url(),
+
+  //the lowest level written: debug, info, warn or error. optional so a deploy
+  //environment without it still ships, at info
+  LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
 })
