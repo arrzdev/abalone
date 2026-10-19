@@ -96,7 +96,7 @@ test("rules is also a FAQPage that says what the FAQ section says", async ({
   const faq = blocks.find((block) => block["@type"] === "FAQPage")
   const text = visibleText(html)
   const questions = (faq?.mainEntity ?? []) as Json[]
-  expect(questions).toHaveLength(5)
+  expect(questions).toHaveLength(7)
   for (const question of questions) {
     const answer = question.acceptedAnswer as Json
     expect(text).toContain(question.name as string)
@@ -122,7 +122,7 @@ test("strategy is also a FAQPage that says what its FAQ section says", async ({
   const faq = blocks.find((block) => block["@type"] === "FAQPage")
   const text = visibleText(html)
   const questions = (faq?.mainEntity ?? []) as Json[]
-  expect(questions).toHaveLength(2)
+  expect(questions).toHaveLength(3)
   for (const question of questions) {
     const answer = question.acceptedAnswer as Json
     expect(text).toContain(question.name as string)
@@ -153,22 +153,11 @@ test("starting positions is an Article and a FAQPage the page shows", async ({
   }
 })
 
-test("the offline game is a FAQPage that says what its setup panel says", async ({
+test("the offline game carries none: its setup panel shows options only", async ({
   request,
 }) => {
-  const { html, blocks } = await served(request, "/offline")
-
-  expect(blocks).toHaveLength(1)
-  const [faq] = blocks
-  expect(faq["@type"]).toBe("FAQPage")
-  const text = visibleText(html)
-  const questions = (faq.mainEntity ?? []) as Json[]
-  expect(questions).toHaveLength(6)
-  for (const question of questions) {
-    const answer = question.acceptedAnswer as Json
-    expect(text).toContain(question.name as string)
-    expect(text).toContain(answer.text as string)
-  }
+  const { blocks } = await served(request, "/offline")
+  expect(blocks).toEqual([])
 })
 
 test("play online is a FAQPage that says what its FAQ says", async ({
