@@ -23,6 +23,8 @@ UI quality gate
 - [ ] Focus ring fully visible on every control (not cut by overflow)
 - [ ] Touch targets ≥ 44x44 on phone
 - [ ] Empty, loading and error states exist and look designed
+- [ ] Every network action shows a pending state: spinner, busy, disabled, one submit
+- [ ] Button labels stay on one line at 320 in the longest locale
 - [ ] Checked at 375x667, 402x710 and desktop, Chromium + WebKit
 - [ ] New UI spec uses the shift and clipped-text helpers
 ```
@@ -52,6 +54,7 @@ A shift is any element changing position or size as a side effect. The web.dev m
 - **Containers**: no text box may extend past its scroll container or the dialog's visible rect. Check `scrollWidth > clientWidth` on anything without ellipsis.
 - **Long content**: try the longest real string (longest locale, a 30-character username, a long URL), not the placeholder.
 - **Sticky headers, footers, the keyboard and the safe area** never cover text or the focused control (WCAG 2.4.11).
+- **Button labels** stay on one line at 320px in the longest locale. A label that wraps gets a shorter word, not a smaller font; the icon stays and matches the action.
 
 ## 3. Modals never scroll
 
@@ -67,6 +70,8 @@ A modal or dialog shows all its content at 375x667 without an inner scroll. If i
 ## 5. Every state is designed
 
 For each data-driven view: **empty** (says what to do next), **loading** (same shape as loaded), **error** (says what happened and what to do — see `core-copywriting`), **long/dense** (many items, long strings). A view with only the happy path is not done.
+
+**Every control that waits on the network shows it is waiting** (sign in, send, accept, resign, save): a spinner inside the control, `aria-busy="true"`, disabled, and a second press sends nothing. The label stays, so the button keeps its width. A button that looks the same while a request is out reads as frozen and gets pressed again.
 
 ## 6. Test matrix
 
