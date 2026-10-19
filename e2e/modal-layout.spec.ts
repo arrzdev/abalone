@@ -184,17 +184,20 @@ for (const viewport of VIEWPORTS) {
         form.getByRole("tab", { name: "Sign in" }).click(),
       )
 
+      //no room is kept for an error that may never come (TUD-2781): a
+      //refused sign-in grows the form by its one line, under the fields
       await form.getByLabel("Username").fill(uniqueUsername("nobody"))
-      await form
-        .getByLabel("Password", { exact: true })
-        .fill("not-the-password")
-      await expectNoLayoutShift(
-        form,
-        () => form.getByRole("button", { name: "Sign in" }).click(),
-        {
-          until: () =>
-            expect(spokenAlert(form)).toBeVisible({ timeout: 30_000 }),
-        },
+      const password = form.getByLabel("Password", { exact: true })
+      await password.fill("not-the-password")
+      await form.getByRole("button", { name: "Sign in" }).click()
+      const alert = spokenAlert(form)
+      await expect(alert).toBeVisible({ timeout: 30_000 })
+      const passwordBox = await password.boundingBox()
+      const alertBox = await alert.boundingBox()
+      if (passwordBox === null || alertBox === null)
+        throw new Error("password or alert not drawn")
+      expect(alertBox.y).toBeGreaterThan(
+        passwordBox.y + passwordBox.height,
       )
       await expectNoClippedText(form)
     })

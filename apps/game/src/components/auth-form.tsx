@@ -34,28 +34,8 @@ function fieldFor(code: AuthErrorCode): "username" | "password" | "form" {
   }
 }
 
-/**
- * Every message this form can put on the screen.
- *
- * Keyed by the code union rather than listed, so a new failure cannot be added
- * without a line here — and the slot that holds it stays as tall as the longest
- * of them.
- */
-const EVERY_ERROR: Record<AuthErrorCode, true> = {
-  username_taken: true,
-  username_invalid: true,
-  password_too_short: true,
-  invalid_credentials: true,
-  unknown: true,
-}
-
-const ERROR_CODES = Object.keys(EVERY_ERROR) as AuthErrorCode[]
-
 const TITLE_CLASS =
   "font-display text-[22px] font-bold tracking-[-0.02em] text-white lg:text-center lg:text-3xl lg:font-extrabold lg:tracking-[-0.03em]"
-
-const BODY_CLASS =
-  "text-sm leading-relaxed text-muted lg:text-center lg:text-[15px] lg:text-balance"
 
 export type AuthFormProps = {
   /** Called once the player is signed in, by either route. */
@@ -142,27 +122,23 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
     ? t("common:auth.create_account")
     : t("common:auth.sign_in")
 
-  //the mode's own copy, and the copy of the mode it is not, which is what the
-  //masthead reserves its height against
+  //the mode's own title, and the title of the mode it is not, which is what
+  //the masthead reserves its height against
   const title = isSignUp
     ? t("common:auth.signup_title")
     : t("common:auth.prompt_title")
   const otherTitle = isSignUp
     ? t("common:auth.prompt_title")
     : t("common:auth.signup_title")
-  const body = isSignUp
-    ? t("common:auth.signup_body")
-    : t("common:auth.prompt_body")
-  const otherBody = isSignUp
-    ? t("common:auth.prompt_body")
-    : t("common:auth.signup_body")
 
   return (
-    //Four blocks, not nine controls: the masthead, the switch, the pair of
-    //fields with the line under them, and the button. 20px between blocks and
-    //between the two fields; 8px from a field to its label and from the
-    //password to the line under it. The form's gap sets the blocks apart, so
-    //no block carries a margin of its own.
+    //Four blocks, not nine controls: the title, the switch, the pair of
+    //fields with the error line under them, and the button. 20px between
+    //blocks and between the two fields; 8px from a field to its label and
+    //from the password to the error line. The form's gap sets the blocks
+    //apart, so no block carries a margin of its own. No paragraph anywhere:
+    //the title and the two labels are all the form needs to say, and the
+    //same blocks in both modes mean a tab switch moves nothing.
     <form
       onSubmit={handleSubmit}
       className={cn("flex flex-col gap-y-5", className)}
@@ -180,27 +156,15 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
       <div className="flex flex-col gap-y-5 lg:items-center">
         <Logo className="hidden size-11 lg:block" />
 
-        <div className="flex flex-col gap-y-2 lg:items-center">
-          <Reserved>
-            <h2 className={TITLE_CLASS}>{title}</h2>
-            <span
-              aria-hidden="true"
-              className={cn(TITLE_CLASS, "invisible")}
-            >
-              {otherTitle}
-            </span>
-          </Reserved>
-
-          <Reserved className="lg:max-w-[404px]">
-            <p className={BODY_CLASS}>{body}</p>
-            <span
-              aria-hidden="true"
-              className={cn(BODY_CLASS, "invisible")}
-            >
-              {otherBody}
-            </span>
-          </Reserved>
-        </div>
+        <Reserved>
+          <h2 className={TITLE_CLASS}>{title}</h2>
+          <span
+            aria-hidden="true"
+            className={cn(TITLE_CLASS, "invisible")}
+          >
+            {otherTitle}
+          </span>
+        </Reserved>
       </div>
 
       <SegmentedControl
@@ -242,15 +206,13 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
             describedBy={errorCode ? errorId : undefined}
           />
 
-          {/* One line under the fields, for whatever went wrong, and a hint
-              in it while nothing has.
-
-              The height is every message stacked, so nothing moves when one of
-              them turns up, nor when the longer of two languages does. Only
-              one is drawn; the rest are there to be measured. The hint is
-              what keeps the line from being an empty block between the fields
-              and the button: it says something true about the form until there
-              is something else to say.
+          {/* One line under the fields, for whatever went wrong, and no
+              room at all while nothing has. Reserving the line for an error
+              that may never come left an empty band between the fields and
+              the button (TUD-2781). Now the form grows by one line, and only
+              after a refused press; a tab switch still moves nothing. The
+              live region stays mounted, its gap cancelled while it is empty,
+              so the first error is still announced.
 
               Red text and nothing behind it. A tinted box with a glyph in it
               makes the one thing that went wrong the loudest block on a screen
@@ -260,35 +222,13 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
               under each field as well would be two thirds dead air on a form
               that is doing nothing wrong. The offending box turns red; this
               says what happened. */}
-          <Reserved className="lg:text-center">
-            <p
-              id={errorId}
-              role="alert"
-              className="text-sm leading-5 text-loss"
-            >
-              {errorText}
-            </p>
-
-            <span
-              aria-hidden={errorText ? "true" : undefined}
-              className={cn(
-                "text-sm leading-5 text-muted",
-                errorText && "invisible",
-              )}
-            >
-              {t("common:auth.form_hint")}
-            </span>
-
-            {ERROR_CODES.map((code) => (
-              <span
-                key={code}
-                aria-hidden="true"
-                className="invisible text-sm leading-5"
-              >
-                {t(`common:auth.errors.${code}`)}
-              </span>
-            ))}
-          </Reserved>
+          <p
+            id={errorId}
+            role="alert"
+            className="text-sm leading-5 text-loss empty:-mt-2 lg:text-center"
+          >
+            {errorText}
+          </p>
         </div>
       </div>
 

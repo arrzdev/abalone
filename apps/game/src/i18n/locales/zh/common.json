@@ -48,10 +48,7 @@
     "show_password": "显示密码",
     "hide_password": "隐藏密码",
     "prompt_title": "登录后即可在线对战",
-    "prompt_body": "线上对局需要一个账号。",
     "signup_title": "取个名字",
-    "signup_body": "对手通过你的用户名邀请你，所以取一个好输入的名字。",
-    "form_hint": "无需邮箱，只要一个名字和密码。",
     "errors": {
       "username_taken": "这个名字已经有人用了。",
       "username_invalid": "3 到 20 个字符：字母、数字、点和下划线。",

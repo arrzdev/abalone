@@ -48,10 +48,7 @@
     "show_password": "Pokaż hasło",
     "hide_password": "Ukryj hasło",
     "prompt_title": "Zaloguj się, aby grać online",
-    "prompt_body": "Gry online wymagają konta.",
     "signup_title": "Wybierz nazwę",
-    "signup_body": "Przeciwnicy zapraszają cię po nazwie użytkownika, więc wybierz taką, którą łatwo wpisać.",
-    "form_hint": "Bez e-maila, wystarczy nazwa i hasło.",
     "errors": {
       "username_taken": "Ta nazwa jest już zajęta.",
       "username_invalid": "3 do 20 liter, cyfr, kropek lub podkreśleń.",

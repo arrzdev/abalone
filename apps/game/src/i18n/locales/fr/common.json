@@ -48,10 +48,7 @@
     "show_password": "Afficher le mot de passe",
     "hide_password": "Masquer le mot de passe",
     "prompt_title": "Connecte-toi pour jouer en ligne",
-    "prompt_body": "Les parties en ligne demandent un compte.",
     "signup_title": "Choisis un nom",
-    "signup_body": "Les adversaires t'invitent avec ton nom d'utilisateur, alors choisis-en un facile à taper.",
-    "form_hint": "Pas besoin d'e-mail, juste un nom et un mot de passe.",
     "errors": {
       "username_taken": "Ce nom est déjà pris.",
       "username_invalid": "3 à 20 lettres, chiffres, points ou tirets bas.",
