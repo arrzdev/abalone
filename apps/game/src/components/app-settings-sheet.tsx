@@ -60,7 +60,7 @@ export function AppSettingsSheet({
       title={t("game:controls.settings")}
       className="lg:max-w-[476px]"
     >
-      <div className="flex flex-col gap-y-4">
+      <div className="flex flex-col gap-y-5">
         {/* Label and select on one row: the marble tiles below took the room
             this had beside it, and the sheet has to fit a 375x667 phone
             without scrolling. */}
@@ -99,7 +99,9 @@ export function AppSettingsSheet({
           </span>
         </div>
 
-        <div className="border-t border-border pt-4">
+        {/* Sound is one row now, so it leads the list of switches rather than
+            taking a section of its own: the sheet fits a 375x667 phone. */}
+        <div className="flex flex-col gap-y-2 border-t border-border pt-5">
           <VolumeSlider
             label={t("game:controls.sound")}
             description={t("game:controls.sound_hint")}
@@ -111,9 +113,7 @@ export function AppSettingsSheet({
             onVolumeChange={sound.setVolume}
             onMutedChange={sound.setMuted}
           />
-        </div>
 
-        <div className="flex flex-col gap-y-2 border-t border-border pt-4">
           <Toggle
             label={t("game:controls.show_coordinates")}
             description={t("game:controls.show_coordinates_hint")}

@@ -1,7 +1,7 @@
 import type { Locator, Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
-import { expectNoClippedText } from "./support/layout"
+import { expectNoClippedText, waitForRest } from "./support/layout"
 
 // The marble design is picked from tiles in Settings, each showing a white and
 // a black marble drawn in that design. The choice survives a reload, and a
@@ -15,6 +15,7 @@ async function openSettings(page: Page): Promise<Locator> {
     .click()
   const dialog = page.getByRole("dialog")
   await expect(dialog).toBeVisible()
+  await waitForRest(dialog)
   return dialog
 }
 
