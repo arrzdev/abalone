@@ -180,6 +180,14 @@ function drawsFlag(element: Locator): Promise<string | null> {
   })
 }
 
+test("the language select needs no label above it", async ({ page }) => {
+  const dialog = await openSettings(page)
+  await expect(
+    dialog.getByRole("button", { name: "Select Language" }),
+  ).toBeVisible()
+  await expect(dialog.getByText("Select Language")).toHaveCount(0)
+})
+
 test("every language shows its flag as an image", async ({ page }) => {
   const dialog = await openSettings(page)
   const trigger = dialog.getByRole("button", { name: "Select Language" })
