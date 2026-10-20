@@ -7,6 +7,7 @@ import { profiles } from "@/database/schema"
 import worker from "@/entrypoint"
 import { envRegistry } from "@/env/registry"
 import { newExecutionContext } from "@/test-support/execution-context"
+import { inOneRateLimitWindow } from "@/test-support/rate-limit-window"
 
 //drive the mounted better-auth handler end to end against the real local D1.
 //we do not re-test better-auth itself — what these cover is the wiring only this
@@ -385,6 +386,7 @@ describe("auth standard", () => {
 
   it("sheds the 6th sign-in from one ip within 10 s with 429 and Retry-After", async () => {
     const ip = freshIp()
+    await inOneRateLimitWindow(10, 1_500)
     for (let attempt = 0; attempt < 5; attempt++) {
       //a different unknown player each time, so the lockout stays out of it
       const { response } = await signInUsername(freshUsername(), "x", ip)
@@ -410,7 +412,6 @@ describe("auth standard", () => {
     }
     //only the failure cap is under test: the per-request tiers let it all by
     const bindings = {
-      AUTH_RATE_LIMITER: allowAll,
       AUTH_BURST_RATE_LIMITER: allowAll,
       AUTH_SUSTAINED_RATE_LIMITER: allowAll,
       AUTH_FAILURE_RATE_LIMITER: failureLimiter,

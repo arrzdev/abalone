@@ -18,6 +18,13 @@ export const ERROR_CODES = {
   ],
   endpoint_not_found: ["The requested endpoint does not exist.", 404],
   rate_limit_exceeded: ["Too many requests. Please try again later.", 429],
+  //per-account lockout after repeated failed sign-ins; Retry-After says when
+  auth_account_locked: [
+    "Too many failed sign-in attempts. Try again later.",
+    429,
+  ],
+  //a cookie-carrying POST from a page that is not ours (CSRF)
+  forbidden_origin: ["This request is not allowed from here.", 403],
   //a resource the worker needs (D1, R2) is not answering
   service_unavailable: [
     "The game server cannot be reached right now. Try again in a few minutes.",
@@ -87,5 +94,16 @@ export class CustomError extends Error {
     cause?: Error,
   ) {
     super(errorCode, cause !== undefined ? { cause } : undefined)
+  }
+}
+
+//a refusal that ends at a known time (a rate limit, a lockout): the global
+//catcher sends Retry-After with it, so the client can say when to try again.
+export class RetryLaterError extends CustomError {
+  constructor(
+    errorCode: ErrorCode,
+    public readonly retryAfterSeconds: number,
+  ) {
+    super(errorCode)
   }
 }

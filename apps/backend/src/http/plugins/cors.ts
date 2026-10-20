@@ -8,9 +8,10 @@ import {
 const PREFLIGHT_MAX_AGE_SECONDS = 86_400 // 24h — browser skips OPTIONS until cache expires
 
 //explicit allowlist now that the api is credentialed (bearer tokens + the
-//better-auth session-cookie cache). reflects any configured frontend origin,
-//plus localhost/LAN origins in dev so a phone on the network can sign in. the
-//client reads its session token from the exposed `set-auth-token` header.
+//better-auth session cookie). reflects any configured frontend origin, plus
+//localhost/LAN origins in dev so a phone on the network can sign in. the
+//client reads its session token from the exposed `set-auth-token` header, and
+//`Retry-After` so a 429 can say when to try again.
 export function corsPlugin(): MiddlewareHandler {
   const applyCors = cors({
     origin: (origin) => {
@@ -27,7 +28,7 @@ export function corsPlugin(): MiddlewareHandler {
     //header does nothing unless RATE_LIMIT_ALLOW_TEST_BYPASS is set, which only
     //the e2e and vitest Workers do (see middlewares/rate-limit.ts).
     allowHeaders: ["Content-Type", "Authorization", "x-test-bypass"],
-    exposeHeaders: ["set-auth-token", "x-request-id"],
+    exposeHeaders: ["set-auth-token", "x-request-id", "Retry-After"],
     maxAge: PREFLIGHT_MAX_AGE_SECONDS,
   })
 

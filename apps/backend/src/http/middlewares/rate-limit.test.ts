@@ -6,6 +6,7 @@ import {
   rateLimit,
   resetRateLimitBuckets,
 } from "@/http/middlewares/rate-limit"
+import { inOneRateLimitWindow } from "@/test-support/rate-limit-window"
 
 //exercise the limiter on a throwaway app (no DB) and, crucially, WITHOUT the
 //x-test-bypass header so hits actually count. the "api" preset is 120/min, so
@@ -36,7 +37,7 @@ describe("rate limit middleware", () => {
     expect(limited.status).toBe(429)
   })
 
-  it("counts a preset with a binding through that binding, keyed by ip and preset", async () => {
+  it("counts a preset with bindings through every one of them, keyed by ip and preset", async () => {
     const keys: string[] = []
     let isOverLimit = false
     const limiter: RateLimit = {
@@ -52,17 +53,26 @@ describe("rate limit middleware", () => {
       headers: { "cf-connecting-ip": "203.0.113.7" },
     }
 
-    const allowed = await app.request("http://example.com/", request, {
-      AUTH_RATE_LIMITER: limiter,
-    })
+    const bindings = {
+      AUTH_BURST_RATE_LIMITER: limiter,
+      AUTH_SUSTAINED_RATE_LIMITER: limiter,
+    }
+
+    const allowed = await app.request(
+      "http://example.com/",
+      request,
+      bindings,
+    )
     expect(allowed.status).toBe(200)
 
     isOverLimit = true
-    const limited = await app.request("http://example.com/", request, {
-      AUTH_RATE_LIMITER: limiter,
-    })
+    const limited = await app.request(
+      "http://example.com/",
+      request,
+      bindings,
+    )
     expect(limited.status).toBe(429)
-    expect(keys).toEqual(["203.0.113.7:auth", "203.0.113.7:auth"])
+    expect(keys).toEqual(Array(4).fill("203.0.113.7:auth"))
   })
 
   it("sheds the request after the limit on the binding wrangler.toml declares", async () => {
@@ -74,6 +84,7 @@ describe("rate limit middleware", () => {
     }
     //miniflare builds it from the dev block, so this is the real binding
     expect(env.INVITE_LINK_RATE_LIMITER).toBeDefined()
+    await inOneRateLimitWindow(60, 3_000)
 
     for (let index = 0; index < 20; index++) {
       const response = await app.request(
@@ -103,18 +114,22 @@ describe("rate limit middleware", () => {
     const response = await app.request(
       "http://example.com/",
       { headers: { "x-test-bypass": "true" } },
-      { AUTH_RATE_LIMITER: limiter },
+      {
+        AUTH_BURST_RATE_LIMITER: limiter,
+        AUTH_SUSTAINED_RATE_LIMITER: limiter,
+      },
     )
     expect(response.status).toBe(200)
     expect(calls).toBe(0)
   })
 
-  it("falls back to the per-isolate count when the binding is absent", async () => {
+  //the `auth` preset's own ceiling is its sustained tier, 20 per 60 s
+  it("falls back to the per-isolate count when the bindings are absent", async () => {
     const app = new Hono()
       .use("*", rateLimit("auth"))
       .get("/", (c) => c.json({ ok: true }))
 
-    for (let index = 0; index < 60; index++) {
+    for (let index = 0; index < 20; index++) {
       const response = await app.request("http://example.com/")
       expect(response.status).toBe(200)
     }

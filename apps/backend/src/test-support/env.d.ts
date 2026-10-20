@@ -7,7 +7,9 @@ declare namespace Cloudflare {
     PUBSUB: DurableObjectNamespace<
       import("@/modules/realtime/pubsub.do").PubSub
     >
-    AUTH_RATE_LIMITER: RateLimit
+    AUTH_BURST_RATE_LIMITER: RateLimit
+    AUTH_SUSTAINED_RATE_LIMITER: RateLimit
+    AUTH_FAILURE_RATE_LIMITER: RateLimit
     INVITE_LINK_RATE_LIMITER: RateLimit
     HEALTH_RATE_LIMITER: RateLimit
     TEST_MIGRATIONS: Array<{ name: string; queries: string[] }>

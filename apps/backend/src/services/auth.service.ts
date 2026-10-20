@@ -1,11 +1,13 @@
 import tryCatch from "@repo/shared/try-catch"
 import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
+import { isAPIError } from "better-auth/api"
 import { bearer, username } from "better-auth/plugins"
 import { authSchema } from "@/database/auth.schema"
 import type { Db } from "@/database/client"
 import { profiles } from "@/database/schema"
 import { env } from "@/env/registry"
+import { CustomError } from "@/http/errors"
 import {
   allowsPrivateOrigins,
   frontendOrigins,
@@ -50,7 +52,7 @@ const DERIVED_EMAIL_DOMAIN = "users.abalone.invalid"
  * a client free to choose it could squat on another player's future address, and
  * deriving it makes the email's uniqueness the same fact as the username's.
  */
-function derivedEmailFor(handle: string): string {
+export function derivedEmailFor(handle: string): string {
   return `${handle.toLowerCase()}@${DERIVED_EMAIL_DOMAIN}`
 }
 
@@ -110,11 +112,11 @@ function createAuth(db: Db) {
         maxUsernameLength: MAX_USERNAME_LENGTH,
       }),
     ],
-    session: {
-      //signed cookie cache so repeated getSession reads skip a db round-trip.
-      //costs up to 5 minutes of staleness on a server-side revocation.
-      cookieCache: { enabled: true, maxAge: 5 * 60 },
-    },
+    //no session.cookieCache: every request reads its session from D1, so a
+    //sign-out or a revoked session fails on the very next call
+    //one limiter only: the cloudflare bindings in middlewares/rate-limit.ts.
+    //better-auth's own counts in memory, which on workers is per isolate
+    rateLimit: { enabled: false },
     databaseHooks: {
       user: {
         create: {
@@ -173,18 +175,34 @@ export class AuthService {
     return this.auth().handler(request)
   }
 
-  //resolve the signed-in player from request headers (bearer token / cookie), or
-  //null for a guest. a resolution failure is treated as "guest" (fail-closed):
-  //routes that require auth then return unauthorized rather than leaking through.
-  async getSessionUser(headers: Headers): Promise<SessionUser | null> {
-    const [session, sessionError] = await tryCatch(() =>
-      this.auth().api.getSession({ headers }),
+  //resolve the signed-in player from request headers (bearer token / cookie)
+  //against D1, or null for a guest. `renewal` holds the headers better-auth
+  //sets when it extends the session (once a day of use): the renewed cookie
+  //and its `set-auth-token`. the caller must send them, or the client's
+  //session runs out while D1 still says it is live. D1 failing throws
+  //service_unavailable, never "guest", so a blip does not sign anyone out.
+  async getSession(
+    headers: Headers,
+  ): Promise<{ user: SessionUser | null; renewal: Headers }> {
+    const [found, sessionError] = await tryCatch(() =>
+      this.auth().api.getSession({ headers, returnHeaders: true }),
     )
-    if (sessionError || !session?.user?.id) return null
+    if (sessionError) {
+      //better-auth's own 401 (a session deleted mid-refresh) is "no session"
+      if (isAPIError(sessionError) && sessionError.statusCode === 401)
+        return { user: null, renewal: new Headers() }
+      throw new CustomError("service_unavailable", sessionError)
+    }
+    const renewal = found.headers ?? new Headers()
+    const session = found.response
+    if (!session?.user?.id) return { user: null, renewal }
     return {
-      id: session.user.id,
-      username: session.user.username ?? null,
-      displayUsername: session.user.displayUsername ?? null,
+      user: {
+        id: session.user.id,
+        username: session.user.username ?? null,
+        displayUsername: session.user.displayUsername ?? null,
+      },
+      renewal,
     }
   }
 }
