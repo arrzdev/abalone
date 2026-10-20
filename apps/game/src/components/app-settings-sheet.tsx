@@ -2,8 +2,7 @@ import { useId } from "react"
 import { useTranslation } from "react-i18next"
 import { BoardThemePicker } from "@/components/board-theme-picker"
 import { LanguageSelect } from "@/components/language-select"
-import type { SelectOption } from "@/components/ui/select"
-import { Select } from "@/components/ui/select"
+import { MarbleDesignPicker } from "@/components/marble-design-picker"
 import { Sheet } from "@/components/ui/sheet"
 import { Toggle } from "@/components/ui/toggle"
 import { VolumeSlider } from "@/components/ui/volume-slider"
@@ -16,7 +15,6 @@ import {
 } from "@/hooks/use-app-preferences"
 import { useBoardTheme } from "@/hooks/use-board-theme"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
-import type { MarbleDesign } from "@/render/marble-renderer"
 
 export type AppSettingsSheetProps = {
   open: boolean
@@ -55,11 +53,6 @@ export function AppSettingsSheet({
   const [autoRotate, setAutoRotate] = useAutoRotateBoard()
   const sound = useSoundPreferences()
 
-  const designOptions: SelectOption<MarbleDesign>[] = [
-    { value: "default", label: t("game:controls.marble_design_classic") },
-    { value: "3d", label: t("game:controls.marble_design_3d") },
-  ]
-
   return (
     <Sheet
       open={open}
@@ -68,27 +61,26 @@ export function AppSettingsSheet({
       className="lg:max-w-[476px]"
     >
       <div className="flex flex-col gap-y-5">
-        {/* Side by side, so the board theme below fits without the sheet
-            scrolling on a 375x667 phone. Both are short values in a select. */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="min-w-0">
-            <span className="mb-2 block truncate text-sm font-semibold text-white">
-              {t("common:language.select")}
-            </span>
-            <LanguageSelect />
-          </div>
+        {/* Label and select on one row: the marble tiles below took the room
+            this had beside it, and the sheet has to fit a 375x667 phone
+            without scrolling. */}
+        <div className="flex items-center justify-between gap-3">
+          <span className="min-w-0 truncate text-sm font-semibold text-white">
+            {t("common:language.select")}
+          </span>
+          <LanguageSelect className="w-1/2 shrink-0" />
+        </div>
 
-          <div className="min-w-0">
-            <span className="mb-2 block truncate text-sm font-semibold text-white">
-              {t("game:controls.marble_design")}
-            </span>
-            <Select
-              label={t("game:controls.marble_design")}
-              value={marbleDesign}
-              onChange={setMarbleDesign}
-              options={designOptions}
-            />
-          </div>
+        {/* Tiles like the board theme below, so each design shows its own
+            marbles rather than a name you have to try to know. */}
+        <div>
+          <span className="mb-2 block text-sm font-semibold text-white">
+            {t("game:controls.marble_design")}
+          </span>
+          <MarbleDesignPicker
+            value={marbleDesign}
+            onChange={setMarbleDesign}
+          />
         </div>
 
         <div>
@@ -107,7 +99,9 @@ export function AppSettingsSheet({
           </span>
         </div>
 
-        <div className="border-t border-border pt-5">
+        {/* Sound is one row now, so it leads the list of switches rather than
+            taking a section of its own: the sheet fits a 375x667 phone. */}
+        <div className="flex flex-col gap-y-2 border-t border-border pt-5">
           <VolumeSlider
             label={t("game:controls.sound")}
             description={t("game:controls.sound_hint")}
@@ -119,9 +113,7 @@ export function AppSettingsSheet({
             onVolumeChange={sound.setVolume}
             onMutedChange={sound.setMuted}
           />
-        </div>
 
-        <div className="flex flex-col gap-y-2 border-t border-border pt-5">
           <Toggle
             label={t("game:controls.show_coordinates")}
             description={t("game:controls.show_coordinates_hint")}

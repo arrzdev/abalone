@@ -2,7 +2,7 @@ import type { Locator, Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 import { moveList, playMove } from "./support/board"
-import { expectNoClippedText } from "./support/layout"
+import { expectNoClippedText, waitForRest } from "./support/layout"
 
 // The board can be painted Slate (the default), Walnut or Felt from Settings.
 // It is paint and nothing else: picking one mid-game repaints the board at once
@@ -25,6 +25,7 @@ async function openSettings(page: Page): Promise<Locator> {
     .click()
   const dialog = page.getByRole("dialog")
   await expect(dialog).toBeVisible()
+  await waitForRest(dialog)
   return dialog
 }
 
