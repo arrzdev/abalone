@@ -100,6 +100,11 @@ function controlBoxes(dialog: Locator): Promise<string[]> {
     ].filter((element) => !element.closest('[role="listbox"]'))
     return controls.map((element) => {
       const { x, y, width, height } = element.getBoundingClientRect()
+      // The overlay's own text takes in an open list's options, so it is
+      // named by its role: only its box is compared.
+      if (element === root) {
+        return `overlay ${x.toFixed(1)},${y.toFixed(1)} ${width.toFixed(1)}x${height.toFixed(1)}`
+      }
       const label =
         element.getAttribute("aria-label") ??
         element.textContent?.trim().slice(0, 30) ??
@@ -179,6 +184,14 @@ function drawsFlag(element: Locator): Promise<string | null> {
     return drawn ? null : `"${label}" has no flag image`
   })
 }
+
+test("the language select needs no label above it", async ({ page }) => {
+  const dialog = await openSettings(page)
+  await expect(
+    dialog.getByRole("button", { name: "Select Language" }),
+  ).toBeVisible()
+  await expect(dialog.getByText("Select Language")).toHaveCount(0)
+})
 
 test("every language shows its flag as an image", async ({ page }) => {
   const dialog = await openSettings(page)

@@ -61,15 +61,9 @@ export function AppSettingsSheet({
       className="lg:max-w-[476px]"
     >
       <div className="flex flex-col gap-y-5">
-        {/* Label and select on one row: the marble tiles below took the room
-            this had beside it, and the sheet has to fit a 375x667 phone
-            without scrolling. */}
-        <div className="flex items-center justify-between gap-3">
-          <span className="min-w-0 truncate text-sm font-semibold text-white">
-            {t("common:language.select")}
-          </span>
-          <LanguageSelect className="w-1/2 shrink-0" />
-        </div>
+        {/* No label shown: the flag and the language name say what this is.
+            The select still carries it as its accessible name. */}
+        <LanguageSelect />
 
         {/* Tiles like the board theme below, so each design shows its own
             marbles rather than a name you have to try to know. */}
