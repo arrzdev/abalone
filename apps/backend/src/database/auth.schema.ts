@@ -85,3 +85,16 @@ export const verification = sqliteTable("verification", {
 })
 
 export const authSchema = { user, session, account, verification }
+
+//---- per-account lockout (ours, not better-auth's) ----------------
+//failed sign-ins per derived email (services/auth-lockout.service.ts). kept
+//out of `authSchema`: better-auth never reads or writes it.
+
+export const authLockouts = sqliteTable("auth_lockouts", {
+  identifier: text("identifier").primaryKey(),
+  failedCount: integer("failed_count").notNull(),
+  lastFailedAt: integer("last_failed_at", {
+    mode: "timestamp_ms",
+  }).notNull(),
+  lockedUntil: integer("locked_until", { mode: "timestamp_ms" }),
+})

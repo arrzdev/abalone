@@ -50,6 +50,13 @@
       "when": 1791799904789,
       "tag": "0006_game_events_entry",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1792501783804,
+      "tag": "0007_auth_lockouts",
+      "breakpoints": true
     }
   ]
 }
