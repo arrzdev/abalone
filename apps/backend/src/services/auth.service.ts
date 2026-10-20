@@ -1,4 +1,3 @@
-import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto"
 import tryCatch from "@repo/shared/try-catch"
 import { betterAuth } from "better-auth"
 import { drizzleAdapter } from "better-auth/adapters/drizzle"
@@ -55,45 +54,6 @@ function derivedEmailFor(handle: string): string {
   return `${handle.toLowerCase()}@${DERIVED_EMAIL_DOMAIN}`
 }
 
-//---- Workers password hashing ----------------
-//better-auth's default scrypt (@noble/hashes, pure JS) exceeds the Cloudflare
-//Workers CPU budget on cold sign-up/sign-in (better-auth#8860). node:crypto's
-//native scrypt (via nodejs_compat) is fast and uses the SAME params + `salt:key`
-//hex format, so hashes stay compatible with the default. passed by reference to
-//better-auth below, so they're module functions, not class methods.
-
-const SCRYPT_N = 16384
-const SCRYPT_R = 16
-const SCRYPT_P = 1
-const SCRYPT_DKLEN = 64
-
-function scryptDerived(password: string, saltHex: string): Buffer {
-  return scryptSync(password.normalize("NFKC"), saltHex, SCRYPT_DKLEN, {
-    N: SCRYPT_N,
-    r: SCRYPT_R,
-    p: SCRYPT_P,
-    maxmem: 128 * SCRYPT_N * SCRYPT_R * 2,
-  })
-}
-
-async function hashPasswordForWorkers(password: string): Promise<string> {
-  const salt = randomBytes(16).toString("hex")
-  const key = scryptDerived(password, salt)
-  return `${salt}:${key.toString("hex")}`
-}
-
-async function verifyPasswordForWorkers(input: {
-  hash: string
-  password: string
-}): Promise<boolean> {
-  const [salt, keyHex] = input.hash.split(":")
-  if (!salt || !keyHex) return false
-  const derived = scryptDerived(input.password, salt)
-  const expected = Buffer.from(keyHex, "hex")
-  if (expected.length !== derived.length) return false
-  return timingSafeEqual(expected, derived)
-}
-
 //---- better-auth instance ----------------
 //one instance per worker isolate (re-creating per request blows cpu on cold
 //sign-in), so it's cached by the db handle it was built with — and getDb()
@@ -135,11 +95,8 @@ function createAuth(db: Db) {
       //player never sees an email field, but the password half is this one
       enabled: true,
       minPasswordLength: MIN_PASSWORD_LENGTH,
-      //node:crypto scrypt — the default pure-JS scrypt blows the workers budget
-      password: {
-        hash: hashPasswordForWorkers,
-        verify: verifyPasswordForWorkers,
-      },
+      //no custom password hash: better-auth's default scrypt runs on native
+      //node:crypto under workerd (scripts/check-password-bundle.ts guards it)
     },
     plugins: [
       //the SPA reads the token from the `set-auth-token` response header and
