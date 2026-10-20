@@ -38,10 +38,13 @@ export type CloudflareBindings = {
   //only, so nothing about the class reaches this file at runtime and check:env
   //still runs under plain node.
   PUBSUB: DurableObjectNamespace<PubSub>
-  //cloudflare's shared counters for the `auth`, `invite-link` and `health` presets in
+  //cloudflare's shared counters ([[ratelimits]] in wrangler.toml) for the
+  //`auth`, `invite-link` and `health` presets and the failed sign-in cap in
   //src/http/middlewares/rate-limit.ts. optional because a bare Hono app in a
   //test has no bindings, and the middleware falls back to its own count then.
-  AUTH_RATE_LIMITER?: RateLimit
+  AUTH_BURST_RATE_LIMITER?: RateLimit
+  AUTH_SUSTAINED_RATE_LIMITER?: RateLimit
+  AUTH_FAILURE_RATE_LIMITER?: RateLimit
   INVITE_LINK_RATE_LIMITER?: RateLimit
   HEALTH_RATE_LIMITER?: RateLimit
 }

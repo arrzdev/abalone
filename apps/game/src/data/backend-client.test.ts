@@ -71,6 +71,13 @@ describe("apiError", () => {
     expect(getBearerToken()).toBe("a-live-token")
   })
 
+  //a 503 is the server failing to reach its database, not the server saying
+  //"not you": signing the player out over it would end a live session
+  it("leaves the session alone when the server is unavailable", () => {
+    apiError("service_unavailable")
+    expect(getBearerToken()).toBe("a-live-token")
+  })
+
   //the code still has to reach the screen that translates it
   it("carries the code it was given", () => {
     expect(apiError("illegal_move").message).toBe("illegal_move")

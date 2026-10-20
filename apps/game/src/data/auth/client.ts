@@ -2,6 +2,7 @@ import tryCatch from "@repo/shared/try-catch"
 import { usernameClient } from "better-auth/client/plugins"
 import { createAuthClient } from "better-auth/react"
 import { useMemo } from "react"
+import { endSession } from "@/data/auth/session-end"
 import {
   discardToken,
   getBearerToken,
@@ -43,6 +44,15 @@ export const authClient = createAuthClient({
       //device gets that its token has expired or been revoked
       if (!isSessionRead(context.request.url) || context.data) return
       discardToken(sentBearerToken(context.request.headers))
+    },
+    //a session read refused outright is the same notice, louder: the whole
+    //session goes, cached summary included. a 503 or a dropped connection says
+    //nothing about the token and changes nothing here
+    onError: (context) => {
+      if (!isSessionRead(context.request.url)) return
+      if (context.response.status !== 401) return
+      const sent = sentBearerToken(context.request.headers)
+      if (sent && sent === getBearerToken()) endSession()
     },
   },
 })
@@ -97,8 +107,16 @@ function toSessionUser(user: {
  * and app code reads `useAuth()` rather than this.
  */
 export function useSessionState() {
-  const { data, isPending } = authClient.useSession()
+  const { data, error, isPending } = authClient.useSession()
+  //a read that failed for any reason but a 401 (a 503, the network) is no
+  //answer at all: the session it was asking about is still whatever it was.
+  //better-auth keeps its last data then, but a cold start has none, so report
+  //it as still pending rather than as a guest
+  const isUnanswered = !data && Boolean(error) && error?.status !== 401
   const rawUser = data?.user ?? null
+  //when the session ends, in epoch ms, for the cached summary. the SDK hands it
+  //over as a Date, but a string from an older client is read the same way
+  const expiresAt = toEpochMs(data?.session.expiresAt)
 
   //memoised on the store's own object identity: `toSessionUser` builds a new
   //object every call, and the provider writes a snapshot whenever this value
@@ -109,5 +127,11 @@ export function useSessionState() {
     [rawUser],
   )
 
-  return { user, isPending }
+  return { user, expiresAt, isPending: isPending || isUnanswered }
+}
+
+function toEpochMs(value: Date | string | undefined): number | undefined {
+  if (!value) return undefined
+  const ms = new Date(value).getTime()
+  return Number.isNaN(ms) ? undefined : ms
 }

@@ -9,7 +9,9 @@ import {
 } from "react"
 import type { AuthSessionUser } from "@/data/auth/client"
 import { useSessionState } from "@/data/auth/client"
+import { endSession } from "@/data/auth/session-end"
 import {
+  isSessionSnapshotExpired,
   readSessionSnapshot,
   writeSessionSnapshot,
 } from "@/data/auth/session-snapshot"
@@ -31,6 +33,10 @@ import { getBearerToken, subscribeToToken } from "@/data/auth/token"
 //  2. a snapshot. a cold start has no cached session at all, so the first paint
 //     comes from what this device last knew (data/auth/session-snapshot.ts) and
 //     the network confirms it a moment later.
+//
+//the snapshot is a summary that knows when it ends (`expiresAt`). one past it is
+//denied at once — no signed-in paint, and the token it stood for is dropped —
+//rather than served until the api gets round to saying so.
 //
 //and one thing outranks both: THE TOKEN. a cached session says who the server
 //said you were, the token is what this device can still prove, and the moment a
@@ -63,7 +69,11 @@ function serverToken(): string {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { user: liveUser, isPending: rawIsPending } = useSessionState()
+  const {
+    user: liveUser,
+    expiresAt,
+    isPending: rawIsPending,
+  } = useSessionState()
 
   //subscribed rather than read once: the token is written from outside react —
   //an auth reply lands on it, and so does a request the server refused, which is
@@ -78,7 +88,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 
   //read once — a snapshot is only ever about the first paint
-  const [snapshot] = useState(readSessionSnapshot)
+  const [snapshot] = useState(() => readSessionSnapshot())
+
+  //a cached session past its end is a session this device no longer has
+  useEffect(() => {
+    if (isSessionSnapshotExpired()) endSession()
+  }, [])
 
   const [hasSettled, setHasSettled] = useState(false)
   useEffect(() => {
@@ -89,8 +104,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   //keep the snapshot current, so the next cold start paints this answer
   useEffect(() => {
     if (rawIsPending) return
-    writeSessionSnapshot(liveUser)
-  }, [rawIsPending, liveUser])
+    writeSessionSnapshot(liveUser, expiresAt)
+  }, [rawIsPending, liveUser, expiresAt])
 
   //before the first resolve the snapshot speaks; after it, the session does —
   //and neither of them speaks at all without a token to back it

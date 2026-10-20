@@ -19,5 +19,7 @@
   "unknown": "Algo salió mal.",
   "api_invite_link_own": "Este es tu propio enlace. Envíalo a otra persona para jugar.",
   "api_invite_link_used": "Otra persona ya ha aceptado esta invitación.",
-  "api_invite_link_expired": "Esta invitación ha caducado. Pide un enlace nuevo."
+  "api_invite_link_expired": "Esta invitación ha caducado. Pide un enlace nuevo.",
+  "api_auth_account_locked": "Demasiados intentos de inicio de sesión. Inténtalo más tarde.",
+  "api_forbidden_origin": "Esta solicitud no está permitida desde aquí."
 }

@@ -19,5 +19,7 @@
   "unknown": "Bir şeyler ters gitti.",
   "api_invite_link_own": "Bu senin kendi bağlantın. Oynamak için başka birine gönder.",
   "api_invite_link_used": "Bu daveti başka biri zaten kabul etti.",
-  "api_invite_link_expired": "Bu davetin süresi doldu. Yeni bir bağlantı iste."
+  "api_invite_link_expired": "Bu davetin süresi doldu. Yeni bir bağlantı iste.",
+  "api_auth_account_locked": "Çok fazla giriş denemesi. Daha sonra tekrar dene.",
+  "api_forbidden_origin": "Bu istek buradan yapılamaz."
 }

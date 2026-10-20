@@ -17,18 +17,45 @@ migrations: `stack-database`, `stack-database-migrations`.
 
 ## In this repo (checked 2026-10-20)
 
-Not at the standard yet. Known gaps:
-- `session.cookieCache` is on (5 min) in `apps/backend/src/services/auth.service.ts`: a revoked session keeps working for up to 5 minutes. It must go off.
-- better-auth's own `rateLimit` is not disabled, and the auth routes need the binding tiers (burst, sustained, failed sign-ins).
-- No per-account lockout.
-- Sessions are bearer tokens in `localStorage` (`apps/game/src/data/auth/token.ts`), from when the PWA and the API were on different origins. The standard is an httpOnly cookie on one origin (routing map). Moving needs a CTO decision; until then, keep the token store import-free.
-- The client rules (deny an expired cached session at once; any 401 clears the cache and redirects) have not been checked here.
+At the standard since 2026-10-20, with one noted exception (bearer sessions).
+What is true now:
+- Backend: `session.cookieCache` is off and better-auth's `rateLimit` is
+  disabled (`apps/backend/src/services/auth.service.ts`). The session is read
+  from D1 on every request; D1 failing is `service_unavailable` (503), not a
+  guest. `requireAuth()` forwards the renewed `set-auth-token` / `Set-Cookie`.
+- Backend: the `auth` preset is `AUTH_BURST_RATE_LIMITER` (5/10 s) +
+  `AUTH_SUSTAINED_RATE_LIMITER` (20/60 s), and `AUTH_FAILURE_RATE_LIMITER` caps
+  failed sign-ins per IP. The per-account lockout (`auth-lockout.service.ts`,
+  table `auth_lockouts`) covers both `POST /sign-in/email` and
+  `/sign-in/username`, keyed on the email (a username maps to its derived
+  `@users.abalone.invalid` email). Locked → `auth_account_locked` (429) +
+  `Retry-After`. Cookie POSTs from a foreign `Origin` → `forbidden_origin` (403).
+- Client (`apps/game`): the cached session is a summary only,
+  `{ user, expiresAt }` under `abalone.session`
+  (`src/data/auth/session-snapshot.ts`), `expiresAt` in epoch ms from the
+  session the api returned. An expired summary paints no user and
+  `needsSignIn()` (`src/routing/auth-guard.ts`) sends the device to sign in at
+  once; `AuthProvider` drops the token with it. A live one paints at once while
+  get-session re-checks it.
+- Client: any 401 from a data call (`apiError("unauthorized")` in
+  `src/data/backend-client.ts`) or from get-session ends the session
+  (`src/data/auth/session-end.ts`: token, snapshots, query cache), and the
+  token subscription in `src/routing/signed-in-only.tsx` opens sign-in. A 503
+  or a network error changes nothing. Sign-out clears locally first, even
+  when the call fails.
+- Client: a locked sign-in shows "Too many attempts. Try again in N minutes."
+  (`AuthError` code `account_locked`, `retryAfterMinutes` rounded up;
+  `common:auth.errors.account_locked` in all 13 locales).
+- **Exception, kept:** sessions are bearer tokens in `localStorage`
+  (`apps/game/src/data/auth/token.ts`), from when the PWA and the API were on
+  different origins. The standard is an httpOnly cookie on one origin (routing
+  map). Moving needs a CTO decision; until then keep the token store
+  import-free and add no second token store.
 
 Repo-specific notes (OAuth providers, profiles mirror, trusted origins): `repo-notes.md` in this folder. Where they conflict with this file, this file wins.
 
-Bringing this repo to the standard is tracked as an engineering task; until
-then, do not widen a gap (no new cookie cache, no new in-memory limiter, no
-new token in client storage). Port the template's tests with each fix.
+Do not widen the bearer exception or reopen a gap (no cookie cache, no
+in-memory limiter, no new token in client storage).
 
 ## The rules, and why
 

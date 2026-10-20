@@ -19,5 +19,7 @@
   "unknown": "Etwas ist schiefgelaufen.",
   "api_invite_link_own": "Das ist dein eigener Link. Schick ihn jemand anderem, um zu spielen.",
   "api_invite_link_used": "Jemand anderes hat diese Einladung bereits angenommen.",
-  "api_invite_link_expired": "Diese Einladung ist abgelaufen. Bitte um einen neuen Link."
+  "api_invite_link_expired": "Diese Einladung ist abgelaufen. Bitte um einen neuen Link.",
+  "api_auth_account_locked": "Zu viele Anmeldeversuche. Versuch es später noch einmal.",
+  "api_forbidden_origin": "Diese Anfrage ist von hier aus nicht erlaubt."
 }

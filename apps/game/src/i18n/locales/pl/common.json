@@ -54,6 +54,7 @@
       "username_invalid": "3 do 20 liter, cyfr, kropek lub podkreśleń.",
       "password_too_short": "Hasło musi mieć co najmniej 8 znaków.",
       "invalid_credentials": "Ta nazwa i hasło do siebie nie pasują.",
+      "account_locked": "Za dużo prób. Spróbuj ponownie za {{minutes}} min.",
       "unknown": "Coś poszło nie tak."
     }
   },
