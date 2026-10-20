@@ -1,91 +1,162 @@
 ---
 name: stack-auth
-description: Authentication in this repo — better-auth on Cloudflare Workers with bearer-token sessions, the native scrypt override that keeps sign-in inside the CPU budget, trusted-origin policy derived from config rather than NODE_ENV, OAuth provider wiring, and the profiles mirror. Use when touching sign-in, sign-up, sessions, tokens, OAuth providers, requireAuth, CORS/trusted origins, or anything user-scoped.
+description: The TUDU auth standard — better-auth on Cloudflare Workers with D1 sessions checked on every request (no cookie cache, no KV), Cloudflare rate-limit bindings as the only limiter, a per-account lockout in D1, the default native password hash with a bundle guard, and a React session cache that is stale-while-revalidate. Use when touching sign-in, sign-up, sign-out, sessions, requireAuth, rate limits on auth routes, the client session cache or protected pages, or when adding auth to a project.
 ---
 
-# Auth (better-auth on Workers)
+# Auth standard (better-auth on Workers)
 
-Auth is **better-auth** wrapped in a thin `AuthService`. better-auth owns the whole flow — sign-in/up/out, the OAuth dance, `get-session` — mounted under `basePath: /api/v1/auth` and driven by its client SDK on the frontend. What this repo owns is only: forwarding requests to that handler, resolving the current user for its own routes, and advertising which providers are live.
+**This is the standard for every TUDU product.** The board decided it once
+(2026-10, after a better-auth security audit) so nobody redesigns it per
+project. The reference implementation is `arrzdev/tudu-monorepo-template`
+(`apps/backend` + `apps/web`); a repo that predates it moves toward it, never
+away. Changing a rule below is an architecture decision for the CTO, with the
+reason written down — not a per-task choice.
 
-Read before touching sign-in, sessions, tokens, OAuth, `requireAuth`, or trusted origins. Route mechanics: `stack-api-routes`. Env vars: `stack-env-config`.
+Route mechanics: `stack-api-routes`. Env vars: `stack-env-config`. Tables and
+migrations: `stack-database`, `stack-database-migrations`.
 
-**Not wired right now** — the backend was stripped to boilerplate and the auth files below were deleted with it. The paths are still where auth goes when it comes back: keep them, and the rest of this skill is the wiring to reproduce rather than re-derive.
+## In this repo (checked 2026-10-20)
 
-## Where it lives
+Not at the standard yet. Known gaps:
+- `session.cookieCache` is on (5 min) in `apps/backend/src/services/auth.service.ts`: a revoked session keeps working for up to 5 minutes. It must go off.
+- better-auth's own `rateLimit` is not disabled, and the auth routes need the binding tiers (burst, sustained, failed sign-ins).
+- No per-account lockout.
+- Sessions are bearer tokens in `localStorage` (`apps/game/src/data/auth/token.ts`), from when the PWA and the API were on different origins. The standard is an httpOnly cookie on one origin (routing map). Moving needs a CTO decision; until then, keep the token store import-free.
+- The client rules (deny an expired cached session at once; any 401 clears the cache and redirects) have not been checked here.
+
+Repo-specific notes (OAuth providers, profiles mirror, trusted origins): `repo-notes.md` in this folder. Where they conflict with this file, this file wins.
+
+Bringing this repo to the standard is tracked as an engineering task; until
+then, do not widen a gap (no new cookie cache, no new in-memory limiter, no
+new token in client storage). Port the template's tests with each fix.
+
+## The rules, and why
+
+| # | Rule | Why |
+|---|---|---|
+| 1 | **better-auth, latest version, default password hash.** No custom `emailAndPassword.password` hash/verify. | better-auth picks native `node:crypto` scrypt under workerd by itself (`@better-auth/utils` `password.node.mjs`). The old custom hashes used the same params and `salt:key` format, so they keep verifying. Pure-JS scrypt (`@noble/hashes`) took 4.5–5 s of CPU per sign-in on Workers (better-auth#8860) and failed as timeouts. |
+| 2 | **The build fails unless the bundle holds `password.node.mjs` and not `@noble/hashes/scrypt`** (`scripts/check-password-bundle.ts`, run by `pnpm build`). | A resolver change once shipped the pure-JS build again (better-auth#9649). This catches it before a deploy instead of in production CPU time. |
+| 3 | **Sessions live in D1 (drizzle adapter). `session.cookieCache` off. No `secondaryStorage`, no KV, no `better-auth-cloudflare` plugin.** The API checks the session in D1 on **every** request. | **Instant revocation:** sign-out, a revoked session or a deleted user fails on the next request; a cookie cache keeps a dead session alive for its `maxAge`. **KV is out because of the board's plan:** Workers Free KV allows 1,000 writes/day and 100,000 reads/day ([KV limits](https://developers.cloudflare.com/kv/platform/limits/)); D1 Free allows 5 million rows read and 100,000 rows written per day ([D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/)). |
+| 4 | **Rate limit = Cloudflare Workers rate-limit bindings. better-auth `rateLimit: { enabled: false }`.** One limiter only. | The binding is free and shared by every isolate in a location. better-auth's default store is memory, which on Workers counts per isolate and barely limits. Storing counters in D1 would spend the write budget of rule 3. |
+| 5 | **Per-account lockout in D1: 5 failed sign-ins for one account within 15 min → that account is locked 15 min, from any IP.** Checked **before** the password is hashed. | Stops brute force through many proxies against one account. The binding cannot do it: its period is only 10 s or 60 s and it counts per location ([rate-limit binding](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)). Checking first means a locked account costs no scrypt CPU. |
+| 6 | **The client caches only a session summary and is stale-while-revalidate.** | Instant routing and redirects without waiting for the API, while the API (rule 3) still refuses anything a dead session asks for. A late client-side sign-out can only show an empty page, never data. |
+
+## Backend (template paths)
 
 | Piece | Path |
 |---|---|
-| Service + better-auth instance | `apps/backend/src/services/auth.service.ts` |
-| Route gate | `apps/backend/src/http/middlewares/auth.ts` (`requireAuth`, `AuthedVariables`) |
-| Mounted handler + provider discovery | `apps/backend/src/http/routes/auth.routes.ts` |
-| Dev-vs-prod network policy | `apps/backend/src/http/network-policy.ts`, `utils/is-private-origin.ts` |
-| better-auth tables | `apps/backend/src/database/auth.schema.ts` (separate from app schema) |
-| Client SDK + token store | `apps/<app>/src/data/auth/` |
+| better-auth instance + sign-in/up/out + session read | `apps/backend/src/services/auth.service.ts` |
+| Lockout (D1 upsert, 5 / 15 min / 15 min) | `apps/backend/src/services/auth-lockout.service.ts` |
+| Route gate `requireAuth()`, `AuthedVariables` | `apps/backend/src/http/middlewares/auth.ts` |
+| Auth routes (the only auth surface) | `apps/backend/src/http/routes/auth.routes.ts` |
+| Rate-limit tiers + failed-sign-in cap | `apps/backend/src/http/middlewares/rate-limit.ts`, `[[ratelimits]]` in `wrangler.toml` |
+| better-auth tables + `auth_lockouts` | `apps/backend/src/database/auth.schema.ts` (both schema files in `drizzle.config.ts`) |
+| Bundle guard | `apps/backend/scripts/check-password-bundle.ts` |
+| Tests | `auth.routes.test.ts`, `rate-limit.test.ts`, `password-hash.test.ts` |
 
-## Sessions are bearer tokens, not cookies
+**Routes:** `POST /api/v1/auth/sign-in`, `/sign-up`, `/sign-out`, `GET /api/v1/auth/session`.
+better-auth's catch-all handler is **not mounted**: every endpoint it would
+expose (a sign-in that skips the lockout, for one) stays unreachable. A new
+auth feature adds an explicit route.
 
-Deliberate: the PWA and the API are different origins, and cross-origin cookies are a permanent source of pain (Safari/ITP especially). So the `bearer()` plugin is enabled and:
+**Session = httpOnly cookie.** The API and the website share one origin
+(`<domain>/api/v1`, routing map), so the cookie is first-party and the page
+never sees a token. No response body carries a token. (abalone predates this
+and uses the `bearer()` plugin with a token in `localStorage`; new projects use
+the cookie.)
 
-1. The server returns the token in a **`set-auth-token`** response header on every auth response.
-2. The client stashes it in `localStorage` (`data/auth/token.ts`).
-3. The typed RPC client attaches `Authorization: Bearer …` on every request (`stack-frontend-data`).
+**`requireAuth()`** reads the session from D1 every time. No session → `unauthorized` (401).
+D1 failing → `service_unavailable` (503), never 401, so a D1 blip does not sign
+the user out on the client. Order on a route: `rateLimit(...)` first, then
+`requireAuth()`.
 
-**`data/auth/token.ts` is deliberately import-free.** The RPC client needs the token, and the auth client depends on the RPC client — a token store that imported either would close the cycle. Keep it dependency-free; don't "tidy" it by importing the auth client.
+**Rate-limit tiers** (limits in `wrangler.toml` must match the comments in `rate-limit.ts`):
 
-## Two performance landmines on Workers
+| Binding | Limit | Applies to |
+|---|---|---|
+| `AUTH_BURST_RATE_LIMITER` | 5 / 10 s per IP | `auth` preset: sign-in, sign-up |
+| `AUTH_SUSTAINED_RATE_LIMITER` | 20 / 60 s per IP | `auth` preset (roomy for an office behind one NAT) |
+| `AUTH_FAILURE_RATE_LIMITER` | 10 failed sign-ins / 60 s per IP → 10-min cooldown | `recordAuthFailure` / `assertAuthFailureNotCapped`; marker in `caches.default` |
+| `HEALTH_RATE_LIMITER` | 60 / 60 s | the public health probe |
 
-Both are CPU-budget failures that look like random 500s on cold sign-in, not like errors you can read.
+Every 429 carries `Retry-After`. The failed-sign-in cap stops one IP guessing
+many accounts; the lockout stops many IPs guessing one account.
 
-**1. Password hashing is overridden on purpose.** better-auth's default scrypt is pure JS (`@noble/hashes`) and **exceeds the Workers CPU budget** on a cold sign-up/sign-in ([better-auth#8860](https://github.com/better-auth/better-auth/issues/8860)). This repo passes `node:crypto`'s native `scryptSync` (via `nodejs_compat`) into `emailAndPassword.password`, using the **same params and the same `salt:key` hex format**, so hashes stay compatible with the default implementation.
+**Lockout details** (`auth-lockout.service.ts`):
+- Key: the email, trimmed and lowercased. Unknown emails are counted and
+  answered **exactly** like known ones (same 401 body, same 429), so the
+  answers do not reveal which emails have accounts.
+- One atomic upsert per failure (concurrent failures cannot lose a count); a
+  successful sign-in deletes the row. Honest traffic: one D1 read per sign-in,
+  no write.
+- Locked → `auth_account_locked` (429) + `Retry-After` in seconds; the client
+  shows "Too many attempts. Try again in N minutes."
+- **Password reset stays outside the lockout** when a project adds it, so an
+  attacker can at worst lock a real user out for 15 minutes, never for good.
 
-- Do **not** remove the override, and do **not** change `SCRYPT_N/R/P/DKLEN` — existing hashes become unverifiable.
-- Verification uses `timingSafeEqual` with a length check first. Keep both.
-- The functions are module-level and passed by reference, not class methods.
+**D1 cost of rule 3:** one `getSession` per authenticated request, a lookup
+by the unique session token plus the user row. Count it against the 5 million
+rows read/day of the free plan above; check the real number in the D1 dashboard
+(Metrics → rows read) once a project has traffic, and tell the CTO before it
+gets near the limit. Nothing here may move to a paid plan without the CEO.
 
-**2. The better-auth instance is cached per isolate.** Constructing it per request also blows the CPU budget. It's cached in a `Map` keyed by the `Db` handle, and `getDb()` returns a stable handle per binding — so the cache is effectively per-isolate. Don't move construction into the request path. `resetAuthForTests()` clears it so a fresh env/secret takes effect in tests.
+**Config:** `BETTER_AUTH_SECRET` (32+ random chars per environment, a GitHub
+Environment secret created by the Head of Platform; `deploy.yml` lists it as
+`SECRET_BETTER_AUTH_SECRET`). `baseURL` is the first `FRONTEND_URLS` origin;
+`trustedOrigins` is `FRONTEND_URLS`, plus localhost/LAN only in dev
+(`network-policy.ts`; the callback returns `[]` when better-auth probes it with
+no request at init). The better-auth instance is cached per isolate by the
+`Db` handle: building it per request costs CPU.
 
-## Trusted origins come from config, never from an env flag
+## Client (template paths)
 
-`allowsPrivateOrigins()` decides whether CORS reflects and better-auth trusts localhost/LAN origins. It is derived from **whether every configured `FRONTEND_URLS` origin is itself private** — not from `NODE_ENV` or `CI`. `every`, not `some`: one stray localhost entry in a production list must not switch dev mode on.
+| Piece | Path |
+|---|---|
+| Session cache (localStorage) | `apps/web/src/data/auth/session-cache.ts` |
+| `useSession` (SWR), `fetchSession` | `apps/web/src/data/auth/queries.ts` |
+| `useSignIn`, `useSignUp`, `useSignOut`, `authErrorMessage` | `apps/web/src/data/auth/mutations.ts` |
+| 401 → clear + redirect | `apps/web/src/data/backend-client.ts` (`apiFetch`), `src/data/auth/unauthorized.ts`, `src/components/auth/unauthorized-redirect.tsx` |
+| Guard for protected pages | `apps/web/src/routing/layouts/authenticated.layout.tsx` (`_authenticated`) |
 
-This is a fixed security bug, not a style choice: a deployed Worker cannot reliably read a build/process flag at module load (secrets arrive per-request, and `process.env.CI` is simply *absent* in production), so the old `process.env.CI !== "true"` evaluated to **true in production** — dev mode, live. A production `https` frontend now yields `false`, so private origins are never reflected or trusted in prod.
+Rules the code and tests enforce:
+1. **Cache only the summary:** `userId`, `name`, `expiresAt`. Never a token,
+   never an email or other private data. Private data always comes from the API.
+2. **Expired cached session → deny at once**, no waiting for the API.
+3. **Live cached session → render at once and revalidate in the background**
+   (the query's initial data is the cache, born stale).
+4. **Any 401 from a non-auth API call → clear the cache and go to sign-in**
+   (`apiFetch` → `onUnauthorized` handler). A 401 from `/api/v1/auth/*` is that
+   route's own answer: the session query turns it into "signed out" and clears
+   the cache; the guard then redirects if the page is protected.
+5. **Sign-out clears the cache** even if the call fails.
+6. A 503 is not "signed out": the cached session stays.
 
-**Never reintroduce a process/build flag here.** If you need a new dev-only network behavior, derive it from validated config the same way (`stack-env-config` — the backend registry pins `internals.DEV` to `false` for exactly this reason, so it fails closed).
+Every page that needs a session goes under the `_authenticated` layout in
+`src/routing/config.ts`. Public pages may read `useSession()` for display and
+never redirect.
 
-One non-obvious detail in the dynamic `trustedOrigins` callback: better-auth's `createAuthContext` probes `getTrustedOrigins()` **with no request** at init. Return `[]` for that case — the guard is `if (request === undefined) return []`. Drop it and init throws.
+## Tests that prove the standard
 
-## Gating a route
+Keep them green in every project; port them when adopting the standard.
 
-```ts
-export const syncRoutes = newEndpoint<Env, AuthedVariables>()
-  .use("*", rateLimit("sync"))
-  .use("*", requireAuth())
-```
+- Backend (`auth.routes.test.ts`, real worker, D1 and bindings from miniflare):
+  revoked session → next call 401; sign-out → old cookie 401; 6th sign-in
+  from one IP in 10 s → 429 + `Retry-After`; 5 wrong passwords from 5 IPs →
+  6th is 429 with the right password; unlock after 15 min; unknown email
+  identical to a known one; no token in any body; cookie is `HttpOnly`.
+- `password-hash.test.ts`: a hash made by the old custom function verifies
+  with better-auth's default; new hashes keep the `salt:key` format.
+- `rate-limit.test.ts`: both auth bindings must pass; failed-sign-in cap and
+  cooldown.
+- Client: `session-cache.test.ts`, `queries.test.tsx`,
+  `authenticated.layout.test.tsx`, `unauthorized-redirect.test.tsx`,
+  `backend-client.test.ts`, `sign-in.page.test.tsx`.
 
-- Pass `AuthedVariables` as the second generic so `c.get("user")` is typed.
-- **`rateLimit` before `requireAuth`** — auth costs a session lookup; shed floods first (`stack-api-routes`).
-- `requireAuth` throws `unauthorized`; the global catcher renders the envelope. Handlers stay success-path only.
-- Session resolution **fails closed**: any error resolving the session is treated as *guest*, so a gated route returns `unauthorized` rather than leaking through.
+## Adding auth to an older repo
 
-**Guests are a supported state, not an error.** A signed-out user never reaches user-scoped routes and the app stays fully local — the sync controller only runs when authenticated (`stack-sync-engine`). Don't add a global redirect-to-login that breaks offline use.
-
-## Adding an OAuth provider
-
-Four places, and a provider only lights up when **both** its credentials are present:
-
-1. `PROVIDER_NAMES` in `auth.service.ts`.
-2. The `socialProviders` block in `createAuth` (the `...(env.X && env.Y ? {…} : {})` spread).
-3. Its two env vars in `env/schema.ts` **and** `env/.env.example` (`stack-env-config`).
-4. `listSocialProviders()` — extend the predicate so discovery matches reality.
-
-The client calls the discovery endpoint and renders **only** configured buttons, so a half-configured provider is invisible rather than a broken button. Keep 1, 2 and 4 in sync — they encode the same fact three times and nothing checks it for you.
-
-`baseURL` must be the **full public API URL** (`BETTER_AUTH_URL`), because OAuth callback URLs must match what's registered with the provider. A wrong value fails only at the callback, after the user has already left the app.
-
-## App data never lives on better-auth's tables
-
-better-auth owns its own schema (`auth.schema.ts`). A `databaseHooks.user.create.after` hook mirrors every new auth user into the app's own `profiles` row (`onConflictDoNothing`), and **app-editable fields — username and anything else you add — live there**, never on better-auth's `user` table. Writing app fields onto its tables couples you to its migrations.
-
-## Session cookie cache
-
-`session.cookieCache` is on with a 5-minute `maxAge`: a signed cookie lets repeated `getSession` reads skip a DB round-trip. Consequence worth knowing — a session revoked server-side can still resolve for up to 5 minutes. If you add an immediate-revocation requirement, that's the knob.
+Copy the files in the two tables above, then: add the tables with an additive
+migration (keep existing better-auth tables and hashes), remove any custom
+password hash and any `cookieCache`, set `rateLimit: { enabled: false }`, add
+the `[[ratelimits]]` stanzas per env with unique `namespace_id`s, and port the
+tests. Repo-specific extras (OAuth providers, the admin plugin, bearer tokens
+for a separate-origin app) stay, as long as rules 1–6 hold.
