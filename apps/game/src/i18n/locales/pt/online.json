@@ -67,8 +67,8 @@
   },
   "compose": {
     "title": "Novo convite",
-    "username": "Contra quem vais jogar?",
-    "username_placeholder": "Nome do adversário",
+    "username": "Adversário",
+    "username_placeholder": "Nome de utilizador",
     "username_hint": "O nome com que iniciam sessão.",
     "setup": "Abertura",
     "side": "O teu lado",
@@ -90,7 +90,7 @@
   },
   "empty": {
     "title": "Ainda não há nada aqui",
-    "link_body": "Envia um link a um amigo. O jogo começa quando ele o abrir e aceitar.",
+    "link_body": "Envia um link a um amigo.",
     "play_bot": "Joga contra um bot",
     "invite_by_name": "Convidar por nome de utilizador"
   },
@@ -100,8 +100,8 @@
     "field": "Link do convite",
     "share": "Partilhar link",
     "copy": "Copiar link",
-    "copied": "Link copiado. Envia-o à pessoa com quem queres jogar.",
-    "copy_failed": "Não conseguimos copiar o link. Seleciona-o e copia-o tu.",
+    "copied": "Link copiado",
+    "copy_failed": "Não deu para copiar. Seleciona o link e copia.",
     "share_text": "Jogamos uma partida de Abalone? Abre este link para jogares contra mim."
   },
   "invite_link": {
@@ -110,17 +110,16 @@
     "retry": "Tentar de novo",
     "go_home": "Ir para o início",
     "title": "{{name}} convidou-te para uma partida de {{brand}}",
-    "body_signed_out": "Cria uma conta ou inicia sessão para aceitar. Voltas logo a esta página.",
-    "body_signed_in": "Aceita e a partida começa logo.",
+    "body_signed_out": "Entra ou cria uma conta para aceitar.",
     "accept": "Aceitar e jogar",
     "own_title": "Este é o teu link de convite",
-    "own_body": "Envia-o à pessoa com quem queres jogar. A partida começa quando ela aceitar.",
+    "own_body": "Envia-o a um amigo para jogar.",
     "used_title": "Este convite já foi usado",
-    "used_body": "Outra pessoa aceitou primeiro. Pede um link novo a {{name}}.",
+    "used_body": "Pede um link novo a {{name}}.",
     "expired_title": "Este convite expirou",
-    "expired_body": "Os links de convite duram 7 dias. Pede um novo a quem to enviou.",
+    "expired_body": "Pede um link novo a quem o enviou.",
     "broken_title": "Este link de convite não funciona",
-    "broken_body": "Confirma que colaste o link inteiro ou pede um novo a quem to enviou.",
+    "broken_body": "Pede um link novo a quem o enviou.",
     "play_computer": "Jogar contra o computador"
   }
 }

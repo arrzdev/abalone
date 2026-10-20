@@ -2,7 +2,6 @@ import { Screen, ScrollView } from "@repo/nativ/components"
 import { cn } from "@repo/nativ/utils"
 import { useQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import type { ReactNode } from "react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
@@ -153,10 +152,9 @@ function ProfilePage() {
                   size={19}
                   className="shrink-0 text-white/40"
                 />
-                <RowLabel
-                  title={t("game:controls.settings")}
-                  detail={t("common:profile.settings_hint")}
-                />
+                <span className="min-w-0 flex-1 truncate font-display text-[15px] font-semibold text-white">
+                  {t("game:controls.settings")}
+                </span>
                 <ChevronRightIcon
                   size={18}
                   className="shrink-0 text-white/25"
@@ -331,24 +329,5 @@ function Stat({ value, label, tone = "plain", className }: StatProps) {
       </span>
       <span className="section-label">{label}</span>
     </div>
-  )
-}
-
-function RowLabel({
-  title,
-  detail,
-}: {
-  title: string
-  detail: ReactNode
-}) {
-  return (
-    <span className="min-w-0 flex-1">
-      <span className="block truncate font-display text-[15px] font-semibold text-white">
-        {title}
-      </span>
-      <span className="mt-px block truncate text-[13px] text-faint">
-        {detail}
-      </span>
-    </span>
   )
 }

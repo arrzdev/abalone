@@ -157,7 +157,7 @@ test("without a share sheet, one tap copies the link and says so", async ({
     .poll(async () => (await handOff(page)).copied)
     .toEqual([url])
   await expect(
-    page.getByText("Link copied. Send it to the person you want to play."),
+    page.getByText("Link copied", { exact: true }),
   ).toBeVisible()
   expect((await handOff(page)).shared).toEqual([])
 
@@ -182,7 +182,7 @@ test("invite by username is still there, under the buttons", async ({
 
   await expect(page).toHaveURL(/\/online\?invite=new$/)
   await expect(
-    page.getByRole("dialog").getByLabel("Who are you playing?"),
+    page.getByRole("dialog").getByLabel("Opponent", { exact: true }),
   ).toBeVisible()
 })
 
@@ -242,7 +242,7 @@ test("with an invite out, the online page is the usual list", async ({
 
   await emptyActions(hostPage).byName.click()
   const composer = hostPage.getByRole("dialog")
-  await composer.getByLabel("Who are you playing?").fill(friendName)
+  await composer.getByLabel("Opponent", { exact: true }).fill(friendName)
   await composer.getByRole("button", { name: "Send invite" }).click()
   await expect(composer).toBeHidden()
 

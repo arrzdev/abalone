@@ -67,8 +67,8 @@
   },
   "compose": {
     "title": "Nuovo invito",
-    "username": "Contro chi giochi?",
-    "username_placeholder": "Il suo nome",
+    "username": "Avversario",
+    "username_placeholder": "Nome utente",
     "username_hint": "Il nome con cui accedono.",
     "setup": "Apertura",
     "side": "Il tuo lato",
@@ -90,7 +90,7 @@
   },
   "empty": {
     "title": "Qui non c'è ancora nulla",
-    "link_body": "Manda un link a un amico. La partita inizia quando lo apre e accetta.",
+    "link_body": "Manda un link a un amico.",
     "play_bot": "Gioca contro un bot",
     "invite_by_name": "Invita per nome utente"
   },
@@ -100,8 +100,8 @@
     "field": "Link di invito",
     "share": "Condividi link",
     "copy": "Copia link",
-    "copied": "Link copiato. Invialo alla persona con cui vuoi giocare.",
-    "copy_failed": "Non siamo riusciti a copiare il link. Selezionalo e copialo tu.",
+    "copied": "Link copiato",
+    "copy_failed": "Copia non riuscita. Seleziona il link e copialo.",
     "share_text": "Facciamo una partita ad Abalone? Apri questo link per giocare contro di me."
   },
   "invite_link": {
@@ -110,17 +110,16 @@
     "retry": "Riprova",
     "go_home": "Vai alla home",
     "title": "{{name}} ti ha invitato a una partita di {{brand}}",
-    "body_signed_out": "Crea un account o accedi per accettare. Tornerai subito qui.",
-    "body_signed_in": "Accetta e la partita inizia subito.",
+    "body_signed_out": "Accedi o crea un account per accettare.",
     "accept": "Accetta e gioca",
     "own_title": "Questo è il tuo link di invito",
-    "own_body": "Invialo alla persona con cui vuoi giocare. La partita inizia quando accetta.",
+    "own_body": "Invialo a un amico per giocare.",
     "used_title": "Questo invito è già stato usato",
-    "used_body": "Qualcun altro l'ha accettato prima. Chiedi a {{name}} un nuovo link.",
+    "used_body": "Chiedi a {{name}} un nuovo link.",
     "expired_title": "Questo invito è scaduto",
-    "expired_body": "I link di invito durano 7 giorni. Chiedine uno nuovo a chi te l'ha mandato.",
+    "expired_body": "Chiedi un nuovo link a chi te l'ha mandato.",
     "broken_title": "Questo link di invito non funziona",
-    "broken_body": "Controlla di aver incollato il link intero oppure chiedine uno nuovo a chi te l'ha mandato.",
+    "broken_body": "Chiedi un nuovo link a chi te l'ha mandato.",
     "play_computer": "Gioca contro il computer"
   }
 }

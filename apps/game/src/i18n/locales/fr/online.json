@@ -67,8 +67,8 @@
   },
   "compose": {
     "title": "Nouvelle invitation",
-    "username": "Contre qui joues-tu ?",
-    "username_placeholder": "Son nom",
+    "username": "Adversaire",
+    "username_placeholder": "Nom d'utilisateur",
     "username_hint": "Le nom avec lequel la personne se connecte.",
     "setup": "Ouverture",
     "side": "Ton camp",
@@ -90,7 +90,7 @@
   },
   "empty": {
     "title": "Rien ici pour l'instant",
-    "link_body": "Envoyez un lien à un ami. La partie commence quand il l'ouvre et accepte.",
+    "link_body": "Envoyez un lien à un ami.",
     "play_bot": "Jouer contre un bot",
     "invite_by_name": "Inviter par nom d'utilisateur"
   },
@@ -100,8 +100,8 @@
     "field": "Lien d'invitation",
     "share": "Partager le lien",
     "copy": "Copier le lien",
-    "copied": "Lien copié. Envoyez-le à la personne avec qui vous voulez jouer.",
-    "copy_failed": "Impossible de copier le lien. Sélectionnez-le et copiez-le vous-même.",
+    "copied": "Lien copié",
+    "copy_failed": "Copie impossible. Sélectionnez le lien et copiez-le.",
     "share_text": "Une partie d'Abalone ? Ouvre ce lien pour jouer contre moi."
   },
   "invite_link": {
@@ -110,17 +110,16 @@
     "retry": "Réessayer",
     "go_home": "Retour à l'accueil",
     "title": "{{name}} vous invite à une partie de {{brand}}",
-    "body_signed_out": "Créez un compte ou connectez-vous pour accepter. Vous reviendrez directement ici.",
-    "body_signed_in": "Acceptez et la partie commence tout de suite.",
+    "body_signed_out": "Connectez-vous ou créez un compte pour accepter.",
     "accept": "Accepter et jouer",
     "own_title": "C'est votre lien d'invitation",
-    "own_body": "Envoyez-le à la personne avec qui vous voulez jouer. La partie commence quand elle accepte.",
+    "own_body": "Envoyez-le à un ami pour jouer.",
     "used_title": "Cette invitation a déjà été utilisée",
-    "used_body": "Quelqu'un d'autre l'a acceptée en premier. Demandez un nouveau lien à {{name}}.",
+    "used_body": "Demandez un nouveau lien à {{name}}.",
     "expired_title": "Cette invitation a expiré",
-    "expired_body": "Les liens d'invitation durent 7 jours. Demandez-en un nouveau à la personne qui l'a envoyé.",
+    "expired_body": "Demandez un nouveau lien à l'expéditeur.",
     "broken_title": "Ce lien d'invitation ne fonctionne pas",
-    "broken_body": "Vérifie que tu as collé le lien en entier, ou demande-en un nouveau à la personne qui te l'a envoyé.",
+    "broken_body": "Demandez un nouveau lien à l'expéditeur.",
     "play_computer": "Jouer contre l'ordinateur"
   }
 }

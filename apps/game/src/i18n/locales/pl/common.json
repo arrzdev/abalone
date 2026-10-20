@@ -28,7 +28,7 @@
     "play_now_hint": "Osiem botów, od łatwych do trudnych.",
     "play_online": "Graj online",
     "online_title": "Graj online",
-    "bot_hint": "Osiem botów, od łatwych do trudnych.",
+    "bot_hint": "8 poziomów",
     "local_hint": "Was dwoje, jedno urządzenie.",
     "online_hint": "Ze znajomymi.",
     "rules_link": "Zasady Abalone",
@@ -61,11 +61,9 @@
     "username_hint": "Przeciwnicy zapraszają cię po tej nazwie. Nie da się jej zmienić.",
     "change_picture": "Zmień zdjęcie",
     "uploading": "Wysyłanie",
-    "picture_hint": "PNG, JPEG lub WebP. Obraz zostanie przycięty do kwadratu.",
     "upload_failed": "To zdjęcie nie zostało wysłane. Spróbuj ponownie.",
     "playing": "W toku",
-    "best_streak": "Najlepsza seria",
-    "settings_hint": "Język, kule i dźwięk"
+    "best_streak": "Najlepsza seria"
   },
   "actions": {
     "close": "Zamknij",
@@ -73,12 +71,11 @@
   },
   "sync": {
     "updating": "Aktualizowanie",
-    "offline": "Jesteś offline, to może być nieaktualne.",
-    "unreachable": "Nie udało się odświeżyć, to może być nieaktualne."
+    "offline": "Jesteś offline",
+    "unreachable": "Nie udało się odświeżyć"
   },
   "not_found": {
     "title": "Na tym polu nic nie ma",
-    "body": "Ten adres donikąd nie prowadzi.",
     "action": "Wróć do planszy"
   }
 }

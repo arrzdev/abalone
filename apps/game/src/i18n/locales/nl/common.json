@@ -28,7 +28,7 @@
     "play_now_hint": "Acht bots, makkelijk tot moeilijk.",
     "play_online": "Online spelen",
     "online_title": "Online spelen",
-    "bot_hint": "Acht bots, makkelijk tot moeilijk.",
+    "bot_hint": "8 niveaus",
     "local_hint": "Jullie twee, één apparaat.",
     "online_hint": "Met vrienden.",
     "rules_link": "Abalone-regels",
@@ -61,11 +61,9 @@
     "username_hint": "Tegenstanders nodigen je uit met deze naam. Hij kan niet worden gewijzigd.",
     "change_picture": "Foto wijzigen",
     "uploading": "Uploaden",
-    "picture_hint": "PNG, JPEG of WebP. De afbeelding wordt vierkant bijgesneden.",
     "upload_failed": "Die foto is niet geüpload. Probeer het opnieuw.",
     "playing": "Bezig",
-    "best_streak": "Beste reeks",
-    "settings_hint": "Taal, knikkers en geluid"
+    "best_streak": "Beste reeks"
   },
   "actions": {
     "close": "Sluiten",
@@ -73,12 +71,11 @@
   },
   "sync": {
     "updating": "Bijwerken",
-    "offline": "Je bent offline, dit is mogelijk verouderd.",
-    "unreachable": "Bijwerken is niet gelukt, dit is mogelijk verouderd."
+    "offline": "Je bent offline",
+    "unreachable": "Bijwerken is niet gelukt"
   },
   "not_found": {
     "title": "Niets op dit vakje",
-    "body": "Dat adres leidt nergens heen.",
     "action": "Terug naar het bord"
   }
 }

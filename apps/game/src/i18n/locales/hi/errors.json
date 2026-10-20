@@ -2,8 +2,8 @@
   "api_invalid_input": "इसमें कुछ ठीक नहीं लगा।",
   "api_internal_server_error": "हमारी तरफ़ कुछ गड़बड़ हो गई।",
   "api_endpoint_not_found": "यह पेज मौजूद नहीं है।",
-  "api_rate_limit_exceeded": "एक साथ बहुत सारे अनुरोध। थोड़ा रुकें।",
-  "api_service_unavailable": "सर्वर अभी उपलब्ध नहीं है। थोड़ी देर बाद फिर से कोशिश करें।",
+  "api_rate_limit_exceeded": "बहुत सारे अनुरोध। थोड़ा रुकें।",
+  "api_service_unavailable": "सर्वर उपलब्ध नहीं। थोड़ी देर बाद कोशिश करें।",
   "api_not_found": "वह नहीं मिला।",
   "api_unauthorized": "इसके लिए साइन इन करना होगा।",
   "api_file_too_large": "यह फ़ाइल बहुत बड़ी है।",
@@ -17,7 +17,7 @@
   "api_move_conflict": "आपके खेलते-खेलते खेल आगे बढ़ गया।",
   "network_unreachable": "सर्वर तक नहीं पहुंच सके।",
   "unknown": "कुछ गड़बड़ हो गई।",
-  "api_invite_link_own": "यह आपका अपना लिंक है। खेलने के लिए इसे किसी और को भेजें।",
+  "api_invite_link_own": "यह आपका अपना लिंक है। इसे किसी दोस्त को भेजें।",
   "api_invite_link_used": "किसी और ने यह न्योता पहले ही स्वीकार कर लिया है।",
   "api_invite_link_expired": "इस न्योते की समय सीमा खत्म हो गई है। नया लिंक माँगें।"
 }

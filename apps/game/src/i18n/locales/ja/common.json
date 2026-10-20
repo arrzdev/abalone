@@ -28,7 +28,7 @@
     "play_now_hint": "ボット8体、初級から上級まで。",
     "play_online": "オンラインで対戦",
     "online_title": "オンラインで対戦",
-    "bot_hint": "ボット8体、初級から上級まで。",
+    "bot_hint": "8段階",
     "local_hint": "1台の端末で、2人で対戦。",
     "online_hint": "友だちと対戦。",
     "rules_link": "アバロンのルール",
@@ -61,11 +61,9 @@
     "username_hint": "相手はこの名前であなたを招待します。名前は変更できません。",
     "change_picture": "画像を変更",
     "uploading": "アップロード中",
-    "picture_hint": "PNG、JPEG、WebPに対応しています。正方形に切り抜かれます。",
     "upload_failed": "画像をアップロードできませんでした。もう一度お試しください。",
     "playing": "対戦中",
-    "best_streak": "最多連勝",
-    "settings_hint": "言語、石のデザイン、音"
+    "best_streak": "最多連勝"
   },
   "actions": {
     "close": "閉じる",
@@ -73,12 +71,11 @@
   },
   "sync": {
     "updating": "更新しています",
-    "offline": "オフラインです。表示が古い可能性があります。",
-    "unreachable": "更新できませんでした。表示が古い可能性があります。"
+    "offline": "オフラインです",
+    "unreachable": "更新できませんでした"
   },
   "not_found": {
     "title": "このマスには何もありません",
-    "body": "このアドレスはどこにもつながりません。",
     "action": "盤に戻る"
   }
 }
