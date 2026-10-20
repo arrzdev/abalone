@@ -51,14 +51,18 @@ migrations_dir = "src/database/migrations"
 # counts per isolate, so behind enough isolates it barely limits at all.
 # `limit` mirrors that file's `max` for the preset, and `period` its 60 s window
 # (the binding allows 10 or 60). `namespace_id` is any positive integer, unique
-# per limiter in the account. Local mode emulates these in miniflare, so dev and
-# the test suite need no account either.
+# per limiter in the account: two Workers that name the same id share one
+# counter. Every project owns a block of ids in the namespace registry of the
+# stack-auth skill (tudu-monorepo-template). The 9xxx ids below are the
+# template's placeholders: a project made from this template takes the next
+# free block, registers it, and replaces 9 with its block digit. Local mode
+# emulates these in miniflare, so dev and the test suite need no account either.
 #
 # The public /api/v1/health probe: unauthenticated and it reads D1, so it gets
 # a ceiling of its own, far above any monitor's once-a-minute cadence.
 [[ratelimits]]
 name = "HEALTH_RATE_LIMITER"
-namespace_id = "1001"
+namespace_id = "9101"
 simple = { limit = 60, period = 60 }
 
 # ---- staging -------------------------------------------------------
@@ -94,7 +98,7 @@ migrations_dir = "src/database/migrations"
 name = "HEALTH_RATE_LIMITER"
 # Its own namespace: staging and production usually share one account, and a
 # shared namespace_id would make them share one count.
-namespace_id = "2001"
+namespace_id = "9201"
 simple = { limit = 60, period = 60 }
 
 # ---- production ----------------------------------------------------
@@ -120,5 +124,5 @@ migrations_dir = "src/database/migrations"
 
 [[env.production.ratelimits]]
 name = "HEALTH_RATE_LIMITER"
-namespace_id = "1001"
+namespace_id = "9001"
 simple = { limit = 60, period = 60 }
