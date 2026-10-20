@@ -100,6 +100,11 @@ function controlBoxes(dialog: Locator): Promise<string[]> {
     ].filter((element) => !element.closest('[role="listbox"]'))
     return controls.map((element) => {
       const { x, y, width, height } = element.getBoundingClientRect()
+      // The overlay's own text takes in an open list's options, so it is
+      // named by its role: only its box is compared.
+      if (element === root) {
+        return `overlay ${x.toFixed(1)},${y.toFixed(1)} ${width.toFixed(1)}x${height.toFixed(1)}`
+      }
       const label =
         element.getAttribute("aria-label") ??
         element.textContent?.trim().slice(0, 30) ??
