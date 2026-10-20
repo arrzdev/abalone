@@ -19,5 +19,7 @@
   "unknown": "出了点问题。",
   "api_invite_link_own": "这是你自己的链接。发给别人才能对战。",
   "api_invite_link_used": "已经有人接受了这个邀请。",
-  "api_invite_link_expired": "这个邀请已过期。请要一个新链接。"
+  "api_invite_link_expired": "这个邀请已过期。请要一个新链接。",
+  "api_auth_account_locked": "登录尝试次数太多，请稍后再试。",
+  "api_forbidden_origin": "不允许从这里发出此请求。"
 }

@@ -19,5 +19,7 @@
   "unknown": "Correu algo mal.",
   "api_invite_link_own": "Este link é teu. Envia-o a outra pessoa para jogar.",
   "api_invite_link_used": "Outra pessoa já aceitou este convite.",
-  "api_invite_link_expired": "Este convite expirou. Pede um link novo."
+  "api_invite_link_expired": "Este convite expirou. Pede um link novo.",
+  "api_auth_account_locked": "Demasiadas tentativas de início de sessão. Tenta mais tarde.",
+  "api_forbidden_origin": "Este pedido não é permitido a partir daqui."
 }

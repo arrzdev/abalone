@@ -19,5 +19,7 @@
   "unknown": "Coś poszło nie tak.",
   "api_invite_link_own": "To twój własny link. Wyślij go komuś innemu, żeby zagrać.",
   "api_invite_link_used": "Ktoś inny już przyjął to zaproszenie.",
-  "api_invite_link_expired": "To zaproszenie wygasło. Poproś o nowy link."
+  "api_invite_link_expired": "To zaproszenie wygasło. Poproś o nowy link.",
+  "api_auth_account_locked": "Za dużo prób logowania. Spróbuj ponownie później.",
+  "api_forbidden_origin": "To żądanie nie jest dozwolone z tego miejsca."
 }

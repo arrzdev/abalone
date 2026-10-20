@@ -54,6 +54,7 @@
       "username_invalid": "3〜20文字の英数字、ドット、アンダースコア。",
       "password_too_short": "パスワードは8文字以上です。",
       "invalid_credentials": "名前とパスワードが一致しません。",
+      "account_locked": "試行回数が多すぎます。{{minutes}}分後にもう一度お試しください。",
       "unknown": "問題が起きました。"
     }
   },

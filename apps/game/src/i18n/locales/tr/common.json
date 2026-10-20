@@ -54,6 +54,7 @@
       "username_invalid": "3 ile 20 arası harf, rakam, nokta veya alt çizgi.",
       "password_too_short": "Parolalar en az 8 karakter olmalı.",
       "invalid_credentials": "Bu ad ve parola eşleşmiyor.",
+      "account_locked": "Çok fazla deneme. {{minutes}} dakika sonra tekrar dene.",
       "unknown": "Bir şeyler ters gitti."
     }
   },

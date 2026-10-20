@@ -54,6 +54,7 @@
       "username_invalid": "3 到 20 个字符：字母、数字、点和下划线。",
       "password_too_short": "密码至少 8 个字符。",
       "invalid_credentials": "用户名和密码对不上。",
+      "account_locked": "尝试次数太多。请 {{minutes}} 分钟后再试。",
       "unknown": "出了点问题。"
     }
   },

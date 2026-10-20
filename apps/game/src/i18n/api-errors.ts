@@ -32,6 +32,8 @@ export const API_ERROR_KEYS = {
   invite_link_own: "errors:api_invite_link_own",
   invite_link_used: "errors:api_invite_link_used",
   invite_link_expired: "errors:api_invite_link_expired",
+  auth_account_locked: "errors:api_auth_account_locked",
+  forbidden_origin: "errors:api_forbidden_origin",
 } as const satisfies Record<ErrorCode, string>
 
 /** The key for whatever the request threw, whether or not the api answered. */
