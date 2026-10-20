@@ -1,3 +1,4 @@
+import { isSessionSnapshotExpired } from "@/data/auth/session-snapshot"
 import { getBearerToken } from "@/data/auth/token"
 
 //---- Route guard --------------------------------------------------
@@ -7,7 +8,9 @@ import { getBearerToken } from "@/data/auth/token"
 //no token is a guest with certainty, and a stale cached user would let someone
 //through on a session the server has since dropped. a token that turns out to
 //be dead fails on the first request instead, which is where a dead token
-//should be found out.
+//should be found out. the one thing the cached session does decide is its own
+//end: a device whose cached session is past its `expiresAt` is holding a token
+//that buys nothing, and it is sent to sign in at once.
 
 /**
  * Whether this navigation must ask for an account first.
@@ -25,5 +28,5 @@ import { getBearerToken } from "@/data/auth/token"
  */
 export function needsSignIn(): boolean {
   if (typeof window === "undefined") return false
-  return !getBearerToken()
+  return !getBearerToken() || isSessionSnapshotExpired()
 }
