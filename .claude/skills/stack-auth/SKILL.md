@@ -38,7 +38,7 @@ new token in client storage). Port the template's tests with each fix.
 | 2 | **The build fails unless the bundle holds `password.node.mjs` and not `@noble/hashes/scrypt`** (`scripts/check-password-bundle.ts`, run by `pnpm build`). | A resolver change once shipped the pure-JS build again (better-auth#9649). This catches it before a deploy instead of in production CPU time. |
 | 3 | **Sessions live in D1 (drizzle adapter). `session.cookieCache` off. No `secondaryStorage`, no KV, no `better-auth-cloudflare` plugin.** The API checks the session in D1 on **every** request. | **Instant revocation:** sign-out, a revoked session or a deleted user fails on the next request; a cookie cache keeps a dead session alive for its `maxAge`. **KV is out because of the board's plan:** Workers Free KV allows 1,000 writes/day and 100,000 reads/day ([KV limits](https://developers.cloudflare.com/kv/platform/limits/)); D1 Free allows 5 million rows read and 100,000 rows written per day ([D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/)). |
 | 4 | **Rate limit = Cloudflare Workers rate-limit bindings. better-auth `rateLimit: { enabled: false }`.** One limiter only. | The binding is free and shared by every isolate in a location. better-auth's default store is memory, which on Workers counts per isolate and barely limits. Storing counters in D1 would spend the write budget of rule 3. |
-| 5 | **Per-account lockout in D1: 5 failed sign-ins for one account within 15 min → that account is locked 15 min, from any IP.** Checked **before** the password is hashed. | Stops brute force through many proxies against one account. The binding cannot do it: its period is only 10 s or 60 s and it counts per location ([rate-limit binding](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)). Checking first means a locked account costs no scrypt CPU. |
+| 5 | **Per-account lockout in D1: 5 failed sign-ins for one account within 15 min → that account is locked 15 min, from any IP.** Checked **before** the password is hashed. The count starts over only 15 min after the *last* failure. | Stops brute force through many proxies against one account. The binding cannot do it: its period is only 10 s or 60 s and it counts per location ([rate-limit binding](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/)). Checking first means a locked account costs no scrypt CPU. |
 | 6 | **The client caches only a session summary and is stale-while-revalidate.** | Instant routing and redirects without waiting for the API, while the API (rule 3) still refuses anything a dead session asks for. A late client-side sign-out can only show an empty page, never data. |
 
 ## Backend (template paths)
@@ -66,6 +66,9 @@ and uses the `bearer()` plugin with a token in `localStorage`; new projects use
 the cookie.)
 
 **`requireAuth()`** reads the session from D1 every time. No session → `unauthorized` (401).
+When better-auth extends a session (once a day of use), `requireAuth()`
+forwards the renewed `Set-Cookie` on the response; drop it and the browser
+cookie dies after 7 days while D1 still says the session is live.
 D1 failing → `service_unavailable` (503), never 401, so a D1 blip does not sign
 the user out on the client. Order on a route: `rateLimit(...)` first, then
 `requireAuth()`.
@@ -80,17 +83,28 @@ the user out on the client. Order on a route: `rateLimit(...)` first, then
 | `HEALTH_RATE_LIMITER` | 60 / 60 s | the public health probe |
 
 Every 429 carries `Retry-After`. The failed-sign-in cap stops one IP guessing
-many accounts; the lockout stops many IPs guessing one account.
+many accounts; the lockout stops many IPs guessing one account. IPv6 clients
+are counted per /64 (`ipKey`), since one client can rotate through a /64.
+
+**CSRF:** better-auth checks `Origin` only inside its own router, which is not
+mounted, so every cookie-authenticated POST runs `requireAllowedOrigin()`: an
+`Origin` that is not in `FRONTEND_URLS` gets `forbidden_origin` (403). Add it to
+any new state-changing route behind `requireAuth()`.
 
 **Lockout details** (`auth-lockout.service.ts`):
 - Key: the email, trimmed and lowercased. Unknown emails are counted and
   answered **exactly** like known ones (same 401 body, same 429), so the
   answers do not reveal which emails have accounts.
 - One atomic upsert per failure (concurrent failures cannot lose a count); a
-  successful sign-in deletes the row. Honest traffic: one D1 read per sign-in,
+  successful sign-in deletes the row. The count restarts only 15 minutes after
+  the last failure, so failures cannot be split across a window edge (a guesser
+  slower than one try per 15 minutes is locked too: stricter, on purpose). Honest traffic: one D1 read per sign-in,
   no write.
 - Locked → `auth_account_locked` (429) + `Retry-After` in seconds; the client
   shows "Too many attempts. Try again in N minutes."
+- Sign-up answers `email_taken` (409) for a registered email: that does tell
+  which emails have accounts, accepted for usable sign-up; it sits behind the
+  `auth` rate-limit tier. Sign-in never tells.
 - **Password reset stays outside the lockout** when a project adds it, so an
   attacker can at worst lock a real user out for 15 minutes, never for good.
 
@@ -142,8 +156,10 @@ Keep them green in every project; port them when adopting the standard.
 - Backend (`auth.routes.test.ts`, real worker, D1 and bindings from miniflare):
   revoked session → next call 401; sign-out → old cookie 401; 6th sign-in
   from one IP in 10 s → 429 + `Retry-After`; 5 wrong passwords from 5 IPs →
-  6th is 429 with the right password; unlock after 15 min; unknown email
-  identical to a known one; no token in any body; cookie is `HttpOnly`.
+  6th is 429 with the right password; unlock after 15 min; failures split
+  around the window edge still lock; unknown email identical to a known one;
+  renewed cookie forwarded; foreign-origin POST → 403; no token in any body;
+  cookie is `HttpOnly`.
 - `password-hash.test.ts`: a hash made by the old custom function verifies
   with better-auth's default; new hashes keep the `salt:key` format.
 - `rate-limit.test.ts`: both auth bindings must pass; failed-sign-in cap and
