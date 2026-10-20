@@ -16,7 +16,7 @@
   "scripts": {
     "check:env": "tsx env/check-env.ts",
     "dev": "tsx scripts/dev.ts",
-    "build": "wrangler deploy --dry-run --env ${CLOUDFLARE_ENV:-production}",
+    "build": "wrangler deploy --dry-run --env ${CLOUDFLARE_ENV:-production} --outdir dist --metafile && tsx scripts/check-password-bundle.ts",
     "start": "wrangler dev --env-file env/.env",
     "biome:fix": "biome check --write --unsafe .",
     "biome:check": "biome check .",
@@ -31,7 +31,7 @@
     "@hono/zod-validator": "0.9.1",
     "@repo/abalone-engine": "workspace:*",
     "@repo/dev": "workspace:*",
-    "better-auth": "1.7.7",
+    "better-auth": "1.7.11",
     "@repo/env-validation": "workspace:*",
     "@repo/shared": "workspace:*",
     "drizzle-orm": "0.45.4",
