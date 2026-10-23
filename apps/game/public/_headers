@@ -12,3 +12,10 @@
 # Build files carry a content hash in the name, so they never go stale.
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
+
+# The prerendered SPA shell the app boots from. It carries the home head, so a
+# crawler that finds it lists a second home page under this URL. noindex keeps
+# it out of results; robots.txt must not block it, or the crawler never reads
+# this header.
+/_shell
+  X-Robots-Tag: noindex

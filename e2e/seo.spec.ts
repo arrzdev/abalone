@@ -138,6 +138,31 @@ test.describe("private pages", () => {
   }
 })
 
+// The prerendered shell carries the home head; listed, it is a second home page
+// under a URL nobody should land on
+test("/_shell is served with noindex", async ({ request }) => {
+  const response = await request.get("/_shell")
+
+  expect(response.status()).toBe(200)
+  expect(response.headers()["x-robots-tag"]).toBe("noindex")
+})
+
+// Crawlers ask the root for it whatever the head says; a 404 there leaves a
+// search result with a generic globe
+test("/favicon.ico is served at the root, and the home head links an icon", async ({
+  request,
+}) => {
+  const icon = await request.get("/favicon.ico")
+  expect(icon.status()).toBe(200)
+  expect(icon.headers()["content-type"]).toMatch(/^image\//)
+
+  const html = await (await request.get("/")).text()
+  expect(html).toContain(
+    `<link rel="shortcut icon" href="/favicons/favicon.ico"`,
+  )
+  expect(html).toContain(`<link rel="apple-touch-icon" sizes="180x180"`)
+})
+
 test("robots.txt is a real file that points at the sitemap", async ({
   request,
 }) => {
