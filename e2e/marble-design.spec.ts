@@ -55,7 +55,7 @@ test("a marble design picked in Settings survives a reload", async ({
   const dialog = await openSettings(page)
   const group = designGroup(dialog)
   const options = group.getByRole("radio")
-  await expect(options).toHaveText(["Minimalist", "Realistic"])
+  await expect(options).toHaveText(["Minimalist", "Realistic", "Sports"])
   await expect(group.getByRole("radio", { checked: true })).toHaveText(
     "Realistic",
   )
@@ -89,6 +89,67 @@ test("a marble design picked in Settings survives a reload", async ({
   ).toHaveText("Realistic")
 })
 
+/** The mean lightness, 0 to 1, of the painted pixels of each marble in a tile. */
+function marbleLightness(tile: Locator): Promise<number[]> {
+  return tile.evaluate((element) =>
+    [...element.querySelectorAll("canvas")].map((canvas) => {
+      const context = canvas.getContext("2d")
+      if (context === null) return -1
+      const { data } = context.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height,
+      )
+      let sum = 0
+      let weight = 0
+      for (let index = 0; index < data.length; index += 4) {
+        const alpha = data[index + 3] / 255
+        if (alpha === 0) continue
+        const lightness =
+          (0.2126 * data[index] +
+            0.7152 * data[index + 1] +
+            0.0722 * data[index + 2]) /
+          255
+        sum += lightness * alpha
+        weight += alpha
+      }
+      return weight === 0 ? -1 : sum / weight
+    }),
+  )
+}
+
+test("the Sports marbles stay one clearly light and one clearly dark", async ({
+  page,
+}) => {
+  await openApp(page, "/offline")
+  const group = designGroup(await openSettings(page))
+  const sports = group.getByRole("radio", { name: "Sports" })
+  await sports.click()
+  await expect(sports).toHaveAttribute("aria-checked", "true")
+
+  // A football against an 8-ball: the patches and the number are drawn on
+  // top, but each side still has to read as its colour at a glance.
+  await expect.poll(() => paintedShare(sports)).toBeGreaterThan(0.5)
+  const [light, dark] = await marbleLightness(sports)
+  expect(light, "the football reads as the light side").toBeGreaterThan(
+    0.55,
+  )
+  expect(dark, "the 8-ball reads as the dark side").toBeLessThan(0.3)
+  // Realistic sits at about 0.7 and 0.17; the patterns may cost some of that
+  // gap, never most of it.
+  expect(light - dark, "light and dark stay far apart").toBeGreaterThan(
+    0.3,
+  )
+
+  await page.reload()
+  await expect(
+    designGroup(await openSettings(page)).getByRole("radio", {
+      checked: true,
+    }),
+  ).toHaveText("Sports")
+})
+
 test("a saved marble design this build does not know reads as Realistic", async ({
   page,
 }) => {
@@ -110,7 +171,7 @@ for (const width of [320, 375, 1280]) {
     await openApp(page, "/offline")
     const group = designGroup(await openSettings(page))
     const options = group.getByRole("radio")
-    await expect(options).toHaveCount(2)
+    await expect(options).toHaveCount(3)
     for (const option of await options.all()) {
       const box = await option.boundingBox()
       expect(Math.round(box?.width ?? 0)).toBeGreaterThanOrEqual(44)

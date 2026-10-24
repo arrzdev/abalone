@@ -362,13 +362,33 @@ function bitmapFor(
   return bitmap
 }
 
-function ballFor(body: Body, side: number): HTMLCanvasElement {
-  return bitmapFor(body.key, side, (px) => {
+/**
+ * Paints a pattern onto a ball that is already shaded, in its bitmap: `side`
+ * pixels square, the ball filling it edge to edge.
+ */
+type Decoration = (ctx: CanvasRenderingContext2D, side: number) => void
+
+function ballFor(
+  body: Body,
+  side: number,
+  design = "3d",
+  decorate?: Decoration,
+): HTMLCanvasElement {
+  return bitmapFor(`${design}|${body.key}`, side, (px) => {
     const canvas = document.createElement("canvas")
     canvas.width = px
     canvas.height = px
     const ctx = canvas.getContext("2d")
-    if (ctx) ctx.putImageData(shadeBall(ctx, px, body), 0, 0)
+    if (!ctx) return canvas
+    ctx.putImageData(shadeBall(ctx, px, body), 0, 0)
+    if (decorate) {
+      ctx.save()
+      ctx.beginPath()
+      ctx.arc(px / 2, px / 2, px / 2, 0, Math.PI * 2)
+      ctx.clip()
+      decorate(ctx, px)
+      ctx.restore()
+    }
     return canvas
   })
 }
@@ -376,58 +396,216 @@ function ballFor(body: Body, side: number): HTMLCanvasElement {
 /** Whole device pixels, so a blit is a copy rather than a resample. */
 const snapped = (v: number, scale: number) => Math.round(v * scale) / scale
 
-const render3DMarble: MarbleRenderer = (
-  ctx,
-  x,
-  y,
-  radius,
-  color,
-  isSelected,
-  isHovered,
-  baseLineWidth,
-  highlight,
-) => {
-  const body =
-    color === "#fff" || color === "white" ? BODIES.white : BODIES.black
-  const scale = scaleOf(ctx)
-  const side = Math.min(1024, Math.max(2, Math.round(radius * 2 * scale)))
-
-  let cx = x
-  let cy = y
-
-  if (typeof document !== "undefined" && radius > 0) {
-    cx = snapped(x - radius, scale) + radius
-    cy = snapped(y - radius, scale) + radius
-    ctx.drawImage(
-      ballFor(body, side),
-      cx - radius,
-      cy - radius,
-      radius * 2,
-      radius * 2,
-    )
-  } else {
-    ctx.beginPath()
-    ctx.arc(x, y, radius, 0, Math.PI * 2)
-    ctx.fillStyle = color
-    ctx.fill()
-  }
-
-  strokeMarbleOutline(
+/**
+ * A lit design: the shaded ball, with whatever pattern the design paints on
+ * each body. The pattern goes into the cached bitmap, so it costs nothing per
+ * frame.
+ */
+function litMarble(
+  design: string,
+  decorations: Partial<Record<keyof typeof BODIES, Decoration>> = {},
+): MarbleRenderer {
+  return (
     ctx,
-    cx,
-    cy,
+    x,
+    y,
     radius,
+    color,
     isSelected,
     isHovered,
     baseLineWidth,
     highlight,
-    { color: body.outline, widthFactor: 0.9 },
+  ) => {
+    const name = color === "#fff" || color === "white" ? "white" : "black"
+    const body = BODIES[name]
+    const scale = scaleOf(ctx)
+    const side = Math.min(
+      1024,
+      Math.max(2, Math.round(radius * 2 * scale)),
+    )
+
+    let cx = x
+    let cy = y
+
+    if (typeof document !== "undefined" && radius > 0) {
+      cx = snapped(x - radius, scale) + radius
+      cy = snapped(y - radius, scale) + radius
+      ctx.drawImage(
+        ballFor(body, side, design, decorations[name]),
+        cx - radius,
+        cy - radius,
+        radius * 2,
+        radius * 2,
+      )
+    } else {
+      ctx.beginPath()
+      ctx.arc(x, y, radius, 0, Math.PI * 2)
+      ctx.fillStyle = color
+      ctx.fill()
+    }
+
+    strokeMarbleOutline(
+      ctx,
+      cx,
+      cy,
+      radius,
+      isSelected,
+      isHovered,
+      baseLineWidth,
+      highlight,
+      { color: body.outline, widthFactor: 0.9 },
+    )
+  }
+}
+
+//---- sports ---------------------------------------------------------
+//
+// A football for the light side and an 8-ball for the dark one. Both keep the
+// lit body underneath, so they sit on the board like the realistic marbles,
+// and both keep most of their surface in their own colour: the light side has
+// to read as light and the dark side as dark at a glance, on every board and
+// at the smallest board a phone draws.
+
+/** A regular pentagon's corners, the first one pointing `angle` radians round. */
+function pentagon(
+  cx: number,
+  cy: number,
+  size: number,
+  angle: number,
+  squash = 1,
+): [number, number][] {
+  const points: [number, number][] = []
+  const along = Math.atan2(cy, cx)
+  for (let corner = 0; corner < 5; corner++) {
+    const a = angle + (corner * 2 * Math.PI) / 5
+    // Squashed along the line from the centre: a patch near the rim is seen
+    // edge on, so it is narrower that way than across.
+    const px = Math.cos(a) * size
+    const py = Math.sin(a) * size
+    const radial = px * Math.cos(along) + py * Math.sin(along)
+    const across = -px * Math.sin(along) + py * Math.cos(along)
+    points.push([
+      cx + radial * squash * Math.cos(along) - across * Math.sin(along),
+      cy + radial * squash * Math.sin(along) + across * Math.cos(along),
+    ])
+  }
+  return points
+}
+
+function tracePolygon(
+  ctx: CanvasRenderingContext2D,
+  points: [number, number][],
+): void {
+  ctx.beginPath()
+  for (const [index, [px, py]] of points.entries()) {
+    if (index === 0) ctx.moveTo(px, py)
+    else ctx.lineTo(px, py)
+  }
+  ctx.closePath()
+}
+
+/**
+ * The patches multiply into the shaded white, so they keep its light and
+ * shadow rather than sitting on it flat.
+ */
+const paintFootball: Decoration = (ctx, side) => {
+  const half = side / 2
+  const up = -Math.PI / 2
+  ctx.save()
+  ctx.translate(half, half)
+  ctx.globalCompositeOperation = "multiply"
+  ctx.fillStyle = "#2b2f36"
+  ctx.strokeStyle = "#a9adb5"
+  ctx.lineWidth = Math.max(1, side * 0.025)
+  ctx.lineJoin = "round"
+
+  const centre = pentagon(0, 0, half * 0.26, up)
+  // The seams: one from each corner of the middle patch out to the rim.
+  ctx.beginPath()
+  for (const [px, py] of centre) {
+    ctx.moveTo(px, py)
+    ctx.lineTo(px * 3.8, py * 3.8)
+  }
+  ctx.stroke()
+
+  tracePolygon(ctx, centre)
+  ctx.fill()
+  // A patch across each edge of the middle one, half round the side.
+  for (let edge = 0; edge < 5; edge++) {
+    const a = up + Math.PI / 5 + (edge * 2 * Math.PI) / 5
+    const distance = half * 0.9
+    tracePolygon(
+      ctx,
+      pentagon(
+        Math.cos(a) * distance,
+        Math.sin(a) * distance,
+        half * 0.26,
+        a + Math.PI,
+        0.55,
+      ),
+    )
+    ctx.fill()
+  }
+  ctx.restore()
+}
+
+/**
+ * The white disc with its number, facing the viewer. The ball's own highlight
+ * falls inside the disc, so it is laid back over the disc: under the same gloss
+ * as the rest of the ball.
+ */
+const paintEightBall: Decoration = (ctx, side) => {
+  const half = side / 2
+  const disc = half * 0.46
+  const cx = half
+  const cy = half * 0.96
+
+  const face = ctx.createRadialGradient(
+    cx - disc * 0.3,
+    cy - disc * 0.35,
+    disc * 0.1,
+    cx,
+    cy,
+    disc,
   )
+  face.addColorStop(0, "#fbfaf6")
+  face.addColorStop(1, "#c9c7c0")
+  ctx.beginPath()
+  ctx.arc(cx, cy, disc, 0, Math.PI * 2)
+  ctx.fillStyle = face
+  ctx.fill()
+
+  ctx.fillStyle = "#14161a"
+  ctx.font = `700 ${Math.round(disc * 1.45)}px system-ui, sans-serif`
+  ctx.textAlign = "center"
+  ctx.textBaseline = "middle"
+  ctx.fillText("8", cx, cy + disc * 0.06)
+
+  const hotspotX = half + KEY.x * half * 0.62
+  const hotspotY = half + KEY.y * half * 0.62
+  const gloss = ctx.createRadialGradient(
+    hotspotX,
+    hotspotY,
+    0,
+    hotspotX,
+    hotspotY,
+    half * 0.3,
+  )
+  gloss.addColorStop(0, "rgba(255, 255, 255, 0.55)")
+  gloss.addColorStop(1, "rgba(255, 255, 255, 0)")
+  ctx.beginPath()
+  ctx.arc(cx, cy, disc, 0, Math.PI * 2)
+  ctx.fillStyle = gloss
+  ctx.fill()
 }
 
 export const MARBLE_DESIGNS = {
   default: renderDefaultMarble,
-  "3d": render3DMarble,
+  "3d": litMarble("3d"),
+  sports: litMarble("sports", {
+    white: paintFootball,
+    black: paintEightBall,
+  }),
 } as const satisfies Record<string, MarbleRenderer>
 
 export type MarbleDesign = keyof typeof MARBLE_DESIGNS
@@ -438,7 +616,7 @@ export const MARBLE_DESIGN_NAMES = Object.keys(
 ) as MarbleDesign[]
 
 /** Which designs are lit, and so have something to cast a shadow with. */
-const LIT = new Set<string>(["3d"])
+const LIT = new Set<string>(["3d", "sports"])
 
 export function hasDesign(designName: string): designName is MarbleDesign {
   return designName in MARBLE_DESIGNS
