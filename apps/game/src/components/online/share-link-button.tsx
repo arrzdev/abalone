@@ -41,6 +41,11 @@ export async function handOffLink(
     return "idle"
   }
 
+  return copyLink(url)
+}
+
+/** Puts a link on the clipboard, and says whether that worked. */
+export async function copyLink(url: string): Promise<HandOffStatus> {
   const [, error] = await tryCatch(() =>
     navigator.clipboard.writeText(url),
   )
