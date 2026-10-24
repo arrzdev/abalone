@@ -55,7 +55,7 @@
       "username_invalid": "3 to 20 letters, numbers, dots or underscores.",
       "password_too_short": "Passwords need at least 8 characters.",
       "invalid_credentials": "That name and password don't match.",
-      "account_locked": "Too many attempts. Try again in {{minutes}} minutes.",
+      "account_locked": "Too many attempts. Try again later.",
       "unknown": "Something went wrong."
     }
   },

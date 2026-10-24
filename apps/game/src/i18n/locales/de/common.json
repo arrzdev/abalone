@@ -54,7 +54,7 @@
       "username_invalid": "3 bis 20 Buchstaben, Zahlen, Punkte oder Unterstriche.",
       "password_too_short": "Passwörter brauchen mindestens 8 Zeichen.",
       "invalid_credentials": "Name und Passwort passen nicht zusammen.",
-      "account_locked": "Zu viele Versuche. Versuch es in {{minutes}} Min. noch einmal.",
+      "account_locked": "Zu viele Anmeldeversuche. Versuch es später noch einmal.",
       "unknown": "Etwas ist schiefgelaufen."
     }
   },

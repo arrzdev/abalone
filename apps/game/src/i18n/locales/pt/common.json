@@ -54,7 +54,7 @@
       "username_invalid": "3 a 20 letras, números, pontos ou underscores.",
       "password_too_short": "A palavra-passe precisa de 8 caracteres.",
       "invalid_credentials": "O nome e a palavra-passe não coincidem.",
-      "account_locked": "Demasiadas tentativas. Tenta de novo daqui a {{minutes}} min.",
+      "account_locked": "Demasiadas tentativas de início de sessão. Tenta mais tarde.",
       "unknown": "Correu algo mal."
     }
   },

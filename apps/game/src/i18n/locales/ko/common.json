@@ -54,7 +54,7 @@
       "username_invalid": "3~20자의 문자, 숫자, 점, 밑줄.",
       "password_too_short": "비밀번호는 8자 이상이어야 합니다.",
       "invalid_credentials": "이름과 비밀번호가 맞지 않습니다.",
-      "account_locked": "시도가 너무 많습니다. {{minutes}}분 후에 다시 시도해 주세요.",
+      "account_locked": "로그인 시도가 너무 많습니다. 나중에 다시 시도해 주세요.",
       "unknown": "문제가 생겼습니다."
     }
   },
