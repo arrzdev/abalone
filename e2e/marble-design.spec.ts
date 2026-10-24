@@ -55,7 +55,7 @@ test("a marble design picked in Settings survives a reload", async ({
   const dialog = await openSettings(page)
   const group = designGroup(dialog)
   const options = group.getByRole("radio")
-  await expect(options).toHaveText(["Minimalist", "Realistic", "Sports"])
+  await expect(options).toHaveText(["Minimalist", "Realistic", "Pool"])
   await expect(group.getByRole("radio", { checked: true })).toHaveText(
     "Realistic",
   )
@@ -119,20 +119,20 @@ function marbleLightness(tile: Locator): Promise<number[]> {
   )
 }
 
-test("the Sports marbles stay one clearly light and one clearly dark", async ({
+test("the Pool marbles stay one clearly light and one clearly dark", async ({
   page,
 }) => {
   await openApp(page, "/offline")
   const group = designGroup(await openSettings(page))
-  const sports = group.getByRole("radio", { name: "Sports" })
-  await sports.click()
-  await expect(sports).toHaveAttribute("aria-checked", "true")
+  const pool = group.getByRole("radio", { name: "Pool" })
+  await pool.click()
+  await expect(pool).toHaveAttribute("aria-checked", "true")
 
-  // A football against an 8-ball: the patches and the number are drawn on
-  // top, but each side still has to read as its colour at a glance.
-  await expect.poll(() => paintedShare(sports)).toBeGreaterThan(0.5)
-  const [light, dark] = await marbleLightness(sports)
-  expect(light, "the football reads as the light side").toBeGreaterThan(
+  // A cue ball against an 8-ball: the spot and the number are drawn on top,
+  // but each side still has to read as its colour at a glance.
+  await expect.poll(() => paintedShare(pool)).toBeGreaterThan(0.5)
+  const [light, dark] = await marbleLightness(pool)
+  expect(light, "the cue ball reads as the light side").toBeGreaterThan(
     0.55,
   )
   expect(dark, "the 8-ball reads as the dark side").toBeLessThan(0.3)
@@ -147,7 +147,7 @@ test("the Sports marbles stay one clearly light and one clearly dark", async ({
     designGroup(await openSettings(page)).getByRole("radio", {
       checked: true,
     }),
-  ).toHaveText("Sports")
+  ).toHaveText("Pool")
 })
 
 test("a saved marble design this build does not know reads as Realistic", async ({

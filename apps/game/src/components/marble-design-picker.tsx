@@ -11,7 +11,7 @@ import { MARBLE_DESIGN_NAMES } from "@/render/marble-renderer"
 const NAME_KEYS: Record<MarbleDesign, string> = {
   default: "game:controls.marble_design_classic",
   "3d": "game:controls.marble_design_3d",
-  sports: "game:controls.marble_design_sports",
+  pool: "game:controls.marble_design_pool",
 }
 
 /** Which way each arrow key steps along the row of tiles. */

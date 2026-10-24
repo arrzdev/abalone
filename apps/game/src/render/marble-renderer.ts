@@ -458,94 +458,28 @@ function litMarble(
   }
 }
 
-//---- sports ---------------------------------------------------------
+//---- pool ---------------------------------------------------------
 //
-// A football for the light side and an 8-ball for the dark one. Both keep the
-// lit body underneath, so they sit on the board like the realistic marbles,
-// and both keep most of their surface in their own colour: the light side has
-// to read as light and the dark side as dark at a glance, on every board and
-// at the smallest board a phone draws.
-
-/** A regular pentagon's corners, the first one pointing `angle` radians round. */
-function pentagon(
-  cx: number,
-  cy: number,
-  size: number,
-  angle: number,
-  squash = 1,
-): [number, number][] {
-  const points: [number, number][] = []
-  const along = Math.atan2(cy, cx)
-  for (let corner = 0; corner < 5; corner++) {
-    const a = angle + (corner * 2 * Math.PI) / 5
-    // Squashed along the line from the centre: a patch near the rim is seen
-    // edge on, so it is narrower that way than across.
-    const px = Math.cos(a) * size
-    const py = Math.sin(a) * size
-    const radial = px * Math.cos(along) + py * Math.sin(along)
-    const across = -px * Math.sin(along) + py * Math.cos(along)
-    points.push([
-      cx + radial * squash * Math.cos(along) - across * Math.sin(along),
-      cy + radial * squash * Math.sin(along) + across * Math.cos(along),
-    ])
-  }
-  return points
-}
-
-function tracePolygon(
-  ctx: CanvasRenderingContext2D,
-  points: [number, number][],
-): void {
-  ctx.beginPath()
-  for (const [index, [px, py]] of points.entries()) {
-    if (index === 0) ctx.moveTo(px, py)
-    else ctx.lineTo(px, py)
-  }
-  ctx.closePath()
-}
+// The cue ball for the light side and the 8-ball for the dark one, so both
+// sides come from the same table. Both keep the lit body underneath, so they
+// sit on the board like the realistic marbles, and both keep most of their
+// surface in their own colour: the light side has to read as light and the
+// dark side as dark at a glance, on every board and at the smallest board a
+// phone draws.
 
 /**
- * The patches multiply into the shaded white, so they keep its light and
- * shadow rather than sitting on it flat.
+ * The red spot of a spotted cue ball, facing the viewer. It multiplies into the
+ * shaded white, so it keeps the ball's light and shadow rather than sitting on
+ * it flat.
  */
-const paintFootball: Decoration = (ctx, side) => {
+const paintCueBall: Decoration = (ctx, side) => {
   const half = side / 2
-  const up = -Math.PI / 2
   ctx.save()
-  ctx.translate(half, half)
   ctx.globalCompositeOperation = "multiply"
-  ctx.fillStyle = "#2b2f36"
-  ctx.strokeStyle = "#a9adb5"
-  ctx.lineWidth = Math.max(1, side * 0.025)
-  ctx.lineJoin = "round"
-
-  const centre = pentagon(0, 0, half * 0.26, up)
-  // The seams: one from each corner of the middle patch out to the rim.
   ctx.beginPath()
-  for (const [px, py] of centre) {
-    ctx.moveTo(px, py)
-    ctx.lineTo(px * 3.8, py * 3.8)
-  }
-  ctx.stroke()
-
-  tracePolygon(ctx, centre)
+  ctx.arc(half, half * 0.96, half * 0.17, 0, Math.PI * 2)
+  ctx.fillStyle = "#c8332b"
   ctx.fill()
-  // A patch across each edge of the middle one, half round the side.
-  for (let edge = 0; edge < 5; edge++) {
-    const a = up + Math.PI / 5 + (edge * 2 * Math.PI) / 5
-    const distance = half * 0.9
-    tracePolygon(
-      ctx,
-      pentagon(
-        Math.cos(a) * distance,
-        Math.sin(a) * distance,
-        half * 0.26,
-        a + Math.PI,
-        0.55,
-      ),
-    )
-    ctx.fill()
-  }
   ctx.restore()
 }
 
@@ -602,8 +536,8 @@ const paintEightBall: Decoration = (ctx, side) => {
 export const MARBLE_DESIGNS = {
   default: renderDefaultMarble,
   "3d": litMarble("3d"),
-  sports: litMarble("sports", {
-    white: paintFootball,
+  pool: litMarble("pool", {
+    white: paintCueBall,
     black: paintEightBall,
   }),
 } as const satisfies Record<string, MarbleRenderer>
@@ -616,7 +550,7 @@ export const MARBLE_DESIGN_NAMES = Object.keys(
 ) as MarbleDesign[]
 
 /** Which designs are lit, and so have something to cast a shadow with. */
-const LIT = new Set<string>(["3d", "sports"])
+const LIT = new Set<string>(["3d", "pool"])
 
 export function hasDesign(designName: string): designName is MarbleDesign {
   return designName in MARBLE_DESIGNS
