@@ -53,7 +53,12 @@ export class AuthError extends Error {
 //front of it answer with the app envelope's `error_code`; this is the one place
 //that knows both, so the form deals in this app's vocabulary instead.
 function toAuthErrorCode(error: AuthFailure): AuthErrorCode {
+  //the account lock and the api's generic limiter are different refusals to the
+  //server and the same one to the player: every 429 on sign-in or sign-up gets
+  //the try-again-later sentence, never the wait
+  if (error.status === 429) return "account_locked"
   if (error.error_code === "auth_account_locked") return "account_locked"
+  if (error.error_code === "rate_limit_exceeded") return "account_locked"
   switch (error.code) {
     case "USERNAME_IS_ALREADY_TAKEN":
     case "USER_ALREADY_EXISTS":
@@ -73,7 +78,7 @@ function toAuthErrorCode(error: AuthFailure): AuthErrorCode {
   }
 }
 
-type AuthFailure = { code?: string; error_code?: string }
+type AuthFailure = { code?: string; error_code?: string; status?: number }
 
 //the client SDK returns failures rather than throwing them, and every caller
 //here wants a throw so mutations behave like mutations
