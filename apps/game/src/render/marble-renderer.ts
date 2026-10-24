@@ -362,13 +362,33 @@ function bitmapFor(
   return bitmap
 }
 
-function ballFor(body: Body, side: number): HTMLCanvasElement {
-  return bitmapFor(body.key, side, (px) => {
+/**
+ * Paints a pattern onto a ball that is already shaded, in its bitmap: `side`
+ * pixels square, the ball filling it edge to edge.
+ */
+type Decoration = (ctx: CanvasRenderingContext2D, side: number) => void
+
+function ballFor(
+  body: Body,
+  side: number,
+  design = "3d",
+  decorate?: Decoration,
+): HTMLCanvasElement {
+  return bitmapFor(`${design}|${body.key}`, side, (px) => {
     const canvas = document.createElement("canvas")
     canvas.width = px
     canvas.height = px
     const ctx = canvas.getContext("2d")
-    if (ctx) ctx.putImageData(shadeBall(ctx, px, body), 0, 0)
+    if (!ctx) return canvas
+    ctx.putImageData(shadeBall(ctx, px, body), 0, 0)
+    if (decorate) {
+      ctx.save()
+      ctx.beginPath()
+      ctx.arc(px / 2, px / 2, px / 2, 0, Math.PI * 2)
+      ctx.clip()
+      decorate(ctx, px)
+      ctx.restore()
+    }
     return canvas
   })
 }
@@ -376,58 +396,150 @@ function ballFor(body: Body, side: number): HTMLCanvasElement {
 /** Whole device pixels, so a blit is a copy rather than a resample. */
 const snapped = (v: number, scale: number) => Math.round(v * scale) / scale
 
-const render3DMarble: MarbleRenderer = (
-  ctx,
-  x,
-  y,
-  radius,
-  color,
-  isSelected,
-  isHovered,
-  baseLineWidth,
-  highlight,
-) => {
-  const body =
-    color === "#fff" || color === "white" ? BODIES.white : BODIES.black
-  const scale = scaleOf(ctx)
-  const side = Math.min(1024, Math.max(2, Math.round(radius * 2 * scale)))
-
-  let cx = x
-  let cy = y
-
-  if (typeof document !== "undefined" && radius > 0) {
-    cx = snapped(x - radius, scale) + radius
-    cy = snapped(y - radius, scale) + radius
-    ctx.drawImage(
-      ballFor(body, side),
-      cx - radius,
-      cy - radius,
-      radius * 2,
-      radius * 2,
-    )
-  } else {
-    ctx.beginPath()
-    ctx.arc(x, y, radius, 0, Math.PI * 2)
-    ctx.fillStyle = color
-    ctx.fill()
-  }
-
-  strokeMarbleOutline(
+/**
+ * A lit design: the shaded ball, with whatever pattern the design paints on
+ * each body. The pattern goes into the cached bitmap, so it costs nothing per
+ * frame.
+ */
+function litMarble(
+  design: string,
+  decorations: Partial<Record<keyof typeof BODIES, Decoration>> = {},
+): MarbleRenderer {
+  return (
     ctx,
-    cx,
-    cy,
+    x,
+    y,
     radius,
+    color,
     isSelected,
     isHovered,
     baseLineWidth,
     highlight,
-    { color: body.outline, widthFactor: 0.9 },
+  ) => {
+    const name = color === "#fff" || color === "white" ? "white" : "black"
+    const body = BODIES[name]
+    const scale = scaleOf(ctx)
+    const side = Math.min(
+      1024,
+      Math.max(2, Math.round(radius * 2 * scale)),
+    )
+
+    let cx = x
+    let cy = y
+
+    if (typeof document !== "undefined" && radius > 0) {
+      cx = snapped(x - radius, scale) + radius
+      cy = snapped(y - radius, scale) + radius
+      ctx.drawImage(
+        ballFor(body, side, design, decorations[name]),
+        cx - radius,
+        cy - radius,
+        radius * 2,
+        radius * 2,
+      )
+    } else {
+      ctx.beginPath()
+      ctx.arc(x, y, radius, 0, Math.PI * 2)
+      ctx.fillStyle = color
+      ctx.fill()
+    }
+
+    strokeMarbleOutline(
+      ctx,
+      cx,
+      cy,
+      radius,
+      isSelected,
+      isHovered,
+      baseLineWidth,
+      highlight,
+      { color: body.outline, widthFactor: 0.9 },
+    )
+  }
+}
+
+//---- pool ---------------------------------------------------------
+//
+// The cue ball for the light side and the 8-ball for the dark one, so both
+// sides come from the same table. Both keep the lit body underneath, so they
+// sit on the board like the realistic marbles, and both keep most of their
+// surface in their own colour: the light side has to read as light and the
+// dark side as dark at a glance, on every board and at the smallest board a
+// phone draws.
+
+/**
+ * The red spot of a spotted cue ball, facing the viewer. It multiplies into the
+ * shaded white, so it keeps the ball's light and shadow rather than sitting on
+ * it flat.
+ */
+const paintCueBall: Decoration = (ctx, side) => {
+  const half = side / 2
+  ctx.save()
+  ctx.globalCompositeOperation = "multiply"
+  ctx.beginPath()
+  ctx.arc(half, half * 0.96, half * 0.17, 0, Math.PI * 2)
+  ctx.fillStyle = "#c8332b"
+  ctx.fill()
+  ctx.restore()
+}
+
+/**
+ * The white disc with its number, facing the viewer. The ball's own highlight
+ * falls inside the disc, so it is laid back over the disc: under the same gloss
+ * as the rest of the ball.
+ */
+const paintEightBall: Decoration = (ctx, side) => {
+  const half = side / 2
+  const disc = half * 0.46
+  const cx = half
+  const cy = half * 0.96
+
+  const face = ctx.createRadialGradient(
+    cx - disc * 0.3,
+    cy - disc * 0.35,
+    disc * 0.1,
+    cx,
+    cy,
+    disc,
   )
+  face.addColorStop(0, "#fbfaf6")
+  face.addColorStop(1, "#c9c7c0")
+  ctx.beginPath()
+  ctx.arc(cx, cy, disc, 0, Math.PI * 2)
+  ctx.fillStyle = face
+  ctx.fill()
+
+  ctx.fillStyle = "#14161a"
+  ctx.font = `700 ${Math.round(disc * 1.45)}px system-ui, sans-serif`
+  ctx.textAlign = "center"
+  ctx.textBaseline = "middle"
+  ctx.fillText("8", cx, cy + disc * 0.06)
+
+  const hotspotX = half + KEY.x * half * 0.62
+  const hotspotY = half + KEY.y * half * 0.62
+  const gloss = ctx.createRadialGradient(
+    hotspotX,
+    hotspotY,
+    0,
+    hotspotX,
+    hotspotY,
+    half * 0.3,
+  )
+  gloss.addColorStop(0, "rgba(255, 255, 255, 0.55)")
+  gloss.addColorStop(1, "rgba(255, 255, 255, 0)")
+  ctx.beginPath()
+  ctx.arc(cx, cy, disc, 0, Math.PI * 2)
+  ctx.fillStyle = gloss
+  ctx.fill()
 }
 
 export const MARBLE_DESIGNS = {
   default: renderDefaultMarble,
-  "3d": render3DMarble,
+  "3d": litMarble("3d"),
+  pool: litMarble("pool", {
+    white: paintCueBall,
+    black: paintEightBall,
+  }),
 } as const satisfies Record<string, MarbleRenderer>
 
 export type MarbleDesign = keyof typeof MARBLE_DESIGNS
@@ -438,7 +550,7 @@ export const MARBLE_DESIGN_NAMES = Object.keys(
 ) as MarbleDesign[]
 
 /** Which designs are lit, and so have something to cast a shadow with. */
-const LIT = new Set<string>(["3d"])
+const LIT = new Set<string>(["3d", "pool"])
 
 export function hasDesign(designName: string): designName is MarbleDesign {
   return designName in MARBLE_DESIGNS
