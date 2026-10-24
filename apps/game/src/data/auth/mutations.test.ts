@@ -59,8 +59,10 @@ describe("signIn on a locked account", () => {
   })
 
   //the backend's answer for an account with 5 failed sign-ins in 15 minutes:
-  //the app envelope, 429, and how long the lock has left in Retry-After
-  it("says how many minutes are left: Too many attempts. Try again in N minutes.", async () => {
+  //the app envelope, 429, and how long the lock has left in Retry-After. the
+  //player is told to try later, never how long (board: no lockout timeout in
+  //any product)
+  it("says try again later, never how long: Too many attempts. Try again later.", async () => {
     network.answer = async () =>
       answer(
         429,
@@ -68,32 +70,22 @@ describe("signIn on a locked account", () => {
         { "Retry-After": "840" },
       )
 
-    const error = (await signInFailure()) as AuthError & {
-      retryAfterMinutes?: number
-    }
+    const error = await signInFailure()
 
     expect(error.code).toBe("account_locked")
-    expect(error.retryAfterMinutes).toBe(14)
-    expect(
-      i18n.t(`common:auth.errors.${error.code}`, {
-        minutes: error.retryAfterMinutes,
-      }),
-    ).toBe("Too many attempts. Try again in 14 minutes.")
+    expect(error).not.toHaveProperty("retryAfterMinutes")
+    expect(i18n.t(`common:auth.errors.${error.code}`)).toBe(
+      "Too many attempts. Try again later.",
+    )
   })
 
-  //a lock with 13 min 1 s left is not "13 minutes"
-  it("rounds the minutes up", async () => {
+  //no Retry-After (a proxy dropped it) is still a lock, with the same sentence
+  it("is a lock without a Retry-After too", async () => {
     network.answer = async () =>
-      answer(
-        429,
-        { status: "error", error_code: "auth_account_locked" },
-        { "Retry-After": "781" },
-      )
+      answer(429, { status: "error", error_code: "auth_account_locked" })
 
-    const error = (await signInFailure()) as AuthError & {
-      retryAfterMinutes?: number
-    }
-    expect(error.retryAfterMinutes).toBe(14)
+    const error = await signInFailure()
+    expect(error.code).toBe("account_locked")
   })
 
   it("still says the name and password don't match for a plain wrong password", async () => {

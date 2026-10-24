@@ -43,9 +43,9 @@ What is true now:
   token subscription in `src/routing/signed-in-only.tsx` opens sign-in. A 503
   or a network error changes nothing. Sign-out clears locally first, even
   when the call fails.
-- Client: a locked sign-in shows "Too many attempts. Try again in N minutes."
-  (`AuthError` code `account_locked`, `retryAfterMinutes` rounded up;
-  `common:auth.errors.account_locked` in all 13 locales).
+- Client: a locked sign-in shows "Too many attempts. Try again later."
+  (`AuthError` code `account_locked`; `common:auth.errors.account_locked` in
+  all 13 locales, never the wait in `Retry-After`).
 - **Exception, kept:** sessions are bearer tokens in `localStorage`
   (`apps/game/src/data/auth/token.ts`), from when the PWA and the API were on
   different origins. The standard is an httpOnly cookie on one origin (routing
@@ -127,8 +127,12 @@ any new state-changing route behind `requireAuth()`.
   the last failure, so failures cannot be split across a window edge (a guesser
   slower than one try per 15 minutes is locked too: stricter, on purpose). Honest traffic: one D1 read per sign-in,
   no write.
-- Locked → `auth_account_locked` (429) + `Retry-After` in seconds; the client
-  shows "Too many attempts. Try again in N minutes."
+- Locked → `auth_account_locked` (429) + `Retry-After` in seconds, for API
+  clients. The user never sees the wait (board, 2026-10-24, all products):
+  every 429 on sign-in or sign-up (lockout, failed-sign-in cap, rate limit)
+  shows "Too many attempts. Try again later." in the app's language and copy
+  style. No minutes, seconds or countdown, and the client does not build copy
+  from `Retry-After`.
 - Sign-up answers `email_taken` (409) for a registered email: that does tell
   which emails have accounts, accepted for usable sign-up; it sits behind the
   `auth` rate-limit tier. Sign-in never tells.
