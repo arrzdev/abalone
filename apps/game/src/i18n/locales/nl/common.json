@@ -54,7 +54,7 @@
       "username_invalid": "3 tot 20 letters, cijfers, punten of liggende streepjes.",
       "password_too_short": "Wachtwoorden hebben minstens 8 tekens nodig.",
       "invalid_credentials": "Die naam en dat wachtwoord horen niet bij elkaar.",
-      "account_locked": "Te veel pogingen. Probeer het over {{minutes}} min. opnieuw.",
+      "account_locked": "Te veel inlogpogingen. Probeer het later opnieuw.",
       "unknown": "Er ging iets mis."
     }
   },

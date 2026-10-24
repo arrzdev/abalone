@@ -44,11 +44,7 @@ export type AuthErrorCode =
 export class AuthError extends Error {
   override readonly name = "AuthError"
 
-  constructor(
-    public readonly code: AuthErrorCode,
-    /** For `account_locked`: whole minutes until the lock lifts, rounded up. */
-    public readonly retryAfterMinutes?: number,
-  ) {
+  constructor(public readonly code: AuthErrorCode) {
     super(code)
   }
 }
@@ -57,7 +53,12 @@ export class AuthError extends Error {
 //front of it answer with the app envelope's `error_code`; this is the one place
 //that knows both, so the form deals in this app's vocabulary instead.
 function toAuthErrorCode(error: AuthFailure): AuthErrorCode {
+  //the account lock and the api's generic limiter are different refusals to the
+  //server and the same one to the player: every 429 on sign-in or sign-up gets
+  //the try-again-later sentence, never the wait
+  if (error.status === 429) return "account_locked"
   if (error.error_code === "auth_account_locked") return "account_locked"
+  if (error.error_code === "rate_limit_exceeded") return "account_locked"
   switch (error.code) {
     case "USERNAME_IS_ALREADY_TAKEN":
     case "USER_ALREADY_EXISTS":
@@ -77,49 +78,13 @@ function toAuthErrorCode(error: AuthFailure): AuthErrorCode {
   }
 }
 
-type AuthFailure = { code?: string; error_code?: string }
-
-/**
- * Seconds in a `Retry-After` header as whole minutes, rounded up: a lock with
- * 13 min 1 s left is not "13 minutes". Undefined when there is no usable value.
- */
-function retryAfterMinutes(header: string | null): number | undefined {
-  const seconds = Number(header)
-  if (!header || !Number.isFinite(seconds) || seconds <= 0)
-    return undefined
-  return Math.ceil(seconds / 60)
-}
-
-/**
- * Per-call fetch options that keep the `Retry-After` of a refused attempt.
- *
- * The SDK's result carries the body of a failure but not its headers, and the
- * header is where a locked account's remaining time lives.
- */
-function retryAfterReader() {
-  let header: string | null = null
-  return {
-    fetchOptions: {
-      onError: (context: { response: Response }) => {
-        header = context.response.headers.get("retry-after")
-      },
-    },
-    minutes: () => retryAfterMinutes(header),
-  }
-}
+type AuthFailure = { code?: string; error_code?: string; status?: number }
 
 //the client SDK returns failures rather than throwing them, and every caller
 //here wants a throw so mutations behave like mutations
-function throwOnError(
-  result: { error?: AuthFailure | null },
-  minutes?: () => number | undefined,
-): void {
+function throwOnError(result: { error?: AuthFailure | null }): void {
   if (!result.error) return
-  const code = toAuthErrorCode(result.error)
-  throw new AuthError(
-    code,
-    code === "account_locked" ? minutes?.() : undefined,
-  )
+  throw new AuthError(toAuthErrorCode(result.error))
 }
 
 //---- the three things a player can do ------------------------------
@@ -130,32 +95,24 @@ export type Credentials = {
 }
 
 export async function signUp(credentials: Credentials): Promise<void> {
-  const retryAfter = retryAfterReader()
-  const result = await authClient.signUp.email(
-    {
-      username: credentials.username,
-      //what they typed, casing intact — this is the name the game shows
-      displayUsername: credentials.username,
-      //better-auth requires both, and neither is ever shown or used
-      name: credentials.username,
-      email: derivedEmailFor(credentials.username),
-      password: credentials.password,
-    },
-    retryAfter.fetchOptions,
-  )
-  throwOnError(result, retryAfter.minutes)
+  const result = await authClient.signUp.email({
+    username: credentials.username,
+    //what they typed, casing intact — this is the name the game shows
+    displayUsername: credentials.username,
+    //better-auth requires both, and neither is ever shown or used
+    name: credentials.username,
+    email: derivedEmailFor(credentials.username),
+    password: credentials.password,
+  })
+  throwOnError(result)
 }
 
 export async function signIn(credentials: Credentials): Promise<void> {
-  const retryAfter = retryAfterReader()
-  const result = await authClient.signIn.username(
-    {
-      username: credentials.username,
-      password: credentials.password,
-    },
-    retryAfter.fetchOptions,
-  )
-  throwOnError(result, retryAfter.minutes)
+  const result = await authClient.signIn.username({
+    username: credentials.username,
+    password: credentials.password,
+  })
+  throwOnError(result)
 }
 
 /**

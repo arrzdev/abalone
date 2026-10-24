@@ -60,8 +60,6 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
   const [mode, setMode] = useState<AuthMode>("sign_in")
   const [errorCode, setErrorCode] = useState<AuthErrorCode | null>(null)
-  //how long a locked account has left, for the one message that says it
-  const [lockMinutes, setLockMinutes] = useState<number | undefined>()
   const errorId = useId()
 
   const isSignUp = mode === "sign_up"
@@ -78,12 +76,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
       onAuthenticated?.()
     },
     onError: (error) => {
-      if (!(error instanceof AuthError)) return setErrorCode("unknown")
-      //a lock that cannot say how long it has left has no sentence to fill
-      const isUntimedLock =
-        error.code === "account_locked" && !error.retryAfterMinutes
-      setLockMinutes(error.retryAfterMinutes)
-      setErrorCode(isUntimedLock ? "unknown" : error.code)
+      setErrorCode(error instanceof AuthError ? error.code : "unknown")
     },
   })
 
@@ -122,7 +115,7 @@ export function AuthForm({ onAuthenticated, className }: AuthFormProps) {
 
   const errorField = errorCode ? fieldFor(errorCode) : null
   const errorText = errorCode
-    ? t(`common:auth.errors.${errorCode}`, { minutes: lockMinutes })
+    ? t(`common:auth.errors.${errorCode}`)
     : undefined
 
   const submitLabel = isSignUp
