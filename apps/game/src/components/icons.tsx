@@ -8,6 +8,7 @@ import {
   ChevronRight,
   ChevronsRight,
   CircleQuestionMark,
+  Copy,
   Eye,
   EyeOff,
   Flag,
@@ -26,6 +27,7 @@ import {
   RefreshCw,
   RotateCw,
   Settings,
+  Share,
   Undo2,
   User,
   Users,
@@ -85,6 +87,8 @@ export const RobotIcon = glyph(Bot)
 export const PersonIcon = glyph(User)
 export const ChevronDownIcon = glyph(ChevronDown)
 export const CheckIcon = glyph(Check)
+export const CopyIcon = glyph(Copy)
+export const ShareIcon = glyph(Share)
 export const RotateIcon = glyph(RotateCw)
 export const GroupIcon = glyph(Users)
 export const LightbulbIcon = glyph(Lightbulb)

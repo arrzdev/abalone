@@ -2,10 +2,12 @@ import { cn } from "@repo/nativ/utils"
 import { useMutation } from "@tanstack/react-query"
 import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { CopyIcon, ShareIcon } from "@/components/icons"
 import type { HandOffStatus } from "@/components/online/share-link-button"
 import {
+  canShareLinks,
+  copyLink,
   handOffLink,
-  ShareLinkButton,
 } from "@/components/online/share-link-button"
 import { Button } from "@/components/ui/button"
 import { Reserved } from "@/components/ui/reserved"
@@ -62,6 +64,7 @@ export function InviteLinkMaker({
   const translateError = useApiError()
   const create = useMutation(createInviteLinkMutationOptions)
   const [status, setStatus] = useState<HandOffStatus>("idle")
+  const [canShare] = useState(canShareLinks)
 
   const url = create.data?.url
   const shareText = t("online:link.share_text")
@@ -74,11 +77,21 @@ export function InviteLinkMaker({
     : ""
   const variant = lead ? "primary" : "outline"
   const size = lead ? "lg" : "md"
+  //square to the field: `icon-lg` is two pixels taller than the lead's field
+  const iconClassName = lead ? "h-[54px] w-[54px]" : ""
 
   let message: string | undefined
   if (create.error) message = translateError(create.error)
   else if (status === "copied") message = t("online:link.copied")
   else if (status === "failed") message = t("online:link.copy_failed")
+
+  async function handleCopy() {
+    if (url) setStatus(await copyLink(url))
+  }
+
+  async function handleShare() {
+    if (url) setStatus(await handOffLink(url, shareText))
+  }
 
   function handleCreate() {
     create.mutate(
@@ -113,7 +126,10 @@ export function InviteLinkMaker({
         </Button>
 
         {/* The field ends in an ellipsis where the link is longer than the
-            room, and the whole link is still its value, to select or copy. */}
+            room, and the whole link is still its value, to select or copy.
+            The actions beside it are icons so the field keeps the width: a
+            copy everywhere, since a copied link goes into any app, and a
+            share where the system has a sheet to hand it to. */}
         <div
           className={cn("flex items-center gap-2", !url && "invisible")}
         >
@@ -127,15 +143,32 @@ export function InviteLinkMaker({
             className={cn("text-ellipsis", lead ? "h-[54px]" : "h-11")}
             containerClassName="min-w-0 flex-1"
           />
-          <ShareLinkButton
-            url={url ?? ""}
-            text={shareText}
-            onStatusChange={setStatus}
-            statusId={statusId}
+          <Button
             variant={variant}
-            size={size}
-            className="shrink-0"
-          />
+            size="icon"
+            className={iconClassName}
+            aria-label={t("online:link.copy")}
+            title={t("online:link.copy")}
+            aria-describedby={statusId}
+            tabIndex={url ? undefined : -1}
+            onClick={handleCopy}
+          >
+            <CopyIcon size={20} />
+          </Button>
+          {canShare && (
+            <Button
+              variant={variant}
+              size="icon"
+              className={iconClassName}
+              aria-label={t("online:link.share")}
+              title={t("online:link.share")}
+              aria-describedby={statusId}
+              tabIndex={url ? undefined : -1}
+              onClick={handleShare}
+            >
+              <ShareIcon size={20} />
+            </Button>
+          )}
         </div>
       </Reserved>
 
