@@ -80,6 +80,36 @@
     "enabled": true,
     "rules": {
       "preset": "recommended",
+      "suspicious": {
+        "noUndeclaredEnvVars": {
+          "level": "warn",
+          "options": {
+            "allowedEnvVars": [
+              "BASE_REF",
+              "BASE_URL",
+              "COMPAT_STALE_DAYS",
+              "DEV",
+              "DEV_INSPECTOR",
+              "E2E_API_INSPECTOR_PORT",
+              "E2E_API_PORT",
+              "E2E_GAME_PORT",
+              "E2E_REUSE",
+              "FORCE_ALL",
+              "GH_VARS",
+              "GITHUB_OUTPUT",
+              "GITHUB_STEP_SUMMARY",
+              "MODE",
+              "NATIV_BUILD_TAG",
+              "NODE_ENV",
+              "PROD",
+              "SOCIAL_BASE_URL",
+              "SSR",
+              "TARGET",
+              "TARGET_ENV"
+            ]
+          }
+        }
+      },
       "style": {
         "useImportType": {
           "level": "error",
