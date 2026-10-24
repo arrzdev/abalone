@@ -88,6 +88,27 @@ describe("signIn on a locked account", () => {
     expect(error.code).toBe("account_locked")
   })
 
+  //the api's generic limiter (not the account lock) answers with the same
+  //envelope under another code; for the player it is the same refusal
+  it("says the same sentence for a generic rate-limit 429", async () => {
+    network.answer = async () =>
+      answer(429, { status: "error", error_code: "rate_limit_exceeded" })
+
+    const error = await signInFailure()
+
+    expect(error.code).toBe("account_locked")
+    expect(i18n.t(`common:auth.errors.${error.code}`)).toBe(
+      "Too many attempts. Try again later.",
+    )
+  })
+
+  //a 429 whose body a proxy replaced is still a 429
+  it("says the same sentence for any 429, whatever the body", async () => {
+    network.answer = async () => answer(429, { message: "slow down" })
+
+    expect((await signInFailure()).code).toBe("account_locked")
+  })
+
   it("still says the name and password don't match for a plain wrong password", async () => {
     network.answer = async () =>
       answer(401, {
