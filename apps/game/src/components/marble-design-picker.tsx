@@ -11,6 +11,7 @@ import { MARBLE_DESIGN_NAMES } from "@/render/marble-renderer"
 const NAME_KEYS: Record<MarbleDesign, string> = {
   default: "game:controls.marble_design_classic",
   "3d": "game:controls.marble_design_3d",
+  pool: "game:controls.marble_design_pool",
 }
 
 /** Which way each arrow key steps along the row of tiles. */
@@ -33,6 +34,9 @@ export type MarbleDesignPickerProps = {
  * design the board does not paint. Otherwise it is the board theme picker over
  * again: a radio group with one tab stop and arrow keys, one 44px row per tile,
  * and the checked tile marked by a border and a check rather than colour alone.
+ *
+ * The marbles sit above the name rather than beside it: three tiles share a
+ * 320px row, and side by side the names had no room left.
  */
 export function MarbleDesignPicker({
   value,
@@ -79,7 +83,7 @@ export function MarbleDesignPicker({
             data-marble-design={design}
             onClick={() => onChange(design)}
             className={cn(
-              "relative flex min-h-11 min-w-11 flex-1 items-center justify-center gap-2 rounded-xl border-2 bg-surface-2 px-1.5 transition",
+              "relative flex min-h-11 min-w-0 flex-1 flex-col items-center justify-center gap-0.5 rounded-xl border-2 bg-surface-2 px-1.5 py-0.5 transition",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
               checked
                 ? "border-brand-lighter"
@@ -87,12 +91,12 @@ export function MarbleDesignPicker({
             )}
           >
             <span className="flex shrink-0 -space-x-1">
-              <MarbleGlyph color="white" design={design} size={18} />
-              <MarbleGlyph color="black" design={design} size={18} />
+              <MarbleGlyph color="white" design={design} size={16} />
+              <MarbleGlyph color="black" design={design} size={16} />
             </span>
             <span
               className={cn(
-                "max-w-full truncate font-display text-xs font-semibold",
+                "max-w-full truncate font-display text-xs leading-tight font-semibold",
                 checked ? "text-white" : "text-muted",
               )}
             >
