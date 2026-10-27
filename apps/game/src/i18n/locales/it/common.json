@@ -28,7 +28,7 @@
     "play_now_hint": "Otto bot, da facile a difficile.",
     "play_online": "Gioca online",
     "online_title": "Gioca online",
-    "bot_hint": "Otto bot, da facile a difficile.",
+    "bot_hint": "8 livelli",
     "local_hint": "Voi due, un dispositivo.",
     "online_hint": "Con gli amici.",
     "rules_link": "Regole di Abalone",
@@ -62,11 +62,9 @@
     "username_hint": "Gli avversari ti invitano con questo nome. Non si può cambiare.",
     "change_picture": "Cambia immagine",
     "uploading": "Caricamento",
-    "picture_hint": "PNG, JPEG o WebP. L'immagine viene ritagliata in un quadrato.",
     "upload_failed": "L'immagine non è stata caricata. Riprova.",
     "playing": "In corso",
-    "best_streak": "Serie migliore",
-    "settings_hint": "Lingua, biglie e audio"
+    "best_streak": "Serie migliore"
   },
   "actions": {
     "close": "Chiudi",
@@ -74,12 +72,11 @@
   },
   "sync": {
     "updating": "Aggiornamento",
-    "offline": "Sei offline, questo potrebbe non essere aggiornato.",
-    "unreachable": "Aggiornamento non riuscito, questo potrebbe non essere aggiornato."
+    "offline": "Sei offline",
+    "unreachable": "Aggiornamento non riuscito"
   },
   "not_found": {
     "title": "Su questa casella non c'è nulla",
-    "body": "Quell'indirizzo non porta da nessuna parte.",
     "action": "Torna al tabellone"
   }
 }

@@ -28,7 +28,7 @@
     "play_now_hint": "Ocho bots, de fácil a difícil.",
     "play_online": "Jugar en línea",
     "online_title": "Jugar en línea",
-    "bot_hint": "Ocho bots, de fácil a difícil.",
+    "bot_hint": "8 niveles",
     "local_hint": "Dos personas, un dispositivo.",
     "online_hint": "Con amigos.",
     "rules_link": "Reglas de Abalone",
@@ -62,11 +62,9 @@
     "username_hint": "Los rivales te invitan por este nombre. No se puede cambiar.",
     "change_picture": "Cambiar foto",
     "uploading": "Subiendo",
-    "picture_hint": "PNG, JPEG o WebP. La imagen se recorta en cuadrado.",
     "upload_failed": "Esa foto no se subió. Inténtalo de nuevo.",
     "playing": "En curso",
-    "best_streak": "Mejor racha",
-    "settings_hint": "Idioma, canicas y sonido"
+    "best_streak": "Mejor racha"
   },
   "actions": {
     "close": "Cerrar",
@@ -74,12 +72,11 @@
   },
   "sync": {
     "updating": "Actualizando",
-    "offline": "Estás sin conexión, esto puede estar desactualizado.",
-    "unreachable": "No se pudo actualizar, esto puede estar desactualizado."
+    "offline": "Estás sin conexión",
+    "unreachable": "No se pudo actualizar"
   },
   "not_found": {
     "title": "No hay nada en esta casilla",
-    "body": "Esa dirección no lleva a ninguna parte.",
     "action": "Volver al tablero"
   }
 }

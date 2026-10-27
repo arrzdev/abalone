@@ -17,7 +17,7 @@
   "api_move_conflict": "対局が進んでいました。",
   "network_unreachable": "サーバーに接続できません。",
   "unknown": "問題が起きました。",
-  "api_invite_link_own": "これはあなた自身のリンクです。対戦するには他の人に送ってください。",
+  "api_invite_link_own": "これはあなた自身のリンクです。友達に送ってください。",
   "api_invite_link_used": "この招待はすでに別の人が承諾しました。",
   "api_invite_link_expired": "この招待は期限切れです。新しいリンクを頼んでください。",
   "api_auth_account_locked": "ログインの試行回数が多すぎます。しばらくしてからお試しください。",

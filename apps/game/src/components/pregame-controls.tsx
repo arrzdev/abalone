@@ -119,9 +119,6 @@ export function PregameControls({
               <h3 className="font-bold text-white">
                 {t("game:local.title")}
               </h3>
-              <p className="mt-1 text-sm leading-relaxed text-muted">
-                {t("game:local.description")}
-              </p>
             </div>
 
             <Section title={t("game:local.names")}>

@@ -28,7 +28,7 @@
     "play_now_hint": "Acht Bots, leicht bis schwer.",
     "play_online": "Online spielen",
     "online_title": "Online spielen",
-    "bot_hint": "Acht Bots, leicht bis schwer.",
+    "bot_hint": "8 Stufen",
     "local_hint": "Ihr zwei, ein Gerät.",
     "online_hint": "Mit Freunden.",
     "rules_link": "Abalone-Regeln",
@@ -62,11 +62,9 @@
     "username_hint": "Gegner laden dich über diesen Namen ein. Er lässt sich nicht ändern.",
     "change_picture": "Bild ändern",
     "uploading": "Wird hochgeladen",
-    "picture_hint": "PNG, JPEG oder WebP. Das Bild wird quadratisch zugeschnitten.",
     "upload_failed": "Das Bild wurde nicht hochgeladen. Versuche es erneut.",
     "playing": "Laufend",
-    "best_streak": "Beste Serie",
-    "settings_hint": "Sprache, Murmeln und Ton"
+    "best_streak": "Beste Serie"
   },
   "actions": {
     "close": "Schließen",
@@ -74,12 +72,11 @@
   },
   "sync": {
     "updating": "Wird aktualisiert",
-    "offline": "Du bist offline, das hier ist vielleicht veraltet.",
-    "unreachable": "Aktualisieren hat nicht geklappt, das hier ist vielleicht veraltet."
+    "offline": "Du bist offline",
+    "unreachable": "Aktualisieren hat nicht geklappt"
   },
   "not_found": {
     "title": "Auf diesem Feld ist nichts",
-    "body": "Diese Adresse führt nirgendwohin.",
     "action": "Zurück zum Spielbrett"
   }
 }

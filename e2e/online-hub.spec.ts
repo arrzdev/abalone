@@ -29,7 +29,7 @@ async function openGame(browser: Browser) {
     .getByRole("link", { name: "Invite by username" })
     .click()
   const composer = hostPage.getByRole("dialog")
-  await composer.getByLabel("Who are you playing?").fill(guestName)
+  await composer.getByLabel("Opponent", { exact: true }).fill(guestName)
   await composer.getByRole("radio", { name: "Play as black" }).click()
   await composer.getByRole("button", { name: "Send invite" }).click()
   await expect(composer).toBeHidden()

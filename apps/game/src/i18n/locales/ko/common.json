@@ -28,7 +28,7 @@
     "play_now_hint": "봇 여덟, 쉬움부터 어려움까지.",
     "play_online": "온라인 플레이",
     "online_title": "온라인 플레이",
-    "bot_hint": "봇 여덟, 쉬움부터 어려움까지.",
+    "bot_hint": "8단계",
     "local_hint": "둘이서, 기기 하나로.",
     "online_hint": "친구와 함께.",
     "rules_link": "아발론 규칙",
@@ -62,11 +62,9 @@
     "username_hint": "상대는 이 이름으로 초대합니다. 이름은 바꿀 수 없습니다.",
     "change_picture": "사진 변경",
     "uploading": "업로드 중",
-    "picture_hint": "PNG, JPEG 또는 WebP. 정사각형으로 잘립니다.",
     "upload_failed": "사진을 업로드하지 못했습니다. 다시 시도하세요.",
     "playing": "진행 중",
-    "best_streak": "최다 연승",
-    "settings_hint": "언어, 구슬, 소리"
+    "best_streak": "최다 연승"
   },
   "actions": {
     "close": "닫기",
@@ -74,12 +72,11 @@
   },
   "sync": {
     "updating": "업데이트 중",
-    "offline": "오프라인입니다. 내용이 오래되었을 수 있습니다.",
-    "unreachable": "새로 고치지 못했습니다. 내용이 오래되었을 수 있습니다."
+    "offline": "오프라인입니다",
+    "unreachable": "새로 고치지 못했습니다"
   },
   "not_found": {
     "title": "이 칸에는 아무것도 없습니다",
-    "body": "이 주소는 어디로도 이어지지 않습니다.",
     "action": "보드로 돌아가기"
   }
 }

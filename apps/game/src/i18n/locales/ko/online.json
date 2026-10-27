@@ -66,8 +66,8 @@
   },
   "compose": {
     "title": "새 초대",
-    "username": "누구와 두시겠어요?",
-    "username_placeholder": "상대 이름",
+    "username": "상대",
+    "username_placeholder": "사용자 이름",
     "username_hint": "상대가 로그인할 때 쓰는 이름이에요.",
     "setup": "시작 배치",
     "side": "당신의 진영",
@@ -89,7 +89,7 @@
   },
   "empty": {
     "title": "아직 아무것도 없습니다",
-    "link_body": "친구에게 링크를 보내세요. 친구가 링크를 열고 수락하면 대국이 시작됩니다.",
+    "link_body": "친구에게 링크를 보내세요.",
     "play_bot": "봇과 한 판",
     "invite_by_name": "사용자 이름으로 초대"
   },
@@ -99,8 +99,8 @@
     "field": "초대 링크",
     "share": "링크 공유",
     "copy": "링크 복사",
-    "copied": "링크를 복사했어요. 함께 플레이할 사람에게 보내세요.",
-    "copy_failed": "링크를 복사하지 못했어요. 링크를 선택해 직접 복사하세요.",
+    "copied": "링크를 복사했어요",
+    "copy_failed": "복사하지 못했어요. 링크를 선택해 복사하세요.",
     "share_text": "Abalone 한 판 할래요? 이 링크를 열고 저와 대결해요."
   },
   "invite_link": {
@@ -109,17 +109,16 @@
     "retry": "다시 시도",
     "go_home": "홈으로",
     "title": "{{name}} 님이 {{brand}} 게임에 초대했어요",
-    "body_signed_out": "수락하려면 계정을 만들거나 로그인하세요. 그다음 바로 여기로 돌아와요.",
-    "body_signed_in": "수락하면 바로 게임이 시작돼요.",
+    "body_signed_out": "수락하려면 로그인하거나 계정을 만드세요.",
     "accept": "수락하고 플레이",
     "own_title": "내 초대 링크예요",
-    "own_body": "함께 플레이할 사람에게 보내세요. 상대가 수락하면 게임이 시작돼요.",
+    "own_body": "친구에게 보내 함께 플레이하세요.",
     "used_title": "이미 사용된 초대예요",
-    "used_body": "다른 사람이 먼저 수락했어요. {{name}} 님에게 새 링크를 요청하세요.",
+    "used_body": "{{name}} 님에게 새 링크를 요청하세요.",
     "expired_title": "만료된 초대예요",
-    "expired_body": "초대 링크는 7일 동안 유효해요. 보낸 사람에게 새 링크를 요청하세요.",
+    "expired_body": "보낸 사람에게 새 링크를 요청하세요.",
     "broken_title": "이 초대 링크는 작동하지 않습니다",
-    "broken_body": "링크 전체를 붙여넣었는지 확인하거나, 보낸 사람에게 새 링크를 요청하세요.",
+    "broken_body": "보낸 사람에게 새 링크를 요청하세요.",
     "play_computer": "컴퓨터와 대결"
   }
 }

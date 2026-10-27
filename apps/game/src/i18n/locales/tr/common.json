@@ -28,7 +28,7 @@
     "play_now_hint": "Sekiz bot, kolaydan zora.",
     "play_online": "Çevrimiçi oyna",
     "online_title": "Çevrimiçi oyna",
-    "bot_hint": "Sekiz bot, kolaydan zora.",
+    "bot_hint": "8 seviye",
     "local_hint": "İkiniz, tek cihaz.",
     "online_hint": "Arkadaşlarla.",
     "rules_link": "Abalone kuralları",
@@ -62,11 +62,9 @@
     "username_hint": "Rakipler seni bu adla davet eder. Bu ad değiştirilemez.",
     "change_picture": "Resmi değiştir",
     "uploading": "Yükleniyor",
-    "picture_hint": "PNG, JPEG veya WebP. Görsel kare olacak şekilde kırpılır.",
     "upload_failed": "Bu resim yüklenemedi. Tekrar dene.",
     "playing": "Sürüyor",
-    "best_streak": "En iyi seri",
-    "settings_hint": "Dil, bilyeler ve ses"
+    "best_streak": "En iyi seri"
   },
   "actions": {
     "close": "Kapat",
@@ -74,12 +72,11 @@
   },
   "sync": {
     "updating": "Güncelleniyor",
-    "offline": "Çevrimdışısın, bunlar güncel olmayabilir.",
-    "unreachable": "Yenilenemedi, bunlar güncel olmayabilir."
+    "offline": "Çevrimdışısın",
+    "unreachable": "Yenilenemedi"
   },
   "not_found": {
     "title": "Bu karede bir şey yok",
-    "body": "Bu adres hiçbir yere gitmiyor.",
     "action": "Tahtaya dön"
   }
 }

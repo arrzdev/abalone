@@ -67,8 +67,8 @@
   },
   "compose": {
     "title": "Nueva invitación",
-    "username": "¿Contra quién juegas?",
-    "username_placeholder": "Su nombre",
+    "username": "Rival",
+    "username_placeholder": "Nombre de usuario",
     "username_hint": "El nombre con el que inician sesión.",
     "setup": "Apertura",
     "side": "Tu lado",
@@ -90,7 +90,7 @@
   },
   "empty": {
     "title": "Aquí todavía no hay nada",
-    "link_body": "Envía un enlace a un amigo. La partida empieza cuando lo abra y acepte.",
+    "link_body": "Envía un enlace a un amigo.",
     "play_bot": "Juega contra un bot",
     "invite_by_name": "Invitar por nombre de usuario"
   },
@@ -100,8 +100,8 @@
     "field": "Enlace de invitación",
     "share": "Compartir enlace",
     "copy": "Copiar enlace",
-    "copied": "Enlace copiado. Envíalo a la persona con la que quieres jugar.",
-    "copy_failed": "No pudimos copiar el enlace. Selecciónalo y cópialo tú.",
+    "copied": "Enlace copiado",
+    "copy_failed": "No se pudo copiar. Selecciona el enlace y cópialo.",
     "share_text": "¿Echamos una partida de Abalone? Abre este enlace para jugar contra mí."
   },
   "invite_link": {
@@ -110,17 +110,16 @@
     "retry": "Reintentar",
     "go_home": "Ir al inicio",
     "title": "{{name}} te ha invitado a una partida de {{brand}}",
-    "body_signed_out": "Crea una cuenta o inicia sesión para aceptar. Volverás aquí directamente.",
-    "body_signed_in": "Acepta y la partida empieza al momento.",
+    "body_signed_out": "Inicia sesión o crea una cuenta para aceptar.",
     "accept": "Aceptar y jugar",
     "own_title": "Este es tu enlace de invitación",
-    "own_body": "Envíalo a la persona con la que quieres jugar. La partida empieza cuando acepte.",
+    "own_body": "Envíalo a un amigo para jugar.",
     "used_title": "Esta invitación ya se ha usado",
-    "used_body": "Otra persona la aceptó antes. Pide a {{name}} un enlace nuevo.",
+    "used_body": "Pide a {{name}} un enlace nuevo.",
     "expired_title": "Esta invitación ha caducado",
-    "expired_body": "Los enlaces de invitación duran 7 días. Pide uno nuevo a quien te lo envió.",
+    "expired_body": "Pide un enlace nuevo a quien te lo envió.",
     "broken_title": "Este enlace de invitación no funciona",
-    "broken_body": "Comprueba que has pegado el enlace entero o pide uno nuevo a quien te lo envió.",
+    "broken_body": "Pide un enlace nuevo a quien te lo envió.",
     "play_computer": "Jugar contra el ordenador"
   }
 }
