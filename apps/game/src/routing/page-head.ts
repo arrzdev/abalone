@@ -1,3 +1,5 @@
+import type { Language } from "@/i18n/languages"
+import { DEFAULT_LANGUAGE, localePath } from "@/i18n/locale-path"
 import { BRAND } from "@/utils/brand"
 import { siteUrl } from "@/utils/site"
 
@@ -41,6 +43,17 @@ export type PageHeadOptions = {
   description: string
   /** The page's path, for `og:url` and the canonical link. */
   path: string
+  /**
+   * The language the page is served in: its `og:url` and canonical are the
+   * URL in that language. Default English, the unprefixed path.
+   */
+  language?: Language
+  /**
+   * Every language this page has a URL in. Each becomes an `hreflang`
+   * alternate, plus `x-default` on the English URL, so a search engine shows
+   * the version that matches the searcher.
+   */
+  alternates?: readonly Language[]
   /** Default `"home"`. */
   image?: SocialImage
   /**
@@ -59,7 +72,9 @@ export function pageHead(options: PageHeadOptions) {
   const title = options.fullTitle
     ? options.title
     : `${options.title} · ${BRAND}`
-  const url = siteUrl(options.path)
+  const url = siteUrl(
+    localePath(options.path, options.language ?? DEFAULT_LANGUAGE),
+  )
   const image = siteUrl(`/images/social/og-${options.image ?? "home"}.jpg`)
 
   const meta: Array<Record<string, string>> = [
@@ -78,9 +93,25 @@ export function pageHead(options: PageHeadOptions) {
 
   //on the canonical host whichever host served the page, so the babaluje copy
   //points search engines back at abalone instead of competing with it
-  const links: Array<{ rel: string; href: string }> = [
+  const links: Array<{ rel: string; href: string; hrefLang?: string }> = [
     { rel: "canonical", href: url },
   ]
+
+  if (options.alternates) {
+    const englishUrl = siteUrl(options.path)
+    for (const language of options.alternates) {
+      links.push({
+        rel: "alternate",
+        hrefLang: language,
+        href: siteUrl(localePath(options.path, language)),
+      })
+    }
+    links.push({
+      rel: "alternate",
+      hrefLang: "x-default",
+      href: englishUrl,
+    })
+  }
 
   return { meta, links }
 }

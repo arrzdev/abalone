@@ -1,5 +1,6 @@
 import type { GameEventInput } from "@repo/backend/http/interface"
 import tryCatch from "@repo/shared/try-catch"
+import { splitLocalePath } from "@/i18n/locale-path"
 
 /** The kind of page a browser tab first landed on, as a game start sends it. */
 export type GameEntry = NonNullable<
@@ -39,7 +40,8 @@ function isGameEntry(
 
 /** The kind of page a path is. Only this word ever leaves the browser. */
 export function entryOf(pathname: string): GameEntry {
-  const path = pathname.replace(/\/+$/, "")
+  //`/pt/rules` is the rules page, in Portuguese
+  const path = splitLocalePath(pathname).path.replace(/\/+$/, "")
   const pageEntry = PAGE_ENTRIES.get(path)
   if (pageEntry) return pageEntry
   if (INVITE_PATH.test(path)) return "invite"

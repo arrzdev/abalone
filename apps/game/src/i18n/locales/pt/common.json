@@ -81,5 +81,23 @@
     "title": "Não há nada nesta casa",
     "body": "Esse endereço não leva a lado nenhum.",
     "action": "Voltar ao tabuleiro"
+  },
+  "seo": {
+    "home": {
+      "title": "Abalone online grátis: joga sem criar conta",
+      "description": "Joga Abalone online grátis, sem conta. Vence o computador, partilha o ecrã com um amigo ou convida alguém para uma partida ao vivo. Sem descarregar nada."
+    },
+    "rules": {
+      "title": "Regras de Abalone: como jogar, jogadas, sumito, vitória",
+      "description": "Aprende as regras de Abalone em minutos: como se movem as bolas, como funciona o empurrão sumito, como ganhar e as posições iniciais standard e daisy."
+    },
+    "strategy": {
+      "title": "Estratégia de Abalone: 7 dicas para ganhar mais jogos",
+      "description": "Sete dicas de Abalone: controla o centro, mantém grupos de três, escolhe uma abertura segura e empurra no momento certo. Experimenta contra o computador."
+    },
+    "offline": {
+      "title": "Joga Abalone contra o computador ou um amigo",
+      "description": "Joga Abalone contra o computador ou passa o dispositivo a um amigo. Escolhe a disposição standard ou uma abertura daisy e começa grátis no navegador."
+    }
   }
 }

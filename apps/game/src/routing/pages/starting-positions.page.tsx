@@ -10,10 +10,12 @@ import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { COMPUTER_GAME } from "@/hooks/use-play-actions"
 import type { Diagram } from "@/render/draw-diagram"
 import { BELGIAN_DAISY, GERMAN_DAISY, START } from "@/render/start-diagram"
+import { routeLanguage } from "@/routing/route-language"
 import { seoPageHead } from "@/routing/seo-pages"
 
 export const Route = createFileRoute("/_subpage/starting-positions")({
-  head: () => seoPageHead("/starting-positions"),
+  head: ({ match }) =>
+    seoPageHead("/starting-positions", routeLanguage(match.context)),
   component: StartingPositionsPage,
 })
 

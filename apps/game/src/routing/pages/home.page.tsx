@@ -1,10 +1,11 @@
 import { Screen } from "@repo/nativ/components"
 import { createFileRoute } from "@tanstack/react-router"
 import { PlayPoster } from "@/components/home/play-poster"
+import { routeLanguage } from "@/routing/route-language"
 import { seoPageHead } from "@/routing/seo-pages"
 
 export const Route = createFileRoute("/_shell/")({
-  head: () => seoPageHead("/"),
+  head: ({ match }) => seoPageHead("/", routeLanguage(match.context)),
   component: HomePage,
 })
 

@@ -3,6 +3,7 @@ import type { ReactNode } from "react"
 import { useSoundPreferences } from "@/hooks/use-app-preferences"
 import { AuthPromptProvider } from "@/providers/auth-prompt-provider"
 import { AuthProvider } from "@/providers/auth-provider"
+import { LocaleProvider } from "@/providers/locale-provider"
 import { queryClient } from "@/providers/query-client"
 import { persistOptions } from "@/providers/query-persister"
 import { RealtimeProvider } from "@/providers/realtime-provider"
@@ -25,6 +26,9 @@ applyBrandToDocument()
  * that has to outlive the screen that opened it — it navigates on success, and
  * a drawer unmounted by its own navigation never plays its exit.
  *
+ * The locale provider is outermost: every string below it, the auth sheet and
+ * the realtime notices included, is in the language of the address.
+ *
  * The query client is the persisting one so a cold start paints the last known
  * board rather than a spinner, and so a finished game is readable with the
  * network off. It holds queries back until the saved cache is read, which is
@@ -42,15 +46,17 @@ export default function AppProviders({
   useSoundPreferences()
 
   return (
-    <PersistQueryClientProvider
-      client={queryClient}
-      persistOptions={persistOptions}
-    >
-      <AuthProvider>
-        <RealtimeProvider>
-          <AuthPromptProvider>{children}</AuthPromptProvider>
-        </RealtimeProvider>
-      </AuthProvider>
-    </PersistQueryClientProvider>
+    <LocaleProvider>
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={persistOptions}
+      >
+        <AuthProvider>
+          <RealtimeProvider>
+            <AuthPromptProvider>{children}</AuthPromptProvider>
+          </RealtimeProvider>
+        </AuthProvider>
+      </PersistQueryClientProvider>
+    </LocaleProvider>
   )
 }

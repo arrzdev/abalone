@@ -6,10 +6,12 @@ import { ManualHero, ManualPage } from "@/components/manual/manual-page"
 import { PlayBlock } from "@/components/play-block"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { COMPUTER_GAME, usePlayActions } from "@/hooks/use-play-actions"
+import { routeLanguage } from "@/routing/route-language"
 import { seoPageHead } from "@/routing/seo-pages"
 
 export const Route = createFileRoute("/_subpage/play-online")({
-  head: () => seoPageHead("/play-online"),
+  head: ({ match }) =>
+    seoPageHead("/play-online", routeLanguage(match.context)),
   component: PlayOnlinePage,
 })
 

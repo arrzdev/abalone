@@ -415,7 +415,7 @@ for (const language of LANGUAGES) {
       await openApp(page, "/")
       await expect(page.locator("html")).toHaveAttribute("lang", language)
 
-      const computer = page.locator('main a[href="/offline?mode=ai"]')
+      const computer = page.locator('main a[href$="/offline?mode=ai"]')
       const { y, height } = await box(computer)
       expect(y + height).toBeLessThanOrEqual(460)
       expect(await hasSidewaysScroll(page)).toBe(false)
@@ -474,8 +474,8 @@ for (const language of LINK_LANGUAGES) {
         )
 
         const main = page.getByRole("main")
-        const rules = await box(main.locator('a[href="/rules"]'))
-        const strategy = await box(main.locator('a[href="/strategy"]'))
+        const rules = await box(main.locator('a[href$="/rules"]'))
+        const strategy = await box(main.locator('a[href$="/strategy"]'))
         expect(Math.abs(rules.y - strategy.y), "on one line").toBeLessThan(
           1,
         )
@@ -483,7 +483,7 @@ for (const language of LINK_LANGUAGES) {
         //the words, not the 44px tap boxes around them, against the tiles
         //right above the line
         const gaps = await main
-          .locator('a[href="/rules"]')
+          .locator('a[href$="/rules"]')
           .evaluate((rulesLink) => {
             const words = (link: Element) => {
               const range = document.createRange()
@@ -492,7 +492,9 @@ for (const language of LINK_LANGUAGES) {
             }
             const line = rulesLink.parentElement
             const tiles = line?.previousElementSibling
-            const strategyLink = line?.querySelector('a[href="/strategy"]')
+            const strategyLink = line?.querySelector(
+              'a[href$="/strategy"]',
+            )
             if (tiles == null || strategyLink == null)
               throw new Error("no tiles or no strategy link")
             const first = words(rulesLink)

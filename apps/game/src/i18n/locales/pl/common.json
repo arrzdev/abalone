@@ -81,5 +81,23 @@
     "title": "Na tym polu nic nie ma",
     "body": "Ten adres donikąd nie prowadzi.",
     "action": "Wróć do planszy"
+  },
+  "seo": {
+    "home": {
+      "title": "Abalone online za darmo: graj bez konta",
+      "description": "Graj w Abalone online za darmo i bez konta. Pokonaj komputer, dzielcie jeden ekran ze znajomym albo zaproś kogoś do gry na żywo. Bez pobierania."
+    },
+    "rules": {
+      "title": "Zasady Abalone: jak grać, ruchy, sumito i wygrana",
+      "description": "Poznaj zasady Abalone w kilka minut: jak poruszają się kule, jak działa pchnięcie sumito, jak wygrać oraz ustawienia standardowe i daisy."
+    },
+    "strategy": {
+      "title": "Strategia Abalone: 7 wskazówek, jak częściej wygrywać",
+      "description": "Siedem wskazówek do Abalone: kontroluj środek, trzymaj grupy po trzy, wybierz bezpieczne otwarcie i pchaj w odpowiednim momencie. Sprawdź je z komputerem."
+    },
+    "offline": {
+      "title": "Graj w Abalone z komputerem lub ze znajomym",
+      "description": "Graj w Abalone z komputerem albo podaj urządzenie znajomemu. Wybierz ustawienie standardowe lub otwarcie daisy i zacznij darmową grę w przeglądarce."
+    }
   }
 }

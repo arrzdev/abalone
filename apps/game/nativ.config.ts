@@ -52,6 +52,10 @@ export default defineApp({
   providers: () => import("@/providers/app-providers"),
 
   router: {
+    //the router itself is src/router.tsx (ejected for the language prefix,
+    //docs/locale-urls.md): the runtime options below (memoryHistoryInStandalone,
+    //defaultPreload, ...) are copied there by hand, and editing them here changes
+    //nothing. The build paths (serverEntry, routesDirectory, ...) are still read.
     //spa, not ssr: the board is a canvas painted from a requestAnimationFrame
     //loop and the opponent is a web worker. there is nothing here a server can
     //usefully render, and a prerendered shell + hydrate is the whole benefit.

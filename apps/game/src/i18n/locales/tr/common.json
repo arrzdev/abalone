@@ -81,5 +81,23 @@
     "title": "Bu karede bir şey yok",
     "body": "Bu adres hiçbir yere gitmiyor.",
     "action": "Tahtaya dön"
+  },
+  "seo": {
+    "home": {
+      "title": "Abalone çevrimiçi ücretsiz: hesapsız oyna",
+      "description": "Abalone'u çevrimiçi ve ücretsiz oyna, hesap gerekmez. Bilgisayarı yen, tek ekranı bir arkadaşınla paylaş ya da birini canlı oyuna davet et."
+    },
+    "rules": {
+      "title": "Abalone kuralları: nasıl oynanır, hamleler, sumito",
+      "description": "Abalone kurallarını dakikalar içinde öğren: bilyeler nasıl hareket eder, sumito itişi nasıl işler, nasıl kazanılır, standart ve daisy dizilişler."
+    },
+    "strategy": {
+      "title": "Abalone stratejisi: daha çok kazanmak için 7 ipucu",
+      "description": "7 Abalone stratejisi ipucu: merkezi tut, üçlü gruplar koru, güvenli bir açılış seç ve doğru anda it. Bilgisayara karşı dene."
+    },
+    "offline": {
+      "title": "Abalone'u bilgisayara veya bir arkadaşına karşı oyna",
+      "description": "Abalone'u bilgisayara karşı oyna ya da cihazı bir arkadaşına uzat. Standart dizilişi veya bir daisy açılışı seç, tarayıcıda ücretsiz oyuna başla."
+    }
   }
 }
