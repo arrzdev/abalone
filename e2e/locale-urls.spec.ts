@@ -269,7 +269,8 @@ test("picking a language in Settings moves to its URL and is kept", async ({
   page,
   context,
 }) => {
-  await openApp(page, "/rules")
+  // /offline wears the settings button at every width
+  await openApp(page, "/offline")
 
   await page
     .getByRole("button", { name: "Settings" })
@@ -279,7 +280,7 @@ test("picking a language in Settings moves to its URL and is kept", async ({
   await page.getByRole("button", { name: "Select Language" }).click()
   await page.getByRole("option", { name: "Português" }).click()
 
-  await expect(page).toHaveURL(/\/pt\/rules$/)
+  await expect(page).toHaveURL(/\/pt\/offline$/)
   await expect(page.locator("html")).toHaveAttribute("lang", "pt")
   const cookies = await context.cookies()
   expect(
