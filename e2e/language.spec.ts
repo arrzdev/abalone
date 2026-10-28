@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 
-// The language is picked in the settings sheet, applies at once and is still
-// the one in use after a reload.
+// The language is picked in the settings sheet, applies at once, moves the
+// page to that language's URL and is still the one in use after a reload.
 test("switching the language translates the app and survives a reload", async ({
   page,
 }) => {
@@ -23,6 +23,8 @@ test("switching the language translates the app and survives a reload", async ({
   await expect(
     page.getByRole("tab", { name: "Gegen Computer" }),
   ).toBeAttached()
+  // the page moves to its German URL (docs/locale-urls.md)
+  await expect(page).toHaveURL(/\/de\/offline$/)
 
   await page.reload()
   await expect(

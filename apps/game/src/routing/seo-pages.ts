@@ -1,3 +1,4 @@
+import type { Language } from "@/i18n/languages"
 import type { SocialImage } from "@/routing/page-head"
 import { pageHead } from "@/routing/page-head"
 import { structuredDataScripts } from "@/routing/structured-data"
@@ -100,8 +101,46 @@ export const SITEMAP: Record<
   "/starting-positions": "2026-10-18",
 }
 
-/** The route `head` for one indexable page, with its JSON-LD. */
-export function seoPageHead(path: IndexablePath) {
+/**
+ * The languages each indexable page has a URL in: the ones its body copy is
+ * translated into. A page missing from a language falls back to English text,
+ * so its `/pt/...` URL still answers but is no page of its own: it is left out
+ * of the sitemap and the `hreflang` set, and its canonical is the English URL.
+ * `seo-locales.test.ts` checks this table against the locale files.
+ *
+ * Contract only until the TUD-3100 follow-up: English everywhere.
+ */
+export const PAGE_LANGUAGES: Record<IndexablePath, readonly Language[]> = {
+  "/": ["en"],
+  "/rules": ["en"],
+  "/strategy": ["en"],
+  "/opening-moves": ["en"],
+  "/starting-positions": ["en"],
+  "/offline": ["en"],
+  "/play-online": ["en"],
+}
+
+/**
+ * A page's title and description in `language`; English for a language the
+ * page is not in. Contract only until the TUD-3100 follow-up: English always.
+ */
+export function seoCopy(
+  path: IndexablePath,
+  _language: Language,
+): SeoPage {
+  return SEO_PAGES[path]
+}
+
+/**
+ * The route `head` for one indexable page in `language`, with its JSON-LD:
+ * the localized copy, a canonical on its own language's URL, and one
+ * `hreflang` alternate per language in `PAGE_LANGUAGES` plus `x-default` on
+ * the English URL.
+ */
+export function seoPageHead(
+  path: IndexablePath,
+  _language: Language = "en",
+) {
   const page = SEO_PAGES[path]
   return {
     ...pageHead({ ...page, path, fullTitle: true }),
