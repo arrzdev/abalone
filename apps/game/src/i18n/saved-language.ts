@@ -26,7 +26,9 @@ export function saveLanguage(language: string): void {
 
 /**
  * The saved choice, if it is a language we ship: the cookie, else the old
- * `localStorage` key, which is then written out as the cookie too.
+ * `localStorage` key. The old key is only read, never copied into a cookie: a
+ * copy would outrank the key from then on, and the next pick writes the cookie
+ * anyway.
  */
 export function savedLanguage(): string | null {
   const fromCookie = readLanguageCookie(document.cookie)
@@ -34,9 +36,7 @@ export function savedLanguage(): string | null {
 
   try {
     const legacy = localStorage.getItem(LEGACY_STORAGE_KEY)
-    if (!isSupported(legacy ?? undefined)) return null
-    saveLanguage(legacy as string)
-    return legacy
+    return isSupported(legacy ?? undefined) ? legacy : null
   } catch {
     //localStorage unavailable (private mode): nothing was ever saved there
     return null

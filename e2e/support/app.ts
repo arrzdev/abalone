@@ -30,15 +30,19 @@ export async function openApp(page: Page, path: string): Promise<void> {
   await expect
     .poll(
       () =>
-        page.evaluate(() => {
-          const content = document.querySelector("main > *")
-          return (
-            content !== null &&
-            Object.keys(content).some((key) =>
-              key.startsWith("__reactFiber$"),
+        page
+          .evaluate(() => {
+            const content = document.querySelector("main > *")
+            return (
+              content !== null &&
+              Object.keys(content).some((key) =>
+                key.startsWith("__reactFiber$"),
+              )
             )
-          )
-        }),
+          })
+          // a page that moves itself to its language's URL (a choice kept in
+          // localStorage reaches only the client) is mid-navigation: look again
+          .catch(() => false),
       { message: `${path} hydrated`, timeout: 30_000 },
     )
     .toBe(true)

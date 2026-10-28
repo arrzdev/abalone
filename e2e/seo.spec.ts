@@ -33,6 +33,9 @@ const SITEMAP = {
   "/starting-positions": "2026-10-18",
 } as const
 
+// A language's own URL: /pt, /pt/rules
+const LANGUAGE_PREFIX = /^\/(de|fr|es|it|pt|nl|pl|ja|zh|ko|hi|tr)(\/|$)/
+
 // Behind sign-in, or one account's own screen: nothing for a search result.
 const PRIVATE = [
   "/online",
@@ -213,11 +216,15 @@ test("sitemap.xml lists the search entry pages on the canonical host", async ({
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"',
   )
 
-  const entries = [
+  const listed = [
     ...xml.matchAll(
-      /<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>\s*<\/url>/g,
+      /<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>[\s\S]*?<\/url>/g,
     ),
   ].map((match) => [match[1], match[2]])
+  // the other languages' entries are checked in locale-urls.spec.ts
+  const entries = listed.filter(
+    ([loc]) => !LANGUAGE_PREFIX.test(new URL(loc).pathname),
+  )
   // each page carries the day it last changed, not the day of the build
   expect(Object.fromEntries(entries)).toEqual(
     Object.fromEntries(
@@ -228,7 +235,7 @@ test("sitemap.xml lists the search entry pages on the canonical host", async ({
     ),
   )
   const locs = entries.map(([loc]) => loc)
-  expect(xml.match(/<url>/g)).toHaveLength(locs.length)
+  expect(xml.match(/<url>/g)).toHaveLength(listed.length)
 
   // every entry answers, and names itself as canonical
   for (const loc of locs) {

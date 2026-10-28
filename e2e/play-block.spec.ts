@@ -486,7 +486,7 @@ test.describe("in every shipped language", () => {
         const page = await openInLocale(browser, locale, path)
 
         // the intro links go there too; the buttons are the 54 px ones
-        const buttons = page.locator(`main a[href="${COMPUTER_GAME}"]`)
+        const buttons = page.locator(`main a[href$="${COMPUTER_GAME}"]`)
         const fits = await buttons.evaluateAll((links) =>
           links
             .filter((link) => link.getBoundingClientRect().height >= 54)
