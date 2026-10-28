@@ -65,3 +65,24 @@ opening moves, starting positions and play online pages are English only. Their
 canonical is the English URL and they are in no sitemap or `hreflang` set. When
 a translation lands, the test fails until the language is added to the table,
 which adds the URL everywhere at once.
+
+## How the app does it
+
+- **Router** (`apps/game/src/router.tsx`, ejected from nativ's generated one): a
+  location `rewrite`. The prefix comes off a URL on the way in and goes back on
+  on the way out, so the route table, every `<Link to="/rules">` and every
+  `redirect()` stay unprefixed and a link keeps the prefix of the page it is on.
+  The language of the last URL read sits in the router's `context.language`,
+  per router and so per request; route `head` functions read it through
+  `routeLanguage`.
+- **Server render**: `LocaleProvider` wraps the app in a clone of i18next for the
+  URL's language on the server, never touching the shared instance's language.
+  The Worker sets `<html lang>` on the response (`server/locale-response.ts`).
+  In the browser the shared instance boots in the URL's language and follows the
+  address afterwards.
+- **Boot**: `client.tsx` repeats the redirect check for an unprefixed path
+  (`clientLocaleRedirect`), since the service worker can answer without the
+  Worker. The service worker serves the shell of `/rules` for an unvisited
+  `/pt/rules` when offline.
+- **Structured data** stays English-only: a translated page does not show the
+  English questions and steps the JSON-LD quotes, so those pages carry none.
