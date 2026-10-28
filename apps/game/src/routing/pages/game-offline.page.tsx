@@ -43,6 +43,7 @@ import { useFirstGameGuide } from "@/hooks/use-first-game-guide"
 import { getBot, titleKey } from "@/i18n/bots"
 import { getSetupName } from "@/i18n/game-text"
 import { useAuth } from "@/providers/auth-provider"
+import { routeLanguage } from "@/routing/route-language"
 import { seoPageHead } from "@/routing/seo-pages"
 import { DECIDED } from "@/utils/evaluation"
 import {
@@ -105,7 +106,8 @@ export const Route = createFileRoute("/_subpage/offline")({
         ? search.mode
         : undefined,
   }),
-  head: () => seoPageHead("/offline"),
+  head: ({ match }) =>
+    seoPageHead("/offline", routeLanguage(match.context)),
   component: GameOfflinePage,
 })
 

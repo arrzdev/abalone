@@ -3,6 +3,12 @@ import i18next from "i18next"
 import { initReactI18next } from "react-i18next"
 import type { Language } from "@/i18n/languages"
 import { isSupported } from "@/i18n/languages"
+import { pickLanguage, splitLocalePath } from "@/i18n/locale-path"
+import {
+  browserLanguages,
+  savedLanguage,
+  saveLanguage,
+} from "@/i18n/saved-language"
 import { brandText } from "@/utils/brand"
 
 export type { Language } from "@/i18n/languages"
@@ -26,29 +32,30 @@ for (const [path, module] of Object.entries(modules)) {
   resources[language][namespace] = module.default
 }
 
-const LANGUAGE_STORAGE_KEY = "abalone_language"
-
 /**
- * The stored choice, else the browser's, else English.
+ * The language of the address, else the saved choice, else the browser's, else
+ * English.
  *
- * Returns English on the server without looking: the shell is prerendered, so
- * there is no storage and no navigator to ask, and the real answer arrives one
- * frame later when the client takes over.
+ * A prefixed address (`/pt/rules`) is always its own language. An unprefixed one
+ * is English unless the visitor saved or browses in another language, in which
+ * case the client entry has already moved the page to its prefixed address
+ * (`clientLocaleRedirect`) and this never sees it; the same answer here keeps a
+ * page that is not moved (a test, a tool) in the language that visitor wants.
+ *
+ * Returns English on the server without looking: it has no storage and no
+ * navigator, and renders each request in its own language through a clone of
+ * this instance (`@/providers/locale-provider`) instead of this one's.
  */
 function detectLanguage(): Language {
   if (typeof window === "undefined") return "en"
 
-  try {
-    const stored = localStorage.getItem(LANGUAGE_STORAGE_KEY)
-    if (isSupported(stored ?? undefined)) return stored as Language
-  } catch {
-    //localStorage unavailable (private mode) — fall through to the browser language
-  }
+  const location = splitLocalePath(window.location.pathname)
+  if (location.prefixed) return location.language
 
-  const browserLanguage = navigator.language?.split("-")[0]
-  if (isSupported(browserLanguage)) return browserLanguage
-
-  return "en"
+  return pickLanguage({
+    cookie: savedLanguage(),
+    acceptLanguage: browserLanguages(),
+  })
 }
 
 /**
@@ -67,8 +74,8 @@ const brandPostProcessor: PostProcessorModule = {
   },
 }
 
-//the shell is prerendered as <html lang="en">, so the document only says which
-//language it is in when the client tells it: on load and on every switch
+//the server writes <html lang> from the address, so this keeps the document
+//right after a switch in Settings, and on load for a page it did not serve
 i18next.on("languageChanged", (language) => {
   if (typeof document === "undefined") return
   document.documentElement.lang = language
@@ -89,11 +96,7 @@ i18next
 
 export function changeLanguage(language: Language): void {
   if (!isSupported(language)) return
-  try {
-    localStorage.setItem(LANGUAGE_STORAGE_KEY, language)
-  } catch {
-    //preference is best-effort; the switch itself still applies
-  }
+  saveLanguage(language)
   void i18next.changeLanguage(language)
 }
 

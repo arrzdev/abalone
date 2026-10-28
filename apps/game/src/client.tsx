@@ -4,6 +4,7 @@ import { StartClient } from "@tanstack/react-start/client"
 import { StrictMode, startTransition } from "react"
 import { hydrateRoot } from "react-dom/client"
 import { env } from "@/env/registry"
+import { clientLocaleRedirect } from "@/i18n/saved-language"
 import { rememberLanding } from "@/utils/landing-entry"
 import { startWebAnalytics } from "@/utils/web-analytics"
 
@@ -11,14 +12,22 @@ import { startWebAnalytics } from "@/utils/web-analytics"
 //before the router starts, while the address is still the one the tab opened.
 //the analytics beacon starts here too, so it never sits in the server html
 
-rememberLanding()
-startWebAnalytics(env.VITE_CF_WEB_ANALYTICS_TOKEN, document, navigator)
+//an unprefixed address goes to the saved or browser language, as the Worker
+//would have sent it: the service worker can answer a navigation without it
+const movedTo = clientLocaleRedirect()
 
-startTransition(() => {
-  hydrateRoot(
-    document,
-    <StrictMode>
-      <StartClient />
-    </StrictMode>,
-  )
-})
+if (movedTo) {
+  window.location.replace(movedTo)
+} else {
+  rememberLanding()
+  startWebAnalytics(env.VITE_CF_WEB_ANALYTICS_TOKEN, document, navigator)
+
+  startTransition(() => {
+    hydrateRoot(
+      document,
+      <StrictMode>
+        <StartClient />
+      </StrictMode>,
+    )
+  })
+}

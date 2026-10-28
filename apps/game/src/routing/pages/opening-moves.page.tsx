@@ -6,10 +6,12 @@ import { ManualHero, ManualPage } from "@/components/manual/manual-page"
 import { PlayBlock } from "@/components/play-block"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { COMPUTER_GAME } from "@/hooks/use-play-actions"
+import { routeLanguage } from "@/routing/route-language"
 import { seoPageHead } from "@/routing/seo-pages"
 
 export const Route = createFileRoute("/_subpage/opening-moves")({
-  head: () => seoPageHead("/opening-moves"),
+  head: ({ match }) =>
+    seoPageHead("/opening-moves", routeLanguage(match.context)),
   component: OpeningMovesPage,
 })
 
