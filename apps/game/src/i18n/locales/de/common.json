@@ -81,5 +81,23 @@
     "title": "Auf diesem Feld ist nichts",
     "body": "Diese Adresse führt nirgendwohin.",
     "action": "Zurück zum Spielbrett"
+  },
+  "seo": {
+    "home": {
+      "title": "Abalone online spielen: kostenlos, ohne Konto",
+      "description": "Spiele Abalone online kostenlos und ohne Konto. Schlage den Computer, teile einen Bildschirm mit einem Freund oder lade jemanden zu einer Live-Partie ein."
+    },
+    "rules": {
+      "title": "Abalone-Regeln: so wird gespielt, Züge, Sumito, Sieg",
+      "description": "Die Abalone-Regeln in wenigen Minuten: wie sich Kugeln bewegen, wie ein Sumito-Schub funktioniert, wie man gewinnt, dazu Standard- und Daisy-Aufstellung."
+    },
+    "strategy": {
+      "title": "Abalone-Strategie: 7 Tipps für mehr Siege",
+      "description": "Sieben Abalone-Tipps: das Zentrum beherrschen, Dreiergruppen halten, sicher eröffnen und im richtigen Moment schieben. Teste sie gegen den Computer."
+    },
+    "offline": {
+      "title": "Abalone gegen den Computer oder einen Freund spielen",
+      "description": "Spiele Abalone gegen den Computer oder reiche das Gerät an einen Freund weiter. Wähle die Standard- oder Daisy-Aufstellung und starte gratis im Browser."
+    }
   }
 }

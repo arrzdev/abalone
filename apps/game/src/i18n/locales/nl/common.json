@@ -81,5 +81,23 @@
     "title": "Niets op dit vakje",
     "body": "Dat adres leidt nergens heen.",
     "action": "Terug naar het bord"
+  },
+  "seo": {
+    "home": {
+      "title": "Abalone online gratis spelen, zonder account",
+      "description": "Speel Abalone online gratis, zonder account. Versla de computer, deel één scherm met een vriend of nodig iemand uit voor een live potje. Zonder download."
+    },
+    "rules": {
+      "title": "Abalone-regels: zo speel je, zetten, sumito en winnen",
+      "description": "Leer de Abalone-regels in een paar minuten: hoe ballen bewegen, hoe een sumito-duw werkt, hoe je wint en de standaard- en daisy-startposities."
+    },
+    "strategy": {
+      "title": "Abalone-strategie: 7 tips om vaker te winnen",
+      "description": "Zeven Abalone-tips: beheers het midden, houd groepjes van drie, kies een veilige opening en duw op het juiste moment. Probeer ze tegen de computer."
+    },
+    "offline": {
+      "title": "Speel Abalone tegen de computer of een vriend",
+      "description": "Speel Abalone tegen de computer of geef het apparaat door aan een vriend. Kies de standaardopstelling of een daisy-opening en start gratis in je browser."
+    }
   }
 }

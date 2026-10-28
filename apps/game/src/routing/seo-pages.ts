@@ -1,4 +1,6 @@
 import type { Language } from "@/i18n/languages"
+import { SUPPORTED_LANGUAGES } from "@/i18n/languages"
+import { DEFAULT_LANGUAGE } from "@/i18n/locale-path"
 import type { SocialImage } from "@/routing/page-head"
 import { pageHead } from "@/routing/page-head"
 import { structuredDataScripts } from "@/routing/structured-data"
@@ -107,28 +109,46 @@ export const SITEMAP: Record<
  * so its `/pt/...` URL still answers but is no page of its own: it is left out
  * of the sitemap and the `hreflang` set, and its canonical is the English URL.
  * `seo-locales.test.ts` checks this table against the locale files.
- *
- * Contract only until the TUD-3100 follow-up: English everywhere.
  */
 export const PAGE_LANGUAGES: Record<IndexablePath, readonly Language[]> = {
-  "/": ["en"],
-  "/rules": ["en"],
-  "/strategy": ["en"],
+  "/": SUPPORTED_LANGUAGES,
+  "/rules": SUPPORTED_LANGUAGES,
+  "/strategy": SUPPORTED_LANGUAGES,
   "/opening-moves": ["en"],
   "/starting-positions": ["en"],
-  "/offline": ["en"],
+  "/offline": SUPPORTED_LANGUAGES,
   "/play-online": ["en"],
+}
+
+//the title and description of a page in another language live in that
+//language's `common.json`, under `seo`, next to the rest of its copy
+const LOCALE_FILES = import.meta.glob<{
+  seo?: Record<string, { title: string; description: string }>
+}>("../i18n/locales/*/common.json", { eager: true, import: "default" })
+
+const SEO_KEYS: Partial<Record<IndexablePath, string>> = {
+  "/": "home",
+  "/rules": "rules",
+  "/strategy": "strategy",
+  "/offline": "offline",
 }
 
 /**
  * A page's title and description in `language`; English for a language the
- * page is not in. Contract only until the TUD-3100 follow-up: English always.
+ * page is not in. The image is the page's own, the same in every language.
  */
-export function seoCopy(
-  path: IndexablePath,
-  _language: Language,
-): SeoPage {
-  return SEO_PAGES[path]
+export function seoCopy(path: IndexablePath, language: Language): SeoPage {
+  const english = SEO_PAGES[path]
+  if (language === DEFAULT_LANGUAGE) return english
+  if (!PAGE_LANGUAGES[path].includes(language)) return english
+
+  const key = SEO_KEYS[path]
+  const localized =
+    key === undefined
+      ? undefined
+      : LOCALE_FILES[`../i18n/locales/${language}/common.json`]?.seo?.[key]
+  if (!localized) return english
+  return { ...localized, image: english.image }
 }
 
 /**
@@ -136,14 +156,31 @@ export function seoCopy(
  * the localized copy, a canonical on its own language's URL, and one
  * `hreflang` alternate per language in `PAGE_LANGUAGES` plus `x-default` on
  * the English URL.
+ *
+ * A page that is not in `language` is served in English text, so its head is
+ * the English page's own: the canonical names the English URL and says no more
+ * languages than there are. The JSON-LD stays English-only: it quotes the
+ * page's English questions and steps, which a translated page does not show.
  */
 export function seoPageHead(
   path: IndexablePath,
-  _language: Language = "en",
+  language: Language = DEFAULT_LANGUAGE,
 ) {
-  const page = SEO_PAGES[path]
+  const pageLanguage = PAGE_LANGUAGES[path].includes(language)
+    ? language
+    : DEFAULT_LANGUAGE
+  const page = seoCopy(path, pageLanguage)
   return {
-    ...pageHead({ ...page, path, fullTitle: true }),
-    scripts: structuredDataScripts(path, page),
+    ...pageHead({
+      ...page,
+      path,
+      fullTitle: true,
+      language: pageLanguage,
+      alternates: PAGE_LANGUAGES[path],
+    }),
+    scripts:
+      pageLanguage === DEFAULT_LANGUAGE
+        ? structuredDataScripts(path, page)
+        : [],
   }
 }

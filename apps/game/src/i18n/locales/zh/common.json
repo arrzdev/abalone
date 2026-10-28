@@ -81,5 +81,23 @@
     "title": "这一格上什么都没有",
     "body": "这个地址哪里也去不了。",
     "action": "回到棋盘"
+  },
+  "seo": {
+    "home": {
+      "title": "免费在线玩 Abalone：无需账号",
+      "description": "免费在线玩 Abalone，无需账号。可以击败电脑、和朋友共用一块屏幕，或邀请别人进行实时对战。无需下载。"
+    },
+    "rules": {
+      "title": "Abalone 规则：玩法、走子、sumito 推挤与获胜",
+      "description": "几分钟学会 Abalone 规则：棋子如何移动、sumito 推挤如何运作、如何获胜，以及标准和雏菊开局位置。"
+    },
+    "strategy": {
+      "title": "Abalone 策略：多赢几局的 7 个技巧",
+      "description": "7 个 Abalone 策略技巧：控制中心、保持三子一组、选择安全的开局、在合适的时机推挤。可以先和电脑练习。"
+    },
+    "offline": {
+      "title": "与电脑或好友在同一设备上玩 Abalone",
+      "description": "与电脑对战 Abalone，或把设备传给朋友轮流玩。选择标准布局或雏菊开局，在浏览器里免费开始一局。"
+    }
   }
 }
