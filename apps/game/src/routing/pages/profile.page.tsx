@@ -245,6 +245,7 @@ function Identity({
             as cut out of the picture instead of stuck on top of it. */}
         <span
           aria-hidden="true"
+          data-camera-badge
           className="absolute -right-1 -bottom-1 flex size-[34px] items-center justify-center rounded-full bg-brand-fill text-white outline-[3px] outline-ground lg:hidden"
         >
           {isUploading ? (
@@ -268,8 +269,6 @@ function Identity({
             uploadFailed ? t("common:profile.upload_failed") : undefined
           }
           messageClassName="text-loss"
-          hint={t("common:profile.username_hint")}
-          hintClassName="text-faint"
           reserve={[t("common:profile.upload_failed")]}
           className="mt-1.5 text-center text-sm lg:text-start"
         />
