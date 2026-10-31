@@ -184,7 +184,12 @@ export function PregameControls({
                       // their portrait once the game has started, so an opponent
                       // is introduced the same way in both places.
                       title={`${who}\n${t(blurbKey(level))}`}
-                      aria-label={`${who} — ${t("game:controls.level", { level })}`}
+                      // The label reads in the order the tile shows its text:
+                      // the level badge, then the name ("Level 1, Sharp Sam —
+                      // …" for "1 Sharp Sam"). Speech input users say what they
+                      // see, so the visible words must appear in the label in
+                      // that order (WCAG 2.5.3, label in name).
+                      aria-label={`${t("game:controls.level", { level })}, ${who}`}
                       aria-pressed={selected}
                       onClick={() => onDifficultyChange(level)}
                       className={cn(
@@ -230,7 +235,10 @@ export function PregameControls({
                           selected ? "text-white" : "text-muted",
                         )}
                       >
-                        {getBotName(level)}
+                        {/* The leading space never shows (the flex box drops
+                          it) but keeps the tile's text "1 Gus", not "1Gus",
+                          for tools that read it as one string. */}
+                        {` ${getBotName(level)}`}
                       </span>
                     </TapButton>
                   )
