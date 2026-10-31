@@ -199,7 +199,10 @@ export function Select<T extends string>({
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={open ? listboxId : undefined}
-        aria-label={label}
+        // The name carries the value the button shows as well as what it
+        // picks ("Select Language, English"): a label that leaves out the
+        // visible text fails WCAG 2.5.3 (label in name).
+        aria-label={selected ? `${label}, ${selected.label}` : label}
         onClick={() => setOpen((current) => !current)}
         onKeyDown={handleKeyDown}
         className={cn(
