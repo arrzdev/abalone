@@ -59,7 +59,6 @@
     }
   },
   "profile": {
-    "username_hint": "Gegner laden dich über diesen Namen ein. Er lässt sich nicht ändern.",
     "change_picture": "Bild ändern",
     "uploading": "Wird hochgeladen",
     "upload_failed": "Das Bild wurde nicht hochgeladen. Versuche es erneut.",

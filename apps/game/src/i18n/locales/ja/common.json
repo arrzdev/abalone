@@ -59,7 +59,6 @@
     }
   },
   "profile": {
-    "username_hint": "相手はこの名前であなたを招待します。名前は変更できません。",
     "change_picture": "画像を変更",
     "uploading": "アップロード中",
     "upload_failed": "画像をアップロードできませんでした。もう一度お試しください。",
