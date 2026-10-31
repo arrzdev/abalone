@@ -1,3 +1,5 @@
+import type { PlayableSetup } from "@repo/abalone-engine/board-setups"
+import { isPlayableSetup } from "@repo/abalone-engine/board-setups"
 import type { GameMode } from "@repo/abalone-engine/game-state"
 import type { CellName, Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
@@ -65,6 +67,11 @@ declare module "@tanstack/react-router" {
      * search engines see stays `/offline`.
      */
     startOnBoard?: boolean
+    /**
+     * The layout the way in asked for, read with `isPlayableSetup`: history
+     * state outlives a reload and can hold anything.
+     */
+    setup?: PlayableSetup
   }
 }
 
@@ -156,19 +163,35 @@ function GameOfflinePage() {
   const askedToStartOnBoard = useLocation({
     select: (location) => location.state.startOnBoard === true,
   })
+  const askedForSetup = useLocation({
+    select: ({ state }) =>
+      state.setup && isPlayableSetup(state.setup)
+        ? state.setup
+        : undefined,
+  })
   const clientRender = useClientRender()
-  const [startOnBoard] = useState(
-    () =>
-      clientRender &&
-      askedToStartOnBoard &&
-      startsOnBoard(searchMode ?? "ai", isGuideDone()),
-  )
+  const [{ startOnBoard, firstSetup }] = useState(() => {
+    const asked = clientRender && askedToStartOnBoard
+    const layout =
+      asked && searchMode !== "local" ? askedForSetup : undefined
+    return {
+      startOnBoard:
+        asked &&
+        startsOnBoard(
+          searchMode ?? "ai",
+          isGuideDone(),
+          layout !== undefined,
+        ),
+      firstSetup: layout,
+    }
+  })
 
   const game = useAbaloneGame(
     boardRef,
     searchMode ?? "ai",
     chooseMode,
     startOnBoard,
+    firstSetup,
   )
   const {
     state,

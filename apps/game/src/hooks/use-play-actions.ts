@@ -1,3 +1,4 @@
+import type { PlayableSetup } from "@repo/abalone-engine/board-setups"
 import type { GameMode } from "@repo/abalone-engine/game-state"
 import { useNavigate } from "@tanstack/react-router"
 import { useCallback } from "react"
@@ -18,6 +19,20 @@ export const COMPUTER_GAME = {
   search: { mode: "ai" },
   state: { startOnBoard: true },
 } as const
+
+/**
+ * The computer game on a layout the visitor has just read about: the same route
+ * and search as `COMPUTER_GAME`, so a game is counted the same, with the layout
+ * asked for in the history state beside it. `/offline` starts on the board with
+ * that layout (`startsOnBoard`), whether or not the guide is done: the visitor
+ * has already chosen what to play.
+ */
+export function computerGameOn(setup: PlayableSetup) {
+  return {
+    ...COMPUTER_GAME,
+    state: { ...COMPUTER_GAME.state, setup },
+  } as const
+}
 
 /**
  * The ways into a game, wherever they are offered from — home, the hub's own
