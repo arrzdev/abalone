@@ -112,11 +112,9 @@ function DefaultRootDocument({
 export function createRootDocument(
   options: RootDocumentOptions,
 ): ComponentType<RootDocumentProps> {
-  return function RootDocument({ children }) {
-    return (
-      <DefaultRootDocument {...options}>{children}</DefaultRootDocument>
-    )
-  }
+  return ({ children }) => (
+    <DefaultRootDocument {...options}>{children}</DefaultRootDocument>
+  )
 }
 
 type RoutingShellProps = {
