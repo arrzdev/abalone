@@ -99,9 +99,11 @@ test("the labels are on in play, the switch takes them off and back, and the cho
   await page.keyboard.press("Escape")
   await expect(dialog).toBeHidden()
 
+  // A reload lands on the game setup, so the same game is set up again.
   await page.reload()
-  await expect(page.getByRole("button", { name: "Resign" })).toBeVisible()
-  await expect.poll(() => boardPixels(page)).toBe(bare)
+  await startOfflineGame(page, "Pass & Play")
+  await playMove(page, "c5", "d5")
+  expect(await settledBoard(page)).toBe(bare)
   const reopened = await openSettings(page)
   await expect(reopened.getByRole("switch", SWITCH)).not.toBeChecked()
 
