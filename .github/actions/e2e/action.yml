@@ -6,7 +6,7 @@ description: >
 
 inputs:
   shard:
-    description: "Playwright shard as N/M (e.g. 1/3); empty runs the whole suite"
+    description: "Shard as N/M (e.g. 1/3), balanced by measured time in e2e/support/shard.ts; empty runs the whole suite"
     required: false
     default: ""
 
@@ -27,7 +27,9 @@ runs:
     - name: Run
       shell: bash
       env:
-        SHARD: ${{ inputs.shard }}
+        # Read by playwright.config.ts. Not Playwright's --shard, which splits
+        # by test count and left one shard with twice the work of the others.
+        E2E_SHARD: ${{ inputs.shard }}
       run: |
         if ! jq -e '.scripts["test:e2e"]' package.json >/dev/null; then
           echo "No test:e2e script, skipping."
@@ -36,8 +38,4 @@ runs:
         echo "::group::Install browsers"
         pnpm exec playwright install --with-deps chromium webkit
         echo "::endgroup::"
-        if [ -n "$SHARD" ]; then
-          pnpm test:e2e --shard="$SHARD"
-        else
-          pnpm test:e2e
-        fi
+        pnpm test:e2e

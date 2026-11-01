@@ -52,7 +52,10 @@ jobs:
 
   # The slowest step, split in three parallel shards so the suite can keep
   # growing inside the time limit (two shards ran 12 to 19 minutes, too close
-  # to the 20 minute cap when hosted runners are slow). Full mode only, like the gate's own steps.
+  # to the 20 minute cap when hosted runners are slow). The shards split by
+  # measured time per spec file, not test count (e2e/support/shard.ts); refresh
+  # the weights when one shard runs minutes longer than the others. Full mode
+  # only, like the gate's own steps.
   e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 20

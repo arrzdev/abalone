@@ -1,4 +1,7 @@
+import { join } from "node:path"
+import type { Project } from "@playwright/test"
 import { defineConfig, devices } from "@playwright/test"
+import { parseShard, planShards } from "./e2e/support/shard"
 
 // The main user flows, end to end: an e2e build of the game in front of the
 // real backend Worker (local D1, R2 and Durable Object), both started here by
@@ -26,8 +29,35 @@ const serverEnv = {
   E2E_API_INSPECTOR_PORT: String(inspectorPort),
 }
 
+// Playwright loads this config as CommonJS, hence __dirname.
+const testDir = join(__dirname, "e2e")
+
+const projects: Project[] = [
+  { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+  // WebKit ≈ Mobile Safari for this iOS-PWA (desktop WebKit engine, NOT a real
+  // device — escalate device-only quirks to the iOS Simulator).
+  { name: "webkit-iphone", use: { ...devices["iPhone 13"] } },
+]
+
+// CI runs one shard per job with E2E_SHARD=N/M, balanced by measured time
+// (e2e/support/shard.ts). Each project keeps only its spec files in this shard.
+const shard = parseShard(process.env.E2E_SHARD)
+if (shard) {
+  const plan = planShards(
+    testDir,
+    projects.map((project) => project.name ?? ""),
+    shard.total,
+  )[shard.current - 1]
+  for (const project of projects) {
+    project.testMatch = (plan.get(project.name ?? "") ?? []).map(
+      (file) =>
+        new RegExp(`^${file.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`),
+    )
+  }
+}
+
 export default defineConfig({
-  testDir: "./e2e",
+  testDir,
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
@@ -46,12 +76,7 @@ export default defineConfig({
     extraHTTPHeaders: { "x-test-bypass": "true" },
     trace: "on-first-retry",
   },
-  projects: [
-    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
-    // WebKit ≈ Mobile Safari for this iOS-PWA (desktop WebKit engine, NOT a real
-    // device — escalate device-only quirks to the iOS Simulator).
-    { name: "webkit-iphone", use: { ...devices["iPhone 13"] } },
-  ],
+  projects,
   webServer: [
     {
       command: "bash e2e/support/serve-backend.sh",
