@@ -474,6 +474,20 @@ for (const language of LINK_LANGUAGES) {
         )
 
         const main = page.getByRole("main")
+        //the links fade up with their section (a 16px slide over 500ms, once
+        //it scrolls into view): measure after it, or the two boxes are read
+        //on either side of the slide
+        await expect
+          .poll(() =>
+            main.locator('a[href$="/rules"]').evaluate((link) => {
+              const reveal = link.closest("[data-shown]")
+              return (
+                reveal?.getAttribute("data-shown") === "true" &&
+                reveal.getAnimations().length === 0
+              )
+            }),
+          )
+          .toBe(true)
         const rules = await box(main.locator('a[href$="/rules"]'))
         const strategy = await box(main.locator('a[href$="/strategy"]'))
         expect(Math.abs(rules.y - strategy.y), "on one line").toBeLessThan(
