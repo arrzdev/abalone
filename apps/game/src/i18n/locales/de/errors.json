@@ -10,7 +10,7 @@
   "api_unsupported_media_type": "Nimm ein PNG, JPEG oder WebP.",
   "api_player_not_found": "Unter diesem Namen spielt niemand.",
   "api_invite_self": "Du kannst dich nicht selbst einladen.",
-  "api_invite_exists": "Bei diesem Spieler ist schon eine Einladung offen.",
+  "api_invite_exists": "Du hast sie schon eingeladen.",
   "api_game_not_active": "Diese Partie ist schon vorbei.",
   "api_not_your_turn": "Du bist noch nicht dran.",
   "api_illegal_move": "Dieser Zug ist nicht erlaubt.",

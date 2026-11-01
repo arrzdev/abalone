@@ -17,6 +17,7 @@ import {
   Image as ImageGlyph,
   Info,
   Lightbulb,
+  Link,
   List,
   LoaderCircle,
   LogIn,
@@ -92,6 +93,7 @@ export const ShareIcon = glyph(Share)
 export const RotateIcon = glyph(RotateCw)
 export const GroupIcon = glyph(Users)
 export const LightbulbIcon = glyph(Lightbulb)
+export const LinkIcon = glyph(Link)
 export const UndoIcon = glyph(Undo2)
 export const HistoryIcon = glyph(History)
 export const VolumeUpIcon = glyph(Volume2)

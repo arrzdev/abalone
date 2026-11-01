@@ -71,7 +71,19 @@
     "username_hint": "The name they sign in with.",
     "setup": "Opening",
     "side": "Your side",
-    "send": "Send invite"
+    "send": "Send invite",
+    "recents": "Play again with",
+    "someone_else": "Someone else",
+    "send_to": "Invite {{name}}",
+    "change": "Change",
+    "game": "Game",
+    "done": "Done",
+    "back": "Back",
+    "side_summary": {
+      "random": "You play either side",
+      "black": "You play black",
+      "white": "You play white"
+    }
   },
   "board": {
     "against": "vs {{name}}",
@@ -101,7 +113,12 @@
     "copy": "Copy link",
     "copied": "Link copied",
     "copy_failed": "Couldn't copy. Select the link and copy it.",
-    "share_text": "Want a game of Abalone? Open this link to play me."
+    "share_text": "Want a game of Abalone? Open this link to play me.",
+    "card_hint": "Anyone can take it",
+    "ready": "Link ready, lasts 7 days",
+    "copied_short": "Copied, lasts 7 days",
+    "copy_failed_short": "Select it to copy",
+    "failed_short": "Couldn't make it. Tap to retry"
   },
   "invite_link": {
     "loading": "Opening the invite",

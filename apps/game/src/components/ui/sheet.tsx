@@ -20,6 +20,12 @@ export type SheetProps = {
   children?: ReactNode
   /** Actions, pinned below the body on desktop and last in the scroll on a phone. */
   footer?: ReactNode
+  /**
+   * Keep the footer in view on a phone while the body scrolls under it. For an
+   * overlay whose action must not be found by scrolling, on a screen too short
+   * for all of it. The dialog shape pins its footer already.
+   */
+  pinFooter?: boolean
   /** Extra classes for the panel itself — the dialog box, or the sheet. */
   className?: string
 }
@@ -45,6 +51,7 @@ export function Sheet({
   description,
   children,
   footer,
+  pinFooter = false,
   className,
 }: SheetProps) {
   const isDesktop = useIsDesktop()
@@ -132,7 +139,12 @@ export function Sheet({
           {/* pt-4 on top of the shell's pb-1: the section gap, 20px, from the
               last block to the actions, as in the dialog shape */}
           {footer && (
-            <Drawer.Footer className="flex-row gap-3 px-safe-offset-5 pt-4 pb-safe-or-5">
+            <Drawer.Footer
+              className={cn(
+                "flex-row gap-3 px-safe-offset-5 pt-4 pb-safe-or-5",
+                pinFooter && "sticky bottom-0 bg-surface",
+              )}
+            >
               {footer}
             </Drawer.Footer>
           )}

@@ -72,7 +72,19 @@
     "username_hint": "O nome com que iniciam sessão.",
     "setup": "Abertura",
     "side": "O teu lado",
-    "send": "Enviar convite"
+    "send": "Enviar convite",
+    "recents": "Jogar outra vez com",
+    "someone_else": "Outra pessoa",
+    "send_to": "Convidar {{name}}",
+    "change": "Mudar",
+    "game": "Jogo",
+    "done": "Feito",
+    "back": "Voltar",
+    "side_summary": {
+      "random": "O lado é sorteado",
+      "black": "Jogas com as pretas",
+      "white": "Jogas com as brancas"
+    }
   },
   "board": {
     "against": "contra {{name}}",
@@ -102,7 +114,12 @@
     "copy": "Copiar link",
     "copied": "Link copiado",
     "copy_failed": "Não deu para copiar. Seleciona o link e copia.",
-    "share_text": "Jogamos uma partida de Abalone? Abre este link para jogares contra mim."
+    "share_text": "Jogamos uma partida de Abalone? Abre este link para jogares contra mim.",
+    "card_hint": "Qualquer pessoa o pode usar",
+    "ready": "Link pronto, dura 7 dias",
+    "copied_short": "Copiado, dura 7 dias",
+    "copy_failed_short": "Seleciona para copiar",
+    "failed_short": "Não deu. Toca para repetir"
   },
   "invite_link": {
     "loading": "A abrir o convite",
