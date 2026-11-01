@@ -1057,16 +1057,26 @@ describe("game routes", () => {
     return frames
   }
 
-  /** Waits for the beacons a request fired off to land. */
-  async function settle(frames: RealtimeEvent[], count: number) {
+  /**
+   * Waits for the named beacons to land, then returns every event seen.
+   *
+   * Waiting on a frame count is not enough: a beacon from the setup can arrive
+   * after the channel opens and fill the count before the one under test does.
+   */
+  async function settle(
+    frames: RealtimeEvent[],
+    expected: RealtimeEvent["event"][],
+  ) {
+    const arrived = () => frames.map((frame) => frame.event)
     for (
       let attempt = 0;
-      attempt < 100 && frames.length < count;
+      attempt < 100 &&
+      !expected.every((event) => arrived().includes(event));
       attempt++
     ) {
       await scheduler.wait(10)
     }
-    return frames.map((frame) => frame.event)
+    return arrived()
   }
 
   it("tells the sender their games list moved when it is accepted", async () => {
@@ -1079,8 +1089,12 @@ describe("game routes", () => {
 
     //the list is the whole point: the sender has no board open on a game that
     //did not exist a second ago, so "a game changed" would tell them nothing
-    expect(await settle(frames, 2)).toEqual(
-      expect.arrayContaining(["games-changed", "invites-changed"]),
+    const expected: RealtimeEvent["event"][] = [
+      "games-changed",
+      "invites-changed",
+    ]
+    expect(await settle(frames, expected)).toEqual(
+      expect.arrayContaining(expected),
     )
   })
 
@@ -1091,8 +1105,12 @@ describe("game routes", () => {
 
     await call("POST", `/games/${game.id}/resignation`, recipient.token)
 
-    expect(await settle(frames, 2)).toEqual(
-      expect.arrayContaining(["game-updated", "games-changed"]),
+    const expected: RealtimeEvent["event"][] = [
+      "game-updated",
+      "games-changed",
+    ]
+    expect(await settle(frames, expected)).toEqual(
+      expect.arrayContaining(expected),
     )
   })
 })
