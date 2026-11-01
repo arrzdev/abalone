@@ -179,8 +179,7 @@ test("a broken link says it does not work and offers a computer game", async ({
       "This invite link doesn't work",
     )
     const main = page.locator("main")
-    await expect(main).toContainText("whole link")
-    await expect(main).toContainText("new one")
+    await expect(main).toContainText("Ask the sender for a new link.")
     await expect(main).not.toContainText(/expired/i)
     await expect(main).not.toContainText("7 days")
     await expect(

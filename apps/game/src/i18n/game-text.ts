@@ -30,13 +30,9 @@ export function getGameOverMessage(
   t: TFunction,
   winner: ResultSubject | null,
   difficulty: number,
-): { title: string; message: string } {
-  if (winner === null) {
-    return {
-      title: t("game:modal.draw"),
-      message: t("game:modal.draw_message"),
-    }
-  }
+): { title: string; message?: string } {
+  //"Draw!" says all of it
+  if (winner === null) return { title: t("game:modal.draw") }
   const difficultyName = getDifficultyName(difficulty)
   if (winner === "player") {
     return {

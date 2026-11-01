@@ -66,8 +66,8 @@
   },
   "compose": {
     "title": "New invite",
-    "username": "Who are you playing?",
-    "username_placeholder": "Their name",
+    "username": "Opponent",
+    "username_placeholder": "Username",
     "username_hint": "The name they sign in with.",
     "setup": "Opening",
     "side": "Your side",
@@ -89,7 +89,7 @@
   },
   "empty": {
     "title": "Nothing here yet",
-    "link_body": "Send a friend a link. The game starts when they open it and accept.",
+    "link_body": "Send a friend a link.",
     "play_bot": "Play a bot",
     "invite_by_name": "Invite by username"
   },
@@ -99,8 +99,8 @@
     "field": "Invite link",
     "share": "Share link",
     "copy": "Copy link",
-    "copied": "Link copied. Send it to the person you want to play.",
-    "copy_failed": "We couldn't copy the link. Select it and copy it yourself.",
+    "copied": "Link copied",
+    "copy_failed": "Couldn't copy. Select the link and copy it.",
     "share_text": "Want a game of Abalone? Open this link to play me."
   },
   "invite_link": {
@@ -109,17 +109,16 @@
     "retry": "Try again",
     "go_home": "Go home",
     "title": "{{name}} invited you to a game of {{brand}}",
-    "body_signed_out": "Create an account or sign in to accept. You'll come straight back here.",
-    "body_signed_in": "Accept and the game starts right away.",
+    "body_signed_out": "Sign in or create an account to accept.",
     "accept": "Accept and play",
     "own_title": "This is your invite link",
-    "own_body": "Send it to the person you want to play. The game starts when they accept.",
+    "own_body": "Send it to a friend to play.",
     "used_title": "This invite has already been used",
-    "used_body": "Someone else accepted it first. Ask {{name}} for a new link.",
+    "used_body": "Ask {{name}} for a new link.",
     "expired_title": "This invite has expired",
-    "expired_body": "Invite links last 7 days. Ask whoever sent it for a new one.",
+    "expired_body": "Ask the sender for a new link.",
     "broken_title": "This invite link doesn't work",
-    "broken_body": "Check that the whole link was pasted, or ask whoever sent it for a new one.",
+    "broken_body": "Ask the sender for a new link.",
     "play_computer": "Play against the computer"
   }
 }
