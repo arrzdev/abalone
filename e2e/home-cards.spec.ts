@@ -428,6 +428,20 @@ for (const language of LANGUAGES) {
       await expectNoClippedText(page.locator("[data-home-poster]"))
     })
 
+    //the FAQ copy is English only: no English section under a translated poster
+    test("shows no English FAQ", async ({ page }) => {
+      await page.addInitScript((value) => {
+        localStorage.setItem("abalone_language", value)
+      }, language)
+      await openApp(page, "/")
+      await expect(page.locator("html")).toHaveAttribute("lang", language)
+
+      await expect(page.locator("[data-home-poster]")).toBeVisible()
+      await expect(
+        page.locator("section[aria-labelledby=home-faq]"),
+      ).toHaveCount(0)
+    })
+
     //what the mode is, in one line even on the narrowest phone (TUD-2781)
     test("the online tile says what it is in one line", async ({
       page,
