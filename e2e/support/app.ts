@@ -185,3 +185,16 @@ export async function startOnlineGame(
 
   return { host, guest, hostPage, guestPage, guestName }
 }
+
+/**
+ * Sets the side an invite is sent for. The side lives on the composer's game
+ * panel, one press of "Change" away from the main view, and "Done" returns.
+ */
+export async function chooseInviteSide(
+  composer: Locator,
+  side: "black" | "white" | "random",
+): Promise<void> {
+  await composer.getByRole("button", { name: "Change" }).click()
+  await composer.getByRole("radio", { name: `Play as ${side}` }).click()
+  await composer.getByRole("button", { name: "Done" }).click()
+}

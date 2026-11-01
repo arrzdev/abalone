@@ -1,6 +1,11 @@
 import type { Browser, Locator, Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
-import { openApp, signUp, uniqueUsername } from "./support/app"
+import {
+  chooseInviteSide,
+  openApp,
+  signUp,
+  uniqueUsername,
+} from "./support/app"
 import { playMove } from "./support/board"
 
 // The online hub shows every game as the same board card: whose move it is,
@@ -30,8 +35,10 @@ async function openGame(browser: Browser) {
     .click()
   const composer = hostPage.getByRole("dialog")
   await composer.getByLabel("Opponent", { exact: true }).fill(guestName)
-  await composer.getByRole("radio", { name: "Play as black" }).click()
-  await composer.getByRole("button", { name: "Send invite" }).click()
+  await chooseInviteSide(composer, "black")
+  await composer
+    .getByRole("button", { name: `Invite ${guestName}` })
+    .click()
   await expect(composer).toBeHidden()
 
   await openApp(guestPage, "/online")
