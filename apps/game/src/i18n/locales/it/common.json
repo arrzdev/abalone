@@ -59,7 +59,6 @@
     }
   },
   "profile": {
-    "username_hint": "Gli avversari ti invitano con questo nome. Non si può cambiare.",
     "change_picture": "Cambia immagine",
     "uploading": "Caricamento",
     "upload_failed": "L'immagine non è stata caricata. Riprova.",

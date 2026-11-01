@@ -59,7 +59,6 @@
     }
   },
   "profile": {
-    "username_hint": "Rakipler seni bu adla davet eder. Bu ad değiştirilemez.",
     "change_picture": "Resmi değiştir",
     "uploading": "Yükleniyor",
     "upload_failed": "Bu resim yüklenemedi. Tekrar dene.",

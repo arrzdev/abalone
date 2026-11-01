@@ -59,7 +59,6 @@
     }
   },
   "profile": {
-    "username_hint": "对手通过这个名字邀请你。名字无法更改。",
     "change_picture": "更换头像",
     "uploading": "上传中",
     "upload_failed": "头像未能上传。请重试。",

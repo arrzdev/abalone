@@ -59,7 +59,6 @@
     }
   },
   "profile": {
-    "username_hint": "상대는 이 이름으로 초대합니다. 이름은 바꿀 수 없습니다.",
     "change_picture": "사진 변경",
     "uploading": "업로드 중",
     "upload_failed": "사진을 업로드하지 못했습니다. 다시 시도하세요.",
