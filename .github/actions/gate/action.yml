@@ -90,10 +90,21 @@ runs:
           fi
         done
 
+    # A package with a `test:coverage` script runs that instead of `test`, so
+    # its coverage floors (set in its own test config) gate the merge and its
+    # suite does not run twice.
     - name: Test
       if: inputs.mode == 'full'
       shell: bash
-      run: pnpm exec turbo run test
+      run: |
+        skip=()
+        for pkg in apps/*/package.json packages/*/package.json; do
+          if jq -e '.scripts["test:coverage"]' "$pkg" >/dev/null; then
+            skip+=("--filter=!$(jq -r .name "$pkg")")
+          fi
+        done
+        pnpm exec turbo run test "${skip[@]}"
+        if [ "${#skip[@]}" -gt 0 ]; then pnpm exec turbo run test:coverage; fi
 
     # The main user flows in real browsers, when the repo has a `test:e2e`
     # script. The suite's config starts whatever it drives (apps, local
