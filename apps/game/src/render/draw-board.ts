@@ -193,40 +193,80 @@ function drawMoveIndicator(
   ctx.fill()
 }
 
-function drawCoordinateLabels(
-  ctx: CanvasRenderingContext2D,
+export type CoordinateLabel = {
+  text: string
+  x: number
+  y: number
+  /** The font size, in canvas px. */
+  size: number
+}
+
+/** Where each rank and file label sits, and how big it is set. */
+export function coordinateLabels(
   view: BoardView,
-  ink: string,
-): void {
+  // TUD-3669: not read yet. The labels still keep to the screen when the board
+  // turns, which is the bug the tests next to this pin.
+  _flip: boolean,
+): CoordinateLabel[] {
   const { centerX, centerY, radius, spacing } = view
   const size = radius * 0.44
-
-  ctx.save()
-  ctx.font = `${size}px ${LABEL_FACE}`
-  ctx.textAlign = "center"
-  ctx.textBaseline = "middle"
-  ctx.fillStyle = ink
-  ctx.strokeStyle = ink
-  ctx.lineWidth = size * LABEL_WEIGHT
-  ctx.lineJoin = "round"
-  const label = (text: string, x: number, y: number) => {
-    ctx.fillText(text, x, y)
-    ctx.strokeText(text, x, y)
-  }
   const distance = radius * 1.2
+  const labels: CoordinateLabel[] = []
 
   // Row letters a–i down the left edge. Labels intentionally do not flip.
   for (let r = 4; r >= -4; r--) {
     const q = Math.max(-4, -r - 4)
     const pos = hexCenter(r, q, centerX, centerY, spacing)
-    label(ROW_LABELS[4 - r], pos.x - distance, pos.y)
+    labels.push({
+      text: ROW_LABELS[4 - r],
+      x: pos.x - distance,
+      y: pos.y,
+      size,
+    })
   }
 
   // Column numbers 1–9 along the bottom.
   for (let q = -4; q <= 4; q++) {
     const r = Math.min(4, -q + 4)
     const pos = hexCenter(r, q, centerX, centerY, spacing)
-    label(String(q + 5), pos.x + distance / 2, pos.y + distance)
+    labels.push({
+      text: String(q + 5),
+      x: pos.x + distance / 2,
+      y: pos.y + distance,
+      size,
+    })
+  }
+  return labels
+}
+
+/** The board fill the labels sit on, and the ink they are set in. */
+export function labelColours(
+  boardTheme: string | undefined,
+  reviewing: boolean,
+): { board: string; ink: string } {
+  const palette = boardPalette(boardTheme)
+  return {
+    board: reviewing ? COLORS.reviewing : palette.board,
+    ink: palette.ink,
+  }
+}
+
+function drawCoordinateLabels(
+  ctx: CanvasRenderingContext2D,
+  labels: CoordinateLabel[],
+  ink: string,
+): void {
+  ctx.save()
+  ctx.textAlign = "center"
+  ctx.textBaseline = "middle"
+  ctx.fillStyle = ink
+  ctx.strokeStyle = ink
+  ctx.lineJoin = "round"
+  for (const { text, x, y, size } of labels) {
+    ctx.font = `${size}px ${LABEL_FACE}`
+    ctx.lineWidth = size * LABEL_WEIGHT
+    ctx.fillText(text, x, y)
+    ctx.strokeText(text, x, y)
   }
   ctx.restore()
 }
@@ -665,7 +705,13 @@ export function drawBoard(
   )
   ctx.stroke()
 
-  if (showLabels) drawCoordinateLabels(ctx, view, palette.ink)
+  if (showLabels) {
+    drawCoordinateLabels(
+      ctx,
+      coordinateLabels(view, flip),
+      labelColours(boardTheme, reviewing).ink,
+    )
+  }
 
   // Pass 1: the fixed grid of empty cells.
   forEachCell((r, q) => {
