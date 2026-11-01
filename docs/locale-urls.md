@@ -6,11 +6,11 @@ one tudu.dev uses.
 
 ## The URL scheme
 
-| URL | Serves |
-|---|---|
-| `/rules`, `/` | English, the paths the game always had |
+| URL                | Serves                                                     |
+| ------------------ | ---------------------------------------------------------- |
+| `/rules`, `/`      | English, the paths the game always had                     |
 | `/pt/rules`, `/pt` | Portuguese (any shipped language but English, by its code) |
-| `/en/rules`, `/en` | 301 to `/rules`, `/` |
+| `/en/rules`, `/en` | 301 to `/rules`, `/`                                       |
 
 Every route takes the prefix, the signed-in screens too, so a visitor never
 falls out of their language while moving around. A link inside the app keeps

@@ -6,11 +6,11 @@ no route, no table.
 
 ## Steps
 
-| # | Step | Moves on when |
-|---|------|---------------|
-| 1 | `select`: pick 1 to 3 marbles in a line | the board has at least one marble selected (to step 2), or Next (to step 3) |
-| 2 | `direction`: choose where they go | a move lands, or Next. Letting go of every marble goes back to step 1 |
-| 3 | `win`: push 6 off to win | Got it (the Next of the last step) |
+| #   | Step                                    | Moves on when                                                               |
+| --- | --------------------------------------- | --------------------------------------------------------------------------- |
+| 1   | `select`: pick 1 to 3 marbles in a line | the board has at least one marble selected (to step 2), or Next (to step 3) |
+| 2   | `direction`: choose where they go       | a move lands, or Next. Letting go of every marble goes back to step 1       |
+| 3   | `win`: push 6 off to win                | Got it (the Next of the last step)                                          |
 
 Skip is on every step. A move that lands while still on step 1 jumps to step 3.
 Next on step 1 also jumps to step 3: step 2 talks about the spaces a selection

@@ -7,16 +7,16 @@ deploy pipeline that grows by one line per new app.
 
 ## Layout
 
-| | |
-| --- | --- |
-| `apps/game` | the Abalone game — React 19 on the `@repo/nativ` PWA shell, TanStack Start routing, served by a Worker |
-| `apps/backend` | Hono on a Worker. D1 + Drizzle, the layered http/services structure, better-auth sessions, R2 avatars |
-| `packages/nativ` | the PWA shell framework: app config, generated router, native-feeling components, hooks, service worker |
-| `packages/shared` | the kernel the apps import — `tryCatch`, logging, the Hono endpoint factory |
-| `packages/env-validation` | schema-checked env with one registry per app |
-| `packages/dev` | the dev runner: port clearing, LAN log sink, local cron setup |
-| `.github/` | CI, the deploy pipeline, and `deploy-units.jsonc` — what deploys and in what order |
-| `.claude/`, `.cursor/` | agent skills, routing hooks, and the verify gate |
+|                           |                                                                                                         |
+| ------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `apps/game`               | the Abalone game — React 19 on the `@repo/nativ` PWA shell, TanStack Start routing, served by a Worker  |
+| `apps/backend`            | Hono on a Worker. D1 + Drizzle, the layered http/services structure, better-auth sessions, R2 avatars   |
+| `packages/nativ`          | the PWA shell framework: app config, generated router, native-feeling components, hooks, service worker |
+| `packages/shared`         | the kernel the apps import — `tryCatch`, logging, the Hono endpoint factory                             |
+| `packages/env-validation` | schema-checked env with one registry per app                                                            |
+| `packages/dev`            | the dev runner: port clearing, LAN log sink, local cron setup                                           |
+| `.github/`                | CI, the deploy pipeline, and `deploy-units.jsonc` — what deploys and in what order                      |
+| `.claude/`, `.cursor/`    | agent skills, routing hooks, and the verify gate                                                        |
 
 Apps consume packages through workspace exports (`@repo/nativ`, `@repo/shared`,
 …) and never reach past a package's public entry points. Every package here has
@@ -68,15 +68,15 @@ Game on `http://localhost:6161`, backend on `http://localhost:8181`. Both bind
 `0.0.0.0`, so another device on the same network can reach them — useful for
 testing the PWA on a phone.
 
-| | |
-| --- | --- |
-| `pnpm build` | build every app |
-| `pnpm typecheck` | project references + the two standalone projects |
-| `pnpm biome:check` / `pnpm biome:fix` | lint and format |
-| `pnpm test` | Vitest across the workspace (backend runs on a real local D1) |
-| `pnpm test:e2e` | Playwright smoke test against a running app |
-| `pnpm logs` | the LAN log sink — device consoles forwarded to your terminal |
-| `pnpm tail` | live Worker logs from the deployed backend |
+|                                       |                                                               |
+| ------------------------------------- | ------------------------------------------------------------- |
+| `pnpm build`                          | build every app                                               |
+| `pnpm typecheck`                      | project references + the two standalone projects              |
+| `pnpm biome:check` / `pnpm biome:fix` | lint and format                                               |
+| `pnpm test`                           | Vitest across the workspace (backend runs on a real local D1) |
+| `pnpm test:e2e`                       | Playwright smoke test against a running app                   |
+| `pnpm logs`                           | the LAN log sink — device consoles forwarded to your terminal |
+| `pnpm tail`                           | live Worker logs from the deployed backend                    |
 
 Anything that edits source is done when typecheck, Biome, and the build all
 pass; that gate is also what CI runs.
@@ -85,13 +85,13 @@ pass; that gate is also what CI runs.
 
 `pnpm test:e2e` runs each on chromium and on the webkit iPhone 13 profile. CI does not run them yet.
 
-| Flow | Spec |
-| --- | --- |
-| Online game: invite, accept, both players see each move | `e2e/online-game.spec.ts` |
+| Flow                                                                                                                 | Spec                      |
+| -------------------------------------------------------------------------------------------------------------------- | ------------------------- |
+| Online game: invite, accept, both players see each move                                                              | `e2e/online-game.spec.ts` |
 | Online game: a resignation shows "by resignation" to both players and the game lands in the host's `/online/history` | `e2e/online-game.spec.ts` |
-| Bot game played to the end | `e2e/bot-game.spec.ts` |
-| Pass and play ending on a resignation | `e2e/local-game.spec.ts` |
-| Invite link used and expired | `e2e/invite-link.spec.ts` |
+| Bot game played to the end                                                                                           | `e2e/bot-game.spec.ts`    |
+| Pass and play ending on a resignation                                                                                | `e2e/local-game.spec.ts`  |
+| Invite link used and expired                                                                                         | `e2e/invite-link.spec.ts` |
 
 ## Adding an endpoint
 
@@ -162,12 +162,12 @@ after rotating secrets, which change no files, so `--affected` finds nothing.
 **Setup.** `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` go in the repo's
 `production` GitHub environment, along with the values both apps declare:
 
-| Key | Value |
-| --- | --- |
-| `BETTER_AUTH_SECRET` | 16 characters or more, from `openssl rand -hex 32` |
-| `BETTER_AUTH_URL` | `https://abalone.tudu.dev` |
-| `FRONTEND_URLS` | `https://abalone.tudu.dev,https://babaluje.tudu.dev` — every origin the game answers on, comma-separated |
-| `AVATAR_PUBLIC_URL` | `https://cdn.abalone.tudu.dev` |
+| Key                  | Value                                                                                                    |
+| -------------------- | -------------------------------------------------------------------------------------------------------- |
+| `BETTER_AUTH_SECRET` | 16 characters or more, from `openssl rand -hex 32`                                                       |
+| `BETTER_AUTH_URL`    | `https://abalone.tudu.dev`                                                                               |
+| `FRONTEND_URLS`      | `https://abalone.tudu.dev,https://babaluje.tudu.dev` — every origin the game answers on, comma-separated |
+| `AVATAR_PUBLIC_URL`  | `https://cdn.abalone.tudu.dev`                                                                           |
 
 Then create the database and the bucket. Both already exist on this account and
 `apps/backend/wrangler.toml` carries the database's id; on a fresh account,

@@ -4,9 +4,9 @@ Two recordings of a physical Abalone set, trimmed and levelled before they got
 here. They ship as-is — there is no build step between these files and
 `public/audio/`, so what is in the repo is what plays.
 
-| File | What it is | Length |
-| --- | --- | --- |
-| `marble-move.m4a` | marbles sliding one square | 0.127 s |
+| File              | What it is                              | Length  |
+| ----------------- | --------------------------------------- | ------- |
+| `marble-move.m4a` | marbles sliding one square              | 0.127 s |
 | `marble-fall.m4a` | a marble going over the rim and landing | 0.248 s |
 
 Mono, 24 kHz AAC, under 2.2 kB each. Mono on purpose: the board has no stereo

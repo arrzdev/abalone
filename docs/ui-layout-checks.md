@@ -57,9 +57,9 @@ How to keep it:
 content (text, controls, pictures, filled boxes) and fails when the gaps
 between them take more than two sizes, or sizes other than the tokens:
 
-| Gap | Size | Where |
-|---|---|---|
-| tight | 8px (`2`) | label to control, title to the line under it, control to its hint |
+| Gap     | Size       | Where                                                                         |
+| ------- | ---------- | ----------------------------------------------------------------------------- |
+| tight   | 8px (`2`)  | label to control, title to the line under it, control to its hint             |
 | section | 20px (`5`) | between sections, header to first section, last section to the primary action |
 
 An empty block of reserved space shows up as a third, larger gap. Use the

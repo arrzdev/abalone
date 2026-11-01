@@ -11,28 +11,28 @@ build is TUD-910. This file keeps what the code and tests depend on.
 New components live in `apps/game/src/components/manual/` and replace `Page`,
 `PageTitle`, `Card`, `Rule` and `Section` on these two pages only.
 
-| Component | Job |
-|---|---|
-| `ManualPage` | Grid, rail, phone contents list. `rail | text | plate` up to 1200px on `/rules`; `rail | text` up to 960px on `/strategy`. |
-| `ManualHero` | H1, intro, the first `PlayBlock`; on `/rules` a plate with the whole board (`START`). |
-| `Chapter` | Hairline on top, numeral, H2, body; its plate sticky beside it at `lg`. |
-| `Plate` | The dark surface a diagram sits on. |
-| `ChapterRail` | Desktop (`lg` and up). Scroll-spy, smooth scroll, a sliding bar. |
-| `ContentsList` | Below `lg`. One link per chapter, each row at least 44px tall. |
-| `ChapterBreak` | The middle `PlayBlock`, as a band between chapters. |
+| Component      | Job                                                                                   |
+| -------------- | ------------------------------------------------------------------------------------- |
+| `ManualPage`   | Grid, rail, phone contents list. `rail                                                | text | plate`up to 1200px on`/rules`; `rail | text`up to 960px on`/strategy`. |
+| `ManualHero`   | H1, intro, the first `PlayBlock`; on `/rules` a plate with the whole board (`START`). |
+| `Chapter`      | Hairline on top, numeral, H2, body; its plate sticky beside it at `lg`.               |
+| `Plate`        | The dark surface a diagram sits on.                                                   |
+| `ChapterRail`  | Desktop (`lg` and up). Scroll-spy, smooth scroll, a sliding bar.                      |
+| `ContentsList` | Below `lg`. One link per chapter, each row at least 44px tall.                        |
+| `ChapterBreak` | The middle `PlayBlock`, as a band between chapters.                                   |
 
 ## Hooks the tests read
 
 `e2e/manual-layout.spec.ts` reads these, not class names:
 
-| Hook | On |
-|---|---|
-| `data-chapter` | each chapter; its `h2[id]` stays the link target (`/rules#sumito`) |
-| `data-chapter-number` | the numeral before the H2, `aria-hidden="true"`, printed `01`…`09` |
-| `data-plate` | the plate; `position: sticky` beside a chapter at `lg` |
-| `nav[data-manual-rail]` | the rail; the current link has `aria-current="location"` |
-| `data-rail-bar` | the one bar that marks the current link; `transition-duration` 0.2s, 0s under reduced motion |
-| `nav[data-manual-contents]` | the phone and tablet contents list, after the hero's play block |
+| Hook                        | On                                                                                           |
+| --------------------------- | -------------------------------------------------------------------------------------------- |
+| `data-chapter`              | each chapter; its `h2[id]` stays the link target (`/rules#sumito`)                           |
+| `data-chapter-number`       | the numeral before the H2, `aria-hidden="true"`, printed `01`…`09`                           |
+| `data-plate`                | the plate; `position: sticky` beside a chapter at `lg`                                       |
+| `nav[data-manual-rail]`     | the rail; the current link has `aria-current="location"`                                     |
+| `data-rail-bar`             | the one bar that marks the current link; `transition-duration` 0.2s, 0s under reduced motion |
+| `nav[data-manual-contents]` | the phone and tablet contents list, after the hero's play block                              |
 
 The page still scrolls inside `main [data-scroll-view]`; scroll-spy observes
 headings inside that scroller (`rootMargin: "0px 0px -70% 0px"`).

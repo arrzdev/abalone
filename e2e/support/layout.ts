@@ -60,7 +60,7 @@ export async function expectNoLayoutShift(
       }
     }
 
-    const describe = (element: HTMLElement): string => {
+    const describeElement = (element: HTMLElement): string => {
       const name =
         element.getAttribute("aria-label") ??
         element.textContent?.trim().replace(/\s+/g, " ").slice(0, 40) ??
@@ -95,7 +95,7 @@ export async function expectNoLayoutShift(
         if (delta === 0) continue
         reported.add(element)
         recorder.moved.push(
-          `${describe(element)} ${before.x},${before.y} ${before.width}x${before.height} → ${after.x},${after.y} ${after.width}x${after.height}`,
+          `${describeElement(element)} ${before.x},${before.y} ${before.width}x${before.height} → ${after.x},${after.y} ${after.width}x${after.height}`,
         )
       }
       if (!recorder.stop) requestAnimationFrame(sample)
@@ -142,7 +142,7 @@ export async function expectNoClippedText(scope: Locator): Promise<void> {
     const found: string[] = []
     const slack = 1
 
-    const describe = (element: Element, text: string): string =>
+    const describeElement = (element: Element, text: string): string =>
       `<${element.tagName.toLowerCase()}> "${text.trim().replace(/\s+/g, " ").slice(0, 50)}"`
 
     const isShown = (element: Element): boolean => {
@@ -226,7 +226,7 @@ export async function expectNoClippedText(scope: Locator): Promise<void> {
           clipsY && element.scrollHeight > element.clientHeight + slack
         if ((tooWide || tooTall) && !endsInEllipsis(style)) {
           found.push(
-            `${describe(element, ownText)} needs ${element.scrollWidth}x${element.scrollHeight} and has ${element.clientWidth}x${element.clientHeight}, with no ellipsis`,
+            `${describeElement(element, ownText)} needs ${element.scrollWidth}x${element.scrollHeight} and has ${element.clientWidth}x${element.clientHeight}, with no ellipsis`,
           )
           continue
         }
@@ -266,7 +266,7 @@ export async function expectNoClippedText(scope: Locator): Promise<void> {
       )
       if (cut) {
         found.push(
-          `${describe(element, ownText)} at ${Math.round(cut.left)},${Math.round(cut.top)}..${Math.round(cut.right)},${Math.round(cut.bottom)} is cut off by a box around it`,
+          `${describeElement(element, ownText)} at ${Math.round(cut.left)},${Math.round(cut.top)}..${Math.round(cut.right)},${Math.round(cut.bottom)} is cut off by a box around it`,
         )
       }
     }

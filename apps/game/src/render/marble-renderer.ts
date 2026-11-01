@@ -197,7 +197,7 @@ const BODIES: Record<"white" | "black", Body> = {
   },
 }
 
-const clampByte = (v: number) => (v < 0 ? 0 : v > 255 ? 255 : v)
+const clampByte = (v: number) => Math.min(255, Math.max(0, v))
 
 /** Paints one shaded ball, filling the square edge to edge. */
 function shadeBall(
@@ -227,10 +227,10 @@ function shadeBall(
       const nz = Math.sqrt(1 - d2)
 
       const ndl = dx * KEY.x + dy * KEY.y + nz * KEY.z
-      const diffuse = ndl > 0 ? ndl : 0
+      const diffuse = Math.max(0, ndl)
 
       const ndh = dx * HALF.x + dy * HALF.y + nz * HALF.z
-      const spec = ndh > 0 ? ndh ** body.shine : 0
+      const spec = Math.max(0, ndh) ** body.shine
       // A second, far broader lobe off the same highlight: the sheen a moulded
       // ball has over its whole lit side, which one tight hotspot cannot say.
       const sheen = ndh > 0 ? ndh * ndh * ndh * ndh : 0

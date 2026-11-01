@@ -7,23 +7,23 @@ for the file.
 served. Nothing in here is referenced by the app, so nothing in here can break
 it; it is what you come back to when a shipped file has to be remade.
 
-| | |
-| --- | --- |
-| `assets/avatars/*.svg` | the vector original of each bot's portrait — see [its README](avatars/README.md) for how a WebP is rebuilt from one |
-| `assets/logo.svg` | the mark on its full 1080 canvas. The shipped favicons are the same six paths, cropped |
-| `assets/audio/README.md` | where the two board recordings came from and why they are played the way they are |
+|                          |                                                                                                                     |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `assets/avatars/*.svg`   | the vector original of each bot's portrait — see [its README](avatars/README.md) for how a WebP is rebuilt from one |
+| `assets/logo.svg`        | the mark on its full 1080 canvas. The shipped favicons are the same six paths, cropped                              |
+| `assets/audio/README.md` | where the two board recordings came from and why they are played the way they are                                   |
 
 **`public/`** — what ships. Vite copies this verbatim into `dist/`, so the paths
 below are the URLs, and renaming anything here means finding every reference to
 it by hand.
 
-| | |
-| --- | --- |
-| `public/audio/marble-move.m4a` | marbles sliding one square |
-| `public/audio/marble-fall.m4a` | a marble going over the rim |
-| `public/images/avatars/<id>.webp` | bot portraits, named after the character — `src/i18n/bots.ts` builds the path from the bot's id |
-| `public/favicons/` | the whole icon set: `favicon.ico`, the PNG favicons, the apple-touch and android icons, `favicon-light.svg` and `favicon-dark.svg`, and `pinned-tab.svg` for a Safari pinned tab |
-| `public/_pwa/offline-fallback.html` | what the service worker serves when a navigation misses both the network and the cache (`src/sw.ts` passes the path as `offlineFallbackPath`) |
+|                                     |                                                                                                                                                                                  |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `public/audio/marble-move.m4a`      | marbles sliding one square                                                                                                                                                       |
+| `public/audio/marble-fall.m4a`      | a marble going over the rim                                                                                                                                                      |
+| `public/images/avatars/<id>.webp`   | bot portraits, named after the character — `src/i18n/bots.ts` builds the path from the bot's id                                                                                  |
+| `public/favicons/`                  | the whole icon set: `favicon.ico`, the PNG favicons, the apple-touch and android icons, `favicon-light.svg` and `favicon-dark.svg`, and `pinned-tab.svg` for a Safari pinned tab |
+| `public/_pwa/offline-fallback.html` | what the service worker serves when a navigation misses both the network and the cache (`src/sw.ts` passes the path as `offlineFallbackPath`)                                    |
 
 Both folders are this app's own — `apps/game/assets/` and `apps/game/public/`,
 not the monorepo root's.
