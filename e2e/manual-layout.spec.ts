@@ -492,6 +492,29 @@ test.describe("every width", () => {
   })
 })
 
+// The starting positions intro is the answer to "abalone starting position",
+// a line longer than the rules one, so its budget starts at the 375 phones.
+test("the starting positions CTA ends inside the first screen of a phone", async ({
+  page,
+}) => {
+  for (const viewport of [
+    { width: 375, height: 667 },
+    { width: 375, height: 548 },
+    { width: 390, height: 664 },
+  ]) {
+    await page.setViewportSize(viewport)
+    await openApp(page, "/starting-positions")
+    const cta = page
+      .getByRole("link", { name: "Play against the computer" })
+      .first()
+    const box = await cta.boundingBox()
+    expect(
+      (box?.y ?? Number.POSITIVE_INFINITY) + (box?.height ?? 0),
+      `${viewport.width}x${viewport.height}`,
+    ).toBeLessThanOrEqual(viewport.height)
+  }
+})
+
 test.describe("motion", () => {
   test.skip(
     ({ browserName }) => browserName !== "chromium",

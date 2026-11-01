@@ -19,7 +19,7 @@ const INDEXABLE = {
   "/opening-moves": "Abalone opening moves: a guide for beginners",
   "/play-online": "Play Abalone Online With Friends: Invite by Link",
   "/starting-positions":
-    "Abalone starting positions: standard and daisy layouts",
+    "Abalone Starting Position: Standard, Belgian or German Daisy",
 } as const
 
 // What sitemap.xml lists, and the day each page's text last changed. /offline
@@ -27,8 +27,8 @@ const INDEXABLE = {
 // page that answers "play abalone".
 const SITEMAP = {
   "/": "2026-11-01",
-  "/rules": "2026-11-02",
-  "/strategy": "2026-11-02",
+  "/rules": "2026-11-07",
+  "/strategy": "2026-11-07",
   "/play-online": "2026-11-01",
   "/how-to-play": "2026-11-02",
   "/opening-moves": "2026-11-07",

@@ -125,6 +125,12 @@ function StrategyPage() {
                       className={TEXT_LINK_CLASS}
                     />
                   ),
+                  positions: (
+                    <Link
+                      to="/starting-positions"
+                      className={TEXT_LINK_CLASS}
+                    />
+                  ),
                 }}
               />
             </p>
