@@ -15,7 +15,8 @@
     "biome:fix": "biome check --write .",
     "biome:check": "biome check .",
     "start": "vite preview",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "1.66.0",
@@ -51,6 +52,7 @@
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.1.2",
+    "@vitest/coverage-v8": "4.1.12",
     "happy-dom": "21.0.4",
     "tsx": "4.23.15",
     "vitest": "4.1.12",

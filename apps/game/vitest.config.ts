@@ -13,6 +13,15 @@ export default defineConfig({
     ],
   },
   test: {
+    //v8 here, istanbul in the backend: the backend runs in the workers pool,
+    //which cannot use v8. this suite runs in plain node, so v8 works. report
+    //only, no thresholds: coverage informs, it does not fail the build.
+    coverage: {
+      provider: "v8",
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: ["src/**/*.test.{ts,tsx}", "src/**/*.gen.ts"],
+      reporter: ["text", "json-summary"],
+    },
     //happy-dom because this app's data layer is written for a browser: the
     //backend client reads window.location to resolve its host, and the realtime
     //client wants a WebSocket global to exist. hook tests will want it too.
