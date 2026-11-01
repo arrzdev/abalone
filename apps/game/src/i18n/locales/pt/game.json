@@ -69,6 +69,7 @@
     "move_animations": "Animações de jogada",
     "rotate_board": "Rodar o tabuleiro a cada turno",
     "rotate_board_hint": "Quem joga fica sempre em baixo",
+    "show_coordinates_hint": "Letras e números na borda do tabuleiro",
     "show_eval_bar_hint": "Só contra bots",
     "side_group": "Lado a jogar",
     "side_white": "Jogar com as brancas",

@@ -69,6 +69,7 @@
     "move_animations": "Move animations",
     "rotate_board": "Rotate board each turn",
     "rotate_board_hint": "The side to move stays at the bottom",
+    "show_coordinates_hint": "Letters and numbers along the edge of the board",
     "show_eval_bar_hint": "Bot games only",
     "side_group": "Side to play",
     "side_white": "Play as white",

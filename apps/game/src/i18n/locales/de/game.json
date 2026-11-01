@@ -69,6 +69,7 @@
     "move_animations": "Zuganimationen",
     "rotate_board": "Brett bei jedem Zug drehen",
     "rotate_board_hint": "Die ziehende Seite bleibt immer unten",
+    "show_coordinates_hint": "Buchstaben und Zahlen am Rand des Brettes",
     "show_eval_bar_hint": "Nur in Bot-Partien",
     "side_group": "Zu spielende Seite",
     "side_white": "Weiß spielen",

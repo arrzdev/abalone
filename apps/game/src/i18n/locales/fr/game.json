@@ -69,6 +69,7 @@
     "move_animations": "Animations des coups",
     "rotate_board": "Pivoter le plateau à chaque tour",
     "rotate_board_hint": "Le joueur au trait reste toujours en bas",
+    "show_coordinates_hint": "Lettres et chiffres sur le bord du plateau",
     "show_eval_bar_hint": "Seulement contre les bots",
     "side_group": "Camp à jouer",
     "side_white": "Jouer les blancs",

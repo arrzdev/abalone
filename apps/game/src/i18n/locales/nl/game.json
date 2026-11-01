@@ -69,6 +69,7 @@
     "move_animations": "Zetanimaties",
     "rotate_board": "Bord elke beurt draaien",
     "rotate_board_hint": "De speler aan zet staat altijd onderaan",
+    "show_coordinates_hint": "Letters en cijfers langs de rand van het bord",
     "show_eval_bar_hint": "Alleen tegen bots",
     "side_group": "Te spelen kleur",
     "side_white": "Speel met wit",

@@ -150,7 +150,6 @@ export function DemoBoard() {
         possibleMoves={[]}
         marbleDesign={SHOWCASE_DESIGN}
         boardTheme={SHOWCASE_THEME}
-        showCoordinates={false}
         showLabels={false}
         interactive={false}
         onResize={(width, height) => setBoardSize({ width, height })}
