@@ -409,6 +409,19 @@ for (const viewport of PHONES) {
     test("against the computer the newest move is always shown whole and lit", async ({
       page,
     }) => {
+      // The computer answers at random, and an answer that lands in the way
+      // makes a scripted move illegal. A seeded generator gives it the same
+      // replies on every run.
+      await page.addInitScript(() => {
+        let state = 20240607
+        Math.random = () => {
+          state = (state + 0x6d2b79f5) | 0
+          let mixed = Math.imul(state ^ (state >>> 15), 1 | state)
+          mixed =
+            (mixed + Math.imul(mixed ^ (mixed >>> 7), 61 | mixed)) ^ mixed
+          return ((mixed ^ (mixed >>> 14)) >>> 0) / 4294967296
+        }
+      })
       await startOfflineGame(page, "vs Computer")
 
       let moves = 0
