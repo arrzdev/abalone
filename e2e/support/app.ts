@@ -69,13 +69,37 @@ async function authenticate(
   username: string,
 ): Promise<void> {
   await openApp(page, "/")
-  await page.getByRole("button", { name: "Sign in" }).first().click()
   const form = page.getByRole("dialog")
-  if (mode === "Create account")
-    await form.getByRole("tab", { name: "Create account" }).click()
-  await form.getByLabel("Username").fill(username)
-  await form.getByLabel("Password", { exact: true }).fill(PASSWORD)
-  await form.getByRole("button", { name: mode }).click()
+  // On WebKit in CI the sheet now and then closes by itself after it opened:
+  // the tab press and both fields land in it, and the submit button is gone a
+  // moment later. So the whole form is one step, started over in a sheet opened
+  // again, and a reopen is logged so a sheet that keeps closing still shows.
+  // Nothing is sent until the submit press succeeds, so starting over never
+  // signs the same name up twice.
+  let attempt = 0
+  await expect(async () => {
+    attempt += 1
+    if (attempt > 1)
+      console.warn(
+        `authenticate: sign-in sheet reopened (attempt ${attempt})`,
+      )
+    if (!(await form.isVisible()))
+      await page
+        .getByRole("button", { name: "Sign in" })
+        .first()
+        .click({ timeout: 5_000 })
+    if (mode === "Create account")
+      await form
+        .getByRole("tab", { name: "Create account" })
+        .click({ timeout: 5_000 })
+    await form.getByLabel("Username").fill(username, { timeout: 5_000 })
+    await form
+      .getByLabel("Password", { exact: true })
+      .fill(PASSWORD, { timeout: 5_000 })
+    await form
+      .getByRole("button", { name: mode })
+      .click({ timeout: 5_000 })
+  }).toPass({ timeout: 30_000 })
   // Hashing the password is the slowest request the suite makes, and the
   // local Worker does it for every browser running at once.
   await expect(form).toBeHidden({ timeout: 30_000 })
