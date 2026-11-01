@@ -25,15 +25,16 @@
     "db:check": "drizzle-kit check --config ./src/database/drizzle.config.ts",
     "db:generate": "drizzle-kit generate --config ./src/database/drizzle.config.ts",
     "migrate:local": "pnpm run db:generate && wrangler d1 migrations apply abalone-backend-db-dev --local",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@hono/zod-validator": "0.9.1",
     "@repo/abalone-engine": "workspace:*",
     "@repo/dev": "workspace:*",
-    "better-auth": "1.7.11",
     "@repo/env-validation": "workspace:*",
     "@repo/shared": "workspace:*",
+    "better-auth": "1.7.11",
     "drizzle-orm": "0.45.4",
     "hono": "4.13.13",
     "zod": "4.6.7"
@@ -42,6 +43,7 @@
     "@cloudflare/vitest-pool-workers": "0.23.0",
     "@cloudflare/workers-types": "4.20260317.1",
     "@types/node": "22.19.17",
+    "@vitest/coverage-istanbul": "4.1.12",
     "drizzle-kit": "0.31.11",
     "tsx": "4.23.15",
     "vitest": "4.1.12",

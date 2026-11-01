@@ -64,7 +64,7 @@ Import them; never copy the measuring code into a spec. Grep `e2e/support/` for 
 
 ## Coverage
 
-Turbo declares a `test:coverage` task, but **no member defines the script yet**. Add `"test:coverage": "vitest run --coverage"` to the member you want, then `pnpm exec turbo run test:coverage --filter=<member>...`.
+Turbo declares a `test:coverage` task. `@repo/backend` defines it: `pnpm --filter @repo/backend test:coverage` prints a per-file table and writes `coverage/coverage-summary.json`. The provider is **istanbul**, not v8: tests run inside workerd, which has no V8 inspector for v8 coverage. Keep `@vitest/coverage-istanbul` on the exact version `vitest` resolves to, or vitest warns about mixed versions. Another member: add `"test:coverage": "vitest run --coverage"` and a provider, then `pnpm exec turbo run test:coverage --filter=<member>...`.
 
 ## Commands
 
@@ -74,4 +74,4 @@ Turbo declares a `test:coverage` task, but **no member defines the script yet**.
 | One member | `pnpm --filter @repo/<member> test` |
 | Backend only | `pnpm exec turbo run test --filter=@repo/backend...` |
 | E2E | `pnpm test:e2e` |
-| Coverage (once scripted) | `pnpm exec turbo run test:coverage --filter=<member>...` |
+| Coverage (backend) | `pnpm --filter @repo/backend test:coverage` |
