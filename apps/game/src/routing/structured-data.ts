@@ -1,3 +1,4 @@
+import enCommon from "@/i18n/locales/en/common.json"
 import enGame from "@/i18n/locales/en/game.json"
 import type { IndexablePath, SeoPage } from "@/routing/seo-pages"
 import { siteUrl } from "@/utils/site"
@@ -154,7 +155,11 @@ export function structuredDataScripts(
   path: IndexablePath,
   page: SeoPage,
 ): StructuredDataScript[] {
-  if (path === "/") return [toScript(videoGame())]
+  if (path === "/")
+    return [
+      toScript(videoGame()),
+      toScript(faqPage(enCommon.home.faq.items)),
+    ]
   if (path === "/rules")
     return [
       toScript(rulesHowTo()),

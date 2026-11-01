@@ -30,12 +30,12 @@ const FAQ = [
     "Yes. Playing online costs nothing. You need a free account.",
   ],
   [
-    "Do I need to sign up?",
-    "Yes, online games need an account, a username and a password. To play without one, play the computer or pass and play.",
+    "Do I need an account to play Abalone?",
+    "No, not to play the computer or to pass the device between two players. Those modes start instantly with no sign-up. You only need a free account to play a friend online, because online games and invites are tied to a username.",
   ],
   [
-    "How do I play Abalone with a friend?",
-    "Make an invite link from the Online page and send it. They accept and the game starts. You can also invite a friend by username.",
+    "How do I play Abalone online with a friend?",
+    "Create a free account, then start a new online game and invite your friend by username or send them an invite link. The game begins when they open it and accept. You can also play on one device by passing it back and forth.",
   ],
   [
     "Is the invite link private?",
@@ -132,9 +132,6 @@ test.describe("served HTML", () => {
   }) => {
     const html = await servedHtml(request, PATH)
 
-    expect(html).toMatch(
-      linkPattern("/offline", "play the computer or pass and play"),
-    )
     expect(html).toMatch(linkPattern("/rules", "Abalone rules"))
     expect(html).toMatch(linkPattern("/strategy", "Abalone strategy tips"))
     expect(

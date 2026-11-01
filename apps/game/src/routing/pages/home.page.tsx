@@ -1,5 +1,6 @@
-import { Screen } from "@repo/nativ/components"
+import { Screen, ScrollView } from "@repo/nativ/components"
 import { createFileRoute } from "@tanstack/react-router"
+import { HomeFaq } from "@/components/home/home-faq"
 import { PlayPoster } from "@/components/home/play-poster"
 import { routeLanguage } from "@/routing/route-language"
 import { seoPageHead } from "@/routing/seo-pages"
@@ -17,7 +18,9 @@ export const Route = createFileRoute("/_shell/")({
  * home into a dashboard: a player who had not signed in met an advertisement,
  * and one who had met a list of chores.
  *
- * It does not scroll. A poster that scrolls is a page.
+ * The poster does not scroll: it fills the first screen exactly, and the FAQ
+ * sits below it, a scroll away. A poster that scrolls is a page; a poster with
+ * a page under it is a front door.
  */
 function HomePage() {
   return (
@@ -25,7 +28,17 @@ function HomePage() {
       {/* Its own layer, not a class on the column: the texture is masked, and
           a mask on the column would fade the hero out with it. */}
       <div className="hex-texture pointer-events-none absolute inset-0" />
-      <PlayPoster />
+      {/* The scroller is a size container so the poster can take exactly its
+          height (100cqh), and be the same first screen it was before the FAQ. */}
+      <ScrollView className="relative [container-type:size]">
+        <div
+          data-home-poster
+          className="flex h-[100cqh] shrink-0 flex-col"
+        >
+          <PlayPoster />
+        </div>
+        <HomeFaq />
+      </ScrollView>
     </Screen>
   )
 }
