@@ -18,6 +18,8 @@ import {
 import { useApiError } from "@/hooks/use-api-error"
 import { useAuth } from "@/providers/auth-provider"
 import { useRealtime } from "@/providers/realtime-provider"
+import type { RecentOpponent } from "@/utils/recent-opponents"
+import { recentOpponentsOf } from "@/utils/recent-opponents"
 import type { SyncState } from "@/utils/sync-state"
 import { syncStateOf } from "@/utils/sync-state"
 
@@ -33,6 +35,12 @@ export type OnlineHome = {
   /** Which row action is in flight, so that one button can show it is waiting. */
   pendingInvite: PendingInvite | null
   isSending: boolean
+  /**
+   * The people this player has played lately, for the composer to offer by
+   * face. `undefined` while the games are still on their way; empty when there
+   * are none, or when the games could not be read.
+   */
+  recentOpponents: RecentOpponent[] | undefined
   /** How current the lists are. See `SyncState`. */
   sync: SyncState
   /** Whatever the last list or row action said, already translated. */
@@ -126,6 +134,20 @@ export function useOnlineHome(queryClient: QueryClient): OnlineHome {
     }
   }, [invites.data, myUserId])
 
+  //the same two lists, read for names. a list that failed offers nobody
+  //rather than a spinner that never ends: typing a name works without it
+  const activeData = activeGames.data
+  const finishedData = finishedGames.data
+  const gamesFailed = Boolean(activeGames.error || finishedGames.error)
+  const recentOpponents = useMemo(() => {
+    if (!myUserId) return undefined
+    if (!activeData && !finishedData) return gamesFailed ? [] : undefined
+    return recentOpponentsOf(
+      [...(activeData ?? []), ...(finishedData ?? [])],
+      myUserId,
+    )
+  }, [activeData, finishedData, gamesFailed, myUserId])
+
   //one slot for the whole screen: only one of these can have just failed, and
   //four error lines stacked down the page would be four ways of saying it
   const failure =
@@ -149,6 +171,7 @@ export function useOnlineHome(queryClient: QueryClient): OnlineHome {
     isBusy: accept.isPending || decline.isPending || remove.isPending,
     pendingInvite: pendingInviteOf({ accept, decline, remove }),
     isSending: send.isPending,
+    recentOpponents,
     sync,
     error: failure ? translateError(failure) : undefined,
     composeError: send.error ? translateError(send.error) : undefined,
