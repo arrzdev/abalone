@@ -111,9 +111,13 @@ function linesOverflow(card: Locator): Promise<boolean> {
 /** The room the board is given on a phone: its size container, padding off. */
 function boardSlotHeight(page: Page): Promise<number> {
   return page.evaluate(() => {
+    //the last one: the page's scroller is a size container too, and holds
+    //the poster, so it comes first
     const slot = [
       ...document.querySelectorAll<HTMLElement>("main div"),
-    ].find((element) => getComputedStyle(element).containerType === "size")
+    ].findLast(
+      (element) => getComputedStyle(element).containerType === "size",
+    )
     if (slot === undefined) throw new Error("no board slot")
     const style = getComputedStyle(slot)
     return (
@@ -259,7 +263,9 @@ for (const viewport of VIEWPORTS) {
     test("no sideways scroll and no text cut short", async ({ page }) => {
       await openApp(page, "/")
       expect(await hasSidewaysScroll(page)).toBe(false)
-      await expectNoClippedText(page.getByRole("main"))
+      //the poster only: the FAQ under it is a scroll away, and a scroller
+      //clips what it has not scrolled to
+      await expectNoClippedText(page.locator("[data-home-poster]"))
     })
   })
 }
