@@ -60,6 +60,10 @@ export default defineConfig({
         "src/database/**",
       ],
       reporter: ["text", "json-summary"],
+      //floors a couple of points under today's numbers, so ordinary churn
+      //passes but a change that ships untested code fails. the CI gate runs
+      //this script, so a local test:coverage fails the same way
+      thresholds: { lines: 93, branches: 82 },
     },
   },
 })
