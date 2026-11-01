@@ -127,8 +127,8 @@ describe("coordinateLabels", () => {
     const texts = coordinateLabels(DESKTOP, false).map(
       (label) => label.text,
     )
-    expect(texts.toSorted()).toEqual(
-      [..."abcdefghi", ..."123456789"].toSorted(),
+    expect([...texts].sort()).toEqual(
+      [..."abcdefghi", ..."123456789"].sort(),
     )
   })
 

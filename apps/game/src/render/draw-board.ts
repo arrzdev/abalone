@@ -10,7 +10,7 @@ import type {
   Point,
 } from "@repo/abalone-engine/types"
 import { boardPalette } from "@/render/board-themes"
-import { cellFromPoint, hexCenter, STEP } from "@/render/hex-grid"
+import { hexCenter, STEP } from "@/render/hex-grid"
 import { renderMarble, renderMarbleShadow } from "@/render/marble-renderer"
 
 /**
@@ -61,7 +61,6 @@ export type DrawBoardOptions = {
   marbleDesign?: string
   /** A name from `BOARD_THEMES`; anything else paints Slate. */
   boardTheme?: string
-  showCoordinates?: boolean
   /**
    * The rank and file down the edges. On by default, and off for a board that
    * is not being played on — a poster, a setup preview, the pregame position.
@@ -116,6 +115,9 @@ const LABEL_FACE = "'Segoe UI', Tahoma, Verdana, sans-serif"
  * within a couple of counts of halfway.
  */
 const LABEL_WEIGHT = 0.035
+
+/** Below this a letter stops being legible, so a small board keeps it. */
+const MIN_LABEL_SIZE = 10
 
 /** Walks every square of the board, column by column. */
 function forEachCell(callback: (r: number, q: number) => void): void {
@@ -204,19 +206,20 @@ export type CoordinateLabel = {
 /** Where each rank and file label sits, and how big it is set. */
 export function coordinateLabels(
   view: BoardView,
-  // TUD-3669: not read yet. The labels still keep to the screen when the board
-  // turns, which is the bug the tests next to this pin.
-  _flip: boolean,
+  flip: boolean,
 ): CoordinateLabel[] {
   const { centerX, centerY, radius, spacing } = view
-  const size = radius * 0.44
-  const distance = radius * 1.2
+  const size = Math.max(radius * 0.44, MIN_LABEL_SIZE)
+  // The labels turn with the squares: a board seen from the other side has
+  // the letters down the right edge and the numbers along the top. The glyphs
+  // themselves stay upright.
+  const distance = flip ? -radius * 1.2 : radius * 1.2
   const labels: CoordinateLabel[] = []
 
-  // Row letters a–i down the left edge. Labels intentionally do not flip.
+  // Row letters a–i down the left edge.
   for (let r = 4; r >= -4; r--) {
     const q = Math.max(-4, -r - 4)
-    const pos = hexCenter(r, q, centerX, centerY, spacing)
+    const pos = hexCenter(r, q, centerX, centerY, spacing, flip)
     labels.push({
       text: ROW_LABELS[4 - r],
       x: pos.x - distance,
@@ -228,7 +231,7 @@ export function coordinateLabels(
   // Column numbers 1–9 along the bottom.
   for (let q = -4; q <= 4; q++) {
     const r = Math.min(4, -q + 4)
-    const pos = hexCenter(r, q, centerX, centerY, spacing)
+    const pos = hexCenter(r, q, centerX, centerY, spacing, flip)
     labels.push({
       text: String(q + 5),
       x: pos.x + distance / 2,
@@ -247,7 +250,8 @@ export function labelColours(
   const palette = boardPalette(boardTheme)
   return {
     board: reviewing ? COLORS.reviewing : palette.board,
-    ink: palette.ink,
+    // The slate ink would sit at under 4.5:1 on the red of a past position.
+    ink: reviewing ? "#fff" : palette.ink,
   }
 }
 
@@ -660,7 +664,6 @@ export function drawBoard(
     possibleMoves = [],
     marbleDesign = "default",
     boardTheme,
-    showCoordinates = false,
     showLabels = true,
     reviewing = false,
     animation = null,
@@ -845,29 +848,5 @@ export function drawBoard(
     ctx.lineWidth = baseLineWidth * 1.5
     ctx.strokeStyle = COLORS.focus
     ctx.stroke()
-  }
-
-  // Pass 3: coordinate overlay on top of the marbles.
-  if (showCoordinates) {
-    forEachCell((r, q) => {
-      const pos = hexCenter(r, q, centerX, centerY, spacing, flip)
-      const coordKey = `${r},${q}`
-      const marbleColor = state.black.has(coordKey)
-        ? COLORS.black
-        : state.white.has(coordKey)
-          ? COLORS.white
-          : null
-
-      const coords = cellFromPoint(pos.x, pos.y, centerX, centerY, spacing)
-      if (!coords) return
-
-      ctx.save()
-      ctx.font = `${radius * 0.25}px Arial`
-      ctx.fillStyle = marbleColor === COLORS.black ? "#fff" : "#000"
-      ctx.textAlign = "center"
-      ctx.textBaseline = "middle"
-      ctx.fillText(`${coords[0]},${coords[1]}`, pos.x, pos.y)
-      ctx.restore()
-    })
   }
 }
