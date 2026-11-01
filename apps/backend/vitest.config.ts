@@ -50,5 +50,16 @@ export default defineConfig({
   test: {
     include: ["src/**/*.test.ts"],
     setupFiles: ["./src/test-support/apply-migrations.ts"],
+    //istanbul because the Workers runtime has no V8 inspector for v8 coverage
+    coverage: {
+      provider: "istanbul",
+      include: ["src/**/*.ts"],
+      exclude: [
+        "src/**/*.test.ts",
+        "src/test-support/**",
+        "src/database/**",
+      ],
+      reporter: ["text", "json-summary"],
+    },
   },
 })
