@@ -162,8 +162,10 @@ export async function startOnlineGame(
     .click()
   const composer = hostPage.getByRole("dialog")
   await composer.getByLabel("Opponent", { exact: true }).fill(guestName)
-  await composer.getByRole("radio", { name: "Play as black" }).click()
-  await composer.getByRole("button", { name: "Send invite" }).click()
+  await chooseInviteSide(composer, "black")
+  await composer
+    .getByRole("button", { name: `Invite ${guestName}` })
+    .click()
   await expect(composer).toBeHidden()
 
   // The guest accepts, which opens the game.

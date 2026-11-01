@@ -234,12 +234,21 @@ test.describe(`on a ${SMALLEST_PHONE.width}x${SMALLEST_PHONE.height} phone`, () 
       expect((box?.y ?? 0) + (box?.height ?? 0)).toBeLessThanOrEqual(
         SMALLEST_PHONE.height,
       )
-      // typing scrolled the body; what is cut off is read from the top of it
-      await composer.getByRole("textbox").evaluate((field) => {
-        for (let up = field.parentElement; up; up = up.parentElement) {
-          if (up.scrollHeight > up.clientHeight) up.scrollTop = 0
-        }
-      })
+      // typing moved the body under the keyboard; what is cut off is read from
+      // the top of it, once the field is let go and the sheet is back at rest
+      const field = composer.getByRole("textbox")
+      await field.blur()
+      await waitForRest(composer)
+      await expect
+        .poll(async () => {
+          await field.evaluate((input) => {
+            for (let up = input.parentElement; up; up = up.parentElement) {
+              if (up.scrollHeight > up.clientHeight) up.scrollTop = 0
+            }
+          })
+          return (await field.boundingBox())?.y ?? -1
+        })
+        .toBeGreaterThanOrEqual(0)
       await expectNoClippedText(composer)
     })
   }
