@@ -61,9 +61,25 @@ function h2ById(html: string, id: string): string {
 test("home is a VideoGame on the canonical URL", async ({ request }) => {
   const { blocks } = await served(request, "/")
 
-  expect(blocks).toHaveLength(1)
+  expect(blocks).toHaveLength(2)
   expect(blocks[0]["@type"]).toBe("VideoGame")
   expect(blocks[0].url).toBe(`${ORIGIN}/`)
+})
+
+test("home is also a FAQPage that says what its FAQ section says", async ({
+  request,
+}) => {
+  const { html, blocks } = await served(request, "/")
+
+  const faq = blocks.find((block) => block["@type"] === "FAQPage")
+  const text = visibleText(html)
+  const questions = (faq?.mainEntity ?? []) as Json[]
+  expect(questions).toHaveLength(4)
+  for (const question of questions) {
+    const answer = question.acceptedAnswer as Json
+    expect(text).toContain(question.name as string)
+    expect(text).toContain(answer.text as string)
+  }
 })
 
 test("rules is a HowTo whose steps are sections on the page", async ({

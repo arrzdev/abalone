@@ -31,7 +31,10 @@ function HomePage() {
       {/* The scroller is a size container so the poster can take exactly its
           height (100cqh), and be the same first screen it was before the FAQ. */}
       <ScrollView className="relative [container-type:size]">
-        <div data-home-poster className="flex h-[100cqh] flex-col">
+        <div
+          data-home-poster
+          className="flex h-[100cqh] shrink-0 flex-col"
+        >
           <PlayPoster />
         </div>
         <HomeFaq />

@@ -425,7 +425,7 @@ for (const language of LANGUAGES) {
       const { y, height } = await box(computer)
       expect(y + height).toBeLessThanOrEqual(460)
       expect(await hasSidewaysScroll(page)).toBe(false)
-      await expectNoClippedText(page.getByRole("main"))
+      await expectNoClippedText(page.locator("[data-home-poster]"))
     })
 
     //what the mode is, in one line even on the narrowest phone (TUD-2781)

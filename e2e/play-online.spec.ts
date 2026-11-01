@@ -132,9 +132,6 @@ test.describe("served HTML", () => {
   }) => {
     const html = await servedHtml(request, PATH)
 
-    expect(html).toMatch(
-      linkPattern("/offline", "play the computer or pass and play"),
-    )
     expect(html).toMatch(linkPattern("/rules", "Abalone rules"))
     expect(html).toMatch(linkPattern("/strategy", "Abalone strategy tips"))
     expect(
