@@ -5,6 +5,7 @@ import {
   BOARD_THEMES,
   boardPalette,
 } from "@/render/board-themes"
+import { labelColours } from "@/render/draw-board"
 
 /** WCAG 2.x relative luminance of a `#rgb` or `#rrggbb` colour. */
 function luminance(hex: string): number {
@@ -60,6 +61,16 @@ describe("board themes", () => {
       const { board, ring } = BOARD_THEMES[name]
       expect(contrast(ring, board)).toBeGreaterThanOrEqual(3)
     })
+  }
+
+  //a past position paints the board red; the labels have to stay text on it
+  for (const name of BOARD_THEME_NAMES) {
+    for (const reviewing of [false, true]) {
+      it(`${name}${reviewing ? ", reviewing a past move" : ""}: the labels clear 4.5:1 on the board under them`, () => {
+        const { board, ink } = labelColours(name, reviewing)
+        expect(contrast(ink, board)).toBeGreaterThanOrEqual(4.5)
+      })
+    }
   }
 
   it("paints anything it does not know as Slate", () => {

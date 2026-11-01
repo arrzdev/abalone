@@ -52,9 +52,14 @@ function useBooleanPreference(key: string, fallback: boolean) {
   )
 }
 
-/** Row letters and column numbers around the board. */
-export function useShowCoordinates() {
-  return useBooleanPreference("showCoordinates", false)
+/**
+ * The row letters and column numbers along the edge of a board in play.
+ *
+ * A new key: the old "showCoordinates" switched on a debug pair in every
+ * square and defaulted to off, so what it saved says nothing about this.
+ */
+export function useShowBoardLabels() {
+  return useBooleanPreference("showBoardLabels", true)
 }
 
 /** The bar down the side of the board, reading out who is ahead. */

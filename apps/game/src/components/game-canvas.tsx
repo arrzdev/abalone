@@ -81,7 +81,6 @@ export type GameCanvasProps = {
    * is part of a page's look rather than a game passes one.
    */
   boardTheme?: BoardTheme
-  showCoordinates?: boolean
   /** The rank and file down the edges. Off for a board nobody plays on. */
   showLabels?: boolean
   notice?: string | null
@@ -231,7 +230,6 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       possibleMoves,
       marbleDesign,
       boardTheme,
-      showCoordinates,
       showLabels,
       notice = null,
       noticeAction = null,
@@ -280,7 +278,6 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       possibleMoves,
       marbleDesign,
       theme,
-      showCoordinates,
       showLabels,
       reviewing: Boolean(notice),
       focusCell: keyboardFocus ? focusCell : null,
@@ -393,7 +390,6 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         possibleMoves: moves,
         marbleDesign: design,
         theme: paint,
-        showCoordinates: coords,
         showLabels: labels,
         reviewing,
         focusCell: focused,
@@ -413,7 +409,6 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         possibleMoves: moves,
         marbleDesign: design,
         boardTheme: paint,
-        showCoordinates: coords,
         showLabels: labels,
         reviewing,
         animation,
@@ -521,7 +516,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       possibleMoves,
       marbleDesign,
       theme,
-      showCoordinates,
+      showLabels,
       notice,
       focusCell,
       keyboardFocus,

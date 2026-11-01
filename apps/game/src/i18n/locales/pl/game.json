@@ -69,6 +69,7 @@
     "move_animations": "Animacje ruchów",
     "rotate_board": "Obracaj planszę co turę",
     "rotate_board_hint": "Gracz na ruchu zawsze na dole",
+    "show_coordinates_hint": "Litery i cyfry wzdłuż krawędzi planszy",
     "show_eval_bar_hint": "Tylko w grach z botami",
     "side_group": "Strona do gry",
     "side_white": "Graj białymi",

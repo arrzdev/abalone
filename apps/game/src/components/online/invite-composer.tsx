@@ -152,7 +152,6 @@ export function InviteComposer({
                 state={preview}
                 possibleMoves={[]}
                 marbleDesign={marbleDesign}
-                showCoordinates={false}
                 showLabels={false}
                 interactive={false}
               />

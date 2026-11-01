@@ -69,6 +69,7 @@
     "move_animations": "移動アニメーション",
     "rotate_board": "手番ごとに盤を回転",
     "rotate_board_hint": "手番の側がつねに手前になります",
+    "show_coordinates_hint": "盤のふちに文字と数字を表示",
     "show_eval_bar_hint": "ボット対戦のみ",
     "side_group": "使用する側",
     "side_white": "白でプレイ",

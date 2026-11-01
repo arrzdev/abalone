@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/subpage-header"
 import { SyncNotice } from "@/components/ui/sync-notice"
 import { TapButton } from "@/components/ui/tap-button"
-import { useShowCoordinates } from "@/hooks/use-app-preferences"
+import { useShowBoardLabels } from "@/hooks/use-app-preferences"
 import { usePanelFloor } from "@/hooks/use-compact-panel"
 import { useHeadToHead } from "@/hooks/use-head-to-head"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
@@ -70,7 +70,7 @@ function GameOnlineBoardPage() {
   const [resignOpen, setResignOpen] = useState(false)
   const [resultOpen, setResultOpen] = useState(false)
   const [marbleDesign] = useMarbleDesign()
-  const [showCoordinates] = useShowCoordinates()
+  const [showBoardLabels] = useShowBoardLabels()
 
   //what the canvas last sized itself to. the board is letterboxed into the box
   //it is given, so nothing around it can work its size out from the layout.
@@ -267,7 +267,7 @@ function GameOnlineBoardPage() {
                 state={state}
                 possibleMoves={online.possibleMoves}
                 marbleDesign={marbleDesign}
-                showCoordinates={showCoordinates}
+                showLabels={showBoardLabels}
                 notice={online.viewingHistory ? historyNotice : null}
                 noticeAction={t("game:controls.jump_to_latest")}
                 onReturnToLatest={online.goToLatestMove}

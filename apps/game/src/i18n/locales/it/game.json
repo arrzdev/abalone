@@ -69,6 +69,7 @@
     "move_animations": "Animazioni delle mosse",
     "rotate_board": "Ruota il tabellone a ogni turno",
     "rotate_board_hint": "Chi muove resta sempre in basso",
+    "show_coordinates_hint": "Lettere e numeri lungo il bordo della scacchiera",
     "show_eval_bar_hint": "Solo contro i bot",
     "side_group": "Lato con cui giocare",
     "side_white": "Gioca con il bianco",

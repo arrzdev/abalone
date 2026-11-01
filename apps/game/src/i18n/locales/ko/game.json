@@ -69,6 +69,7 @@
     "move_animations": "이동 애니메이션",
     "rotate_board": "턴마다 보드 회전",
     "rotate_board_hint": "둘 차례인 쪽이 항상 아래에 옵니다",
+    "show_coordinates_hint": "판 가장자리에 글자와 숫자 표시",
     "show_eval_bar_hint": "봇 대국만",
     "side_group": "플레이할 색",
     "side_white": "백으로 두기",

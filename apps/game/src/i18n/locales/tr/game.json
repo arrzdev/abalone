@@ -69,6 +69,7 @@
     "move_animations": "Hamle animasyonları",
     "rotate_board": "Her turda tahtayı döndür",
     "rotate_board_hint": "Hamle sırası olan taraf hep altta",
+    "show_coordinates_hint": "Tahtanın kenarında harfler ve sayılar",
     "show_eval_bar_hint": "Yalnızca botlara karşı",
     "side_group": "Oynanacak taraf",
     "side_white": "Beyazlarla oyna",

@@ -69,6 +69,7 @@
     "move_animations": "走子动画",
     "rotate_board": "每回合旋转棋盘",
     "rotate_board_hint": "走子的一方始终在下方",
+    "show_coordinates_hint": "在棋盘边缘显示字母和数字",
     "show_eval_bar_hint": "仅人机对局",
     "side_group": "执子颜色",
     "side_white": "执白",

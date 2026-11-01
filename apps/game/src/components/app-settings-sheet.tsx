@@ -9,7 +9,7 @@ import { VolumeSlider } from "@/components/ui/volume-slider"
 import {
   useAnimationsEnabled,
   useAutoRotateBoard,
-  useShowCoordinates,
+  useShowBoardLabels,
   useShowEvalBar,
   useSoundPreferences,
 } from "@/hooks/use-app-preferences"
@@ -48,7 +48,7 @@ export function AppSettingsSheet({
   const [boardTheme, setBoardTheme] = useBoardTheme()
   const themeHintId = useId()
   const [animationsEnabled, setAnimationsEnabled] = useAnimationsEnabled()
-  const [showCoordinates, setShowCoordinates] = useShowCoordinates()
+  const [showBoardLabels, setShowBoardLabels] = useShowBoardLabels()
   const [showEvalBar, setShowEvalBar] = useShowEvalBar()
   const [autoRotate, setAutoRotate] = useAutoRotateBoard()
   const sound = useSoundPreferences()
@@ -109,8 +109,9 @@ export function AppSettingsSheet({
 
           <Toggle
             label={t("game:controls.show_coordinates")}
-            checked={showCoordinates}
-            onChange={setShowCoordinates}
+            description={t("game:controls.show_coordinates_hint")}
+            checked={showBoardLabels}
+            onChange={setShowBoardLabels}
           />
 
           {/* Both of these apply to one mode each and are shown in every one.

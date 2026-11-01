@@ -69,6 +69,7 @@
     "move_animations": "चाल एनिमेशन",
     "rotate_board": "हर बारी पर बोर्ड घुमाएँ",
     "rotate_board_hint": "चाल चलने वाला हमेशा नीचे रहता है",
+    "show_coordinates_hint": "बोर्ड के किनारे अक्षर और संख्याएँ",
     "show_eval_bar_hint": "केवल बॉट के विरुद्ध",
     "side_group": "खेलने का पक्ष",
     "side_white": "सफेद से खेलें",

@@ -212,7 +212,7 @@ function GameOfflinePage() {
     setupType,
     gameOverModalOpen,
     marbleDesign,
-    showCoordinates,
+    showBoardLabels,
     showEvalBar,
     localNames,
   } = game
@@ -574,8 +574,7 @@ function GameOfflinePage() {
                 // Never in pregame — that board is a viewer for the starting
                 // position, and the settings that belong to a game in progress
                 // leave it alone. Same rule as the evaluation bar below.
-                showCoordinates={showCoordinates && !isPregame}
-                showLabels={!isPregame}
+                showLabels={showBoardLabels && !isPregame}
                 notice={viewingHistory ? historyNotice : null}
                 noticeAction={t("game:controls.jump_to_latest")}
                 onReturnToLatest={game.goToLatestMove}
@@ -729,7 +728,6 @@ function GameOfflinePage() {
                     state={state}
                     possibleMoves={EMPTY_MOVES}
                     marbleDesign={marbleDesign}
-                    showCoordinates={false}
                     showLabels={false}
                     interactive={false}
                   />

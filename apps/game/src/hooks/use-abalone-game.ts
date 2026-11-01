@@ -35,7 +35,7 @@ import { reportGameEvent } from "@/data/game-events/report"
 import {
   useAnimationsEnabled,
   useAutoRotateBoard,
-  useShowCoordinates,
+  useShowBoardLabels,
   useShowEvalBar,
 } from "@/hooks/use-app-preferences"
 import { isBesideBoard } from "@/hooks/use-beside-board"
@@ -173,7 +173,7 @@ export function useAbaloneGame(
   // Read, never written: the settings sheet in the app header is the one place
   // any of these is changed, and a write from here would be a second one.
   const [marbleDesign] = useMarbleDesign()
-  const [showCoordinates] = useShowCoordinates()
+  const [showBoardLabels] = useShowBoardLabels()
   const [showEvalBar] = useShowEvalBar()
   const [animationsEnabled] = useAnimationsEnabled()
   const [autoRotate] = useAutoRotateBoard()
@@ -843,7 +843,7 @@ export function useAbaloneGame(
 
     // display preferences, read-only — the settings sheet owns the writes
     marbleDesign,
-    showCoordinates,
+    showBoardLabels,
     showEvalBar,
     animationsEnabled,
     autoRotate,
