@@ -83,12 +83,12 @@ No source file changes.
 
 ## Routing map
 
-| Hostname / path | Served by |
-|---|---|
-| `<domain>` | website worker (owns the custom domain) |
-| `<domain>/api/*` | this worker, through a Worker route |
-| `staging.<domain>` | website worker, staging |
-| `staging.<domain>/api/*` | this worker, `[env.staging]` route |
+| Hostname / path          | Served by                               |
+| ------------------------ | --------------------------------------- |
+| `<domain>`               | website worker (owns the custom domain) |
+| `<domain>/api/*`         | this worker, through a Worker route     |
+| `staging.<domain>`       | website worker, staging                 |
+| `staging.<domain>/api/*` | this worker, `[env.staging]` route      |
 
 - A Worker route beats a custom domain on the same hostname, so the API takes
   `/api/*` and the website keeps everything else. The browser calls the API

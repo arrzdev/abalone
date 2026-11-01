@@ -11,17 +11,17 @@ D1 table `invite_links`, separate from `invites`: `invites.to_user_id` is
 `NOT NULL`, and changing that in SQLite is a table rebuild. A new table is an
 expand-only migration.
 
-| Column | Holds |
-|---|---|
-| `id` | the token, and the secret in the URL: 32 random bytes (`crypto.getRandomValues`), base64url, no padding, 43 characters |
-| `from_user_id` | the inviter, FK `user.id`, cascade on delete |
-| `setup_type` | the board setup the inviter picked |
-| `side` | `black`, `white` or `random`, for the inviter |
-| `expires_at` | epoch ms, `created_at` + 7 days |
-| `used_at` | epoch ms, null until accepted |
-| `used_by_user_id` | the player who accepted, nullable FK `user.id` |
-| `game_id` | the game it opened, nullable |
-| `created_at` | epoch ms |
+| Column            | Holds                                                                                                                  |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `id`              | the token, and the secret in the URL: 32 random bytes (`crypto.getRandomValues`), base64url, no padding, 43 characters |
+| `from_user_id`    | the inviter, FK `user.id`, cascade on delete                                                                           |
+| `setup_type`      | the board setup the inviter picked                                                                                     |
+| `side`            | `black`, `white` or `random`, for the inviter                                                                          |
+| `expires_at`      | epoch ms, `created_at` + 7 days                                                                                        |
+| `used_at`         | epoch ms, null until accepted                                                                                          |
+| `used_by_user_id` | the player who accepted, nullable FK `user.id`                                                                         |
+| `game_id`         | the game it opened, nullable                                                                                           |
+| `created_at`      | epoch ms                                                                                                               |
 
 Index on `from_user_id`. `games` does not change: a game opened from a link
 stores the link id in `games.invite_id`, which has no FK and is unique.
@@ -30,21 +30,21 @@ stores the link id in `games.invite_id`, which has no FK and is unique.
 
 All under `/api/v1`. Errors use the standard envelope.
 
-| Route | Auth | Answers |
-|---|---|---|
-| `POST /invite-links` `{ setupType, side }` | yes | `201 { url, expiresAt }`. `url` is `<origin>/invite/<id>`, where origin is the request's `Origin` when it is in `FRONTEND_URLS`, else the first entry |
-| `GET /invite-links/:id` | no | `200 { inviterName, state }`, state `open`, `used` or `expired`. Nothing else: no user id, terms, dates or game |
-| `POST /invite-links/:id/accept` | yes | `201 { gameId }`; `200 { gameId }` with the same game when the player who already used it asks again |
+| Route                                      | Auth | Answers                                                                                                                                               |
+| ------------------------------------------ | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `POST /invite-links` `{ setupType, side }` | yes  | `201 { url, expiresAt }`. `url` is `<origin>/invite/<id>`, where origin is the request's `Origin` when it is in `FRONTEND_URLS`, else the first entry |
+| `GET /invite-links/:id`                    | no   | `200 { inviterName, state }`, state `open`, `used` or `expired`. Nothing else: no user id, terms, dates or game                                       |
+| `POST /invite-links/:id/accept`            | yes  | `201 { gameId }`; `200 { gameId }` with the same game when the player who already used it asks again                                                  |
 
-| Code | Status | When |
-|---|---|---|
-| `unauthorized` | 401 | create or accept signed out |
-| `invalid_input` | 400 | bad terms, or a malformed id |
-| `not_found` | 404 | no link with that id |
-| `invite_link_own` | 400 | the inviter accepts their own link. The link stays open |
-| `invite_link_used` | 409 | someone else already accepted it |
-| `invite_link_expired` | 410 | past `expires_at` and never used |
-| `rate_limit_exceeded` | 429 | more than 20 creates or 20 accepts a minute from one IP (preset `invite-link`); the public read uses `api` |
+| Code                  | Status | When                                                                                                       |
+| --------------------- | ------ | ---------------------------------------------------------------------------------------------------------- |
+| `unauthorized`        | 401    | create or accept signed out                                                                                |
+| `invalid_input`       | 400    | bad terms, or a malformed id                                                                               |
+| `not_found`           | 404    | no link with that id                                                                                       |
+| `invite_link_own`     | 400    | the inviter accepts their own link. The link stays open                                                    |
+| `invite_link_used`    | 409    | someone else already accepted it                                                                           |
+| `invite_link_expired` | 410    | past `expires_at` and never used                                                                           |
+| `rate_limit_exceeded` | 429    | more than 20 creates or 20 accepts a minute from one IP (preset `invite-link`); the public read uses `api` |
 
 `inviterName` is the inviter's `displayUsername`, falling back to `username`.
 
@@ -159,10 +159,10 @@ not from Start's server entry) wraps Start's handler:
 4. `serveInvitePage({ linkId, shell, readLink })`
    (`apps/game/src/server/invite-page.ts`) rewrites the head:
 
-| Link | `<title>`, `og:title`, `twitter:title` | description (all three) | image |
-|---|---|---|---|
-| open | `<name> invited you to a game of Abalone` | `Accept and play <name> online. Abalone is the two-player strategy game where you push six of your opponent's marbles off the board.` | `og-game.jpg` |
-| used, expired, unknown, read failed | `Invite · Abalone` | `An invite to a game of Abalone, the two-player strategy game of pushing marbles off the board.` | `og-home.jpg` |
+| Link                                | `<title>`, `og:title`, `twitter:title`    | description (all three)                                                                                                               | image         |
+| ----------------------------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| open                                | `<name> invited you to a game of Abalone` | `Accept and play <name> online. Abalone is the two-player strategy game where you push six of your opponent's marbles off the board.` | `og-game.jpg` |
+| used, expired, unknown, read failed | `Invite · Abalone`                        | `An invite to a game of Abalone, the two-player strategy game of pushing marbles off the board.`                                      | `og-home.jpg` |
 
 - `twitter:card` stays `summary_large_image`, `robots` stays `noindex`. One
   fixed image per state; nothing is generated per link.

@@ -351,7 +351,7 @@ test.describe("desktop", () => {
       )
     }
     // the copy's own "1." is not printed anywhere as well
-    const text = await page.locator("main").innerText()
+    const text = await page.locator("main").textContent()
     for (const [index, [, title]] of STRATEGY_TIPS.entries())
       expect(text).not.toContain(`${index + 1}. ${title}`)
   })

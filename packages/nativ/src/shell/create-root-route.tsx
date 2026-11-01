@@ -160,10 +160,7 @@ export function createRootRoute(
     })
 
   const NotFound: NotFoundRouteComponent =
-    notFoundComponent ??
-    function DefaultNotFound() {
-      return <UiNotFound homeTo={notFoundHomeTo} />
-    }
+    notFoundComponent ?? (() => <UiNotFound homeTo={notFoundHomeTo} />)
 
   const headLinks = [
     ...(headConfig.links ?? []),
@@ -178,7 +175,7 @@ export function createRootRoute(
       : []),
   ]
 
-  function RootComponent() {
+  const renderRoot = () => {
     const outlet = <Outlet />
     return (
       <RootDocument>
@@ -207,6 +204,6 @@ export function createRootRoute(
         headLinks,
       }),
     notFoundComponent: NotFound,
-    component: RootComponent,
+    component: renderRoot,
   })
 }

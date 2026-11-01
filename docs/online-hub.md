@@ -9,14 +9,14 @@ Every game is one card: the active games waiting on you, the ones waiting on
 the other player, and the finished preview. The plain avatar row is gone from
 the hub. The history page (`/online/history`) keeps its rows.
 
-| Part | What it shows | Source |
-|---|---|---|
-| Board | Position thumbnail (`BoardThumb`) | `blackCells`, `whiteCells` |
-| Opponent | Avatar and name | `opponent.name`, `opponent.avatarUrl` |
-| Turn | "Your move" (accent colour, bold) / "Their move" (muted, regular) / the result once finished ("Won", "Lost", "Draw") | `currentTurn`, my seat, `status`, `winner` |
-| Last move | "Last move 5 min ago", or "No moves yet" | `updatedAt`, `moveCount` |
-| Started | "Started 3 Oct" | `createdAt` |
-| Score | `mine–theirs`, the leading side's number bold | `blackScore`, `whiteScore` |
+| Part      | What it shows                                                                                                        | Source                                     |
+| --------- | -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Board     | Position thumbnail (`BoardThumb`)                                                                                    | `blackCells`, `whiteCells`                 |
+| Opponent  | Avatar and name                                                                                                      | `opponent.name`, `opponent.avatarUrl`      |
+| Turn      | "Your move" (accent colour, bold) / "Their move" (muted, regular) / the result once finished ("Won", "Lost", "Draw") | `currentTurn`, my seat, `status`, `winner` |
+| Last move | "Last move 5 min ago", or "No moves yet"                                                                             | `updatedAt`, `moveCount`                   |
+| Started   | "Started 3 Oct"                                                                                                      | `createdAt`                                |
+| Score     | `mine–theirs`, the leading side's number bold                                                                        | `blackScore`, `whiteScore`                 |
 
 - The readings come from one function, `gameCardOf(game, myUserId)` in
   `apps/game/src/utils/game-card.ts`. The card only lays them out.
@@ -67,7 +67,7 @@ of after up to 15 s.
 ```ts
 type PlayerSummary = {
   userId: string
-  name: string          // never null: displayUsername ?? username ?? user.name
+  name: string // never null: displayUsername ?? username ?? user.name
   avatarUrl: string | null
 }
 ```

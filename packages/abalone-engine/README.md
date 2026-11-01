@@ -8,27 +8,27 @@ Worker that referees an online game.
 
 Two vocabularies for the same things, and the split is deliberate.
 
-| | Below `rules.ts` | Above it |
-| --- | --- | --- |
+|          | Below `rules.ts`                         | Above it                                    |
+| -------- | ---------------------------------------- | ------------------------------------------- |
 | a square | `CellId` — a dense integer, in `[0, 61)` | `CellName` — its axial coordinates, `"r,q"` |
-| a colour | `Side` — `1` or `2` | `Player` — `"black"` or `"white"` |
+| a colour | `Side` — `1` or `2`                      | `Player` — `"black"` or `"white"`           |
 
 The bottom half is what an inner loop wants: typed arrays it can index and a
 64-bit position signature it can hash. The top half is what React wants: strings
 it can put in a key and a move list can print. `rules.ts` is the only place the
 two meet, and everything outside this package only ever sees the top half.
 
-| | |
-| --- | --- |
-| `topology` | the 61-cell hex board: neighbours, headings, names |
-| `position` | the packed position, and `signature` — the repetition key |
-| `moves` | which lines can move, where to, and what a push costs |
-| `rules` | the seam: named squares in, named squares out |
-| `game-state` | the game as an immutable value, and every transition on it |
-| `board-setups` | the ten openings, read from ASCII diagrams |
-| `notation` | algebraic labels for the move list |
-| `config` | 14 marbles a side, 6 to win, 3 to a line |
-| `demo-game` | the self-playing board on the home screen |
+|                |                                                            |
+| -------------- | ---------------------------------------------------------- |
+| `topology`     | the 61-cell hex board: neighbours, headings, names         |
+| `position`     | the packed position, and `signature` — the repetition key  |
+| `moves`        | which lines can move, where to, and what a push costs      |
+| `rules`        | the seam: named squares in, named squares out              |
+| `game-state`   | the game as an immutable value, and every transition on it |
+| `board-setups` | the ten openings, read from ASCII diagrams                 |
+| `notation`     | algebraic labels for the move list                         |
+| `config`       | 14 marbles a side, 6 to win, 3 to a line                   |
+| `demo-game`    | the self-playing board on the home screen                  |
 
 ## Using it
 

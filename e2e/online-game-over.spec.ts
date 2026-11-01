@@ -57,7 +57,7 @@ async function expectPostgameButtonsFit(
   await expect(buttons, `${where}: two labelled buttons`).toHaveCount(2)
 
   for (const button of await buttons.all()) {
-    const label = (await button.innerText()).trim()
+    const label = ((await button.textContent()) ?? "").trim()
     expect(await labelLines(button), `${where}: "${label}" wraps`).toBe(1)
     await expect(
       button.locator("svg"),

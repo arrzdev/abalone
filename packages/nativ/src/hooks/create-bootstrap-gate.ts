@@ -41,16 +41,13 @@ export function createBootstrapGate(): BootstrapGate {
     notify()
   }
 
-  function useBootstrapReady() {
-    return useSyncExternalStore(
-      subscribeBootstrapReady,
-      getBootstrapReady,
-      () => false,
-    )
-  }
-
   return {
-    useBootstrapReady,
+    useBootstrapReady: () =>
+      useSyncExternalStore(
+        subscribeBootstrapReady,
+        getBootstrapReady,
+        () => false,
+      ),
     getBootstrapReady,
     setBootstrapReady,
     resetBootstrapReady,

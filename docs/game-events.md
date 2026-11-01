@@ -6,19 +6,19 @@ in it names a player, a device or an address.
 
 ## What is stored
 
-| Column | Holds |
-|---|---|
-| `id` | random uuid of the row |
-| `game_ref` | random uuid of the game, so a start and its finish pair up. Made on the device for `ai` and `local`; never derived from a user, a device or the online game's id |
-| `kind` | `start` or `finish` |
-| `mode` | `ai`, `local` or `online` |
-| `bot_level` | 1 to 8 for `ai`, null otherwise |
-| `result` | finish only. `ai`: `win`, `loss`, `draw`, `abandoned`, from the human's side. `local` and `online`: the winner `black` or `white`, or `draw`; `local` can also be `abandoned` |
-| `move_count` | finish only: plies played |
-| `guided` | start only: 1 when the first-game guide is showing as the game starts, 0 otherwise. Always 0 for finishes, `online` rows, and starts from builds older than the flag |
-| `entry` | start only, `ai` and `local`: which kind of page the browser tab first landed on: `home`, `rules`, `strategy`, `invite` or `other`. Null for finishes, `online` rows, and starts from builds older than the field |
-| `app_version` | the build that sent it; `server` for `online` rows |
-| `created_at` | epoch ms, set by the server |
+| Column        | Holds                                                                                                                                                                                                             |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`          | random uuid of the row                                                                                                                                                                                            |
+| `game_ref`    | random uuid of the game, so a start and its finish pair up. Made on the device for `ai` and `local`; never derived from a user, a device or the online game's id                                                  |
+| `kind`        | `start` or `finish`                                                                                                                                                                                               |
+| `mode`        | `ai`, `local` or `online`                                                                                                                                                                                         |
+| `bot_level`   | 1 to 8 for `ai`, null otherwise                                                                                                                                                                                   |
+| `result`      | finish only. `ai`: `win`, `loss`, `draw`, `abandoned`, from the human's side. `local` and `online`: the winner `black` or `white`, or `draw`; `local` can also be `abandoned`                                     |
+| `move_count`  | finish only: plies played                                                                                                                                                                                         |
+| `guided`      | start only: 1 when the first-game guide is showing as the game starts, 0 otherwise. Always 0 for finishes, `online` rows, and starts from builds older than the flag                                              |
+| `entry`       | start only, `ai` and `local`: which kind of page the browser tab first landed on: `home`, `rules`, `strategy`, `invite` or `other`. Null for finishes, `online` rows, and starts from builds older than the field |
+| `app_version` | the build that sent it; `server` for `online` rows                                                                                                                                                                |
+| `created_at`  | epoch ms, set by the server                                                                                                                                                                                       |
 
 No user id, IP, user agent or cookie, ever. The rate limit counts by IP in
 worker memory only and never writes it.
@@ -95,14 +95,14 @@ total       pass-and-play        1       1           0         1         100%
 total       online               0       0           0         0            -
 ```
 
-| Column | Means |
-|---|---|
-| `day` | UTC day, newest first; only days and modes with an event get a row. `total` rows sum the whole window, one per mode, always printed |
-| `mode` | `bot` is `ai`, `pass-and-play` is `local`, `online` is `online` |
-| `started` | start rows |
-| `guided` | starts with the first-game guide showing (`guided = 1`) |
-| `not guided` | `started` minus `guided`. Every `online` start, and starts from builds older than the flag, land here |
-| `finished` | finish rows that reached an end: `abandoned` is not counted |
+| Column        | Means                                                                                                                                                      |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `day`         | UTC day, newest first; only days and modes with an event get a row. `total` rows sum the whole window, one per mode, always printed                        |
+| `mode`        | `bot` is `ai`, `pass-and-play` is `local`, `online` is `online`                                                                                            |
+| `started`     | start rows                                                                                                                                                 |
+| `guided`      | starts with the first-game guide showing (`guided = 1`)                                                                                                    |
+| `not guided`  | `started` minus `guided`. Every `online` start, and starts from builds older than the flag, land here                                                      |
+| `finished`    | finish rows that reached an end: `abandoned` is not counted                                                                                                |
 | `finish rate` | `finished / started`, rounded; `-` when nothing started. Counted, not paired, so a game started the day before and finished today can push a day past 100% |
 
 For anything else, run your own SQL:
