@@ -94,6 +94,7 @@
               "E2E_API_PORT",
               "E2E_GAME_PORT",
               "E2E_REUSE",
+              "E2E_SHARD",
               "FORCE_ALL",
               "GH_VARS",
               "GITHUB_OUTPUT",
