@@ -157,7 +157,7 @@ jobs:
           base: ${{ needs.discover.outputs.base }}
           e2e: "false"
 
-  # The e2e suite as two parallel shards, part of the same post-merge gate.
+  # The e2e suite as three parallel shards (same split as ci.yml), part of the same post-merge gate.
   e2e:
     needs: discover
     if: needs.discover.outputs.any == 'true'
@@ -166,7 +166,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: ["1/2", "2/2"]
+        shard: ["1/3", "2/3", "3/3"]
     steps:
       - name: Checkout
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0

@@ -50,15 +50,16 @@ jobs:
           base: ${{ github.event.pull_request.base.sha }}
           e2e: "false"
 
-  # The slowest step, split in two parallel shards so the suite can keep
-  # growing inside the time limit. Full mode only, like the gate's own steps.
+  # The slowest step, split in three parallel shards so the suite can keep
+  # growing inside the time limit (two shards ran 12 to 19 minutes, too close
+  # to the 20 minute cap when hosted runners are slow). Full mode only, like the gate's own steps.
   e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        shard: ["1/2", "2/2"]
+        shard: ["1/3", "2/3", "3/3"]
     steps:
       - name: Checkout
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
