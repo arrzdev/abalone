@@ -26,10 +26,10 @@
   "dependencies": {
     "@repo/env-validation": "workspace:*",
     "@repo/shared": "workspace:*",
-    "cron-parser": "5.10.1"
+    "cron-parser": "5.10.2"
   },
   "devDependencies": {
-    "@types/node": "22.19.17",
+    "@types/node": "24.19.2",
     "typescript": "5.9.3",
     "vitest": "4.1.12"
   }
