@@ -1,3 +1,4 @@
+import { cn } from "@repo/nativ/utils"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { Trans, useTranslation } from "react-i18next"
 import type { ManualChapter } from "@/components/manual/chapter"
@@ -5,9 +6,10 @@ import { Chapter, Plate } from "@/components/manual/chapter"
 import { ManualHero, ManualPage } from "@/components/manual/manual-page"
 import { PlayBlock } from "@/components/play-block"
 import { RuleDiagram } from "@/components/rule-diagram"
+import { buttonClassName } from "@/components/ui/button"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
-import { COMPUTER_GAME } from "@/hooks/use-play-actions"
+import { COMPUTER_GAME, computerGameOn } from "@/hooks/use-play-actions"
 import type { Diagram } from "@/render/draw-diagram"
 import { BELGIAN_DAISY, GERMAN_DAISY, START } from "@/render/start-diagram"
 import { routeLanguage } from "@/routing/route-language"
@@ -181,6 +183,17 @@ function StartingPositionsPage() {
                     label={t(`game:positions.${key}.label`)}
                   />
                 </figure>
+                {/* a link, not a button: it goes somewhere, and the label is
+                    the whole of its name */}
+                <Link
+                  {...computerGameOn(key)}
+                  className={cn(
+                    buttonClassName("primary", "lg"),
+                    "h-auto min-h-[54px] w-full py-3 text-center text-balance",
+                  )}
+                >
+                  {t(`game:positions.${key}.play`)}
+                </Link>
               </Plate>
             }
           >

@@ -349,18 +349,21 @@
     "standard": {
       "title": "Standard layout",
       "label": "Standard starting position",
+      "play": "Play the standard start",
       "body": "In the standard layout each player has 14 marbles: their two nearest rows (five and six marbles) plus three in the middle of the third row. Black sits at the bottom, white at the top, and <strong>black moves first</strong>. The armies face each other across three empty rows, so nobody can push on move one.",
       "next": "Start here if you are new, then read <opening>opening moves</opening>."
     },
     "belgian_daisy": {
       "title": "Belgian daisy",
       "label": "Belgian daisy starting position",
+      "play": "Play the Belgian daisy",
       "body": "Marbles start in four flower-shaped clusters, one in each corner. White is top-left and bottom-right, black top-right and bottom-left. The armies touch on the first move, so a sumito can come early: look for a push you can make and for the cluster you could lose a marble from.",
       "history": "Players moved to daisy starts because the standard layout lets a careful player build a defensive wedge and avoid attacks indefinitely; the Belgian daisy was adopted by top players in 1999 to revitalize the game."
     },
     "german_daisy": {
       "title": "German daisy",
       "label": "German daisy starting position",
+      "play": "Play the German daisy",
       "body": "Four flower-shaped clusters again, same colours as the Belgian daisy, but set in from the corners toward the sides. The clusters start further apart, so you get a few quiet moves to build groups of three before the first contact."
     },
     "compare": {

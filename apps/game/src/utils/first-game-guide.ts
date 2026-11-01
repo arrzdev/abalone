@@ -70,11 +70,16 @@ export function shouldGuide(mode: GameMode, done: boolean): boolean {
 
 /**
  * Whether a game offered from a way in starts on the board, skipping the setup
- * screen: a first game against the computer. Pass & Play keeps its setup,
- * because the names are asked there.
+ * screen: a first game against the computer, or one on a layout the visitor
+ * picked before they came. Pass & Play keeps its setup, because the names are
+ * asked there.
  */
-export function startsOnBoard(mode: GameMode, done: boolean): boolean {
-  return mode === "ai" && !done
+export function startsOnBoard(
+  mode: GameMode,
+  done: boolean,
+  layoutAsked = false,
+): boolean {
+  return mode === "ai" && (!done || layoutAsked)
 }
 
 //the flag as this page load knows it. storage that refuses every call (private

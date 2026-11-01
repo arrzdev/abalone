@@ -136,6 +136,8 @@ export type NewGameOptions = {
  * @param onModeChange where a press on that switch goes.
  * @param startOnBoard start a game with the setup screen's defaults on mount,
  *        rather than showing that screen. Read on the first render only.
+ * @param firstSetup the layout the first board is set up as, where a way in
+ *        asked for one. Read on the first render only.
  */
 export function useAbaloneGame(
   boardRef: RefObject<GameCanvasHandle | null>,
@@ -143,9 +145,10 @@ export function useAbaloneGame(
   mode: GameMode,
   onModeChange: (mode: GameMode) => void,
   startOnBoard = false,
+  firstSetup: SetupKey = DEFAULT_SETUP,
 ) {
   const [difficulty, setDifficulty] = useState(1)
-  const [setupType, setSetupType] = useState<SetupKey>(DEFAULT_SETUP)
+  const [setupType, setSetupType] = useState<SetupKey>(firstSetup)
   // What the player picked ('random' included) vs. the colour they end up with.
   const [colorChoice, setColorChoice] = useState<ColorChoiceValue>("black")
   const [playerColor, setPlayerColor] = useState<Player>("black")
@@ -156,7 +159,7 @@ export function useAbaloneGame(
     startOnBoard ? "ingame" : "pregame",
   )
   const [state, setState] = useState<GameState>(() =>
-    createGameState(DEFAULT_SETUP, "black", mode),
+    createGameState(firstSetup, "black", mode),
   )
   const [aiThinking, setAiThinking] = useState(false)
   const [hintThinking, setHintThinking] = useState(false)

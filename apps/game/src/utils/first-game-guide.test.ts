@@ -131,6 +131,16 @@ describe("startsOnBoard", () => {
     expect(startsOnBoard("ai", true)).toBe(false)
   })
 
+  it("opens a game on a layout the visitor picked, guide done or not", () => {
+    expect(startsOnBoard("ai", true, true)).toBe(true)
+    expect(startsOnBoard("ai", false, true)).toBe(true)
+  })
+
+  it("keeps Pass & Play and online off the board whatever was picked", () => {
+    expect(startsOnBoard("local", true, true)).toBe(false)
+    expect(startsOnBoard("online", true, true)).toBe(false)
+  })
+
   it("always opens Pass & Play on its setup screen", () => {
     expect(startsOnBoard("local", false)).toBe(false)
     expect(startsOnBoard("local", true)).toBe(false)
