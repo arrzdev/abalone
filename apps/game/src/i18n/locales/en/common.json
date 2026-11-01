@@ -36,6 +36,27 @@
     "play_online_link": "Play Abalone online with a friend",
     "bots_caption": "Eight bots, Gus to Magnus",
     "play_demo": "Play demo",
+    "faq": {
+      "title": "Frequently asked",
+      "items": {
+        "free": {
+          "question": "Can I play Abalone online for free?",
+          "answer": "Yes. Abalone here is free to play in your browser, with no download. You can start a game against the computer straight away without making an account. A free account is only needed when you want to play a friend online."
+        },
+        "account": {
+          "question": "Do I need an account to play Abalone?",
+          "answer": "No, not to play the computer or to pass the device between two players. Those modes start instantly with no sign-up. You only need a free account to play a friend online, because online games and invites are tied to a username."
+        },
+        "computer": {
+          "question": "Can I play Abalone against the computer?",
+          "answer": "Yes. Pick Play now to face the computer. There are eight bots, from easy to hard, so beginners and experienced players both find a fair opponent. It is free, needs no sign-up, and you can stop or restart whenever you like."
+        },
+        "one_device": {
+          "question": "Can two people play Abalone on one device?",
+          "answer": "Yes. Choose Pass & Play and take turns on the same screen. It needs no account and no sign-up. One player uses black and the other white, and black moves first, as in a normal game. It is a good way to teach a beginner."
+        }
+      }
+    },
     "pause_demo": "Pause demo"
   },
   "auth": {

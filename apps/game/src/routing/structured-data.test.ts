@@ -20,22 +20,31 @@ function structuredData(path: IndexablePath): Json[] {
 }
 
 describe("structured data", () => {
-  it("describes the home page as a free web game", () => {
-    expect(structuredData("/")).toEqual([
-      {
-        "@context": "https://schema.org",
-        "@type": "VideoGame",
-        name: "Abalone",
-        url: `${ORIGIN}/`,
-        description:
-          "Play the Abalone board game online for free: against the computer, a friend on one device, or an online opponent.",
-        genre: "Board game",
-        playMode: ["SinglePlayer", "MultiPlayer"],
-        applicationCategory: "Game",
-        operatingSystem: "Web",
-        offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-      },
+  it("describes the home page as a free web game, with its FAQ", () => {
+    const [game, faq, ...rest] = structuredData("/")
+    expect(rest).toEqual([])
+    expect(faq["@type"]).toBe("FAQPage")
+    expect(
+      (faq.mainEntity as Json[]).map((question) => question.name),
+    ).toEqual([
+      "Can I play Abalone online for free?",
+      "Do I need an account to play Abalone?",
+      "Can I play Abalone against the computer?",
+      "Can two people play Abalone on one device?",
     ])
+    expect(game).toEqual({
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      name: "Abalone",
+      url: `${ORIGIN}/`,
+      description:
+        "Play the Abalone board game online for free: against the computer, a friend on one device, or an online opponent.",
+      genre: "Board game",
+      playMode: ["SinglePlayer", "MultiPlayer"],
+      applicationCategory: "Game",
+      operatingSystem: "Web",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+    })
   })
 
   it("describes the rules as five steps, each pointing at its section", () => {
@@ -202,18 +211,18 @@ describe("structured data", () => {
     const questions = faq.mainEntity as Json[]
     expect(questions.map((question) => question.name)).toEqual([
       "Is online Abalone free?",
-      "Do I need to sign up?",
-      "How do I play Abalone with a friend?",
+      "Do I need an account to play Abalone?",
+      "How do I play Abalone online with a friend?",
       "Is the invite link private?",
       "Do we have to be online at the same time?",
       "Is there a game code?",
     ])
     expect(questions[1]).toEqual({
       "@type": "Question",
-      name: "Do I need to sign up?",
+      name: "Do I need an account to play Abalone?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes, online games need an account, a username and a password. To play without one, play the computer or pass and play.",
+        text: "No, not to play the computer or to pass the device between two players. Those modes start instantly with no sign-up. You only need a free account to play a friend online, because online games and invites are tied to a username.",
       },
     })
   })
