@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import type { SetupKey } from "#abalone-engine/board-setups"
-import type { GameState } from "#abalone-engine/game-state"
+import type { GameState, MoveDetails } from "#abalone-engine/game-state"
 import {
   canNextMove,
   canPrevMove,
@@ -106,6 +106,14 @@ describe("isValidSelection", () => {
     const state = createGameState()
     expect(isValidSelection(state, "0,0")).toBe(false)
     expect(isValidSelection(resignGame(state), "4,0")).toBe(false)
+  })
+
+  it("treats a bot game with no colour recorded as the human playing black", () => {
+    const unset = {
+      ...createGameState("standard", "white", "ai"),
+      playerColor: undefined as unknown as GameState["playerColor"],
+    }
+    expect(isValidSelection(unset, "4,0")).toBe(true)
   })
 })
 
@@ -236,6 +244,29 @@ describe("walking through history", () => {
     expect(goToMove(played, -1)).toBe(played)
     expect(goToMove(played, 99)).toBe(played)
   })
+
+  //only makeMove writes history, so these entries are hand-edited: the board
+  //must still restore and simply skip a highlight it cannot work out
+  it("restores an entry whose move it cannot draw", () => {
+    const withDetails = (patch: Partial<MoveDetails>): GameState => {
+      const history = [...played.moveHistory]
+      const details = history[1].moveDetails as MoveDetails
+      history[1] = { ...history[1], moveDetails: { ...details, ...patch } }
+      return { ...played, moveHistory: history }
+    }
+
+    const noMarbles = goToMove(withDetails({ marbles: [] }), 1)
+    expect(noMarbles.black.has("1,0")).toBe(true)
+    expect(noMarbles.lastMove).toBeNull()
+
+    const farDestination = withDetails({ destination: "-4,0" })
+    expect(goToMove(farDestination, 1).lastMove).toBeNull()
+
+    const noShoved = withDetails({
+      shovedMarbles: undefined as unknown as string[],
+    })
+    expect(goToMove(noShoved, 1).lastMove?.shovedMarbles).toEqual([])
+  })
 })
 
 describe("truncateToMove", () => {
@@ -276,6 +307,15 @@ describe("undoTargetIndex", () => {
   it("takes back the bot's reply with the player's move", () => {
     const ai = play(createGameState("standard", "black", "ai"), SHUFFLE)
     expect(undoTargetIndex(ai)).toBe(2)
+  })
+
+  it("takes back as black when the bot game has no colour recorded", () => {
+    const ai = play(createGameState("standard", "white", "ai"), SHUFFLE)
+    const unset = {
+      ...ai,
+      playerColor: undefined as unknown as GameState["playerColor"],
+    }
+    expect(undoTargetIndex(unset)).toBe(2)
   })
 
   it("has nothing to take back at the start or before the player has moved", () => {

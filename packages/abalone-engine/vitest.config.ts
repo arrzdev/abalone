@@ -13,5 +13,20 @@ export default defineConfig({
   },
   test: {
     environment: "node",
+    coverage: {
+      provider: "v8",
+      include: ["src/**/*.ts"],
+      exclude: ["src/**/*.test.ts"],
+      reporter: ["text", "json-summary"],
+      //today's numbers rounded down: the engine holds every rule of the game,
+      //so a change that ships an untested branch here fails the CI gate, which
+      //runs this script instead of the plain test one
+      thresholds: {
+        lines: 99,
+        branches: 98,
+        functions: 100,
+        statements: 99,
+      },
+    },
   },
 })

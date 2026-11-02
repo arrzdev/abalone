@@ -73,6 +73,15 @@ describe("selectMarble", () => {
       selectMarble(board, ["0,0", "0,1", "0,2"], "1,0", "black"),
     ).toEqual(["1,0"])
   })
+
+  it("grows a white line and starts over on black", () => {
+    const whites = boardOf(["1,1"], ["0,3", "0,4"])
+    expect(selectMarble(whites, ["0,3"], "0,4", "white")).toEqual([
+      "0,3",
+      "0,4",
+    ])
+    expect(selectMarble(whites, ["0,3"], "1,1", "black")).toEqual(["1,1"])
+  })
 })
 
 describe("deselectMarble", () => {
@@ -103,6 +112,14 @@ describe("selectRun", () => {
     expect(selectRun(board, "0,1", "1,0")).toBeNull()
     expect(selectRun(board, "1,1", "0,0")).toBeNull()
     expect(selectRun(board, "0,0", "9,9")).toBeNull()
+  })
+
+  it("returns null when the run would leave the board on the way", () => {
+    //from the rim the walk runs off the board on several headings before it
+    //finds the reach, and must give up on each rather than wrap around
+    const rim = boardOf(["0,4", "0,3", "0,2"], [])
+    expect(selectRun(rim, "0,4", "0,2")).toEqual(["0,4", "0,3", "0,2"])
+    expect(selectRun(rim, "0,4", "-4,4")).toBeNull()
   })
 })
 
