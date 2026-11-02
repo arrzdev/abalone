@@ -85,6 +85,16 @@ describe("destinationsFor — plain moves", () => {
     expect(new Set(backward)).toEqual(new Set(forward))
   })
 
+  it("offers a line across the rows in one order whichever end leads", () => {
+    //the step from "1,0" to "0,0" climbs a row, which CANONICAL_HEADING flips,
+    //so this reading takes the other branch from the one above
+    const black = ["0,0", "1,0"]
+    const downward = destinations(black, [], ["0,0", "1,0"])
+    const upward = destinations(black, [], ["1,0", "0,0"])
+    expect(upward).toEqual(downward)
+    expect(upward).toHaveLength(6)
+  })
+
   it("blocks a broadside when any landing square is taken", () => {
     const found = destinations(["0,0", "0,1"], ["1,0"], ["0,0", "0,1"])
     expect(found).not.toContain("1,1")
