@@ -3,7 +3,10 @@ import { SUPPORTED_LANGUAGES } from "@/i18n/languages"
 import { DEFAULT_LANGUAGE } from "@/i18n/locale-path"
 import type { SocialImage } from "@/routing/page-head"
 import { pageHead } from "@/routing/page-head"
-import { structuredDataScripts } from "@/routing/structured-data"
+import {
+  breadcrumbScripts,
+  structuredDataScripts,
+} from "@/routing/structured-data"
 
 /**
  * The pages a search engine should list, and the words it lists them under.
@@ -161,6 +164,8 @@ export function seoCopy(path: IndexablePath, language: Language): SeoPage {
  * the English page's own: the canonical names the English URL and says no more
  * languages than there are. The JSON-LD stays English-only: it quotes the
  * page's English questions and steps, which a translated page does not show.
+ * The breadcrumb trail is the exception: it quotes no body copy, only the
+ * page's own name and URLs, so every language carries its own.
  */
 export function seoPageHead(
   path: IndexablePath,
@@ -178,9 +183,11 @@ export function seoPageHead(
       language: pageLanguage,
       alternates: PAGE_LANGUAGES[path],
     }),
-    scripts:
-      pageLanguage === DEFAULT_LANGUAGE
+    scripts: [
+      ...(pageLanguage === DEFAULT_LANGUAGE
         ? structuredDataScripts(path, page)
-        : [],
+        : []),
+      ...breadcrumbScripts(path, pageLanguage),
+    ],
   }
 }

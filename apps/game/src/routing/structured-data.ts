@@ -1,6 +1,9 @@
+import type { Language } from "@/i18n/languages"
+import { DEFAULT_LANGUAGE, localePath } from "@/i18n/locale-path"
 import enCommon from "@/i18n/locales/en/common.json"
 import enGame from "@/i18n/locales/en/game.json"
 import type { IndexablePath, SeoPage } from "@/routing/seo-pages"
+import { BRAND } from "@/utils/brand"
 import { siteUrl } from "@/utils/site"
 
 /**
@@ -11,7 +14,9 @@ import { siteUrl } from "@/utils/site"
  * own English copy rather than written a second time beside it.
  */
 
-type Json = { [key: string]: Json | Json[] | string | string[] }
+type Json = {
+  [key: string]: Json | Json[] | string | string[] | number
+}
 
 /** A `<script type="application/ld+json">` in the route head. */
 export type StructuredDataScript = {
@@ -145,6 +150,65 @@ function toScript(data: Json): StructuredDataScript {
     type: "application/ld+json",
     children: JSON.stringify(data).replace(/</g, "\\u003c"),
   }
+}
+
+//the nav labels of every language ("Rules", "Regras"): the same words the
+//header calls these pages, so the trail in a result matches the site
+const LOCALE_FILES = import.meta.glob<{
+  nav?: Record<string, string>
+}>("../i18n/locales/*/common.json", { eager: true, import: "default" })
+
+/** The guides that sit one level under home, and what the trail calls each. */
+const GUIDE_NAMES: Partial<
+  Record<IndexablePath, (language: Language) => string>
+> = {
+  "/rules": (language) => navLabel("rules", language),
+  "/strategy": (language) => navLabel("strategy", language),
+  "/opening-moves": () => enGame.openings.title,
+  "/starting-positions": () => enGame.positions.title,
+}
+
+function navLabel(key: "rules" | "strategy", language: Language): string {
+  return (
+    LOCALE_FILES[`../i18n/locales/${language}/common.json`]?.nav?.[key] ??
+    enCommon.nav[key]
+  )
+}
+
+/**
+ * Home, then the page: what a search result shows in place of the bare URL.
+ * Only the guides have one; home is the top of the trail, and the game screen
+ * and the online landing are not guides.
+ *
+ * `language` is the one the page is served in, so the second URL is the page's
+ * own canonical and the first is the home of the same language.
+ */
+export function breadcrumbScripts(
+  path: IndexablePath,
+  language: Language = DEFAULT_LANGUAGE,
+): StructuredDataScript[] {
+  const name = GUIDE_NAMES[path]
+  if (!name) return []
+  return [
+    toScript({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: BRAND,
+          item: siteUrl(localePath("/", language)),
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: name(language),
+          item: siteUrl(localePath(path, language)),
+        },
+      ],
+    }),
+  ]
 }
 
 /**
