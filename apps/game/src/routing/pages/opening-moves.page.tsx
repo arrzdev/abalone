@@ -3,6 +3,7 @@ import { Trans, useTranslation } from "react-i18next"
 import type { ManualChapter } from "@/components/manual/chapter"
 import { Chapter } from "@/components/manual/chapter"
 import { ManualHero, ManualPage } from "@/components/manual/manual-page"
+import { RelatedGuides } from "@/components/manual/related-guides"
 import { PlayBlock } from "@/components/play-block"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { COMPUTER_GAME } from "@/hooks/use-play-actions"
@@ -118,6 +119,8 @@ function OpeningMovesPage() {
         <Chapter id="practise" title={t("game:openings.practise.title")}>
           {playBlock}
         </Chapter>
+
+        <RelatedGuides current="/opening-moves" />
       </ManualPage>
     </>
   )

@@ -4,6 +4,7 @@ import { Trans, useTranslation } from "react-i18next"
 import type { ManualChapter } from "@/components/manual/chapter"
 import { Chapter, Plate } from "@/components/manual/chapter"
 import { ManualHero, ManualPage } from "@/components/manual/manual-page"
+import { RelatedGuides } from "@/components/manual/related-guides"
 import { PlayBlock } from "@/components/play-block"
 import { RuleDiagram } from "@/components/rule-diagram"
 import { buttonClassName } from "@/components/ui/button"
@@ -266,6 +267,8 @@ function StartingPositionsPage() {
             />
           </p>
         </Chapter>
+
+        <RelatedGuides current="/starting-positions" />
       </ManualPage>
     </>
   )

@@ -24,6 +24,8 @@ const SECTIONS = [
   ["computer", "How strong is the computer?"],
   ["faq", "Frequently asked"],
   ["practise", "Practise"],
+  //the links to the other guides close the page (related-guides.spec.ts)
+  ["related-guides", "Related guides"],
 ] as const
 
 /** The served HTML as the text a reader sees: tags out, entities decoded. */

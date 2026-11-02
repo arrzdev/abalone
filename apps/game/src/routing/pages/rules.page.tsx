@@ -9,6 +9,7 @@ import { Chapter, Plate } from "@/components/manual/chapter"
 import { formatChapterNumber } from "@/components/manual/chapter-number"
 import { FaqList } from "@/components/manual/faq-list"
 import { ManualHero, ManualPage } from "@/components/manual/manual-page"
+import { RelatedGuides } from "@/components/manual/related-guides"
 import { MarbleGlyph } from "@/components/marble-glyph"
 import { PlayBlock } from "@/components/play-block"
 import { RuleDiagram } from "@/components/rule-diagram"
@@ -498,6 +499,8 @@ function RulesPage() {
         <div className="border-t border-border pt-10 lg:pt-16">
           {playBlock}
         </div>
+
+        <RelatedGuides current="/rules" />
       </ManualPage>
     </>
   )
