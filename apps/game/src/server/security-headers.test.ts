@@ -125,4 +125,10 @@ describe("public/_headers", () => {
     })
     expect(CACHE_HASHED_ASSET).toBe("public, max-age=31536000, immutable")
   })
+
+  it("keeps the shell, the service worker and the offline page out of search", () => {
+    for (const path of ["/_shell", "/sw.js", "/_pwa/*"]) {
+      expect(rules[path], path).toEqual({ "X-Robots-Tag": "noindex" })
+    }
+  })
 })

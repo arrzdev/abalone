@@ -5,14 +5,16 @@ import { errorCatcher } from "@/http/middlewares/error-catcher"
 import { requestLog } from "@/http/middlewares/request-log"
 import { buildShaPlugin, versionRoute } from "@/http/plugins/build-sha"
 import { corsPlugin } from "@/http/plugins/cors"
+import { noIndexPlugin } from "@/http/plugins/no-index"
 import { v1Routes } from "@/http/routes"
 
-//composed transport api: build sha, cors, global error catcher, health,
+//composed transport api: build sha, noindex, cors, global error catcher, health,
 //version, v1 routes, not-found. the worker entrypoint just bootstraps env and
 //delegates to api.fetch.
 export const api = newEndpoint<Env>()
   .use("*", requestLog()) //first: request id + one request log line
   .use("*", buildShaPlugin()) //x-build-sha on every response
+  .use("*", noIndexPlugin()) //x-robots-tag: noindex on every response
   .use("*", corsPlugin()) //setup cors plugin
   .onError(errorCatcher) //catch + envelope unhandled throws
 
