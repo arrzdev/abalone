@@ -9,6 +9,7 @@ import { openApp } from "./support/app"
 const GUIDES = [
   "/rules",
   "/strategy",
+  "/how-to-play",
   "/opening-moves",
   "/starting-positions",
 ] as const

@@ -34,6 +34,7 @@ export const SEO_PAGES: Record<
   | "/"
   | "/rules"
   | "/strategy"
+  | "/how-to-play"
   | "/opening-moves"
   | "/starting-positions"
   | "/offline"
@@ -56,6 +57,12 @@ export const SEO_PAGES: Record<
     title: "Abalone strategy: 7 tips to win more games",
     description:
       "Seven Abalone strategy tips: control the center, keep groups of three, pick a safe opening and push at the right moment. Try them against the computer.",
+    image: "rules",
+  },
+  "/how-to-play": {
+    title: "How to play Abalone: rules in 5 steps and a first game",
+    description:
+      "How to play Abalone: the rules in five plain steps, a first game move by move and how to win. Then play the computer free, no account needed.",
     image: "rules",
   },
   "/opening-moves": {
@@ -102,6 +109,7 @@ export const SITEMAP: Record<
   "/rules": "2026-11-02",
   "/strategy": "2026-11-02",
   "/play-online": "2026-11-01",
+  "/how-to-play": "2026-11-02",
   "/opening-moves": "2026-11-02",
   "/starting-positions": "2026-11-02",
 }
@@ -117,6 +125,7 @@ export const PAGE_LANGUAGES: Record<IndexablePath, readonly Language[]> = {
   "/": SUPPORTED_LANGUAGES,
   "/rules": SUPPORTED_LANGUAGES,
   "/strategy": SUPPORTED_LANGUAGES,
+  "/how-to-play": ["en"],
   "/opening-moves": ["en"],
   "/starting-positions": ["en"],
   "/offline": SUPPORTED_LANGUAGES,

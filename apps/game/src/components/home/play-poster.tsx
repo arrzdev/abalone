@@ -9,6 +9,7 @@ import { Reveal } from "@/components/ui/reveal"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
 import { COMPUTER_GAME, usePlayActions } from "@/hooks/use-play-actions"
 import { BOT_LEVELS } from "@/i18n/bots"
+import { DEFAULT_LANGUAGE } from "@/i18n/locale-path"
 
 /**
  * The front door for anyone without an account: what the game is on one side,
@@ -40,7 +41,7 @@ const TEXT_LINK_CLASS =
   "inline-flex min-h-11 min-w-11 items-center justify-center rounded-sm px-1.5 lg:px-2.5 text-brand-lighter underline underline-offset-[3px] transition-colors duration-200 ease-out hover:text-brand-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
 
 export function PlayPoster() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { playOnline, playOffline } = usePlayActions()
   //the eight faces are eight pictures, and a phone never shows them: mounted
   //behind `hidden` they are eight requests spent on nothing
@@ -109,6 +110,14 @@ export function PlayPoster() {
             two. One label per link rather than a short and a long one swapped
             by width: both would be in the served text. */}
         <p className="flex flex-wrap items-center justify-center text-sm text-faint max-lg:mt-2 lg:mt-4 lg:-ms-2.5 lg:justify-start">
+          {i18n.language === DEFAULT_LANGUAGE && (
+            <>
+              <Link to="/how-to-play" className={TEXT_LINK_CLASS}>
+                {t("common:home.how_to_play_link")}
+              </Link>
+              <span aria-hidden="true">·</span>
+            </>
+          )}
           <Link to="/rules" className={TEXT_LINK_CLASS}>
             {t("common:nav.rules")}
           </Link>

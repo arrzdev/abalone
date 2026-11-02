@@ -12,6 +12,7 @@ for (const path of [
   "/",
   "/rules",
   "/strategy",
+  "/how-to-play",
   "/opening-moves",
   "/offline",
   "/online",

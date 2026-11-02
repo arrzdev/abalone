@@ -21,6 +21,11 @@ const EXPECTED_COPY = {
     description:
       "Seven Abalone strategy tips: control the center, keep groups of three, pick a safe opening and push at the right moment. Try them against the computer.",
   },
+  "/how-to-play": {
+    title: "How to play Abalone: rules in 5 steps and a first game",
+    description:
+      "How to play Abalone: the rules in five plain steps, a first game move by move and how to win. Then play the computer free, no account needed.",
+  },
   "/opening-moves": {
     title: "Abalone opening moves: a guide for beginners",
     description:
@@ -87,6 +92,7 @@ describe("SITEMAP", () => {
     expect(Object.keys(SITEMAP).sort()).toEqual(
       [
         "/",
+        "/how-to-play",
         "/opening-moves",
         "/play-online",
         "/rules",
@@ -104,6 +110,7 @@ describe("SITEMAP", () => {
       "/rules": "2026-11-02",
       "/strategy": "2026-11-02",
       "/play-online": "2026-11-01",
+      "/how-to-play": "2026-11-02",
       "/opening-moves": "2026-11-02",
       "/starting-positions": "2026-11-02",
     })

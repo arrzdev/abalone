@@ -16,6 +16,7 @@ import { RuleDiagram } from "@/components/rule-diagram"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { COMPUTER_GAME } from "@/hooks/use-play-actions"
+import { DEFAULT_LANGUAGE } from "@/i18n/locale-path"
 import type { Diagram } from "@/render/draw-diagram"
 import { START } from "@/render/start-diagram"
 import { routeLanguage } from "@/routing/route-language"
@@ -209,7 +210,7 @@ const FAQ_ITEMS = [
 ] as const
 
 function RulesPage() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
 
   // The diagrams are the player's own marbles, not a stock illustration.
   const [marbleDesign] = useMarbleDesign()
@@ -471,6 +472,18 @@ function RulesPage() {
               ),
             }))}
           />
+          {i18n.language === DEFAULT_LANGUAGE && (
+            <p>
+              <Trans
+                i18nKey="game:howto.rules_link"
+                components={{
+                  howto: (
+                    <Link to="/how-to-play" className={TEXT_LINK_CLASS} />
+                  ),
+                }}
+              />
+            </p>
+          )}
           <p>
             <Trans
               i18nKey="game:rules.faq.strategy_link"

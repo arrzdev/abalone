@@ -57,7 +57,8 @@
         }
       }
     },
-    "pause_demo": "Pause demo"
+    "pause_demo": "Pause demo",
+    "how_to_play_link": "How to play"
   },
   "auth": {
     "sign_in": "Sign in",
