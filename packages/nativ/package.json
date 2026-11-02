@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "test:coverage": "vitest run --coverage"
   },
   "sideEffects": [
     "**/*.css"
@@ -79,6 +80,7 @@
     "@testing-library/react": "16.3.2",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
+    "@vitest/coverage-v8": "4.1.12",
     "clsx": "2.1.1",
     "happy-dom": "21.0.4",
     "motion": "12.35.0",

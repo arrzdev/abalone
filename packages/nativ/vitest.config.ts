@@ -13,5 +13,26 @@ export default defineConfig({
   },
   test: {
     environment: "happy-dom",
+    coverage: {
+      provider: "v8",
+      include: ["src/**/*.{ts,tsx}"],
+      //service-worker-shell imports a virtual module only the nativ vite
+      //plugin resolves, so coverage cannot load it outside an app build
+      exclude: [
+        "src/**/*.test.{ts,tsx}",
+        "src/**/*.d.ts",
+        "src/shell/service-worker-shell.ts",
+      ],
+      reporter: ["text", "json-summary"],
+      //today's totals rounded down: most of the shell is DOM and gesture code
+      //that the e2e suite covers, so this floor only stops it slipping. the CI
+      //gate runs this script instead of the plain test one
+      thresholds: {
+        lines: 14,
+        branches: 14,
+        functions: 14,
+        statements: 14,
+      },
+    },
   },
 })
