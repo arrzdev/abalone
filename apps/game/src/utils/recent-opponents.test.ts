@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest"
 import type { Game } from "@/data/online/queries"
-import { recentOpponentsOf } from "@/utils/recent-opponents"
+import {
+  recentOpponentsOf,
+  recentOpponentsWhenReady,
+} from "@/utils/recent-opponents"
 
 const ME = "me"
 
@@ -103,5 +106,65 @@ describe("recentOpponentsOf", () => {
         (entry) => entry.name,
       ),
     ).toEqual(["Ana", "Bia", "Rui"])
+  })
+})
+
+describe("recentOpponentsWhenReady", () => {
+  const active = [gameAgainst("Ana", 300, { status: "active" })]
+  const finished = [gameAgainst("Bia", 200)]
+
+  it("offers nothing yet while either list is still on its way", () => {
+    const sources = { activeGames: active, finishedGames: undefined }
+    expect(
+      recentOpponentsWhenReady({ ...sources, failed: false }, ME),
+    ).toBeUndefined()
+    expect(
+      recentOpponentsWhenReady(
+        { activeGames: undefined, finishedGames: finished, failed: false },
+        ME,
+      ),
+    ).toBeUndefined()
+    expect(
+      recentOpponentsWhenReady(
+        {
+          activeGames: undefined,
+          finishedGames: undefined,
+          failed: false,
+        },
+        ME,
+      ),
+    ).toBeUndefined()
+  })
+
+  it("reads the chips once, from both lists, when both are in", () => {
+    const names = recentOpponentsWhenReady(
+      { activeGames: active, finishedGames: finished, failed: false },
+      ME,
+    )?.map((opponent) => opponent.name)
+    expect(names).toEqual(["Ana", "Bia"])
+  })
+
+  it("settles with what is in hand when a list failed", () => {
+    expect(
+      recentOpponentsWhenReady(
+        { activeGames: active, finishedGames: undefined, failed: true },
+        ME,
+      )?.map((opponent) => opponent.name),
+    ).toEqual(["Ana"])
+    expect(
+      recentOpponentsWhenReady(
+        { activeGames: undefined, finishedGames: undefined, failed: true },
+        ME,
+      ),
+    ).toEqual([])
+  })
+
+  it("waits for a signed-in player", () => {
+    expect(
+      recentOpponentsWhenReady(
+        { activeGames: active, finishedGames: finished, failed: false },
+        undefined,
+      ),
+    ).toBeUndefined()
   })
 })

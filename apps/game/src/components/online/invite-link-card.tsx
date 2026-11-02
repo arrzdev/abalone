@@ -1,6 +1,6 @@
 import { cn } from "@repo/nativ/utils"
 import { useMutation } from "@tanstack/react-query"
-import { useId, useState } from "react"
+import { useEffect, useId, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import {
   CheckIcon,
@@ -55,6 +55,10 @@ export function InviteLinkCard({
   const [status, setStatus] = useState<HandOffStatus>("idle")
   const [justCopied, setJustCopied] = useState(false)
   const [canShare] = useState(canShareLinks)
+  const copiedTimer = useRef<number>(undefined)
+
+  //the check outlives the tap by two seconds, and the sheet may not
+  useEffect(() => () => window.clearTimeout(copiedTimer.current), [])
 
   const url = create.data?.url
   const isMade = Boolean(url)
@@ -75,7 +79,11 @@ export function InviteLinkCard({
     setStatus(next)
     if (next !== "copied") return
     setJustCopied(true)
-    window.setTimeout(() => setJustCopied(false), COPIED_MS)
+    window.clearTimeout(copiedTimer.current)
+    copiedTimer.current = window.setTimeout(
+      () => setJustCopied(false),
+      COPIED_MS,
+    )
   }
 
   async function handleShare() {

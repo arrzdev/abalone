@@ -19,7 +19,7 @@ import { useApiError } from "@/hooks/use-api-error"
 import { useAuth } from "@/providers/auth-provider"
 import { useRealtime } from "@/providers/realtime-provider"
 import type { RecentOpponent } from "@/utils/recent-opponents"
-import { recentOpponentsOf } from "@/utils/recent-opponents"
+import { recentOpponentsWhenReady } from "@/utils/recent-opponents"
 import type { SyncState } from "@/utils/sync-state"
 import { syncStateOf } from "@/utils/sync-state"
 
@@ -37,8 +37,9 @@ export type OnlineHome = {
   isSending: boolean
   /**
    * The people this player has played lately, for the composer to offer by
-   * face. `undefined` while the games are still on their way; empty when there
-   * are none, or when the games could not be read.
+   * face. `undefined` until both game lists are in, so the first chips shown
+   * are the final ones; empty when there are none, or when the games could not
+   * be read.
    */
   recentOpponents: RecentOpponent[] | undefined
   /** How current the lists are. See `SyncState`. */
@@ -134,19 +135,24 @@ export function useOnlineHome(queryClient: QueryClient): OnlineHome {
     }
   }, [invites.data, myUserId])
 
-  //the same two lists, read for names. a list that failed offers nobody
-  //rather than a spinner that never ends: typing a name works without it
+  //the same two lists, read for names, once both are in so the chips shown
+  //first are the final ones. a list that failed offers what is left rather
+  //than a spinner that never ends: typing a name works without it
   const activeData = activeGames.data
   const finishedData = finishedGames.data
   const gamesFailed = Boolean(activeGames.error || finishedGames.error)
-  const recentOpponents = useMemo(() => {
-    if (!myUserId) return undefined
-    if (!activeData && !finishedData) return gamesFailed ? [] : undefined
-    return recentOpponentsOf(
-      [...(activeData ?? []), ...(finishedData ?? [])],
-      myUserId,
-    )
-  }, [activeData, finishedData, gamesFailed, myUserId])
+  const recentOpponents = useMemo(
+    () =>
+      recentOpponentsWhenReady(
+        {
+          activeGames: activeData,
+          finishedGames: finishedData,
+          failed: gamesFailed,
+        },
+        myUserId,
+      ),
+    [activeData, finishedData, gamesFailed, myUserId],
+  )
 
   //one slot for the whole screen: only one of these can have just failed, and
   //four error lines stacked down the page would be four ways of saying it

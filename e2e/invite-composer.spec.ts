@@ -137,7 +137,10 @@ for (const viewport of FITTING_PHONES) {
       await hostPage.setViewportSize(viewport)
       const composer = await openComposer(hostPage)
 
-      const chip = composer.getByRole("radio", { name: guestName })
+      const chip = composer.getByRole("radio", {
+        name: guestName,
+        exact: true,
+      })
       await expect(composer.getByText("Play again with")).toBeVisible()
       await expect(chip).toBeVisible()
       await expect(
@@ -165,7 +168,9 @@ for (const viewport of FITTING_PHONES) {
       // Ask them again while that invite is still out: the refusal is spoken
       // in the line that was reserved for it, and the picked chip is at fault.
       const again = await openComposer(hostPage)
-      await again.getByRole("radio", { name: guestName }).check()
+      await again
+        .getByRole("radio", { name: guestName, exact: true })
+        .check()
       await expectNoLayoutShift(composer, () => send.click(), {
         until: () => expect(spokenAlert(composer)).toBeVisible(),
       })
@@ -370,7 +375,10 @@ test.describe("on a 375x667 phone", () => {
     await hostPage.setViewportSize({ width: 375, height: 667 })
     const composer = await openComposer(hostPage)
     const field = composer.getByLabel("Someone else", { exact: true })
-    const chip = composer.getByRole("radio", { name: guestName })
+    const chip = composer.getByRole("radio", {
+      name: guestName,
+      exact: true,
+    })
 
     await field.fill(guestName.toUpperCase(), { timeout: 5000 })
     await expect(chip).toBeChecked({ timeout: 5000 })
