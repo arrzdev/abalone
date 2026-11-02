@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 
-// Each guide ends with links to the other three, so a reader who finished one
+// Each guide ends with links to the other guides, so a reader who finished one
 // finds the next and a crawler reaches every guide from each of them. The links
 // are in the served HTML, in the page's language (/de/rules links /de/strategy),
 // and sit below the way to the board, which stays on the first screen.
@@ -36,7 +36,7 @@ test.describe("related guides in the served HTML", () => {
     for (const guide of GUIDES) {
       const path = `${prefix}${guide}`
 
-      test(`${path} links the other three guides, each a 200 page`, async ({
+      test(`${path} links the other guides, each a 200 page`, async ({
         request,
       }) => {
         const response = await request.get(path, { maxRedirects: 0 })
@@ -78,7 +78,9 @@ test.describe("related guides at 375×667", () => {
       ).toBeLessThanOrEqual(667)
 
       const related = page.locator("[data-related-guides]")
-      await expect(related.getByRole("link")).toHaveCount(3)
+      await expect(related.getByRole("link")).toHaveCount(
+        GUIDES.length - 1,
+      )
       const relatedBox = await related.boundingBox()
       expect(relatedBox?.y ?? 0).toBeGreaterThan(667)
     })
