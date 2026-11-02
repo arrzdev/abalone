@@ -87,7 +87,7 @@ test("rules is a HowTo whose steps are sections on the page", async ({
 }) => {
   const { html, blocks } = await served(request, "/rules")
 
-  expect(blocks).toHaveLength(2)
+  expect(blocks).toHaveLength(3)
   const [howTo] = blocks
   expect(howTo["@type"]).toBe("HowTo")
   expect(howTo.url).toBe(`${ORIGIN}/rules`)
@@ -123,7 +123,7 @@ test("rules is also a FAQPage that says what the FAQ section says", async ({
 test("strategy is an Article headed by its H1", async ({ request }) => {
   const { html, blocks } = await served(request, "/strategy")
 
-  expect(blocks).toHaveLength(2)
+  expect(blocks).toHaveLength(3)
   const [article] = blocks
   expect(article["@type"]).toBe("Article")
   expect(article.headline).toBe(h1Of(html))
@@ -154,6 +154,7 @@ test("starting positions is an Article and a FAQPage the page shows", async ({
   expect(blocks.map((block) => block["@type"])).toEqual([
     "Article",
     "FAQPage",
+    "BreadcrumbList",
   ])
   const [article, faq] = blocks
   expect(article.headline).toBe(h1Of(html))
@@ -169,11 +170,45 @@ test("starting positions is an Article and a FAQPage the page shows", async ({
   }
 })
 
+test("each guide ends with a trail from home to itself, on its own URL", async ({
+  request,
+}) => {
+  for (const [path, name] of [
+    ["/rules", "Rules"],
+    ["/strategy", "Strategy"],
+    ["/opening-moves", "Opening moves"],
+    ["/starting-positions", "Starting positions"],
+    ["/pt/rules", "Regras"],
+  ] as const) {
+    const { html, blocks } = await served(request, path)
+    const trails = blocks.filter(
+      (block) => block["@type"] === "BreadcrumbList",
+    )
+    expect(trails, path).toHaveLength(1)
+    const items = trails[0].itemListElement as Json[]
+    expect(
+      items.map((item) => item.position),
+      path,
+    ).toEqual([1, 2])
+    expect(items[0].item, path).toBe(
+      path.startsWith("/pt") ? `${ORIGIN}/pt` : `${ORIGIN}/`,
+    )
+    expect(items[1].name, path).toBe(name)
+    expect(items[1].item, path).toBe(`${ORIGIN}${path}`)
+    // the trail names the page's own canonical
+    expect(html, path).toContain(`rel="canonical" href="${items[1].item}"`)
+  }
+})
+
 test("the offline game carries none: its setup panel shows options only", async ({
   request,
 }) => {
   const { blocks } = await served(request, "/offline")
   expect(blocks).toEqual([])
+  const home = await served(request, "/")
+  expect(home.blocks.map((block) => block["@type"])).not.toContain(
+    "BreadcrumbList",
+  )
 })
 
 test("play online is a FAQPage that says what its FAQ says", async ({
