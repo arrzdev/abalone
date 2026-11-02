@@ -118,7 +118,9 @@ for (const viewport of VIEWPORTS) {
       await composer
         .getByLabel("Opponent", { exact: true })
         .fill(friendName)
-      await composer.getByRole("button", { name: "Send invite" }).click()
+      await composer
+        .getByRole("button", { name: `Invite ${friendName}` })
+        .click()
       await expect(composer).toBeHidden()
 
       const main = page.locator("main")

@@ -116,6 +116,7 @@ function OnlinePage() {
         onClose={() => setComposing(false)}
         pending={online.isSending}
         error={online.composeError}
+        recentOpponents={online.recentOpponents}
         onSend={(input) => online.send(input, () => setComposing(false))}
         onLinkCreated={() =>
           setGamesAtLink(

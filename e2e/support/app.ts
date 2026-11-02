@@ -162,8 +162,10 @@ export async function startOnlineGame(
     .click()
   const composer = hostPage.getByRole("dialog")
   await composer.getByLabel("Opponent", { exact: true }).fill(guestName)
-  await composer.getByRole("radio", { name: "Play as black" }).click()
-  await composer.getByRole("button", { name: "Send invite" }).click()
+  await chooseInviteSide(composer, "black")
+  await composer
+    .getByRole("button", { name: `Invite ${guestName}` })
+    .click()
   await expect(composer).toBeHidden()
 
   // The guest accepts, which opens the game.
@@ -184,4 +186,17 @@ export async function startOnlineGame(
   await expect(hostPage).toHaveURL(guestPage.url())
 
   return { host, guest, hostPage, guestPage, guestName }
+}
+
+/**
+ * Sets the side an invite is sent for. The side lives on the composer's game
+ * panel, one press of "Change" away from the main view, and "Done" returns.
+ */
+export async function chooseInviteSide(
+  composer: Locator,
+  side: "black" | "white" | "random",
+): Promise<void> {
+  await composer.getByRole("button", { name: "Change" }).click()
+  await composer.getByRole("radio", { name: `Play as ${side}` }).click()
+  await composer.getByRole("button", { name: "Done" }).click()
 }

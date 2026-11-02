@@ -1,6 +1,12 @@
 import type { Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
-import { openApp, PASSWORD, signUp, uniqueUsername } from "./support/app"
+import {
+  chooseInviteSide,
+  openApp,
+  PASSWORD,
+  signUp,
+  uniqueUsername,
+} from "./support/app"
 import { expectMarble, playMove } from "./support/board"
 import { expireInviteLink } from "./support/database"
 
@@ -17,7 +23,7 @@ async function createInviteLink(page: Page): Promise<string> {
   // link on the default terms instead (TUD-850, e2e/online-empty.spec.ts).
   await openApp(page, "/online?invite=new")
   const composer = page.getByRole("dialog")
-  await composer.getByRole("radio", { name: "Play as black" }).click()
+  await chooseInviteSide(composer, "black")
   await composer
     .getByRole("button", { name: "Invite with a link" })
     .click()

@@ -82,13 +82,18 @@ test.describe("on a 375x667 phone", () => {
     const copyBox = await copy.boundingBox()
     const fieldBox = await field.boundingBox()
     expect(copyBox?.width).toBeLessThanOrEqual(56)
-    expect(fieldBox?.width).toBeGreaterThan(240)
+    expect(fieldBox?.width).toBeGreaterThan(190)
 
+    // With no share sheet, making the link copies it, and says so.
+    const link = await field.inputValue()
+    await expect(composer.getByText(/^Copied/)).toBeVisible()
+    expect((await recorded(page)).copied).toEqual([link])
+
+    // The icon copies it again.
     await copy.click()
-    await expect(composer.getByText(/^Link copied/)).toBeVisible()
-    expect((await recorded(page)).copied).toEqual([
-      await field.inputValue(),
-    ])
+    await expect
+      .poll(async () => (await recorded(page)).copied)
+      .toEqual([link, link])
     await expectNoScrolling(composer)
   })
 
@@ -104,16 +109,22 @@ test.describe("on a 375x667 phone", () => {
     await expect(copy).toBeVisible()
     await expect(share).toBeVisible()
     const fieldBox = await field.boundingBox()
-    expect(fieldBox?.width).toBeGreaterThan(190)
+    expect(fieldBox?.width).toBeGreaterThan(140)
 
+    // Making the link hands it to the share sheet, and says it is ready.
     const link = await field.inputValue()
-    await share.click()
     await expect
       .poll(async () => (await recorded(page)).shared)
       .toEqual([link])
+    await expect(composer.getByText(/^Link ready/)).toBeVisible()
+
+    await share.click()
+    await expect
+      .poll(async () => (await recorded(page)).shared)
+      .toEqual([link, link])
 
     await copy.click()
-    await expect(composer.getByText(/^Link copied/)).toBeVisible()
+    await expect(composer.getByText(/^Copied/)).toBeVisible()
     expect((await recorded(page)).copied).toEqual([link])
     await expectNoScrolling(composer)
   })

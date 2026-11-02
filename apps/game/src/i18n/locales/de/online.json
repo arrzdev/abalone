@@ -72,7 +72,19 @@
     "username_hint": "Der Name, mit dem sie sich anmelden.",
     "setup": "Aufstellung",
     "side": "Deine Seite",
-    "send": "Einladung senden"
+    "send": "Einladung senden",
+    "recents": "Nochmal spielen mit",
+    "someone_else": "Jemand anderes",
+    "send_to": "{{name}} einladen",
+    "change": "Ändern",
+    "game": "Partie",
+    "done": "Fertig",
+    "back": "Zurück",
+    "side_summary": {
+      "random": "Seite wird ausgelost",
+      "black": "Du spielst Schwarz",
+      "white": "Du spielst Weiß"
+    }
   },
   "board": {
     "against": "gegen {{name}}",
@@ -102,7 +114,12 @@
     "copy": "Link kopieren",
     "copied": "Link kopiert",
     "copy_failed": "Kopieren hat nicht geklappt. Markiere den Link und kopiere ihn.",
-    "share_text": "Lust auf eine Partie Abalone? Öffne diesen Link und spiel gegen mich."
+    "share_text": "Lust auf eine Partie Abalone? Öffne diesen Link und spiel gegen mich.",
+    "card_hint": "Jeder kann ihn nutzen",
+    "ready": "Link bereit, gilt 7 Tage",
+    "copied_short": "Kopiert, gilt 7 Tage",
+    "copy_failed_short": "Zum Kopieren markieren",
+    "failed_short": "Ging nicht. Tippe nochmal"
   },
   "invite_link": {
     "loading": "Einladung wird geöffnet",
