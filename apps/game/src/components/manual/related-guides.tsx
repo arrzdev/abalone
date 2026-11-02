@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next"
 /** The guides, in reading order, each named by its page's own heading. */
 const GUIDES = [
   ["/rules", "game:rules.heading"],
+  ["/how-to-play", "game:howto.heading"],
   ["/strategy", "game:strategy.heading"],
   ["/opening-moves", "game:openings.heading"],
   ["/starting-positions", "game:positions.heading"],

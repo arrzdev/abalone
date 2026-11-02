@@ -516,5 +516,89 @@
     "done": "Got it",
     "skip": "Skip"
   },
-  "related_guides": "Related guides"
+  "related_guides": "Related guides",
+  "howto": {
+    "title": "How to play",
+    "heading": "How to play Abalone",
+    "intro": "To play Abalone, take turns with your opponent and move one, two or three of your marbles one space. A longer line of your marbles can push a shorter line of theirs, and the first player to push six of their marbles off the board wins. Below are the rules in five steps and a first game you can play now, <offline>free against the computer</offline>. For the full detail, see the <rules>Abalone rules</rules>.",
+    "steps": {
+      "title": "The rules in five steps",
+      "setup": {
+        "title": "Start with 14 marbles each",
+        "body": "Each player has 14 marbles on a hexagon board. Black moves first, then you take turns. You cannot pass."
+      },
+      "move": {
+        "title": "Move up to three marbles",
+        "body": "On your turn, move one, two or three of your own marbles one space to a neighbouring space. Two or three marbles must sit in a straight line and move together."
+      },
+      "kinds": {
+        "title": "Choose an in-line or a side-step move",
+        "body": "An in-line move sends the group along the line it points. A side step slides the group sideways, and every space it moves into must be empty."
+      },
+      "push": {
+        "title": "Push with more marbles",
+        "body": "Move in line into your opponent's marbles to push them, if you have more marbles in the line than they do: 2 push 1, 3 push 1 and 3 push 2. The space behind them must be empty or off the board. Equal numbers never push."
+      },
+      "win": {
+        "title": "Push six marbles off to win",
+        "body": "A marble pushed past the edge is out of the game. The first player to push six of the opponent's marbles off wins."
+      }
+    },
+    "first_game": {
+      "title": "Your first game, move by move",
+      "intro": "Press the button below to open a game against the computer. This is how the first minutes go.",
+      "steps": {
+        "open": {
+          "title": "Open the game",
+          "body": "Press Play against the computer. The board opens ready to play, with no account and nothing to download."
+        },
+        "pick": {
+          "title": "Pick your marbles",
+          "body": "On your turn, tap up to three of your marbles that sit in a line."
+        },
+        "direction": {
+          "title": "Choose where they go",
+          "body": "Tap one of the highlighted spaces. Your marbles move there and the computer replies."
+        },
+        "stuck": {
+          "title": "Ask for help when you are stuck",
+          "body": "The Hint button shows a suggested move, and Undo takes back your last move."
+        },
+        "push": {
+          "title": "Look for your first push",
+          "body": "Once the armies touch, line up more marbles than your opponent has in a row and push. Keep your own marbles together so they cannot do the same to you."
+        }
+      }
+    },
+    "faq": {
+      "title": "Questions beginners ask",
+      "items": {
+        "start": {
+          "question": "How do you start a game of Abalone?",
+          "answer": "Each player puts 14 marbles on their side of the board. Black goes first, then you take turns, one move each."
+        },
+        "first_move": {
+          "question": "What is a good first move in Abalone?",
+          "answer": "Move a short row from the front toward the center and keep your marbles touching. Do not send one marble alone ahead of the rest."
+        },
+        "win": {
+          "question": "How do you win at Abalone?",
+          "answer": "Push six of your opponent's marbles off the edge of the board. Trapping marbles does not win the game."
+        },
+        "free": {
+          "question": "Can I learn to play Abalone online for free?",
+          "answer": "Yes. Play against the computer or share one screen with a friend in your browser, with no account and no download."
+        }
+      }
+    },
+    "try": {
+      "title": "Play your first game",
+      "more_reading": "Done with the basics? Read the <openings>opening moves for beginners</openings> and the <strategy>strategy tips</strategy>."
+    },
+    "play": {
+      "cta": "Play against the computer",
+      "more": "Other ways to play"
+    },
+    "rules_link": "New to the game? Follow <howto>how to play Abalone</howto> step by step."
+  }
 }

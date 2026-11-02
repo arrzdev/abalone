@@ -15,6 +15,7 @@ const INDEXABLE = {
   "/rules": "Abalone rules: how to play, moves, sumito and winning",
   "/offline": "Play Abalone vs the computer or a friend on one device",
   "/strategy": "Abalone strategy: 7 tips to win more games",
+  "/how-to-play": "How to play Abalone: rules in 5 steps and a first game",
   "/opening-moves": "Abalone opening moves: a guide for beginners",
   "/play-online": "Play Abalone Online With Friends: Invite by Link",
   "/starting-positions":
@@ -29,6 +30,7 @@ const SITEMAP = {
   "/rules": "2026-11-02",
   "/strategy": "2026-11-02",
   "/play-online": "2026-11-01",
+  "/how-to-play": "2026-11-02",
   "/opening-moves": "2026-11-02",
   "/starting-positions": "2026-11-02",
 } as const
@@ -82,6 +84,7 @@ test.describe("indexable pages", () => {
     "/rules": "Abalone rules: how to play",
     "/offline": "Play Abalone vs the computer or a friend",
     "/strategy": "Abalone strategy: 7 tips to win",
+    "/how-to-play": "How to play Abalone",
     "/opening-moves": "Abalone opening moves for beginners",
     "/play-online": "Play Abalone online with a friend",
     "/starting-positions": "Abalone starting positions",

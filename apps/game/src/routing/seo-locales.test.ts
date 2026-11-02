@@ -23,6 +23,7 @@ const BODY_COPY: Record<IndexablePath, [namespace: string, key: string]> =
     "/rules": ["game", "rules"],
     "/strategy": ["game", "strategy"],
     "/offline": ["game", "offline"],
+    "/how-to-play": ["game", "howto"],
     "/opening-moves": ["game", "openings"],
     "/starting-positions": ["game", "positions"],
     "/play-online": ["game", "playOnline"],

@@ -253,10 +253,29 @@ describe("structured data", () => {
     })
   })
 
+  it("describes /how-to-play as a HowTo of its five steps plus a FAQ", () => {
+    const [howTo, faq] = structuredData("/how-to-play")
+
+    expect(howTo["@type"]).toBe("HowTo")
+    expect(howTo.url).toBe(`${ORIGIN}/how-to-play`)
+    const steps = howTo.step as Json[]
+    expect(steps.map((step) => step.url)).toEqual(
+      ["setup", "move", "kinds", "push", "win"].map(
+        (id) => `${ORIGIN}/how-to-play#${id}`,
+      ),
+    )
+    for (const step of steps) {
+      expect(step.text as string).not.toMatch(/<[^>]+>/)
+    }
+    expect(faq["@type"]).toBe("FAQPage")
+    expect(faq.mainEntity).toHaveLength(4)
+  })
+
   describe("breadcrumb trail", () => {
     const GUIDES = [
       "/rules",
       "/strategy",
+      "/how-to-play",
       "/opening-moves",
       "/starting-positions",
     ] as const
@@ -289,6 +308,7 @@ describe("structured data", () => {
       expect(names).toEqual([
         "Rules",
         "Strategy",
+        "How to play",
         "Opening moves",
         "Starting positions",
       ])

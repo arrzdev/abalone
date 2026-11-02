@@ -103,6 +103,26 @@ function rulesHowTo(): Json {
   }
 }
 
+function howToPlayHowTo(): Json {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: enGame.howto.heading,
+    url: siteUrl("/how-to-play"),
+    step: Object.entries(enGame.howto.steps)
+      .filter(([key]) => key !== "title")
+      .map(([key, step]) => {
+        const { title, body } = step as { title: string; body: string }
+        return {
+          "@type": "HowToStep",
+          name: title,
+          url: siteUrl(`/how-to-play#${key}`),
+          text: body,
+        }
+      }),
+  }
+}
+
 /** The FAQ items as the page shows them, answers without their link markup. */
 function faqPage(
   faq: Record<string, { question: string; answer: string }>,
@@ -164,6 +184,7 @@ const GUIDE_NAMES: Partial<
 > = {
   "/rules": (language) => navLabel("rules", language),
   "/strategy": (language) => navLabel("strategy", language),
+  "/how-to-play": () => enGame.howto.title,
   "/opening-moves": () => enGame.openings.title,
   "/starting-positions": () => enGame.positions.title,
 }
@@ -244,6 +265,11 @@ export function structuredDataScripts(
       toScript(faqPage(enGame.strategy.faq.items)),
     ]
   }
+  if (path === "/how-to-play")
+    return [
+      toScript(howToPlayHowTo()),
+      toScript(faqPage(enGame.howto.faq.items)),
+    ]
   if (path === "/opening-moves") {
     const image = siteUrl(`/images/social/og-${page.image}.jpg`)
     return [

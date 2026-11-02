@@ -26,6 +26,7 @@ export const routes = rootRoute([
   layout("subpage", "layouts/subpage.layout.tsx", [
     route("/rules", "pages/rules.page.tsx"),
     route("/strategy", "pages/strategy.page.tsx"),
+    route("/how-to-play", "pages/how-to-play.page.tsx"),
     route("/opening-moves", "pages/opening-moves.page.tsx"),
     route("/play-online", "pages/play-online.page.tsx"),
     route("/starting-positions", "pages/starting-positions.page.tsx"),

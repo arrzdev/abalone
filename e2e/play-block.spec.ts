@@ -328,13 +328,14 @@ test.describe("layout", () => {
               .map((link) => link.text),
           ).toEqual([MORE, MORE])
 
-          //the play online page says how to play a friend; it is no game
-          //that a reader expects to start
+          //the play online and how to play pages are guides that say how to
+          //play; neither is a game that a reader expects to start
           const promising = links.filter(
             (link) =>
               /play|game/i.test(link.text) &&
               link.text !== MORE &&
-              link.href !== "/play-online",
+              link.href !== "/play-online" &&
+              link.href !== "/how-to-play",
           )
           expect(promising.length).toBeGreaterThanOrEqual(3)
           for (const link of promising) {
