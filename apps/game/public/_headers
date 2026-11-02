@@ -19,3 +19,12 @@
 # this header.
 /_shell
   X-Robots-Tag: noindex
+
+# The service worker script and the offline fallback page are for the browser
+# to fetch, not for people to land on. Both answer 200, so a crawler that
+# follows the registration can list them. Same rule as /_shell: robots.txt must
+# not block them, or the crawler never reads this header.
+/sw.js
+  X-Robots-Tag: noindex
+/_pwa/*
+  X-Robots-Tag: noindex
