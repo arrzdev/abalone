@@ -8,6 +8,7 @@ import {
 } from "@/components/manual/chapter-number"
 import { FaqList } from "@/components/manual/faq-list"
 import { ManualHero, ManualPage } from "@/components/manual/manual-page"
+import { RelatedGuides } from "@/components/manual/related-guides"
 import { PlayBlock } from "@/components/play-block"
 import { SubpageHeader } from "@/components/ui/subpage-header"
 import { COMPUTER_GAME } from "@/hooks/use-play-actions"
@@ -182,6 +183,8 @@ function StrategyPage() {
         <Chapter id="practise" title={t("game:strategy.practise.title")}>
           {playBlock}
         </Chapter>
+
+        <RelatedGuides current="/strategy" />
       </ManualPage>
     </>
   )

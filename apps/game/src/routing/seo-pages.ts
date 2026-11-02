@@ -99,11 +99,11 @@ export const SITEMAP: Record<
   string
 > = {
   "/": "2026-11-01",
-  "/rules": "2026-10-19",
-  "/strategy": "2026-10-19",
+  "/rules": "2026-11-02",
+  "/strategy": "2026-11-02",
   "/play-online": "2026-11-01",
-  "/opening-moves": "2026-10-18",
-  "/starting-positions": "2026-10-18",
+  "/opening-moves": "2026-11-02",
+  "/starting-positions": "2026-11-02",
 }
 
 /**
