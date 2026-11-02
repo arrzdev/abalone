@@ -126,7 +126,10 @@ function OpponentChip({
         className="peer absolute inset-0 z-10 size-full cursor-[inherit] appearance-none rounded-xl opacity-0"
       />
 
+      {/* The face is for the eye: its initial read first would put a stray
+          letter in front of the name in the chip's accessible name. */}
       <span
+        aria-hidden="true"
         className={cn(
           "rounded-[11px] transition-shadow peer-focus-visible:shadow-[0_0_0_2px_var(--color-surface),0_0_0_4px_var(--color-brand)]",
           checked &&

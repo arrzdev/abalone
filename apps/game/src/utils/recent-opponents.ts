@@ -45,3 +45,34 @@ export function recentOpponentsOf(
     .sort((first, second) => second.lastPlayedAt - first.lastPlayedAt)
     .slice(0, RECENT_OPPONENT_LIMIT)
 }
+
+/** What the hub holds of the two lists the chips are read from. */
+export type OpponentSources = {
+  /** `undefined` until the list is in. */
+  activeGames: Game[] | undefined
+  finishedGames: Game[] | undefined
+  /** Either list failed to load. */
+  failed: boolean
+}
+
+/**
+ * The chips, once they are final.
+ *
+ * The two lists arrive separately, and reading names off whichever came first
+ * shows a row that reorders or swaps a face when the other lands. So the row
+ * waits for both (`undefined`, which the composer draws as empty chips). A
+ * list that failed settles it with what is in hand, nobody if that is nothing:
+ * typing a name works without the chips.
+ */
+export function recentOpponentsWhenReady(
+  { activeGames, finishedGames, failed }: OpponentSources,
+  myUserId: string | undefined,
+): RecentOpponent[] | undefined {
+  if (!myUserId) return undefined
+  const bothIn = activeGames !== undefined && finishedGames !== undefined
+  if (!bothIn && !failed) return undefined
+  return recentOpponentsOf(
+    [...(activeGames ?? []), ...(finishedGames ?? [])],
+    myUserId,
+  )
+}
