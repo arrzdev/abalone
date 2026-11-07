@@ -283,7 +283,13 @@
   "result": {
     "black_wins": "Vince il nero",
     "white_wins": "Vince il bianco",
-    "draw": "Pareggio"
+    "draw": "Pareggio",
+    "resigned_you": "Hai abbandonato. Vince {{winner}}.",
+    "resigned_other": "{{loser}} ha abbandonato. Vince {{winner}}.",
+    "resigned_opponent": "{{loser}} ha abbandonato. Hai vinto.",
+    "win_you": "Hai vinto, {{winnerScore}} a {{loserScore}}.",
+    "win_other": "Vince {{name}}, {{winnerScore}} a {{loserScore}}.",
+    "draw_repetition": "Pareggio per tripla ripetizione."
   },
   "local": {
     "title": "Due giocatori, un dispositivo",

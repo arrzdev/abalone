@@ -323,7 +323,13 @@
   "result": {
     "black_wins": "Les noirs gagnent",
     "white_wins": "Les blancs gagnent",
-    "draw": "Match nul"
+    "draw": "Match nul",
+    "resigned_you": "Vous avez abandonné. {{winner}} gagne.",
+    "resigned_other": "{{loser}} a abandonné. {{winner}} gagne.",
+    "resigned_opponent": "{{loser}} a abandonné. Vous gagnez.",
+    "win_you": "Vous gagnez, {{winnerScore}} à {{loserScore}}.",
+    "win_other": "{{name}} gagne, {{winnerScore}} à {{loserScore}}.",
+    "draw_repetition": "Match nul par triple répétition."
   },
   "local": {
     "title": "Deux joueurs, un appareil",

@@ -283,7 +283,13 @@
   "result": {
     "black_wins": "As pretas ganham",
     "white_wins": "As brancas ganham",
-    "draw": "Empate"
+    "draw": "Empate",
+    "resigned_you": "Você desistiu. {{winner}} ganha.",
+    "resigned_other": "{{loser}} desistiu. {{winner}} ganha.",
+    "resigned_opponent": "{{loser}} desistiu. Você ganha.",
+    "win_you": "Você ganha, {{winnerScore}} a {{loserScore}}.",
+    "win_other": "{{name}} ganha, {{winnerScore}} a {{loserScore}}.",
+    "draw_repetition": "Empate por tripla repetição."
   },
   "local": {
     "title": "Dois jogadores, um dispositivo",

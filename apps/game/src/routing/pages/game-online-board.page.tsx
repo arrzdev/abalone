@@ -15,7 +15,10 @@ import { GameOverModal } from "@/components/game-over-modal"
 import { GamesIcon, HistoryIcon, SettingsIcon } from "@/components/icons"
 import { IngameControls } from "@/components/ingame-controls"
 import type { GameResult } from "@/components/move-history"
-import { PostgameControls } from "@/components/postgame-controls"
+import {
+  PostgameControls,
+  postgameRematchButton,
+} from "@/components/postgame-controls"
 import { ResignModal } from "@/components/resign-modal"
 import type { Seat } from "@/components/seat-bar"
 import { SeatBar } from "@/components/seat-bar"
@@ -31,7 +34,7 @@ import { usePanelFloor } from "@/hooks/use-compact-panel"
 import { useHeadToHead } from "@/hooks/use-head-to-head"
 import { useMarbleDesign } from "@/hooks/use-marble-design"
 import { useOnlineGame } from "@/hooks/use-online-game"
-import { getSetupName } from "@/i18n/game-text"
+import { describeGameResult, getSetupName } from "@/i18n/game-text"
 import { pageHead } from "@/routing/page-head"
 import { SignedInOnly } from "@/routing/signed-in-only"
 import { hasSeenGameOver, markGameOverSeen } from "@/utils/game-over-seen"
@@ -148,6 +151,12 @@ function GameOnlineBoardPage() {
   if (state.winner) resultKind = state.winner === mySeat ? "win" : "loss"
 
   const resultTitle = t(`online:board.result_${resultKind}`)
+  const resultText = describeGameResult(
+    t,
+    state,
+    mySeat ?? null,
+    (color) => seatFor(color).name,
+  )
 
   /**
    * The game in one row, under the result: who, what, and how it finished.
@@ -276,6 +285,7 @@ function GameOnlineBoardPage() {
                 onDragSelect={online.handleDragSelect}
                 onHover={online.setHoveredCell}
                 onResize={handleBoardResize}
+                resultText={resultText}
               />
             </div>
           </div>
@@ -388,6 +398,7 @@ function GameOnlineBoardPage() {
         onClose={() => setResultOpen(false)}
         onRematch={() => setResultOpen(false)}
         onNewBot={backToList}
+        restoreFocus={postgameRematchButton}
       />
 
       <AppSettingsSheet

@@ -282,7 +282,13 @@
   "result": {
     "black_wins": "Siyah kazanır",
     "white_wins": "Beyaz kazanır",
-    "draw": "Berabere"
+    "draw": "Berabere",
+    "resigned_you": "Çekildin. {{winner}} kazanır.",
+    "resigned_other": "{{loser}} çekildi. {{winner}} kazanır.",
+    "resigned_opponent": "{{loser}} çekildi. Sen kazanırsın.",
+    "win_you": "Sen kazanırsın, {{winnerScore}} - {{loserScore}}.",
+    "win_other": "{{name}} kazanır, {{winnerScore}} - {{loserScore}}.",
+    "draw_repetition": "Üçlü tekrar ile berabere."
   },
   "local": {
     "title": "İki oyuncu, tek cihaz",

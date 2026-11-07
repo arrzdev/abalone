@@ -282,7 +282,13 @@
   "result": {
     "black_wins": "黑方获胜",
     "white_wins": "白方获胜",
-    "draw": "平局"
+    "draw": "平局",
+    "resigned_you": "你认输了。{{winner}}获胜。",
+    "resigned_other": "{{loser}}认输了。{{winner}}获胜。",
+    "resigned_opponent": "{{loser}}认输了。你赢了。",
+    "win_you": "你赢了，{{winnerScore}}比{{loserScore}}。",
+    "win_other": "{{name}}获胜，{{winnerScore}}比{{loserScore}}。",
+    "draw_repetition": "三次重复局面，平局。"
   },
   "local": {
     "title": "两人共用一台设备",

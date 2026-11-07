@@ -28,6 +28,19 @@ export type SheetProps = {
   pinFooter?: boolean
   /** Extra classes for the panel itself — the dialog box, or the sheet. */
   className?: string
+  /**
+   * The id of a heading in `children` that names the overlay, for one whose
+   * heading is part of its own layout and cannot be handed over as `title`.
+   */
+  labelledBy?: string
+  /** The id of the line in `children` that says more about the overlay. */
+  describedBy?: string
+  /**
+   * Where focus goes on close when the control that opened the overlay is gone
+   * with the thing it opened: a game that ended, say. Otherwise focus goes back
+   * to that control.
+   */
+  restoreFocus?: () => HTMLElement | null | undefined
 }
 
 /**
@@ -53,6 +66,9 @@ export function Sheet({
   footer,
   pinFooter = false,
   className,
+  labelledBy,
+  describedBy,
+  restoreFocus,
 }: SheetProps) {
   const isDesktop = useIsDesktop()
   const titleId = useId()
@@ -78,6 +94,9 @@ export function Sheet({
         description={hideTitle ? undefined : description}
         footer={footer}
         className={className}
+        labelledBy={labelledBy}
+        describedBy={describedBy}
+        restoreFocus={restoreFocus}
       >
         {children}
       </Modal>
@@ -90,12 +109,14 @@ export function Sheet({
       onOpenChange={(next) => {
         if (!next) onClose()
       }}
+      restoreFocus={restoreFocus}
     >
       <Drawer.Portal>
         <Drawer.Overlay className="bg-overlay backdrop-blur-sm" />
         <Drawer.Content
           //the sheet answers to its title, shown or not, as the desktop dialog does
-          aria-labelledby={title ? titleId : undefined}
+          aria-labelledby={labelledBy ?? (title ? titleId : undefined)}
+          aria-describedby={describedBy}
           className={cn(
             "rounded-t-2xl bg-surface text-white ring-1 ring-border",
             className,

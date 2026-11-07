@@ -323,7 +323,13 @@
   "result": {
     "black_wins": "Schwarz gewinnt",
     "white_wins": "Weiß gewinnt",
-    "draw": "Unentschieden"
+    "draw": "Unentschieden",
+    "resigned_you": "Du hast aufgegeben. {{winner}} gewinnt.",
+    "resigned_other": "{{loser}} hat aufgegeben. {{winner}} gewinnt.",
+    "resigned_opponent": "{{loser}} hat aufgegeben. Du gewinnst.",
+    "win_you": "Du gewinnst, {{winnerScore}} zu {{loserScore}}.",
+    "win_other": "{{name}} gewinnt, {{winnerScore}} zu {{loserScore}}.",
+    "draw_repetition": "Unentschieden durch dreifache Wiederholung."
   },
   "local": {
     "title": "Zwei Spieler, ein Gerät",

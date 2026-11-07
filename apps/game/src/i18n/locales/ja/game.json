@@ -282,7 +282,13 @@
   "result": {
     "black_wins": "黒の勝ち",
     "white_wins": "白の勝ち",
-    "draw": "引き分け"
+    "draw": "引き分け",
+    "resigned_you": "あなたは投了しました。{{winner}}の勝ちです。",
+    "resigned_other": "{{loser}}が投了しました。{{winner}}の勝ちです。",
+    "resigned_opponent": "{{loser}}が投了しました。あなたの勝ちです。",
+    "win_you": "あなたの勝ち、{{winnerScore}}対{{loserScore}}。",
+    "win_other": "{{name}}の勝ち、{{winnerScore}}対{{loserScore}}。",
+    "draw_repetition": "3回同形反復で引き分けです。"
   },
   "local": {
     "title": "1台で2人対戦",
