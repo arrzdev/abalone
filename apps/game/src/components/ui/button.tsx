@@ -16,7 +16,7 @@ const VARIANTS = {
   secondary: "bg-surface-3 text-white hover:bg-surface-4",
   outline: "bg-surface-2 text-white hover:bg-surface-3",
   ghost: "text-subtle hover:bg-white/10 hover:text-white",
-  danger: "bg-loss text-white hover:brightness-110",
+  danger: "bg-loss-fill text-white hover:brightness-110",
 }
 
 /*
