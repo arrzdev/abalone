@@ -284,7 +284,13 @@
   "result": {
     "black_wins": "Czarne wygrywają",
     "white_wins": "Białe wygrywają",
-    "draw": "Remis"
+    "draw": "Remis",
+    "resigned_you": "Poddałeś się. {{winner}} wygrywa.",
+    "resigned_other": "{{loser}} poddaje się. {{winner}} wygrywa.",
+    "resigned_opponent": "{{loser}} poddaje się. Wygrywasz.",
+    "win_you": "Wygrywasz, {{winnerScore}} do {{loserScore}}.",
+    "win_other": "{{name}} wygrywa, {{winnerScore}} do {{loserScore}}.",
+    "draw_repetition": "Remis przez trzykrotne powtórzenie."
   },
   "local": {
     "title": "Dwóch graczy, jedno urządzenie",

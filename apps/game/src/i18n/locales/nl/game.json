@@ -323,7 +323,13 @@
   "result": {
     "black_wins": "Zwart wint",
     "white_wins": "Wit wint",
-    "draw": "Gelijkspel"
+    "draw": "Gelijkspel",
+    "resigned_you": "Je hebt opgegeven. {{winner}} wint.",
+    "resigned_other": "{{loser}} heeft opgegeven. {{winner}} wint.",
+    "resigned_opponent": "{{loser}} heeft opgegeven. Jij wint.",
+    "win_you": "Jij wint, {{winnerScore}} tegen {{loserScore}}.",
+    "win_other": "{{name}} wint, {{winnerScore}} tegen {{loserScore}}.",
+    "draw_repetition": "Gelijkspel door drievoudige herhaling."
   },
   "local": {
     "title": "Twee spelers, één apparaat",

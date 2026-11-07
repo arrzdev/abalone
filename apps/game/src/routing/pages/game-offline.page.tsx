@@ -25,7 +25,10 @@ import { GameOverModal } from "@/components/game-over-modal"
 import { PlusIcon, SettingsIcon } from "@/components/icons"
 import { IngameControls } from "@/components/ingame-controls"
 import type { GameResult } from "@/components/move-history"
-import { PostgameControls } from "@/components/postgame-controls"
+import {
+  PostgameControls,
+  postgameRematchButton,
+} from "@/components/postgame-controls"
 import { PregameControls } from "@/components/pregame-controls"
 import { ResignModal } from "@/components/resign-modal"
 import type { Seat } from "@/components/seat-bar"
@@ -43,7 +46,7 @@ import { usePanelFloor } from "@/hooks/use-compact-panel"
 import { useDocumentTitle } from "@/hooks/use-document-title"
 import { useFirstGameGuide } from "@/hooks/use-first-game-guide"
 import { getBot, titleKey } from "@/i18n/bots"
-import { getSetupName } from "@/i18n/game-text"
+import { describeGameResult, getSetupName } from "@/i18n/game-text"
 import { useAuth } from "@/providers/auth-provider"
 import { routeLanguage } from "@/routing/route-language"
 import { seoPageHead } from "@/routing/seo-pages"
@@ -372,6 +375,14 @@ function GameOfflinePage() {
     })
   else resultTitle = t(`game:result.${state.winner}_wins`)
 
+  /** The same result for the status line under the board, in the sheet's words. */
+  const resultText = describeGameResult(
+    t,
+    state,
+    isLocal ? null : playerColor,
+    (color) => seatFor(color).name,
+  )
+
   /**
    * The game in one row, under the result.
    *
@@ -586,6 +597,7 @@ function GameOfflinePage() {
                 corner={
                   phase === "ingame" && besideBoard && howToMoveButton
                 }
+                resultText={resultText}
               />
             </div>
 
@@ -601,7 +613,11 @@ function GameOfflinePage() {
               a number about nothing; nothing in a hot-seat game, where there is
               no engine for it to be the opinion of. */}
             {showEval && (
-              <EvalBar score={evalScore} className="beside:hidden" />
+              <EvalBar
+                score={evalScore}
+                label={evalLabel}
+                className="beside:hidden"
+              />
             )}
           </div>
         </section>
@@ -800,6 +816,7 @@ function GameOfflinePage() {
         onClose={game.closeGameOverModal}
         onRematch={game.handleRematch}
         onNewBot={game.handleNewBot}
+        restoreFocus={postgameRematchButton}
       />
       <AppSettingsSheet
         open={settingsOpen}

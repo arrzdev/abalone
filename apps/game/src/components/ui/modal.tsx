@@ -16,6 +16,12 @@ export type ModalProps = {
   children?: ReactNode
   footer?: ReactNode
   className?: string
+  /** The id of a heading in `children` that names the dialog, in place of `title`. */
+  labelledBy?: string
+  /** The id of the line in `children` that says more about the dialog. */
+  describedBy?: string
+  /** Where focus goes on close when whatever had it before is gone. */
+  restoreFocus?: () => HTMLElement | null | undefined
 }
 
 // Everything a Tab press can land on. Disabled controls and `tabindex="-1"`
@@ -64,9 +70,14 @@ export function Modal({
   children,
   footer,
   className,
+  labelledBy,
+  describedBy,
+  restoreFocus,
 }: ModalProps) {
   const { t } = useTranslation()
   const dialogRef = useRef<HTMLDivElement>(null)
+  const restoreFocusRef = useRef(restoreFocus)
+  restoreFocusRef.current = restoreFocus
 
   useEffect(() => {
     const dialog = dialogRef.current
@@ -104,6 +115,7 @@ export function Modal({
       document.removeEventListener("keydown", onKeyDown)
       // The opener may be gone by now, a menu item that closed with its menu.
       if (opener?.isConnected) opener.focus()
+      else restoreFocusRef.current?.()?.focus()
     }
   }, [open])
 
@@ -134,8 +146,13 @@ export function Modal({
         role="dialog"
         tabIndex={-1}
         aria-modal="true"
+        aria-labelledby={labelledBy}
+        aria-describedby={describedBy}
         aria-label={
-          ariaLabel ?? (typeof title === "string" ? title : undefined)
+          labelledBy
+            ? undefined
+            : (ariaLabel ??
+              (typeof title === "string" ? title : undefined))
         }
         className={cn(
           // Never taller than the screen it sits on. A dialog with more to say

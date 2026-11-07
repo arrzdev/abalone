@@ -283,7 +283,13 @@
   "result": {
     "black_wins": "काला जीता",
     "white_wins": "सफेद जीता",
-    "draw": "ड्रॉ"
+    "draw": "ड्रॉ",
+    "resigned_you": "आपने हार मान ली। {{winner}} जीता।",
+    "resigned_other": "{{loser}} ने हार मान ली। {{winner}} जीता।",
+    "resigned_opponent": "{{loser}} ने हार मान ली। आप जीत गए।",
+    "win_you": "आप जीते, {{winnerScore}} बनाम {{loserScore}}।",
+    "win_other": "{{name}} जीता, {{winnerScore}} बनाम {{loserScore}}।",
+    "draw_repetition": "तीन बार दोहराव से ड्रॉ।"
   },
   "local": {
     "title": "दो खिलाड़ी, एक डिवाइस",

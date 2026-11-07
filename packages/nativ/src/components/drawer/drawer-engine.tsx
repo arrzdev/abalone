@@ -23,6 +23,7 @@ import {
   dampenDrawerPull,
   resolveDrawerDragRelease,
 } from "#nativ/components/drawer/drawer-constants"
+import { trapDrawerFocus } from "#nativ/components/drawer/drawer-focus"
 import {
   measureHeightAvailableUntilMaxHeightCap,
   resolveDrawerKeyboardLift,
@@ -204,6 +205,13 @@ export type DrawerEngineProps = {
    * button inside the panel is held) so a small finger drift can't drag the sheet.
    */
   disableDrag?: boolean
+  /**
+   * What had focus before the drawer opened. Read when the drawer closes, to give focus
+   * back to it. Filled in by the root, which sees the opener before `blurInputs` clears it.
+   */
+  openerRef?: RefObject<HTMLElement | null>
+  /** Where focus goes on close when the opener is gone. Without it focus is left on the page. */
+  restoreFocus?: () => HTMLElement | null | undefined
   /** Notified when the on-screen keyboard opens/closes for a field inside the drawer. */
   onKeyboardOpenChange?: (isOpen: boolean) => void
   /** The drawer composition — Overlay + Content parts that self-wire via context. */
@@ -217,6 +225,8 @@ export function DrawerEngine({
   avoidKeyboard = true,
   blurInputs = true,
   disableDrag = false,
+  openerRef,
+  restoreFocus,
   onKeyboardOpenChange,
   children,
 }: DrawerEngineProps) {
@@ -420,6 +430,29 @@ export function DrawerEngine({
       active.blur()
     }
   }, [open, blurInputs])
+
+  const restoreFocusRef = useRef(restoreFocus)
+  restoreFocusRef.current = restoreFocus
+
+  // Modal while open: focus moves onto the panel, Tab stays in it, the rest of the page is
+  // inert, and focus goes back to the opener on close. `mounted` is a dependency because on
+  // a fresh open the panel is not committed yet when `open` flips, and `portalTarget` because the
+  // panel is rebuilt inside the portal once it is known.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: portalTarget is not read, it only says the panel element changed
+  useEffect(() => {
+    const panel = panelRef.current
+    if (!open || !mounted || !panel) return
+    const release = trapDrawerFocus({
+      panel,
+      keep: backdropRef.current,
+      opener: openerRef?.current ?? null,
+      restoreFocus: () => restoreFocusRef.current?.(),
+    })
+    return () => {
+      release()
+      if (openerRef) openerRef.current = null
+    }
+  }, [open, mounted, portalTarget, openerRef])
 
   const snapOpenForKeyboard = useCallback(async () => {
     if (y.get() <= 1) return

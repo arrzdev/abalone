@@ -18,6 +18,15 @@ import {
   usePanelFits,
 } from "@/hooks/use-compact-panel"
 
+/**
+ * The Rematch button under the board, where focus goes when the game over sheet
+ * closes: the control that opened the sheet is gone with the game, and the first
+ * thing to do next is here.
+ */
+export function postgameRematchButton(): HTMLElement | null {
+  return document.querySelector<HTMLElement>("[data-postgame-rematch]")
+}
+
 export type PostgameControlsProps = {
   state: GameState
   result: GameResult | null
@@ -173,6 +182,7 @@ export function PostgameControls({
           size={compact ? "fill" : "md"}
           className="flex-1"
           aria-label={rematchAriaLabel}
+          data-postgame-rematch=""
           onClick={onRematch}
         >
           <RematchIcon size={20} />

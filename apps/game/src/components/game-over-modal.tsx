@@ -1,6 +1,7 @@
 import type { GameState } from "@repo/abalone-engine/game-state"
 import { cn } from "@repo/nativ/utils"
 import type { ReactNode } from "react"
+import { useId } from "react"
 import { useTranslation } from "react-i18next"
 import { RematchIcon } from "@/components/icons"
 import { Button } from "@/components/ui/button"
@@ -55,6 +56,8 @@ export type GameOverModalProps = {
   newGameLabel: string
   /** What the second button is drawn with: a `+` for a new game, a list for the way back to one. */
   newGameIcon: ReactNode
+  /** Where focus goes on close once the control that led here is gone. */
+  restoreFocus?: () => HTMLElement | null | undefined
 }
 
 /**
@@ -79,8 +82,11 @@ export function GameOverModal({
   onNewBot,
   newGameLabel,
   newGameIcon,
+  restoreFocus,
 }: GameOverModalProps) {
   const { t } = useTranslation()
+  const headingId = useId()
+  const subtextId = useId()
   if (!open) return null
 
   const {
@@ -112,7 +118,14 @@ export function GameOverModal({
   }
 
   return (
-    <Sheet open={open} onClose={onClose} className="lg:max-w-[456px]">
+    <Sheet
+      open={open}
+      onClose={onClose}
+      className="lg:max-w-[456px]"
+      labelledBy={headingId}
+      describedBy={subtextId}
+      restoreFocus={restoreFocus}
+    >
       {/* The three blocks a section apart, and the lines of the result 8px
           apart. A container's gap rather than a margin on each block: the
           dialog shape does not space its body for us the way the sheet does. */}
@@ -127,11 +140,16 @@ export function GameOverModal({
             {t("game:modal.game_over")}
           </span>
 
-          <p className="font-display text-4xl leading-none font-extrabold tracking-[-0.035em] text-white lg:text-[44px]">
+          <h2
+            id={headingId}
+            className="font-display text-4xl leading-none font-extrabold tracking-[-0.035em] text-white lg:text-[44px]"
+          >
             {heading}
-          </p>
+          </h2>
 
-          <p className="text-sm text-muted lg:text-[15px]">{subtext}</p>
+          <p id={subtextId} className="text-sm text-muted lg:text-[15px]">
+            {subtext}
+          </p>
         </div>
 
         {summary && (

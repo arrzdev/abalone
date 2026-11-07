@@ -96,6 +96,11 @@ export type GameCanvasProps = {
    * corner empty at every size, so it covers no space a move is played on.
    */
   corner?: ReactNode
+  /**
+   * How the game ended, in words, for the status line once it is over. Left
+   * out, the line keeps reading the last move.
+   */
+  resultText?: string
 }
 
 /**
@@ -240,6 +245,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
       onHover,
       onResize,
       corner,
+      resultText,
     },
     ref,
   ) {
@@ -955,7 +961,9 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
               the reply it exists for is never read out. */}
           {isPlayedOn && (
             <span role="status" className="sr-only">
-              {describeMove(state, t)}
+              {state.gameOver && resultText
+                ? resultText
+                : describeMove(state, t)}
             </span>
           )}
 

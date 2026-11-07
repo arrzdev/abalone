@@ -282,7 +282,13 @@
   "result": {
     "black_wins": "흑 승리",
     "white_wins": "백 승리",
-    "draw": "무승부"
+    "draw": "무승부",
+    "resigned_you": "기권했습니다. {{winner}} 승리.",
+    "resigned_other": "{{loser}}이(가) 기권했습니다. {{winner}} 승리.",
+    "resigned_opponent": "{{loser}}이(가) 기권했습니다. 당신의 승리입니다.",
+    "win_you": "당신의 승리, {{winnerScore}} 대 {{loserScore}}.",
+    "win_other": "{{name}} 승리, {{winnerScore}} 대 {{loserScore}}.",
+    "draw_repetition": "3회 동형 반복으로 무승부."
   },
   "local": {
     "title": "한 기기로 두 명이",

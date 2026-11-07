@@ -115,9 +115,12 @@ export function EvalRail({
 
 export function EvalBar({
   score,
+  label,
   className,
 }: {
   score: number
+  /** The advantage in words, the same as the rail says. */
+  label: string
   className?: string
 }) {
   const value = Number.isFinite(score) ? score : 0
@@ -127,6 +130,10 @@ export function EvalBar({
 
   return (
     <div
+      //a picture with the reading in words: the number drawn on it is that
+      //reading's figure, so it is hidden rather than read a second time
+      role="img"
+      aria-label={label}
       className={cn(
         "relative h-5 w-(--board-w) shrink-0 overflow-hidden rounded-md bg-marble-black",
         className,
@@ -140,6 +147,7 @@ export function EvalBar({
           not — the fill under it is theirs, so the number has to be the other
           one to be read at all. */}
       <span
+        aria-hidden="true"
         className={cn(
           "absolute inset-y-0 flex items-center px-2 text-xs font-bold tabular-nums",
           favoursBlack ? "left-0 text-white" : "right-0 text-black",

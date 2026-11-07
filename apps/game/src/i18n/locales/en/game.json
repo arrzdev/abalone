@@ -466,7 +466,13 @@
   "result": {
     "black_wins": "Black wins",
     "white_wins": "White wins",
-    "draw": "Draw"
+    "draw": "Draw",
+    "resigned_you": "You resigned. {{winner}} wins.",
+    "resigned_other": "{{loser}} resigned. {{winner}} wins.",
+    "resigned_opponent": "{{loser}} resigned. You win.",
+    "win_you": "You win, {{winnerScore}} to {{loserScore}}.",
+    "win_other": "{{name}} wins, {{winnerScore}} to {{loserScore}}.",
+    "draw_repetition": "Draw by threefold repetition."
   },
   "local": {
     "title": "Two players, one device",
