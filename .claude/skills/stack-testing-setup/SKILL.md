@@ -11,7 +11,7 @@ Concrete runners and config. The portable *what/how* doctrine is in `core-testin
 
 | Member | Runner / env | Notes |
 |---|---|---|
-| `@repo/backend` | Vitest + `@cloudflare/vitest-pool-workers` | real local D1 inside a Workers runtime |
+| `@repo/backend` | Vitest + `@cloudflare/vitest-plugin` | real local D1 inside a Workers runtime |
 | `@repo/nativ` | Vitest + **happy-dom** + Testing Library | hooks, gesture engine, vite-plugin units |
 | `@repo/env-validation` | Vitest (node) | schema/registry/parser |
 | `@repo/dev` | Vitest (node) | |

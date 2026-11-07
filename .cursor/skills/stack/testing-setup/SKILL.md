@@ -10,7 +10,7 @@ Concrete runners and config. The portable *what/how* doctrine is in `core/testin
 
 ## Backend — Vitest + real local D1
 
-- Runner: **Vitest** with **`@cloudflare/vitest-pool-workers`** (`apps/backend/vitest.config.ts`). Tests run inside a Workers runtime against **real local D1** — never a mocked DB.
+- Runner: **Vitest** with **`@cloudflare/vitest-plugin`** (`apps/backend/vitest.config.ts`). Tests run inside a Workers runtime against **real local D1** — never a mocked DB.
 - Helpers: integration scaffolding lives in `apps/backend/src/test-support/` — read it before writing a route/service test; reuse its app/context/seed helpers.
 - Isolation: each test self-contained — seed and clear what it needs in `beforeEach`. Do not depend on order between tests.
 - Examples to copy: `src/http/routes/sync.routes.test.ts`, `src/http/middlewares/rate-limit.test.ts`.
