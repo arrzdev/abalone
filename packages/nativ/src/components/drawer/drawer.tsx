@@ -99,6 +99,11 @@ export type DrawerRootProps = {
    * during the hold can't drag the sheet.
    */
   disableDrag?: boolean
+  /**
+   * Where focus goes on close when the element that had it before the drawer opened is gone.
+   * That element gets it back otherwise. Return nothing to leave focus on the page.
+   */
+  restoreFocus?: () => HTMLElement | null | undefined
 }
 
 export type DrawerNestedRootProps = DrawerRootProps
@@ -359,6 +364,7 @@ function DrawerContent({
       role="dialog"
       aria-modal="true"
       aria-hidden={!engine.open}
+      tabIndex={-1}
       data-pwa-drawer=""
       data-open={engine.open}
       style={engine.panelStyle}
@@ -549,6 +555,7 @@ function DrawerTree({
   avoidKeyboard = true,
   blurInputs = true,
   disableDrag = false,
+  restoreFocus,
   open: openProp,
   defaultOpen = false,
   onOpenChange,
@@ -567,8 +574,33 @@ function DrawerTree({
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false)
   const { portal, rest } = partitionDrawerRootChildren(children)
 
+  //what had focus when the drawer was asked to open, for the engine to return it to
+  const openerRef = useRef<HTMLElement | null>(null)
+
+  //A drawer that mounts already open never saw an open request, so its opener is whatever
+  //has focus before any effect can blur it.
+  useLayoutEffect(() => {
+    const active = document.activeElement
+    if (
+      isOpen &&
+      openerRef.current === null &&
+      active instanceof HTMLElement &&
+      active !== document.body
+    ) {
+      openerRef.current = active
+    }
+  }, [isOpen])
+
   const triggerOpenLifecycle = useCallback(
     (nextState: boolean) => {
+      const active = document.activeElement
+      if (
+        nextState &&
+        active instanceof HTMLElement &&
+        active !== document.body
+      ) {
+        openerRef.current = active
+      }
       activeBlur()
 
       if (isControlled) {
@@ -654,6 +686,8 @@ function DrawerTree({
               avoidKeyboard={avoidKeyboard}
               blurInputs={blurInputs}
               disableDrag={disableDrag}
+              openerRef={openerRef}
+              restoreFocus={restoreFocus}
             >
               {portal}
             </DrawerEngine>
