@@ -796,3 +796,21 @@
     user-select: none !important;
   }
 }
+
+/* A saved offline game is on its way back (`data/offline-game/restore-flag.ts`):
+   the prerendered setup screen under it is out of sight, with its space kept so
+   nothing moves when the game replaces it. The page lifts the flag once the game
+   is on the board; the animation is the way out if that script never runs, so a
+   failed load leaves a page, not a blank. */
+html[data-offline-restore] [data-offline-body] {
+  opacity: 0;
+  visibility: hidden;
+  animation: offline-restore-give-up 0s 4s forwards;
+}
+
+@keyframes offline-restore-give-up {
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
