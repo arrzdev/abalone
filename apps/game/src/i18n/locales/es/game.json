@@ -273,6 +273,46 @@
       "more": "Otras formas de jugar"
     }
   },
+  "openings": {
+    "title": "Aperturas",
+    "heading": "Aperturas de Abalone para principiantes",
+    "intro": "Las primeras jugadas de una partida de Abalone preparan la lucha que viene después. Esta página explica la <positions>posición inicial</positions>, qué aperturas son seguras y cómo cambian los primeros turnos con las disposiciones daisy. ¿No sabes bien cómo funciona un empuje? Lee primero las <rules>reglas de Abalone</rules> y luego prueba estas ideas en una <offline>partida gratis contra el ordenador</offline>. Cuando domines la apertura, lee los <strategy>consejos de estrategia de Abalone</strategy>.",
+    "start": {
+      "title": "La posición inicial",
+      "body": "En la disposición estándar cada jugador tiene 14 bolas: sus dos filas más cercanas (cinco y seis bolas) más tres en el centro de la tercera fila. Las negras están abajo, las blancas arriba, y <strong>las negras mueven primero</strong>. Los ejércitos se enfrentan con tres filas vacías en medio, así que nadie puede empujar en el primer movimiento. Compara las tres disposiciones en <positions>posiciones iniciales de Abalone</positions>."
+    },
+    "safe": {
+      "title": "Primeros movimientos seguros",
+      "body": "Mientras no haya ningún empuje posible, usa la apertura para construir, no para atacar. Avanza una bola o una fila corta desde el frente hacia el centro con pasos cortos, y mantén tus bolas en contacto. Un grupo de tres en línea puede empujar dos y cuesta empujarlo, así que una formación compacta es un buen comienzo. No mandes una bola sola por delante del resto."
+    },
+    "sidestep": {
+      "title": "Pasos laterales y movimientos en línea",
+      "body": "Al principio, un paso lateral desliza una fila de lado sin separarla. Un movimiento en línea hace avanzar la fila hacia donde apunta. Los dos están permitidos desde el primer turno; la diferencia está en lo que dejan atrás. Antes de mover, comprueba que no abres un hueco que el rival pueda aprovechar."
+    },
+    "daisy": {
+      "title": "Abrir en una disposición daisy",
+      "body": "En la <strong>Belgian daisy</strong> los ejércitos empiezan en cuatro grupos en forma de flor y se tocan desde el primer movimiento, así que un sumito puede llegar pronto. Busca un empuje que puedas hacer y el grupo del que podrías perder una bola. La <strong>German daisy</strong> tiene los mismos cuatro grupos, pero más separados, lo que te da unos cuantos movimientos tranquilos al principio. Para la comparación completa, mira <positions>Belgian daisy o German daisy</positions>."
+    },
+    "others": {
+      "title": "Otras disposiciones iniciales",
+      "body": "El juego también tiene Dutch daisy, Swiss daisy, Alien, Domination, Infiltration y The Wall. Cada una cambia qué bolas se tocan al empezar. Elige una al empezar una partida y juega la misma disposición varias veces para aprender sus primeros movimientos."
+    },
+    "mistakes": {
+      "title": "Errores de apertura que debes evitar",
+      "items": {
+        "lone_runner": "Mandar una bola sola al centro, donde pueden rodearla.",
+        "rush_edge": "Ir pronto hacia el borde, donde un solo empuje puede sacar una bola.",
+        "ignore_daisy": "Jugar una disposición daisy como la estándar y perder un sumito temprano."
+      }
+    },
+    "practise": {
+      "title": "Practica la apertura"
+    },
+    "play": {
+      "cta": "Jugar contra el ordenador",
+      "more": "Otras formas de jugar"
+    }
+  },
   "messages": {
     "select_marble": "Selecciona una canica para mover",
     "select_destination": "Selecciona el destino",
