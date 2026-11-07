@@ -103,7 +103,7 @@ test("at 320px wide, every board theme name shows in full in the languages that 
     for (const name of await names.all()) {
       expect(
         await labelFit(name),
-        `${language} ${await name.innerText()}`,
+        `${language} ${await name.textContent()}`,
       ).toEqual({ cut: false, lines: 1 })
     }
   }
