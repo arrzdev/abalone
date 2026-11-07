@@ -19,7 +19,7 @@ export function HomeFaq() {
   return (
     <section
       aria-labelledby="home-faq"
-      className="relative mx-auto w-full max-w-2xl shrink-0 px-4 pt-10 pb-safe-offset-10 text-muted lg:px-12"
+      className="relative mx-auto w-full max-w-2xl shrink-0 px-4 pt-10 pb-2 text-muted lg:px-12"
     >
       <h2
         id="home-faq"

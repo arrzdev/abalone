@@ -4,6 +4,7 @@ import { cn } from "@repo/nativ/utils"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import { Trans, useTranslation } from "react-i18next"
+import { LanguageVersions } from "@/components/language-versions"
 import type { ManualChapter } from "@/components/manual/chapter"
 import { Chapter, Plate } from "@/components/manual/chapter"
 import { formatChapterNumber } from "@/components/manual/chapter-number"
@@ -514,6 +515,7 @@ function RulesPage() {
         </div>
 
         <RelatedGuides current="/rules" />
+        <LanguageVersions path="/rules" className="mt-8" />
       </ManualPage>
     </>
   )

@@ -52,6 +52,12 @@ Each indexable page in a language (`PAGE_LANGUAGES` in
 - a canonical and `og:url` on its own URL;
 - one `<link rel="alternate" hreflang>` per language it is in, plus
   `x-default` on the English URL.
+- a plain `<a href>` in its served HTML to each of those other language
+  versions, so a crawler finds `/pt` from `/` and `/tr/rules` from `/rules`:
+  `hreflang` names the versions, it does not get them crawled. The names are
+  each language's own (`LANGUAGE_NAMES`), with `lang` and `hreflang` on the
+  link. These links leave the current prefix, so they are not router `<Link>`s
+  (the rewrite would put the page's own prefix back on).
 
 `sitemap.xml` lists one entry per page and language, each with the same
 alternates as `xhtml:link` (`apps/game/src/routing/sitemap.ts`).

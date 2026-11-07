@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { Trans, useTranslation } from "react-i18next"
+import { LanguageVersions } from "@/components/language-versions"
 import type { ManualChapter } from "@/components/manual/chapter"
 import { Chapter } from "@/components/manual/chapter"
 import {
@@ -191,6 +192,7 @@ function StrategyPage() {
         </Chapter>
 
         <RelatedGuides current="/strategy" />
+        <LanguageVersions path="/strategy" className="mt-8" />
       </ManualPage>
     </>
   )
