@@ -2,20 +2,22 @@
 
 The vector original of each bot's portrait. These are the source the game
 actually draws from: `pnpm --filter @repo/game avatars` optimizes them and
-writes one React component per character into
-`src/components/avatars/<id>.gen.tsx`, which `components/bot-avatar.tsx` picks
-between by id.
+writes one standalone SVG per character into
+`src/components/avatars/<id>.gen.svg`. `components/bot-avatar.tsx` imports
+them, so the build ships each as a hashed file under `/assets/` (cached
+immutably, precached by the service worker) and the page draws it with an
+`<img>`, picked by id.
 
 Named after the character, not the level — reordering the ladder should move a
 face up it, not repaint someone else's.
 
-## Rebuilding the components
+## Rebuilding the files
 
 ```bash
 pnpm --filter @repo/game avatars
 ```
 
-Edit the SVG, re-run that, commit both. Never edit a `.gen.tsx` by hand.
+Edit the SVG, re-run that, commit both. Never edit a `.gen.svg` by hand.
 
 The step is deliberately not part of `build`: it shells out to `svgo` through
 `pnpm dlx` rather than adding a dependency, and the art changes about as often
@@ -27,10 +29,10 @@ What it does, and why each part is load-bearing:
   precision 1 costs 0.45–0.53% RMSE and precision 0 costs 1.3–2.0% — the jump is
   integer rounding opening hairline seams between fills that used to share an
   edge. Precision 1 is invisible; precision 0 is not.
-- **Prefixes every id with the character's name.** All eight portraits mount
-  into one document in the opponent grid, and each file numbers its own ids from
-  `a`. Without the prefix, `url(#a)` resolves to whichever face rendered first
-  and the roster borrows each other's gradients.
+- **Prefixes every id with the character's name.** Each file numbers its own
+  ids from `a`. As `<img>` files they no longer share a document, but if a face
+  is ever inlined again, `url(#a)` would resolve to whichever face rendered
+  first and the roster would borrow each other's gradients.
 - **Drops `width`/`height`, keeps the viewBox.** The size comes from the class
   the caller passes, the way `Logo` takes one.
 - **Applies the square from `crop.json`** (below).
@@ -69,3 +71,8 @@ ImageMagick's own SVG renderer flattens the transparency the measurement reads.
 Until these became components the game shipped 256px WebP crops from
 `public/images/avatars/`, built by the same square. The crop survived the move;
 the raster step did not.
+
+The components drew inline, which put all eight traced portraits (about 780 KB)
+in the offline page's script and, rendered on the server, in its HTML. They
+became hashed files instead; the drawing inside each is byte for byte what the
+components drew.

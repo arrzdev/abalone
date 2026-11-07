@@ -200,9 +200,8 @@ export function PregameControls({
                       {/* Square whether or not there is anything in it yet. The
                         tile's height used to come from the portrait's own
                         height, so the grid settled downward as the eight
-                        landed — which the inline faces make moot, but the
-                        reserved box is what makes that true rather than
-                        lucky. */}
+                        landed. The faces are fetched files, so the reserved
+                        box is what keeps the grid still while they load. */}
                       <span
                         className={cn(
                           "relative block aspect-square overflow-hidden rounded-lg transition",
