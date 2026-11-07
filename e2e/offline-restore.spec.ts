@@ -62,6 +62,23 @@ async function reload(page: Page): Promise<void> {
   await openApp(page, page.url())
 }
 
+/**
+ * Paints the page afresh. A page that has been played on carries the pixels of
+ * its earlier paints: a seat card that changed turn leaves one or two levels of
+ * antialiasing on a rounded corner that a page loaded straight into the same
+ * state does not have. Screenshots are only comparable between fresh paints.
+ */
+async function repaint(page: Page): Promise<void> {
+  await page.evaluate(() => {
+    document.body.style.willChange = "transform"
+  })
+  await page.waitForTimeout(300)
+  await page.evaluate(() => {
+    document.body.style.willChange = ""
+  })
+  await page.waitForTimeout(500)
+}
+
 function board(page: Page) {
   return page.getByRole("application")
 }
@@ -136,6 +153,7 @@ test("a Pass and Play game comes back on a cold reopen of /offline, pixel for pi
   const main = page.locator("main")
   await waitForRest(main)
   const boardName = await board(page).getAttribute("aria-label")
+  await repaint(page)
   const before = await page.screenshot({ animations: "disabled" })
 
   await watchForSetupScreen(page)
