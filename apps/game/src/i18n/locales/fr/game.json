@@ -333,5 +333,105 @@
     "done": "Compris",
     "skip": "Passer"
   },
-  "related_guides": "Guides associés"
+  "related_guides": "Guides associés",
+  "positions": {
+    "title": "Positions de départ",
+    "heading": "Positions de départ d'Abalone",
+    "intro": "Abalone a trois grandes positions de départ : standard, Belgian daisy et German daisy. Chaque joueur reçoit 14 billes et les noirs jouent en premier. La disposition standard est la meilleure pour apprendre ; avec les daisy, les armées se rencontrent plus tôt. Voir les <rules>règles</rules> et les <opening>premiers coups</opening>.",
+    "glance": {
+      "title": "En un coup d'œil",
+      "caption": "Les trois principales positions de départ d'Abalone comparées",
+      "columns": {
+        "layout": "Disposition",
+        "shape": "Forme",
+        "first_push": "Poussée possible au premier coup ?",
+        "best_for": "Idéale pour"
+      },
+      "rows": {
+        "standard": {
+          "layout": "Disposition standard",
+          "shape": "Deux rangées plus trois billes de la troisième rangée, noirs en bas, blancs en haut",
+          "first_push": "Non",
+          "best_for": "Apprendre"
+        },
+        "belgian_daisy": {
+          "layout": "Belgian daisy",
+          "shape": "Quatre groupes en forme de fleur, un par coin, aux couleurs alternées",
+          "first_push": "Les armées se touchent tout de suite, une poussée peut donc arriver tôt",
+          "best_for": "Parties rapides et tactiques"
+        },
+        "german_daisy": {
+          "layout": "German daisy",
+          "shape": "Mêmes quatre groupes et mêmes couleurs, décalés des coins vers les côtés",
+          "first_push": "Les groupes partent plus éloignés, il y a donc quelques coups calmes d'abord",
+          "best_for": "Parties ouvertes"
+        }
+      }
+    },
+    "standard": {
+      "title": "Disposition standard",
+      "label": "Position de départ standard",
+      "play": "Jouer la disposition standard",
+      "body": "Dans la disposition standard, chaque joueur a 14 billes : ses deux rangées les plus proches (cinq et six billes) plus trois au milieu de la troisième rangée. Les noirs sont en bas, les blancs en haut, et <strong>les noirs jouent en premier</strong>. Les deux armées se font face à travers trois rangées vides, donc personne ne peut pousser au premier coup.",
+      "next": "Commence ici si tu débutes, puis lis les <opening>premiers coups</opening>."
+    },
+    "belgian_daisy": {
+      "title": "Belgian daisy",
+      "label": "Position de départ Belgian daisy",
+      "play": "Jouer la Belgian daisy",
+      "body": "Les billes partent en quatre groupes en forme de fleur, un dans chaque coin. Les blancs sont en haut à gauche et en bas à droite, les noirs en haut à droite et en bas à gauche. Les armées se touchent dès le premier coup, un sumito peut donc arriver tôt : cherche une poussée que tu peux jouer et le groupe où tu risques de perdre une bille.",
+      "history": "Les joueurs sont passés aux départs en daisy parce que la disposition standard permet à un joueur prudent de former un coin défensif et d'éviter indéfiniment les attaques ; la Belgian daisy a été adoptée par les meilleurs joueurs en 1999 pour relancer le jeu."
+    },
+    "german_daisy": {
+      "title": "German daisy",
+      "label": "Position de départ German daisy",
+      "play": "Jouer la German daisy",
+      "body": "Encore quatre groupes en forme de fleur, aux mêmes couleurs que la Belgian daisy, mais décalés des coins vers les côtés. Les groupes partent plus éloignés, tu as donc quelques coups calmes pour former des groupes de trois avant le premier contact."
+    },
+    "compare": {
+      "title": "Belgian daisy ou German daisy",
+      "body": "Les deux utilisent quatre groupes et les mêmes couleurs. La différence, c'est la distance : dans la Belgian daisy, les armées se touchent dès le premier coup ; dans la German daisy, elles partent plus éloignées. Choisis la <strong>Belgian daisy</strong> pour des combats vifs dès le début et la <strong>German daisy</strong> si tu veux le temps de t'installer d'abord. Pas sûr ? Joue les deux <offline>contre l'ordinateur</offline>."
+    },
+    "others": {
+      "title": "Autres dispositions",
+      "body": "Dutch daisy, Swiss daisy, Alien, Domination, Infiltration et The Wall sont aussi dans le jeu. Choisis-en une au début d'une partie."
+    },
+    "faq": {
+      "title": "Questions fréquentes",
+      "items": {
+        "marbles": {
+          "question": "Avec combien de billes chaque joueur commence-t-il à Abalone ?",
+          "answer": "Chaque joueur commence avec 14 billes, dans toutes les dispositions de cette page."
+        },
+        "first": {
+          "question": "Qui joue en premier à Abalone ?",
+          "answer": "Les noirs jouent en premier."
+        },
+        "belgian": {
+          "question": "Qu'est-ce que la Belgian daisy à Abalone ?",
+          "answer": "Une position de départ avec quatre groupes en forme de fleur, un dans chaque coin. Les armées se touchent dès le premier coup."
+        },
+        "difference": {
+          "question": "Quelle est la différence entre la Belgian daisy et la German daisy ?",
+          "answer": "Les deux utilisent les mêmes quatre groupes et les mêmes couleurs. La German daisy les décale des coins vers les côtés, ils partent donc plus éloignés."
+        },
+        "beginners": {
+          "question": "Quelle position de départ d'Abalone est la meilleure pour les débutants ?",
+          "answer": "La disposition standard, parce que personne ne peut pousser au premier coup."
+        },
+        "why_daisy": {
+          "question": "Pourquoi les joueurs utilisent-ils les dispositions daisy ?",
+          "answer": "Elles rendent moins probable qu'un coin défensif bloque la partie. Les meilleurs joueurs ont adopté la Belgian daisy en 1999 pour relancer le jeu."
+        }
+      }
+    },
+    "try": {
+      "title": "Essaie-les",
+      "more_reading": "Une fois ta disposition choisie, lis les <strategy>conseils de stratégie Abalone</strategy>."
+    },
+    "play": {
+      "cta": "Jouer contre l'ordinateur",
+      "more": "Autres façons de jouer"
+    }
+  }
 }

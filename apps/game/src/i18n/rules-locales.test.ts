@@ -38,6 +38,47 @@ describe.each(["rules", "strategy"])("%s copy", (section) => {
   })
 })
 
+//the starting positions page is translated into the same few languages. the
+//two daisy layouts keep their names (the opening moves copy does too), so those
+//strings are the same as english on purpose
+const KEPT_NAMES = [
+  "belgian_daisy.title",
+  "german_daisy.title",
+  "glance.rows.belgian_daisy.layout",
+  "glance.rows.german_daisy.layout",
+]
+
+describe.each(["de", "fr", "nl", "es"])(
+  "%s starting positions copy",
+  (language) => {
+    const path = `./locales/${language}/game.json`
+    const positions = LOCALES[path].positions as Record<string, unknown>
+    const englishPositions = english.positions as Record<string, unknown>
+
+    it("has every key english has", () => {
+      expect(keyPaths(positions).sort()).toEqual(
+        keyPaths(englishPositions).sort(),
+      )
+    })
+
+    it.each(
+      keyPaths(englishPositions).filter(
+        (key) => !KEPT_NAMES.includes(key),
+      ),
+    )("translates %s", (key) => {
+      const read = (root: unknown) =>
+        key
+          .split(".")
+          .reduce<unknown>(
+            (node, part) => (node as Record<string, unknown>)?.[part],
+            root,
+          )
+      expect(read(positions)).toEqual(expect.any(String))
+      expect(read(positions)).not.toBe(read(englishPositions))
+    })
+  },
+)
+
 //the play block under each page's intro, mid-page and at the end (the
 //`content-play-block` document on TUD-820). its two labels replace the old end
 //buttons, which no locale keeps

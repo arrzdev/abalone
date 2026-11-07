@@ -146,13 +146,34 @@ describe("seoPageHead in a language", () => {
     expect(alternates(head)["x-default"]).toBe(`${ORIGIN}/`)
   })
 
-  it("points an untranslated page at the english one", () => {
-    const head = seoPageHead("/opening-moves", "pt")
+  it.each(["de", "fr", "nl", "es"] as const)(
+    "gives /starting-positions in %s its own url and the five languages",
+    (language) => {
+      const head = seoPageHead("/starting-positions", language)
+      const copy = seoCopy("/starting-positions", language)
 
-    expect(canonical(head)).toBe(`${ORIGIN}/opening-moves`)
+      expect(metaContent(head, "title")).toBe(copy.title)
+      expect(canonical(head)).toBe(
+        `${ORIGIN}/${language}/starting-positions`,
+      )
+      expect(alternates(head)).toEqual({
+        en: `${ORIGIN}/starting-positions`,
+        de: `${ORIGIN}/de/starting-positions`,
+        fr: `${ORIGIN}/fr/starting-positions`,
+        nl: `${ORIGIN}/nl/starting-positions`,
+        es: `${ORIGIN}/es/starting-positions`,
+        "x-default": `${ORIGIN}/starting-positions`,
+      })
+    },
+  )
+
+  it("points an untranslated page at the english one", () => {
+    const head = seoPageHead("/how-to-play", "pt")
+
+    expect(canonical(head)).toBe(`${ORIGIN}/how-to-play`)
     expect(alternates(head)).toEqual({
-      en: `${ORIGIN}/opening-moves`,
-      "x-default": `${ORIGIN}/opening-moves`,
+      en: `${ORIGIN}/how-to-play`,
+      "x-default": `${ORIGIN}/how-to-play`,
     })
   })
 })
