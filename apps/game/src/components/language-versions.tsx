@@ -44,7 +44,7 @@ export function LanguageVersions({
               href={localePath(path, language)}
               lang={language}
               hrefLang={language}
-              className="inline-flex min-h-11 items-center px-2 underline-offset-2 hover:text-white hover:underline"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center px-2 underline-offset-2 hover:text-white hover:underline"
             >
               {LANGUAGE_NAMES[language]}
             </a>
