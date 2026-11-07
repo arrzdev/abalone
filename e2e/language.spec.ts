@@ -37,6 +37,51 @@ test("switching the language translates the app and survives a reload", async ({
   )
 })
 
+// A language is its own file, fetched when it is picked. The service worker
+// precaches every one at install, so a language the visitor never opened still
+// switches with the network off.
+test("a language never opened switches with the network off", async ({
+  page,
+  context,
+}) => {
+  await openApp(page, "/offline")
+  await page.evaluate(() => navigator.serviceWorker.ready)
+  await expect
+    .poll(
+      () =>
+        page.evaluate(async () => {
+          const names = await caches.keys()
+          for (const name of names) {
+            const cache = await caches.open(name)
+            const requests = await cache.keys()
+            if (
+              requests.some((request) => /\/locale-ja-/.test(request.url))
+            )
+              return true
+          }
+          return false
+        }),
+      { message: "Japanese is precached", timeout: 60_000 },
+    )
+    .toBe(true)
+
+  await context.setOffline(true)
+  await page
+    .getByRole("button", { name: "Settings" })
+    .filter({ visible: true })
+    .first()
+    .click()
+  await page.getByRole("button", { name: "Select Language" }).click()
+  await page.getByRole("option", { name: "日本語" }).click()
+
+  await expect(page.locator("html")).toHaveAttribute("lang", "ja")
+  await expect(page).toHaveURL(/\/ja\/offline$/)
+  await expect(page.getByRole("tab", { name: "vs Computer" })).toHaveCount(
+    0,
+  )
+  await context.setOffline(false)
+})
+
 // A visitor whose browser is set to Japanese gets the page in Japanese, and
 // the document says so, for screen readers and search engines alike.
 test.describe("a browser set to Japanese", () => {
