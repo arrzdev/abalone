@@ -171,6 +171,26 @@ test.describe("served HTML", () => {
       linkPattern("/strategy", "Abalone strategy: 7 tips"),
     )
   })
+
+  test("the content pages each link to the starting positions once", async ({
+    request,
+  }) => {
+    for (const [path, text] of [
+      ["/strategy", "Abalone starting position"],
+      ["/rules", "starting positions"],
+      ["/opening-moves", "starting positions"],
+    ] as const) {
+      const html = await servedHtml(request, path)
+      expect(html, path).toMatch(linkPattern("/starting-positions", text))
+    }
+    //the rules setups chapter keeps a single link, not the old one beside it;
+    //the related guides list after the last chapter has its own
+    const html = await servedHtml(request, "/rules")
+    const related = html.indexOf("data-related-guides")
+    expect(related).toBeGreaterThan(-1)
+    const rules = html.slice(0, related)
+    expect(rules.match(/href="\/starting-positions"/g)).toHaveLength(1)
+  })
 })
 
 // The heading a player and a screen reader get, at this project's width.

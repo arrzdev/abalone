@@ -158,7 +158,7 @@
       "german_daisy": "<name>German daisy:</name> four flower-shaped clusters again, with the same colours as the Belgian daisy (white upper left and lower right, black upper right and lower left), but set in from the corners toward the sides. The clusters start further apart, so the opening is more open.",
       "others": "<strong>Others in the game:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration and The Wall. Choose one when you start a game.",
       "openings": "Want a safe start? See our <openings>Abalone opening moves for beginners</openings>.",
-      "compare": "Compare them in detail: <positions>Abalone starting positions</positions>."
+      "compare": "New to the board? Start from the right layout: our <positions>starting positions</positions> page shows the standard, Belgian daisy and German daisy setups side by side."
     },
     "faq": {
       "title": "Frequently asked",
@@ -222,7 +222,7 @@
       },
       "opening": {
         "title": "5. Choose your opening on purpose",
-        "body": "In the standard layout, nobody can push on move one, so develop toward the center in small steps and keep your three-marble rows. In a <strong>Belgian daisy</strong> the armies touch at once: look for the first sumito and defend your weakest cluster. Try each layout against the computer to learn what changes. Need a safe first move? See the <openings>Abalone opening moves</openings>."
+        "body": "In the standard layout, nobody can push on move one, so develop toward the center in small steps and keep your three-marble rows. In a <strong>Belgian daisy</strong> the armies touch at once: look for the first sumito and defend your weakest cluster. Try each layout against the computer to learn what changes. Need a safe first move? See the <openings>Abalone opening moves</openings>. Your first plan depends on the layout, so see each <positions>Abalone starting position</positions> before you pick an opening."
       },
       "attack_as_a_group": {
         "title": "6. Attack as a group, not as a hero",
@@ -279,7 +279,7 @@
     "intro": "The first few moves of an Abalone game set up the fight that follows. This page covers the <positions>starting position</positions>, which opening moves are safe, and how the daisy layouts change the first turns. Not sure how a push works? Read the <rules>Abalone rules</rules> first, then try these ideas in a <offline>free game against the computer</offline>. Once the opening feels familiar, read the <strategy>Abalone strategy tips</strategy>.",
     "start": {
       "title": "The starting position",
-      "body": "In the standard layout each player has 14 marbles: their two nearest rows (five and six marbles) plus three in the middle of the third row. Black sits at the bottom, white at the top, and <strong>black moves first</strong>. The armies face each other across three empty rows, so nobody can push on move one. Compare all three layouts in <positions>Abalone starting positions</positions>."
+      "body": "In the standard layout each player has 14 marbles: their two nearest rows (five and six marbles) plus three in the middle of the third row. Black sits at the bottom, white at the top, and <strong>black moves first</strong>. The armies face each other across three empty rows, so nobody can push on move one. Before you pick a first move, compare the <positions>starting positions</positions>: the standard layout and both daisies, each with its board."
     },
     "safe": {
       "title": "Safe first moves",
@@ -316,7 +316,7 @@
   "positions": {
     "title": "Starting positions",
     "heading": "Abalone starting positions",
-    "intro": "Abalone has three main starting positions: standard, Belgian daisy and German daisy. Each player gets 14 marbles and black moves first. Standard is best for learning; in the daisies the armies meet sooner. See the <rules>rules</rules> and <opening>opening moves</opening>.",
+    "intro": "The Abalone starting position decides how your first moves play out. There are three main ones: standard, Belgian daisy and German daisy. Each player has 14 marbles and black moves first. Standard is the one to learn on; in the daisies the armies meet sooner. See the <rules>rules</rules> and <opening>opening moves</opening>.",
     "glance": {
       "title": "At a glance",
       "caption": "The three main Abalone starting positions compared",

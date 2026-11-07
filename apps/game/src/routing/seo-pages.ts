@@ -72,9 +72,9 @@ export const SEO_PAGES: Record<
     image: "rules",
   },
   "/starting-positions": {
-    title: "Abalone starting positions: standard and daisy layouts",
+    title: "Abalone Starting Position: Standard, Belgian or German Daisy",
     description:
-      "Abalone starting positions explained: the standard layout, Belgian daisy and German daisy, how they differ and which to pick. Try each one free.",
+      "Abalone starting position explained: standard, Belgian daisy and German daisy side by side, how they differ and which to pick. Try each free.",
     image: "rules",
   },
   "/offline": {
@@ -106,8 +106,8 @@ export const SITEMAP: Record<
   string
 > = {
   "/": "2026-11-01",
-  "/rules": "2026-11-02",
-  "/strategy": "2026-11-02",
+  "/rules": "2026-11-07",
+  "/strategy": "2026-11-07",
   "/play-online": "2026-11-01",
   "/how-to-play": "2026-11-02",
   "/opening-moves": "2026-11-07",

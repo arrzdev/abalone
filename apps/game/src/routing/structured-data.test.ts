@@ -205,7 +205,7 @@ describe("structured data", () => {
       "@type": "Article",
       headline: "Abalone starting positions",
       description:
-        "Abalone starting positions explained: the standard layout, Belgian daisy and German daisy, how they differ and which to pick. Try each one free.",
+        "Abalone starting position explained: standard, Belgian daisy and German daisy side by side, how they differ and which to pick. Try each free.",
       url: `${ORIGIN}/starting-positions`,
       mainEntityOfPage: `${ORIGIN}/starting-positions`,
       image: `${ORIGIN}/images/social/og-rules.jpg`,

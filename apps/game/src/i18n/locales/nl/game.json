@@ -157,7 +157,7 @@
       "belgian_daisy": "<name>Belgian daisy:</name> de ballen beginnen in vier bloemvormige groepen, één in elke hoek. Zwart en wit wisselen elkaar af rond het bord (wit linksboven en rechtsonder, zwart rechtsboven en linksonder). De legers raken elkaar al in de eerste zet, dus het spel is snel en tactisch. Populair op toernooien omdat het eerlijker is dan de standaardopstelling.",
       "german_daisy": "<name>German daisy:</name> weer vier bloemvormige groepen, met dezelfde kleuren als de Belgian daisy (wit linksboven en rechtsonder, zwart rechtsboven en linksonder), maar vanuit de hoeken naar de zijkanten geschoven. De groepen beginnen verder uit elkaar, dus de opening is opener.",
       "others": "<strong>Andere in het spel:</strong> Dutch daisy, Swiss daisy, Alien, Domination, Infiltration en The Wall. Kies er een als je een spel start.",
-      "compare": "Vergelijk ze in detail: <positions>Abalone-beginopstellingen</positions>.",
+      "compare": "Nieuw op het bord? Begin met de juiste opstelling: onze pagina over de <positions>beginopstellingen</positions> toont Standard, Belgian daisy en German daisy naast elkaar.",
       "openings": "Veilig beginnen? Bekijk de <openings>openingszetten van Abalone voor beginners</openings>."
     },
     "faq": {
@@ -222,7 +222,7 @@
       },
       "opening": {
         "title": "5. Kies je opening bewust",
-        "body": "In de standaardopstelling kan niemand in de eerste zet duwen, dus ontwikkel je in kleine stappen naar het midden en houd je rijen van drie. Bij een <strong>Belgian daisy</strong> raken de legers elkaar meteen: zoek de eerste sumito en verdedig je zwakste groep. Probeer elke opstelling tegen de computer om te zien wat er verandert. Een veilige eerste zet nodig? Bekijk de <openings>openingszetten van Abalone</openings>."
+        "body": "In de standaardopstelling kan niemand in de eerste zet duwen, dus ontwikkel je in kleine stappen naar het midden en houd je rijen van drie. Bij een <strong>Belgian daisy</strong> raken de legers elkaar meteen: zoek de eerste sumito en verdedig je zwakste groep. Probeer elke opstelling tegen de computer om te zien wat er verandert. Een veilige eerste zet nodig? Bekijk de <openings>openingszetten van Abalone</openings>. Je eerste plan hangt af van de opstelling, dus bekijk elke <positions>Abalone-beginopstelling</positions> voordat je een opening kiest."
       },
       "attack_as_a_group": {
         "title": "6. Val aan als groep, niet als held",
