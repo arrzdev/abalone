@@ -115,3 +115,75 @@ test.describe("the home page's demo board", () => {
     await expectNextMove(board)
   })
 })
+
+// The canvas is empty until the page's script has run and drawn it, so the slot
+// it will fill holds the opening position as markup until then.
+test.describe("the demo board before the script has run", () => {
+  const PHONE = { width: 390, height: 664 }
+
+  /** The 61 squares, and a shadow and a marble for each of the 28 marbles. */
+  const SQUARES = 61
+  const MARBLES = 28
+
+  const frame = (page: Page): Locator =>
+    page.locator("main svg[data-demo-board-frame]")
+
+  test.describe("with JavaScript off", () => {
+    test.use({ javaScriptEnabled: false, viewport: PHONE })
+
+    test("the slot shows the opening position, not an empty box", async ({
+      page,
+    }) => {
+      await page.goto("/")
+      await expect(frame(page)).toBeVisible()
+      await expect(frame(page).locator("circle")).toHaveCount(
+        SQUARES + MARBLES * 2,
+      )
+      const box = await frame(page).boundingBox()
+      expect(box?.width, "the frame has a width").toBeGreaterThan(100)
+      expect(box?.height, "the frame has a height").toBeGreaterThan(100)
+    })
+  })
+
+  test.describe("with JavaScript on", () => {
+    test.use({ viewport: PHONE })
+
+    test("the canvas takes the frame's place without moving the board", async ({
+      browser,
+      page,
+    }) => {
+      //the frame's box is the slot the canvas letterboxes the board into
+      const bare = await browser.newContext({
+        javaScriptEnabled: false,
+        viewport: PHONE,
+      })
+      const barePage = await bare.newPage()
+      await barePage.goto("/")
+      const slot = await frame(barePage).boundingBox()
+      await bare.close()
+      if (slot === null) throw new Error("the frame has no box")
+
+      await openApp(page, "/")
+      const canvas = demoBoard(page)
+      await expect(canvas).toBeVisible()
+      await expect(
+        frame(page),
+        "the frame is gone once drawn",
+      ).toHaveCount(0)
+      const drawn = await canvas.boundingBox()
+      if (drawn === null) throw new Error("the canvas has no box")
+
+      //whole pixels: the canvas is floored to a whole size, the frame is not
+      expect(drawn.x + drawn.width / 2).toBeCloseTo(
+        slot.x + slot.width / 2,
+        0,
+      )
+      expect(drawn.y + drawn.height / 2).toBeCloseTo(
+        slot.y + slot.height / 2,
+        0,
+      )
+      expect(drawn.width).toBeLessThanOrEqual(slot.width + 1)
+      expect(drawn.height).toBeLessThanOrEqual(slot.height + 1)
+    })
+  })
+})
