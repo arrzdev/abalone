@@ -1,10 +1,13 @@
+import tryCatch from "@repo/shared/try-catch"
+import { useRouter } from "@tanstack/react-router"
 import type { i18n as I18nInstance } from "i18next"
 import type { ReactNode } from "react"
 import { useEffect } from "react"
 import { I18nextProvider } from "react-i18next"
 import { useUrlLanguage } from "@/hooks/use-url-language"
 import type { Language } from "@/i18n"
-import i18next from "@/i18n"
+import i18next, { loadLanguage } from "@/i18n"
+import { localeResources } from "@/i18n/locale-resources"
 
 //one clone per language, made on first use. A clone shares the translations
 //and owns its language, so a request reads its own and never moves another's.
@@ -31,15 +34,33 @@ function serverInstanceFor(language: Language): I18nInstance {
  * In the browser the shared instance is the only one there is, and it booted
  * in the language of the address (`@/i18n`). It follows the address after
  * that, so back and forward between two languages' pages change the language
- * with them.
+ * with them. A language not loaded yet is fetched first, the page keeps the
+ * one it has until then, and the route heads are read again once it is in, so
+ * the title is in that language too.
  */
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const language = useUrlLanguage()
+  const router = useRouter()
 
   useEffect(() => {
-    if (i18next.language !== language)
-      void i18next.changeLanguage(language)
-  }, [language])
+    if (i18next.language === language) return
+
+    let isStale = false
+    async function followAddress() {
+      const wasLoaded = localeResources.isLoaded(language)
+      const [, error] = await tryCatch(() => loadLanguage(language))
+      //offline and never fetched: the page stays in the language it has
+      if (error || isStale) return
+
+      await i18next.changeLanguage(language)
+      if (!wasLoaded) await router.invalidate()
+    }
+    void followAddress()
+
+    return () => {
+      isStale = true
+    }
+  }, [language, router])
 
   if (typeof window !== "undefined") return children
 

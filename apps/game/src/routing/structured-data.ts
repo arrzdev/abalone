@@ -1,5 +1,6 @@
 import type { Language } from "@/i18n/languages"
 import { DEFAULT_LANGUAGE, localePath } from "@/i18n/locale-path"
+import { localeResources } from "@/i18n/locale-resources"
 import enCommon from "@/i18n/locales/en/common.json"
 import enGame from "@/i18n/locales/en/game.json"
 import type { IndexablePath, SeoPage } from "@/routing/seo-pages"
@@ -174,9 +175,8 @@ function toScript(data: Json): StructuredDataScript {
 
 //the nav labels of every language ("Rules", "Regras"): the same words the
 //header calls these pages, so the trail in a result matches the site
-const LOCALE_FILES = import.meta.glob<{
-  nav?: Record<string, string>
-}>("../i18n/locales/*/common.json", { eager: true, import: "default" })
+//of the language in hand: English until that language is loaded in the browser
+type NavLocale = { nav?: Record<string, string> }
 
 /** The guides that sit one level under home, and what the trail calls each. */
 const GUIDE_NAMES: Partial<
@@ -191,7 +191,7 @@ const GUIDE_NAMES: Partial<
 
 function navLabel(key: "rules" | "strategy", language: Language): string {
   return (
-    LOCALE_FILES[`../i18n/locales/${language}/common.json`]?.nav?.[key] ??
+    localeResources.resource<NavLocale>(language, "common")?.nav?.[key] ??
     enCommon.nav[key]
   )
 }

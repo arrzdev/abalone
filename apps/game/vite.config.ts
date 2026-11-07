@@ -8,6 +8,14 @@ import { crawlerFiles } from "./scripts/crawler-files.plugin"
 
 const { appPort, supervisorPort } = PORTS
 
+//a locale file, and the language its folder names
+const LOCALE_FILE = /[\\/]i18n[\\/]locales[\\/]([a-z]+)[\\/][a-z]+\.json$/
+
+function languageChunkName(moduleId: string): string | null {
+  const language = moduleId.match(LOCALE_FILE)?.[1]
+  return language ? `locale-${language}` : null
+}
+
 //the build a game event says it came from: the short commit in ci, "dev" anywhere
 //else. a constant baked in at build time, so it needs no env variable
 const APP_VERSION = process.env.GITHUB_SHA?.slice(0, 7) || "dev"
@@ -71,6 +79,12 @@ export default defineConfig({
             {
               name: "zod",
               test: /[\\/]node_modules[\\/]zod[\\/]|[\\/]src[\\/]utils[\\/]zod-jitless\.ts$/,
+            },
+            //one chunk per language, holding its five namespaces: a language
+            //switch is one request rather than five (`@/i18n/locale-resources`)
+            {
+              name: languageChunkName,
+              test: LOCALE_FILE,
             },
           ],
         },
