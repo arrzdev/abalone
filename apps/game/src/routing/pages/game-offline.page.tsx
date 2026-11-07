@@ -9,7 +9,14 @@ import {
   useNavigate,
 } from "@tanstack/react-router"
 import type { CSSProperties, ReactNode } from "react"
-import { useCallback, useRef, useState, useSyncExternalStore } from "react"
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react"
 import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import { BotAvatar } from "@/components/bot-avatar"
@@ -38,6 +45,11 @@ import {
   SubpageHeader,
 } from "@/components/ui/subpage-header"
 import { TapButton } from "@/components/ui/tap-button"
+import {
+  clearOfflineRestoreFlag,
+  OFFLINE_RESTORE_SCRIPT,
+} from "@/data/offline-game/restore-flag"
+import { readOfflineGame } from "@/data/offline-game/snapshot"
 import { useProfile } from "@/data/profile/queries"
 import { useAbaloneGame } from "@/hooks/use-abalone-game"
 import { useBesideBoard } from "@/hooks/use-beside-board"
@@ -116,8 +128,14 @@ export const Route = createFileRoute("/_subpage/offline")({
         ? search.mode
         : undefined,
   }),
-  head: ({ match }) =>
-    seoPageHead("/offline", routeLanguage(match.context)),
+  head: ({ match }) => {
+    const head = seoPageHead("/offline", routeLanguage(match.context))
+    //first, so it runs before the body is painted (`restore-flag.ts`)
+    return {
+      ...head,
+      scripts: [{ children: OFFLINE_RESTORE_SCRIPT }, ...head.scripts],
+    }
+  },
   component: GameOfflinePage,
 })
 
@@ -189,12 +207,37 @@ function GameOfflinePage() {
     }
   })
 
+  //the game a reload interrupted. read once, wherever the page is entered: a
+  //way in that starts a game of its own is asking for a new one, which replaces
+  //it. null while hydrating, because what the server rendered is the setup
+  //screen, and the restore is applied right after, before it can be painted
+  const [savedGame] = useState(() =>
+    startOnBoard ? null : readOfflineGame(),
+  )
+  const restoring = clientRender ? savedGame : null
+
+  //the saved game's own mode wins over `?mode=`: a cold /offline has none, and
+  //a Pass and Play game must not come back as a game against the computer. held
+  //until the URL has caught up, then the URL is the answer again
+  const [restoredMode, setRestoredMode] = useState(savedGame?.state.mode)
+  const gameMode =
+    (clientRender ? restoredMode : undefined) ?? searchMode ?? "ai"
+  useEffect(() => {
+    if (!clientRender || !restoredMode) return
+    if (searchMode === restoredMode) {
+      setRestoredMode(undefined)
+      return
+    }
+    void chooseMode(restoredMode)
+  }, [chooseMode, clientRender, restoredMode, searchMode])
+
   const game = useAbaloneGame(
     boardRef,
-    searchMode ?? "ai",
+    gameMode,
     chooseMode,
     startOnBoard,
     firstSetup,
+    restoring,
   )
   const {
     state,
@@ -221,6 +264,13 @@ function GameOfflinePage() {
   } = game
 
   const isPregame = phase === "pregame"
+
+  //the head script hid the page for a saved game; it comes back with the game
+  //on the board, or at once when there turned out to be none
+  useLayoutEffect(() => {
+    if (isPregame && savedGame) return
+    clearOfflineRestoreFlag()
+  }, [isPregame, savedGame])
   const isPostgame = phase === "postgame"
   const isLocal = mode === "local"
 
@@ -529,7 +579,10 @@ function GameOfflinePage() {
       {/* The board and the panel, whichever way round they go. A box of its own
           rather than the page itself, because the page also holds the phone's
           header — and a header inside a `flex-row` is a third column. */}
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col beside:flex-row lg:gap-4 lg:p-4">
+      <div
+        data-offline-body="true"
+        className="flex min-h-0 min-w-0 flex-1 flex-col beside:flex-row lg:gap-4 lg:p-4"
+      >
         {/* Board column: the board, and nothing about the game around it.
           Everything that used to frame it — who is playing, whose move it is,
           what either side has taken — is in the panel now, at every width. A

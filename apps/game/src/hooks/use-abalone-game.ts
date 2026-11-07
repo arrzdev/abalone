@@ -26,12 +26,24 @@ import {
 } from "@repo/abalone-engine/rules"
 import type { CellName, Player } from "@repo/abalone-engine/types"
 import type { RefObject } from "react"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { BotClient } from "@/ai/bot-client"
 import type { ColorChoiceValue } from "@/components/color-choice"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import type { GameEvent } from "@/data/game-events/report"
 import { reportGameEvent } from "@/data/game-events/report"
+import type { SavedOfflineGame } from "@/data/offline-game/snapshot"
+import {
+  clearOfflineGame,
+  writeOfflineGame,
+} from "@/data/offline-game/snapshot"
 import {
   useAnimationsEnabled,
   useAutoRotateBoard,
@@ -138,6 +150,11 @@ export type NewGameOptions = {
  *        rather than showing that screen. Read on the first render only.
  * @param firstSetup the layout the first board is set up as, where a way in
  *        asked for one. Read on the first render only.
+ * @param saved the game a reload interrupted, to put back on the board. Taken
+ *        in a layout effect, so it is on the board before the first paint it
+ *        could be seen missing from; null until the page can hand it over, which
+ *        is not while it is still hydrating prerendered HTML that shows the
+ *        setup screen. Taken once.
  */
 export function useAbaloneGame(
   boardRef: RefObject<GameCanvasHandle | null>,
@@ -146,6 +163,7 @@ export function useAbaloneGame(
   onModeChange: (mode: GameMode) => void,
   startOnBoard = false,
   firstSetup: SetupKey = DEFAULT_SETUP,
+  saved: SavedOfflineGame | null = null,
 ) {
   const [difficulty, setDifficulty] = useState(1)
   const [setupType, setSetupType] = useState<SetupKey>(firstSetup)
@@ -216,6 +234,34 @@ export function useAbaloneGame(
     countedGameRef.current = null
     reportGameEvent(finishEventOf(game, stateRef.current, abandoned))
   }, [])
+
+  //the game a reload interrupted, put back as it was. the bot is told the level
+  //it plays at; with nothing asked of it yet, the AI effect below plays when it
+  //is the bot's turn. no `start` goes out for it: this is the game already
+  //counted, and the `abandoned` the reload sent is accepted as its end
+  const restoredRef = useRef(false)
+  useLayoutEffect(() => {
+    if (!saved || restoredRef.current) return
+    restoredRef.current = true
+
+    const restored = saved.state
+    aiRequestedForRef.current = null
+    busyRef.current = false
+    setDifficulty(saved.difficulty)
+    setColorChoice(saved.colorChoice)
+    setPlayerColor(restored.playerColor)
+    setSetupType(restored.setupType)
+    setState(restored)
+    //the side to move is already at the bottom: a board that turned round on
+    //the way back would be the one spin nobody asked for
+    setDisplayFlip(
+      restored.mode === "local" && restored.currentTurn === "white",
+    )
+    gameStartTimeRef.current = Date.now()
+    setPhase("ingame")
+    if (restored.mode === "ai")
+      void botRef.current?.connect(saved.difficulty)
+  }, [saved])
 
   //leaving mid-game is abandoning it. `pagehide` rather than `beforeunload`:
   //it is the one a phone fires when the tab is swiped away
@@ -377,6 +423,8 @@ export function useAbaloneGame(
 
       //before the board is replaced: the finish counts the moves played on it
       reportFinish(true)
+      //a new game replaces the saved one, and the setup screen holds none
+      clearOfflineGame()
 
       const fresh = createGameState(nextSetup, nextColor, nextMode)
       aiRequestedForRef.current = null
@@ -461,6 +509,7 @@ export function useAbaloneGame(
   )
 
   const handleResign = useCallback(() => {
+    clearOfflineGame()
     // In hot-seat play the side to move is the one giving up.
     setState((s) =>
       resignGame(s, s.mode === "local" ? s.currentTurn : s.playerColor),
@@ -480,8 +529,34 @@ export function useAbaloneGame(
   // Score, repetition or resignation: however it ended, it is counted here.
   // stateRef is the state just rendered, so the finish reads the final board.
   useEffect(() => {
-    if (state.gameOver) reportFinish(false)
+    if (!state.gameOver) return
+    reportFinish(false)
+    //a finished game is never kept: it reopens on the setup screen
+    clearOfflineGame()
   }, [reportFinish, state.gameOver])
+
+  //the game in play, kept so a reload brings it back. the board's position is
+  //what is kept, so it follows the history and nothing else: a selection or a
+  //hover does not rewrite it, and neither does the frame executeMove sets
+  //before its animation (same history as the position it starts from), which
+  //is how the save never holds a half-made move
+  const savedPositionRef = useRef<{
+    history: GameState["moveHistory"]
+    index: number
+  } | null>(null)
+  useEffect(() => {
+    if (phase !== "ingame") return
+    const { moveHistory, currentMoveIndex } = state
+    const last = savedPositionRef.current
+    if (last?.history === moveHistory && last.index === currentMoveIndex) {
+      return
+    }
+    savedPositionRef.current = {
+      history: moveHistory,
+      index: currentMoveIndex,
+    }
+    writeOfflineGame({ state, difficulty, colorChoice })
+  }, [colorChoice, difficulty, phase, state])
 
   /* ---------------------------------------------------------------- *
    * Board interaction
