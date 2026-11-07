@@ -72,7 +72,7 @@ export async function nativ(
 }
 
 /** TanStack Start options — mapped from the loaded `nativ.config.ts`; nativ adds the stamped router entry. */
-function deriveStartOptions(
+export function deriveStartOptions(
   config: NativAppConfig,
   routerEjected: boolean,
   clientEjected: boolean,
@@ -86,8 +86,15 @@ function deriveStartOptions(
     //no client entry set → Start's built-in default (with StrictMode, recommended).
     //eject to a custom entry (e.g. no StrictMode) by writing `src/client.tsx`.
     ...(clientEjected ? { client: { entry: "./client" } } : {}),
-    ...(router.serverEntry
-      ? { server: { entry: router.serverEntry } }
+    ...(router.serverEntry || router.inlineCss !== undefined
+      ? {
+          server: {
+            ...(router.serverEntry ? { entry: router.serverEntry } : {}),
+            ...(router.inlineCss === undefined
+              ? {}
+              : { build: { inlineCss: router.inlineCss } }),
+          },
+        }
       : {}),
     router: {
       generatedRouteTree: router.generatedRouteTree,

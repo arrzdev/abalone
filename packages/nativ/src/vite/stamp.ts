@@ -66,10 +66,16 @@ export function stampGeneratedFiles(context: NativContext): EjectState {
  * ROOT
  * ============================================================================= */
 
-function renderRootGen(config: NativAppConfig): string {
+export function renderRootGen(config: NativAppConfig): string {
+  //inlining is Start's job, and Start only inlines CSS the route graph imports.
+  //a `?url` import hands us a link to emit ourselves, which Start never sees
+  const inlineCss = config.router.inlineCss === true
+  const stylesImport = inlineCss
+    ? `import ${JSON.stringify(toAppAlias(config.styles))}`
+    : `import appStyles from ${JSON.stringify(`${toAppAlias(config.styles)}?url`)}`
   const imports: string[] = [
     `import { createRootRoute } from "@repo/nativ/shell"`,
-    `import appStyles from ${JSON.stringify(`${toAppAlias(config.styles)}?url`)}`,
+    stylesImport,
   ]
 
   //resolve a possibly-partial themeColor to concrete light + dark — a single-color
@@ -105,7 +111,7 @@ function renderRootGen(config: NativAppConfig): string {
     fields.push(`twitter: ${serializeValue(config.twitter)}`)
   if (config.sw !== false)
     fields.push(`serviceWorker: { register: "autoUpdate" }`)
-  fields.push(`stylesEntryPoint: appStyles`)
+  if (!inlineCss) fields.push(`stylesEntryPoint: appStyles`)
 
   const splash = importThunk(
     config,
