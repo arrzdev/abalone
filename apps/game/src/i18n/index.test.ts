@@ -36,8 +36,19 @@ describe("<html lang>", () => {
   it("follows a switch made from the settings sheet", async () => {
     const { changeLanguage } = await loadI18n()
 
-    changeLanguage("zh")
+    await changeLanguage("zh")
 
     expect(document.documentElement.lang).toBe("zh")
+  })
+})
+
+describe("loadLanguage", () => {
+  it("brings English with the language, for the keys it does not translate", async () => {
+    const { default: i18next, loadLanguage } = await loadI18n()
+
+    await loadLanguage("hi")
+
+    expect(i18next.hasResourceBundle("hi", "game")).toBe(true)
+    expect(i18next.hasResourceBundle("en", "game")).toBe(true)
   })
 })

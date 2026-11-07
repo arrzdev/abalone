@@ -1,3 +1,4 @@
+import tryCatch from "@repo/shared/try-catch"
 import { useRouter } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 import { LanguageFlag } from "@/components/language-flag"
@@ -23,8 +24,9 @@ const LANGUAGE_OPTIONS: SelectOption<Language>[] = SUPPORTED_LANGUAGES.map(
 /**
  * The language choice, as a labelled full-width dropdown.
  *
- * Translations are bundled rather than fetched, so the text switches at once.
- * The page then moves to its address in that language (`/pt/rules`; English is
+ * The language's translations are fetched first (a precached file, so it is
+ * quick and works offline), and the page keeps its language until they are
+ * in. It then moves to its address in that language (`/pt/rules`; English is
  * the unprefixed one), so the address, the head and a reload all agree with
  * what is on screen. It replaces the entry rather than adding one: back should
  * leave the page, not undo a language.
@@ -40,8 +42,11 @@ export function LanguageSelect({ className }: { className?: string }) {
     i18n.language ||
     "en") as Language
 
-  function handleChange(language: Language) {
-    changeLanguage(language)
+  async function handleChange(language: Language) {
+    const [, error] = await tryCatch(() => changeLanguage(language))
+    //the language did not load: the page stays as it was, in the language it had
+    if (error) return
+
     //the router's location is the page without its prefix, as the routes spell it
     const { pathname, searchStr, hash } = router.state.location
     const suffix = `${searchStr}${hash ? `#${hash}` : ""}`

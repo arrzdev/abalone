@@ -1,6 +1,7 @@
 import type { Language } from "@/i18n/languages"
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages"
 import { DEFAULT_LANGUAGE } from "@/i18n/locale-path"
+import { localeResources } from "@/i18n/locale-resources"
 import type { SocialImage } from "@/routing/page-head"
 import { pageHead } from "@/routing/page-head"
 import {
@@ -133,10 +134,12 @@ export const PAGE_LANGUAGES: Record<IndexablePath, readonly Language[]> = {
 }
 
 //the title and description of a page in another language live in that
-//language's `common.json`, under `seo`, next to the rest of its copy
-const LOCALE_FILES = import.meta.glob<{
+//language's `common.json`, under `seo`, next to the rest of its copy. the
+//browser reads them once that language is loaded (`@/i18n/locale-resources`);
+//a page head that runs before then falls back to English
+type SeoLocale = {
   seo?: Record<string, { title: string; description: string }>
-}>("../i18n/locales/*/common.json", { eager: true, import: "default" })
+}
 
 const SEO_KEYS: Partial<Record<IndexablePath, string>> = {
   "/": "home",
@@ -160,7 +163,7 @@ export function seoCopy(path: IndexablePath, language: Language): SeoPage {
   const localized =
     key === undefined
       ? undefined
-      : LOCALE_FILES[`../i18n/locales/${language}/common.json`]?.seo?.[key]
+      : localeResources.resource<SeoLocale>(language, "common")?.seo?.[key]
   if (!localized) return english
   return { ...localized, image: english.image }
 }

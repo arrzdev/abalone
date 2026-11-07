@@ -1,9 +1,10 @@
-import type { PostProcessorModule, Resource, ResourceKey } from "i18next"
+import type { PostProcessorModule, Resource } from "i18next"
 import i18next from "i18next"
 import { initReactI18next } from "react-i18next"
 import type { Language } from "@/i18n/languages"
-import { isSupported } from "@/i18n/languages"
+import { isSupported, SUPPORTED_LANGUAGES } from "@/i18n/languages"
 import { pickLanguage, splitLocalePath } from "@/i18n/locale-path"
+import { localeResources, NAMESPACES } from "@/i18n/locale-resources"
 import {
   browserLanguages,
   savedLanguage,
@@ -14,22 +15,18 @@ import { brandText } from "@/utils/brand"
 export type { Language } from "@/i18n/languages"
 export { LANGUAGE_NAMES, SUPPORTED_LANGUAGES } from "@/i18n/languages"
 
-//locales could be fetched over http at runtime, but bundling them removes the
-//network round-trip and the language-prefixed url scheme, so the build is a
-//self-contained static app.
-const modules = import.meta.glob<{ default: ResourceKey }>(
-  "./locales/*/*.json",
-  { eager: true },
-)
+const FALLBACK_LANGUAGE: Language = "en"
 
+//the server and the tests hold every language already; the browser starts with
+//none and `loadLanguage` adds one (`@/i18n/locale-resources`)
 const resources: Resource = {}
-for (const [path, module] of Object.entries(modules)) {
-  const match = path.match(/\.\/locales\/([^/]+)\/([^/]+)\.json$/)
-  if (!match) continue
-  const language = match[1]
-  const namespace = match[2]
-  resources[language] ??= {}
-  resources[language][namespace] = module.default
+for (const language of SUPPORTED_LANGUAGES) {
+  for (const namespace of NAMESPACES) {
+    const bundle = localeResources.resource(language, namespace)
+    if (!bundle) continue
+    resources[language] ??= {}
+    resources[language][namespace] = bundle
+  }
 }
 
 /**
@@ -86,18 +83,61 @@ i18next
   .use(initReactI18next)
   .init({
     lng: detectLanguage(),
-    fallbackLng: "en",
-    ns: ["common", "game", "bots", "errors", "online"],
+    fallbackLng: FALLBACK_LANGUAGE,
+    ns: [...NAMESPACES],
     defaultNS: "game",
     resources,
     interpolation: { escapeValue: false },
     postProcess: "brand",
   })
 
-export function changeLanguage(language: Language): void {
+/**
+ * Fetches a language's translations and hands them to i18next, which is what
+ * makes it switchable. Resolves at once for a language already in hand.
+ *
+ * English comes with every language: the other twelve do not translate every
+ * key yet (the guides are English-only in most), and i18next answers a missing
+ * key from English. Without it those would render as bare keys. English is
+ * also in the entry's own dependencies (the page heads and the bot pools read
+ * it), so it adds no request.
+ */
+export async function loadLanguage(language: Language): Promise<void> {
+  const languages = new Set<Language>([language, FALLBACK_LANGUAGE])
+  await Promise.all(
+    [...languages].map((each) => localeResources.load(each)),
+  )
+
+  for (const each of languages) {
+    for (const namespace of NAMESPACES) {
+      const bundle = localeResources.resource(each, namespace)
+      if (!bundle) continue
+      if (i18next.hasResourceBundle(each, namespace)) continue
+      i18next.addResourceBundle(each, namespace, bundle)
+    }
+  }
+}
+
+/**
+ * Resolves when the language the page booted in is ready to render. The client
+ * entry waits for it before hydrating, so the first paint is already in that
+ * language rather than a flash of keys.
+ */
+export const i18nReady: Promise<void> = loadLanguage(
+  i18next.language as Language,
+)
+
+/**
+ * Moves the app to a language and remembers the choice. The translations are
+ * fetched first, so the text never goes blank in between: until they arrive
+ * the page keeps the language it has. Rejects if they cannot be fetched (no
+ * network and never cached), leaving the language and the saved choice as they
+ * were.
+ */
+export async function changeLanguage(language: Language): Promise<void> {
   if (!isSupported(language)) return
+  await loadLanguage(language)
   saveLanguage(language)
-  void i18next.changeLanguage(language)
+  await i18next.changeLanguage(language)
 }
 
 export default i18next
