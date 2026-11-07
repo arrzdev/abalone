@@ -91,8 +91,8 @@ export function getBot(level: number): Bot {
 export const blurbKey = (level: number) => `bots:${getBot(level).id}.blurb`
 export const titleKey = (level: number) => `bots:${getBot(level).id}.title`
 
-//a bot's portrait is no longer a url. the faces are svg components generated
-//from `assets/avatars/`, picked by id in `components/bot-avatar.tsx`, so
+//a bot's portrait is no longer a url. the faces are svg files generated from
+//`assets/avatars/`, picked by id in `components/bot-avatar.tsx`, so
 //nothing here has to know where a picture lives
 
 //the locale json is a fixed shape to a translator and a bag of pools to this

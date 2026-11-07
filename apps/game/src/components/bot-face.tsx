@@ -20,10 +20,9 @@ export type BotFaceProps = {
  * tile, with the rest spent on a shirt. These are cropped to the head so the
  * character survives being small.
  *
- * Fetched rather than inlined, unlike `BotAvatar`. That one is inline because
- * the grid puts all eight up as the screen opens and empty tiles were showing;
- * here the row is decoration under a board, and eight traced SVGs of this
- * detail would cost the bundle more than the pictures cost the network.
+ * Raster rather than vector, unlike `BotAvatar`: the row is decoration under a
+ * board, and at 28px eight traced SVGs of this detail would cost more than the
+ * pictures do.
  *
  * The corner follows `Avatar`'s rule — a quarter of the box — so a face beside
  * a player's picture is cut to the same shape.

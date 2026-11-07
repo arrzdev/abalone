@@ -22,7 +22,7 @@
       "!!**/routeTree.gen.ts",
       "!!**/__root.gen.tsx",
       "!!**/router.gen.tsx",
-      "!!**/components/avatars/*.gen.tsx",
+      "!!**/components/avatars/*.gen.svg",
       "!!**/public/sw.js",
       "!!**/*.css",
       "!!**/env/.env",
