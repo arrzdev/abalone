@@ -333,5 +333,105 @@
     "done": "Verstanden",
     "skip": "Überspringen"
   },
-  "related_guides": "Weitere Anleitungen"
+  "related_guides": "Weitere Anleitungen",
+  "positions": {
+    "title": "Startaufstellungen",
+    "heading": "Abalone-Startaufstellungen",
+    "intro": "Abalone hat drei wichtige Startaufstellungen: Standard, Belgian daisy und German daisy. Jeder Spieler bekommt 14 Kugeln, und Schwarz zieht zuerst. Standard eignet sich am besten zum Lernen; bei den Daisy-Aufstellungen treffen die Armeen früher aufeinander. Lies dazu die <rules>Regeln</rules> und die <opening>Eröffnungszüge</opening>.",
+    "glance": {
+      "title": "Auf einen Blick",
+      "caption": "Die drei wichtigsten Abalone-Startaufstellungen im Vergleich",
+      "columns": {
+        "layout": "Aufstellung",
+        "shape": "Form",
+        "first_push": "Schub im ersten Zug möglich?",
+        "best_for": "Am besten für"
+      },
+      "rows": {
+        "standard": {
+          "layout": "Standardaufstellung",
+          "shape": "Zwei Reihen plus drei Kugeln der dritten Reihe, Schwarz unten, Weiß oben",
+          "first_push": "Nein",
+          "best_for": "Lernen"
+        },
+        "belgian_daisy": {
+          "layout": "Belgian daisy",
+          "shape": "Vier blumenförmige Gruppen, eine pro Ecke, die Farben wechseln sich ab",
+          "first_push": "Die Armeen berühren sich sofort, ein Schub kann also früh kommen",
+          "best_for": "Schnelle, taktische Partien"
+        },
+        "german_daisy": {
+          "layout": "German daisy",
+          "shape": "Dieselben vier Gruppen und Farben, aber von den Ecken Richtung Seiten gerückt",
+          "first_push": "Die Gruppen starten weiter auseinander, es gibt also zuerst ein paar ruhige Züge",
+          "best_for": "Offene Partien"
+        }
+      }
+    },
+    "standard": {
+      "title": "Standardaufstellung",
+      "label": "Standard-Startaufstellung",
+      "play": "Mit der Standardaufstellung spielen",
+      "body": "In der Standardaufstellung hat jeder Spieler 14 Kugeln: seine beiden nächstgelegenen Reihen (fünf und sechs Kugeln) plus drei in der Mitte der dritten Reihe. Schwarz sitzt unten, Weiß oben, und <strong>Schwarz zieht zuerst</strong>. Zwischen den Armeen liegen drei leere Reihen, also kann im ersten Zug niemand schieben.",
+      "next": "Fang hier an, wenn du neu bist, und lies dann die <opening>Eröffnungszüge</opening>."
+    },
+    "belgian_daisy": {
+      "title": "Belgian daisy",
+      "label": "Belgian-Daisy-Startaufstellung",
+      "play": "Die Belgian daisy spielen",
+      "body": "Die Kugeln starten in vier blumenförmigen Gruppen, eine in jeder Ecke. Weiß steht oben links und unten rechts, Schwarz oben rechts und unten links. Die Armeen berühren sich schon im ersten Zug, ein Sumito kann also früh kommen: Such einen Schub, den du machen kannst, und die Gruppe, aus der du eine Kugel verlieren könntest.",
+      "history": "Spieler wechselten zu Daisy-Starts, weil die Standardaufstellung es einem vorsichtigen Spieler erlaubt, einen Verteidigungskeil zu bauen und Angriffen endlos auszuweichen; die Belgian daisy wurde 1999 von Spitzenspielern übernommen, um das Spiel zu beleben."
+    },
+    "german_daisy": {
+      "title": "German daisy",
+      "label": "German-Daisy-Startaufstellung",
+      "play": "Die German daisy spielen",
+      "body": "Wieder vier blumenförmige Gruppen, mit denselben Farben wie bei der Belgian daisy, aber von den Ecken Richtung Seiten gerückt. Die Gruppen starten weiter auseinander, also hast du ein paar ruhige Züge, um Dreiergruppen aufzubauen, bevor es den ersten Kontakt gibt."
+    },
+    "compare": {
+      "title": "Belgian daisy oder German daisy",
+      "body": "Beide haben vier Gruppen und dieselben Farben. Der Unterschied ist der Abstand: Bei der Belgian daisy berühren sich die Armeen ab dem ersten Zug, bei der German daisy starten sie weiter auseinander. Wähle die <strong>Belgian daisy</strong> für scharfe Kämpfe von Anfang an und die <strong>German daisy</strong>, wenn du erst in Ruhe aufbauen willst. Unsicher? Spiel beide <offline>gegen den Computer</offline>."
+    },
+    "others": {
+      "title": "Weitere Aufstellungen",
+      "body": "Dutch daisy, Swiss daisy, Alien, Domination, Infiltration und The Wall gibt es im Spiel ebenfalls. Wähle eine beim Start einer Partie."
+    },
+    "faq": {
+      "title": "Häufige Fragen",
+      "items": {
+        "marbles": {
+          "question": "Mit wie vielen Kugeln startet jeder Spieler bei Abalone?",
+          "answer": "Jeder Spieler startet mit 14 Kugeln, in jeder Aufstellung auf dieser Seite."
+        },
+        "first": {
+          "question": "Wer zieht bei Abalone zuerst?",
+          "answer": "Schwarz zieht zuerst."
+        },
+        "belgian": {
+          "question": "Was ist die Belgian daisy bei Abalone?",
+          "answer": "Eine Startaufstellung mit vier blumenförmigen Gruppen, eine in jeder Ecke. Die Armeen berühren sich ab dem ersten Zug."
+        },
+        "difference": {
+          "question": "Was ist der Unterschied zwischen Belgian daisy und German daisy?",
+          "answer": "Beide nutzen dieselben vier Gruppen und Farben. Die German daisy rückt sie von den Ecken Richtung Seiten, sodass sie weiter auseinander starten."
+        },
+        "beginners": {
+          "question": "Welche Abalone-Startaufstellung ist am besten für Anfänger?",
+          "answer": "Die Standardaufstellung, weil im ersten Zug niemand schieben kann."
+        },
+        "why_daisy": {
+          "question": "Warum spielen manche die Daisy-Aufstellungen?",
+          "answer": "Sie machen es unwahrscheinlicher, dass ein Verteidigungskeil das Spiel lahmlegt. Spitzenspieler übernahmen die Belgian daisy 1999, um das Spiel zu beleben."
+        }
+      }
+    },
+    "try": {
+      "title": "Probier sie aus",
+      "more_reading": "Hast du eine Aufstellung gewählt, lies die <strategy>Abalone-Strategietipps</strategy>."
+    },
+    "play": {
+      "cta": "Gegen den Computer spielen",
+      "more": "Weitere Spielmöglichkeiten"
+    }
+  }
 }

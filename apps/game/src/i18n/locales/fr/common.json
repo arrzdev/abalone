@@ -94,6 +94,10 @@
     "offline": {
       "title": "Jouez à Abalone contre l'ordinateur ou un ami",
       "description": "Jouez à Abalone contre l'ordinateur ou passez l'appareil à un ami. Choisissez la disposition standard ou une ouverture daisy et lancez une partie gratuite."
+    },
+    "positions": {
+      "title": "Positions de départ d'Abalone : standard et daisy",
+      "description": "Positions de départ d'Abalone : la disposition standard, la Belgian daisy et la German daisy, leurs différences et laquelle choisir. Essayez-les."
     }
   }
 }

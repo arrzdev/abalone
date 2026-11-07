@@ -32,7 +32,7 @@ const SITEMAP = {
   "/play-online": "2026-11-01",
   "/how-to-play": "2026-11-02",
   "/opening-moves": "2026-11-02",
-  "/starting-positions": "2026-11-02",
+  "/starting-positions": "2026-11-07",
 } as const
 
 // A language's own URL: /pt, /pt/rules

@@ -72,7 +72,25 @@ describe("sitemapXml", () => {
     }
   })
 
+  it("lists /starting-positions in its five languages, with its date", () => {
+    const languages = ["en", "de", "fr", "nl", "es"]
+    const positions = [...listed.keys()].filter((loc) =>
+      loc.endsWith("/starting-positions"),
+    )
+    expect(positions.sort()).toEqual(
+      languages
+        .map((language) => url("/starting-positions", language))
+        .sort(),
+    )
+    for (const language of languages) {
+      expect(listed.get(url("/starting-positions", language))).toContain(
+        `<lastmod>${SITEMAP["/starting-positions"]}</lastmod>`,
+      )
+    }
+  })
+
   it("leaves out a page in a language it is not translated into", () => {
     expect(listed.has(`${ORIGIN}/pt/opening-moves`)).toBe(false)
+    expect(listed.has(`${ORIGIN}/pt/starting-positions`)).toBe(false)
   })
 })

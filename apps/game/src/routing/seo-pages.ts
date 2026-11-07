@@ -111,7 +111,7 @@ export const SITEMAP: Record<
   "/play-online": "2026-11-01",
   "/how-to-play": "2026-11-02",
   "/opening-moves": "2026-11-02",
-  "/starting-positions": "2026-11-02",
+  "/starting-positions": "2026-11-07",
 }
 
 /**
@@ -127,7 +127,7 @@ export const PAGE_LANGUAGES: Record<IndexablePath, readonly Language[]> = {
   "/strategy": SUPPORTED_LANGUAGES,
   "/how-to-play": ["en"],
   "/opening-moves": ["en"],
-  "/starting-positions": ["en"],
+  "/starting-positions": ["en", "de", "fr", "nl", "es"],
   "/offline": SUPPORTED_LANGUAGES,
   "/play-online": ["en"],
 }
@@ -142,6 +142,7 @@ const SEO_KEYS: Partial<Record<IndexablePath, string>> = {
   "/": "home",
   "/rules": "rules",
   "/strategy": "strategy",
+  "/starting-positions": "positions",
   "/offline": "offline",
 }
 

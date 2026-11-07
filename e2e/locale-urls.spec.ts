@@ -133,16 +133,58 @@ test.describe("what a crawler reads", () => {
   test("an untranslated page points at the English one", async ({
     request,
   }) => {
-    const response = await request.get("/pt/opening-moves")
+    const response = await request.get("/pt/how-to-play")
     expect(response.status()).toBe(200)
     const html = await response.text()
 
-    expect(canonicalIn(html)).toBe(`${ORIGIN}/opening-moves`)
+    expect(canonicalIn(html)).toBe(`${ORIGIN}/how-to-play`)
     expect(alternatesIn(html)).toEqual({
-      en: `${ORIGIN}/opening-moves`,
-      "x-default": `${ORIGIN}/opening-moves`,
+      en: `${ORIGIN}/how-to-play`,
+      "x-default": `${ORIGIN}/how-to-play`,
     })
   })
+
+  for (const language of ["de", "fr", "nl", "es"]) {
+    test(`/${language}/starting-positions is translated, on its own URL`, async ({
+      request,
+    }) => {
+      const response = await request.get(`/${language}/starting-positions`)
+      expect(response.status()).toBe(200)
+      const html = await response.text()
+      const text = decode(
+        html
+          .replace(/<script[\s\S]*?<\/script>/g, " ")
+          .replace(/<[^>]+>/g, " "),
+      ).replace(/\s+/g, " ")
+
+      expect(h1sIn(html)).toEqual([
+        locale(language, "game").positions.heading,
+      ])
+      for (const section of [
+        "standard",
+        "belgian_daisy",
+        "german_daisy",
+        "compare",
+        "others",
+      ]) {
+        const english = locale("en", "game").positions[section].body
+        //the first sentence, without its markup, is enough to spot it
+        const sentence = english.replace(/<[^>]+>/g, "").split(". ")[0]
+        expect(text, section).not.toContain(sentence)
+      }
+      expect(canonicalIn(html)).toBe(
+        `${ORIGIN}/${language}/starting-positions`,
+      )
+      expect(alternatesIn(html)).toEqual({
+        en: `${ORIGIN}/starting-positions`,
+        de: `${ORIGIN}/de/starting-positions`,
+        fr: `${ORIGIN}/fr/starting-positions`,
+        nl: `${ORIGIN}/nl/starting-positions`,
+        es: `${ORIGIN}/es/starting-positions`,
+        "x-default": `${ORIGIN}/starting-positions`,
+      })
+    })
+  }
 
   test("the sitemap lists every language version", async ({ request }) => {
     const xml = await (await request.get("/sitemap.xml")).text()
@@ -154,6 +196,8 @@ test.describe("what a crawler reads", () => {
       /<xhtml:link rel="alternate" hreflang="x-default" href="https:\/\/abalone\.tudu\.dev\/rules"\s*\/>/,
     )
     expect(xml).not.toContain(`<loc>${ORIGIN}/pt/opening-moves</loc>`)
+    expect(xml).not.toContain(`<loc>${ORIGIN}/pt/starting-positions</loc>`)
+    expect(xml).toContain(`<loc>${ORIGIN}/de/starting-positions</loc>`)
   })
 })
 
