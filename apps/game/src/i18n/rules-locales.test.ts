@@ -38,6 +38,36 @@ describe.each(["rules", "strategy"])("%s copy", (section) => {
   })
 })
 
+//the opening moves page is translated into a few languages only (the
+//`PAGE_LANGUAGES` entry in routing/seo-pages.ts). in each, every string is its
+//own: an english one left in would show an english paragraph on the page
+describe.each(["de", "fr", "nl", "es"])(
+  "%s opening moves copy",
+  (language) => {
+    const path = `./locales/${language}/game.json`
+    const openings = LOCALES[path].openings as Record<string, unknown>
+    const englishOpenings = english.openings as Record<string, unknown>
+
+    it("has every key english has", () => {
+      expect(keyPaths(openings).sort()).toEqual(
+        keyPaths(englishOpenings).sort(),
+      )
+    })
+
+    it.each(keyPaths(englishOpenings))("translates %s", (key) => {
+      const read = (root: unknown) =>
+        key
+          .split(".")
+          .reduce<unknown>(
+            (node, part) => (node as Record<string, unknown>)?.[part],
+            root,
+          )
+      expect(read(openings)).toEqual(expect.any(String))
+      expect(read(openings)).not.toBe(read(englishOpenings))
+    })
+  },
+)
+
 //the play block under each page's intro, mid-page and at the end (the
 //`content-play-block` document on TUD-820). its two labels replace the old end
 //buttons, which no locale keeps

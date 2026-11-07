@@ -31,7 +31,7 @@ const SITEMAP = {
   "/strategy": "2026-11-02",
   "/play-online": "2026-11-01",
   "/how-to-play": "2026-11-02",
-  "/opening-moves": "2026-11-02",
+  "/opening-moves": "2026-11-07",
   "/starting-positions": "2026-11-02",
 } as const
 
