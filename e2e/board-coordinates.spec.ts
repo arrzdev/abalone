@@ -1,6 +1,6 @@
 import type { Locator, Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
-import { openApp, startOfflineGame } from "./support/app"
+import { startOfflineGame } from "./support/app"
 import { playMove } from "./support/board"
 import { waitForRest } from "./support/layout"
 
@@ -99,17 +99,12 @@ test("the labels are on in play, the switch takes them off and back, and the cho
   await page.keyboard.press("Escape")
   await expect(dialog).toBeHidden()
 
-  // A reload lands on the game setup, so the same game is set up again. The
-  // reloaded page can still be settling on /offline?mode=local when reload()
-  // returns, and a goto of plain /offline started in that window is interrupted
-  // by it. So the final URL is waited for and opened as it is.
+  // A reload puts the game back on the board (offline-restore.spec.ts), so the
+  // same game is played on. The reloaded page can still be settling on
+  // /offline?mode=local when reload() returns, so the final URL is waited for.
   await page.reload()
   await expect(page).toHaveURL(/\/offline\?mode=local$/)
-  await openApp(page, "/offline?mode=local")
-  await page.getByRole("tab", { name: "Pass & Play" }).click()
-  await page.getByRole("button", { name: "Play", exact: true }).click()
   await expect(page.getByRole("button", { name: "Resign" })).toBeVisible()
-  await playMove(page, "c5", "d5")
   expect(await settledBoard(page)).toBe(bare)
   const reopened = await openSettings(page)
   await expect(reopened.getByRole("switch", SWITCH)).not.toBeChecked()

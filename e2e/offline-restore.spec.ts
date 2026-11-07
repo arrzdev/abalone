@@ -108,9 +108,7 @@ test("a game against the computer comes back after a reload, exactly as it was",
 
   // Undo works on the restored game as it did before: it takes back the
   // player's move and the bot's answer.
-  await page
-    .getByRole("button", { name: "Undo" })
-    .click()
+  await page.getByRole("button", { name: "Undo" }).click()
   await expect(moveList(page)).toHaveText(history.slice(0, 2))
   await expectMarble(page, "c3", "black")
 })

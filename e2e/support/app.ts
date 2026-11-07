@@ -48,11 +48,28 @@ export async function openApp(page: Page, path: string): Promise<void> {
     .toBe(true)
 }
 
-/** Opens /offline and starts a game in the given mode with default settings. */
+/**
+ * An offline game left on the board comes back when /offline is opened again
+ * (e2e/offline-restore.spec.ts), so a spec that starts a second game in the
+ * same tab drops the first one's save, as the player would by finishing it.
+ */
+async function forgetOfflineGame(page: Page): Promise<void> {
+  // A page that has not loaded anything has no storage to reach, or a game.
+  if (!page.url().startsWith("http")) return
+  await page.evaluate(() =>
+    localStorage.removeItem("abalone.offlineGame.v1"),
+  )
+}
+
+/**
+ * Opens /offline and starts a game in the given mode with default settings,
+ * from the setup screen: whatever game was saved is forgotten first.
+ */
 export async function startOfflineGame(
   page: Page,
   mode: "vs Computer" | "Pass & Play",
 ): Promise<void> {
+  await forgetOfflineGame(page)
   await openApp(page, "/offline")
   await page.getByRole("tab", { name: mode }).click()
   await page.getByRole("button", { name: "Play", exact: true }).click()
