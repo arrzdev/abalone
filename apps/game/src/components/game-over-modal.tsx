@@ -156,10 +156,11 @@ export function GameOverModal({
           <ResultCard summary={summary} resultKind={resultKind} />
         )}
 
+        {/* Under 375px the side padding gives way, so "New Bot" stays on one line. */}
         <div className="flex gap-2">
           <Button
             variant="primary"
-            className="h-[50px] flex-1 rounded-xl font-display text-base"
+            className="h-[50px] flex-1 rounded-xl font-display text-base max-[374px]:px-3 max-[374px]:[&>svg]:hidden"
             onClick={onRematch}
           >
             {rematchIcon}
@@ -170,7 +171,7 @@ export function GameOverModal({
           </Button>
           <Button
             variant="outline"
-            className="h-[50px] flex-1 rounded-xl font-display text-base text-subtle hover:text-white"
+            className="h-[50px] flex-1 rounded-xl font-display text-base text-subtle hover:text-white max-[374px]:px-3 max-[374px]:[&>svg]:hidden"
             onClick={onNewBot}
           >
             {newGameIcon}

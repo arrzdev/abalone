@@ -79,7 +79,7 @@ export function BoardThemePicker({
       aria-label={t("game:controls.board_theme")}
       aria-describedby={describedBy}
       onKeyDown={handleKeyDown}
-      className="flex gap-2 lg:gap-3"
+      className="flex gap-2 max-[374px]:gap-1.5 lg:gap-3"
     >
       {BOARD_THEME_NAMES.map((theme, index) => {
         const checked = theme === value
@@ -96,6 +96,8 @@ export function BoardThemePicker({
             onClick={() => onChange(theme)}
             className={cn(
               "relative flex min-h-11 min-w-11 flex-1 items-center justify-center gap-1.5 rounded-xl border-2 bg-surface-2 px-1.5 transition",
+              //under 375px the padding and the board give way, or "Walnut" is cut to "Wal…"
+              "max-[374px]:gap-1 max-[374px]:px-1",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
               checked
                 ? "border-brand-lighter"
@@ -106,7 +108,7 @@ export function BoardThemePicker({
               blackCells={STANDARD.black}
               whiteCells={STANDARD.white}
               theme={theme}
-              className="h-7 w-8 shrink-0"
+              className="h-7 w-8 shrink-0 max-[374px]:h-5 max-[374px]:w-6"
             />
             <span
               className={cn(
