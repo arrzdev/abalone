@@ -98,6 +98,10 @@
     "offline": {
       "title": "Juega a Abalone contra el ordenador o un amigo",
       "description": "Juega a Abalone contra el ordenador o pasa el dispositivo a un amigo. Elige la disposición estándar o una apertura daisy y empieza gratis en el navegador."
+    },
+    "positions": {
+      "title": "Posiciones iniciales de Abalone: estándar y daisy",
+      "description": "Posiciones iniciales de Abalone: la disposición estándar, la Belgian daisy y la German daisy, en qué se diferencian y cuál elegir. Pruébalas gratis."
     }
   }
 }

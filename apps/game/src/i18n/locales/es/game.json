@@ -373,5 +373,105 @@
     "done": "Entendido",
     "skip": "Omitir"
   },
-  "related_guides": "Guías relacionadas"
+  "related_guides": "Guías relacionadas",
+  "positions": {
+    "title": "Posiciones iniciales",
+    "heading": "Posiciones iniciales de Abalone",
+    "intro": "Abalone tiene tres posiciones iniciales principales: estándar, Belgian daisy y German daisy. Cada jugador recibe 14 bolas y las negras mueven primero. La estándar es la mejor para aprender; en las daisy los ejércitos se encuentran antes. Mira las <rules>reglas</rules> y las <opening>aperturas</opening>.",
+    "glance": {
+      "title": "De un vistazo",
+      "caption": "Las tres posiciones iniciales principales de Abalone comparadas",
+      "columns": {
+        "layout": "Disposición",
+        "shape": "Forma",
+        "first_push": "¿Hay empuje posible en el primer movimiento?",
+        "best_for": "Ideal para"
+      },
+      "rows": {
+        "standard": {
+          "layout": "Disposición estándar",
+          "shape": "Dos filas más tres bolas de la tercera fila, negras abajo, blancas arriba",
+          "first_push": "No, aún no",
+          "best_for": "Aprender"
+        },
+        "belgian_daisy": {
+          "layout": "Belgian daisy",
+          "shape": "Cuatro grupos en forma de flor, uno por esquina, con los colores alternados",
+          "first_push": "Los ejércitos se tocan enseguida, así que un empuje puede llegar pronto",
+          "best_for": "Partidas rápidas y tácticas"
+        },
+        "german_daisy": {
+          "layout": "German daisy",
+          "shape": "Los mismos cuatro grupos y colores, desplazados de las esquinas hacia los lados",
+          "first_push": "Los grupos empiezan más separados, así que hay unos movimientos tranquilos primero",
+          "best_for": "Partidas abiertas"
+        }
+      }
+    },
+    "standard": {
+      "title": "Disposición estándar",
+      "label": "Posición inicial estándar",
+      "play": "Jugar la disposición estándar",
+      "body": "En la disposición estándar cada jugador tiene 14 bolas: sus dos filas más cercanas (cinco y seis bolas) más tres en el centro de la tercera fila. Las negras están abajo, las blancas arriba, y <strong>las negras mueven primero</strong>. Los ejércitos se enfrentan con tres filas vacías en medio, así que nadie puede empujar en el primer movimiento.",
+      "next": "Empieza aquí si eres nuevo y luego lee las <opening>aperturas</opening>."
+    },
+    "belgian_daisy": {
+      "title": "Belgian daisy",
+      "label": "Posición inicial Belgian daisy",
+      "play": "Jugar la Belgian daisy",
+      "body": "Las bolas empiezan en cuatro grupos en forma de flor, uno en cada esquina. Las blancas están arriba a la izquierda y abajo a la derecha, las negras arriba a la derecha y abajo a la izquierda. Los ejércitos se tocan en el primer movimiento, así que un sumito puede llegar pronto: busca un empuje que puedas hacer y el grupo del que podrías perder una bola.",
+      "history": "Los jugadores pasaron a las salidas daisy porque la disposición estándar permite a un jugador prudente formar una cuña defensiva y evitar los ataques indefinidamente; la Belgian daisy fue adoptada por los mejores jugadores en 1999 para revitalizar el juego."
+    },
+    "german_daisy": {
+      "title": "German daisy",
+      "label": "Posición inicial German daisy",
+      "play": "Jugar la German daisy",
+      "body": "De nuevo cuatro grupos en forma de flor, con los mismos colores que la Belgian daisy, pero desplazados de las esquinas hacia los lados. Los grupos empiezan más separados, así que tienes unos cuantos movimientos tranquilos para formar grupos de tres antes del primer contacto."
+    },
+    "compare": {
+      "title": "Belgian daisy o German daisy",
+      "body": "Las dos usan cuatro grupos y los mismos colores. La diferencia es la distancia: en la Belgian daisy los ejércitos se tocan desde el primer movimiento; en la German daisy empiezan más separados. Elige la <strong>Belgian daisy</strong> para peleas rápidas desde el principio y la <strong>German daisy</strong> si quieres tiempo para prepararte antes. ¿No lo tienes claro? Juega las dos <offline>contra el ordenador</offline>."
+    },
+    "others": {
+      "title": "Otras disposiciones",
+      "body": "Dutch daisy, Swiss daisy, Alien, Domination, Infiltration y The Wall también están en el juego. Elige una al empezar una partida."
+    },
+    "faq": {
+      "title": "Preguntas frecuentes",
+      "items": {
+        "marbles": {
+          "question": "¿Con cuántas bolas empieza cada jugador en Abalone?",
+          "answer": "Cada jugador empieza con 14 bolas, en todas las disposiciones de esta página."
+        },
+        "first": {
+          "question": "¿Quién mueve primero en Abalone?",
+          "answer": "Las negras mueven primero."
+        },
+        "belgian": {
+          "question": "¿Qué es la Belgian daisy en Abalone?",
+          "answer": "Una posición inicial con cuatro grupos en forma de flor, uno en cada esquina. Los ejércitos se tocan desde el primer movimiento."
+        },
+        "difference": {
+          "question": "¿Qué diferencia hay entre la Belgian daisy y la German daisy?",
+          "answer": "Las dos usan los mismos cuatro grupos y colores. La German daisy los desplaza de las esquinas hacia los lados, así que empiezan más separados."
+        },
+        "beginners": {
+          "question": "¿Qué posición inicial de Abalone es mejor para principiantes?",
+          "answer": "La disposición estándar, porque nadie puede empujar en el primer movimiento."
+        },
+        "why_daisy": {
+          "question": "¿Por qué usan los jugadores las disposiciones daisy?",
+          "answer": "Hacen menos probable que una cuña defensiva paralice la partida. Los mejores jugadores adoptaron la Belgian daisy en 1999 para revitalizar el juego."
+        }
+      }
+    },
+    "try": {
+      "title": "Pruébalas",
+      "more_reading": "Cuando hayas elegido una disposición, lee los <strategy>consejos de estrategia de Abalone</strategy>."
+    },
+    "play": {
+      "cta": "Jugar contra el ordenador",
+      "more": "Otras formas de jugar"
+    }
+  }
 }

@@ -373,5 +373,105 @@
     "done": "Begrepen",
     "skip": "Overslaan"
   },
-  "related_guides": "Gerelateerde gidsen"
+  "related_guides": "Gerelateerde gidsen",
+  "positions": {
+    "title": "Beginopstellingen",
+    "heading": "Abalone-beginopstellingen",
+    "intro": "Abalone heeft drie belangrijke beginopstellingen: standaard, Belgian daisy en German daisy. Elke speler krijgt 14 ballen en zwart begint. Standaard is het beste om te leren; bij de daisy-opstellingen komen de legers eerder in contact. Zie de <rules>regels</rules> en de <opening>openingszetten</opening>.",
+    "glance": {
+      "title": "In één oogopslag",
+      "caption": "De drie belangrijkste Abalone-beginopstellingen vergeleken",
+      "columns": {
+        "layout": "Opstelling",
+        "shape": "Vorm",
+        "first_push": "Duw mogelijk in de eerste zet?",
+        "best_for": "Het best voor"
+      },
+      "rows": {
+        "standard": {
+          "layout": "Standaardopstelling",
+          "shape": "Twee rijen plus drie ballen van de derde rij, zwart onderaan, wit bovenaan",
+          "first_push": "Nee",
+          "best_for": "Leren"
+        },
+        "belgian_daisy": {
+          "layout": "Belgian daisy",
+          "shape": "Vier bloemvormige groepen, één per hoek, met afwisselende kleuren",
+          "first_push": "De legers raken elkaar meteen, dus een duw kan vroeg komen",
+          "best_for": "Snelle, tactische partijen"
+        },
+        "german_daisy": {
+          "layout": "German daisy",
+          "shape": "Dezelfde vier groepen en kleuren, van de hoeken naar de zijkanten geschoven",
+          "first_push": "De groepen beginnen verder uit elkaar, dus eerst een paar rustige zetten",
+          "best_for": "Open partijen"
+        }
+      }
+    },
+    "standard": {
+      "title": "Standaardopstelling",
+      "label": "Standaard beginopstelling",
+      "play": "Speel de standaardopstelling",
+      "body": "In de standaardopstelling heeft elke speler 14 ballen: de twee rijen het dichtst bij zich (vijf en zes ballen) plus drie in het midden van de derde rij. Zwart zit onderaan, wit bovenaan, en <strong>zwart begint</strong>. Tussen de legers liggen drie lege rijen, dus niemand kan in de eerste zet duwen.",
+      "next": "Begin hier als je nieuw bent en lees daarna de <opening>openingszetten</opening>."
+    },
+    "belgian_daisy": {
+      "title": "Belgian daisy",
+      "label": "Belgian daisy beginopstelling",
+      "play": "Speel de Belgian daisy",
+      "body": "De ballen beginnen in vier bloemvormige groepen, één in elke hoek. Wit staat linksboven en rechtsonder, zwart rechtsboven en linksonder. De legers raken elkaar al in de eerste zet, dus een sumito kan vroeg komen: zoek een duw die je kunt doen en de groep waar je een bal uit kunt verliezen.",
+      "history": "Spelers stapten over op daisy-starts omdat de standaardopstelling een voorzichtige speler de kans geeft een verdedigende wig te bouwen en aanvallen eindeloos te ontlopen; de Belgian daisy werd in 1999 door topspelers overgenomen om het spel nieuw leven in te blazen."
+    },
+    "german_daisy": {
+      "title": "German daisy",
+      "label": "German daisy beginopstelling",
+      "play": "Speel de German daisy",
+      "body": "Weer vier bloemvormige groepen, in dezelfde kleuren als de Belgian daisy, maar van de hoeken naar de zijkanten geschoven. De groepen beginnen verder uit elkaar, dus je hebt een paar rustige zetten om groepen van drie op te bouwen voor het eerste contact."
+    },
+    "compare": {
+      "title": "Belgian daisy of German daisy",
+      "body": "Beide gebruiken vier groepen en dezelfde kleuren. Het verschil is de afstand: bij de Belgian daisy raken de legers elkaar vanaf de eerste zet, bij de German daisy beginnen ze verder uit elkaar. Kies de <strong>Belgian daisy</strong> voor scherpe vroege gevechten en de <strong>German daisy</strong> als je eerst tijd wilt om op te bouwen. Twijfel je? Speel beide <offline>tegen de computer</offline>."
+    },
+    "others": {
+      "title": "Andere opstellingen",
+      "body": "Dutch daisy, Swiss daisy, Alien, Domination, Infiltration en The Wall zitten ook in het spel. Kies er een als je een spel start."
+    },
+    "faq": {
+      "title": "Veelgestelde vragen",
+      "items": {
+        "marbles": {
+          "question": "Met hoeveel ballen begint elke speler bij Abalone?",
+          "answer": "Elke speler begint met 14 ballen, in elke opstelling op deze pagina."
+        },
+        "first": {
+          "question": "Wie begint er bij Abalone?",
+          "answer": "Zwart begint."
+        },
+        "belgian": {
+          "question": "Wat is de Belgian daisy bij Abalone?",
+          "answer": "Een beginopstelling met vier bloemvormige groepen, één in elke hoek. De legers raken elkaar vanaf de eerste zet."
+        },
+        "difference": {
+          "question": "Wat is het verschil tussen de Belgian daisy en de German daisy?",
+          "answer": "Beide gebruiken dezelfde vier groepen en kleuren. De German daisy schuift ze van de hoeken naar de zijkanten, dus ze beginnen verder uit elkaar."
+        },
+        "beginners": {
+          "question": "Welke Abalone-beginopstelling is het beste voor beginners?",
+          "answer": "De standaardopstelling, omdat niemand in de eerste zet kan duwen."
+        },
+        "why_daisy": {
+          "question": "Waarom gebruiken spelers de daisy-opstellingen?",
+          "answer": "Ze maken het minder waarschijnlijk dat een verdedigende wig het spel stilzet. Topspelers namen de Belgian daisy in 1999 over om het spel nieuw leven in te blazen."
+        }
+      }
+    },
+    "try": {
+      "title": "Probeer ze uit",
+      "more_reading": "Heb je een opstelling gekozen, lees dan de <strategy>Abalone-strategietips</strategy>."
+    },
+    "play": {
+      "cta": "Speel tegen de computer",
+      "more": "Andere manieren om te spelen"
+    }
+  }
 }
