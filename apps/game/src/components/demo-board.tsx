@@ -1,8 +1,10 @@
 import { DEMO_GAME } from "@repo/abalone-engine/demo-game"
 import type { GameState } from "@repo/abalone-engine/game-state"
 import { createGameState, makeMove } from "@repo/abalone-engine/game-state"
+import { cn } from "@repo/nativ/utils"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
+import { DemoBoardFrame } from "@/components/demo-board-frame"
 import type { GameCanvasHandle } from "@/components/game-canvas"
 import { GameCanvas } from "@/components/game-canvas"
 import { PauseIcon, PlayIcon } from "@/components/icons"
@@ -139,10 +141,15 @@ export function DemoBoard() {
   return (
     //a plain flex column, not a `game-canvas-wrapper`: the canvas renders one of
     //those itself and measures it, and a second one around it would be a box
-    //sizing to the canvas that is sizing to the box
+    //sizing to the canvas that is sizing to the box.
+    //until the first draw the canvas is out of flow: it is a 300x150 box with
+    //nothing in it, and taking its real size at the draw is a layout shift
     <div
       ref={wrapperRef}
-      className="relative isolate flex min-h-0 flex-1 flex-col"
+      className={cn(
+        "relative isolate flex min-h-0 flex-1 flex-col",
+        !boardSize && "[&_canvas]:absolute",
+      )}
     >
       <GameCanvas
         ref={boardRef}
@@ -154,6 +161,10 @@ export function DemoBoard() {
         interactive={false}
         onResize={(width, height) => setBoardSize({ width, height })}
       />
+      {/* Stands in until the canvas has drawn. Its first draw reports the
+          board's size from a layout effect, so this goes in the same commit
+          that paints the canvas: the board is never missing and never doubled. */}
+      {!boardSize && <DemoBoardFrame state={state} />}
       {boardSize && <BoardShadow size={boardSize} />}
       <DemoToggle
         isPaused={isPaused}
