@@ -3,6 +3,7 @@ import type { Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 import { moveList, playMove } from "./support/board"
+import { waitForRest } from "./support/layout"
 
 // Every line of text reads at WCAG AA: 4.5:1 against its background, the
 // secondary grey and the label on a blue button included. axe's
@@ -173,6 +174,42 @@ for (const { name, width, height } of WIDTHS) {
     })
   })
 }
+
+// The red answers on the phone's game sheets: the white label on the Resign
+// confirm button, and the loss eyebrow on the Game over sheet.
+test.describe("at 375px on the game sheets", () => {
+  test.use({ viewport: { width: 375, height: 667 } })
+
+  async function openResign(page: Page) {
+    await startOfflineGame(page, "vs Computer")
+    await playMove(page, "c5", "d5")
+    await expect(moveList(page)).toHaveCount(2, { timeout: 30_000 })
+    await page.getByRole("button", { name: "Resign" }).click()
+    const sheet = page.getByRole("dialog", { name: "Resign the game?" })
+    await expect(sheet).toBeVisible()
+    // Axe cannot name a background while the sheet is still sliding over it.
+    await waitForRest(sheet)
+    return sheet
+  }
+
+  test("the Resign sheet is readable", async ({ page }) => {
+    await openResign(page)
+    await expectReadableText(page, "Resign sheet")
+  })
+
+  test("the Game over sheet after a loss is readable", async ({
+    page,
+  }) => {
+    const sheet = await openResign(page)
+    await sheet.getByRole("button", { name: "Resign" }).click()
+    const gameOver = page.getByRole("dialog").filter({
+      hasText: "by resignation",
+    })
+    await expect(gameOver).toBeVisible()
+    await waitForRest(gameOver)
+    await expectReadableText(page, "loss Game over sheet")
+  })
+})
 
 // A pointer on a blue control changes its fill, and the white label on it has
 // to stay readable through that too. Only a desktop has a pointer that rests.

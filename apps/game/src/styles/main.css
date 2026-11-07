@@ -110,7 +110,11 @@
   --marble-black: #333333;
   --marble-white: #ffffff;
 
-  --loss: #fa412d;
+  /* Two reds: text on the dark surfaces (5.0:1 on #242424) and the fill under a
+     white label (4.7:1). One value cannot do both: light enough to read as
+     text, it is too light to carry white. */
+  --loss: #ff5a48;
+  --loss-fill: #dc2f1b;
   --win: #4c82b6;
 
   /* The fallback square behind an initial, for anyone who has not uploaded a
@@ -253,6 +257,7 @@
   --color-marble-black: var(--marble-black);
   --color-marble-white: var(--marble-white);
   --color-loss: var(--loss);
+  --color-loss-fill: var(--loss-fill);
   --color-win: var(--win);
 
   --color-background: var(--background);
