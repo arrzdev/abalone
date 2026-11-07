@@ -120,6 +120,43 @@ test.describe("what a crawler reads", () => {
     }
   })
 
+  // hreflang only says which URLs are versions of each other; a crawler still
+  // has to find them. Each page links, in the HTML it is served, to every
+  // other language version it names, so /pt is one link away from / and
+  // /tr/rules one link away from /rules.
+  for (const path of [
+    "/",
+    "/rules",
+    "/strategy",
+    "/opening-moves",
+    "/pt",
+    "/tr/rules",
+    "/it/strategy",
+  ]) {
+    test(`${path} links to each of its language versions`, async ({
+      request,
+    }) => {
+      const html = await (await request.get(path)).text()
+      const self = canonicalIn(html)
+      const versions = Object.entries(alternatesIn(html))
+        .filter(
+          ([language, href]) => language !== "x-default" && href !== self,
+        )
+        .map(([, href]) => new URL(href).pathname)
+      const anchors = new Set(
+        [...html.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)].map(
+          (match) => new URL(match[1], ORIGIN).pathname,
+        ),
+      )
+
+      expect(versions.length, path).toBeGreaterThan(0)
+      expect(
+        versions.filter((version) => !anchors.has(version)),
+        path,
+      ).toEqual([])
+    })
+  }
+
   test("a language's home is its bare prefix", async ({ request }) => {
     const response = await request.get("/pt")
     expect(response.status()).toBe(200)
