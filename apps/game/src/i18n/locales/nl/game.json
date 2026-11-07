@@ -273,6 +273,46 @@
       "more": "Andere manieren om te spelen"
     }
   },
+  "openings": {
+    "title": "Openingszetten",
+    "heading": "Abalone-openingszetten voor beginners",
+    "intro": "De eerste zetten van een Abalone-partij bereiden het gevecht voor dat volgt. Deze pagina behandelt de <positions>beginopstelling</positions>, welke openingszetten veilig zijn en hoe de daisy-opstellingen de eerste beurten veranderen. Weet je nog niet hoe een duw werkt? Lees eerst de <rules>Abalone-regels</rules> en probeer deze ideeën daarna in een <offline>gratis spel tegen de computer</offline>. Voelt de opening vertrouwd, lees dan de <strategy>Abalone-strategietips</strategy>.",
+    "start": {
+      "title": "De beginopstelling",
+      "body": "In de standaardopstelling heeft elke speler 14 ballen: de twee rijen het dichtst bij zich (vijf en zes ballen) plus drie in het midden van de derde rij. Zwart zit onderaan, wit bovenaan, en <strong>zwart begint</strong>. Tussen de legers liggen drie lege rijen, dus niemand kan in de eerste zet duwen. Vergelijk alle drie de opstellingen bij <positions>Abalone-beginopstellingen</positions>."
+    },
+    "safe": {
+      "title": "Veilige eerste zetten",
+      "body": "Zolang er nog geen duw mogelijk is, gebruik je de opening om op te bouwen, niet om aan te vallen. Zet een bal of een korte rij van voren in kleine stappen naar het midden en houd je ballen tegen elkaar. Een groep van drie in een lijn kan er twee duwen en wordt zelf niet snel geduwd, dus een strakke formatie is een goed begin. Stuur nooit één bal alleen voor de rest uit."
+    },
+    "sidestep": {
+      "title": "Zijwaartse zetten en zetten in lijn",
+      "body": "In het begin laat een zijwaartse zet een rij opzij schuiven terwijl ze bij elkaar blijft. Een zet in lijn brengt de rij vooruit in haar eigen richting. Beide mogen al in de eerste beurt; het verschil is wat ze achterlaten. Controleer voor je zet dat je geen gat opent waar je tegenstander gebruik van kan maken."
+    },
+    "daisy": {
+      "title": "Openen op een daisy-opstelling",
+      "body": "Bij de <strong>Belgian daisy</strong> beginnen de legers in vier bloemvormige groepen en raken ze elkaar vanaf de eerste zet, dus een sumito kan vroeg komen. Zoek een duw die je kunt doen, en de groep waar je een bal uit kunt verliezen. De <strong>German daisy</strong> heeft dezelfde vier groepen, maar zet ze verder uit elkaar, wat je eerst een paar rustige zetten geeft. Voor de volledige vergelijking, zie <positions>Belgian daisy of German daisy</positions>."
+    },
+    "others": {
+      "title": "Andere beginopstellingen",
+      "body": "Het spel heeft ook Dutch daisy, Swiss daisy, Alien, Domination, Infiltration en The Wall. Elke opstelling verandert welke ballen elkaar bij de start raken. Kies er een als je een spel start, en speel dezelfde opstelling een paar keer om de eerste zetten te leren."
+    },
+    "mistakes": {
+      "title": "Openingsfouten om te vermijden",
+      "items": {
+        "lone_runner": "Eén bal alleen naar het midden sturen, waar hij omsingeld kan worden.",
+        "rush_edge": "Vroeg naar de rand trekken, waar één duw een bal van het bord kan duwen.",
+        "ignore_daisy": "Een daisy-opstelling spelen als de standaardopstelling en een vroege sumito missen."
+      }
+    },
+    "practise": {
+      "title": "Oefen de opening"
+    },
+    "play": {
+      "cta": "Speel tegen de computer",
+      "more": "Andere manieren om te spelen"
+    }
+  },
   "messages": {
     "select_marble": "Selecteer een knikker om te verplaatsen",
     "select_destination": "Selecteer waar naartoe te verplaatsen",

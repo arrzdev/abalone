@@ -273,6 +273,46 @@
       "more": "Autres façons de jouer"
     }
   },
+  "openings": {
+    "title": "Premiers coups",
+    "heading": "Premiers coups d'Abalone pour débutants",
+    "intro": "Les premiers coups d'une partie d'Abalone préparent le combat qui suit. Cette page présente la <positions>position de départ</positions>, les ouvertures sûres et ce que changent les dispositions daisy dans les premiers tours. Tu ne sais pas encore comment marche une poussée ? Lis d'abord les <rules>règles d'Abalone</rules>, puis essaie ces idées dans une <offline>partie gratuite contre l'ordinateur</offline>. Une fois l'ouverture maîtrisée, lis les <strategy>conseils de stratégie Abalone</strategy>.",
+    "start": {
+      "title": "La position de départ",
+      "body": "Dans la disposition standard, chaque joueur a 14 billes : ses deux rangées les plus proches (cinq et six billes) plus trois au milieu de la troisième rangée. Les noirs sont en bas, les blancs en haut, et <strong>les noirs jouent en premier</strong>. Les deux armées se font face à travers trois rangées vides, donc personne ne peut pousser au premier coup. Compare les trois dispositions dans <positions>positions de départ d'Abalone</positions>."
+    },
+    "safe": {
+      "title": "Premiers coups sûrs",
+      "body": "Tant qu'aucune poussée n'est possible, sers-toi de l'ouverture pour construire, pas pour attaquer. Avance une bille ou une courte rangée de l'avant vers le centre, à petits pas, et garde tes billes en contact. Un groupe de trois en ligne peut en pousser deux et se fait difficilement pousser : une formation serrée est donc un bon début. N'envoie pas une bille seule devant les autres."
+    },
+    "sidestep": {
+      "title": "Coups en flanc et coups en ligne",
+      "body": "En début de partie, un coup en flanc fait glisser une rangée sur le côté sans la séparer. Un coup en ligne fait avancer la rangée dans sa propre direction. Les deux sont permis dès le premier tour ; la différence, c'est ce qu'ils laissent derrière eux. Avant de jouer, vérifie que tu n'ouvres pas un trou dont ton adversaire peut profiter."
+    },
+    "daisy": {
+      "title": "Ouvrir sur une disposition daisy",
+      "body": "Dans la <strong>Belgian daisy</strong>, les armées partent en quatre groupes en forme de fleur et se touchent dès le premier coup : un sumito peut donc arriver tôt. Cherche une poussée que tu peux jouer, et le groupe où tu risques de perdre une bille. La <strong>German daisy</strong> a les mêmes quatre groupes, mais plus éloignés, ce qui te laisse quelques coups calmes au début. Pour la comparaison complète, voir <positions>Belgian daisy ou German daisy</positions>."
+    },
+    "others": {
+      "title": "Autres dispositions de départ",
+      "body": "Le jeu propose aussi Dutch daisy, Swiss daisy, Alien, Domination, Infiltration et The Wall. Chacune change les billes qui se touchent au départ. Choisis-en une au début d'une partie, et joue la même disposition plusieurs fois pour apprendre ses premiers coups."
+    },
+    "mistakes": {
+      "title": "Erreurs d'ouverture à éviter",
+      "items": {
+        "lone_runner": "Envoyer une bille seule au centre, où elle peut être encerclée.",
+        "rush_edge": "Aller tôt vers le bord, où une seule poussée peut sortir une bille.",
+        "ignore_daisy": "Jouer une disposition daisy comme la standard et rater un sumito précoce."
+      }
+    },
+    "practise": {
+      "title": "Entraîne-toi à l'ouverture"
+    },
+    "play": {
+      "cta": "Jouer contre l'ordinateur",
+      "more": "Autres façons de jouer"
+    }
+  },
   "messages": {
     "select_marble": "Sélectionnez une bille à déplacer",
     "select_destination": "Sélectionnez la destination",

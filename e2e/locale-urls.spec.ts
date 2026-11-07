@@ -145,6 +145,46 @@ test.describe("what a crawler reads", () => {
   })
 
   for (const language of ["de", "fr", "nl", "es"]) {
+    test(`/${language}/opening-moves is translated, on its own URL`, async ({
+      request,
+    }) => {
+      const response = await request.get(`/${language}/opening-moves`)
+      expect(response.status()).toBe(200)
+      const html = await response.text()
+      const text = decode(
+        html
+          .replace(/<script[\s\S]*?<\/script>/g, " ")
+          .replace(/<[^>]+>/g, " "),
+      ).replace(/\s+/g, " ")
+
+      expect(h1sIn(html)).toEqual([
+        locale(language, "game").openings.heading,
+      ])
+      for (const section of [
+        "start",
+        "safe",
+        "sidestep",
+        "daisy",
+        "others",
+      ]) {
+        const english = locale("en", "game").openings[section].body
+        //the first sentence, without its markup, is enough to spot it
+        const sentence = english.replace(/<[^>]+>/g, "").split(". ")[0]
+        expect(text, section).not.toContain(sentence)
+      }
+      expect(canonicalIn(html)).toBe(`${ORIGIN}/${language}/opening-moves`)
+      expect(alternatesIn(html)).toEqual({
+        en: `${ORIGIN}/opening-moves`,
+        de: `${ORIGIN}/de/opening-moves`,
+        fr: `${ORIGIN}/fr/opening-moves`,
+        nl: `${ORIGIN}/nl/opening-moves`,
+        es: `${ORIGIN}/es/opening-moves`,
+        "x-default": `${ORIGIN}/opening-moves`,
+      })
+    })
+  }
+
+  for (const language of ["de", "fr", "nl", "es"]) {
     test(`/${language}/starting-positions is translated, on its own URL`, async ({
       request,
     }) => {
@@ -196,6 +236,7 @@ test.describe("what a crawler reads", () => {
       /<xhtml:link rel="alternate" hreflang="x-default" href="https:\/\/abalone\.tudu\.dev\/rules"\s*\/>/,
     )
     expect(xml).not.toContain(`<loc>${ORIGIN}/pt/opening-moves</loc>`)
+    expect(xml).toContain(`<loc>${ORIGIN}/de/opening-moves</loc>`)
     expect(xml).not.toContain(`<loc>${ORIGIN}/pt/starting-positions</loc>`)
     expect(xml).toContain(`<loc>${ORIGIN}/de/starting-positions</loc>`)
   })

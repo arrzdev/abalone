@@ -72,6 +72,21 @@ describe("sitemapXml", () => {
     }
   })
 
+  it("lists /opening-moves in its five languages, with its date", () => {
+    const languages = ["en", "de", "fr", "nl", "es"]
+    const opening = [...listed.keys()].filter((loc) =>
+      loc.endsWith("/opening-moves"),
+    )
+    expect(opening.sort()).toEqual(
+      languages.map((language) => url("/opening-moves", language)).sort(),
+    )
+    for (const language of languages) {
+      expect(listed.get(url("/opening-moves", language))).toContain(
+        `<lastmod>${SITEMAP["/opening-moves"]}</lastmod>`,
+      )
+    }
+  })
+
   it("lists /starting-positions in its five languages, with its date", () => {
     const languages = ["en", "de", "fr", "nl", "es"]
     const positions = [...listed.keys()].filter((loc) =>

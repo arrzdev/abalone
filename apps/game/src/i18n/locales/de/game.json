@@ -273,6 +273,46 @@
       "more": "Weitere Spielmöglichkeiten"
     }
   },
+  "openings": {
+    "title": "Eröffnungszüge",
+    "heading": "Abalone-Eröffnungszüge für Anfänger",
+    "intro": "Die ersten Züge einer Abalone-Partie bereiten den Kampf vor, der danach kommt. Diese Seite erklärt die <positions>Startaufstellung</positions>, welche Eröffnungszüge sicher sind und wie die Daisy-Aufstellungen die ersten Züge verändern. Du weißt nicht genau, wie ein Schub funktioniert? Lies zuerst die <rules>Abalone-Regeln</rules> und probiere diese Ideen dann in einem <offline>kostenlosen Spiel gegen den Computer</offline> aus. Sitzt die Eröffnung, lies die <strategy>Abalone-Strategietipps</strategy>.",
+    "start": {
+      "title": "Die Startaufstellung",
+      "body": "In der Standard-Aufstellung hat jeder Spieler 14 Kugeln: seine beiden nächstgelegenen Reihen (fünf und sechs Kugeln) plus drei in der Mitte der dritten Reihe. Schwarz sitzt unten, Weiß oben, und <strong>Schwarz zieht zuerst</strong>. Zwischen den Armeen liegen drei leere Reihen, also kann im ersten Zug niemand schieben. Vergleiche alle drei Aufstellungen unter <positions>Abalone-Startaufstellungen</positions>."
+    },
+    "safe": {
+      "title": "Sichere erste Züge",
+      "body": "Solange noch kein Schub möglich ist, nutze die Eröffnung zum Aufbauen, nicht zum Angreifen. Zieh eine Kugel oder eine kurze Reihe von vorne in kleinen Schritten Richtung Mitte und halte deine Kugeln in Kontakt. Eine Dreiergruppe in einer Linie kann zwei schieben und ist schwer zu schieben, eine enge Formation ist also ein guter Start. Schick nie eine einzelne Kugel allein vor den anderen her."
+    },
+    "sidestep": {
+      "title": "Seitwärtszüge und Züge in Linie",
+      "body": "Am Anfang lässt ein Seitwärtszug eine Reihe zur Seite rücken, ohne dass sie auseinanderfällt. Ein Zug in Linie bringt die Reihe in ihre eigene Richtung voran. Beide sind schon im ersten Zug erlaubt; der Unterschied ist, was sie hinter sich lassen. Prüfe vor jedem Zug, dass du keine Lücke öffnest, die dein Gegner nutzen kann."
+    },
+    "daisy": {
+      "title": "Eröffnen mit einer Daisy-Aufstellung",
+      "body": "Bei der <strong>Belgian daisy</strong> starten die Armeen in vier blumenförmigen Gruppen und berühren sich ab dem ersten Zug, ein Sumito kann also früh kommen. Such einen Schub, den du machen kannst, und die Gruppe, aus der du eine Kugel verlieren könntest. Die <strong>German daisy</strong> hat dieselben vier Gruppen, stellt sie aber weiter auseinander, was dir zuerst ein paar ruhige Züge gibt. Den ganzen Vergleich findest du unter <positions>Belgian daisy oder German daisy</positions>."
+    },
+    "others": {
+      "title": "Weitere Startaufstellungen",
+      "body": "Im Spiel gibt es außerdem Dutch daisy, Swiss daisy, Alien, Domination, Infiltration und The Wall. Jede ändert, welche Kugeln sich zu Beginn berühren. Wähle eine beim Start einer Partie und spiel dieselbe Aufstellung ein paar Mal, um ihre ersten Züge zu lernen."
+    },
+    "mistakes": {
+      "title": "Eröffnungsfehler, die du vermeiden solltest",
+      "items": {
+        "lone_runner": "Eine einzelne Kugel allein in die Mitte schicken, wo sie umzingelt werden kann.",
+        "rush_edge": "Früh Richtung Rand ziehen, wo ein einziger Schub eine Kugel hinausstoßen kann.",
+        "ignore_daisy": "Eine Daisy-Aufstellung wie die Standard-Aufstellung spielen und ein frühes Sumito verpassen."
+      }
+    },
+    "practise": {
+      "title": "Übe die Eröffnung"
+    },
+    "play": {
+      "cta": "Gegen den Computer spielen",
+      "more": "Weitere Spielmöglichkeiten"
+    }
+  },
   "messages": {
     "select_marble": "Wähle eine Kugel zum Bewegen",
     "select_destination": "Wähle das Ziel",
