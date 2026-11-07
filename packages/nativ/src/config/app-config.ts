@@ -66,6 +66,12 @@ export type NativRouterConfig = {
   render?: "spa" | "ssr"
   /** Server entry (relative to the app root) for `render: "ssr"`. Optional — Start's built-in is used otherwise. */
   serverEntry?: string
+  /**
+   * Inline the stylesheet into each page's `<style>` instead of linking it, so first paint
+   * does not wait on a CSS request that shares the connection with the script preloads.
+   * Costs the CSS in every document (no cross-page cache). Default off. Build only.
+   */
+  inlineCss?: boolean
   /** Generated route-tree file, relative to the app root (e.g. `"./routing/routeTree.gen.ts"`). */
   generatedRouteTree: string
   /** Routes directory, relative to the app root (e.g. `"./routing"`). */
@@ -89,6 +95,7 @@ export type NativRouterConfig = {
 export const ROUTER_BUILD_KEYS = [
   "render",
   "serverEntry",
+  "inlineCss",
   "generatedRouteTree",
   "routesDirectory",
   "virtualRouteConfig",

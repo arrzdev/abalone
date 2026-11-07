@@ -63,6 +63,9 @@ export default defineApp({
     //Start's handler with the invite link card in front (docs/invite-links.md,
     //"The link preview"). the extension keeps it off the src/server/ folder
     serverEntry: "./server.ts",
+    //the stylesheet goes into the page, not a request next to the script preloads:
+    //first paint no longer waits on the shared connection
+    inlineCss: true,
     //route generator (nativ routes these to the vite plugin)
     generatedRouteTree: "./routing/routeTree.gen.ts",
     routesDirectory: "./routing",
