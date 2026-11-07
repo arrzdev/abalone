@@ -3,6 +3,7 @@ import type { Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 import { moveList, playMove } from "./support/board"
+import { waitForRest } from "./support/layout"
 
 // Every line of text reads at WCAG AA: 4.5:1 against its background, the
 // secondary grey and the label on a blue button included. axe's
@@ -186,6 +187,8 @@ test.describe("at 375px on the game sheets", () => {
     await page.getByRole("button", { name: "Resign" }).click()
     const sheet = page.getByRole("dialog", { name: "Resign the game?" })
     await expect(sheet).toBeVisible()
+    // Axe cannot name a background while the sheet is still sliding over it.
+    await waitForRest(sheet)
     return sheet
   }
 
@@ -199,9 +202,11 @@ test.describe("at 375px on the game sheets", () => {
   }) => {
     const sheet = await openResign(page)
     await sheet.getByRole("button", { name: "Resign" }).click()
-    await expect(
-      page.getByRole("dialog").getByText("by resignation").first(),
-    ).toBeVisible()
+    const gameOver = page.getByRole("dialog").filter({
+      hasText: "by resignation",
+    })
+    await expect(gameOver).toBeVisible()
+    await waitForRest(gameOver)
     await expectReadableText(page, "loss Game over sheet")
   })
 })
