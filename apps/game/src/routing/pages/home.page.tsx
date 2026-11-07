@@ -2,6 +2,7 @@ import { Screen, ScrollView } from "@repo/nativ/components"
 import { createFileRoute } from "@tanstack/react-router"
 import { HomeFaq } from "@/components/home/home-faq"
 import { PlayPoster } from "@/components/home/play-poster"
+import { LanguageVersions } from "@/components/language-versions"
 import { routeLanguage } from "@/routing/route-language"
 import { seoPageHead } from "@/routing/seo-pages"
 
@@ -38,6 +39,10 @@ function HomePage() {
           <PlayPoster />
         </div>
         <HomeFaq />
+        <LanguageVersions
+          path="/"
+          className="relative mx-auto w-full max-w-2xl shrink-0 px-4 pt-6 pb-safe-offset-10 lg:px-12"
+        />
       </ScrollView>
     </Screen>
   )
