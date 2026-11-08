@@ -124,6 +124,26 @@ test("a first game walks through the three steps and the next game has no guide"
   await expect(guide(page)).toHaveCount(0)
 })
 
+// The first test starts its second game while the computer may still be
+// thinking. Its reply saves the game again, and a save that lands after
+// startOfflineGame dropped the old one reopens /offline on that game, with no
+// setup tabs (1 of 5 under load). Here the late save is forced: the page keeps
+// writing the old game back until it is gone.
+test("a save the old game writes as the next one opens does not bring it back", async ({
+  page,
+}) => {
+  await startOfflineGame(page, "Pass & Play")
+  await playMove(page, "c5", "d5")
+  await page.evaluate((key) => {
+    const saved = localStorage.getItem(key)
+    if (saved === null)
+      throw new Error("the game in progress was not saved")
+    setInterval(() => localStorage.setItem(key, saved), 1)
+  }, "abalone.offlineGame.v1")
+
+  await startOfflineGame(page, "vs Computer")
+})
+
 test("a skipped guide stays away after a reload, and the ? beside the board brings it back", async ({
   page,
 }) => {
