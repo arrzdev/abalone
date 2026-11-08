@@ -106,3 +106,29 @@ for (const path of [
     expect(missing).toEqual([])
   })
 }
+
+// The page's CSS is inlined in its HTML. A chunk that still names the
+// stylesheet makes the bundler's preload helper add it as a <link> when the
+// chunk lazy-loads a route, and React holds the render until it arrives. On
+// /online that was one more round trip before a guest was sent home.
+for (const path of [
+  "/",
+  "/online",
+  "/online/history",
+  "/online/a-game",
+  "/profile",
+]) {
+  test(`${path} preloads no chunk that asks for a stylesheet`, async ({
+    request,
+  }) => {
+    const askingForStylesheet: string[] = []
+    for (const chunkPath of await modulepreloadsOf(request, path)) {
+      const chunk = await request.get(chunkPath)
+      expect(chunk.status(), chunkPath).toBe(200)
+      if (/"[^"]*\.css"/.test(await chunk.text())) {
+        askingForStylesheet.push(chunkPath)
+      }
+    }
+    expect(askingForStylesheet).toEqual([])
+  })
+}
