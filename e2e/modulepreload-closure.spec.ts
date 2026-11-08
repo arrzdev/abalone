@@ -132,3 +132,22 @@ for (const path of [
     expect(askingForStylesheet).toEqual([])
   })
 }
+
+// zod validates config at build time (`check:env`); the browser builds no
+// schema, so its schema classes (22 KB gz) only delayed hydration. What stays
+// is `z.config` from utils/zod-jitless, a few hundred bytes. Every zod schema
+// class is built through `$constructor("ZodObject", ...)` and kin, so the name
+// is in any chunk that ships them, minified or not.
+for (const path of ["/", "/online", "/profile"]) {
+  test(`${path} preloads no zod schema code`, async ({ request }) => {
+    const shippingSchemas: string[] = []
+    for (const chunkPath of await modulepreloadsOf(request, path)) {
+      const chunk = await request.get(chunkPath)
+      expect(chunk.status(), chunkPath).toBe(200)
+      if ((await chunk.text()).includes("ZodObject")) {
+        shippingSchemas.push(chunkPath)
+      }
+    }
+    expect(shippingSchemas).toEqual([])
+  })
+}

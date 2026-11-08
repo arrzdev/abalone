@@ -22,8 +22,10 @@ const INLINE_CSS_BUDGET_BYTES = 93_968
 // went from about 2.97 s to 2.63 s on a local Lighthouse run (2026-11-08).
 // Measured 45 (was 34).
 const MODULEPRELOAD_COUNT_BUDGET = 49
-// Measured 902,813 bytes (was 816,927).
-const MODULEPRELOAD_JS_BUDGET_BYTES = 993_094
+// Measured 826,212 bytes, with no margin: hydration waits for every byte of
+// this, so a page that grows says so here (was 902,813 before zod's schema
+// classes left the browser bundle).
+const MODULEPRELOAD_JS_BUDGET_BYTES = 826_212
 
 test.skip(
   ({ browserName }) => browserName !== "chromium",
