@@ -75,3 +75,34 @@ for (const path of ["/", "/online"]) {
     expect(await unpreloadedStaticImports(request, path)).toEqual([])
   })
 }
+
+async function modulepreloadsOf(
+  request: APIRequestContext,
+  path: string,
+): Promise<string[]> {
+  const response = await request.get(path)
+  expect(response.status()).toBe(200)
+  return modulepreloadPaths(await response.text())
+}
+
+// The worker cannot see the bearer token, so a signed-in-only page is served
+// to guests too, and the client sends a guest home on its first render. Home's
+// chunks then cost one more round trip after hydration: about 0.6 s of
+// /online's Speed Index on a throttled phone. Preloaded with the page, home
+// renders as soon as the guest gets there.
+for (const path of [
+  "/online",
+  "/online/history",
+  "/online/a-game",
+  "/profile",
+]) {
+  test(`${path} preloads what home needs for a guest`, async ({
+    request,
+  }) => {
+    const preloaded = new Set(await modulepreloadsOf(request, path))
+    const missing = (await modulepreloadsOf(request, "/")).filter(
+      (homePath) => !preloaded.has(homePath),
+    )
+    expect(missing).toEqual([])
+  })
+}

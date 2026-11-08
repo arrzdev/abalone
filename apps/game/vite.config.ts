@@ -6,6 +6,7 @@ import { PORTS } from "./ports"
 import { buildShaFile } from "./scripts/build-sha-file.plugin"
 import { crawlerFiles } from "./scripts/crawler-files.plugin"
 import { hoistChunkImports } from "./scripts/hoist-chunk-imports.plugin"
+import { preloadGuestHome } from "./scripts/preload-guest-home.plugin"
 
 const { appPort, supervisorPort } = PORTS
 
@@ -60,6 +61,15 @@ export default defineConfig({
     crawlerFiles(),
     //version.json, the commit this build is from, for drift checks
     buildShaFile(),
+    //a signed-in-only page preloads home, where its guard sends a guest. before
+    //hoistChunkImports, which then preloads what home imports too
+    preloadGuestHome({
+      guard: "src/routing/signed-in-only.tsx",
+      home: [
+        "src/routing/layouts/shell.layout.tsx",
+        "src/routing/pages/home.page.tsx",
+      ],
+    }),
     //every chunk a page needs before it hydrates is preloaded, not only the
     //ones its entry names: Start preloads one level of imports
     hoistChunkImports(),
