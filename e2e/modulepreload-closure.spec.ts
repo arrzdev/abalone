@@ -151,3 +151,22 @@ for (const path of ["/", "/online", "/profile"]) {
     expect(shippingSchemas).toEqual([])
   })
 }
+
+// The realtime socket library loads on a signed-in player's first connect.
+// A guest never opens a channel, so preloading it only delayed hydration.
+// `minUptime` is one of its own options, in no file of ours.
+for (const path of ["/", "/online", "/profile"]) {
+  test(`${path} preloads no realtime socket library`, async ({
+    request,
+  }) => {
+    const shippingSocket: string[] = []
+    for (const chunkPath of await modulepreloadsOf(request, path)) {
+      const chunk = await request.get(chunkPath)
+      expect(chunk.status(), chunkPath).toBe(200)
+      if ((await chunk.text()).includes("minUptime")) {
+        shippingSocket.push(chunkPath)
+      }
+    }
+    expect(shippingSocket).toEqual([])
+  })
+}
