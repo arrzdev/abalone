@@ -166,6 +166,9 @@ export function useKeyboard({
   useEffect(() => {
     const vv = window.visualViewport
     const vk = getVirtualKeyboardApi()
+    //set on cleanup: a late event or timer must not schedule or read the document once
+    //this effect is gone (the environment may already be torn down)
+    let disposed = false
 
     function cancelDismissConfirm() {
       if (dismissConfirmTimer.current) {
@@ -244,6 +247,8 @@ export function useKeyboard({
     }
 
     function syncKeyboardState() {
+      if (disposed) return
+
       const active = getActiveInputElement() ?? focusedElementRef.current
       const inputIsFocused =
         active !== null && willOpenVirtualKeyboard(active)
@@ -299,6 +304,7 @@ export function useKeyboard({
     }
 
     function updateKeyboardState() {
+      if (disposed) return
       if (debounceTimer.current) clearTimeout(debounceTimer.current)
 
       debounceTimer.current = setTimeout(() => {
@@ -366,6 +372,7 @@ export function useKeyboard({
     syncKeyboardState()
 
     return () => {
+      disposed = true
       document.removeEventListener("focusin", handleFocusIn)
       document.removeEventListener("focusout", handleFocusOut)
 

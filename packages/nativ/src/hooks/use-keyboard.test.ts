@@ -251,4 +251,18 @@ describe("useKeyboard", () => {
 
     expect(result.current).toEqual({ isOpen: false, height: 0 })
   })
+
+  it("schedules nothing and reads no document after unmount", () => {
+    const { unmount } = renderHook(() => useKeyboard())
+    focusInput()
+    const lateListeners = [...resizeListeners]
+    unmount()
+
+    const activeElement = vi.spyOn(document, "activeElement", "get")
+    for (const listener of lateListeners) listener(new Event("resize"))
+    advance(DEBOUNCE_MS + DISMISS_CONFIRM_MS + HEIGHT_CONFIRM_MS)
+
+    expect(activeElement).not.toHaveBeenCalled()
+    expect(vi.getTimerCount()).toBe(0)
+  })
 })
