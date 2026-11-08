@@ -1,8 +1,17 @@
 import type { RealtimeEvent } from "@repo/backend/realtime/events"
 import tryCatch from "@repo/shared/try-catch"
-import ReconnectingWebSocket from "partysocket/ws"
+import type ReconnectingWebSocket from "partysocket/ws"
 import { backendBaseUrl } from "@/data/backend-client"
 import { mintTicket } from "@/data/realtime/ticket"
+
+export type SocketClass = typeof ReconnectingWebSocket
+
+//loaded on the first signed-in connect rather than with the page: a guest
+//never opens a channel, and every byte the page preloads is one hydration
+//waits for
+async function loadReconnectingWebSocket(): Promise<SocketClass> {
+  return (await import("partysocket/ws")).default
+}
 
 /** How often the socket says hello, so an idle connection is not reaped. */
 const PING_INTERVAL_MS = 30_000
@@ -53,9 +62,36 @@ export function parseEvent(data: unknown): RealtimeEvent | null {
 /**
  * Opens this device's realtime channel and keeps it open.
  *
+ * The socket library loads first, so the socket opens a moment after this
+ * returns. Closed before then, nothing opens. If the library fails to load, the
+ * channel stays down and screens keep polling, as they do whenever it is down.
+ *
  * @returns a function that closes it, for the caller's cleanup.
  */
 export function openRealtimeChannel(
+  handlers: RealtimeHandlers,
+  loadSocketClass: () => Promise<SocketClass> = loadReconnectingWebSocket,
+): () => void {
+  let isClosed = false
+  let closeSocket = () => {}
+
+  void tryCatch(loadSocketClass).then(([SocketClass, loadError]) => {
+    if (isClosed) return
+    if (loadError) {
+      handlers.onConnectedChange(false)
+      return
+    }
+    closeSocket = connect(SocketClass, handlers)
+  })
+
+  return () => {
+    isClosed = true
+    closeSocket()
+  }
+}
+
+function connect(
+  ReconnectingWebSocket: SocketClass,
   handlers: RealtimeHandlers,
 ): () => void {
   const socket = new ReconnectingWebSocket(
