@@ -16,7 +16,7 @@ type ResourceLoaders = Record<string, () => Promise<ResourceKey>>
  * The translations a page has in hand, and how to fetch the rest.
  *
  * `eager` is every file already in memory: all of them on the server and in
- * tests, none in the browser. `lazy` fetches one file on demand, which the
+ * tests, English in the browser. `lazy` fetches one file on demand, which the
  * build turns into one chunk per language and namespace. Keys are the glob's
  * paths (`./locales/de/common.json`).
  *
@@ -85,9 +85,12 @@ export function createLocaleResources(sources: {
 
 //the server renders every language from one isolate and has no network to
 //fetch from, so it holds them all. tests read any language synchronously too.
-//the browser holds none until it asks, which is what keeps them out of the
-//entry chunk: the flag is a build-time constant, so the client build drops the
-//eager glob and its imports with it.
+//the browser holds English and fetches the rest when it asks, which is what
+//keeps them out of the entry chunk: the flag is a build-time constant, so the
+//client build drops the glob of every language and its imports with it.
+//English is in the browser's entry graph anyway (the page heads and the bot
+//pools read it) and every page needs it as the fallback, so holding it here
+//rather than fetching its five namespaces saves a round trip before hydration
 const holdsEveryLanguage =
   import.meta.env.SSR || import.meta.env.MODE === "test"
 
@@ -96,7 +99,10 @@ const eagerModules = holdsEveryLanguage
       eager: true,
       import: "default",
     })
-  : {}
+  : import.meta.glob<ResourceKey>("./locales/en/*.json", {
+      eager: true,
+      import: "default",
+    })
 
 export const localeResources = createLocaleResources({
   eager: eagerModules,

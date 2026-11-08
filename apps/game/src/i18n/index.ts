@@ -18,7 +18,7 @@ export { LANGUAGE_NAMES, SUPPORTED_LANGUAGES } from "@/i18n/languages"
 const FALLBACK_LANGUAGE: Language = "en"
 
 //the server and the tests hold every language already; the browser starts with
-//none and `loadLanguage` adds one (`@/i18n/locale-resources`)
+//English and `loadLanguage` adds the others (`@/i18n/locale-resources`)
 const resources: Resource = {}
 for (const language of SUPPORTED_LANGUAGES) {
   for (const namespace of NAMESPACES) {

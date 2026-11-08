@@ -10,16 +10,20 @@ import { expect, test } from "@playwright/test"
 //
 // Each budget is the value measured on main (2a6227a, 2026-11-08) plus 10%.
 // Measured on the e2e build this suite serves; the production build preloads
-// the same 34 modules and 718 fewer bytes (the board probe). Sizes are the
+// the same modules and about 700 fewer bytes (the board probe). Sizes are the
 // uncompressed bytes. A deliberate increase raises the budget in the same PR,
 // with the new measurement next to it.
 
 // Measured 85,426 bytes.
 const INLINE_CSS_BUDGET_BYTES = 93_968
-// Measured 34.
-const MODULEPRELOAD_COUNT_BUDGET = 37
-// Measured 816,927 bytes.
-const MODULEPRELOAD_JS_BUDGET_BYTES = 898_619
+// The script budgets were raised when every static import of a preloaded
+// chunk became preloaded too (hoist-chunk-imports.plugin.ts): those modules
+// were already fetched before hydration, a round trip later. Speed Index of /
+// went from about 2.97 s to 2.63 s on a local Lighthouse run (2026-11-08).
+// Measured 45 (was 34).
+const MODULEPRELOAD_COUNT_BUDGET = 49
+// Measured 902,813 bytes (was 816,927).
+const MODULEPRELOAD_JS_BUDGET_BYTES = 993_094
 
 test.skip(
   ({ browserName }) => browserName !== "chromium",
