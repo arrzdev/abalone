@@ -5,6 +5,7 @@ import { defineConfig } from "vite"
 import { PORTS } from "./ports"
 import { buildShaFile } from "./scripts/build-sha-file.plugin"
 import { crawlerFiles } from "./scripts/crawler-files.plugin"
+import { hoistChunkImports } from "./scripts/hoist-chunk-imports.plugin"
 
 const { appPort, supervisorPort } = PORTS
 
@@ -59,6 +60,9 @@ export default defineConfig({
     crawlerFiles(),
     //version.json, the commit this build is from, for drift checks
     buildShaFile(),
+    //every chunk a page needs before it hydrates is preloaded, not only the
+    //ones its entry names: Start preloads one level of imports
+    hoistChunkImports(),
   ],
   worker: {
     //the minimax opponent is a module worker; vite's classic-worker default
