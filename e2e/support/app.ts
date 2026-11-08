@@ -52,13 +52,18 @@ export async function openApp(page: Page, path: string): Promise<void> {
  * An offline game left on the board comes back when /offline is opened again
  * (e2e/offline-restore.spec.ts), so a spec that starts a second game in the
  * same tab drops the first one's save, as the player would by finishing it.
+ *
+ * The old page keeps running until the next one replaces it, and a computer
+ * reply that lands in between saves the game again. So the old page stops
+ * writing to storage at all: it is about to go.
  */
 async function forgetOfflineGame(page: Page): Promise<void> {
   // A page that has not loaded anything has no storage to reach, or a game.
   if (!page.url().startsWith("http")) return
-  await page.evaluate(() =>
-    localStorage.removeItem("abalone.offlineGame.v1"),
-  )
+  await page.evaluate(() => {
+    localStorage.removeItem("abalone.offlineGame.v1")
+    Storage.prototype.setItem = () => {}
+  })
 }
 
 /**
