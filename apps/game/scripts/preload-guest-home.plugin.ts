@@ -22,8 +22,10 @@ function withoutQuery(moduleId: string): string {
  * chunks were then found only after hydration, one more round trip: about 0.6 s
  * of `/online`'s Speed Index on a throttled phone.
  *
- * Only the metadata changes, never the code. It runs before
- * `hoistChunkImports`, which adds everything home's chunks import in turn.
+ * Only the metadata changes, never the code. Vite reads the same metadata for
+ * a dynamic import's preloads, so whatever is listed here is also fetched when
+ * the route lazy-loads. It runs before `hoistChunkImports`, which adds
+ * everything home's chunks import in turn.
  */
 export function preloadGuestHome(
   options: PreloadGuestHomeOptions,
@@ -46,7 +48,12 @@ export function preloadGuestHome(
       const guardedChunks: { fileName: string; imports: string[] }[] = []
 
       for (const output of Object.values(bundle)) {
-        if (output.type !== "chunk") continue
+        //the entry holds every route's definition, home's too, and it carries
+        //the page's stylesheet. listed in a route's imports, it put that
+        //stylesheet in the route's lazy-load preloads, which added it as a
+        //<link> the render waited on, although the HTML already inlines it.
+        //the entry is always loaded anyway
+        if (output.type !== "chunk" || output.isEntry) continue
         const moduleIds = output.moduleIds.map(withoutQuery)
         if (moduleIds.some((moduleId) => homeIds.has(moduleId))) {
           homeChunks.push(output.fileName)
