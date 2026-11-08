@@ -39,10 +39,25 @@ async function copyToRecordedClipboard(page: Page): Promise<void> {
   })
 }
 
-async function openComposer(page: Page): Promise<Locator> {
+/**
+ * Opens the sheet. By default it also waits for the games to land: while they
+ * load, four empty chips hold the row of people to play again, and for a first
+ * invite the row goes when the list comes back empty. The sheet is not at rest
+ * until then, however still it looks for two frames. A spec about the loading
+ * row itself passes `settled: false`.
+ */
+async function openComposer(
+  page: Page,
+  { settled = true }: { settled?: boolean } = {},
+): Promise<Locator> {
   await openApp(page, "/online?invite=new")
   const composer = page.getByRole("dialog")
   await expect(composer).toBeVisible()
+  if (settled) {
+    await expect(
+      composer.locator('[role="radiogroup"][aria-busy]'),
+    ).toHaveCount(0)
+  }
   await waitForRest(composer)
   return composer
 }
@@ -418,7 +433,7 @@ test.describe("on a 375x667 phone", () => {
       await released
       await route.continue()
     })
-    const composer = await openComposer(hostPage)
+    const composer = await openComposer(hostPage, { settled: false })
 
     await expect(composer.getByRole("radiogroup")).toHaveAttribute(
       "aria-busy",
