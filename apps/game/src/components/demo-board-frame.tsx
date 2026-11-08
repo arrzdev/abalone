@@ -1,5 +1,6 @@
 import type { GameState } from "@repo/abalone-engine/game-state"
 import { cellNames } from "@repo/abalone-engine/topology"
+import { cn } from "@repo/nativ/utils"
 import { boardPalette } from "@/render/board-themes"
 import { hexCenter } from "@/render/hex-grid"
 
@@ -65,7 +66,14 @@ const CENTRES = cellNames.map((name) => {
  * Filtering is fine here: this picture never changes, which is the thing
  * `BoardShadow` is avoiding for the canvas.
  */
-export function DemoBoardFrame({ state }: { state: GameState }) {
+export function DemoBoardFrame({
+  state,
+  hasShadow = true,
+}: {
+  state: GameState
+  /** Off where the board it stands in for has none, like the setup preview. */
+  hasShadow?: boolean
+}) {
   return (
     <svg
       viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
@@ -73,7 +81,11 @@ export function DemoBoardFrame({ state }: { state: GameState }) {
       aria-hidden="true"
       focusable="false"
       data-demo-board-frame=""
-      className="pointer-events-none absolute inset-0 size-full max-lg:[filter:drop-shadow(0_26px_46px_rgb(0_0_0/0.55))] lg:[filter:drop-shadow(0_34px_60px_rgb(0_0_0/0.55))]"
+      className={cn(
+        "pointer-events-none absolute inset-0 size-full",
+        hasShadow &&
+          "max-lg:[filter:drop-shadow(0_26px_46px_rgb(0_0_0/0.55))] lg:[filter:drop-shadow(0_34px_60px_rgb(0_0_0/0.55))]",
+      )}
     >
       <defs>
         <radialGradient id="demo-ivory" cx="0.36" cy="0.3" r="0.8">

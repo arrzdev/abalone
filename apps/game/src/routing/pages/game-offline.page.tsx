@@ -1,7 +1,7 @@
 import type { PlayableSetup } from "@repo/abalone-engine/board-setups"
 import { isPlayableSetup } from "@repo/abalone-engine/board-setups"
 import type { GameMode } from "@repo/abalone-engine/game-state"
-import type { CellName, Player } from "@repo/abalone-engine/types"
+import type { Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
 import {
   createFileRoute,
@@ -17,6 +17,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react"
+import { preload } from "react-dom"
 import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import { BotAvatar } from "@/components/bot-avatar"
@@ -40,6 +41,7 @@ import { PregameControls } from "@/components/pregame-controls"
 import { ResignModal } from "@/components/resign-modal"
 import type { Seat } from "@/components/seat-bar"
 import { SeatBar } from "@/components/seat-bar"
+import { SetupPreviewBoard } from "@/components/setup-preview-board"
 import {
   SUBPAGE_HEADER_BUTTON,
   SubpageHeader,
@@ -139,10 +141,15 @@ export const Route = createFileRoute("/_subpage/offline")({
   component: GameOfflinePage,
 })
 
-/** Stable identity so the preview board never repaints for a new empty array. */
-const EMPTY_MOVES: CellName[] = []
-
 function GameOfflinePage() {
+  //the heading and the setup labels are Sora, and a face that arrives after the
+  //first layout moves the centred title sideways. Asked for from the head, it is
+  //in before that layout.
+  preload("/fonts/sora-latin.woff2", {
+    as: "font",
+    type: "font/woff2",
+    crossOrigin: "anonymous",
+  })
   const { t } = useTranslation()
   const { user } = useAuth()
   const { data: profile } = useProfile()
@@ -793,12 +800,9 @@ function GameOfflinePage() {
                 marbleDesign={marbleDesign}
                 onPlay={() => game.startNewGame()}
                 preview={
-                  <GameCanvas
+                  <SetupPreviewBoard
                     state={state}
-                    possibleMoves={EMPTY_MOVES}
                     marbleDesign={marbleDesign}
-                    showLabels={false}
-                    interactive={false}
                   />
                 }
               />

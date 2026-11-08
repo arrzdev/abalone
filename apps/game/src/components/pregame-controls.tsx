@@ -51,6 +51,14 @@ export type PregameControlsProps = {
 }
 
 /**
+ * The portraits on the grid's first row, which is the one a phone shows under
+ * the board preview. The grid is four across. The rows under it are off screen
+ * until the panel scrolls, so they load lazily instead of all eight at once
+ * (the files add up to about 250 KB) ahead of the page's own script.
+ */
+const FIRST_ROW_PORTRAITS = 4
+
+/**
  * Side panel for setting a game up. Everything here previews on the board next
  * to it — setup, side and mode all repaint it as they change.
  *
@@ -167,7 +175,7 @@ export function PregameControls({
                 was a different number of lines for each of the eight — so
                 picking an opponent shuffled everything below it. */}
               <div className="grid grid-cols-4 gap-2">
-                {BOT_LEVELS.map((level) => {
+                {BOT_LEVELS.map((level, index) => {
                   const selected = level === difficulty
                   const who = `${getBotName(level)} — ${t(titleKey(level))}`
                   return (
@@ -211,6 +219,9 @@ export function PregameControls({
                       >
                         <BotAvatar
                           level={level}
+                          loading={
+                            index < FIRST_ROW_PORTRAITS ? "eager" : "lazy"
+                          }
                           className="block h-full w-full"
                         />
                         {/* The level is a rank, so it belongs on the portrait
