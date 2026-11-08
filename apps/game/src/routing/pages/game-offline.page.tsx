@@ -17,6 +17,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react"
+import { preload } from "react-dom"
 import { useTranslation } from "react-i18next"
 import { AppSettingsSheet } from "@/components/app-settings-sheet"
 import { BotAvatar } from "@/components/bot-avatar"
@@ -141,6 +142,14 @@ export const Route = createFileRoute("/_subpage/offline")({
 })
 
 function GameOfflinePage() {
+  //the heading and the setup labels are Sora, and a face that arrives after the
+  //first layout moves the centred title sideways. Asked for from the head, it is
+  //in before that layout.
+  preload("/fonts/sora-latin.woff2", {
+    as: "font",
+    type: "font/woff2",
+    crossOrigin: "anonymous",
+  })
   const { t } = useTranslation()
   const { user } = useAuth()
   const { data: profile } = useProfile()
