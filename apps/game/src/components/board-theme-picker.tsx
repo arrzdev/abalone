@@ -44,9 +44,11 @@ export type BoardThemePickerProps = {
  * radios does. The checked tile says so with a border and a check mark, so it is
  * not left to colour alone, which is the one thing these tiles are about.
  *
- * Each tile is one 44px row, the board beside its name rather than above it:
- * the settings sheet fits a 375x667 phone without scrolling, and it had no
- * room left for a taller group.
+ * Each tile is 44px tall, a small board with its name under it. The name has
+ * the whole tile to itself, so it reads in full on one line in every language
+ * at 320px, which a board beside it did not leave room for. The board is short
+ * enough that the tile stays as tall as the row it replaced: the settings sheet
+ * fits a 375x667 phone without scrolling and has no room left for a taller group.
  */
 export function BoardThemePicker({
   value,
@@ -95,9 +97,7 @@ export function BoardThemePicker({
             data-board-theme={theme}
             onClick={() => onChange(theme)}
             className={cn(
-              "relative flex min-h-11 min-w-11 flex-1 items-center justify-center gap-1.5 rounded-xl border-2 bg-surface-2 px-1.5 transition",
-              //under 375px the padding and the board give way, or "Walnut" is cut to "Wal…"
-              "max-[374px]:gap-1 max-[374px]:px-1",
+              "relative flex min-h-11 min-w-11 flex-1 flex-col items-center justify-center rounded-xl border-2 bg-surface-2 px-1 py-0.5 transition",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand",
               checked
                 ? "border-brand-lighter"
@@ -108,7 +108,7 @@ export function BoardThemePicker({
               blackCells={STANDARD.black}
               whiteCells={STANDARD.white}
               theme={theme}
-              className="h-7 w-8 shrink-0 max-[374px]:h-5 max-[374px]:w-6"
+              className="h-5 w-6 shrink-0"
             />
             <span
               className={cn(

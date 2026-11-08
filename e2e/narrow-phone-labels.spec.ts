@@ -68,46 +68,46 @@ function labelFit(scope: Locator) {
   })
 }
 
-// The theme names that fit their tile at 320px. The longer ones (German, French,
-// Italian, Japanese, Dutch, Portuguese, Turkish) still end in an ellipsis there:
-// a tile with the board beside its name has no room for them, and the board above
-// the name costs height the settings sheet does not have.
-const THEME_NAMES_FIT = ["en", "es", "hi", "ko", "pl", "zh"]
+/** The narrowest phone in use, and the first width the tiles are not squeezed at. */
+const THEME_WIDTHS = [320, 375]
 
-test("at 320px wide, every board theme name shows in full in the languages that fit", async ({
-  page,
-}) => {
-  test.slow()
-  for (const language of THEME_NAMES_FIT) {
-    const copy = gameCopy(language)
-    await useLanguage(page, language)
-    await openApp(page, "/")
-    await page
-      .getByRole("button", { name: copy.controls.settings })
-      .filter({ visible: true })
-      .first()
-      .click()
-    const dialog = page.getByRole("dialog")
-    await expect(dialog).toBeVisible()
-    await waitForRest(dialog)
+for (const width of THEME_WIDTHS) {
+  test(`at ${width}px wide, every board theme name shows in full on one line in every language`, async ({
+    page,
+  }) => {
+    test.slow()
+    await page.setViewportSize({ width, height: 568 })
+    for (const language of languages()) {
+      const copy = gameCopy(language)
+      await useLanguage(page, language)
+      await openApp(page, "/")
+      await page
+        .getByRole("button", { name: copy.controls.settings })
+        .filter({ visible: true })
+        .first()
+        .click()
+      const dialog = page.getByRole("dialog")
+      await expect(dialog).toBeVisible()
+      await waitForRest(dialog)
 
-    const names = dialog
-      .getByRole("radiogroup", { name: copy.controls.board_theme })
-      .getByRole("radio")
-      .locator("span")
-    await expect(names).toHaveText([
-      copy.controls.board_theme_slate,
-      copy.controls.board_theme_walnut,
-      copy.controls.board_theme_felt,
-    ])
-    for (const name of await names.all()) {
-      expect(
-        await labelFit(name),
-        `${language} ${await name.textContent()}`,
-      ).toEqual({ cut: false, lines: 1 })
+      const names = dialog
+        .getByRole("radiogroup", { name: copy.controls.board_theme })
+        .getByRole("radio")
+        .locator("span")
+      await expect(names).toHaveText([
+        copy.controls.board_theme_slate,
+        copy.controls.board_theme_walnut,
+        copy.controls.board_theme_felt,
+      ])
+      for (const name of await names.all()) {
+        expect(
+          await labelFit(name),
+          `${language} ${await name.textContent()}`,
+        ).toEqual({ cut: false, lines: 1 })
+      }
     }
-  }
-})
+  })
+}
 
 test("at 320px wide, the game over buttons after a bot game keep their labels on one line in every language", async ({
   page,
