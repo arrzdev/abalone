@@ -259,7 +259,7 @@ describe("useKeyboard", () => {
     unmount()
 
     const activeElement = vi.spyOn(document, "activeElement", "get")
-    for (const listener of lateListeners) listener()
+    for (const listener of lateListeners) listener(new Event("resize"))
     advance(DEBOUNCE_MS + DISMISS_CONFIRM_MS + HEIGHT_CONFIRM_MS)
 
     expect(activeElement).not.toHaveBeenCalled()
