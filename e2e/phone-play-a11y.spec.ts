@@ -32,6 +32,9 @@ const OPEN_DIALOG = "[role=dialog][aria-modal=true][data-open=true]"
 async function openResignWithKeyboard(page: Page): Promise<void> {
   const resign = page.getByRole("button", { name: "Resign" })
   await resign.focus()
+  // A press that lands anywhere else opens nothing, and the wait for the dialog
+  // below would then fail without saying why.
+  await expect(resign).toBeFocused()
   await page.keyboard.press("Enter")
   await expect(
     page.getByRole("dialog", { name: "Resign the game?" }),
