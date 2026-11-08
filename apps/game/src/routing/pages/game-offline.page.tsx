@@ -1,7 +1,7 @@
 import type { PlayableSetup } from "@repo/abalone-engine/board-setups"
 import { isPlayableSetup } from "@repo/abalone-engine/board-setups"
 import type { GameMode } from "@repo/abalone-engine/game-state"
-import type { CellName, Player } from "@repo/abalone-engine/types"
+import type { Player } from "@repo/abalone-engine/types"
 import { cn } from "@repo/nativ/utils"
 import {
   createFileRoute,
@@ -40,6 +40,7 @@ import { PregameControls } from "@/components/pregame-controls"
 import { ResignModal } from "@/components/resign-modal"
 import type { Seat } from "@/components/seat-bar"
 import { SeatBar } from "@/components/seat-bar"
+import { SetupPreviewBoard } from "@/components/setup-preview-board"
 import {
   SUBPAGE_HEADER_BUTTON,
   SubpageHeader,
@@ -138,9 +139,6 @@ export const Route = createFileRoute("/_subpage/offline")({
   },
   component: GameOfflinePage,
 })
-
-/** Stable identity so the preview board never repaints for a new empty array. */
-const EMPTY_MOVES: CellName[] = []
 
 function GameOfflinePage() {
   const { t } = useTranslation()
@@ -793,12 +791,9 @@ function GameOfflinePage() {
                 marbleDesign={marbleDesign}
                 onPlay={() => game.startNewGame()}
                 preview={
-                  <GameCanvas
+                  <SetupPreviewBoard
                     state={state}
-                    possibleMoves={EMPTY_MOVES}
                     marbleDesign={marbleDesign}
-                    showLabels={false}
-                    interactive={false}
                   />
                 }
               />
