@@ -40,10 +40,21 @@ test("switching the language translates the app and survives a reload", async ({
 // A language is its own file, fetched when it is picked. The service worker
 // precaches every one at install, so a language the visitor never opened still
 // switches with the network off.
+//
+// Chromium only: Playwright's offline mode in WebKit fails every request the
+// page makes, even the ones the service worker answers from its cache, so a
+// precached file looks missing there. An asset the page already loaded fails
+// the same way, which is how we know it is the harness and not the app.
 test("a language never opened switches with the network off", async ({
   page,
   context,
+  browserName,
 }) => {
+  test.skip(
+    browserName !== "chromium",
+    "WebKit's offline mode bypasses the service worker",
+  )
+
   await openApp(page, "/offline")
   await page.evaluate(() => navigator.serviceWorker.ready)
   await expect
