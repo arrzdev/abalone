@@ -1,6 +1,8 @@
+import { readdirSync, readFileSync } from "node:fs"
 import type { Locator, Page } from "@playwright/test"
 import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { waitForRest } from "./support/layout"
 
 // The settings overlay is one screen that never scrolls, on a phone or a
 // desktop, and nothing in it moves when one of its dropdowns opens. The
@@ -164,6 +166,55 @@ test.describe("on a 375x667 phone, settings", () => {
   }) => {
     const dialog = await openSettings(page)
     await expectDropdownsOpenInPlace(dialog)
+  })
+})
+
+// TUD-4589: on the shortest phone in use (iPhone SE, 320x568) the sheet shows
+// everything at once in every language, as it does at 375x667. It held about
+// 618px of content in a 527px box and scrolled inside itself.
+
+/** The shortest and narrowest phone in use. */
+const SMALL_PHONE = { width: 320, height: 568 }
+
+const LOCALES_DIRECTORY = "apps/game/src/i18n/locales"
+
+/** What the app stores for the language switch in settings (language.spec.ts). */
+const LANGUAGE_STORAGE_KEY = "abalone_language"
+
+function languages(): string[] {
+  return readdirSync(LOCALES_DIRECTORY).sort()
+}
+
+/** The settings button's name in a language. */
+function settingsName(language: string): string {
+  const path = `${LOCALES_DIRECTORY}/${language}/game.json`
+  return JSON.parse(readFileSync(path, "utf8")).controls.settings
+}
+
+test.describe("on a 320x568 phone, settings", () => {
+  test.use({ viewport: SMALL_PHONE })
+
+  test("the settings sheet fits without scrolling in every language", async ({
+    page,
+  }) => {
+    test.slow()
+    await openApp(page, "/")
+    for (const language of languages()) {
+      await page.evaluate(
+        ([key, value]) => localStorage.setItem(key, value),
+        [LANGUAGE_STORAGE_KEY, language],
+      )
+      await openApp(page, "/")
+      await page
+        .getByRole("button", { name: settingsName(language) })
+        .filter({ visible: true })
+        .first()
+        .click()
+      const dialog = page.getByRole("dialog")
+      await expect(dialog).toBeVisible()
+      await waitForRest(dialog)
+      expect.soft(await overflowingBoxes(dialog), language).toEqual([])
+    }
   })
 })
 
