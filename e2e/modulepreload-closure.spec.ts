@@ -168,5 +168,21 @@ for (const path of ["/", "/online", "/profile"]) {
       }
     }
     expect(shippingSocket).toEqual([])
+
+// The auth SDK loads on first use: the session subscription after the first
+// render, or a sign-in, sign-up or sign-out. The first render reads only the
+// stored token, so preloading it only delayed hydration. `$sessionSignal` is
+// better-auth's own session store key, in no file of ours.
+for (const path of ["/", "/online", "/profile"]) {
+  test(`${path} preloads no auth SDK`, async ({ request }) => {
+    const shippingAuthSdk: string[] = []
+    for (const chunkPath of await modulepreloadsOf(request, path)) {
+      const chunk = await request.get(chunkPath)
+      expect(chunk.status(), chunkPath).toBe(200)
+      if ((await chunk.text()).includes("$sessionSignal")) {
+        shippingAuthSdk.push(chunkPath)
+      }
+    }
+    expect(shippingAuthSdk).toEqual([])
   })
 }
