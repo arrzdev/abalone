@@ -123,11 +123,15 @@ export function Sheet({
           )}
           //the footer, last in the scroll flow, carries the inset when there is
           //one — otherwise the scroller owes the home indicator its clearance
-          scrollClassName={footer ? "pb-2" : "pb-safe-or-5"}
+          scrollClassName={
+            footer
+              ? "pb-2"
+              : "pb-safe-or-5 [@media(max-height:600px)]:pb-safe-or-2"
+          }
         >
           <Drawer.Handle className="bg-surface-4" />
 
-          <Drawer.Shell className="gap-y-5 px-safe-offset-5 pb-1">
+          <Drawer.Shell className="gap-y-5 px-safe-offset-5 pb-1 [@media(max-height:600px)]:gap-y-2 [@media(max-height:600px)]:pb-0">
             {/* `sr-only` is absolutely positioned, so it leaves the flex flow
                 entirely — the shell's gap never opens for a heading that is not
                 on the screen. */}
@@ -142,7 +146,7 @@ export function Sheet({
                 {title && (
                   <Drawer.Title
                     id={titleId}
-                    className="font-display text-[22px] font-bold tracking-[-0.02em] text-white"
+                    className="font-display text-[22px] font-bold tracking-[-0.02em] text-white [@media(max-height:600px)]:text-lg"
                   >
                     {title}
                   </Drawer.Title>

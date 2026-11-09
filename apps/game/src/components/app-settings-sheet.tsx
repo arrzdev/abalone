@@ -60,7 +60,7 @@ export function AppSettingsSheet({
       title={t("game:controls.settings")}
       className="lg:max-w-[476px]"
     >
-      <div className="flex flex-col gap-y-5">
+      <div className="flex flex-col gap-y-5 [@media(max-height:600px)]:gap-y-2">
         {/* No label shown: the flag and the language name say what this is.
             The select still carries it as its accessible name. */}
         <LanguageSelect />
@@ -95,7 +95,7 @@ export function AppSettingsSheet({
 
         {/* Sound is one row now, so it leads the list of switches rather than
             taking a section of its own: the sheet fits a 375x667 phone. */}
-        <div className="flex flex-col gap-y-2 border-t border-border pt-5">
+        <div className="flex flex-col gap-y-2 border-t border-border pt-5 [@media(max-height:600px)]:gap-y-0 [@media(max-height:600px)]:pt-2">
           <VolumeSlider
             label={t("game:controls.sound")}
             muteLabel={t(
