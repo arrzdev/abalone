@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The setup panel holds the modes and their options, nothing to read
 // (TUD-2781): the bots and the device questions are on /strategy and /rules.

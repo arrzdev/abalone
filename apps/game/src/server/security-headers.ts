@@ -5,30 +5,65 @@
  * and which never reaches the Worker. A test keeps the two equal.
  *
  * HSTS without includeSubDomains or preload: other tudu.dev hosts are not all on
- * Workers. The CSP is report-only (console, no collector) until it runs clean.
+ * Workers. The CSP is enforced; there is no report endpoint.
  */
 
-const CSP = [
-  "default-src 'self'",
-  //the Cloudflare Web Analytics beacon (`@/utils/web-analytics`)
-  "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
-  "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: https:",
-  "font-src 'self' data:",
-  //the backend and its realtime socket are on the page's own origin (/api);
-  //the beacon reports to cloudflareinsights.com
-  "connect-src 'self' https://cloudflareinsights.com",
-  "frame-ancestors 'none'",
-  "base-uri 'self'",
-  "object-src 'none'",
-].join("; ")
+//the policy for a page. `devBackend` is the backend's own origin, only for a dev
+//or e2e run, where it sits on another port than the page; production serves
+//the api under /api on the page's origin and passes nothing
+function buildPolicy(devBackend: readonly string[]): string {
+  return [
+    "default-src 'self'",
+    //'unsafe-inline': TanStack Start's server render writes inline scripts into
+    //every page (the router's dehydrated state and its boot code), and they
+    //carry no nonce. No 'unsafe-eval': nothing the game runs needs it
+    //(e2e/no-eval.spec.ts). The Cloudflare Web Analytics beacon is the one
+    //third-party script (`@/utils/web-analytics`)
+    "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
+    "style-src 'self' 'unsafe-inline'",
+    //avatars are served by the backend, so a dev or e2e one needs it here too
+    [
+      "img-src 'self' data: https:",
+      ...devBackend.filter((source) => !source.startsWith("ws")),
+    ].join(" "),
+    "font-src 'self' data:",
+    //the backend and its realtime socket are on the page's own origin (/api);
+    //the beacon reports to cloudflareinsights.com
+    [
+      "connect-src 'self' https://cloudflareinsights.com",
+      ...devBackend,
+    ].join(" "),
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "object-src 'none'",
+  ].join("; ")
+}
+
+const CSP = buildPolicy([])
 
 export const SECURITY_HEADERS = {
   "Strict-Transport-Security": "max-age=31536000",
   "X-Content-Type-Options": "nosniff",
   "Referrer-Policy": "strict-origin-when-cross-origin",
-  "Content-Security-Policy-Report-Only": CSP,
+  "Content-Security-Policy": CSP,
 } as const
+
+/**
+ * Where a dev or e2e backend answers for a page at `pageUrl`: the configured
+ * port on the page's own hostname, as the client builds it
+ * (`resolveBackendBaseUrl`), over http and the websocket scheme. Empty in
+ * production, where `VITE_BACKEND_URL` is not set.
+ */
+export function devBackendSources(
+  pageUrl: URL,
+  configured: string | undefined,
+): string[] {
+  if (!configured) return []
+  const { port } = new URL(configured)
+  const host = `${pageUrl.hostname}${port ? `:${port}` : ""}`
+  const socket = pageUrl.protocol === "https:" ? "wss" : "ws"
+  return [`${pageUrl.protocol}//${host}`, `${socket}://${host}`]
+}
 
 /** Build files under /assets/ carry a content hash in the name: never stale. */
 export const CACHE_HASHED_ASSET = "public, max-age=31536000, immutable"
@@ -39,11 +74,16 @@ export const CACHE_PUBLIC_HTML =
 export const CACHE_PRIVATE = "private, no-store"
 
 /** The security headers on any response, and the cache policy on pages and cookie responses. */
-export function withSecurityHeaders(response: Response): Response {
+export function withSecurityHeaders(
+  response: Response,
+  devBackend: readonly string[] = [],
+): Response {
   //copy instead of mutating: a fetched or streamed response can carry immutable headers
   const headers = new Headers(response.headers)
   for (const [name, value] of Object.entries(SECURITY_HEADERS))
     headers.set(name, value)
+  if (devBackend.length > 0)
+    headers.set("Content-Security-Policy", buildPolicy(devBackend))
   //a page that already forbids caching (the invite card) stays uncached
   if (
     response.headers.has("Set-Cookie") ||

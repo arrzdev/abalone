@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The strategy page (the `strategy-page` document on TUD-626), the home H1, and
 // the links between home, rules and strategy (tech-seo-spec item 7). Pages are

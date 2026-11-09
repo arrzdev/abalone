@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "./support/test"
 
 // Smoke self-test: the app responds, mounts content, and throws no uncaught
 // errors. Minimal "is it alive" check to run headlessly against a local

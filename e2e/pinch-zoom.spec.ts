@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The game lets a reader zoom (allowZoom in nativ.config, WCAG 1.4.4). Pinch zoom
 // belongs to the page, and the browser only starts one when the touch-action of

@@ -1,7 +1,7 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 import { expectMarble, marbleOn } from "./support/board"
+import { expect, test } from "./support/test"
 
 // Each layout chapter on /starting-positions ends in a button that starts a
 // game against the computer on that layout, in one tap. The generic play block

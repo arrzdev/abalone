@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from "node:fs"
-import { expect, test } from "@playwright/test"
 import { openApp, signUp, uniqueUsername } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The line under the name in the invite composer is as tall as the longest
 // message it can say (StatusLine). One message that wraps in one language makes

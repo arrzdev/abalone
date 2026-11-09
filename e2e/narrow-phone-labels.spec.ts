@@ -1,9 +1,9 @@
 import { readdirSync, readFileSync } from "node:fs"
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 import { playMove } from "./support/board"
 import { waitForRest } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // On the narrowest phone in use, the short labels still read in full and on one
 // line in every language: a theme name cut to "Wal…" or a two-word button

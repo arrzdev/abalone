@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "./support/test"
 
 // What a crawler reads before it runs any JavaScript: the raw HTML each URL is
 // served, plus robots.txt and the sitemap. Plain requests, no page, so these

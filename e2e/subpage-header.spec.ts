@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, signUp, uniqueUsername } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The way out of every secondary screen on a phone is the arrow in the corner
 // of its header, so it is a full 44px thumb target and the title stays centred.

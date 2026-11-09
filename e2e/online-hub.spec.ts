@@ -1,5 +1,4 @@
 import type { Browser, Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import {
   chooseInviteSide,
   openApp,
@@ -7,6 +6,7 @@ import {
   uniqueUsername,
 } from "./support/app"
 import { playMove } from "./support/board"
+import { expect, test } from "./support/test"
 
 // The online hub shows every game as the same board card: whose move it is,
 // when the last move was, when the game started and the score. It keeps

@@ -1,5 +1,4 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import {
   chooseInviteSide,
   openApp,
@@ -9,6 +8,7 @@ import {
 } from "./support/app"
 import { expectMarble, playMove } from "./support/board"
 import { expireInviteLink } from "./support/database"
+import { expect, test } from "./support/test"
 
 // Invite by link: a signed-in player makes a link, sends it anywhere, and
 // whoever opens it first plays them. The friend does not need an account yet;

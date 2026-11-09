@@ -1,5 +1,4 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 import {
   expectMarble,
@@ -10,6 +9,7 @@ import {
   selectSquare,
   tapSquare,
 } from "./support/board"
+import { expect, test } from "./support/test"
 
 // Against the computer: a legal move is played and answered, and the board
 // refuses moves the rules do not allow.

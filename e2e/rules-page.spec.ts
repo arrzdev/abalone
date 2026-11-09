@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The rules page as a search result lands on it: the full rules as text, beside
 // the diagrams it already had (the `rules-text` document on TUD-626). The page

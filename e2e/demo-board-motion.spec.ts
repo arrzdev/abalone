@@ -1,6 +1,6 @@
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The home page's demo board plays a game by itself, forever, while it is on
 // screen. Moving content that starts on its own and runs past five seconds needs

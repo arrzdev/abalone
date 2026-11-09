@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // /rules and /strategy laid out as a printed manual: numbered chapters with no
 // cards, a contents rail with scroll-spy on a desktop, a contents list on a

@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // Keyboard users see where they are: every Tab stop draws an outline at least
 // 2px wide whose colour stands 3:1 against the background around it, and a

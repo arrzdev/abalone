@@ -6,6 +6,7 @@ import {
   CACHE_HASHED_ASSET,
   CACHE_PRIVATE,
   CACHE_PUBLIC_HTML,
+  devBackendSources,
   SECURITY_HEADERS,
   withSecurityHeaders,
 } from "@/server/security-headers"
@@ -60,12 +61,38 @@ describe("withSecurityHeaders", () => {
     expect(SECURITY_HEADERS["Referrer-Policy"]).toBe(
       "strict-origin-when-cross-origin",
     )
-    const csp = SECURITY_HEADERS["Content-Security-Policy-Report-Only"]
+    const csp = SECURITY_HEADERS["Content-Security-Policy"]
     expect(csp).toContain("default-src 'self'")
     expect(csp).toContain("frame-ancestors 'none'")
     expect(csp).toContain("object-src 'none'")
     //the analytics beacon is the only third-party script
     expect(csp).toContain("https://static.cloudflareinsights.com")
+    //enforced, never report-only
+    expect(SECURITY_HEADERS).not.toHaveProperty(
+      "Content-Security-Policy-Report-Only",
+    )
+    expect(csp).not.toMatch(/unsafe-eval|\*/)
+  })
+
+  it("adds the dev backend to connect-src only when one is configured", () => {
+    const page = new URL("http://localhost:6161/")
+    expect(devBackendSources(page, undefined)).toEqual([])
+    const sources = devBackendSources(page, "http://localhost:8181")
+    expect(sources).toEqual([
+      "http://localhost:8181",
+      "ws://localhost:8181",
+    ])
+    const headers = withSecurityHeaders(
+      new Response("", { headers: { "Content-Type": "text/plain" } }),
+      sources,
+    ).headers
+    expect(headers.get("Content-Security-Policy")).toContain(
+      "connect-src 'self' https://cloudflareinsights.com http://localhost:8181 ws://localhost:8181;",
+    )
+    expect(headers.get("Content-Security-Policy")).toContain(
+      "img-src 'self' data: https: http://localhost:8181;",
+    )
+    expect(headers.has("Content-Security-Policy-Report-Only")).toBe(false)
   })
 
   it("lets a public page be cached briefly by a shared cache", () => {

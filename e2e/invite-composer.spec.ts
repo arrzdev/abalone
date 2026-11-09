@@ -1,5 +1,4 @@
 import type { Browser, Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, signUp, uniqueUsername } from "./support/app"
 import {
   expectNoClippedText,
@@ -7,6 +6,7 @@ import {
   expectNoScrolling,
   waitForRest,
 } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // The New invite sheet, who first: the people you played lately, a field for
 // anybody else, the link as a card, and the terms in one line that Change opens

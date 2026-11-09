@@ -1,8 +1,8 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 import { expectMarble, moveList, playMove } from "./support/board"
 import { waitForRest } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // An offline game survives the page going away: iOS Safari reloads a tab it
 // discarded in the background, and the player comes back to the same board,

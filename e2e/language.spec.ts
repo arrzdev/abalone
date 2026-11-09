@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The language is picked in the settings sheet, applies at once, moves the
 // page to that language's URL and is still the one in use after a reload.

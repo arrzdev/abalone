@@ -1,6 +1,6 @@
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // /offline is the setup screen for a game against the computer, and an indexable
 // landing page: it is judged on how soon it looks finished. The board preview

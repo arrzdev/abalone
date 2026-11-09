@@ -1,8 +1,8 @@
 import { readdirSync, readFileSync } from "node:fs"
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 import { waitForRest } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // The settings overlay is one screen that never scrolls, on a phone or a
 // desktop, and nothing in it moves when one of its dropdowns opens. The

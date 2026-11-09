@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // Every language has URLs of its own (docs/locale-urls.md): English keeps the
 // paths it always had, the others live under their code (/pt/rules, /pt). An

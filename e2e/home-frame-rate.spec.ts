@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The home page's demo board plays a game on a canvas, and each move is an
 // animation loop that redraws the board every frame. A CSS filter on a box

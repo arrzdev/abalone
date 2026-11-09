@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, signUp, uniqueUsername } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The empty online page (TUD-850): an account with no games and no invites.
 // Its friends are not on Abalone yet, so the page leads with a link to send

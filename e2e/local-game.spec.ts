@@ -1,6 +1,6 @@
-import { expect, test } from "@playwright/test"
 import { startOfflineGame } from "./support/app"
 import { moveList, playMove } from "./support/board"
+import { expect, test } from "./support/test"
 
 // Pass & play: both sides move on one device, and the side to move can resign,
 // which ends the game for the other.

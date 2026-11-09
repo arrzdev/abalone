@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test"
+import { expect, test } from "./support/test"
 
 // What the home page makes the browser fetch and parse before its first paint.
 // Inlining the stylesheet into `/` took the Speed Index from about 2.9 s to

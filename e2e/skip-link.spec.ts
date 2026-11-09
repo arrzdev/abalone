@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test"
 import { openApp, signUp, uniqueUsername } from "./support/app"
+import { expect, test } from "./support/test"
 
 // A keyboard user reaches the page without walking the header: the first Tab
 // on every page offers "Skip to content", it shows while focused, and pressing
