@@ -1,7 +1,8 @@
 name: Production check
 
 # Once a day, ask production whether it is up: both frontends, the health route
-# behind each of them, and one avatar on the CDN. A red check opens an issue
+# behind each of them, one avatar on the CDN, and that some game started in the
+# last 3 days (a silent break in the game count). A red check opens an issue
 # titled `Production check failed` (or comments on the open one), so an outage
 # reaches the on-call path through GitHub instead of through a player.
 #
@@ -67,6 +68,21 @@ jobs:
           check_health https://abalone.tudu.dev/api/v1/health
           check_health https://babaluje.tudu.dev/api/v1/health
           check_status "$AVATAR_URL"
+
+          # No game started in production for 3 days: either nobody played or
+          # the counting broke. Either way someone looks (docs/game-events.md).
+          check_recent_starts() {
+            local url="$1"
+            local answer
+            answer=$(curl --silent --retry 2 --retry-all-errors --max-time 15 "$url" \
+              | jq -r '.data.recentStart // "none"' 2>/dev/null || true)
+            echo "recentStart=${answer:-none} $url"
+            if [ "$answer" != "true" ]; then
+              failures+="- \`$url\`: no game start counted in production for 3 days (got \`${answer:-no answer}\`). Check docs/game-events.md"$'\n'
+            fi
+          }
+
+          check_recent_starts https://abalone.tudu.dev/api/v1/events/game/recent-starts
 
           if [ -n "$failures" ]; then
             {
