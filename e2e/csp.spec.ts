@@ -34,6 +34,16 @@ test("a request the policy refuses fails the spec", async ({
   )
   await expect.poll(() => cspViolations.length).toBeGreaterThan(0)
   expect(cspViolations.join("\n")).toContain("connect-src")
+  // a browser prints a few console lines for one violation: let them land
+  let seen = -1
+  await expect
+    .poll(async () => {
+      const settled = seen === cspViolations.length
+      seen = cspViolations.length
+      await page.waitForTimeout(300)
+      return settled
+    })
+    .toBe(true)
   // provoked on purpose: the guard would fail this spec for it otherwise
   cspViolations.length = 0
 })

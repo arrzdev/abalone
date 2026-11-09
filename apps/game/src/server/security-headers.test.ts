@@ -89,6 +89,9 @@ describe("withSecurityHeaders", () => {
     expect(headers.get("Content-Security-Policy")).toContain(
       "connect-src 'self' https://cloudflareinsights.com http://localhost:8181 ws://localhost:8181;",
     )
+    expect(headers.get("Content-Security-Policy")).toContain(
+      "img-src 'self' data: https: http://localhost:8181;",
+    )
     expect(headers.has("Content-Security-Policy-Report-Only")).toBe(false)
   })
 

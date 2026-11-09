@@ -21,7 +21,11 @@ function buildPolicy(devBackend: readonly string[]): string {
     //third-party script (`@/utils/web-analytics`)
     "script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com",
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data: https:",
+    //avatars are served by the backend, so a dev or e2e one needs it here too
+    [
+      "img-src 'self' data: https:",
+      ...devBackend.filter((source) => !source.startsWith("ws")),
+    ].join(" "),
     "font-src 'self' data:",
     //the backend and its realtime socket are on the page's own origin (/api);
     //the beacon reports to cloudflareinsights.com
