@@ -1,4 +1,5 @@
 import tryCatch from "@repo/shared/try-catch"
+import { and, eq, gte } from "drizzle-orm"
 import type { Db } from "@/database/client"
 import type {
   GameEntry,
@@ -8,6 +9,9 @@ import type {
 } from "@/database/schema"
 import { gameEvents } from "@/database/schema"
 import { CustomError } from "@/http/errors"
+
+//how far back the daily production check looks for a game start
+const RECENT_START_WINDOW_MS = 72 * 60 * 60 * 1000
 
 /** One game starting or finishing, and nothing about who played it. */
 export type GameEvent = {
@@ -53,5 +57,32 @@ export class GameEventService {
     )
     if (writeError)
       throw new CustomError("internal_server_error", writeError)
+  }
+
+  /**
+   * Whether any game started in the last 72 hours, in any mode.
+   *
+   * The daily production check alerts on a no, so a broken count cannot hide
+   * behind a quiet week. One row is enough to answer, and the created_at index
+   * finds it.
+   */
+  async hasRecentStart(): Promise<boolean> {
+    const since = new Date(Date.now() - RECENT_START_WINDOW_MS)
+    const [row, selectError] = await tryCatch(() =>
+      this.db
+        .select({ id: gameEvents.id })
+        .from(gameEvents)
+        .where(
+          and(
+            eq(gameEvents.kind, "start"),
+            gte(gameEvents.createdAt, since),
+          ),
+        )
+        .limit(1)
+        .get(),
+    )
+    if (selectError)
+      throw new CustomError("service_unavailable", selectError)
+    return row !== undefined
   }
 }

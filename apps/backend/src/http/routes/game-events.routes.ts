@@ -3,6 +3,7 @@ import tryCatch from "@repo/shared/try-catch"
 import { z } from "zod"
 import { getDb } from "@/database/client"
 import type { Env } from "@/env/registry"
+import { ok } from "@/http/envelope"
 import { CustomError } from "@/http/errors"
 import { rateLimit } from "@/http/middlewares/rate-limit"
 import { GameEventService } from "@/services/game-event.service"
@@ -137,4 +138,14 @@ export const gameEventRoutes = newEndpoint<Env>()
 
     //a beacon never reads its answer, so there is nothing to put in one
     return c.body(null, 204)
+  })
+
+  //---- check ----------------
+
+  //the daily production check asks this. it says yes or no and never how many,
+  //so the route tells nobody how much the game is played
+  .get("/game/recent-starts", async (c) => {
+    const gameEventService = new GameEventService(getDb(c.env.DB))
+    const recentStart = await gameEventService.hasRecentStart()
+    return ok(c, { recentStart })
   })
