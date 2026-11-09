@@ -168,6 +168,8 @@ for (const path of ["/", "/online", "/profile"]) {
       }
     }
     expect(shippingSocket).toEqual([])
+  })
+}
 
 // The auth SDK loads on first use: the session subscription after the first
 // render, or a sign-in, sign-up or sign-out. The first render reads only the
