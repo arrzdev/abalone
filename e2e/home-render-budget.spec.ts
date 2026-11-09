@@ -23,10 +23,11 @@ const INLINE_CSS_BUDGET_BYTES = 93_968
 // Measured 45 (was 34).
 const MODULEPRELOAD_COUNT_BUDGET = 49
 // Measured 826,274 bytes in CI, with no margin: hydration waits for every byte
-// of this, so a page that grows says so here (was 902,813 before zod's schema
-// classes left the browser bundle). CI is the measure: its build bakes in the
-// commit's short sha where a local one writes "dev", 62 bytes more here.
-const MODULEPRELOAD_JS_BUDGET_BYTES = 826_274
+// of this, so a page that grows says so here (902,813 before zod's schema
+// classes left the browser bundle, 826,274 before the realtime socket library
+// moved to the first signed-in connect). CI is the measure: its build bakes in
+// the commit's short sha where a local one writes "dev", 62 bytes more here.
+const MODULEPRELOAD_JS_BUDGET_BYTES = 818_327
 
 test.skip(
   ({ browserName }) => browserName !== "chromium",
