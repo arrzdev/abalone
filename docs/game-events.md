@@ -71,6 +71,26 @@ the filter's production deploy (`:filter_live_ms` below).
 **Offline:** events are dropped, not queued. The numbers are for trends, not
 billing, and a queue would be one more thing that can break the game.
 
+## When nothing is counted
+
+A quiet week and a broken count look the same in the table: no rows. So the
+daily [production check](../.github/workflows/production-check.yml) asks
+`GET /api/v1/events/game/recent-starts` (no auth) and fails when the answer is
+`{ "recentStart": false }`: no `start` row of any mode in the last 72 hours.
+The route answers only that yes or no, never a count. A failed check opens or
+comments on the `Production check failed` issue.
+
+When it fires, find out which it is before anything else:
+
+1. Play a bot game on production and read the `POST /api/v1/events/game`
+   request off the wire: a `start` body and a 204. A browser driven by a test
+   adds `automated: true`, which the server drops on purpose.
+2. Replay that body without `automated` (curl, a fresh `gameRef`). A 204 on
+   that path means the row was written: the route awaits the insert, and a
+   failed insert answers 500.
+3. Both fine: the count works and nobody played. Say so on the issue, with the
+   `gameRef` of the team row so it can be left out of the numbers.
+
 ## Reading it
 
 The quick answer to "are people playing", from production:

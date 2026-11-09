@@ -680,4 +680,81 @@ describe("game event routes", () => {
     expect(stored).not.toContain(sender.userId)
     expect(stored).not.toContain(recipient.userId)
   })
+
+  //---- the daily check: has anyone started a game lately ----------------
+  //the production check alerts when no game started for 3 days, so a counting
+  //break cannot hide behind a quiet week (docs/game-events.md)
+
+  const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000
+
+  async function recentStarts() {
+    const context = newExecutionContext()
+    const response = await worker.fetch(
+      new Request("http://example.com/api/v1/events/game/recent-starts", {
+        headers: {
+          "cf-connecting-ip": CLIENT_IP,
+          "x-test-bypass": "true",
+        },
+      }),
+      env as never,
+      context,
+    )
+    await context.settled()
+    return response
+  }
+
+  /** A row written straight to the table, so it can be dated in the past. */
+  async function insertEvent(kind: string, mode: string, ageMs: number) {
+    await env.DB.prepare(
+      "insert into game_events (id, game_ref, kind, mode, app_version, created_at) values (?, ?, ?, ?, ?, ?)",
+    )
+      .bind(
+        crypto.randomUUID(),
+        gameRef(),
+        kind,
+        mode,
+        "abc1234",
+        Date.now() - ageMs,
+      )
+      .run()
+  }
+
+  it("says no game started lately when the table is empty", async () => {
+    const response = await recentStarts()
+
+    expect(response.status).toBe(200)
+    const body = (await response.json()) as Envelope<unknown>
+    expect(body).toEqual({
+      status: "success",
+      data: { recentStart: false },
+    })
+  })
+
+  it("says a game started lately when one started in the last 3 days", async () => {
+    await post(start(gameRef()))
+
+    const body = (await (await recentStarts()).json()) as Envelope<unknown>
+    expect(body.data).toEqual({ recentStart: true })
+  })
+
+  it("counts an online start as a game started", async () => {
+    await insertEvent("start", "online", 60_000)
+
+    const body = (await (await recentStarts()).json()) as Envelope<unknown>
+    expect(body.data).toEqual({ recentStart: true })
+  })
+
+  it("does not count a start older than 3 days", async () => {
+    await insertEvent("start", "ai", THREE_DAYS_MS + 60_000)
+
+    const body = (await (await recentStarts()).json()) as Envelope<unknown>
+    expect(body.data).toEqual({ recentStart: false })
+  })
+
+  it("does not count a finish as a game started", async () => {
+    await insertEvent("finish", "ai", 60_000)
+
+    const body = (await (await recentStarts()).json()) as Envelope<unknown>
+    expect(body.data).toEqual({ recentStart: false })
+  })
 })
