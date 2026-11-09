@@ -1,60 +1,112 @@
 import tryCatch from "@repo/shared/try-catch"
-import { usernameClient } from "better-auth/client/plugins"
-import { createAuthClient } from "better-auth/react"
-import { useMemo } from "react"
-import { endSession } from "@/data/auth/session-end"
-import {
-  discardToken,
-  getBearerToken,
-  writeToken,
-} from "@/data/auth/token"
-import { backendBaseUrl } from "@/data/backend-client"
+import { useMemo, useSyncExternalStore } from "react"
+import type { AuthClient } from "@/data/auth/auth-client"
+import { subscribeToToken } from "@/data/auth/token"
 
-//---- Auth client --------------------------------------------------
-//better-auth's SDK is the auth data layer: it drives sign-up, sign-in and
-//sign-out against the mounted handler and exposes a reactive session. the token
-//half is wired here once — read it on the way out, stash it on the way back,
-//drop it when the server stops honouring it — so nothing downstream handles a
-//header and nothing downstream decides what a session is.
+//---- Auth client, on first use -------------------------------------
+//the better-auth SDK (data/auth/auth-client.ts) is about 9 KB gz that every page
+//used to download before it could hydrate, while the first render reads nothing
+//but the stored token. so it loads when something first needs it: the session
+//subscription after the first render, or a sign-in, sign-up or sign-out.
 
-function isSessionRead(url: URL | string): boolean {
-  return String(url).includes("/get-session")
+/**
+ * One shared load: callers that arrive together, or later, get the same
+ * promise. A load that fails is forgotten, so the next caller tries again
+ * rather than inheriting the failure.
+ */
+export function createAuthClientLoader<TClient>(
+  load: () => Promise<TClient>,
+): () => Promise<TClient> {
+  let loading: Promise<TClient> | null = null
+
+  return () => {
+    loading ??= load().catch((error: unknown) => {
+      loading = null
+      throw error
+    })
+    return loading
+  }
 }
 
-function sentBearerToken(headers: Headers): string {
-  const header = headers.get("authorization") ?? ""
-  if (!header.startsWith("Bearer ")) return ""
-  return header.slice("Bearer ".length)
+/** The auth SDK, loaded once. Every sign-in, sign-up and sign-out awaits it. */
+export const loadAuthClient = createAuthClientLoader(
+  async () => (await import("@/data/auth/auth-client")).authClient,
+)
+
+/** better-auth's session store as this file reads it. */
+type SessionAtom<TValue> = {
+  get(): TValue
+  listen(listener: (value: TValue) => void): () => void
 }
 
-export const authClient = createAuthClient({
-  //full path: the handler is mounted at the api's /api/v1/auth basePath
-  baseURL: `${backendBaseUrl}/api/v1/auth`,
-  //the server's `username()` plugin has a client half, and without it
-  //`signIn.username` does not exist
-  plugins: [usernameClient()],
-  fetchOptions: {
-    auth: { type: "Bearer", token: getBearerToken },
-    onSuccess: (context) => {
-      const token = context.response.headers.get("set-auth-token")
-      if (token) return writeToken(token)
+/**
+ * The session as a store React can subscribe to, before the SDK has loaded.
+ *
+ * Until it has loaded, the value is `pending`, which is what better-auth itself
+ * reports before its first answer. Subscribing loads it, and listening to its
+ * session store is what makes better-auth read the session, as its own React
+ * hook does. A load that fails changes nothing on this device, token included:
+ * the session stays unanswered, and the next token write tries again, which is
+ * what a sign-in that got through produces.
+ */
+export function createSessionSource<TValue>(options: {
+  pending: TValue
+  loadSession: () => Promise<SessionAtom<TValue>>
+  onTokenChange: (listener: () => void) => () => void
+}) {
+  let value = options.pending
 
-      //better-auth answers a dead token with an empty session rather than a 401,
-      //so a session read that comes back with nothing is the only notice this
-      //device gets that its token has expired or been revoked
-      if (!isSessionRead(context.request.url) || context.data) return
-      discardToken(sentBearerToken(context.request.headers))
-    },
-    //a session read refused outright is the same notice, louder: the whole
-    //session goes, cached summary included. a 503 or a dropped connection says
-    //nothing about the token and changes nothing here
-    onError: (context) => {
-      if (!isSessionRead(context.request.url)) return
-      if (context.response.status !== 401) return
-      const sent = sentBearerToken(context.request.headers)
-      if (sent && sent === getBearerToken()) endSession()
-    },
+  function subscribe(onChange: () => void): () => void {
+    let isActive = true
+    let stop = () => {}
+
+    function emit(next: TValue) {
+      if (next === value) return
+      value = next
+      onChange()
+    }
+
+    async function attach() {
+      const [session, loadError] = await tryCatch(options.loadSession)
+      if (!isActive) return
+      if (loadError) {
+        const stopWaiting = options.onTokenChange(() => {
+          stopWaiting()
+          void attach()
+        })
+        stop = stopWaiting
+        return
+      }
+      emit(session.get())
+      stop = session.listen(emit)
+    }
+
+    void attach()
+    return () => {
+      isActive = false
+      stop()
+    }
+  }
+
+  return {
+    subscribe,
+    getSnapshot: () => value,
+    getServerSnapshot: () => options.pending,
+  }
+}
+
+type SessionValue = ReturnType<AuthClient["useSession"]["get"]>
+
+const sessionSource = createSessionSource<SessionValue>({
+  pending: {
+    data: null,
+    error: null,
+    isPending: true,
+    isRefetching: false,
+    refetch: async () => {},
   },
+  loadSession: async () => (await loadAuthClient()).useSession,
+  onTokenChange: subscribeToToken,
 })
 
 /**
@@ -62,11 +114,12 @@ export const authClient = createAuthClient({
  *
  * Anything short of a clean "no session" counts as live — an unreachable or
  * failing server proves nothing about the token, and signing an offline player
- * out is worse than letting a dead token fail on the next request.
+ * out is worse than letting a dead token fail on the next request. An SDK that
+ * failed to load proves nothing either.
  */
 export async function hasLiveSession(): Promise<boolean> {
-  const [result, requestError] = await tryCatch(() =>
-    authClient.getSession(),
+  const [result, requestError] = await tryCatch(async () =>
+    (await loadAuthClient()).getSession(),
   )
   if (requestError) return true
   if (result.error) return true
@@ -107,7 +160,11 @@ function toSessionUser(user: {
  * and app code reads `useAuth()` rather than this.
  */
 export function useSessionState() {
-  const { data, error, isPending } = authClient.useSession()
+  const { data, error, isPending } = useSyncExternalStore(
+    sessionSource.subscribe,
+    sessionSource.getSnapshot,
+    sessionSource.getServerSnapshot,
+  )
   //a read that failed for any reason but a 401 (a 503, the network) is no
   //answer at all: the session it was asking about is still whatever it was.
   //better-auth keeps its last data then, but a cold start has none, so report
