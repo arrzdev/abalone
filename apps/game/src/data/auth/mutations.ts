@@ -1,5 +1,6 @@
 import { Logger } from "@repo/shared/logging"
-import { authClient } from "@/data/auth/client"
+import tryCatch from "@repo/shared/try-catch"
+import { loadAuthClient } from "@/data/auth/client"
 import { endSession } from "@/data/auth/session-end"
 
 const log = new Logger("auth")
@@ -94,7 +95,12 @@ export type Credentials = {
   password: string
 }
 
+//each action awaits the SDK (data/auth/client.ts). a load that fails throws a
+//plain error, which the form reports as it reports any failure it cannot name,
+//and the player can try again: the next attempt loads it afresh
+
 export async function signUp(credentials: Credentials): Promise<void> {
+  const authClient = await loadAuthClient()
   const result = await authClient.signUp.email({
     username: credentials.username,
     //what they typed, casing intact — this is the name the game shows
@@ -108,6 +114,7 @@ export async function signUp(credentials: Credentials): Promise<void> {
 }
 
 export async function signIn(credentials: Credentials): Promise<void> {
+  const authClient = await loadAuthClient()
   const result = await authClient.signIn.username({
     username: credentials.username,
     password: credentials.password,
@@ -125,6 +132,16 @@ export async function signIn(credentials: Credentials): Promise<void> {
 export async function signOut(): Promise<void> {
   endSession()
 
+  //an SDK that will not load cannot tell the server either, and the device
+  //is signed out already
+  const [authClient, loadError] = await tryCatch(loadAuthClient)
+  if (loadError) {
+    log.warn(
+      "server sign-out skipped: the auth client did not load",
+      loadError,
+    )
+    return
+  }
   const result = await authClient.signOut()
   //the session may still be live server-side, which is worth saying out loud
   //rather than swallowing, but it changes nothing for this device
