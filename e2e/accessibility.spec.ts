@@ -6,6 +6,7 @@ import {
   startOfflineGame,
   uniqueUsername,
 } from "./support/app"
+import { playMove } from "./support/board"
 import { expect, test } from "./support/test"
 
 // Accessibility beyond colour: axe on every public page, the overlays opened
@@ -84,6 +85,15 @@ for (const path of [
   })
 }
 
+// Portuguese and German: two of the translated pages, each with its own
+// <html lang> and its own copy for every label axe reads.
+for (const path of ["/pt", "/pt/rules", "/de", "/de/rules"]) {
+  test(`${path} has no accessibility violations`, async ({ page }) => {
+    await openApp(page, path)
+    await scan(page, path)
+  })
+}
+
 for (const overlay of ["Settings", "Sign in"]) {
   test(`the ${overlay} overlay has no accessibility violations`, async ({
     page,
@@ -129,6 +139,71 @@ test("a game in progress has no accessibility violations", async ({
 }) => {
   await startOfflineGame(page, "Pass & Play")
   await scan(page, "/game/offline")
+})
+
+// A Pass & Play game that ends on a resignation, and what comes after it. Each
+// sheet is scanned once it has settled, with the board behind it.
+async function resignPassAndPlayGame(page: Page) {
+  await startOfflineGame(page, "Pass & Play")
+  await playMove(page, "c5", "d5")
+  await playMove(page, "g5", "f5")
+  await page.getByRole("button", { name: "Resign" }).click()
+  const confirm = page
+    .getByRole("dialog")
+    .filter({ hasText: "Resign the game?" })
+  await expect(confirm).toBeVisible()
+  await page.waitForFunction(() => document.getAnimations().length === 0)
+  return confirm
+}
+
+test("the resign sheet has no accessibility violations", async ({
+  page,
+}) => {
+  await resignPassAndPlayGame(page)
+  await scan(page, "/game/offline (Resign)")
+})
+
+test("the game over sheet has no accessibility violations", async ({
+  page,
+}) => {
+  const confirm = await resignPassAndPlayGame(page)
+  await confirm.getByRole("button", { name: "Resign" }).click()
+  await expect(
+    page.getByRole("dialog").getByText("White wins").first(),
+  ).toBeVisible()
+  await page.waitForFunction(() => document.getAnimations().length === 0)
+  await scan(page, "/game/offline (Game over)")
+})
+
+test("the new game after a rematch has no accessibility violations", async ({
+  page,
+}) => {
+  const confirm = await resignPassAndPlayGame(page)
+  await confirm.getByRole("button", { name: "Resign" }).click()
+  const gameOver = page
+    .getByRole("dialog")
+    .filter({ hasText: "White wins" })
+  await gameOver.getByRole("button", { name: "Rematch" }).click()
+  await expect(gameOver).toBeHidden()
+  await expect(page.getByRole("button", { name: "Resign" })).toBeVisible()
+  await page.waitForFunction(() => document.getAnimations().length === 0)
+  await scan(page, "/game/offline (Rematch)")
+})
+
+test("the new game setup after a game over has no accessibility violations", async ({
+  page,
+}) => {
+  const confirm = await resignPassAndPlayGame(page)
+  await confirm.getByRole("button", { name: "Resign" }).click()
+  const gameOver = page
+    .getByRole("dialog")
+    .filter({ hasText: "White wins" })
+  await gameOver.getByRole("button", { name: "New game" }).click()
+  await expect(
+    page.getByRole("tab", { name: "Pass & Play" }),
+  ).toBeVisible()
+  await page.waitForFunction(() => document.getAnimations().length === 0)
+  await scan(page, "/offline (New game)")
 })
 
 // WCAG 2.5.3, label in name: axe files the rule under "experimental", so the
