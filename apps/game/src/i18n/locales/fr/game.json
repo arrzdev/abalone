@@ -76,8 +76,8 @@
     "side_black": "Jouer les noirs",
     "side_random": "Camp aléatoire",
     "marbles_taken": "{{taken}} billes adverses sur {{total}} poussées hors du plateau",
-    "eval_advantage": "{{color}} devant de {{score}}",
-    "eval_level": "À égalité",
+    "eval_position_ahead": "Position : {{color}} devant de {{score}}",
+    "eval_position_even": "Position : à égalité",
     "how_to_move": "Comment jouer un coup"
   },
   "game_state": {

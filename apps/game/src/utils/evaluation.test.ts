@@ -3,7 +3,12 @@ import {
   resignGame,
 } from "@repo/abalone-engine/game-state"
 import { describe, expect, it } from "vitest"
-import { barFraction, DECIDED, evaluateBoard } from "@/utils/evaluation"
+import {
+  barFraction,
+  DECIDED,
+  evaluateBoard,
+  readEvaluation,
+} from "@/utils/evaluation"
 
 //the evaluation bar is read from black's side: positive favours black.
 
@@ -95,5 +100,62 @@ describe("barFraction", () => {
     const linear = 0.5 + 0.5 * (0.5 / DECIDED)
 
     expect(barFraction(0.5)).toBeGreaterThan(linear + 0.02)
+  })
+})
+
+describe("readEvaluation", () => {
+  it("calls an even game level, with no one ahead", () => {
+    expect(readEvaluation(0)).toEqual({ leader: null, figure: "0.0" })
+  })
+
+  it("calls a lead that rounds to nothing level, on either side", () => {
+    expect(readEvaluation(0.049).leader).toBeNull()
+    expect(readEvaluation(-0.049).leader).toBeNull()
+    expect(readEvaluation(-0.0001).leader).toBeNull()
+  })
+
+  it("names a lead of a twentieth of a marble, rounded up to a tenth", () => {
+    expect(readEvaluation(0.05)).toEqual({
+      leader: "black",
+      figure: "0.1",
+    })
+    expect(readEvaluation(-0.05)).toEqual({
+      leader: "white",
+      figure: "0.1",
+    })
+  })
+
+  it("names black ahead for a positive score, to one decimal", () => {
+    expect(readEvaluation(1.24)).toEqual({
+      leader: "black",
+      figure: "1.2",
+    })
+    expect(readEvaluation(1.26)).toEqual({
+      leader: "black",
+      figure: "1.3",
+    })
+  })
+
+  it("names white ahead for a negative score, with the figure unsigned", () => {
+    expect(readEvaluation(-0.6)).toEqual({
+      leader: "white",
+      figure: "0.6",
+    })
+  })
+
+  it("caps a decided game at the winning score", () => {
+    expect(readEvaluation(DECIDED)).toEqual({
+      leader: "black",
+      figure: "6.0",
+    })
+    expect(readEvaluation(-100)).toEqual({
+      leader: "white",
+      figure: "6.0",
+    })
+  })
+
+  it("reads a score that is not a number as level", () => {
+    expect(readEvaluation(Number.NaN).leader).toBeNull()
+    expect(readEvaluation(Number.POSITIVE_INFINITY).leader).toBeNull()
   })
 })

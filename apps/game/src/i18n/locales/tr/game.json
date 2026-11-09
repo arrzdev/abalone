@@ -76,8 +76,8 @@
     "side_black": "Siyahlarla oyna",
     "side_random": "Rastgele taraf",
     "marbles_taken": "Rakibin {{total}} bilyesinden {{taken}} tanesi tahtadan çıkarıldı",
-    "eval_advantage": "{{color}} {{score}} önde",
-    "eval_level": "Berabere",
+    "eval_position_ahead": "Pozisyon: {{color}} {{score}} önde",
+    "eval_position_even": "Pozisyon: eşit",
     "how_to_move": "Nasıl hamle yapılır"
   },
   "game_state": {

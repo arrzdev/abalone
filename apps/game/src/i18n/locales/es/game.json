@@ -76,8 +76,8 @@
     "side_black": "Jugar con negras",
     "side_random": "Lado aleatorio",
     "marbles_taken": "{{taken}} de {{total}} bolas del rival expulsadas",
-    "eval_advantage": "{{color}} por delante por {{score}}",
-    "eval_level": "Igualado",
+    "eval_position_ahead": "Posición: {{color}} por delante por {{score}}",
+    "eval_position_even": "Posición: igualada",
     "how_to_move": "Cómo mover"
   },
   "game_state": {

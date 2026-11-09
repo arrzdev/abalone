@@ -1,5 +1,6 @@
 import { cn } from "@repo/nativ/utils"
-import { barFraction, DECIDED } from "@/utils/evaluation"
+import { useTranslation } from "react-i18next"
+import { barFraction, readEvaluation } from "@/utils/evaluation"
 
 /**
  * Evaluation bar: how the position stands, black on the left.
@@ -18,6 +19,12 @@ import { barFraction, DECIDED } from "@/utils/evaluation"
  *
  * Black on the left is the order the seats use and the order the move list uses.
  *
+ * The name of every form of it is the position in words, built from the score
+ * here and not handed in: "Position: even", "Position: Black ahead by 1.2". A
+ * picture of two colours says nothing to a screen reader, and a name that said
+ * only "Level" said nothing about who was ahead. It is the picture's name and
+ * not a live region, so it changes without being read out at every move.
+ *
  * The number is an advantage in marbles, which is what the score already means
  * — a captured marble is worth 1 and every positional term is a fraction of
  * one. It is capped at six because six is the game: past that the position is
@@ -34,29 +41,27 @@ import { barFraction, DECIDED } from "@/utils/evaluation"
  * from across the room. Black at the top, because the panel reads downward and
  * black is first everywhere else in this app.
  *
- * No number on it. Eighteen pixels is a bar, not a label — the figure is on the
- * element itself, for a pointer and for a screen reader.
+ * No number on it. Eighteen pixels is a bar, not a label — the reading is the
+ * element's name, for a screen reader. Not a `title` as well: a tooltip said
+ * the same thing a second time to a pointer, and only after a wait.
  */
 export function EvalColumn({
   score,
-  label,
   className,
 }: {
   score: number
-  /** The advantage in words. The column has nowhere to write it. */
-  label: string
   className?: string
 }) {
+  const name = useEvaluationName(score)
   const value = Number.isFinite(score) ? score : 0
   const black = barFraction(value) * 100
 
   return (
     <div
-      //a picture with a caption: the bar is the whole reading, and `label` is
+      //a picture with a name: the bar is the whole reading, and the name is
       //that reading in words for anyone the picture is no use to
       role="img"
-      title={label}
-      aria-label={label}
+      aria-label={name}
       className={cn(
         "relative w-[18px] shrink-0 overflow-hidden rounded-s-[9px] bg-surface-2",
         className,
@@ -98,16 +103,14 @@ export function EvalColumn({
  */
 export function EvalRail({
   score,
-  label,
 }: {
   /** No score means an empty rail: the slot stays, the bar is not drawn. */
   score?: number
-  label?: string
 }) {
   return (
     <div className="w-[18px] shrink-0 stacked:hidden">
-      {score !== undefined && label !== undefined && (
-        <EvalColumn score={score} label={label} className="h-full" />
+      {score !== undefined && (
+        <EvalColumn score={score} className="h-full" />
       )}
     </div>
   )
@@ -115,25 +118,23 @@ export function EvalRail({
 
 export function EvalBar({
   score,
-  label,
   className,
 }: {
   score: number
-  /** The advantage in words, the same as the rail says. */
-  label: string
   className?: string
 }) {
+  const name = useEvaluationName(score)
   const value = Number.isFinite(score) ? score : 0
   const white = (1 - barFraction(value)) * 100
   const favoursBlack = value >= 0
-  const shown = Math.min(Math.abs(value), DECIDED)
+  const { figure } = readEvaluation(value)
 
   return (
     <div
       //a picture with the reading in words: the number drawn on it is that
       //reading's figure, so it is hidden rather than read a second time
       role="img"
-      aria-label={label}
+      aria-label={name}
       className={cn(
         "relative h-5 w-(--board-w) shrink-0 overflow-hidden rounded-md bg-marble-black",
         className,
@@ -153,8 +154,25 @@ export function EvalBar({
           favoursBlack ? "left-0 text-white" : "right-0 text-black",
         )}
       >
-        {shown.toFixed(1)}
+        {figure}
       </span>
     </div>
   )
+}
+
+/**
+ * The position in words: the name both bars carry.
+ *
+ * `barFraction` answers for black, so a positive score is black's advantage and
+ * a negative one white's, except where there is none to name. The figure is the
+ * one drawn on the bar, from the same rounding.
+ */
+function useEvaluationName(score: number): string {
+  const { t } = useTranslation()
+  const { leader, figure } = readEvaluation(score)
+  if (leader === null) return t("game:controls.eval_position_even")
+  return t("game:controls.eval_position_ahead", {
+    color: t(`game:colors.${leader}`),
+    score: figure,
+  })
 }

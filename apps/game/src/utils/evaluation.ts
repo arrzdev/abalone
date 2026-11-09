@@ -4,6 +4,7 @@ import {
   positionFromNames,
   sideFromName,
 } from "@repo/abalone-engine/position"
+import type { Player } from "@repo/abalone-engine/types"
 import type { ScoringWeights } from "@/ai/evaluate"
 import { scorePosition } from "@/ai/evaluate"
 
@@ -92,4 +93,27 @@ export function barFraction(score: number): number {
     0.5 +
     0.5 * (Math.tanh(capped / SOFTNESS) / Math.tanh(DECIDED / SOFTNESS))
   )
+}
+
+/** Who the position favours, and by how much, in the one rounding the bar uses. */
+export type EvaluationReading = {
+  /** `null` once the lead rounds to nothing: level, not "ahead by 0.0". */
+  leader: Player | null
+  /** Marbles of advantage to a tenth, capped at a decided game. */
+  figure: string
+}
+
+/**
+ * The score as the bar says it, for the number drawn on it and for its name.
+ *
+ * One rounding for both, so the figure on the bar and the one a screen reader
+ * hears cannot disagree: a tenth of a marble, and below half a tenth there is
+ * no lead to name.
+ */
+export function readEvaluation(score: number): EvaluationReading {
+  const value = Number.isFinite(score) ? score : 0
+  const tenths = Math.round(Math.min(Math.abs(value), DECIDED) * 10)
+  const figure = (tenths / 10).toFixed(1)
+  if (tenths === 0) return { leader: null, figure }
+  return { leader: value > 0 ? "black" : "white", figure }
 }

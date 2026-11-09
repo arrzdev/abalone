@@ -76,8 +76,8 @@
     "side_black": "执黑",
     "side_random": "随机",
     "marbles_taken": "已将对手 {{total}} 颗棋子中的 {{taken}} 颗推出棋盘",
-    "eval_advantage": "{{color}}领先 {{score}}",
-    "eval_level": "均势",
+    "eval_position_ahead": "局面：{{color}}领先 {{score}}",
+    "eval_position_even": "局面：均势",
     "how_to_move": "如何走棋"
   },
   "game_state": {

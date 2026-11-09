@@ -76,8 +76,8 @@
     "side_black": "Speel met zwart",
     "side_random": "Willekeurige kleur",
     "marbles_taken": "{{taken}} van {{total}} ballen van de tegenstander van het bord geduwd",
-    "eval_advantage": "{{color}} staat {{score}} voor",
-    "eval_level": "Gelijkspel",
+    "eval_position_ahead": "Stand: {{color}} staat {{score}} voor",
+    "eval_position_even": "Stand: gelijk",
     "how_to_move": "Zo zet je"
   },
   "game_state": {

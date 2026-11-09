@@ -69,6 +69,18 @@ export type GameCanvasHandle = {
   /** Cuts the move in flight short and settles its `animateMove`. */
   stopAnimation: () => void
   redraw: () => void
+  /**
+   * Takes the keyboard's cell back to the centre and says nothing about it: the
+   * description follows the cursor, and a cursor left on the last game's cell
+   * would be read out as if it were this game's. For a game that starts over on
+   * the same board.
+   */
+  resetKeyboard: () => void
+  /**
+   * Puts keyboard focus on the board. Returns whether the board took it, which a
+   * board that is not being played on, or is behind an open sheet, does not.
+   */
+  focusBoard: () => boolean
 }
 
 export type GameCanvasProps = {
@@ -262,6 +274,10 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
     // cell is only drawn while it does, so pointer play looks as it always has.
     const [focusCell, setFocusCell] = useState<CellName>(CENTRE)
     const [keyboardFocus, setKeyboardFocus] = useState(false)
+    // Whether the cell the keyboard is on is read out as it changes. It is from
+    // the first key a player presses, and not before: a cell that changes under
+    // a cursor nobody has moved (a new game on the same board) is no news.
+    const [isAnnouncingCell, setIsAnnouncingCell] = useState(false)
 
     // Held in a ref so that `resize` keeps its identity: it is the ResizeObserver
     // callback, and re-creating it would tear the observer down on every render.
@@ -665,7 +681,19 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
 
     useImperativeHandle(
       ref,
-      () => ({ animateMove, stopAnimation, redraw: draw }),
+      () => ({
+        animateMove,
+        stopAnimation,
+        redraw: draw,
+        resetKeyboard() {
+          setFocusCell(CENTRE)
+          setIsAnnouncingCell(false)
+        },
+        focusBoard() {
+          canvasRef.current?.focus({ preventScroll: true })
+          return document.activeElement === canvasRef.current
+        },
+      }),
       [animateMove, stopAnimation, draw],
     )
 
@@ -866,6 +894,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         if (event.key === " " || event.key === "Enter") {
           event.preventDefault()
           setKeyboardFocus(true)
+          setIsAnnouncingCell(true)
           onCellClick?.(focusCell)
           return
         }
@@ -874,6 +903,7 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
         // The page must not scroll under the arrows while the board has them.
         event.preventDefault()
         setKeyboardFocus(true)
+        setIsAnnouncingCell(true)
         const turn = state.shouldFlipBoard ? -1 : 1
         const [r, q] = focusCell.split(",").map(Number)
         for (const [dr, dq] of steps) {
@@ -947,14 +977,21 @@ export const GameCanvas = forwardRef<GameCanvasHandle, GameCanvasProps>(
             }
             onBlur={() => setKeyboardFocus(false)}
           />
+          {/* The cell the keyboard is on, as the board's description and, once a
+              key has moved it, as a live region too. Two elements, because the
+              description has to be the cell the moment the board is focused,
+              while the live region has to stay empty until there is a change a
+              player made to read out. */}
           {interactive && (
-            <span
-              id={descriptionId}
-              className="sr-only"
-              aria-live="polite"
-            >
-              {describeCell(state, focusCell, possibleMoves, t)}
-            </span>
+            <>
+              <span id={descriptionId} className="sr-only">
+                {describeCell(state, focusCell, possibleMoves, t)}
+              </span>
+              <span className="sr-only" aria-live="polite">
+                {isAnnouncingCell &&
+                  describeCell(state, focusCell, possibleMoves, t)}
+              </span>
+            </>
           )}
           {/* Outside `interactive`, which goes false while the computer thinks:
               a live region has to be in the page before its text changes, or
