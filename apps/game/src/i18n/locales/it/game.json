@@ -76,8 +76,8 @@
     "side_black": "Gioca con il nero",
     "side_random": "Lato casuale",
     "marbles_taken": "{{taken}} biglie avversarie su {{total}} spinte fuori",
-    "eval_advantage": "{{color}} in vantaggio di {{score}}",
-    "eval_level": "In parità",
+    "eval_position_ahead": "Posizione: {{color}} in vantaggio di {{score}}",
+    "eval_position_even": "Posizione: in parità",
     "how_to_move": "Come muovere"
   },
   "game_state": {

@@ -76,8 +76,8 @@
     "side_black": "黒でプレイ",
     "side_random": "ランダム",
     "marbles_taken": "相手のボールを {{total}} 個中 {{taken}} 個 押し出した",
-    "eval_advantage": "{{color}}が{{score}}リード",
-    "eval_level": "互角",
+    "eval_position_ahead": "形勢：{{color}}が{{score}}リード",
+    "eval_position_even": "形勢：互角",
     "how_to_move": "動かし方"
   },
   "game_state": {

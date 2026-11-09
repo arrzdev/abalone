@@ -76,8 +76,8 @@
     "side_black": "Graj czarnymi",
     "side_random": "Losowa strona",
     "marbles_taken": "Wypchnięto {{taken}} z {{total}} kul przeciwnika",
-    "eval_advantage": "{{color}} prowadzi o {{score}}",
-    "eval_level": "Wyrównana pozycja",
+    "eval_position_ahead": "Pozycja: {{color}} prowadzi o {{score}}",
+    "eval_position_even": "Pozycja: wyrównana",
     "how_to_move": "Jak wykonać ruch"
   },
   "game_state": {

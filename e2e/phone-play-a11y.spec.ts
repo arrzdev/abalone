@@ -185,7 +185,7 @@ test("the phone eval bar is a picture with the advantage in words", async ({
   await expect(moveList(page)).toHaveCount(2, { timeout: 30_000 })
 
   const bar = page.getByRole("img", {
-    name: /^(Level|(Black|White) ahead by \d+\.\d)$/,
+    name: /^Position: (even|(Black|White) ahead by \d+\.\d)$/,
   })
   await expect(bar).toBeVisible()
   // The figure drawn on the bar is the label's number, and is not read twice.

@@ -76,8 +76,8 @@
     "side_black": "흑으로 두기",
     "side_random": "무작위",
     "marbles_taken": "상대 구슬 {{total}}개 중 {{taken}}개를 밀어냈습니다",
-    "eval_advantage": "{{color}}이(가) {{score}} 앞서는 중",
-    "eval_level": "대등함",
+    "eval_position_ahead": "형세: {{color}}이(가) {{score}} 앞서는 중",
+    "eval_position_even": "형세: 대등함",
     "how_to_move": "움직이는 방법"
   },
   "game_state": {

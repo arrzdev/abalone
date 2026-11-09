@@ -64,7 +64,6 @@ import { describeGameResult, getSetupName } from "@/i18n/game-text"
 import { useAuth } from "@/providers/auth-provider"
 import { routeLanguage } from "@/routing/route-language"
 import { seoPageHead } from "@/routing/seo-pages"
-import { DECIDED } from "@/utils/evaluation"
 import {
   isGuideDone,
   resetGuide,
@@ -330,23 +329,6 @@ function GameOfflinePage() {
    * engine behind it, or a player who turned the bar off.
    */
   const showEval = showEvalBar && !isPregame && !isLocal
-
-  /**
-   * The reading in words, for the column that has nowhere to write it.
-   *
-   * `barFraction` answers for black, so a non-negative score is black's
-   * advantage and anything else is white's — except where there is no advantage
-   * to name. The figure is rounded to a tenth, and once it rounds to nothing the
-   * position is level: "ahead by 0.0" is a lead nobody has.
-   */
-  const evalShown = Math.min(Math.abs(evalScore), DECIDED)
-  const evalLabel =
-    evalShown < 0.05
-      ? t("game:controls.eval_level")
-      : t("game:controls.eval_advantage", {
-          color: t(`game:colors.${evalScore >= 0 ? "black" : "white"}`),
-          score: evalShown.toFixed(1),
-        })
 
   /** Whether the game is waiting on the engine right now. */
   const botThinking =
@@ -673,11 +655,7 @@ function GameOfflinePage() {
               a number about nothing; nothing in a hot-seat game, where there is
               no engine for it to be the opinion of. */}
             {showEval && (
-              <EvalBar
-                score={evalScore}
-                label={evalLabel}
-                className="beside:hidden"
-              />
+              <EvalBar score={evalScore} className="beside:hidden" />
             )}
           </div>
         </section>
@@ -708,10 +686,7 @@ function GameOfflinePage() {
           style={{ "--panel-floor": panelFloor } as CSSProperties}
           className="flex beside:w-[min(398px,50%)] beside:min-h-0 beside:shrink-0 stacked:w-full stacked:min-h-[var(--panel-floor)] stacked:flex-1"
         >
-          <EvalRail
-            score={showEval ? evalScore : undefined}
-            label={showEval ? evalLabel : undefined}
-          />
+          <EvalRail score={showEval ? evalScore : undefined} />
 
           <aside
             className={cn(

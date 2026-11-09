@@ -76,8 +76,8 @@
     "side_black": "Jogar com as pretas",
     "side_random": "Lado aleatório",
     "marbles_taken": "{{taken}} de {{total}} bolas do adversário empurradas para fora",
-    "eval_advantage": "{{color}} à frente por {{score}}",
-    "eval_level": "Equilibrado",
+    "eval_position_ahead": "Posição: {{color}} à frente por {{score}}",
+    "eval_position_even": "Posição: equilibrada",
     "how_to_move": "Como jogar"
   },
   "game_state": {

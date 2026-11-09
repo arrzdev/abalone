@@ -76,8 +76,8 @@
     "side_black": "Play as black",
     "side_random": "Random side",
     "marbles_taken": "{{taken}} of {{total}} opponent marbles pushed off",
-    "eval_advantage": "{{color}} ahead by {{score}}",
-    "eval_level": "Level",
+    "eval_position_ahead": "Position: {{color}} ahead by {{score}}",
+    "eval_position_even": "Position: even",
     "how_to_move": "How to move"
   },
   "game_state": {

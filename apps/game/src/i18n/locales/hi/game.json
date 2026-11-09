@@ -76,8 +76,8 @@
     "side_black": "काले से खेलें",
     "side_random": "यादृच्छिक पक्ष",
     "marbles_taken": "{{total}} में से {{taken}} विरोधी गोलियाँ बाहर धकेली गईं",
-    "eval_advantage": "{{color}} {{score}} से आगे",
-    "eval_level": "बराबरी",
+    "eval_position_ahead": "स्थिति: {{color}} {{score}} से आगे",
+    "eval_position_even": "स्थिति: बराबरी",
     "how_to_move": "चाल कैसे चलें"
   },
   "game_state": {
