@@ -34,8 +34,9 @@ function fieldFor(code: AuthErrorCode): "username" | "password" | "form" {
   }
 }
 
+// The right padding is the Close control's corner of the phone sheet.
 const TITLE_CLASS =
-  "font-display text-[22px] font-bold tracking-[-0.02em] text-white lg:text-center lg:text-3xl lg:font-extrabold lg:tracking-[-0.03em]"
+  "font-display text-[22px] max-lg:pr-11 font-bold tracking-[-0.02em] text-white lg:text-center lg:text-3xl lg:font-extrabold lg:tracking-[-0.03em]"
 
 export type AuthFormProps = {
   /** Called once the player is signed in, by either route. */

@@ -2,7 +2,10 @@ import { Drawer } from "@repo/nativ/components"
 import { cn } from "@repo/nativ/utils"
 import type { ReactNode } from "react"
 import { useEffect, useId } from "react"
+import { useTranslation } from "react-i18next"
+import { CloseIcon } from "@/components/icons"
 import { Modal } from "@/components/ui/modal"
+import { TapButton } from "@/components/ui/tap-button"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
 
 export type SheetProps = {
@@ -26,6 +29,14 @@ export type SheetProps = {
    * for all of it. The dialog shape pins its footer already.
    */
   pinFooter?: boolean
+  /**
+   * A Close control on the phone shape, where the desktop dialog already has
+   * one. A sheet closes by dragging it down or by Escape, and neither is
+   * something a switch or a screen reader can be told to do: for an overlay a
+   * visitor can land on without asking for it, the way out has to be on the
+   * screen.
+   */
+  closeButton?: boolean
   /** Extra classes for the panel itself — the dialog box, or the sheet. */
   className?: string
   /**
@@ -65,11 +76,13 @@ export function Sheet({
   children,
   footer,
   pinFooter = false,
+  closeButton = false,
   className,
   labelledBy,
   describedBy,
   restoreFocus,
 }: SheetProps) {
+  const { t } = useTranslation()
   const isDesktop = useIsDesktop()
   const titleId = useId()
 
@@ -131,7 +144,7 @@ export function Sheet({
         >
           <Drawer.Handle className="bg-surface-4" />
 
-          <Drawer.Shell className="gap-y-5 px-safe-offset-5 pb-1 [@media(max-height:600px)]:gap-y-2 [@media(max-height:600px)]:pb-0">
+          <Drawer.Shell className="relative gap-y-5 px-safe-offset-5 pb-1 [@media(max-height:600px)]:gap-y-2 [@media(max-height:600px)]:pb-0">
             {/* `sr-only` is absolutely positioned, so it leaves the flex flow
                 entirely — the shell's gap never opens for a heading that is not
                 on the screen. */}
@@ -159,6 +172,18 @@ export function Sheet({
               </div>
             )}
             {children}
+            {/* Last in the document, so last in the Tab cycle, and drawn in the
+                top corner: the same control as the dialog's, in the same
+                place, with the same icon and name. */}
+            {closeButton && (
+              <TapButton
+                onClick={onClose}
+                aria-label={t("common:actions.close")}
+                className="absolute top-0 right-safe-offset-2 flex size-11 hit-[4px] items-center justify-center rounded-[13px] text-faint transition hover:bg-white/10 hover:text-white"
+              >
+                <CloseIcon size={19} />
+              </TapButton>
+            )}
           </Drawer.Shell>
 
           {/* pt-4 on top of the shell's pb-1: the section gap, 20px, from the
