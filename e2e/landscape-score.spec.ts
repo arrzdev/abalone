@@ -97,8 +97,6 @@ test("at 667×375 the score card stays inside the panel after a move played by k
     .toBe(true)
 })
 
-// The panel scrolls now, and the Game over sheet must not: it still fits the
-// short screen whole.
 // Scrolled under the pinned card, the guide must not read as part of it: the
 // 8px under the card is the panel's own colour, whatever is scrolled behind.
 test("at 667×375 content scrolled under the score card leaves a clear gap below it", async ({
@@ -134,6 +132,8 @@ test("at 667×375 content scrolled under the score card leaves a clear gap below
   expect(gap.headBottom - gap.cardBottom).toBeGreaterThanOrEqual(8)
 })
 
+// The panel scrolls now, and the Game over sheet must not: it still fits the
+// short screen whole.
 test("at 667×375 the Game over sheet fits without scrolling", async ({
   page,
 }) => {

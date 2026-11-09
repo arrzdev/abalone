@@ -22,7 +22,8 @@ const INLINE_CSS_BUDGET_BYTES = 93_968
 // went from about 2.97 s to 2.63 s on a local Lighthouse run (2026-11-08).
 // Measured 45 (was 34).
 const MODULEPRELOAD_COUNT_BUDGET = 49
-// Measured 787,724 bytes in CI (787,431 before the board's keyboard reset and its
+// Measured 788,295 bytes in CI (787,724 before the phone sheet's Close, 787,431
+// before the board's keyboard reset and its
 // separate live region), with no margin: hydration waits for
 // every byte of this, so a page that grows says so here (787,187 before the
 // sheet's short-screen spacing classes, 902,813 before zod's
@@ -30,7 +31,7 @@ const MODULEPRELOAD_COUNT_BUDGET = 49
 // library moved to the first signed-in connect, 818,327 before the auth SDK
 // moved to first use). CI is the measure: its build bakes in the commit's
 // short sha where a local one writes "dev", 62 bytes more here.
-const MODULEPRELOAD_JS_BUDGET_BYTES = 787_724
+const MODULEPRELOAD_JS_BUDGET_BYTES = 788_295
 
 test.skip(
   ({ browserName }) => browserName !== "chromium",
