@@ -33,7 +33,10 @@ import { GameOverModal } from "@/components/game-over-modal"
 import { PlusIcon, SettingsIcon } from "@/components/icons"
 import { IngameControls } from "@/components/ingame-controls"
 import type { GameResult } from "@/components/move-history"
-import { PostgameControls } from "@/components/postgame-controls"
+import {
+  PostgameControls,
+  postgameRematchButton,
+} from "@/components/postgame-controls"
 import { PregameControls } from "@/components/pregame-controls"
 import { ResignModal } from "@/components/resign-modal"
 import type { Seat } from "@/components/seat-bar"
@@ -161,6 +164,7 @@ function GameOfflinePage() {
    * the cards and the evaluation bar line up with it from these.
    */
   const [board, setBoard] = useState({ width: 0, height: 0 })
+  const isBoardDrawn = board.width > 0
   const handleBoardResize = useCallback(
     (width: number, height: number) => {
       setBoard((prev) =>
@@ -484,7 +488,6 @@ function GameOfflinePage() {
   const boardInteractive =
     phase === "ingame" && !state.gameOver && !viewingHistory
 
-  /**
   //---- focus after a rematch ----------------
   //
   // Rematch is the "play again" step, so the keyboard stays in the game: the
@@ -521,6 +524,7 @@ function GameOfflinePage() {
     return postgameRematchButton()
   }
 
+  /**
    * The mode's one name, the same words the home card and the setup tab use.
    * The header and the tab title read it so a game is never called two things.
    */
@@ -651,7 +655,24 @@ function GameOfflinePage() {
             {/* The canvas measures this box. Below `lg` it is sized from its own
               width (the canvas is 8:7) rather than from leftover height, and
               shrinks past that only when the viewport is too short. */}
-            <div className="flex min-h-0 w-full flex-1 items-center justify-center stacked:aspect-[8/7] stacked:max-h-[48vh] stacked:flex-initial">
+            {/* Until the canvas has drawn it is out of flow. A canvas that has
+              not drawn is a 300x150 box that takes its real size at the first
+              draw, which on a first visit, while the script is still loading,
+              is the whole board column jumping from a strip to the board. Out
+              of flow it holds no space to give back. The draw reports the
+              board's size from a layout effect, so it is back in flow in the
+              commit that paints it.
+
+              No picture stands in for it here, unlike on the setup preview: on a
+              phone this section is hidden in pregame while the preview in the
+              panel shows the picture, and a second copy of its gradient ids
+              would answer for the first. */}
+            <div
+              className={cn(
+                "flex min-h-0 w-full flex-1 items-center justify-center stacked:aspect-[8/7] stacked:max-h-[48vh] stacked:flex-initial",
+                !isBoardDrawn && "[&_canvas]:absolute",
+              )}
+            >
               <GameCanvas
                 ref={boardRef}
                 state={state}
