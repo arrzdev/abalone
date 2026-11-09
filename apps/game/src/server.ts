@@ -35,7 +35,10 @@ import {
   withVaryOnVisitor,
 } from "@/server/locale-response"
 import { withRequestLog } from "@/server/request-log"
-import { withSecurityHeaders } from "@/server/security-headers"
+import {
+  devBackendSources,
+  withSecurityHeaders,
+} from "@/server/security-headers"
 import { SITE_ORIGIN } from "@/utils/site"
 
 //past this the card goes generic: a chat app waits a few seconds for the whole
@@ -51,7 +54,10 @@ type GameBindings = {
 export default createServerEntry({
   async fetch(request) {
     return withRequestLog(request, async (requestId) =>
-      withSecurityHeaders(await respond(request, requestId)),
+      withSecurityHeaders(
+        await respond(request, requestId),
+        devBackendSources(new URL(request.url), env.VITE_BACKEND_URL),
+      ),
     )
   },
 })
