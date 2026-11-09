@@ -155,7 +155,11 @@ function GameOfflinePage() {
   const boardRef = useRef<GameCanvasHandle>(null)
   //the seat card at the top of the panel: the one part of the panel whose
   //height is its own, and what the panel's floor is measured on top of.
-  const { ref: panelHeadRef, floor: panelFloor } = usePanelFloor()
+  const {
+    ref: panelHeadRef,
+    floor: panelFloor,
+    head: panelHead,
+  } = usePanelFloor()
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [resignOpen, setResignOpen] = useState(false)
   /**
@@ -743,8 +747,17 @@ function GameOfflinePage() {
           <EvalRail score={showEval ? evalScore : undefined} />
 
           <aside
+            // The seat card's height, for the scroll below: a control focused
+            // under it is scrolled clear of it, not left behind it.
+            style={{ "--panel-head": `${panelHead}px` } as CSSProperties}
             className={cn(
               "flex min-h-0 w-full flex-1 flex-col overflow-hidden bg-surface",
+              // A phone held sideways has a panel shorter than what is in it.
+              // What does not fit scrolls, under the seat card: the score is
+              // the one thing in here that is never out of sight, and focusing
+              // a control at the foot of the panel moves the contents rather
+              // than the card.
+              "beside:panel-scroll beside:overflow-y-auto beside:scroll-pt-(--panel-head)",
               // In play, a panel short enough for the single-line move strip
               // is only as tall as its contents, and what it leaves over is
               // shared above the scoreboard and under the actions. Taller, the
@@ -782,7 +795,12 @@ function GameOfflinePage() {
             actually left for the move list, which is what decides whether the
             list can stay a list. */}
             {!isPregame && (
-              <div ref={panelHeadRef} className="shrink-0">
+              <div
+                ref={panelHeadRef}
+                // Pinned beside the board, where the panel scrolls. Opaque, so
+                // what scrolls under it is hidden rather than shown through.
+                className="shrink-0 beside:sticky beside:top-0 beside:z-10 beside:bg-surface"
+              >
                 <SeatBar
                   seats={seatColors.map(seatFor)}
                   marbleDesign={marbleDesign}
@@ -799,19 +817,23 @@ function GameOfflinePage() {
                         }
                   }
                 />
-                {/* The first thing under the scoreboard beside the board
-                    (TUD-973). Part of the head, so the panel's floor counts it.
-                    Never under the board: there its whole text took its
-                    height from the board. Never over the board either: the
-                    presses it teaches land there. */}
-                {guide.step && (
-                  <FirstGameGuide
-                    step={guide.step}
-                    onNext={guide.next}
-                    onSkip={guide.skip}
-                  />
-                )}
               </div>
+            )}
+
+            {/* The first thing under the scoreboard beside the board
+                (TUD-973). Outside the pinned head: it scrolls with the rest of
+                the panel, so the score stays in view above it. Never under the
+                board: there its whole text took its height from the board.
+                Never over the board either: the presses it teaches land there.
+                The guide only shows where the panel is beside the board, and
+                the head's floor only counts where it is under it, so the floor
+                has no use for it. */}
+            {!isPregame && guide.step && (
+              <FirstGameGuide
+                step={guide.step}
+                onNext={guide.next}
+                onSkip={guide.skip}
+              />
             )}
 
             {isPregame && (
