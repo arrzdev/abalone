@@ -58,7 +58,11 @@ export function PlayPoster() {
             desktop only: on a phone the board gets the room, and the heading
             and the paragraph stay in the document for a crawler and a screen
             reader. */}
-        <h1 className="font-display leading-[0.98] font-extrabold tracking-[-0.035em] text-balance text-white max-lg:sr-only lg:text-[clamp(2.75rem,1rem+3.2vw,4.25rem)]">
+        <h1
+          // A place to put focus when a sheet over this page is dismissed.
+          tabIndex={-1}
+          className="font-display leading-[0.98] font-extrabold tracking-[-0.035em] text-balance text-white max-lg:sr-only lg:text-[clamp(2.75rem,1rem+3.2vw,4.25rem)]"
+        >
           {t("common:home.heading")}
         </h1>
         {/* the no sign-up words brighter than the rest, so they read first */}

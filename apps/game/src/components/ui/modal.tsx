@@ -82,8 +82,10 @@ export function Modal({
   useEffect(() => {
     const dialog = dialogRef.current
     if (!open || dialog === null) return
+    // `<body>` has focus when nothing does, and is no one to hand it back to.
     const opener =
-      document.activeElement instanceof HTMLElement
+      document.activeElement instanceof HTMLElement &&
+      document.activeElement !== document.body
         ? document.activeElement
         : null
     // A field that asked for focus on mount already has it; leave it there.

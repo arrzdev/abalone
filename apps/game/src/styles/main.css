@@ -362,9 +362,11 @@
 
 /*
  * The skip link lands focus on <main>, which is not a control: an outline round
- * the whole page says nothing the next Tab will not.
+ * the whole page says nothing the next Tab will not. A page's heading is the
+ * same kind of landing place, for a sheet that was closed over it.
  */
-:root main[tabindex="-1"]:focus-visible {
+:root main[tabindex="-1"]:focus-visible,
+:root h1[tabindex="-1"]:focus-visible {
   outline: none;
 }
 

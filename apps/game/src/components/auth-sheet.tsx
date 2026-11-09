@@ -1,6 +1,23 @@
 import { useTranslation } from "react-i18next"
 import { AuthForm } from "@/components/auth-form"
+import { MAIN_CONTENT_ID } from "@/components/skip-link"
 import { Sheet } from "@/components/ui/sheet"
+
+/**
+ * Where focus goes when the sheet is dismissed and nothing had it before: the
+ * page's own heading, or the page itself when it has none to land on.
+ *
+ * A guest sent here from a signed-in screen was never on a control, so there is
+ * no opener to hand focus back to, and left alone it falls to `<body>`: a
+ * screen reader says nothing about where the visitor now is. The heading says
+ * what page this is.
+ */
+function pageHeading(): HTMLElement | null {
+  return (
+    document.querySelector<HTMLElement>("main h1[tabindex='-1']") ??
+    document.getElementById(MAIN_CONTENT_ID)
+  )
+}
 
 export type AuthSheetProps = {
   open: boolean
@@ -36,6 +53,8 @@ export function AuthSheet({
       onClose={onClose}
       title={t("common:auth.prompt_title")}
       hideTitle
+      closeButton
+      restoreFocus={pageHeading}
       className="lg:max-w-[476px]"
     >
       <AuthForm onAuthenticated={onAuthenticated} />

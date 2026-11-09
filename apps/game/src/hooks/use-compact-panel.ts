@@ -81,6 +81,8 @@ export function usePanelFloor(): {
   ref: (node: HTMLElement | null) => void
   /** The floor, ready for a `min-height`. */
   floor: string
+  /** What the head measures, in px. */
+  head: number
 } {
   const [head, setHead] = useState(0)
   const [node, setNode] = useState<HTMLElement | null>(null)
@@ -107,6 +109,7 @@ export function usePanelFloor(): {
   return {
     ref: setNode,
     floor: `calc(${head + CONTROLS_FLOOR}px + env(safe-area-inset-bottom))`,
+    head,
   }
 }
 
