@@ -1,8 +1,8 @@
 import { readFileSync } from "node:fs"
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame, startOnlineGame } from "./support/app"
 import { moveList, playMove, selectSquare } from "./support/board"
+import { expect, test } from "./support/test"
 
 // On a phone the board is the game, so nothing else on the game screen may
 // take its room. The first-game guide used to sit under the scoreboard as a

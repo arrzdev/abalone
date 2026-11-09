@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // Each guide ends with links to the other guides, so a reader who finished one
 // finds the next and a crawler reaches every guide from each of them. The links

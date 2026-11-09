@@ -1,7 +1,7 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 import { moveList, playMove } from "./support/board"
+import { expect, test } from "./support/test"
 
 // The site's CSP has no 'unsafe-eval', so the app must never reach for eval or
 // the Function constructor: not even a caught probe, which still files a

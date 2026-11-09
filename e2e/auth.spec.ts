@@ -1,4 +1,3 @@
-import { expect, test } from "@playwright/test"
 import {
   openApp,
   PASSWORD,
@@ -6,6 +5,7 @@ import {
   signUp,
   uniqueUsername,
 } from "./support/app"
+import { expect, test } from "./support/test"
 
 // An account is a username and a password: create one, leave, and come back in
 // with the same pair. A wrong password is turned away.

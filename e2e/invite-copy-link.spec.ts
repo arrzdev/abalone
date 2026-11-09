@@ -1,7 +1,7 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, signUp, uniqueUsername } from "./support/app"
 import { expectNoScrolling, waitForRest } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // The link in the composer keeps the row: copy and share are icons beside it,
 // so a phone shows enough of the link to tell it is one, and the copy puts the

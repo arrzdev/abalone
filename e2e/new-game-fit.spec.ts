@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
+import { expect, test } from "./support/test"
 
 // A new player on a phone reads the New Game screen and presses Play without
 // scrolling: every label is at least 12px, and Play stays pinned in view while

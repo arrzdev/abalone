@@ -1,8 +1,8 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { startOfflineGame } from "./support/app"
 import { moveList, playMove } from "./support/board"
 import { expectNoClippedText, expectNoLayoutShift } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // A phone game can be finished and started again without sight or a pointer:
 // the sheets take focus and give it back, the result has a name, the eval bar

@@ -1,6 +1,6 @@
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // A keyboard user can work an open dialog: focus moves into it when it opens,
 // Tab and Shift+Tab go round inside it and never reach the page behind, and

@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
+import { expect, test } from "./support/test"
 
 // Every bot and pass and play start says which kind of page the tab first
 // landed on (home, rules, strategy, invite, other), so the counts show whether

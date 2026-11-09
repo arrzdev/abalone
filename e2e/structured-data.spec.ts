@@ -1,5 +1,5 @@
 import type { APIRequestContext } from "@playwright/test"
-import { expect, test } from "@playwright/test"
+import { expect, test } from "./support/test"
 
 // The JSON-LD in the served HTML (tech-seo-spec item 4 on TUD-626), read the way
 // a crawler reads it: before any JavaScript runs. Google only trusts structured

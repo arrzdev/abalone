@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs"
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
+import { expect, test } from "./support/test"
 
 // Each offline mode has one name, and a player meets it in the same words on
 // the setup tab, the game header and the browser tab (TUD-853). The computer

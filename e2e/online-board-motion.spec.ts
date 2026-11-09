@@ -1,5 +1,4 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { startOnlineGame } from "./support/app"
 import { expectMarble, selectSquare, tapSquare } from "./support/board"
 import type { Frame } from "./support/frames"
@@ -9,6 +8,7 @@ import {
   recordFrames,
   stopFrames,
 } from "./support/frames"
+import { expect, test } from "./support/test"
 
 // Every change to an online board goes the way a move played on it does, frame
 // by frame: the old position, the marble sliding, the new position held. Never

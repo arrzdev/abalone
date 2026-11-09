@@ -1,5 +1,5 @@
 import type { APIRequestContext } from "@playwright/test"
-import { expect, test } from "@playwright/test"
+import { expect, test } from "./support/test"
 
 // Every module a page needs before it can hydrate is preloaded by its HTML.
 // A static import the HTML does not preload is found only once the chunk

@@ -1,7 +1,7 @@
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 import { expectNoClippedText } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // The ways in on home (the `play-free-first-screen` document on TUD-2287, copy
 // from `play-free-copy` on TUD-2298): Play now first, alone and the only filled

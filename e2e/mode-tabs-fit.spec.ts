@@ -1,6 +1,6 @@
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 import { expectNoClippedText } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // The mode switch on /offline reads in full on the narrowest phone: no label
 // is cut short with an ellipsis or clipped by its segment. English, plus the

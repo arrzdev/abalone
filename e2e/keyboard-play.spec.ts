@@ -1,7 +1,7 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { startOfflineGame } from "./support/app"
 import { moveList } from "./support/board"
+import { expect, test } from "./support/test"
 
 // A player with only a keyboard plays a whole move. Tab reaches the board, the
 // arrow keys walk a focus cell across it, Space picks a marble up and Enter puts

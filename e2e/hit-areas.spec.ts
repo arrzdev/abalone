@@ -1,7 +1,7 @@
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 import { playMove } from "./support/board"
+import { expect, test } from "./support/test"
 
 // Every control on a phone is a 44×44 thumb target (TUD-554 §3, D3). What is
 // measured is the element's own box, the same box the devtools check reads:

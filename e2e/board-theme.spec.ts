@@ -1,8 +1,8 @@
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 import { moveList, playMove } from "./support/board"
 import { expectNoClippedText, waitForRest } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // The board can be painted Slate (the default), Walnut or Felt from Settings.
 // It is paint and nothing else: picking one mid-game repaints the board at once

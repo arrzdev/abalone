@@ -1,7 +1,7 @@
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 import { expectNoClippedText, waitForRest } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // The marble design is picked from tiles in Settings, each showing a white and
 // a black marble drawn in that design. The choice survives a reload, and a

@@ -1,6 +1,6 @@
 import type { APIRequestContext } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, signUp, uniqueUsername } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The public landing for online play (the `audit` document on TUD-1688, page
 // design on TUD-1820). /online is the signed-in hub and stays out of the index;

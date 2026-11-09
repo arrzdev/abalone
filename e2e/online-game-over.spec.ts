@@ -1,8 +1,8 @@
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOnlineGame } from "./support/app"
 import { expectMarble, playMove } from "./support/board"
 import { expectNoClippedText } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // Every locale the app ships, by the code the settings sheet stores.
 const LOCALES = [

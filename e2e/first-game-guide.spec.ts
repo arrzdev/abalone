@@ -1,7 +1,7 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 import { playMove, selectedSquares, selectSquare } from "./support/board"
+import { expect, test } from "./support/test"
 
 // A first-time visitor's first offline game shows a three-step guide on the
 // real board: pick marbles, choose a direction, push 6 off to win. Finishing or

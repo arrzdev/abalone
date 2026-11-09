@@ -1,12 +1,12 @@
 import AxeBuilder from "@axe-core/playwright"
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import {
   openApp,
   signUp,
   startOfflineGame,
   uniqueUsername,
 } from "./support/app"
+import { expect, test } from "./support/test"
 
 // Accessibility beyond colour: axe on every public page, the overlays opened
 // from the header, a game in progress and the invite page, in both engines (the

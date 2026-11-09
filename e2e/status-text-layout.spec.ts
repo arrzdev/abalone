@@ -1,7 +1,7 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, signUp, uniqueUsername } from "./support/app"
 import { expectNoClippedText, expectNoLayoutShift } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // The inline status text outside the dialogs: the profile's line under the
 // name, the hub's line under its heading, and the invite link page's lines

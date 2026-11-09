@@ -1,9 +1,9 @@
 import AxeBuilder from "@axe-core/playwright"
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, startOfflineGame } from "./support/app"
 import { moveList, playMove } from "./support/board"
 import { waitForRest } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // Every line of text reads at WCAG AA: 4.5:1 against its background, the
 // secondary grey and the label on a blue button included. axe's

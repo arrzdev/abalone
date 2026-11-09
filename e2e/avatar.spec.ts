@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp, signUp, uniqueUsername } from "./support/app"
+import { expect, test } from "./support/test"
 
 // Whatever sits on top at the middle of the camera badge must be the badge (or
 // its icon), or the badge is under the picture and cannot be seen or pressed.

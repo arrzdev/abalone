@@ -1,5 +1,4 @@
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import {
   openApp,
   signUp,
@@ -14,6 +13,7 @@ import {
   expectNoScrolling,
   waitForRest,
 } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // Every dialog in the game, on the smallest phone, on a phone Safari with its
 // toolbar, and on a desktop: no text is cut off, pressing a button moves

@@ -1,6 +1,6 @@
 import type { Route } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { PASSWORD, signOut, signUp, uniqueUsername } from "./support/app"
+import { expect, test } from "./support/test"
 
 // The service worker would answer the request before page.route sees it.
 test.use({ serviceWorkers: "block" })

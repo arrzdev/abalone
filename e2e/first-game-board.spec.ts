@@ -1,5 +1,4 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
 import {
   marbleOn,
@@ -7,6 +6,7 @@ import {
   selectSquare,
   tapSquare,
 } from "./support/board"
+import { expect, test } from "./support/test"
 
 // A first-time visitor's first game against the computer opens on the board:
 // Gus, the standard layout, black, and the guide's first step. The setup screen

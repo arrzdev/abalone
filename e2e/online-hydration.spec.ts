@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { signUp, uniqueUsername } from "./support/app"
+import { expect, test } from "./support/test"
 
 // /online is rendered by the worker, which cannot see the token, and then
 // hydrated on a device that can. A guest's first client render used to differ

@@ -1,6 +1,6 @@
-import { expect, test } from "@playwright/test"
 import { openApp, startOnlineGame } from "./support/app"
 import { expectMarble, playMove } from "./support/board"
+import { expect, test } from "./support/test"
 
 // Online play between two players in two browsers: each move reaches the other
 // board through the backend's game room (Durable Object) without a reload.

@@ -1,8 +1,8 @@
 import type { Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { startOfflineGame } from "./support/app"
 import { playMove } from "./support/board"
 import { waitForRest } from "./support/layout"
+import { expect, test } from "./support/test"
 
 // The rank and file letters a–i and numbers 1–9 around a board in play are a
 // preference: "Show coordinates" in Settings turns them off and on, the board

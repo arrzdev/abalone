@@ -1,6 +1,6 @@
 import type { Browser, Locator, Page } from "@playwright/test"
-import { expect, test } from "@playwright/test"
 import { openApp } from "./support/app"
+import { expect, test } from "./support/test"
 
 // A reader of /rules or /strategy who decides to play has a way to the board
 // under the intro and at the end, and no "play" link on the page sends them
