@@ -99,6 +99,41 @@ test("at 667×375 the score card stays inside the panel after a move played by k
 
 // The panel scrolls now, and the Game over sheet must not: it still fits the
 // short screen whole.
+// Scrolled under the pinned card, the guide must not read as part of it: the
+// 8px under the card is the panel's own colour, whatever is scrolled behind.
+test("at 667×375 content scrolled under the score card leaves a clear gap below it", async ({
+  page,
+}) => {
+  await startOfflineGame(page, "vs Computer")
+  const panel = page.locator("aside").filter({ visible: true }).first()
+  // Tab to Resign at the foot of the panel: it scrolls the panel.
+  await page.getByRole("button", { name: "Resign" }).focus()
+  await expect
+    .poll(() => panel.evaluate((aside) => aside.scrollTop))
+    .toBeGreaterThan(0)
+
+  const gap = await panel.evaluate((aside) => {
+    const head = aside.firstElementChild as HTMLElement
+    const card = head.firstElementChild as HTMLElement
+    const cardBox = card.getBoundingClientRect()
+    const x = cardBox.left + cardBox.width / 2
+    const probe = (y: number) => {
+      const found = document.elementFromPoint(x, y)
+      return found !== null && head.contains(found)
+    }
+    return {
+      // every row of the 8px below the card still belongs to the pinned head
+      clear: [1, 4, 7].every((offset) => probe(cardBox.bottom + offset)),
+      headBottom: head.getBoundingClientRect().bottom,
+      cardBottom: cardBox.bottom,
+    }
+  })
+  expect(gap.clear, `the gap under the card: ${JSON.stringify(gap)}`).toBe(
+    true,
+  )
+  expect(gap.headBottom - gap.cardBottom).toBeGreaterThanOrEqual(8)
+})
+
 test("at 667×375 the Game over sheet fits without scrolling", async ({
   page,
 }) => {

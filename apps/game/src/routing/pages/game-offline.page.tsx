@@ -798,8 +798,10 @@ function GameOfflinePage() {
               <div
                 ref={panelHeadRef}
                 // Pinned beside the board, where the panel scrolls. Opaque, so
-                // what scrolls under it is hidden rather than shown through.
-                className="shrink-0 beside:sticky beside:top-0 beside:z-10 beside:bg-surface"
+                // what scrolls under it is hidden rather than shown through. The
+                // padding is the panel's 8px gap, kept under the card so what
+                // slides beneath it never touches it.
+                className="shrink-0 beside:sticky beside:top-0 beside:z-10 beside:bg-surface beside:pb-2"
               >
                 <SeatBar
                   seats={seatColors.map(seatFor)}
