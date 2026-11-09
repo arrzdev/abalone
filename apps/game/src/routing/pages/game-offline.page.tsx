@@ -33,10 +33,7 @@ import { GameOverModal } from "@/components/game-over-modal"
 import { PlusIcon, SettingsIcon } from "@/components/icons"
 import { IngameControls } from "@/components/ingame-controls"
 import type { GameResult } from "@/components/move-history"
-import {
-  PostgameControls,
-  postgameRematchButton,
-} from "@/components/postgame-controls"
+import { PostgameControls } from "@/components/postgame-controls"
 import { PregameControls } from "@/components/pregame-controls"
 import { ResignModal } from "@/components/resign-modal"
 import type { Seat } from "@/components/seat-bar"
@@ -488,6 +485,42 @@ function GameOfflinePage() {
     phase === "ingame" && !state.gameOver && !viewingHistory
 
   /**
+  //---- focus after a rematch ----------------
+  //
+  // Rematch is the "play again" step, so the keyboard stays in the game: the
+  // button that was pressed is gone with the finished game, and focus left to
+  // fall lands on the top of the page, six Tab stops from the board on a phone.
+  // The board takes it once it can: it is not focusable until the new game is
+  // running, and it is out of reach while the Game over sheet is still closing.
+  // So the wish is kept here, and whichever of the two comes last acts on it:
+  // the sheet giving focus back, or the board becoming playable.
+  const isBoardFocusPending = useRef(false)
+
+  const focusBoardIfPending = useCallback(() => {
+    if (!isBoardFocusPending.current) return false
+    if (!boardRef.current?.focusBoard()) return false
+    isBoardFocusPending.current = false
+    return true
+  }, [])
+
+  useEffect(() => {
+    //back on the setup screen the rematch is not what comes next
+    if (isPregame) isBoardFocusPending.current = false
+    if (boardInteractive) focusBoardIfPending()
+  }, [boardInteractive, focusBoardIfPending, isPregame])
+
+  function handleRematch() {
+    isBoardFocusPending.current = true
+    return game.handleRematch()
+  }
+
+  //the Escape path: the sheet gives focus back to the Rematch control, which is
+  //still on the page. A rematch that is already under way gives it to the board
+  function restoreFocusAfterGameOver() {
+    if (focusBoardIfPending()) return null
+    return postgameRematchButton()
+  }
+
    * The mode's one name, the same words the home card and the setup tab use.
    * The header and the tab title read it so a game is never called two things.
    */
@@ -816,7 +849,7 @@ function GameOfflinePage() {
                 onNext={game.goNextMove}
                 onSkipToLatest={game.goToLatestMove}
                 onGoTo={game.goToMoveIndex}
-                onRematch={game.handleRematch}
+                onRematch={handleRematch}
                 onNewBot={game.handleNewBot}
                 newGameLabel={newGameLabel}
                 newGameIcon={<PlusIcon size={20} />}
@@ -846,9 +879,9 @@ function GameOfflinePage() {
         newGameLabel={newGameLabel}
         newGameIcon={<PlusIcon size={18} />}
         onClose={game.closeGameOverModal}
-        onRematch={game.handleRematch}
+        onRematch={handleRematch}
         onNewBot={game.handleNewBot}
-        restoreFocus={postgameRematchButton}
+        restoreFocus={restoreFocusAfterGameOver}
       />
       <AppSettingsSheet
         open={settingsOpen}

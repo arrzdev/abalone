@@ -477,16 +477,24 @@ export function useAbaloneGame(
     [colorChoice, difficulty, mode, onModeChange, reportFinish, setupType],
   )
 
-  // A rematch keeps the colour that was actually played, not the coin flip.
-  const handleRematch = useCallback(
-    () =>
-      startNewGame({
-        setupType: state.setupType,
-        colorChoice: state.playerColor,
-        mode: state.mode,
-      }),
-    [startNewGame, state.mode, state.playerColor, state.setupType],
-  )
+  // A rematch keeps the colour that was actually played, not the coin flip. The
+  // board is the same one, so its keyboard cursor is sent back to the centre
+  // here, in the same update as the new position: otherwise the last game's
+  // cell is read out as the first thing said of this one.
+  const handleRematch = useCallback(() => {
+    boardRef.current?.resetKeyboard()
+    return startNewGame({
+      setupType: state.setupType,
+      colorChoice: state.playerColor,
+      mode: state.mode,
+    })
+  }, [
+    boardRef,
+    startNewGame,
+    state.mode,
+    state.playerColor,
+    state.setupType,
+  ])
 
   //the board above is already the defaults' board; this connects the bot and
   //counts the game. on a timer cleared by the cleanup, because StrictMode's
