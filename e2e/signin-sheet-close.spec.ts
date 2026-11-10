@@ -1,5 +1,5 @@
 import { openApp } from "./support/app"
-import { expectNoClippedText } from "./support/layout"
+import { expectNoClippedText, waitForRest } from "./support/layout"
 import { expect, test } from "./support/test"
 
 // Signed out, `/online` sends a visitor home and asks them to sign in, in a
@@ -26,6 +26,9 @@ test("the phone sign-in sheet has a Close control, last in the Tab cycle", async
 
   const close = sheet.getByRole("button", { name: "Close" })
   await expect(close).toBeVisible()
+  // Measured where the sheet stops: mid slide, its lower half is still under
+  // the screen's edge, which reads as text cut off.
+  await waitForRest(sheet)
   // The heading leaves the Close its corner.
   await expectNoClippedText(sheet)
   const box = await close.boundingBox()
