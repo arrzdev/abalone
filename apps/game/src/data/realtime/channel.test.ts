@@ -1,9 +1,10 @@
-import { describe, expect, it, vi } from "vitest"
+import { afterEach, describe, expect, it, vi } from "vitest"
 import type { SocketClass } from "@/data/realtime/channel"
 import { openRealtimeChannel, parseEvent } from "@/data/realtime/channel"
+import { mintTicket } from "@/data/realtime/ticket"
 
 vi.mock("@/data/realtime/ticket", () => ({
-  mintTicket: async () => "a-ticket",
+  mintTicket: vi.fn(async () => "a-ticket"),
 }))
 
 //the channel is server-written, but a frame is still input: it arrives over a
@@ -197,5 +198,79 @@ describe("openRealtimeChannel", () => {
     await settle()
 
     expect(listener.onConnectedChange).toHaveBeenCalledWith(false)
+  })
+})
+
+//---- a ticket request that fails ---------------------------------
+//a ticket is a network call, so it can fail like any other: the page is
+//navigating away, a preflight is cut off, the carrier drops. WebKit words that
+//"due to access control checks". it must not escape as an uncaught error, and
+//it must not leave the socket dead: the player is simply not connected, the
+//screens poll, and the next attempt buys a fresh ticket. the retry is the real
+//socket library's, so this runs against it with only the WebSocket faked.
+
+describe("openRealtimeChannel when the ticket request fails", () => {
+  const constructed: { url: string; protocols: unknown }[] = []
+
+  class FakeWebSocket {
+    readonly CONNECTING = 0
+    readonly OPEN = 1
+    readonly CLOSING = 2
+    readonly CLOSED = 3
+    readyState = 0
+    binaryType = "blob"
+
+    constructor(url: string, protocols: unknown) {
+      constructed.push({ url, protocols })
+    }
+
+    addEventListener() {}
+    removeEventListener() {}
+    close() {}
+    send() {}
+  }
+
+  afterEach(() => {
+    constructed.length = 0
+    vi.useRealTimers()
+    vi.unstubAllGlobals()
+  })
+
+  it("reports not connected, retries with a fresh ticket, and throws nothing", async () => {
+    const SocketClass = (await import("partysocket/ws")).default
+    vi.useFakeTimers()
+    vi.stubGlobal("WebSocket", FakeWebSocket)
+    const unhandled: unknown[] = []
+    const collect = (reason: unknown) => unhandled.push(reason)
+    process.on("unhandledRejection", collect)
+    vi.mocked(mintTicket).mockClear()
+    vi.mocked(mintTicket)
+      .mockRejectedValueOnce(
+        new Error("network_unreachable", {
+          cause: new TypeError(
+            "Fetch API cannot load http://localhost:8181/api/v1/realtime/ticket due to access control checks.",
+          ),
+        }),
+      )
+      .mockResolvedValueOnce("second-ticket")
+    const listener = handlers()
+
+    const close = openRealtimeChannel(listener, async () => SocketClass)
+
+    //the first attempt dies before a socket exists
+    await vi.advanceTimersByTimeAsync(100)
+    expect(listener.onConnectedChange).toHaveBeenCalledWith(false)
+    expect(constructed).toHaveLength(0)
+
+    //the backoff is a few seconds at most, and the retry buys its own ticket
+    await vi.advanceTimersByTimeAsync(10_000)
+    expect(mintTicket).toHaveBeenCalledTimes(2)
+    expect(constructed).toHaveLength(1)
+    expect(constructed[0]?.protocols).toEqual(["ticket", "second-ticket"])
+
+    close()
+    await vi.advanceTimersByTimeAsync(0)
+    process.off("unhandledRejection", collect)
+    expect(unhandled).toEqual([])
   })
 })
