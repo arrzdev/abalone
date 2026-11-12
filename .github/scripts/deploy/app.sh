@@ -6,7 +6,7 @@
 #     ...and that Worker does not exist yet              -> migrate -> one-shot deploy (creates it)
 #   - otherwise                                          -> plain one-shot deploy
 #
-# Usage: app.sh <app-path> <target>, target = production (the only deploy env).
+# Usage: app.sh <app-path> <target>, target = production | staging.
 #
 # The top-level wrangler block is DEV. Every target is an explicit
 # `[env.<target>]` block with its own `name` and its own resources, and every
@@ -21,14 +21,17 @@
 # builds with no Cloudflare credentials in the environment, and uploads it to
 # the Worker as secrets on every path.
 #
+# DRY_RUN=1 prints the wrangler commands without running anything (still reads the config).
+#
+# KEEP_WORKER_SECRETS=1 (local-deploy.sh only, while Actions is stopped) skips
+# check:env and the secrets upload: env/.env then holds only the Environment's
+# variables, for the build, and the Worker keeps the secrets it already has.
+#
 # Every deploy is stamped with the commit it ships: GITHUB_SHA in Actions,
 # HEAD locally. A Worker version gets `--tag <sha>`, `--message "<sha> <subject>"`
-# (read back from the versions API) and `--var BUILD_SHA:<sha>` (the backend
-# serves it at GET /api/version and as `x-build-sha`). The game build writes
-# /version.json from BUILD_SHA. A dirty tree is refused: the SHA would not
-# describe what ships.
-#
-# DRY_RUN=1 prints the wrangler commands without running anything (still reads the config).
+# (read back from the versions API) and `--var BUILD_SHA:<sha>` (the backend serves
+# it at GET /api/version and as `x-build-sha`). The web build writes
+# /version.json. A dirty tree is refused: the SHA would not describe what ships.
 set -euo pipefail
 
 app_path="${1:?usage: app.sh <app-path> <target>}"
@@ -38,7 +41,8 @@ target="${2:?usage: app.sh <app-path> <target>}"
 script_dir="$(cd "$(dirname "$0")" && pwd)"
 
 sha="${GITHUB_SHA:-$(git rev-parse HEAD)}"
-if [ -n "$(git status --porcelain)" ]; then
+# app.sh itself is left out: local-deploy.sh copies its own over the checkout.
+if [ -n "$(git status --porcelain -- ':(top,exclude).github/scripts/deploy/app.sh')" ]; then
   if [ "${DRY_RUN:-}" = "1" ]; then
     echo "::warning::${app_path}: the working tree is dirty; a real deploy would refuse"
   else
@@ -48,7 +52,7 @@ if [ -n "$(git status --porcelain)" ]; then
   fi
 fi
 subject="$(git log -1 --format=%s "$sha" 2>/dev/null || true)"
-# Read by the game build (version.json).
+# Read by the web build (version.json).
 export BUILD_SHA="$sha"
 # Worker version annotations (tag max 100 bytes, message max 1000) and the var.
 stamp_flag=(--tag "$sha" --message "$(printf '%s %s' "$sha" "$subject" | cut -c1-200)" --var "BUILD_SHA:${sha}")
@@ -62,7 +66,9 @@ if [ "${DRY_RUN:-}" != "1" ]; then
   # dist/server/wrangler.json, and a wrangler dry-run build reads it too. The
   # build gets no Cloudflare credentials: it needs none, and a build plugin or
   # dependency has no business seeing them.
-  (cd "$app_path" && pnpm check:env &&
+  check_env="pnpm check:env"
+  [ "${KEEP_WORKER_SECRETS:-}" = "1" ] && check_env=true
+  (cd "$app_path" && $check_env &&
     env -u CLOUDFLARE_API_TOKEN -u CLOUDFLARE_ACCOUNT_ID CLOUDFLARE_ENV="$target" pnpm run build)
 fi
 
@@ -74,7 +80,7 @@ env_flag=(--env "$target")
 # is driven entirely by the GitHub Environment: no [vars] in wrangler.toml, no
 # dashboard.
 secrets_flag=()
-[ -s env/.env ] && secrets_flag=(--secrets-file env/.env)
+[ -s env/.env ] && [ "${KEEP_WORKER_SECRETS:-}" != "1" ] && secrets_flag=(--secrets-file env/.env)
 
 wr() {
   echo "+ wrangler $*"
@@ -123,7 +129,7 @@ worker="$(env_name)"
 }
 
 if grep -q 'd1_databases' wrangler.toml; then
-  # No env may share production's database (dev's placeholder included).
+  # Staging must never touch production data. Every env needs its own database.
   dup="$(awk -F'"' '/^database_id[[:space:]]*=/ {print $2}' wrangler.toml | sort | uniq -d)"
   [ -z "$dup" ] || {
     echo "::error::${app_path}: two envs share D1 database_id ${dup}, refusing to migrate from ${target}"
