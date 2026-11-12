@@ -41,6 +41,16 @@ async function openResignWithKeyboard(page: Page): Promise<void> {
   ).toBeVisible()
 }
 
+/**
+ * The role query stops matching a closing sheet at once, but its element stays
+ * in the DOM through the close animation (about 250 ms). A second Enter pressed
+ * inside that window was swallowed in 1 of 30 loaded chromium runs, so a test
+ * that reopens the sheet waits for the element to be gone first.
+ */
+async function sheetHasLeftTheDom(page: Page): Promise<void> {
+  await expect(page.locator("[role=dialog]")).toHaveCount(0)
+}
+
 /** Plays one move, waits for the reply, and resigns from the sheet. */
 async function resignTheGame(page: Page): Promise<void> {
   await playMove(page, "c5", "d5")
@@ -97,6 +107,7 @@ test.describe("modal sheets hold focus", () => {
     await page.keyboard.press("Escape")
     await expect(page.getByRole("dialog")).toHaveCount(0)
     await expect(resign).toBeFocused()
+    await sheetHasLeftTheDom(page)
 
     await openResignWithKeyboard(page)
     await page
