@@ -88,6 +88,7 @@
               "BASE_REF",
               "BASE_URL",
               "COMPAT_STALE_DAYS",
+              "DEPLOYED_TAG",
               "DEV",
               "DEV_INSPECTOR",
               "E2E_API_INSPECTOR_PORT",
