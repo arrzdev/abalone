@@ -61,6 +61,13 @@ runs:
       shell: bash
       run: pnpm typecheck
 
+    # Bindings and vars are not inherited by [env.*]: one added to a single
+    # block deploys as undefined. Runs here and so in the deploy `verify` job.
+    - name: Binding parity (wrangler envs)
+      if: inputs.mode != 'docs'
+      shell: bash
+      run: pnpm check:wrangler-envs
+
     - name: Migration safety (block unacknowledged destructive DDL)
       if: inputs.mode != 'docs'
       shell: bash
