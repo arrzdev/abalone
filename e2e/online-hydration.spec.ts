@@ -42,7 +42,15 @@ for (const viewport of VIEWPORTS) {
     page,
   }) => {
     await page.setViewportSize(viewport)
-    await signUp(page, uniqueUsername("hydrate"))
+    // Signing in makes the page buy a realtime ticket and open its socket. Cut
+    // off by the reload below, that request fails on WebKit, which logs it as
+    // an error ("due to access control checks") that Playwright reports as an
+    // uncaught one. The app handles the failure (the socket retries), so the
+    // spec lets the first connection finish rather than reload through it.
+    await Promise.all([
+      page.waitForEvent("websocket"),
+      signUp(page, uniqueUsername("hydrate")),
+    ])
     const errors = collectErrors(page)
 
     await page.goto("/online")
