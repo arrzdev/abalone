@@ -1,0 +1,25 @@
+// What the binding parity check (.github/scripts/checks/wrangler-envs.mjs)
+// needs to know that wrangler.toml cannot tell it.
+//
+//   deployed    The envs this repo deploys today. A placeholder id is an
+//               error in these only. abalone has no staging: production only.
+//   production  The live production Worker name of each app in
+//               deploy-units.jsonc, copied from the project brief. The check
+//               fails if [env.production] `name` differs, because a new name
+//               deploys a second Worker and leaves the live one serving.
+//               Changing a name here is a Worker rename: it needs its own PR.
+//   envOnly     Bindings an env has and the dev top level may not. The game's
+//               BACKEND service binding is production only: dev and e2e read
+//               the backend through VITE_BACKEND_URL (apps/game/src/server.ts).
+{
+  "deployed": ["production"],
+  "production": {
+    "apps/backend": "abalone-backend",
+    "apps/game": "abalone-game"
+  },
+  "envOnly": {
+    "apps/game": {
+      "production": ["services BACKEND"]
+    }
+  }
+}

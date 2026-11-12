@@ -1,13 +1,21 @@
 // Build the deploy matrix from .github/deploy-units.jsonc — the source of truth
 // for WHAT deploys and how it's grouped. An app deploys only if it's listed here;
 // a unit's apps deploy together, in order, fail-stop. Only apps changed since the
-// last successful Deploy run deploy (turbo --affected; the workflow sets
-// TURBO_SCM_BASE to that run's commit and TURBO_SCM_HEAD). A wrangler.toml that
-// isn't listed is warned about (so you don't forget one) but never deployed.
+// last successful deploy to this environment deploy (turbo --affected from the
+// DEPLOYED_TAG commit to TURBO_SCM_HEAD). A wrangler.toml that isn't listed is
+// warned about (so you don't forget one) but never deployed.
 // Emits GITHUB_OUTPUT `units` (matrix of units with >=1 changed app) and `any`.
 //
 // FORCE_ALL=true treats every listed app as changed: the manual workflow dispatch
-// (used after rotating secrets/vars, which change no files).
+// (used after rotating secrets/vars, which change no files) and the
+// deployment-test branch.
+//
+// DEPLOYED_TAG (e.g. deployed/staging) names the tag deploy.yml moves after a
+// run deployed everything it had to. Diffing against it, not against the
+// previous push, means a push whose deploy was superseded, failed or never ran
+// still ships with the next one, whatever unit that one touches. No tag, or a
+// tag that is not an ancestor of HEAD (deployment-test shipped another branch,
+// or a rollback deleted it), deploys every unit.
 
 import { execSync } from "node:child_process"
 import {
@@ -17,7 +25,8 @@ import {
   readFileSync,
 } from "node:fs"
 
-const FORCE_ALL = process.env.FORCE_ALL === "true"
+const DEPLOYED_TAG = process.env.DEPLOYED_TAG
+let FORCE_ALL = process.env.FORCE_ALL === "true"
 const CONFIG = ".github/deploy-units.jsonc"
 
 function readUnits() {
@@ -90,6 +99,54 @@ function packageNameToApp(apps) {
   return map
 }
 
+function warn(msg) {
+  console.log(`::warning::${msg}`)
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    appendFileSync(
+      process.env.GITHUB_STEP_SUMMARY,
+      `> **Warning:** ${msg}\n`,
+    )
+  }
+}
+
+function git(args) {
+  return execSync(`git ${args}`, {
+    encoding: "utf8",
+    stdio: "pipe",
+  }).trim()
+}
+
+// The commit the environment last deployed from, or null (then deploy all).
+// Always read from origin: a local tag can be stale.
+function deployedBase(tag) {
+  try {
+    git(
+      `fetch --quiet --no-tags origin +refs/tags/${tag}:refs/tags/${tag}`,
+    )
+  } catch {
+    return null
+  }
+  const sha = git(`rev-parse refs/tags/${tag}^{commit}`)
+  try {
+    git(`merge-base --is-ancestor ${sha} HEAD`)
+  } catch {
+    console.log(`${tag} (${sha}) is not an ancestor of HEAD`)
+    return null
+  }
+  return sha
+}
+
+if (!FORCE_ALL && DEPLOYED_TAG) {
+  const base = deployedBase(DEPLOYED_TAG)
+  if (base) {
+    process.env.TURBO_SCM_BASE = base
+    console.log(`diff base: ${DEPLOYED_TAG} = ${base}`)
+  } else {
+    FORCE_ALL = true
+    warn(`no usable ${DEPLOYED_TAG} tag; deploying all declared apps.`)
+  }
+}
+
 function changedApps(apps) {
   if (FORCE_ALL) return new Set(apps)
   const byPkg = packageNameToApp(apps)
@@ -106,14 +163,9 @@ function changedApps(apps) {
         .map(([, app]) => app),
     )
   } catch (e) {
-    const msg = `affected detection failed (${e.message.split("\n")[0]}); deploying all declared apps.`
-    console.log(`::warning::${msg}`)
-    if (process.env.GITHUB_STEP_SUMMARY) {
-      appendFileSync(
-        process.env.GITHUB_STEP_SUMMARY,
-        `> **Warning:** ${msg}\n`,
-      )
-    }
+    warn(
+      `affected detection failed (${e.message.split("\n")[0]}); deploying all declared apps.`,
+    )
     return new Set(apps)
   }
 }
