@@ -1,5 +1,5 @@
 # CI deploy after build: wrangler deploy --config dist/server/wrangler.json
-name = "abalone-game"
+name = "abalone-game-dev"
 # The Worker is src/server.ts: Start's handler with the invite link card in
 # front. The Cloudflare plugin builds this file, not Start's server entry, so it
 # is named here as well as in nativ.config.ts (router.serverEntry).
