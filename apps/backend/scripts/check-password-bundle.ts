@@ -2,11 +2,11 @@ import { readFileSync } from "node:fs"
 
 //better-auth hashes passwords with scrypt from @better-auth/utils/password. that
 //package ships two builds: native node:crypto (password.node.mjs) and pure-JS
-//@noble/hashes (password.mjs). only the native one fits the Workers CPU budget
-//on sign-up/sign-in, and wrangler picks it through the `workerd` export
-//condition. a resolver change once shipped the pure-JS one instead
-//(better-auth#9649), so the build fails if the bundle does not hold the native
-//build or does hold the pure-JS scrypt.
+//@noble/hashes (password.mjs). only the native one keeps sign-in fast (native
+//scrypt), and wrangler picks it through the `workerd` export condition. a
+//resolver change once shipped the pure-JS one instead (better-auth#9649), so
+//the build fails if the bundle does not hold the native build or does hold the
+//pure-JS scrypt.
 //
 //reads the esbuild metafile that `pnpm build` writes (wrangler --metafile).
 

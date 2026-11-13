@@ -140,10 +140,10 @@ any new state-changing route behind `requireAuth()`.
   attacker can at worst lock a real user out for 15 minutes, never for good.
 
 **D1 cost of rule 3:** one `getSession` per authenticated request, a lookup
-by the unique session token plus the user row. Count it against the 5 million
-rows read/day of the free plan above; check the real number in the D1 dashboard
-(Metrics → rows read) once a project has traffic, and tell the CTO before it
-gets near the limit. Nothing here may move to a paid plan without the CEO.
+by the unique session token plus the user row. Workers Paid includes
+25 billion rows read and 50 million rows written per month ([D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/)).
+Still watch rows read: check the real number in the D1 dashboard (Metrics →
+rows read) once a project has traffic, and tell the CTO on unusual growth.
 
 **Config:** `BETTER_AUTH_SECRET` (32+ random chars per environment, a GitHub
 Environment secret created by the Head of Platform; `deploy.yml` lists it as
