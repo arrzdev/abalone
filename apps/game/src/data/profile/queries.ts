@@ -44,7 +44,13 @@ export function profileQueryOptions(isAuthenticated: boolean) {
     enabled: isAuthenticated,
     //the avatar is the only thing that can change, and only from this device
     staleTime: 5 * 60_000,
-    placeholderData: () => readProfileSnapshot() ?? undefined,
+    //behind the same gate: a disabled query still shows its placeholder, and
+    //hydration is a render where the device is a guest because the worker was
+    //one. a picture read from storage there is html the worker never sent, and
+    //react throws #418. the render straight after is signed in and reads it
+    placeholderData: isAuthenticated
+      ? () => readProfileSnapshot() ?? undefined
+      : undefined,
   })
 }
 
