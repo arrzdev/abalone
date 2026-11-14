@@ -150,6 +150,19 @@ describe("profile routes", () => {
     )
   })
 
+  it("changes only the uploader's picture", async () => {
+    const owner = await signUpAndGetToken("pictured")
+    const other = await signUpAndGetToken("neighbour")
+    const mine = await uploadAvatar(owner, webpBytes())
+    await uploadAvatar(other, pngBytes(16))
+
+    const { body } = await getProfile(owner)
+    expect(body.data?.profile.avatarUrl).toBe(
+      mine.body.data?.profile.avatarUrl,
+    )
+    expect(body.data?.profile.avatarUrl).toMatch(/\.webp$/)
+  })
+
   it("rejects a file over the size limit", async () => {
     const token = await signUpAndGetToken("oversized")
     const { response, body } = await uploadAvatar(
