@@ -142,6 +142,10 @@ function PlayOnlinePage() {
               {t("common:home.rules_link")}
             </Link>
             <span aria-hidden="true">·</span>
+            <Link to="/how-to-play" className={READ_MORE_LINK_CLASS}>
+              {t("common:home.how_to_play_link")}
+            </Link>
+            <span aria-hidden="true">·</span>
             <Link to="/strategy" className={READ_MORE_LINK_CLASS}>
               {t("common:home.strategy_link")}
             </Link>
