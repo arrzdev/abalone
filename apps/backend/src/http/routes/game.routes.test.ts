@@ -673,6 +673,20 @@ describe("game routes", () => {
       expect(body.data?.games).toEqual([])
     })
 
+    it("cannot see a finished game in their own list", async () => {
+      const { game, sender } = await openGame()
+      await call("POST", `/games/${game.id}/resignation`, sender.token)
+      const outsider = await signUp("outsider")
+
+      const { body } = await call<{ games: Game[] }>(
+        "GET",
+        "/games?status=finished",
+        outsider.token,
+      )
+
+      expect(body.data?.games).toEqual([])
+    })
+
     it("cannot accept somebody else's invite", async () => {
       const sender = await signUp("asker")
       const recipient = await signUp("asked")

@@ -347,6 +347,8 @@ describe("invite link routes", () => {
       const { response, body } = await accept(latecomer.token, link.id)
       expect(response.status).toBe(409)
       expect(body.error_code).toBe("invite_link_used")
+      //and the game the link opened is not handed to them
+      expect(body.data).toBeUndefined()
     })
 
     //a dropped response or a reload after sign-up asks again. the player who
