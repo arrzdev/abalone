@@ -1,5 +1,5 @@
 import tryCatch from "@repo/shared/try-catch"
-import { useRouter } from "@tanstack/react-router"
+import { useRouter, useRouterState } from "@tanstack/react-router"
 import type { i18n as I18nInstance } from "i18next"
 import type { ReactNode } from "react"
 import { useEffect } from "react"
@@ -8,6 +8,7 @@ import { useUrlLanguage } from "@/hooks/use-url-language"
 import type { Language } from "@/i18n"
 import i18next, { loadLanguage } from "@/i18n"
 import { localeResources } from "@/i18n/locale-resources"
+import { documentLanguage } from "@/routing/page-languages"
 
 //one clone per language, made on first use. A clone shares the translations
 //and owns its language, so a request reads its own and never moves another's.
@@ -41,6 +42,18 @@ function serverInstanceFor(language: Language): I18nInstance {
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const language = useUrlLanguage()
   const router = useRouter()
+  const path = useRouterState({
+    select: (state) => state.location.pathname,
+  })
+
+  //moving inside one language to a page that is not translated into it (or
+  //back) changes no language, so `languageChanged` never fires for it
+  useEffect(() => {
+    document.documentElement.lang = documentLanguage(
+      path,
+      i18next.language as Language,
+    )
+  }, [path])
 
   useEffect(() => {
     if (i18next.language === language) return

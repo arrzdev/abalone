@@ -24,6 +24,7 @@ import {
   readLanguageCookie,
   splitLocalePath,
 } from "@/i18n/locale-path"
+import { documentLanguage } from "@/routing/page-languages"
 import type { InviteLinkSummary } from "@/server/invite-page"
 import {
   inviteLinkIdFromPath,
@@ -81,7 +82,10 @@ async function respond(
   const location = splitLocalePath(url.pathname)
   const page = await servePage(request, requestId, location.path)
   if (location.prefixed)
-    return withDocumentLanguage(page, location.language)
+    return withDocumentLanguage(
+      page,
+      documentLanguage(location.path, location.language),
+    )
   return withVaryOnVisitor(page)
 }
 

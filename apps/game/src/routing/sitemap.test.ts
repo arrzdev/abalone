@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest"
-import { PAGE_LANGUAGES, SITEMAP } from "@/routing/seo-pages"
+import { PAGE_LANGUAGES } from "@/routing/page-languages"
+import { SITEMAP } from "@/routing/seo-pages"
 import { sitemapXml } from "@/routing/sitemap"
 
 const ORIGIN = "https://abalone.tudu.dev"

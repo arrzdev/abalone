@@ -1,9 +1,9 @@
 import type { Language } from "@/i18n/languages"
-import { SUPPORTED_LANGUAGES } from "@/i18n/languages"
 import { DEFAULT_LANGUAGE } from "@/i18n/locale-path"
 import { localeResources } from "@/i18n/locale-resources"
 import type { SocialImage } from "@/routing/page-head"
 import { pageHead } from "@/routing/page-head"
+import { PAGE_LANGUAGES } from "@/routing/page-languages"
 import {
   breadcrumbScripts,
   structuredDataScripts,
@@ -113,24 +113,6 @@ export const SITEMAP: Record<
   "/how-to-play": "2026-11-02",
   "/opening-moves": "2026-11-07",
   "/starting-positions": "2026-11-07",
-}
-
-/**
- * The languages each indexable page has a URL in: the ones its body copy is
- * translated into. A page missing from a language falls back to English text,
- * so its `/pt/...` URL still answers but is no page of its own: it is left out
- * of the sitemap and the `hreflang` set, and its canonical is the English URL.
- * `seo-locales.test.ts` checks this table against the locale files.
- */
-export const PAGE_LANGUAGES: Record<IndexablePath, readonly Language[]> = {
-  "/": SUPPORTED_LANGUAGES,
-  "/rules": SUPPORTED_LANGUAGES,
-  "/strategy": SUPPORTED_LANGUAGES,
-  "/how-to-play": ["en"],
-  "/opening-moves": ["en", "de", "fr", "nl", "es"],
-  "/starting-positions": ["en", "de", "fr", "nl", "es"],
-  "/offline": SUPPORTED_LANGUAGES,
-  "/play-online": ["en"],
 }
 
 //the title and description of a page in another language live in that

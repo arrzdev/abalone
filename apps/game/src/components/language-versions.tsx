@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next"
 import { LANGUAGE_NAMES } from "@/i18n/languages"
 import { DEFAULT_LANGUAGE, localePath } from "@/i18n/locale-path"
+import { PAGE_LANGUAGES } from "@/routing/page-languages"
 import type { IndexablePath } from "@/routing/seo-pages"
-import { PAGE_LANGUAGES } from "@/routing/seo-pages"
 
 /**
  * The other language versions of a page, as plain links in its served HTML.

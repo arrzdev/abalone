@@ -40,7 +40,9 @@ export function withVaryOnVisitor(response: Response): Response {
  * The page with `<html lang>` set to the language of its URL. Start writes
  * the one language `nativ.config.ts` names; the head and the body it rendered
  * are already in the URL's language (`@/providers/locale-provider`), and this
- * is the one attribute that sits outside the React tree it renders.
+ * is the one attribute that sits outside the React tree it renders. The caller
+ * passes `documentLanguage`, which is English for a page not translated into
+ * the URL's language.
  */
 export function withDocumentLanguage(
   response: Response,

@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest"
 import type { Language } from "@/i18n/languages"
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages"
 import { localePath } from "@/i18n/locale-path"
+import { PAGE_LANGUAGES } from "@/routing/page-languages"
 import type { IndexablePath } from "@/routing/seo-pages"
-import { PAGE_LANGUAGES, seoPageHead } from "@/routing/seo-pages"
+import { seoPageHead } from "@/routing/seo-pages"
 
 //the JSON-LD each indexable page carries (tech-seo-spec item 4 on TUD-626).
 //search engines read it as a description of what is on the page, so it may only

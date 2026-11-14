@@ -1,13 +1,9 @@
 import { describe, expect, it } from "vitest"
 import type { Language } from "@/i18n/languages"
 import { SUPPORTED_LANGUAGES } from "@/i18n/languages"
+import { PAGE_LANGUAGES } from "@/routing/page-languages"
 import type { IndexablePath } from "@/routing/seo-pages"
-import {
-  PAGE_LANGUAGES,
-  SEO_PAGES,
-  seoCopy,
-  seoPageHead,
-} from "@/routing/seo-pages"
+import { SEO_PAGES, seoCopy, seoPageHead } from "@/routing/seo-pages"
 
 //every locale file, read the way vite bundles them
 const LOCALES = import.meta.glob<Record<string, unknown>>(

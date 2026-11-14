@@ -68,7 +68,13 @@ A page is in a language only when its body copy is translated there
 (`seo-locales.test.ts` checks the table against the locale files). Today the
 opening moves, starting positions and play online pages are English only. Their
 `/pt/...` URLs still answer, in English text with Portuguese chrome, but their
-canonical is the English URL and they are in no sitemap or `hreflang` set. When
+canonical is the English URL and they are in no sitemap or `hreflang` set, and
+their `<html lang>` is `en`, since the body is English (`documentLanguage` in
+`apps/game/src/routing/page-languages.ts`, written by the Worker and kept right
+in the browser by the locale provider). The navigation around the body stays in
+the URL's language. They stay 200 and are not redirected to the English URL:
+an unprefixed visit goes to the visitor's saved language, so a 301 back would
+loop. When
 a translation lands, the test fails until the language is added to the table,
 which adds the URL everywhere at once.
 

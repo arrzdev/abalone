@@ -1,6 +1,7 @@
 import { localePath } from "@/i18n/locale-path"
+import { PAGE_LANGUAGES } from "@/routing/page-languages"
 import type { IndexablePath } from "@/routing/seo-pages"
-import { PAGE_LANGUAGES, SITEMAP } from "@/routing/seo-pages"
+import { SITEMAP } from "@/routing/seo-pages"
 import { siteUrl } from "@/utils/site"
 
 /**
