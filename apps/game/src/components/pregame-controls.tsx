@@ -85,7 +85,11 @@ export function PregameControls({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="panel-scroll min-h-0 flex-1 space-y-6 overflow-y-auto px-4 pt-4 pb-4">
+      {/* Scroll padding the same as the panel's own: a control tabbed to near
+          the edge scrolls in with its focus ring, which is drawn outside its
+          box, instead of stopping flush with the Play bar and losing the ring
+          under the panel's edge. */}
+      <div className="panel-scroll min-h-0 flex-1 scroll-py-4 space-y-6 overflow-y-auto px-4 pt-4 pb-4">
         {/* Level with the setup carousel under it: this panel is a stack of 48px
           rows, and the switch was 44 — four pixels of nothing, which is exactly
           the amount you see without being able to name. */}

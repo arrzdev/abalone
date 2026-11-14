@@ -134,6 +134,43 @@ test("every tab stop in the settings drawer shows a focus ring", async ({
   await expectEveryTabStopRinged(page)
 })
 
+test("a tabbed-to opponent shows its whole ring above the Play bar", async ({
+  page,
+}) => {
+  // A phone-sized window with a keyboard: the setup panel scrolls, and the
+  // second row of opponents sits right on its bottom edge.
+  await page.setViewportSize({ width: 390, height: 844 })
+  await openApp(page, "/offline?mode=ai")
+
+  const opponents = page.locator("button[aria-pressed]")
+  await expect(opponents).toHaveCount(8)
+  await opponents.first().focus()
+
+  for (let index = 0; index < 8; index++) {
+    if (index > 0) await page.keyboard.press("Tab")
+    const fit = await page.evaluate(() => {
+      const element = document.activeElement
+      const panel = element?.closest(".panel-scroll")
+      if (!(element instanceof HTMLElement) || !panel) return null
+      const box = element.getBoundingClientRect()
+      const frame = panel.getBoundingClientRect()
+      // The ring is drawn 2px outside the tile's box.
+      return {
+        label: element.getAttribute("aria-label") ?? "",
+        clippedAbove: frame.top - (box.top - 2),
+        clippedBelow: box.bottom + 2 - frame.bottom,
+      }
+    })
+    expect(fit, `opponent ${index + 1} focused`).not.toBeNull()
+    expect
+      .soft(fit?.clippedAbove, `${fit?.label} ring top`)
+      .toBeLessThanOrEqual(0)
+    expect
+      .soft(fit?.clippedBelow, `${fit?.label} ring bottom`)
+      .toBeLessThanOrEqual(0)
+  }
+})
+
 test("a mouse click on a control draws no focus ring", async ({
   page,
 }) => {
