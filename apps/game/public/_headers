@@ -13,6 +13,18 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Fonts, icons, images and sounds keep their names, so they cannot be cached
+# forever like a hashed asset: a week, and a stale copy may be served for a day
+# while the browser fetches a fresh one. Keep equal to CACHE_STATIC_FILE.
+/fonts/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/favicons/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/images/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+/audio/*
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
 # The prerendered SPA shell the app boots from. It carries the home head, so a
 # crawler that finds it lists a second home page under this URL. noindex keeps
 # it out of results; robots.txt must not block it, or the crawler never reads
