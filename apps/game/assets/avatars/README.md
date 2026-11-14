@@ -1,12 +1,14 @@
 # Avatar sources
 
-The vector original of each bot's portrait. These are the source the game
-actually draws from: `pnpm --filter @repo/game avatars` optimizes them and
-writes one standalone SVG per character into
-`src/components/avatars/<id>.gen.svg`. `components/bot-avatar.tsx` imports
-them, so the build ships each as a hashed file under `/assets/` (cached
-immutably, precached by the service worker) and the page draws it with an
-`<img>`, picked by id.
+The vector original of each bot's portrait. `pnpm --filter @repo/game avatars`
+optimizes them and writes one standalone SVG per character into
+`src/components/avatars/<id>.gen.svg`. The page does not draw those: they are
+45-190 KB each, and eight of them on `/offline` held the first portrait's paint
+back by seconds on a phone. `components/bot-avatar.tsx` imports the 256px WebP
+crop beside each one, `src/components/avatars/<id>.webp`, so the build ships it
+as a hashed file under `/assets/` (cached immutably, precached by the service
+worker) and the page draws it with an `<img>`, picked by id. Re-export the WebP
+from the `.gen.svg` at 256px when the art changes.
 
 Named after the character, not the level — reordering the ladder should move a
 face up it, not repaint someone else's.
@@ -70,7 +72,9 @@ ImageMagick's own SVG renderer flattens the transparency the measurement reads.
 
 Until these became components the game shipped 256px WebP crops from
 `public/images/avatars/`, built by the same square. The crop survived the move;
-the raster step did not.
+the raster step did not. The WebP crops came back (now in
+`src/components/avatars/`, hashed) once the vector files proved too heavy for a
+phone's first load.
 
 The components drew inline, which put all eight traced portraits (about 780 KB)
 in the offline page's script and, rendered on the server, in its HTML. They

@@ -1,11 +1,11 @@
-import clara from "@/components/avatars/clara.gen.svg"
-import gus from "@/components/avatars/gus.gen.svg"
-import iris from "@/components/avatars/iris.gen.svg"
-import magnus from "@/components/avatars/magnus.gen.svg"
-import milo from "@/components/avatars/milo.gen.svg"
-import nora from "@/components/avatars/nora.gen.svg"
-import theo from "@/components/avatars/theo.gen.svg"
-import victor from "@/components/avatars/victor.gen.svg"
+import clara from "@/components/avatars/clara.webp"
+import gus from "@/components/avatars/gus.webp"
+import iris from "@/components/avatars/iris.webp"
+import magnus from "@/components/avatars/magnus.webp"
+import milo from "@/components/avatars/milo.webp"
+import nora from "@/components/avatars/nora.webp"
+import theo from "@/components/avatars/theo.webp"
+import victor from "@/components/avatars/victor.webp"
 import { getBot } from "@/i18n/bots"
 
 /**
@@ -43,6 +43,12 @@ export interface BotAvatarProps {
  * and caches them for good, and the service worker precaches them for offline
  * play. The callers reserve a square box, so a face that lands late does not
  * move the grid.
+ *
+ * A 256px WebP crop rather than the traced vector in `assets/avatars/`: the
+ * vector is 45-190 KB a face and all eight are on the screen at once, so on a
+ * phone they queued ahead of the page's own script and held the first
+ * portrait's paint back by seconds. The WebPs are 7-14 KB and the biggest
+ * tile is 80 CSS px, so 256px stays sharp up to 3x.
  *
  * The art is square, so it fills whatever box the caller sizes: pass the size
  * as a class, the way `Logo` takes one.

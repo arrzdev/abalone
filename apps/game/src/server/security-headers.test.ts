@@ -6,6 +6,7 @@ import {
   CACHE_HASHED_ASSET,
   CACHE_PRIVATE,
   CACHE_PUBLIC_HTML,
+  CACHE_STATIC_FILE,
   devBackendSources,
   SECURITY_HEADERS,
   withSecurityHeaders,
@@ -151,6 +152,24 @@ describe("public/_headers", () => {
       "Cache-Control": CACHE_HASHED_ASSET,
     })
     expect(CACHE_HASHED_ASSET).toBe("public, max-age=31536000, immutable")
+  })
+
+  //these keep their names, so they cannot be cached forever: a week, and a
+  //stale copy may be served for a day while the browser fetches a fresh one
+  it("caches the fonts, icons, images and sounds for a week", () => {
+    for (const path of [
+      "/fonts/*",
+      "/favicons/*",
+      "/images/*",
+      "/audio/*",
+    ]) {
+      expect(rules[path], path).toEqual({
+        "Cache-Control": CACHE_STATIC_FILE,
+      })
+    }
+    expect(CACHE_STATIC_FILE).toBe(
+      "public, max-age=604800, stale-while-revalidate=86400",
+    )
   })
 
   it("keeps the shell, the service worker and the offline page out of search", () => {

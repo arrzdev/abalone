@@ -67,6 +67,14 @@ export function devBackendSources(
 
 /** Build files under /assets/ carry a content hash in the name: never stale. */
 export const CACHE_HASHED_ASSET = "public, max-age=31536000, immutable"
+
+/**
+ * The fonts, icons, images and sounds under `public/`. They keep their names, so
+ * unlike a hashed build asset they cannot be cached forever.
+ */
+export const CACHE_STATIC_FILE =
+  "public, max-age=604800, stale-while-revalidate=86400"
+
 /** A page: browsers revalidate every time, a shared cache may keep it a minute. */
 export const CACHE_PUBLIC_HTML =
   "public, max-age=0, s-maxage=60, must-revalidate"
