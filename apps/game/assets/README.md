@@ -21,7 +21,6 @@ it by hand.
 | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `public/audio/marble-move.m4a`      | marbles sliding one square                                                                                                                                                       |
 | `public/audio/marble-fall.m4a`      | a marble going over the rim                                                                                                                                                      |
-| `public/images/avatars/<id>.webp`   | bot portraits, named after the character — `src/i18n/bots.ts` builds the path from the bot's id                                                                                  |
 | `public/favicons/`                  | the whole icon set: `favicon.ico`, the PNG favicons, the apple-touch and android icons, `favicon-light.svg` and `favicon-dark.svg`, and `pinned-tab.svg` for a Safari pinned tab |
 | `public/_pwa/offline-fallback.html` | what the service worker serves when a navigation misses both the network and the cache (`src/sw.ts` passes the path as `offlineFallbackPath`)                                    |
 
