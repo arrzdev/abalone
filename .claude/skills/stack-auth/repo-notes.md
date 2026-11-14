@@ -1,13 +1,13 @@
 # Auth: repo-specific notes (abalone)
 
 Older notes about this repo's auth wiring, kept for what the standard does not
-cover (OAuth providers, the profiles mirror, trusted origins, the token store).
+cover (the profiles mirror, trusted origins, the token store).
 **`SKILL.md` in this folder is the standard and wins on any conflict.** The
 custom password hash these notes once described was removed in 2026-10
 (better-auth's default now runs native scrypt on Workers), and the 5-minute
 cookie cache is a gap to remove, not a rule.
 
-Auth is **better-auth** wrapped in a thin `AuthService`. better-auth owns the whole flow — sign-in/up/out, the OAuth dance, `get-session` — mounted under `basePath: /api/v1/auth` and driven by its client SDK on the frontend. What this repo owns is only: forwarding requests to that handler, resolving the current user for its own routes, and advertising which providers are live.
+Auth is **better-auth** wrapped in a thin `AuthService`. better-auth owns the whole flow — sign-in/up/out with a username and password, `get-session` — mounted under `basePath: /api/v1/auth` and driven by its client SDK on the frontend. What this repo owns is only: forwarding requests to that handler and resolving the current user for its own routes.
 
 ## Where it lives
 
@@ -15,14 +15,14 @@ Auth is **better-auth** wrapped in a thin `AuthService`. better-auth owns the wh
 |---|---|
 | Service + better-auth instance | `apps/backend/src/services/auth.service.ts` |
 | Route gate | `apps/backend/src/http/middlewares/auth.ts` (`requireAuth`, `AuthedVariables`) |
-| Mounted handler + provider discovery | `apps/backend/src/http/routes/auth.routes.ts` |
+| Mounted handler + sign-in lockout routes | `apps/backend/src/http/routes/auth.routes.ts` |
 | Dev-vs-prod network policy | `apps/backend/src/http/network-policy.ts`, `utils/is-private-origin.ts` |
 | better-auth tables | `apps/backend/src/database/auth.schema.ts` (separate from app schema) |
 | Client SDK + token store | `apps/<app>/src/data/auth/` |
 
 ## Sessions are bearer tokens, not cookies
 
-Deliberate: the PWA and the API are different origins, and cross-origin cookies are a permanent source of pain (Safari/ITP especially). So the `bearer()` plugin is enabled and:
+Chosen when the PWA and the API were different origins, where cross-origin cookies are a permanent source of pain (Safari/ITP especially). The API now answers under `/api/v1` on the game's own origin, and the tokens stayed (the exception in `SKILL.md`). The `bearer()` plugin is enabled and:
 
 1. The server returns the token in a **`set-auth-token`** response header on every auth response.
 2. The client stashes it in `localStorage` (`data/auth/token.ts`).
@@ -32,9 +32,7 @@ Deliberate: the PWA and the API are different origins, and cross-origin cookies 
 
 ## A performance landmine on Workers
 
-It is a CPU-budget failure that looks like random 500s on cold sign-in, not like errors you can read.
-
-**The better-auth instance is cached per isolate.** Constructing it per request also blows the CPU budget. It's cached in a `Map` keyed by the `Db` handle, and `getDb()` returns a stable handle per binding — so the cache is effectively per-isolate. Don't move construction into the request path. `resetAuthForTests()` clears it so a fresh env/secret takes effect in tests.
+**The better-auth instance is cached per isolate.** Constructing it per request costs CPU on every request (on the old Free plan's 10 ms limit it showed up as random 500s on cold sign-in). It's cached in a `Map` keyed by the `Db` handle, and `getDb()` returns a stable handle per binding — so the cache is effectively per-isolate. Don't move construction into the request path. `resetAuthForTests()` clears it so a fresh env/secret takes effect in tests.
 
 ## Trusted origins come from config, never from an env flag
 
@@ -49,8 +47,8 @@ One non-obvious detail in the dynamic `trustedOrigins` callback: better-auth's `
 ## Gating a route
 
 ```ts
-export const syncRoutes = newEndpoint<Env, AuthedVariables>()
-  .use("*", rateLimit("sync"))
+export const inviteRoutes = newEndpoint<Env, AuthedVariables>()
+  .use("*", rateLimit("api"))
   .use("*", requireAuth())
 ```
 
@@ -59,22 +57,13 @@ export const syncRoutes = newEndpoint<Env, AuthedVariables>()
 - `requireAuth` throws `unauthorized`; the global catcher renders the envelope. Handlers stay success-path only.
 - Session resolution **fails closed**: any error resolving the session is treated as *guest*, so a gated route returns `unauthorized` rather than leaking through.
 
-**Guests are a supported state, not an error.** A signed-out user never reaches user-scoped routes and the app stays fully local — the sync controller only runs when authenticated (`stack-sync-engine`). Don't add a global redirect-to-login that breaks offline use.
+**Guests are a supported state, not an error.** A signed-out user never reaches user-scoped routes and offline play stays fully local. Don't add a global redirect-to-login that breaks offline use.
 
-## Adding an OAuth provider
+## No OAuth providers
 
-Four places, and a provider only lights up when **both** its credentials are present:
-
-1. `PROVIDER_NAMES` in `auth.service.ts`.
-2. The `socialProviders` block in `createAuth` (the `...(env.X && env.Y ? {…} : {})` spread).
-3. Its two env vars in `env/schema.ts` **and** `env/.env.example` (`stack-env-config`).
-4. `listSocialProviders()` — extend the predicate so discovery matches reality.
-
-The client calls the discovery endpoint and renders **only** configured buttons, so a half-configured provider is invisible rather than a broken button. Keep 1, 2 and 4 in sync — they encode the same fact three times and nothing checks it for you.
-
-`baseURL` must be the **full public API URL** (`BETTER_AUTH_URL`), because OAuth callback URLs must match what's registered with the provider. A wrong value fails only at the callback, after the user has already left the app.
+Sign-in is a username and a password only: no email, no OAuth, no provider-discovery route. Adding a provider is a product decision before it is code.
 
 ## App data never lives on better-auth's tables
 
-better-auth owns its own schema (`auth.schema.ts`). A `databaseHooks.user.create.after` hook mirrors every new auth user into the app's own `profiles` row (`onConflictDoNothing`), and **app-editable fields — username and anything else you add — live there**, never on better-auth's `user` table. Writing app fields onto its tables couples you to its migrations.
+better-auth owns its own schema (`auth.schema.ts`). A `databaseHooks.user.create.after` hook mirrors every new auth user into the app's own `profiles` row (`onConflictDoNothing`), and **app-editable fields you add (the avatar today) live there**, never on better-auth's `user` table. The one exception is the handle: the `username` plugin keeps `username` / `displayUsername` on `user`, because it owns their uniqueness. Writing app fields onto its tables couples you to its migrations.
 

@@ -74,16 +74,17 @@ testing the PWA on a phone.
 | `pnpm typecheck`                      | project references + the two standalone projects              |
 | `pnpm biome:check` / `pnpm biome:fix` | lint and format                                               |
 | `pnpm test`                           | Vitest across the workspace (backend runs on a real local D1) |
-| `pnpm test:e2e`                       | Playwright smoke test against a running app                   |
+| `pnpm test:e2e`                       | Playwright suite; starts its own backend and game build       |
 | `pnpm logs`                           | the LAN log sink — device consoles forwarded to your terminal |
 | `pnpm tail`                           | live Worker logs from the deployed backend                    |
 
-Anything that edits source is done when typecheck, Biome, and the build all
-pass; that gate is also what CI runs.
+Anything that edits source is done when the PR gate passes locally: lint,
+build, typecheck, binding parity, migration safety and tests (the list is in
+`CLAUDE.md`). CI runs the same gate, plus the e2e suite, on every PR.
 
 ## Main user flows (e2e)
 
-`pnpm test:e2e` runs each on chromium and on the webkit iPhone 13 profile. CI does not run them yet.
+`pnpm test:e2e` runs each on chromium and on the webkit iPhone 13 profile. CI runs the whole suite on every ready PR, in 3 shards.
 
 | Flow                                                                                                                 | Spec                      |
 | -------------------------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -138,7 +139,7 @@ production read path is the only one there is.
 The pipeline is driven by `.github/deploy-units.jsonc`. An app deploys only if
 it is listed there and has a `wrangler.toml`; apps inside one unit deploy in
 order and stop on the first failure, and units run in parallel. Only apps
-changed in the push actually deploy.
+changed since the last successful deploy actually deploy.
 
 Adding an app is a `wrangler.toml` plus one line in that manifest — no workflow
 edits.

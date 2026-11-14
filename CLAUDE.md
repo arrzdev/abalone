@@ -16,15 +16,18 @@ You are a senior fullstack engineer. The human owns structure and tradeoffs; you
 
 ## Verify gate (mandatory)
 
-**Any task that edits source files is not done until typecheck, Biome, and build all pass.**
+**Any task that edits source files is not done until these pass.** They are the PR gate (`.github/actions/gate`), in its order.
 
 Run from repo root. Fix failures and re-run the failing step until green.
 
-| Step              | Command            | Catches                                      |
-| ----------------- | ------------------ | -------------------------------------------- |
-| 1. TypeScript     | `pnpm typecheck`   | Type errors, bad imports, project references |
-| 2. Biome          | `pnpm biome:check` | Formatting and lint                          |
-| 3. Build (scoped) | see table below    | Compile, bundler, env-check failures         |
+| Step                | Command                                             | Catches                                                                             |
+| ------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| 1. Biome            | `pnpm lint` (`pnpm biome:fix` fixes)                | Formatting and lint, warnings included                                              |
+| 2. Build (scoped)   | see table below                                     | Compile, bundler, the password-hash bundle guard; generates the route tree          |
+| 3. TypeScript       | `pnpm typecheck`                                    | Type errors, bad imports, project references (needs step 2: `*.gen.ts` are ignored) |
+| 4. Binding parity   | `pnpm check:wrangler-envs`                          | A binding or var missing from `[env.production]`                                    |
+| 5. Migration safety | `node .github/scripts/checks/migration-safety.mjs`  | Destructive DDL without a `-- safety:` header                                       |
+| 6. Tests            | `pnpm test` (the gate runs `test:coverage` instead) | Behavior; backend coverage floors (lines 93, branches 82)                           |
 
 **Scoped build** (prefer over full build when area is clear):
 
@@ -38,7 +41,18 @@ Run from repo root. Fix failures and re-run the failing step until green.
 
 **Do not** start dev servers (`pnpm dev`, `wrangler dev`, …) unless the human asked.
 
-Report all three results in one line (pass, or what failed and how you fixed it).
+Report the results in one line (pass, or what failed and how you fixed it).
+
+## Tests
+
+- Unit and route tests sit next to the code as `*.test.ts` (`apps/*/src`, `packages/*/src`). The backend suite runs in workerd against a real local D1. One file: `pnpm --filter @repo/backend exec vitest run src/http/routes/profile.routes.test.ts`.
+- e2e: `e2e/*.spec.ts`, Playwright projects `chromium` and `webkit-iphone`. One spec: `pnpm test:e2e e2e/smoke.spec.ts --project=chromium` (see "Running e2e on the shared host"). WebKit does not run on the TUDU VM; CI runs it.
+- Known flaky specs, their causes and state: `docs/e2e-flaky.md`. Add a new one there; never skip or retry it silently.
+
+## CI and deploy
+
+- The repo is public, so GitHub Actions runs on every PR (`ci.yml`, one required check `gate`): a `checks` job (the steps above) plus the e2e suite in 3 shards, both projects (13 to 17 min). A draft PR runs affected tests only and a docs-only PR (`docs/`, `.claude/`, `*.md`) lint and skills only; marking a PR ready runs the full gate. There is no local gate script here.
+- A merge to `main` deploys production (`deploy.yml`: verify gate, then the changed units of `.github/deploy-units.jsonc`, upload → migrate → promote). Continuous deploy is allowed; there is no staging. `rollback.yml` rolls one unit back. Never run `wrangler deploy`, `wrangler d1 … --remote` or `wrangler secret put` against production by hand.
 
 ## Before editing code
 
@@ -79,7 +93,7 @@ Tiers, by what outlives what: **`core-*`** portable doctrine (survives any proje
 | **Database — schema and migrations**<br>migration, DDL, `drizzle-kit`, schema change, `ALTER`, `CREATE TABLE`, deploy pipeline + DB, D1.                                                                                                                                                                                                                            | `stack-database-migrations` → `stack-database`                                           |
 | **Database — queries only (no migration)**<br>Drizzle, D1, `db.batch`, `db.transaction`, select/insert/update/delete, atomic writes.                                                                                                                                                                                                                                | `stack-database` → `core-try-catch`                                                      |
 | **App — data layer**<br>`src/data/`, TanStack Query, `useQuery`, `useMutation`, `queryOptions`, `mutationOptions`, RPC client, `backend-client`, `useDataMutation`, offline, local store, cache invalidation.                                                                                                                                                       | `stack-frontend-data` → `core-try-catch`                                                 |
-| **Offline sync engine (`@repo/synq`)**<br>synq, sync, offline-first, collection, `useCollection`, `useSingleton`, `store.`, `*.collection.ts`, outbox, HLC, merge, conflict, CRDT, `$id` / `$meta`, `data/sync/`, `sync.service.ts`, sync routes, cursor, pull/push.                                                                                                | `stack-sync-engine` → `stack-frontend-data` → `core-repository-layout`                   |
+| **Offline sync engine (`@repo/synq`, removed: design reference only)**<br>synq, sync, offline-first, collection, `useCollection`, `useSingleton`, `store.`, `*.collection.ts`, outbox, HLC, merge, conflict, CRDT, `$id` / `$meta`, `data/sync/`, `sync.service.ts`, sync routes, cursor, pull/push.                                                                | `stack-sync-engine` → `stack-frontend-data` → `core-repository-layout`                   |
 | **Environment variables and config**<br>env var, `.env`, `env/schema.ts`, `env/registry.ts`, `check:env`, `VITE_`, `import.meta.env`, secret, binding, `envRegistry`, `setEnv`, `.env.example`, missing config.                                                                                                                                                     | `stack-env-config` → `stack-deploy-environments`                                         |
 | **App — UI components**<br>component, `.tsx` UI, props, form field, hook (UI), design system, `className`, compose UI.                                                                                                                                                                                                                                              | `core-react-components` → `core-ui-quality-gate`                                         |
 | **UI quality gate — any UI change, before the PR and in review**<br>`.tsx`, CSS, modal, dialog, drawer, status/error/feedback text, layout shift, CLS, jump, clipped, cut off, truncated, overflow, ellipsis, focus ring, touch target, empty/loading/error state, UI slop, polish, review a UI PR.                                                                 | `core-ui-quality-gate` → `core-react-components` → `stack-testing-setup`                 |
