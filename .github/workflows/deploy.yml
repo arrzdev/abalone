@@ -94,8 +94,8 @@ jobs:
 
       # What a push deploys is everything changed since the last Deploy run
       # that really got through discovery, not since the previous push: a run
-      # that failed or was superseded deployed nothing, and its changes would
-      # otherwise never ship. Runs skipped as superseded do not count (their
+      # that failed (deploy or smoke check) or was superseded does not count,
+      # and its changes would otherwise never ship. Runs skipped as superseded do not count (their
       # "Discover deploy units" step is skipped). With no usable run, or a base
       # that is not in the history, every unit deploys.
       - name: Resolve diff base
@@ -238,3 +238,28 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: bash .github/scripts/deploy/unit.sh
+
+  # After every deploy: the site answers its home page and the API its health
+  # probe, 3 attempts each, or the run fails, and a failed run is never the
+  # diff base of the next one (see "Resolve diff base"). SITE_URL is a variable
+  # of the Environment (https://<domain>). The Access service token is only for
+  # a staging behind Cloudflare Access; production has none. Without SITE_URL
+  # the check warns and passes.
+  smoke:
+    needs: [discover, deploy]
+    if: needs.deploy.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: ${{ needs.discover.outputs.target }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: .github/scripts
+
+      - name: Smoke check
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+        run: bash .github/scripts/deploy/smoke.sh
