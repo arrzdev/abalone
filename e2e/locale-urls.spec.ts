@@ -277,6 +277,78 @@ test.describe("what a crawler reads", () => {
     expect(xml).not.toContain(`<loc>${ORIGIN}/pt/starting-positions</loc>`)
     expect(xml).toContain(`<loc>${ORIGIN}/de/starting-positions</loc>`)
   })
+
+  // a page not translated into a language is served as English text: its
+  // <html lang> says English, it is no hreflang version, and no page of the
+  // sitemap
+  const UNTRANSLATED = [
+    ...LANGUAGES.filter((language) => language !== "en").map(
+      (language) => [language, "how-to-play"] as const,
+    ),
+    ...LANGUAGES.filter((language) => language !== "en").map(
+      (language) => [language, "play-online"] as const,
+    ),
+    ...["it", "pt", "pl", "ja", "zh", "ko", "hi", "tr"].flatMap(
+      (language) =>
+        ["opening-moves", "starting-positions"].map(
+          (page) => [language, page] as const,
+        ),
+    ),
+  ]
+
+  for (const [language, page] of UNTRANSLATED) {
+    test(`/${language}/${page} is English text, and says so`, async ({
+      request,
+    }) => {
+      const response = await request.get(`/${language}/${page}`)
+      expect(response.status()).toBe(200)
+      const html = await response.text()
+
+      expect(html).toMatch(/<html[^>]*\blang="en"/)
+      expect(canonicalIn(html)).toBe(`${ORIGIN}/${page}`)
+      expect(alternatesIn(html)[language]).toBeUndefined()
+
+      const xml = await (await request.get("/sitemap.xml")).text()
+      expect(xml).not.toContain(`<loc>${ORIGIN}/${language}/${page}</loc>`)
+    })
+  }
+
+  test("a translated page keeps its own language in <html lang>", async ({
+    request,
+  }) => {
+    for (const [language, page] of [
+      ["de", "opening-moves"],
+      ["es", "starting-positions"],
+      ["pt", "rules"],
+    ]) {
+      const html = await (await request.get(`/${language}/${page}`)).text()
+      expect(html, `${language}/${page}`).toMatch(
+        new RegExp(`<html[^>]*\\blang="${language}"`),
+      )
+    }
+  })
+})
+
+test.describe("<html lang> in the browser", () => {
+  test("stays English on an untranslated page after hydration, and follows the page", async ({
+    page,
+  }) => {
+    await openApp(page, "/pt/how-to-play")
+    await expect(page.locator("html")).toHaveAttribute("lang", "en")
+
+    // inside Portuguese, on to a page that is translated into it
+    await page
+      .getByRole("link", { name: locale("pt", "common").nav.rules })
+      .filter({ visible: true })
+      .first()
+      .click()
+    await expect(page).toHaveURL(/\/pt\/rules$/)
+    await expect(page.locator("html")).toHaveAttribute("lang", "pt")
+
+    await page.goBack()
+    await expect(page).toHaveURL(/\/pt\/how-to-play$/)
+    await expect(page.locator("html")).toHaveAttribute("lang", "en")
+  })
 })
 
 test.describe("where an unprefixed visit goes", () => {

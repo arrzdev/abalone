@@ -10,6 +10,7 @@ import {
   savedLanguage,
   saveLanguage,
 } from "@/i18n/saved-language"
+import { documentLanguage } from "@/routing/page-languages"
 import { brandText } from "@/utils/brand"
 
 export type { Language } from "@/i18n/languages"
@@ -75,7 +76,10 @@ const brandPostProcessor: PostProcessorModule = {
 //right after a switch in Settings, and on load for a page it did not serve
 i18next.on("languageChanged", (language) => {
   if (typeof document === "undefined") return
-  document.documentElement.lang = language
+  document.documentElement.lang = documentLanguage(
+    splitLocalePath(location.pathname).path,
+    language as Language,
+  )
 })
 
 i18next
