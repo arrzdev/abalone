@@ -863,6 +863,37 @@ describe("game routes", () => {
     expect(response.status).toBe(400)
   })
 
+  it("rejects a list filter that is not a game status", async () => {
+    const player = await signUp("filtering")
+
+    const { response } = await call(
+      "GET",
+      "/games?status=all",
+      player.token,
+    )
+    expect(response.status).toBe(400)
+  })
+
+  it.each([
+    ["no invite", {}],
+    ["an invite id that is not one", { inviteId: "not-a-uuid" }],
+  ])("refuses to open a game from %s", async (_name, body) => {
+    const player = await signUp("hasty")
+
+    const { response } = await call("POST", "/games", player.token, body)
+    expect(response.status).toBe(400)
+  })
+
+  it("answers not found for an invite that was never sent", async () => {
+    const player = await signUp("hopeful")
+
+    const { response, body } = await call("POST", "/games", player.token, {
+      inviteId: crypto.randomUUID(),
+    })
+    expect(response.status).toBe(404)
+    expect(body.error_code).toBe("not_found")
+  })
+
   it("rejects a setup nobody can play", async () => {
     const sender = await signUp("creative")
     const recipient = await signUp("patient")
