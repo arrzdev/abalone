@@ -9,7 +9,7 @@ import type {
 export const DEFAULT_SW_ENTRY = "./src/sw.ts"
 
 export const DEFAULT_SW_GLOB_PATTERNS = [
-  "**/*.{js,css,html,ico,png,svg,woff2,json,txt}",
+  "**/*.{js,css,html,ico,png,svg,webp,woff2,json,txt}",
 ] as const
 
 export const DEFAULT_SW_GLOB_IGNORES = ["sw.js"] as const
