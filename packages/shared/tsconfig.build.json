@@ -14,7 +14,8 @@
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "outDir": "./.tsbuild",
-    "rootDir": "."
+    "rootDir": ".",
+    "types": ["@types/node"]
   },
   "include": ["./**/*.ts"],
   "exclude": ["node_modules", "dist", ".tsbuild"]
