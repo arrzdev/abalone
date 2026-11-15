@@ -19,7 +19,6 @@
     }
   ],
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/env/*": ["./env/*"],
       "@/ports": ["./ports.ts"],
