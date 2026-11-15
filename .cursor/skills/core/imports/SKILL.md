@@ -44,7 +44,6 @@ Never use `./` or `../` in hand-written TypeScript/TSX (Biome). Never use anothe
 ```jsonc
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/env/*": ["./env/*"],
       "@/*": ["./src/*"]
@@ -96,7 +95,6 @@ A package's internal alias is **always `#<package-slug>/*`** (`#nativ/*`, `#shar
 ```jsonc
 {
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": { "#<package-slug>/*": ["./*"] }
   }
 }
