@@ -174,12 +174,14 @@ export function Sheet({
             {children}
             {/* Last in the document, so last in the Tab cycle, and drawn in the
                 top corner: the same control as the dialog's, in the same
-                place, with the same icon and name. */}
+                place, with the same icon and name. The shell starts at the top
+                of the sheet's scroller, which clips: 4px down and an inset ring
+                keep the whole focus ring inside it. */}
             {closeButton && (
               <TapButton
                 onClick={onClose}
                 aria-label={t("common:actions.close")}
-                className="absolute top-0 right-safe-offset-2 flex size-11 hit-[4px] items-center justify-center rounded-[13px] text-faint transition hover:bg-white/10 hover:text-white"
+                className="absolute top-1 right-safe-offset-2 flex size-11 hit-[4px] items-center justify-center rounded-[13px] text-faint transition hover:bg-white/10 hover:text-white focus-visible:ring-inset"
               >
                 <CloseIcon size={19} />
               </TapButton>
