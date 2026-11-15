@@ -1,75 +1,156 @@
 import type { Locator, Page } from "@playwright/test"
-import { openApp } from "./support/app"
+import {
+  openApp,
+  signUp,
+  startOfflineGame,
+  uniqueUsername,
+} from "./support/app"
 import { expect, test } from "./support/test"
 
-// A keyboard user can work an open dialog: focus moves into it when it opens,
-// Tab and Shift+Tab go round inside it and never reach the page behind, and
-// Escape closes it and puts focus back on the button that opened it.
+// Every dialog, sheet and menu on the main screens, keyboard only, at a phone
+// and a desktop width: it takes focus when it opens, Tab and Shift+Tab stay
+// inside it, Escape closes it and focus is back on what opened it (WCAG 2.4.3).
+// The trigger is focused and opened with Enter, never clicked.
+//
+// An open bug is a known failure: the test.fail below, with the task that
+// tracks it. A known failure must still fail, so when the bug is fixed the
+// test goes red until the entry is removed.
 
-// The desktop shape, the centred dialog, which is where a keyboard is.
-test.use({ viewport: { width: 1280, height: 800 } })
+const VIEWPORTS = [
+  { name: "390", width: 390, height: 844 },
+  { name: "1280", width: 1280, height: 800 },
+]
+const STOPS = 10
 
-// More presses than either dialog has stops, so the walk comes back round.
-const TAB_PRESSES = 12
-
-/** True when the focused element sits inside the open dialog. */
-function focusIsInside(dialog: Locator): Promise<boolean> {
-  return dialog.evaluate((element) =>
-    element.contains(document.activeElement),
+const insideDialog = (page: Page) =>
+  page.evaluate(
+    () =>
+      document.activeElement !== document.body &&
+      !!document.activeElement?.closest('[role="dialog"]'),
   )
-}
 
-async function expectFocusStaysInside(
-  page: Page,
-  dialog: Locator,
-  key: "Tab" | "Shift+Tab",
-): Promise<void> {
-  for (let press = 0; press < TAB_PRESSES; press++) {
-    await page.keyboard.press(key)
-    expect(
-      await focusIsInside(dialog),
-      `focus inside the dialog after ${press + 1} × ${key}`,
-    ).toBe(true)
-  }
-}
-
-async function expectDialogTakesTrapsAndReturnsFocus(
+async function opensWithFocus(
   page: Page,
   trigger: Locator,
+  dialog: Locator,
 ): Promise<void> {
   await trigger.focus()
   await page.keyboard.press("Enter")
-
-  const dialog = page.getByRole("dialog")
   await expect(dialog).toBeVisible()
-  await expect.poll(() => focusIsInside(dialog)).toBe(true)
+  // On open focus is already inside, not on the page behind.
+  await expect.poll(() => insideDialog(page)).toBe(true)
+}
 
-  await expectFocusStaysInside(page, dialog, "Tab")
-  await expectFocusStaysInside(page, dialog, "Shift+Tab")
+async function staysInside(page: Page): Promise<void> {
+  for (const key of ["Tab", "Shift+Tab"]) {
+    for (let stop = 1; stop <= STOPS; stop++) {
+      await page.keyboard.press(key)
+      expect(
+        await insideDialog(page),
+        `${key} #${stop} left the dialog`,
+      ).toBe(true)
+    }
+  }
+}
 
+async function escapeReturns(
+  page: Page,
+  trigger: Locator,
+  dialog: Locator,
+): Promise<void> {
   await page.keyboard.press("Escape")
-  await expect(dialog).toBeHidden()
+  await expect(dialog).toHaveCount(0)
   await expect(trigger).toBeFocused()
 }
 
-test("the settings dialog takes, keeps and gives back focus", async ({
-  page,
-}) => {
-  await openApp(page, "/rules")
-  const trigger = page
-    .getByRole("button", { name: "Settings" })
-    .filter({ visible: true })
-    .first()
-  await expectDialogTakesTrapsAndReturnsFocus(page, trigger)
-})
+const visibleButton = (page: Page, name: string) =>
+  page.getByRole("button", { name }).filter({ visible: true }).first()
 
-test("the sign in dialog takes, keeps and gives back focus", async ({
-  page,
-}) => {
-  await openApp(page, "/rules")
-  const trigger = page
-    .getByRole("button", { name: "Sign in" })
-    .filter({ visible: true })
-    .first()
-  await expectDialogTakesTrapsAndReturnsFocus(page, trigger)
+for (const viewport of VIEWPORTS) {
+  test.describe(`dialog focus (${viewport.name})`, () => {
+    test.use({
+      viewport: { width: viewport.width, height: viewport.height },
+      serviceWorkers: "block",
+    })
+    test.skip(
+      ({ browserName }) => browserName !== "chromium",
+      "the keyboard checks run in one engine",
+    )
+
+    test("settings", async ({ page }) => {
+      await openApp(page, "/")
+      const trigger = visibleButton(page, "Settings")
+      const dialog = page.getByRole("dialog")
+      await opensWithFocus(page, trigger, dialog)
+      await staysInside(page)
+      await escapeReturns(page, trigger, dialog)
+    })
+
+    test("sign in", async ({ page }) => {
+      await openApp(page, "/")
+      const trigger = visibleButton(page, "Sign in")
+      const dialog = page.getByRole("dialog")
+      await opensWithFocus(page, trigger, dialog)
+      await staysInside(page)
+      await escapeReturns(page, trigger, dialog)
+    })
+
+    test("resign confirmation", async ({ page }) => {
+      await startOfflineGame(page, "vs Computer")
+      const trigger = page.getByRole("button", { name: "Resign" })
+      const dialog = page
+        .getByRole("dialog")
+        .filter({ hasText: "Resign the game?" })
+      await opensWithFocus(page, trigger, dialog)
+      await staysInside(page)
+      await escapeReturns(page, trigger, dialog)
+    })
+
+    test("the select list in settings", async ({ page }) => {
+      test.fail(
+        true,
+        "open bug TUD-5632: Escape closes the whole sheet, not only the list",
+      )
+      await openApp(page, "/")
+      await visibleButton(page, "Settings").click()
+      const dialog = page.getByRole("dialog")
+      await expect(dialog).toBeVisible()
+      const trigger = dialog.locator('[aria-haspopup="listbox"]').first()
+      await trigger.focus()
+      await page.keyboard.press("Enter")
+      const list = page.getByRole("listbox")
+      await expect(list).toBeVisible()
+      // The list is a menu: Escape closes it alone, focus stays on its
+      // trigger, and the sheet behind it stays open.
+      await page.keyboard.press("Escape")
+      await expect(list).toHaveCount(0)
+      await expect(trigger).toBeFocused()
+      await expect(dialog).toBeVisible()
+    })
+  })
+}
+
+// The account menu is the desktop header's: a phone has a profile button.
+test.describe("dialog focus (1280): the account menu", () => {
+  test.use({
+    viewport: { width: 1280, height: 800 },
+    serviceWorkers: "block",
+  })
+  test.skip(
+    ({ browserName }) => browserName !== "chromium",
+    "the keyboard checks run in one engine",
+  )
+
+  test("account menu", async ({ page }) => {
+    test.slow()
+    await signUp(page, uniqueUsername("focus"))
+    const trigger = page.getByRole("button", { name: "Profile" }).first()
+    const menu = page.getByRole("menu")
+    await trigger.focus()
+    await page.keyboard.press("Enter")
+    await expect(menu).toBeVisible()
+    await page.keyboard.press("Escape")
+    await expect(menu).toHaveCount(0)
+    await expect(trigger).toBeFocused()
+  })
 })
