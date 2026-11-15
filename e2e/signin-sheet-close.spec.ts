@@ -47,6 +47,64 @@ test("the phone sign-in sheet has a Close control, last in the Tab cycle", async
   await expect(close).not.toBeFocused()
 })
 
+test("the sign-in sheet draws no focus ring round itself when it opens", async ({
+  page,
+}) => {
+  await openApp(page, "/online")
+  const sheet = page.getByRole("dialog", { name: SHEET_NAME })
+  await expect(sheet).toBeVisible()
+  await waitForRest(sheet)
+
+  // WebKit counts the focus the sheet takes on open as `:focus-visible`, so
+  // the keyboard's ring went round the whole sheet for a visitor who tapped.
+  const outline = await sheet.evaluate(
+    (element) => getComputedStyle(element).outlineStyle,
+  )
+  expect(outline).toBe("none")
+})
+
+test("the sign-in sheet's Close shows its whole focus ring", async ({
+  page,
+}) => {
+  await openApp(page, "/online")
+  const sheet = page.getByRole("dialog", { name: SHEET_NAME })
+  await expect(sheet).toBeVisible()
+  await waitForRest(sheet)
+
+  await page.keyboard.press("Tab")
+  await page.keyboard.press("Shift+Tab")
+  const close = sheet.getByRole("button", { name: "Close" })
+  await expect(close).toBeFocused()
+
+  // How far the ring runs past the boxes that clip it, on its worst side.
+  const clipped = await close.evaluate((element) => {
+    const style = getComputedStyle(element)
+    const reach =
+      Number.parseFloat(style.outlineOffset) +
+      Number.parseFloat(style.outlineWidth)
+    const box = element.getBoundingClientRect()
+    let worst = Number.NEGATIVE_INFINITY
+    for (
+      let ancestor = element.parentElement;
+      ancestor !== null;
+      ancestor = ancestor.parentElement
+    ) {
+      const { overflowX, overflowY } = getComputedStyle(ancestor)
+      if (overflowX === "visible" && overflowY === "visible") continue
+      const frame = ancestor.getBoundingClientRect()
+      worst = Math.max(
+        worst,
+        frame.top - (box.top - reach),
+        frame.left - (box.left - reach),
+        box.right + reach - frame.right,
+        box.bottom + reach - frame.bottom,
+      )
+    }
+    return worst
+  })
+  expect(clipped, "ring px cut off by a scroller").toBeLessThanOrEqual(0)
+})
+
 for (const way of ["Close", "Escape"] as const) {
   test(`${way} closes the sign-in sheet on home with focus on its heading`, async ({
     page,
