@@ -163,6 +163,9 @@ export function Select<T extends string>({
     switch (event.key) {
       case "Escape":
         event.preventDefault()
+        //closes the list alone: a sheet or modal behind it listens for Escape on
+        //the document, and a press that reached it would close that too
+        event.stopPropagation()
         setOpen(false)
         break
       case "ArrowDown":
