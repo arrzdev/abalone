@@ -212,6 +212,22 @@ describe("invite link routes", () => {
       )
     })
 
+    it("points the link at the first game origin when the Origin is not ours", async () => {
+      const inviter = await signUp("inviter")
+      const { body } = await call<CreatedLink>(
+        "POST",
+        "/invite-links",
+        inviter.token,
+        {
+          body: { setupType: "standard", side: "black" },
+          origin: "https://forged.example.net",
+        },
+      )
+      expect(new URL(body.data?.url ?? "").origin).toBe(
+        "http://example.com",
+      )
+    })
+
     it("makes a new secret every time", async () => {
       const inviter = await signUp("inviter")
       const first = await createLink(inviter.token)

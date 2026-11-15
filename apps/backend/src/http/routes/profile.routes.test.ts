@@ -215,4 +215,40 @@ describe("profile routes", () => {
 
     expect(response.status).toBe(400)
   })
+
+  async function postForm(token: string, form: FormData) {
+    const response = await fetchWorker(
+      new Request("http://example.com/api/v1/profile/me/avatar", {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "x-test-bypass": "true",
+        },
+        body: form,
+      }),
+    )
+    return { response, body: (await response.json()) as ProfileEnvelope }
+  }
+
+  it("rejects a multipart upload with no avatar part", async () => {
+    const token = await signUpAndGetToken("nopart")
+    const form = new FormData()
+    form.set("picture", new Blob([pngBytes(16)]), "avatar.png")
+
+    const { response, body } = await postForm(token, form)
+
+    expect(response.status).toBe(400)
+    expect(body.error_code).toBe("invalid_input")
+  })
+
+  it("rejects an avatar part that is text rather than a file", async () => {
+    const token = await signUpAndGetToken("textpart")
+    const form = new FormData()
+    form.set("avatar", "not a picture")
+
+    const { response, body } = await postForm(token, form)
+
+    expect(response.status).toBe(400)
+    expect(body.error_code).toBe("invalid_input")
+  })
 })

@@ -1,4 +1,5 @@
 import { env } from "cloudflare:workers"
+import { APIError } from "better-auth/api"
 import { eq } from "drizzle-orm"
 import { afterEach, beforeAll, describe, expect, it } from "vitest"
 import { user } from "@/database/auth.schema"
@@ -95,6 +96,24 @@ describe("auth service", () => {
     await expect(
       broken.getSession(new Headers({ authorization: `Bearer ${token}` })),
     ).rejects.toMatchObject({ errorCode: "service_unavailable" })
+  })
+
+  it("answers guest when better-auth itself refuses the session with a 401", async () => {
+    //what better-auth throws when a session is deleted while it is being
+    //refreshed: that is no session, not an outage
+    const sessionGone = {
+      prepare() {
+        throw new APIError("UNAUTHORIZED")
+      },
+    } as unknown as D1Database
+    const gone = new AuthService(getDb(sessionGone))
+
+    const { user, renewal } = await gone.getSession(
+      new Headers({ authorization: "Bearer some-session-token" }),
+    )
+
+    expect(user).toBeNull()
+    expect([...renewal.keys()]).toEqual([])
   })
 
   //---- the user create hooks ----------------

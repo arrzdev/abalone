@@ -24,6 +24,50 @@ async function atFuture<Result>(
   }
 }
 
+function toBase64Url(bytes: Uint8Array): string {
+  return btoa(String.fromCharCode(...bytes))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "")
+}
+
+/**
+ * A ticket with any payload at all, signed the way the server signs: with the
+ * key derived from the secret. It gets past the signature check, so what it
+ * reaches is the reading of the payload behind it.
+ */
+async function signedTicket(payload: string): Promise<string> {
+  const encoder = new TextEncoder()
+  const rootKey = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(SECRET),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  )
+  const derived = await crypto.subtle.sign(
+    "HMAC",
+    rootKey,
+    encoder.encode("realtime-ticket/v1"),
+  )
+  const key = await crypto.subtle.importKey(
+    "raw",
+    derived,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  )
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    encoder.encode(payload),
+  )
+  return `${payload}.${toBase64Url(new Uint8Array(signature))}`
+}
+
+const payloadOf = (text: string) =>
+  toBase64Url(new TextEncoder().encode(text))
+
 describe("realtime tickets", () => {
   //---- the invariant ----------------
   //a ticket names its own channel, and that is the only place a channel ever
@@ -137,6 +181,59 @@ describe("realtime tickets", () => {
       : `A${signature?.slice(1)}`
 
     expect(await verifyTicket(SECRET, `${payload}.${flipped}`)).toBeNull()
+  })
+
+  it("refuses a signature that is not base64url", async () => {
+    const { ticket } = await mintTicket(
+      SECRET,
+      "player-a",
+      "user:player-a",
+    )
+    const [payload] = ticket.split(".")
+
+    expect(await verifyTicket(SECRET, `${payload}.not*base64`)).toBeNull()
+  })
+
+  it("refuses a signed payload that is not base64url", async () => {
+    expect(
+      await verifyTicket(SECRET, await signedTicket("not*base64")),
+    ).toBeNull()
+  })
+
+  it("refuses a signed payload that is not JSON", async () => {
+    expect(
+      await verifyTicket(
+        SECRET,
+        await signedTicket(payloadOf("not json")),
+      ),
+    ).toBeNull()
+  })
+
+  it("refuses a signed payload in a shape this build never wrote", async () => {
+    const stale = payloadOf(JSON.stringify({ userId: "player-a", e: 1 }))
+
+    expect(
+      await verifyTicket(SECRET, await signedTicket(stale)),
+    ).toBeNull()
+  })
+
+  it("reads a payload signed with the derived key", async () => {
+    //the guard on the helper above: a well-formed payload it signs is accepted,
+    //so the refusals before this are about the payload and not the signature
+    const claims = payloadOf(
+      JSON.stringify({
+        u: "player-a",
+        c: "user:player-a",
+        e: Date.now() + 60_000,
+      }),
+    )
+
+    expect(await verifyTicket(SECRET, await signedTicket(claims))).toEqual(
+      {
+        userId: "player-a",
+        channel: "user:player-a",
+      },
+    )
   })
 
   it("refuses anything that is not a ticket", async () => {

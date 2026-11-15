@@ -67,6 +67,14 @@ describe("game event service", () => {
     expect(rows.map((row) => row.kind).sort()).toEqual(["finish", "start"])
   })
 
+  it("answers service_unavailable when D1 cannot say whether a game started", async () => {
+    const service = new GameEventService(getDb(failingD1()))
+
+    await expect(service.hasRecentStart()).rejects.toMatchObject({
+      errorCode: "service_unavailable",
+    })
+  })
+
   it("answers internal_server_error when D1 refuses the write", async () => {
     const service = new GameEventService(getDb(failingD1()))
 

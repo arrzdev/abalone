@@ -206,6 +206,14 @@ describe("invite link service", () => {
   })
 
   describe("explainUnclaimed", () => {
+    it("fails as an internal error when D1 is down", async () => {
+      const broken = new InviteLinkService(getDb(failingD1()))
+
+      await expect(
+        broken.explainUnclaimed("any", "any-player"),
+      ).rejects.toMatchObject({ errorCode: "internal_server_error" })
+    })
+
     it("hands the link back to the player who already used it", async () => {
       const inviter = await player()
       const guest = await player()
