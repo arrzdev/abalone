@@ -1,12 +1,15 @@
 import { env } from "cloudflare:workers"
 import { getPossibleMoves } from "@repo/abalone-engine/rules"
 import type { CellName, Player } from "@repo/abalone-engine/types"
+import { eq } from "drizzle-orm"
 import { beforeAll, describe, expect, it, vi } from "vitest"
 import { user } from "@/database/auth.schema"
 import { getDb } from "@/database/client"
+import { games as gameRows } from "@/database/schema"
 import { envRegistry } from "@/env/registry"
 import type { Game } from "@/services/game.service"
 import { GameService } from "@/services/game.service"
+import { failingD1 } from "@/test-support/failing-bindings"
 
 /**
  * Threefold repetition, driven at the service.
@@ -296,5 +299,214 @@ describe("game service", () => {
       blackCells: opening.blackCells,
     })
     expect(await games.listMoves(gameId, blackId)).toHaveLength(1)
+  })
+
+  /** A game where `side` is one push away from its sixth marble. */
+  async function oneMarbleFromWinning(side: Player) {
+    const blackId = await seatedPlayer()
+    const whiteId = await seatedPlayer()
+    const gameId = await games.open({
+      inviteId: crypto.randomUUID(),
+      fromUserId: blackId,
+      toUserId: whiteId,
+      side: "black",
+      setupType: "standard",
+    })
+    //two marbles in a line behind one rival marble on the rim: pushing the
+    //line forward sends the rival marble off the board
+    const pushers = ["-4,2", "-4,1"]
+    const victim = ["-4,0"]
+    await db
+      .update(gameRows)
+      .set({
+        blackCells: side === "black" ? pushers : victim,
+        whiteCells: side === "black" ? victim : pushers,
+        blackScore: side === "black" ? 5 : 0,
+        whiteScore: side === "black" ? 0 : 5,
+        currentTurn: side,
+      })
+      .where(eq(gameRows.id, gameId))
+    const userId = side === "black" ? blackId : whiteId
+    return { gameId, userId }
+  }
+
+  it.each(["black", "white"] as const)(
+    "gives %s the win when the move pushes off its sixth marble",
+    async (side) => {
+      const { gameId, userId } = await oneMarbleFromWinning(side)
+
+      const game = await games.playMove(
+        gameId,
+        userId,
+        ["-4,2", "-4,1"],
+        "-4,0",
+        0,
+      )
+
+      expect(game).toMatchObject({
+        status: "finished",
+        winner: side,
+        finishReason: "score",
+        [`${side}Score`]: 6,
+      })
+    },
+  )
+
+  it("seats the two players on opposite sides when the invite says random", async () => {
+    const fromUserId = await seatedPlayer()
+    const toUserId = await seatedPlayer()
+
+    const gameId = await games.open({
+      inviteId: crypto.randomUUID(),
+      fromUserId,
+      toUserId,
+      side: "random",
+      setupType: "standard",
+    })
+
+    const row = await db
+      .select()
+      .from(gameRows)
+      .where(eq(gameRows.id, gameId))
+      .get()
+    expect([row?.blackUserId, row?.whiteUserId].sort()).toEqual(
+      [fromUserId, toUserId].sort(),
+    )
+  })
+})
+
+/**
+ * D1 failing part way through. The real binding answers the first `healthy`
+ * statements and every one after that throws, so a read or write behind
+ * another one can be failed on its own. A batch always fails.
+ */
+function d1FailingAfter(healthy: number): D1Database {
+  let prepared = 0
+  return {
+    prepare(query: string) {
+      prepared += 1
+      if (prepared > healthy)
+        throw new Error("D1_ERROR: network connection lost")
+      return env.DB.prepare(query)
+    },
+    batch() {
+      throw new Error("D1_ERROR: network connection lost")
+    },
+  } as unknown as D1Database
+}
+
+describe("game service when D1 fails", () => {
+  beforeAll(() => {
+    envRegistry.setEnv(env as unknown as Record<string, unknown>)
+  })
+
+  const db = getDb(env.DB)
+  const games = new GameService(db)
+
+  async function openGame() {
+    const ids = [crypto.randomUUID(), crypto.randomUUID()]
+    const now = new Date()
+    for (const id of ids)
+      await db.insert(user).values({
+        id,
+        name: id,
+        email: `${id}@service.abalone.invalid`,
+        createdAt: now,
+        updatedAt: now,
+      })
+    const [blackId, whiteId] = ids
+    const gameId = await games.open({
+      inviteId: crypto.randomUUID(),
+      fromUserId: blackId,
+      toUserId: whiteId,
+      side: "black",
+      setupType: "standard",
+    })
+    return { gameId, blackId }
+  }
+
+  const internalError = { errorCode: "internal_server_error" }
+
+  it("fails listing a player's games", async () => {
+    const down = new GameService(getDb(failingD1()))
+
+    await expect(
+      down.listForUser(crypto.randomUUID(), "active"),
+    ).rejects.toMatchObject(internalError)
+  })
+
+  it("fails reading a game", async () => {
+    const { gameId, blackId } = await openGame()
+    const down = new GameService(getDb(failingD1()))
+
+    await expect(down.get(gameId, blackId)).rejects.toMatchObject(
+      internalError,
+    )
+  })
+
+  it("fails reading the plies after the game itself was read", async () => {
+    const { gameId, blackId } = await openGame()
+    const down = new GameService(getDb(d1FailingAfter(1)))
+
+    await expect(down.listMoves(gameId, blackId)).rejects.toMatchObject(
+      internalError,
+    )
+  })
+
+  it("fails a resignation whose write does not land", async () => {
+    const { gameId, blackId } = await openGame()
+    const down = new GameService(getDb(d1FailingAfter(1)))
+
+    await expect(down.resign(gameId, blackId)).rejects.toMatchObject(
+      internalError,
+    )
+  })
+
+  it("fails a move when the repetition count cannot be read", async () => {
+    const { gameId, blackId } = await openGame()
+    const opening = await games.get(gameId, blackId)
+    const board = {
+      black: new Set(opening.blackCells),
+      white: new Set(opening.whiteCells),
+    }
+    const from = opening.blackCells.find(
+      (cell) => getPossibleMoves(board, [cell], true).length > 0,
+    ) as CellName
+    const [to] = getPossibleMoves(board, [from], true)
+    const down = new GameService(getDb(d1FailingAfter(1)))
+
+    await expect(
+      down.playMove(gameId, blackId, [from], to, 0),
+    ).rejects.toMatchObject(internalError)
+  })
+
+  it("fails opening a game when the write fails and no game exists for the invite", async () => {
+    const down = new GameService(
+      getDb(d1FailingAfter(Number.POSITIVE_INFINITY)),
+    )
+
+    await expect(
+      down.open({
+        inviteId: crypto.randomUUID(),
+        fromUserId: crypto.randomUUID(),
+        toUserId: crypto.randomUUID(),
+        side: "black",
+        setupType: "standard",
+      }),
+    ).rejects.toMatchObject(internalError)
+  })
+
+  it("fails opening a game when neither the write nor the invite lookup works", async () => {
+    const down = new GameService(getDb(failingD1()))
+
+    await expect(
+      down.open({
+        inviteId: crypto.randomUUID(),
+        fromUserId: crypto.randomUUID(),
+        toUserId: crypto.randomUUID(),
+        side: "black",
+        setupType: "standard",
+      }),
+    ).rejects.toMatchObject(internalError)
   })
 })

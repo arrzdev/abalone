@@ -163,6 +163,14 @@ describe("auth routes", () => {
 
     expect(response.status).toBe(401)
   })
+
+  it("leaves a sign-in with no username to better-auth to refuse", async () => {
+    const { response } = await post("/api/v1/auth/sign-in/username", {
+      password: "correct-horse",
+    })
+
+    expect(response.status).toBe(400)
+  })
 })
 
 //---- the auth standard (stack-auth) ----------------------------------------

@@ -3,7 +3,9 @@ import { Hono } from "hono"
 import { beforeAll, beforeEach, describe, expect, it } from "vitest"
 import { envRegistry } from "@/env/registry"
 import {
+  ipKey,
   rateLimit,
+  recordAuthFailure,
   resetRateLimitBuckets,
 } from "@/http/middlewares/rate-limit"
 import { inOneRateLimitWindow } from "@/test-support/rate-limit-window"
@@ -213,5 +215,56 @@ describe("rate limit middleware", () => {
     expect(
       Number(countedLimited.headers.get("Retry-After")),
     ).toBeGreaterThan(0)
+  })
+})
+
+describe("ipKey", () => {
+  it("keeps an ipv4 address as it is", () => {
+    expect(ipKey("203.0.113.7")).toBe("203.0.113.7")
+  })
+
+  it("counts a full ipv6 address by its /64", () => {
+    expect(ipKey("2001:0DB8:0001:0002:0003:0004:0005:0006")).toBe(
+      "2001:db8:1:2::/64",
+    )
+  })
+
+  it("expands a :: in the middle before taking the /64", () => {
+    expect(ipKey("2001:db8::1")).toBe("2001:db8:0:0::/64")
+  })
+
+  it("expands a leading :: before taking the /64", () => {
+    expect(ipKey("::1")).toBe("0:0:0:0::/64")
+  })
+
+  it("expands a trailing :: before taking the /64", () => {
+    expect(ipKey("2001:db8:1:2::")).toBe("2001:db8:1:2::/64")
+  })
+
+  it("gives two addresses in the same /64 one key", () => {
+    expect(ipKey("2001:db8:1:2:aaaa::1")).toBe(
+      ipKey("2001:db8:1:2:bbbb::2"),
+    )
+  })
+})
+
+describe("rateLimit presets", () => {
+  it("refuses to build a limiter for a preset that does not exist", () => {
+    expect(() => rateLimit("no-such-preset")).toThrow(
+      "internal_server_error",
+    )
+  })
+})
+
+describe("recordAuthFailure", () => {
+  it("counts nothing when the worker has no auth failure binding", async () => {
+    const app = new Hono().post("/", async (c) => {
+      await recordAuthFailure(c)
+      return c.json({ ok: true })
+    })
+
+    const response = await app.request("/", { method: "POST" }, {})
+
+    expect(response.status).toBe(200)
   })
 })
