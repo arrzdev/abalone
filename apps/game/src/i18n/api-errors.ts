@@ -45,7 +45,7 @@ export function apiErrorKey(error: unknown): string {
   if (message === "network_unreachable")
     return "errors:network_unreachable"
 
-  return message in API_ERROR_KEYS
+  return Object.hasOwn(API_ERROR_KEYS, message)
     ? API_ERROR_KEYS[message as ErrorCode]
     : "errors:unknown"
 }
