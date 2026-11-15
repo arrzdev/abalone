@@ -22,7 +22,8 @@ const INLINE_CSS_BUDGET_BYTES = 93_968
 // went from about 2.97 s to 2.63 s on a local Lighthouse run (2026-11-08).
 // Measured 45 (was 34).
 const MODULEPRELOAD_COUNT_BUDGET = 49
-// Measured 791,064 bytes in CI (788,295 before the patch and minor dependency
+// Measured 791,089 bytes in CI (791,064 before the sheet's Close drew its
+// focus ring inset; 788,295 before the patch and minor dependency
 // bumps with React held at 19.2, about 29 kB more with React 19.3; 787,724
 // before the phone sheet's Close, 787,431 before the board's keyboard reset and its
 // separate live region), with no margin: hydration waits for
@@ -32,7 +33,7 @@ const MODULEPRELOAD_COUNT_BUDGET = 49
 // library moved to the first signed-in connect, 818,327 before the auth SDK
 // moved to first use). CI is the measure: its build bakes in the commit's
 // short sha where a local one writes "dev", 62 bytes more here.
-const MODULEPRELOAD_JS_BUDGET_BYTES = 791_064
+const MODULEPRELOAD_JS_BUDGET_BYTES = 791_089
 
 test.skip(
   ({ browserName }) => browserName !== "chromium",

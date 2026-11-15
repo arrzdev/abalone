@@ -363,10 +363,13 @@
 /*
  * The skip link lands focus on <main>, which is not a control: an outline round
  * the whole page says nothing the next Tab will not. A page's heading is the
- * same kind of landing place, for a sheet that was closed over it.
+ * same kind of landing place, for a sheet that was closed over it, and so is a
+ * dialog that takes focus as it opens: WebKit counts that focus as visible even
+ * after a tap, and drew the ring round the whole sheet.
  */
 :root main[tabindex="-1"]:focus-visible,
-:root h1[tabindex="-1"]:focus-visible {
+:root h1[tabindex="-1"]:focus-visible,
+:root [role="dialog"][tabindex="-1"]:focus-visible {
   outline: none;
 }
 
