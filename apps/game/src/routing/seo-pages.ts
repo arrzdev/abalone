@@ -43,9 +43,9 @@ export const SEO_PAGES: Record<
   SeoPage
 > = {
   "/": {
-    title: "Abalone Online Free: Play the Board Game, No Account",
+    title: "Play Abalone Online Free: vs Computer or a Friend",
     description:
-      "Play Abalone online free, no account. Beat the computer, share one screen with a friend or invite someone to a live game. No download needed.",
+      "Play the Abalone board game online, free with no account. Beat the computer, share one screen or invite a friend to a live game. No download.",
     image: "home",
   },
   "/rules": {

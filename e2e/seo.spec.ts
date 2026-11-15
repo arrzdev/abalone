@@ -11,7 +11,7 @@ const CANONICAL_ORIGIN = "https://abalone.tudu.dev"
 // The copy is pinned word for word in apps/game/src/routing/seo-pages.test.ts;
 // here only the title, to prove the head reached the served HTML.
 const INDEXABLE = {
-  "/": "Abalone Online Free: Play the Board Game, No Account",
+  "/": "Play Abalone Online Free: vs Computer or a Friend",
   "/rules": "Abalone rules: how to play, moves, sumito and winning",
   "/offline": "Play Abalone vs the computer or a friend on one device",
   "/strategy": "Abalone strategy: 7 tips to win more games",

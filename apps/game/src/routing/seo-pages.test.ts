@@ -3,13 +3,13 @@ import { pageHead } from "@/routing/page-head"
 import { SEO_PAGES, SITEMAP, seoPageHead } from "@/routing/seo-pages"
 
 //the copy every indexable page ships with, word for word from the `page-copy`
-//document on TUD-626 (home and /play-online: `play-free-copy` on TUD-2298). a search result quotes these, so a test pins them rather
+//document on TUD-626 (home: `abalone-snippets` on TUD-5516; /play-online: `play-free-copy` on TUD-2298). a search result quotes these, so a test pins them rather
 //than trusting a later edit to keep them in step
 const EXPECTED_COPY = {
   "/": {
-    title: "Abalone Online Free: Play the Board Game, No Account",
+    title: "Play Abalone Online Free: vs Computer or a Friend",
     description:
-      "Play Abalone online free, no account. Beat the computer, share one screen with a friend or invite someone to a live game. No download needed.",
+      "Play the Abalone board game online, free with no account. Beat the computer, share one screen or invite a friend to a live game. No download.",
   },
   "/rules": {
     title: "Abalone rules: how to play, moves, sumito and winning",
