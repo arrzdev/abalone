@@ -97,6 +97,9 @@ function createAuth(db: Db) {
       //player never sees an email field, but the password half is this one
       enabled: true,
       minPasswordLength: MIN_PASSWORD_LENGTH,
+      //a reset is for a password someone else may know, so it ends every
+      //session. no reset route is mounted yet; this holds for the day it is
+      revokeSessionsOnPasswordReset: true,
       //no custom password hash: better-auth's default scrypt runs on native
       //node:crypto under workerd (scripts/check-password-bundle.ts guards it)
     },
@@ -169,8 +172,8 @@ export class AuthService {
     return instance
   }
 
-  //forward a request straight to better-auth's mounted handler (every method
-  //under its basePath: sign-in/up/out, get-session).
+  //forward a request straight to better-auth's mounted handler, for the
+  //endpoints auth.routes.ts mounts: sign-in/up/out, get-session.
   handler(request: Request): Promise<Response> {
     return this.auth().handler(request)
   }
