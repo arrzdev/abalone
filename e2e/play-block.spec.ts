@@ -35,13 +35,13 @@ const LOCALES = [
 /** Where each page's two blocks sit, as the section ids around them. */
 const PAGES = {
   "/rules": {
-    // (b) after the FAQ, last on the page
-    end: "faq",
+    // (b) the end block, after the FAQ (end-play-cta.spec.ts)
+    end: "play",
     // the intro's own links, in reading order
     intro: ["play Abalone online", "try it against the computer"],
   },
   "/strategy": {
-    // (b) inside "Practise"
+    // (b) the end block, which keeps the old "Practise" anchor
     end: "practise",
     intro: ["free game against the computer", "Abalone rules"],
   },

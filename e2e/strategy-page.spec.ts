@@ -23,7 +23,9 @@ const SECTIONS = [
   ["mistakes", "Common mistakes"],
   ["computer", "How strong is the computer?"],
   ["faq", "Frequently asked"],
-  ["practise", "Practise"],
+  //the end block (end-play-cta.spec.ts): the rail's entry is "Practise", the
+  //block's own headline is not
+  ["practise", "Try these tips in a real game"],
   //the links to the other guides close the page (related-guides.spec.ts)
   ["related-guides", "Related guides"],
 ] as const
@@ -124,7 +126,7 @@ test.describe("served HTML", () => {
       }
     })
 
-    // the Practise card's actions are the last play block
+    // the end block's actions are the last play block
     // (e2e/play-block.spec.ts, content-play-block on TUD-820)
     test("ends with a way to practise, and the other ways to play", async ({
       request,
