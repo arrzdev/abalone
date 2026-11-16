@@ -673,4 +673,64 @@ describe("auth standard", () => {
       (await readProfile({ token: player.token })).response.status,
     ).toBe(200)
   })
+
+  //---- cookie flags ----------------
+
+  it("sets the session cookie HttpOnly and SameSite=Lax", async () => {
+    const player = await signedUpPlayer()
+    const signIn = await signInUsername(player.username, PASSWORD)
+    const sessionCookie = setCookiesOf(signIn.response).find((cookie) =>
+      cookie.includes("session_token="),
+    )
+    expect(sessionCookie).toMatch(/;\s*HttpOnly/i)
+    expect(sessionCookie).toMatch(/;\s*SameSite=Lax/i)
+  })
+
+  //---- password change ----------------
+
+  //better-auth only revokes other sessions when the client asks for it. a
+  //password change that leaves a stolen session alive is no fix for the theft.
+  it("does not leave other sessions alive after a password change", async () => {
+    const player = await signedUpPlayer()
+    const otherDevice = await signInUsername(player.username, PASSWORD)
+    const otherToken = otherDevice.response.headers.get("set-auth-token")
+    expect(otherToken).toBeTruthy()
+
+    const change = await call("/api/v1/auth/change-password", {
+      method: "POST",
+      token: player.token,
+      body: { currentPassword: PASSWORD, newPassword: "new-horse-123" },
+    })
+
+    const changed = change.response.status === 200
+    const otherAfter = await readProfile({ token: otherToken })
+    expect({ changed, otherStatus: otherAfter.response.status }).toEqual({
+      changed,
+      otherStatus: changed ? 401 : 200,
+    })
+    if (!changed) expect(change.response.status).toBe(404)
+  })
+
+  //---- enumeration ----------------
+
+  it("does not tell whether a username is taken without signing up", async () => {
+    const known = (await signedUpPlayer()).username
+    const unknown = freshUsername()
+
+    const knownAnswer = await call("/api/v1/auth/is-username-available", {
+      method: "POST",
+      body: { username: known },
+      bypass: true,
+    })
+    const unknownAnswer = await call(
+      "/api/v1/auth/is-username-available",
+      {
+        method: "POST",
+        body: { username: unknown },
+        bypass: true,
+      },
+    )
+    expect(unknownAnswer.response.status).toBe(knownAnswer.response.status)
+    expect(unknownAnswer.text).toBe(knownAnswer.text)
+  })
 })

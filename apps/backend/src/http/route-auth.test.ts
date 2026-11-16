@@ -30,8 +30,9 @@ const PUBLIC_ROUTES: Record<string, string> = {
   "GET /": "uptime probe",
   "GET /api/version": "deployed commit, for drift checks",
   "GET /api/v1/health": "dependency health, for monitoring",
-  "GET /api/v1/auth/*": "better-auth: session reads, oauth callbacks",
-  "POST /api/v1/auth/*": "better-auth: sign up, sign out, oauth start",
+  "GET /api/v1/auth/get-session": "a guest asks whether it is signed in",
+  "POST /api/v1/auth/sign-up/email": "signing up is how an account starts",
+  "POST /api/v1/auth/sign-out": "a dead session can still sign out",
   "POST /api/v1/auth/sign-in/email": "signing in is how a session starts",
   "POST /api/v1/auth/sign-in/username":
     "signing in is how a session starts",

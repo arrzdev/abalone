@@ -87,22 +87,28 @@ function signIn(field: SignInField) {
   }
 }
 
-//better-auth owns every method under its basePath (/api/v1/auth/*): sign-up,
-//sign-in with a username, sign-out, get-session. the raw request goes straight
-//to its handler — its client SDK on the frontend drives them. there is no
-//provider-discovery route because there are no providers: a username and a
-//password is the only way in.
+//hand the raw request straight to better-auth's handler
+function forwardToAuth(c: Context<{ Bindings: Env }>) {
+  return new AuthService(getDb(c.env.DB)).handler(c.req.raw)
+}
+
+//only the endpoints the game uses are mounted: sign-up, both password
+//sign-ins, sign-out, get-session. its client SDK on the frontend drives them.
+//everything else better-auth would answer (change-password without revoking
+//other sessions, is-username-available telling anyone which names exist) is a
+//404. a new auth feature adds its route here. there is no provider-discovery
+//route because there are no providers: a username and a password is the only
+//way in.
 //
 //every POST is in the auth rate-limit tier (burst + sustained bindings) and,
 //when it carries the session cookie, must come from one of our origins. a GET
 //(get-session) is a read like any other, so it gets the `api` ceiling. both
-//password sign-in paths the handler would answer get an explicit route first,
-//for the lockout; everything else falls through to the wildcard.
+//password sign-in paths go through the lockout.
 export const authHandlerRoutes = newEndpoint<Env>()
   .get("/*", rateLimit("api"))
   .post("/*", rateLimit("auth"), requireAllowedOrigin())
+  .post("/sign-up/email", forwardToAuth)
   .post("/sign-in/email", signIn("email"))
   .post("/sign-in/username", signIn("username"))
-  .on(["GET", "POST"], "/*", (c) =>
-    new AuthService(getDb(c.env.DB)).handler(c.req.raw),
-  )
+  .post("/sign-out", forwardToAuth)
+  .get("/get-session", forwardToAuth)
