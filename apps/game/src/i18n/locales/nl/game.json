@@ -103,8 +103,15 @@
     "moves_one": "{{count}} zet",
     "moves_other": "{{count}} zetten"
   },
+  "end_cta": {
+    "trust": "Gratis, zonder account, zonder download.",
+    "rules": "Probeer de regels in een echt potje",
+    "strategy": "Probeer deze tips in een echt potje",
+    "openings": "Probeer deze openingen in een echt potje",
+    "positions": "Probeer deze opstellingen in een echt potje"
+  },
   "rules": {
-    "title": "Zo speel je",
+    "title": "Regels",
     "heading": "Abalone-regels: zo speel je",
     "intro": "Abalone is een strategiespel voor twee spelers op een zeshoekig bord. Elke speler heeft 14 ballen. Je wint door zes ballen van je tegenstander van het bord te duwen. Op deze pagina staan alle regels. Ben je klaar, <online>speel dan Abalone online</online> of <offline>probeer het tegen de computer</offline>.",
     "goal": {

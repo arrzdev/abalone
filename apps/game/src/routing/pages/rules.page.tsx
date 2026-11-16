@@ -4,6 +4,7 @@ import { cn } from "@repo/nativ/utils"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import type { ReactNode } from "react"
 import { Trans, useTranslation } from "react-i18next"
+import { EndPlayCta } from "@/components/end-play-cta"
 import { LanguageVersions } from "@/components/language-versions"
 import type { ManualChapter } from "@/components/manual/chapter"
 import { Chapter, Plate } from "@/components/manual/chapter"
@@ -513,9 +514,14 @@ function RulesPage() {
           </p>
         </Chapter>
 
-        <div className="border-t border-border pt-10 lg:pt-16">
-          {playBlock}
-        </div>
+        {/* The end of the page is a block of its own, not a chapter: the
+            contents list has no entry for it */}
+        <EndPlayCta
+          id="play"
+          headline={t("game:end_cta.rules")}
+          cta={t("game:rules.play.cta")}
+          more={t("game:rules.play.more")}
+        />
 
         <RelatedGuides current="/rules" />
         <LanguageVersions path="/rules" className="mt-8" />

@@ -103,8 +103,15 @@
     "moves_one": "{{count}} Zug",
     "moves_other": "{{count}} Züge"
   },
+  "end_cta": {
+    "trust": "Kostenlos, ohne Anmeldung, ohne Download.",
+    "rules": "Probiere die Regeln in einer echten Partie",
+    "strategy": "Probiere diese Tipps in einer echten Partie",
+    "openings": "Probiere diese Eröffnungen in einer echten Partie",
+    "positions": "Probiere diese Aufstellungen in einer echten Partie"
+  },
   "rules": {
-    "title": "So wird gespielt",
+    "title": "Regeln",
     "heading": "Abalone-Regeln: so wird gespielt",
     "intro": "Abalone ist ein Strategiespiel für zwei Personen auf einem sechseckigen Brett. Jede Seite hat 14 Kugeln. Du gewinnst, wenn du sechs Kugeln deines Gegners vom Brett schiebst. Diese Seite erklärt jede Regel. Wenn du bereit bist, <online>spiele Abalone online</online> oder <offline>probiere es gegen den Computer</offline>.",
     "goal": {

@@ -103,8 +103,15 @@
     "moves_one": "{{count}} mossa",
     "moves_other": "{{count}} mosse"
   },
+  "end_cta": {
+    "trust": "Gratis, senza registrazione, senza download.",
+    "rules": "Prova le regole in una partita vera",
+    "strategy": "Prova questi consigli in una partita vera",
+    "openings": "Prova queste aperture in una partita vera",
+    "positions": "Prova queste disposizioni in una partita vera"
+  },
   "rules": {
-    "title": "Come si gioca",
+    "title": "Regole",
     "heading": "Regole di Abalone: come si gioca",
     "intro": "Abalone è un gioco di strategia per due giocatori su una scacchiera esagonale. Ogni giocatore ha 14 biglie. Vinci spingendo sei biglie avversarie fuori dal tabellone. Questa pagina spiega ogni regola. Quando sei pronto, <online>gioca ad Abalone online</online> oppure <offline>prova contro il computer</offline>.",
     "goal": {

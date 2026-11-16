@@ -1,6 +1,7 @@
 import { cn } from "@repo/nativ/utils"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { Trans, useTranslation } from "react-i18next"
+import { EndPlayCta } from "@/components/end-play-cta"
 import { LanguageVersions } from "@/components/language-versions"
 import type { ManualChapter } from "@/components/manual/chapter"
 import { Chapter, Plate } from "@/components/manual/chapter"
@@ -255,8 +256,12 @@ function StartingPositionsPage() {
           </dl>
         </Chapter>
 
-        <Chapter {...chapter["try-them"]}>
-          {playBlock}
+        <EndPlayCta
+          id="try-them"
+          headline={t("game:end_cta.positions")}
+          cta={t("game:positions.play.cta")}
+          more={t("game:positions.play.more")}
+        >
           <p>
             <Trans
               i18nKey="game:positions.try.more_reading"
@@ -267,7 +272,7 @@ function StartingPositionsPage() {
               }}
             />
           </p>
-        </Chapter>
+        </EndPlayCta>
 
         <RelatedGuides current="/starting-positions" />
         <LanguageVersions path="/starting-positions" className="mt-8" />

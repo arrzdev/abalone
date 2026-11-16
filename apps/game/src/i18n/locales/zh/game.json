@@ -102,8 +102,15 @@
     "game_over": "对局结束",
     "moves": "{{count}} 步"
   },
+  "end_cta": {
+    "trust": "免费，无需注册，无需下载。",
+    "rules": "在真实对局中试试规则",
+    "strategy": "在真实对局中试试这些技巧",
+    "openings": "在真实对局中试试这些开局",
+    "positions": "在真实对局中试试这些布局"
+  },
   "rules": {
-    "title": "游戏玩法",
+    "title": "规则",
     "heading": "Abalone 规则：怎么玩",
     "intro": "Abalone 是一款在六边形棋盘上进行的双人策略游戏。每位玩家有 14 颗棋子。把对手的六颗棋子推出棋盘，你就赢了。本页讲解全部规则。准备好后，可以<online>在线玩 Abalone</online>，也可以<offline>先和电脑对战试试</offline>。",
     "goal": {

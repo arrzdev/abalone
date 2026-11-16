@@ -103,8 +103,15 @@
     "moves_one": "{{count}} jugada",
     "moves_other": "{{count}} jugadas"
   },
+  "end_cta": {
+    "trust": "Gratis, sin registro, sin descargas.",
+    "rules": "Prueba las reglas en una partida real",
+    "strategy": "Prueba estos consejos en una partida real",
+    "openings": "Prueba estas aperturas en una partida real",
+    "positions": "Prueba estas posiciones en una partida real"
+  },
   "rules": {
-    "title": "Cómo jugar",
+    "title": "Reglas",
     "heading": "Reglas de Abalone: cómo jugar",
     "intro": "Abalone es un juego de estrategia para dos jugadores en un tablero hexagonal. Cada jugador tiene 14 bolas. Ganas si empujas seis bolas del rival fuera del tablero. Esta página explica todas las reglas. Cuando estés listo, <online>juega a Abalone en línea</online> o <offline>pruébalo contra el ordenador</offline>.",
     "goal": {

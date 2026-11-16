@@ -103,8 +103,15 @@
     "moves_one": "{{count}} coup",
     "moves_other": "{{count}} coups"
   },
+  "end_cta": {
+    "trust": "Gratuit, sans inscription, sans téléchargement.",
+    "rules": "Essayez les règles dans une vraie partie",
+    "strategy": "Essayez ces conseils dans une vraie partie",
+    "openings": "Essayez ces ouvertures dans une vraie partie",
+    "positions": "Essayez ces dispositions dans une vraie partie"
+  },
   "rules": {
-    "title": "Comment jouer",
+    "title": "Règles",
     "heading": "Règles d'Abalone : comment jouer",
     "intro": "Abalone est un jeu de stratégie pour deux joueurs sur un plateau hexagonal. Chaque joueur a 14 billes. Tu gagnes en poussant six billes adverses hors du plateau. Cette page explique toutes les règles. Quand tu es prêt, <online>joue à Abalone en ligne</online> ou <offline>essaie contre l'ordinateur</offline>.",
     "goal": {
