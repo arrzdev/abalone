@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { Trans, useTranslation } from "react-i18next"
+import { EndPlayCta } from "@/components/end-play-cta"
 import { LanguageVersions } from "@/components/language-versions"
 import type { ManualChapter } from "@/components/manual/chapter"
 import { Chapter } from "@/components/manual/chapter"
@@ -119,8 +120,12 @@ function HowToPlayPage() {
           />
         </Chapter>
 
-        <Chapter {...chapters[3]}>
-          {playBlock}
+        <EndPlayCta
+          id="play"
+          headline={t("game:howto.try.title")}
+          cta={t("game:howto.play.cta")}
+          more={t("game:howto.play.more")}
+        >
           <p>
             <Trans
               i18nKey="game:howto.try.more_reading"
@@ -134,7 +139,7 @@ function HowToPlayPage() {
               }}
             />
           </p>
-        </Chapter>
+        </EndPlayCta>
 
         <RelatedGuides current="/how-to-play" />
         <LanguageVersions path="/how-to-play" className="mt-8" />

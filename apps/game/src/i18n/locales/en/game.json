@@ -104,7 +104,7 @@
     "moves_other": "{{count}} moves"
   },
   "rules": {
-    "title": "How to play",
+    "title": "Rules",
     "heading": "Abalone rules: how to play",
     "intro": "You play Abalone by taking turns to move up to three marbles one space. A bigger group can push a smaller one. Push six of your opponent's marbles off the board to win. When you are ready, <online>play Abalone online</online> or <offline>try it against the computer</offline>.",
     "goal": {
@@ -606,5 +606,12 @@
       "more": "Other ways to play"
     },
     "rules_link": "New to the game? Follow <howto>how to play Abalone</howto> step by step."
+  },
+  "end_cta": {
+    "trust": "Free, no sign-up, no download.",
+    "rules": "Try the rules in a real game",
+    "strategy": "Try these tips in a real game",
+    "openings": "Try these openings in a real game",
+    "positions": "Try these layouts in a real game"
   }
 }

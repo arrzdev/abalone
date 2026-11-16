@@ -4,8 +4,14 @@ import { Link } from "@tanstack/react-router"
 import { buttonClassName } from "@/components/ui/button"
 import { COMPUTER_GAME } from "@/hooks/use-play-actions"
 
-const TEXT_LINK_CLASS =
+export const TEXT_LINK_CLASS =
   "font-semibold text-brand-light underline underline-offset-2 hover:text-white"
+
+/** The computer-game button: a thumb wide on a phone, as wide as its label from `sm`. */
+export const PLAY_BUTTON_CLASS = cn(
+  buttonClassName("primary", "lg"),
+  "h-auto min-h-[54px] w-full py-3 text-center text-balance sm:w-auto sm:px-8",
+)
 
 export type PlayBlockProps = {
   /** The button's label: it opens the computer game. */
@@ -44,10 +50,7 @@ export function PlayBlock({
   moreLink = { to: "/" },
   onPlay,
 }: PlayBlockProps) {
-  const ctaClassName = cn(
-    buttonClassName("primary", "lg"),
-    "h-auto min-h-[54px] w-full py-3 text-center text-balance sm:w-auto sm:px-8",
-  )
+  const ctaClassName = PLAY_BUTTON_CLASS
 
   return (
     <div className="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-6">

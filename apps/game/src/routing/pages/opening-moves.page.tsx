@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { Trans, useTranslation } from "react-i18next"
+import { EndPlayCta } from "@/components/end-play-cta"
 import { LanguageVersions } from "@/components/language-versions"
 import type { ManualChapter } from "@/components/manual/chapter"
 import { Chapter } from "@/components/manual/chapter"
@@ -117,9 +118,12 @@ function OpeningMovesPage() {
           </ul>
         </Chapter>
 
-        <Chapter id="practise" title={t("game:openings.practise.title")}>
-          {playBlock}
-        </Chapter>
+        <EndPlayCta
+          id="practise"
+          headline={t("game:end_cta.openings")}
+          cta={t("game:openings.play.cta")}
+          more={t("game:openings.play.more")}
+        />
 
         <RelatedGuides current="/opening-moves" />
         <LanguageVersions path="/opening-moves" className="mt-8" />
