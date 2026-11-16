@@ -12,7 +12,7 @@ import { expect, test } from "./support/test"
 // inside it, Escape closes it and focus is back on what opened it (WCAG 2.4.3).
 // The trigger is focused and opened with Enter, never clicked.
 //
-// An open bug is a known failure: the test.fail below, with the task that
+// An open bug is a known failure: a test.fail on its test, with the task that
 // tracks it. A known failure must still fail, so when the bug is fixed the
 // test goes red until the entry is removed.
 
@@ -107,10 +107,6 @@ for (const viewport of VIEWPORTS) {
     })
 
     test("the select list in settings", async ({ page }) => {
-      test.fail(
-        true,
-        "open bug TUD-5632: Escape closes the whole sheet, not only the list",
-      )
       await openApp(page, "/")
       await visibleButton(page, "Settings").click()
       const dialog = page.getByRole("dialog")
