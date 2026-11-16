@@ -87,11 +87,12 @@ export function Sheet({
   const titleId = useId()
 
   // Escape closes the dialog shape on its own (`Modal`); the sheet has to be
-  // told. A keyboard on a tablet or a phone is still a keyboard.
+  // told. A keyboard on a tablet or a phone is still a keyboard. An Escape a
+  // control inside already used (closing its list) is not for the sheet.
   useEffect(() => {
     if (!open || isDesktop) return
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose()
+      if (event.key === "Escape" && !event.defaultPrevented) onClose()
     }
     document.addEventListener("keydown", onKeyDown)
     return () => document.removeEventListener("keydown", onKeyDown)

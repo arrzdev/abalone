@@ -162,10 +162,10 @@ export function Select<T extends string>({
 
     switch (event.key) {
       case "Escape":
+        //closes the list alone: the sheet or modal behind it skips an Escape
+        //that is already handled. stopPropagation would not reach it, as React
+        //and its listener share the document the app hydrates
         event.preventDefault()
-        //closes the list alone: a sheet or modal behind it listens for Escape on
-        //the document, and a press that reached it would close that too
-        event.stopPropagation()
         setOpen(false)
         break
       case "ArrowDown":

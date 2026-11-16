@@ -123,8 +123,11 @@ export function Modal({
 
   useEffect(() => {
     if (!open) return
+    // An Escape a control inside already used, closing its own list, is not
+    // for the dialog. React listens on the document too (the app hydrates
+    // it), so stopping the press there cannot keep it from this listener.
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose()
+      if (event.key === "Escape" && !event.defaultPrevented) onClose()
     }
     document.addEventListener("keydown", onKeyDown)
     // No scroll lock to take: the document never scrolls, and the page behind
