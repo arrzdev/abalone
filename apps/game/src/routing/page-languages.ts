@@ -16,7 +16,7 @@ export const PAGE_LANGUAGES: Record<IndexablePath, readonly Language[]> = {
   "/": SUPPORTED_LANGUAGES,
   "/rules": SUPPORTED_LANGUAGES,
   "/strategy": SUPPORTED_LANGUAGES,
-  "/how-to-play": ["en"],
+  "/how-to-play": ["en", "fr"],
   "/opening-moves": ["en", "de", "fr", "nl", "es"],
   "/starting-positions": ["en", "de", "fr", "nl", "es"],
   "/offline": SUPPORTED_LANGUAGES,

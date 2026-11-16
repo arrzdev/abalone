@@ -102,6 +102,10 @@
     "positions": {
       "title": "Positions de départ d'Abalone : standard et daisy",
       "description": "Positions de départ d'Abalone : la disposition standard, la Belgian daisy et la German daisy, leurs différences et laquelle choisir. Essayez-les."
+    },
+    "howto": {
+      "title": "Comment jouer à l'Abalone : règles en 5 étapes",
+      "description": "Comment jouer à l'Abalone : les règles en cinq étapes, une première partie coup par coup et comment gagner. Jouez ensuite contre l'ordinateur."
     }
   }
 }

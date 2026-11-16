@@ -28,7 +28,7 @@ const MODULEPRELOAD_COUNT_BUDGET = 49
 // provider; 791,064
 // before the sheet's Close drew its
 // focus ring inset; 788,295 before the patch and minor dependency
-// bumps with React held at 19.2, about 29 kB more with React 19.3; 787,724
+// bumps with React held at 19.2 (799,780 before the French how to play page), about 29 kB more with React 19.3; 787,724
 // before the phone sheet's Close, 787,431 before the board's keyboard reset and its
 // separate live region), with no margin: hydration waits for
 // every byte of this, so a page that grows says so here (787,187 before the
@@ -37,7 +37,7 @@ const MODULEPRELOAD_COUNT_BUDGET = 49
 // library moved to the first signed-in connect, 818,327 before the auth SDK
 // moved to first use). CI is the measure: its build bakes in the commit's
 // short sha where a local one writes "dev", 62 bytes more here.
-const MODULEPRELOAD_JS_BUDGET_BYTES = 799_780
+const MODULEPRELOAD_JS_BUDGET_BYTES = 799_806
 
 test.skip(
   ({ browserName }) => browserName !== "chromium",

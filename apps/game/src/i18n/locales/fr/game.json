@@ -479,5 +479,89 @@
       "cta": "Jouer contre l'ordinateur",
       "more": "Autres façons de jouer"
     }
+  },
+  "howto": {
+    "title": "Comment jouer",
+    "heading": "Comment jouer à l'Abalone",
+    "intro": "Pour jouer à l'Abalone, vous jouez chacun votre tour et déplacez une, deux ou trois de vos billes d'une case. Une ligne plus longue de vos billes peut en pousser une plus courte de l'adversaire, et le premier qui sort six billes adverses du plateau gagne. Voici les règles en cinq étapes et une première partie à lancer tout de suite, <offline>gratuitement contre l'ordinateur</offline>. Pour le détail complet, voir les <rules>règles d'Abalone</rules>.",
+    "steps": {
+      "title": "Les règles en cinq étapes",
+      "setup": {
+        "title": "Commencez avec 14 billes chacun",
+        "body": "Chaque joueur a 14 billes sur un plateau hexagonal. Les noirs commencent, puis vous jouez à tour de rôle. On ne peut pas passer."
+      },
+      "move": {
+        "title": "Déplacez jusqu'à trois billes",
+        "body": "À ton tour, déplace une, deux ou trois de tes billes d'une case vers une case voisine. Deux ou trois billes doivent être alignées et avancent ensemble."
+      },
+      "kinds": {
+        "title": "Choisissez un coup en ligne ou en flanc",
+        "body": "Un coup en ligne fait avancer le groupe le long de sa ligne. Un coup en flanc (ou latéral) décale le groupe sur le côté, et chaque case visée doit être vide."
+      },
+      "push": {
+        "title": "Poussez avec plus de billes",
+        "body": "Avance en ligne vers les billes adverses pour les pousser, si tu as plus de billes dans la ligne que l'adversaire : 2 poussent 1, 3 poussent 1 et 3 poussent 2. La case derrière elles doit être libre ou hors du plateau. À nombre égal, on ne pousse jamais."
+      },
+      "win": {
+        "title": "Sortez six billes pour gagner",
+        "body": "Une bille poussée au-delà du bord est éliminée. Le premier joueur qui sort six billes adverses gagne la partie."
+      }
+    },
+    "first_game": {
+      "title": "Ta première partie, coup par coup",
+      "intro": "Appuie sur le bouton ci-dessous pour ouvrir une partie contre l'ordinateur. Voici comment se passent les premières minutes.",
+      "steps": {
+        "open": {
+          "title": "Ouvre la partie",
+          "body": "Appuie sur Jouer contre l'ordinateur. Le plateau s'ouvre prêt à jouer, sans compte et sans rien à télécharger."
+        },
+        "pick": {
+          "title": "Choisis tes billes",
+          "body": "À ton tour, touche jusqu'à trois de tes billes alignées."
+        },
+        "direction": {
+          "title": "Choisis où elles vont",
+          "body": "Touche l'une des cases en surbrillance. Tes billes s'y déplacent et l'ordinateur répond."
+        },
+        "stuck": {
+          "title": "Demande de l'aide si tu bloques",
+          "body": "Le bouton Indice propose un coup, et Annuler reprend ton dernier coup."
+        },
+        "push": {
+          "title": "Cherche ta première poussée",
+          "body": "Quand les armées se touchent, aligne plus de billes que l'adversaire et pousse. Garde tes billes groupées pour qu'il ne puisse pas faire pareil."
+        }
+      }
+    },
+    "faq": {
+      "title": "Les questions des débutants",
+      "items": {
+        "start": {
+          "question": "Comment commence une partie d'Abalone ?",
+          "answer": "Chaque joueur place 14 billes de son côté du plateau. Les noirs commencent, puis vous jouez à tour de rôle, un coup chacun."
+        },
+        "first_move": {
+          "question": "Quel est un bon premier coup à l'Abalone ?",
+          "answer": "Avance une petite rangée de l'avant vers le centre et garde tes billes collées. N'envoie pas une bille seule devant les autres."
+        },
+        "win": {
+          "question": "Comment gagner à l'Abalone ?",
+          "answer": "Sors six billes adverses du bord du plateau. Piéger des billes ne fait pas gagner la partie."
+        },
+        "free": {
+          "question": "Puis-je apprendre à jouer à l'Abalone en ligne gratuitement ?",
+          "answer": "Oui. Joue contre l'ordinateur ou partage un écran avec un ami dans ton navigateur, sans compte et sans téléchargement."
+        }
+      }
+    },
+    "try": {
+      "title": "Joue ta première partie",
+      "more_reading": "Les bases sont acquises ? Lis les <openings>premiers coups d'Abalone pour débutants</openings> et les <strategy>conseils de stratégie</strategy>."
+    },
+    "play": {
+      "cta": "Jouer contre l'ordinateur",
+      "more": "Autres façons de jouer"
+    },
+    "rules_link": "Nouveau au jeu ? Suis pas à pas <howto>comment jouer à l'Abalone</howto>."
   }
 }

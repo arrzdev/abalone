@@ -177,6 +177,7 @@ test.describe("what a crawler reads", () => {
     expect(canonicalIn(html)).toBe(`${ORIGIN}/how-to-play`)
     expect(alternatesIn(html)).toEqual({
       en: `${ORIGIN}/how-to-play`,
+      fr: `${ORIGIN}/fr/how-to-play`,
       "x-default": `${ORIGIN}/how-to-play`,
     })
   })
@@ -282,9 +283,9 @@ test.describe("what a crawler reads", () => {
   // <html lang> says English, it is no hreflang version, and no page of the
   // sitemap
   const UNTRANSLATED = [
-    ...LANGUAGES.filter((language) => language !== "en").map(
-      (language) => [language, "how-to-play"] as const,
-    ),
+    ...LANGUAGES.filter(
+      (language) => language !== "en" && language !== "fr",
+    ).map((language) => [language, "how-to-play"] as const),
     ...LANGUAGES.filter((language) => language !== "en").map(
       (language) => [language, "play-online"] as const,
     ),
