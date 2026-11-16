@@ -9,7 +9,8 @@ import { Reveal } from "@/components/ui/reveal"
 import { useIsDesktop } from "@/hooks/use-is-desktop"
 import { COMPUTER_GAME, usePlayActions } from "@/hooks/use-play-actions"
 import { BOT_LEVELS } from "@/i18n/bots"
-import { DEFAULT_LANGUAGE } from "@/i18n/locale-path"
+import type { Language } from "@/i18n/languages"
+import { PAGE_LANGUAGES } from "@/routing/page-languages"
 
 /**
  * The front door for anyone without an account: what the game is on one side,
@@ -114,7 +115,9 @@ export function PlayPoster() {
             two. One label per link rather than a short and a long one swapped
             by width: both would be in the served text. */}
         <p className="flex flex-wrap items-center justify-center text-sm text-faint max-lg:mt-2 lg:mt-4 lg:-ms-2.5 lg:justify-start">
-          {i18n.language === DEFAULT_LANGUAGE && (
+          {PAGE_LANGUAGES["/how-to-play"].includes(
+            i18n.language as Language,
+          ) && (
             <>
               <Link to="/how-to-play" className={TEXT_LINK_CLASS}>
                 {t("common:home.how_to_play_link")}

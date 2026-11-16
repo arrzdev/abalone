@@ -127,6 +127,7 @@ const SEO_KEYS: Partial<Record<IndexablePath, string>> = {
   "/": "home",
   "/rules": "rules",
   "/strategy": "strategy",
+  "/how-to-play": "howto",
   "/opening-moves": "openings",
   "/starting-positions": "positions",
   "/offline": "offline",

@@ -188,6 +188,7 @@ describe("seoPageHead in a language", () => {
     expect(canonical(head)).toBe(`${ORIGIN}/how-to-play`)
     expect(alternates(head)).toEqual({
       en: `${ORIGIN}/how-to-play`,
+      fr: `${ORIGIN}/fr/how-to-play`,
       "x-default": `${ORIGIN}/how-to-play`,
     })
   })

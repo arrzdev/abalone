@@ -35,7 +35,8 @@
     "strategy_link": "Conseils de stratégie Abalone",
     "bots_caption": "Huit bots, de Gus à Magnus",
     "play_demo": "Lire la démo",
-    "pause_demo": "Mettre la démo en pause"
+    "pause_demo": "Mettre la démo en pause",
+    "how_to_play_link": "Comment jouer"
   },
   "auth": {
     "sign_in": "Se connecter",
@@ -102,6 +103,10 @@
     "positions": {
       "title": "Positions de départ d'Abalone : standard et daisy",
       "description": "Positions de départ d'Abalone : la disposition standard, la Belgian daisy et la German daisy, leurs différences et laquelle choisir. Essayez-les."
+    },
+    "howto": {
+      "title": "Comment jouer à l'Abalone : règles en 5 étapes",
+      "description": "Comment jouer à l'Abalone : les règles en cinq étapes, une première partie coup par coup et comment gagner. Jouez ensuite contre l'ordinateur."
     }
   }
 }
