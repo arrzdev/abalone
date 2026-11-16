@@ -102,8 +102,15 @@
     "game_over": "Oyun bitti",
     "moves": "{{count}} hamle"
   },
+  "end_cta": {
+    "trust": "Ücretsiz, kayıt yok, indirme yok.",
+    "rules": "Kuralları gerçek bir oyunda dene",
+    "strategy": "Bu ipuçlarını gerçek bir oyunda dene",
+    "openings": "Bu açılışları gerçek bir oyunda dene",
+    "positions": "Bu dizilişleri gerçek bir oyunda dene"
+  },
   "rules": {
-    "title": "Nasıl oynanır",
+    "title": "Kurallar",
     "heading": "Abalone kuralları: nasıl oynanır",
     "intro": "Abalone, altıgen bir tahtada oynanan iki kişilik bir strateji oyunudur. Her oyuncunun 14 bilyesi vardır. Rakibin altı bilyesini tahtadan dışarı iterek kazanırsın. Bu sayfa tüm kuralları anlatır. Hazır olduğunda <online>Abalone'u çevrimiçi oyna</online> ya da <offline>bilgisayara karşı dene</offline>.",
     "goal": {

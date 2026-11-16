@@ -104,8 +104,15 @@
     "moves_few": "{{count}} ruchy",
     "moves_many": "{{count}} ruchów"
   },
+  "end_cta": {
+    "trust": "Za darmo, bez rejestracji, bez pobierania.",
+    "rules": "Wypróbuj zasady w prawdziwej grze",
+    "strategy": "Wypróbuj te wskazówki w prawdziwej grze",
+    "openings": "Wypróbuj te otwarcia w prawdziwej grze",
+    "positions": "Wypróbuj te ustawienia w prawdziwej grze"
+  },
   "rules": {
-    "title": "Jak grać",
+    "title": "Zasady",
     "heading": "Zasady Abalone: jak grać",
     "intro": "Abalone to strategiczna gra dla dwóch osób, rozgrywana na sześciokątnej planszy. Każdy gracz ma 14 kul. Wygrywasz, wypychając poza planszę sześć kul przeciwnika. Ta strona wyjaśnia wszystkie zasady. Gdy będziesz gotowy, <online>zagraj w Abalone online</online> albo <offline>spróbuj z komputerem</offline>.",
     "goal": {
