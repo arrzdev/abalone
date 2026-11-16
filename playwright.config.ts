@@ -44,8 +44,14 @@ const projects: Project[] = [
 
 // CI runs one shard per job with E2E_SHARD=N/M, balanced by measured time
 // (e2e/support/shard.ts). Each project keeps only its spec files in this shard.
-const shard = parseShard(process.env.E2E_SHARD)
-if (shard) {
+// A deployed environment runs the read-only smoke spec and nothing else: the
+// other specs sign in and write data. A file filter on the command line is no
+// guard, it is a regex on the absolute path. Set per project, so a shard plan
+// cannot widen it.
+const shard = remote ? null : parseShard(process.env.E2E_SHARD)
+if (remote) {
+  for (const project of projects) project.testMatch = "**/smoke.spec.ts"
+} else if (shard) {
   const plan = planShards(
     testDir,
     projects.map((project) => project.name ?? ""),
