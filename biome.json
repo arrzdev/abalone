@@ -93,6 +93,7 @@
               "DEV_INSPECTOR",
               "E2E_API_INSPECTOR_PORT",
               "E2E_API_PORT",
+              "E2E_BASE_URL",
               "E2E_GAME_PORT",
               "E2E_REUSE",
               "E2E_SHARD",

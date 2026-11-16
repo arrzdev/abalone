@@ -17,7 +17,10 @@ const gamePort = Number(process.env.E2E_GAME_PORT ?? 6161)
 const apiPort = Number(process.env.E2E_API_PORT ?? 8181)
 const inspectorPort = Number(process.env.E2E_API_INSPECTOR_PORT ?? 9218)
 
-const baseURL = `http://localhost:${gamePort}`
+// E2E_BASE_URL points at a deployed environment (the read-only smoke spec):
+// no local servers are started and no test-bypass header is sent.
+const remote = !!process.env.E2E_BASE_URL
+const baseURL = process.env.E2E_BASE_URL ?? `http://localhost:${gamePort}`
 // The backend's health route, at its root, answers 200 once it is up.
 const apiURL = `http://localhost:${apiPort}`
 
@@ -73,26 +76,28 @@ export default defineConfig({
     baseURL,
     // Skips the backend's per-IP rate limits, which every browser here shares
     // one IP for. Only the e2e Worker honours it (e2e/support/serve-backend.sh).
-    extraHTTPHeaders: { "x-test-bypass": "true" },
+    extraHTTPHeaders: remote ? {} : { "x-test-bypass": "true" },
     trace: "on-first-retry",
   },
   projects,
-  webServer: [
-    {
-      command: "bash e2e/support/serve-backend.sh",
-      url: apiURL,
-      env: serverEnv,
-      // Its request log, so a failed run shows what the api answered.
-      stdout: "pipe",
-      reuseExistingServer,
-      timeout: 120_000,
-    },
-    {
-      command: "bash e2e/support/serve-game.sh",
-      url: baseURL,
-      env: serverEnv,
-      reuseExistingServer,
-      timeout: 180_000,
-    },
-  ],
+  webServer: remote
+    ? []
+    : [
+        {
+          command: "bash e2e/support/serve-backend.sh",
+          url: apiURL,
+          env: serverEnv,
+          // Its request log, so a failed run shows what the api answered.
+          stdout: "pipe",
+          reuseExistingServer,
+          timeout: 120_000,
+        },
+        {
+          command: "bash e2e/support/serve-game.sh",
+          url: baseURL,
+          env: serverEnv,
+          reuseExistingServer,
+          timeout: 180_000,
+        },
+      ],
 })
