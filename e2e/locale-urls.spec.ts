@@ -177,6 +177,7 @@ test.describe("what a crawler reads", () => {
     expect(canonicalIn(html)).toBe(`${ORIGIN}/how-to-play`)
     expect(alternatesIn(html)).toEqual({
       en: `${ORIGIN}/how-to-play`,
+      fr: `${ORIGIN}/fr/how-to-play`,
       "x-default": `${ORIGIN}/how-to-play`,
     })
   })

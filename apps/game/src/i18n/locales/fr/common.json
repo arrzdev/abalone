@@ -35,8 +35,7 @@
     "strategy_link": "Conseils de stratégie Abalone",
     "bots_caption": "Huit bots, de Gus à Magnus",
     "play_demo": "Lire la démo",
-    "pause_demo": "Mettre la démo en pause",
-    "how_to_play_link": "Comment jouer"
+    "pause_demo": "Mettre la démo en pause"
   },
   "auth": {
     "sign_in": "Se connecter",
