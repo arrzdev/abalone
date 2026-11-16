@@ -71,7 +71,7 @@ export function EndPlayCta({
               />
             ))}
           </div>
-          <span className="text-[13px] text-faint">
+          <span className="text-sm text-faint">
             {t("common:home.bots_caption")}
           </span>
         </div>
