@@ -14,12 +14,12 @@ const INDEXABLE = {
   "/": "Play Abalone Online Free: vs Computer or a Friend",
   "/rules": "Abalone rules: how to play, moves, sumito and winning",
   "/offline": "Play Abalone vs the computer or a friend on one device",
-  "/strategy": "Abalone strategy: 7 tips to win more games",
+  "/strategy": "Abalone strategy: 7 tips to win online games",
   "/how-to-play": "How to play Abalone: rules in 5 steps and a first game",
   "/opening-moves": "Abalone opening moves: a guide for beginners",
   "/play-online": "Play Abalone Online With Friends: Invite by Link",
   "/starting-positions":
-    "Abalone Starting Position: Standard, Belgian or German Daisy",
+    "Abalone starting position and first moves, play online",
 } as const
 
 // What sitemap.xml lists, and the day each page's text last changed. /offline
@@ -28,11 +28,11 @@ const INDEXABLE = {
 const SITEMAP = {
   "/": "2026-11-01",
   "/rules": "2026-11-07",
-  "/strategy": "2026-11-07",
+  "/strategy": "2026-11-17",
   "/play-online": "2026-11-01",
   "/how-to-play": "2026-11-02",
   "/opening-moves": "2026-11-07",
-  "/starting-positions": "2026-11-07",
+  "/starting-positions": "2026-11-17",
 } as const
 
 // A language's own URL: /pt, /pt/rules
@@ -83,7 +83,7 @@ test.describe("indexable pages", () => {
     "/": "Play Abalone free, no account",
     "/rules": "Abalone rules: how to play",
     "/offline": "Play Abalone vs the computer or a friend",
-    "/strategy": "Abalone strategy: 7 tips to win",
+    "/strategy": "Abalone strategy for online play",
     "/how-to-play": "How to play Abalone",
     "/opening-moves": "Abalone opening moves for beginners",
     "/play-online": "Play Abalone online with a friend",

@@ -55,9 +55,9 @@ export const SEO_PAGES: Record<
     image: "rules",
   },
   "/strategy": {
-    title: "Abalone strategy: 7 tips to win more games",
+    title: "Abalone strategy: 7 tips to win online games",
     description:
-      "Seven Abalone strategy tips: control the center, keep groups of three, pick a safe opening and push at the right moment. Try them against the computer.",
+      "Seven Abalone strategy tips you can use in any online game: hold the center, keep groups of three and push at the right moment. Free, no sign-up.",
     image: "rules",
   },
   "/how-to-play": {
@@ -73,9 +73,9 @@ export const SEO_PAGES: Record<
     image: "rules",
   },
   "/starting-positions": {
-    title: "Abalone Starting Position: Standard, Belgian or German Daisy",
+    title: "Abalone starting position and first moves, play online",
     description:
-      "Abalone starting position explained: standard, Belgian daisy and German daisy side by side, how they differ and which to pick. Try each free.",
+      "Abalone starting position, safe first moves and daisy layouts. Learn the opening, then play Abalone online free against the computer or a friend.",
     image: "rules",
   },
   "/offline": {
@@ -108,11 +108,11 @@ export const SITEMAP: Record<
 > = {
   "/": "2026-11-01",
   "/rules": "2026-11-07",
-  "/strategy": "2026-11-07",
+  "/strategy": "2026-11-17",
   "/play-online": "2026-11-01",
   "/how-to-play": "2026-11-02",
   "/opening-moves": "2026-11-07",
-  "/starting-positions": "2026-11-07",
+  "/starting-positions": "2026-11-17",
 }
 
 //the title and description of a page in another language live in that

@@ -167,9 +167,9 @@ describe("structured data", () => {
       {
         "@context": "https://schema.org",
         "@type": "Article",
-        headline: "Abalone strategy: 7 tips to win",
+        headline: "Abalone strategy for online play",
         description:
-          "Seven Abalone strategy tips: control the center, keep groups of three, pick a safe opening and push at the right moment. Try them against the computer.",
+          "Seven Abalone strategy tips you can use in any online game: hold the center, keep groups of three and push at the right moment. Free, no sign-up.",
         url: `${ORIGIN}/strategy`,
         mainEntityOfPage: `${ORIGIN}/strategy`,
         image: `${ORIGIN}/images/social/og-rules.jpg`,
@@ -206,7 +206,7 @@ describe("structured data", () => {
       "@type": "Article",
       headline: "Abalone starting positions",
       description:
-        "Abalone starting position explained: standard, Belgian daisy and German daisy side by side, how they differ and which to pick. Try each free.",
+        "Abalone starting position, safe first moves and daisy layouts. Learn the opening, then play Abalone online free against the computer or a friend.",
       url: `${ORIGIN}/starting-positions`,
       mainEntityOfPage: `${ORIGIN}/starting-positions`,
       image: `${ORIGIN}/images/social/og-rules.jpg`,
