@@ -95,6 +95,8 @@
               "E2E_API_PORT",
               "E2E_BASE_URL",
               "E2E_GAME_PORT",
+              "E2E_QA_EMAIL",
+              "E2E_QA_PASSWORD",
               "E2E_REUSE",
               "E2E_SHARD",
               "FORCE_ALL",

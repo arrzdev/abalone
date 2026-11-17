@@ -73,4 +73,46 @@ test.describe("deployed environment", () => {
       sha: expect.stringMatching(/^[0-9a-f]{40}$/),
     })
   })
+
+  // The one exception to "no accounts": it signs in with an existing QA
+  // account (E2E_QA_EMAIL, E2E_QA_PASSWORD) and signs out again, so the only
+  // write is the session row that sign-out deletes. Skipped without them.
+  test("sign-in sets the session cookie Secure, HttpOnly and SameSite=Lax", async ({
+    request,
+    baseURL,
+  }) => {
+    const email = process.env.E2E_QA_EMAIL
+    const password = process.env.E2E_QA_PASSWORD
+    test.skip(
+      !email || !password,
+      "needs E2E_QA_EMAIL and E2E_QA_PASSWORD",
+    )
+    const headers = { origin: new URL(baseURL ?? "").origin }
+
+    const signIn = await request.post("/api/v1/auth/sign-in/email", {
+      data: { email, password },
+      headers,
+    })
+    expect(signIn.status()).toBe(200)
+    const sessionCookie = signIn
+      .headersArray()
+      .filter((header) => header.name.toLowerCase() === "set-cookie")
+      .map((header) => header.value)
+      .find((cookie) => cookie.includes("session_token="))
+    // only the attributes, so a failure never prints the token
+    const attributes = sessionCookie
+      ?.split(";")
+      .slice(1)
+      .map((attribute) => attribute.trim().toLowerCase())
+    expect(attributes).toEqual(
+      expect.arrayContaining(["secure", "httponly", "samesite=lax"]),
+    )
+
+    // better-auth refuses a POST without a JSON body (415)
+    const signOut = await request.post("/api/v1/auth/sign-out", {
+      data: {},
+      headers,
+    })
+    expect(signOut.status()).toBe(200)
+  })
 })
