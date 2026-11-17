@@ -86,7 +86,7 @@
     "review": "Revoir la partie",
     "games": "Parties",
     "head_to_head": "Victoires passées",
-    "head_to_head_detail": "Avant cette partie : {{left}} {{leftWins}}, {{right}} {{rightWins}}"
+    "head_to_head_detail": "Avant cette partie : {{left}} {{leftWins}}, {{right}} {{rightWins}}"
   },
   "empty": {
     "title": "Rien ici pour l'instant",
@@ -102,7 +102,7 @@
     "copy": "Copier le lien",
     "copied": "Lien copié",
     "copy_failed": "Copie impossible. Sélectionnez le lien et copiez-le.",
-    "share_text": "Une partie d'Abalone ? Ouvre ce lien pour jouer contre moi."
+    "share_text": "Une partie d'Abalone ? Ouvre ce lien pour jouer contre moi."
   },
   "invite_link": {
     "loading": "Ouverture de l'invitation",
