@@ -676,12 +676,15 @@ describe("auth standard", () => {
 
   //---- cookie flags ----------------
 
-  it("sets the session cookie HttpOnly and SameSite=Lax", async () => {
+  //the test env's BETTER_AUTH_URL is http, so Secure here proves the flag is
+  //set on purpose rather than inferred from an https base url
+  it("sets the session cookie Secure, HttpOnly and SameSite=Lax", async () => {
     const player = await signedUpPlayer()
     const signIn = await signInUsername(player.username, PASSWORD)
     const sessionCookie = setCookiesOf(signIn.response).find((cookie) =>
       cookie.includes("session_token="),
     )
+    expect(sessionCookie).toMatch(/;\s*Secure/i)
     expect(sessionCookie).toMatch(/;\s*HttpOnly/i)
     expect(sessionCookie).toMatch(/;\s*SameSite=Lax/i)
   })
