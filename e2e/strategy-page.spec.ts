@@ -6,7 +6,7 @@ import { expect, test } from "./support/test"
 // server rendered, so most checks read the served HTML, the same bytes a
 // crawler gets on its first pass.
 
-const STRATEGY_H1 = "Abalone strategy: 7 tips to win"
+const STRATEGY_H1 = "Abalone strategy for online play"
 const HOME_H1 = "Play Abalone free, no account"
 
 // The tips in reading order; each id is a link target (/strategy#center). The
