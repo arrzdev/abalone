@@ -107,7 +107,7 @@ export const SITEMAP: Record<
   string
 > = {
   "/": "2026-11-01",
-  "/rules": "2026-11-07",
+  "/rules": "2026-11-17",
   "/strategy": "2026-11-17",
   "/play-online": "2026-11-01",
   "/how-to-play": "2026-11-02",
