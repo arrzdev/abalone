@@ -120,6 +120,16 @@ function createAuth(db: Db) {
     //one limiter only: the cloudflare bindings in middlewares/rate-limit.ts.
     //better-auth's own counts in memory, which on workers is per isolate
     rateLimit: { enabled: false },
+    //better-auth infers Secure from an https baseURL; stated here so a
+    //mistyped http url cannot drop it. defaultCookieAttributes and not
+    //useSecureCookies, which would also rename the cookie to __Secure-…
+    advanced: {
+      defaultCookieAttributes: {
+        secure: true,
+        httpOnly: true,
+        sameSite: "lax",
+      },
+    },
     databaseHooks: {
       user: {
         create: {
