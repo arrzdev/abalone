@@ -50,17 +50,19 @@ export function PlayBlock({
   moreLink = { to: "/" },
   onPlay,
 }: PlayBlockProps) {
-  const ctaClassName = PLAY_BUTTON_CLASS
-
   return (
     <div className="flex flex-col gap-y-1 sm:flex-row sm:items-center sm:gap-x-6">
       {onPlay && (
-        <button type="button" onClick={onPlay} className={ctaClassName}>
+        <button
+          type="button"
+          onClick={onPlay}
+          className={PLAY_BUTTON_CLASS}
+        >
           {cta}
         </button>
       )}
       {!onPlay && (
-        <Link {...COMPUTER_GAME} className={ctaClassName}>
+        <Link {...COMPUTER_GAME} className={PLAY_BUTTON_CLASS}>
           {cta}
         </Link>
       )}
