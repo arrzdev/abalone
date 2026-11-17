@@ -94,25 +94,29 @@ test.describe("deployed environment", () => {
       headers,
     })
     expect(signIn.status()).toBe(200)
-    const sessionCookie = signIn
-      .headersArray()
-      .filter((header) => header.name.toLowerCase() === "set-cookie")
-      .map((header) => header.value)
-      .find((cookie) => cookie.includes("session_token="))
-    // only the attributes, so a failure never prints the token
-    const attributes = sessionCookie
-      ?.split(";")
-      .slice(1)
-      .map((attribute) => attribute.trim().toLowerCase())
-    expect(attributes).toEqual(
-      expect.arrayContaining(["secure", "httponly", "samesite=lax"]),
-    )
-
-    // better-auth refuses a POST without a JSON body (415)
-    const signOut = await request.post("/api/v1/auth/sign-out", {
-      data: {},
-      headers,
-    })
-    expect(signOut.status()).toBe(200)
+    // sign out even when an assertion fails, so no session row is left behind
+    try {
+      const sessionCookie = signIn
+        .headersArray()
+        .filter((header) => header.name.toLowerCase() === "set-cookie")
+        .map((header) => header.value)
+        .find((cookie) => cookie.includes("session_token="))
+      // only the attributes, so a failure never prints the token
+      const attributes = sessionCookie
+        ?.split(";")
+        .slice(1)
+        .map((attribute) => attribute.trim().toLowerCase())
+      expect(attributes).toEqual(
+        expect.arrayContaining(["secure", "httponly", "samesite=lax"]),
+      )
+    } finally {
+      // better-auth refuses a POST without a JSON body (415)
+      const signOut = await request.post("/api/v1/auth/sign-out", {
+        data: {},
+        headers,
+      })
+      // soft, so a failed sign-out never hides the assertion error above
+      expect.soft(signOut.status()).toBe(200)
+    }
   })
 })
